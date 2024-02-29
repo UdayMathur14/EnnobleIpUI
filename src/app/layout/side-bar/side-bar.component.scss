@@ -1,5 +1,5 @@
 .left-sidebar {
-    padding: 20px 10px;
+    padding: var(--spacer-20) var(--spacer-10);
     width: 250px;
     min-width: 250px;
     margin-top: -55px;
@@ -10,17 +10,37 @@
 
     .brand-logo {
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: var(--spacer-20);
     }
 
     .left-sidebar-inner {
-        ul {
-            padding: 0;
-            margin: 0;
+        .accordion{
+            .accordion-item{
+                border:none;
+                .accordion-header{
+                    button{
+                        background-color: transparent;
+                        padding:var(--spacer-15) 0;
+                        box-shadow: none;
+                        font-weight: 600;
+                    }
+                }
+                .accordion-body{
+                    padding:0 var(--spacer-10);
+                    ul {
+                        padding: 0;
+                        margin: 0;
+            
+                        li {
+                            list-style: none;
+                            padding: 7px 0px;
 
-            li {
-                list-style: none;
-                padding: 7px 0px;
+                            &:first-child{
+                                padding-top: 0;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

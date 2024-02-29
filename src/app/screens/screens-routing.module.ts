@@ -7,6 +7,8 @@ import { AddEditPartComponent } from "./master/part/add-edit-part/add-edit-part.
 import { AddEditPlantComponent } from "./master/plant/add-edit-plant/add-edit-plant.component";
 import { VendorComponent } from "./master/vendor/vendor.component";
 import { AddEditVendorComponent } from "./master/vendor/add-edit-vendor/add-edit-vendor.component";
+import { VehicleComponent } from "./master/vehicle/vehicle.component";
+import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 
 const routes: Routes = [
     {
@@ -20,7 +22,9 @@ const routes: Routes = [
             { path: "master/part", component: PartComponent },
             { path: "master/addEditPart", component: AddEditPartComponent },
             { path: "master/vendor", component: VendorComponent },
-            { path: "master/vendor/addEditVendor", component: AddEditVendorComponent },
+            { path: "master/addEditVendor", component: AddEditVendorComponent },
+            { path: "master/vehicle", component: VehicleComponent },
+            { path: "master/addEditVehicle", component: AddEditVehicleComponent },
         ],
     },
 ];

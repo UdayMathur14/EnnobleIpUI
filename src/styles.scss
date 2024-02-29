@@ -29,6 +29,10 @@ body{
     @include buttonsPrimaryOutline(13px, 7px, 20px);
 }
 
+.custom-button-filters{
+    @include buttonsPrimaryOutline(13px, 4px, 20px);
+}
+
 .custom-button-export{
     @include buttonsExportOutline(13px, 7px, 20px);
 }
@@ -48,6 +52,10 @@ body{
         border-radius: var(--spacer-4);
         border: 1px solid var(--inputBorder);
         width:100%;
+
+        &:disabled{
+            background-color: var(--gray2);
+        }
 
         &:focus{
             border-color: var(--secondaryColor);
