@@ -1,0 +1,22 @@
+<div class="page-title">
+  <h1>Plant Master</h1>
+  <div class="action-buttons">
+    <div class="search-field">
+      <input type="text" placeholder="Search Plant" />
+      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
+    </div>
+    <button class="export-with-icon custom-button-export">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export
+    </button>
+
+    <button class="custom-button-regulr">Create Plant</button>
+  </div>
+</div>
+
+<div class="filter-section" [ngClass]="{ 'd-none': !isFilters }">
+  <app-filter></app-filter>
+</div>
+
+<div class="content-section" [ngClass]="{ isFilters: isFilters }">
+  <app-plant-grid-table></app-plant-grid-table>
+</div>

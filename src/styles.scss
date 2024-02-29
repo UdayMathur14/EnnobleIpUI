@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+@import './assets/SCSS/colors.scss';
+@import './assets/SCSS/fonts.scss';
+@import './assets/SCSS/variables.scss';
+@import './assets/SCSS/mixins.scss';
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Roboto:wght@300;400;500;700&display=swap');
+
+// font-family: 'Inter', sans-serif;
+// font-family: 'Roboto', sans-serif;
+
+*{
+    margin:0;
+    padding:0;
+    font-size: var(--spacer-13);
+}
+
+h1,h2,h3,h4,h5,h6,p,a,span,ul,li,div,header,nav, button{
+    font-family: 'Inter', sans-serif;
+}
+
+body{
+    background-color: var(--themeBg) !important;
+}
+
+.custom-button-regulr{
+    @include buttonsPrimaryOutline(13px, 7px, 20px);
+}
+
+.custom-button-export{
+    @include buttonsExportOutline(13px, 7px, 20px);
+}
+
+.custom-button-secondary{
+    @include buttonsSecondaryOutline(13px, 7px, 20px);
+}
+
+.custom-form-input {
+    margin-bottom: var(--spacer-10);
+
+    label{
+        margin-bottom: 1px;
+    }
+    input, select{
+        padding: var(--spacer-4) var(--spacer-10);
+        border-radius: var(--spacer-4);
+        border: 1px solid var(--inputBorder);
+        width:100%;
+
+        &:focus{
+            border-color: var(--secondaryColor);
+            outline: none;
+        }
+    }
+}
+
+.filter-section{
+    padding:var(--spacer-10) var(--spacer-15);
+    background-color: var(--white);
+    border-radius: var(--spacer-10);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1411764706);
+    margin-bottom: var(--spacer-10);
+}
+
+.page-title {
+    margin-bottom: var(--spacer-15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+        font-size: var(--spacer-26);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        column-gap: var(--spacer-10);
+        .search-field {
+            position: relative;
+            display: inline-block;
+
+            input {
+                padding: 7px 28px 7px 18px;
+                border-radius: var(--spacer-20);
+                border: 1px solid var(--inputBorder);
+
+                &:focus {
+                    outline: none;
+                    border-color: var(--secondaryColor);
+                }
+            }
+
+            span {
+                position: absolute;
+                right: 16px;
+                top: 9px;
+
+                img {
+                    width:14px;
+                }
+            }
+        }
+    }
+}
