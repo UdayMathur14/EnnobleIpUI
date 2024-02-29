@@ -3,10 +3,36 @@
       <img src="assets/images/logo.png" alt="" width="80px" />
     </div>
     <div class="left-sidebar-inner">
-      <ul>
-        <li>Lorem Ispum</li>
-        <li>Lorem Ispum</li>
-        <li>Lorem Ispum</li>
-      </ul>
+      <div class="accordion" id="sidebarAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="masterHeading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMasters" aria-expanded="true" aria-controls="collapseMasters">
+              Masters
+            </button>
+          </h2>
+          <div id="collapseMasters" class="accordion-collapse collapse show" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
+            <div class="accordion-body">
+              <ul>
+                <li (click)="onMasterChange('plant')">Plant Master</li>
+                <li (click)="onMasterChange('part')">Part Master</li>
+                <li (click)="onMasterChange('vendor')">Vendor Master</li>
+                <li (click)="onMasterChange('vehicle')">Vehicle Master</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="transactionsHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTransactions" aria-expanded="false" aria-controls="collapseTransactions">
+              Transactions
+            </button>
+          </h2>
+          <div id="collapseTransactions" class="accordion-collapse collapse" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
+            <div class="accordion-body">
+              
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
