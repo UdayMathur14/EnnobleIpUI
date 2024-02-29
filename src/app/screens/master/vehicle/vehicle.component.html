@@ -1,8 +1,8 @@
 <div class="page-title">
-  <h1>Part Master</h1>
+  <h1>Vehicle Master</h1>
   <div class="action-buttons">
     <div class="search-field">
-      <input type="text" placeholder="Search Part" />
+      <input type="text" placeholder="Search Vehicle" />
       <span
         ><img src="assets/images/icons/search.svg" alt="search"
       /></span>
@@ -11,14 +11,14 @@
       <img src="assets/images/icons/excel.svg" alt="export" /> Export
     </button>
 
-    <button class="custom-button-regulr" (click)="onCreatePart()">Create Part</button>
+    <button class="custom-button-regulr" (click)="onCreateVehicle()">Create Vehicle</button>
   </div>
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-part-filters></app-part-filters>
+  <app-vehicle-filters></app-vehicle-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-part-grid-table></app-part-grid-table>
+  <app-vehicle-grid-table></app-vehicle-grid-table>
 </div>

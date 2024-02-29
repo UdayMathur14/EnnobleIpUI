@@ -10,7 +10,7 @@ export class PartGridTableComponent {
   constructor(private router: Router) {}
 
   onGoToEditPart(){
-    this.router.navigate(['mfgMasters/editPart']);
+    this.router.navigate(['master/addEditPart']);
   }
 
 }

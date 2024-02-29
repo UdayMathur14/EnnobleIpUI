@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class AddEditPartComponent {
   constructor(private router: Router) {}
 
-  onGoToEditPlan(){
-    this.router.navigate(['mfgMasters/editPart']);
+  onCancelPress(){
+    this.router.navigate(['/master/part'])
   }
 }
