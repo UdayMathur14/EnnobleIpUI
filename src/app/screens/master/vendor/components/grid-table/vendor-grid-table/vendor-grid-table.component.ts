@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class VendorGridTableComponent {
   constructor(private router: Router) {}
 
-  onGoToEditPart(){
-    this.router.navigate(['mfgMasters/editPart']);
+  onEditVendor(){
+    this.router.navigate(['master/addEditVendor']);
   }
 }
