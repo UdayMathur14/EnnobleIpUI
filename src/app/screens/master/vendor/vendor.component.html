@@ -1,0 +1,20 @@
+<div class="page-title">
+    <h1>Vendor Master</h1>
+    <div class="action-buttons">
+      <div class="search-field">
+        <input type="text" placeholder="Search Vendor" />
+        <span
+          ><img src="assets/images/icons/search.svg" alt="search"
+        /></span>
+      </div>
+      <button class="export-with-icon custom-button-export">
+        <img src="assets/images/icons/excel.svg" alt="export" /> Export
+      </button>
+  
+      <button class="custom-button-regulr" [routerLink]="'addEditVendor'">Create Vendor</button>
+    </div>
+  </div>
+  
+  <div class="content-section" >
+    <app-vendor-grid-table></app-vendor-grid-table>
+  </div>

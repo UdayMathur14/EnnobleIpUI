@@ -89,6 +89,10 @@ body{
                 border-radius: var(--spacer-20);
                 border: 1px solid var(--inputBorder);
 
+                &:disabled{
+                    background-color: var(--gray2);
+                }
+
                 &:focus {
                     outline: none;
                     border-color: var(--secondaryColor);
