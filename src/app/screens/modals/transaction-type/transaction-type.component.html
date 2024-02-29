@@ -1,0 +1,41 @@
+<div class="common-modal">
+    <div class="ngmodal-header">
+        <h3>
+          Transaction Type
+          <span class="float-right" (click)="activeModal.dismiss('Cross click')">
+              <img src="assets/images/icons/close.svg" alt="">
+          </span>
+          <div class="clearfix"></div>
+        </h3>
+      </div>
+      <form>
+        <div class="ngmodal-body">
+            <div class="custom-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction Code</th>
+                            <th>Transaction Name</th>
+                            <th>Transaction Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RB</td>
+                            <td>Recycle Bin</td>
+                            <td>Transaction Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ngmodal-footer">
+      
+        </div>
+      </form>
+      
+      <div class="customLoader" *ngIf="customLoader">
+        <img src="assets/imgs/preloader.gif" />
+      </div>
+      
+</div>
