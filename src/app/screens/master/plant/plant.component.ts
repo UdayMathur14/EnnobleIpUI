@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plant',
@@ -6,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plant.component.scss']
 })
 export class PlantComponent implements OnInit {
-  constructor(){}
+  constructor(private router : Router){}
+
   isFilters : boolean = false;
 
   ngOnInit() { }
+
+  onCreatePlant(){
+    this.router.navigate(['master/addEditPlant'])
+  }
 
 }
