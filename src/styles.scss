@@ -119,3 +119,56 @@ body{
         }
     }
 }
+
+.common-modal{
+    padding:var(--spacer-30);
+
+    .ngmodal-header{
+        h3{
+            font-size: var(--spacer-26);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: var(--spacer-20);
+            position: relative;
+            span{
+                position: absolute;
+                right: -10px;
+                top: -15px;
+            }
+        }
+    }
+    .ngmodal-body{
+
+    }
+}
+
+.custom-table {
+    background-color: var(--white);
+    border-radius: 10px;
+
+    table {
+        width: 100%;
+
+        thead {
+            tr {
+                th {
+                    @include gridTableHeading;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                @include gridTableRowBorder;
+
+                td {
+                    @include gridTableBody;
+                }
+                &:last-child {
+                    border: none;
+                }
+            }
+        }
+    }
+
+}

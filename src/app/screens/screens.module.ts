@@ -9,7 +9,6 @@ import { PartGridTableComponent } from "./master/part/components/grid-table/part
 import { PartComponent } from "./master/part/part.component";
 import { VendorComponent } from './master/vendor/vendor.component';
 import { VendorGridTableComponent } from './master/vendor/components/grid-table/vendor-grid-table/vendor-grid-table.component';
-import { ButtonModule } from 'primeng/button';
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { VehicleFiltersComponent } from "./master/vehicle/components/filter/vehicle-filter.component";
 import { VehicleGridTableComponent } from "./master/vehicle/components/grid-table/vehicle-grid-table.component";
@@ -32,8 +31,7 @@ import { VehicleGridTableComponent } from "./master/vehicle/components/grid-tabl
     imports: [
         LayoutModule,
         ScreensRoutingModule,
-        CommonModule,
-        ButtonModule
+        CommonModule
     ],
     providers: [],
 })
