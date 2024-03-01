@@ -22,6 +22,8 @@ import { TransporterComponent } from "./master/transporter/transporter.component
 import { TransporterGridTableComponent } from "./master/transporter/components/grid-table/transporter-grid-table.component";
 import { TransporterFiltersComponent } from "./master/transporter/components/filter/transporter-filter.component";
 import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
+import { AdviceComponent } from "./master/advice/advice.component";
+import { AdviceGridTableComponent } from "./master/advice/components/advice-grid-table/advice-grid-table.component";
 
 @NgModule({
     declarations: [
@@ -45,7 +47,9 @@ import { AddEditTransporterComponent } from "./master/transporter/add-edit-trans
         TransporterComponent,
         TransporterGridTableComponent,
         TransporterFiltersComponent,
-        AddEditTransporterComponent
+        AddEditTransporterComponent,
+        AdviceComponent,
+        AdviceGridTableComponent,
     ],
     imports: [
         LayoutModule,
