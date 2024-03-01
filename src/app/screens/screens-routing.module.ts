@@ -10,6 +10,7 @@ import { AddEditVendorComponent } from "./master/vendor/add-edit-vendor/add-edit
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
+import { FreightComponent } from "./master/freight/freight.component";
 
 const routes: Routes = [
     {
@@ -27,6 +28,7 @@ const routes: Routes = [
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
             { path : 'master/transactionTypes', component : TransactionTypeComponent}
+            { path: "master/freight", component: FreightComponent },
         ],
     },
 ];
