@@ -9,8 +9,11 @@ import { VendorComponent } from "./master/vendor/vendor.component";
 import { AddEditVendorComponent } from "./master/vendor/add-edit-vendor/add-edit-vendor.component";
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
+import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
 import { FreightComponent } from "./master/freight/freight.component";
 import { AddEditFreightComponent } from "./master/freight/add-edit-freight/add-edit-freight.component";
+import { TransporterComponent } from "./master/transporter/transporter.component";
+import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
 
 const routes: Routes = [
     {
@@ -27,9 +30,11 @@ const routes: Routes = [
             { path: "master/addEditVendor", component: AddEditVendorComponent },
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
+            { path : 'master/transactionTypes', component : TransactionTypeComponent},
             { path: "master/freight", component: FreightComponent },
             { path: "master/addEditFreight", component: AddEditFreightComponent },
-
+            { path: "master/transporter", component: TransporterComponent },
+            { path: "master/addEditTransporter", component: AddEditTransporterComponent },
         ],
     },
 ];

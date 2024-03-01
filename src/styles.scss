@@ -49,7 +49,7 @@ body{
     label{
         margin-bottom: 1px;
     }
-    input, select{
+    input, select, textarea{
         padding: var(--spacer-4) var(--spacer-10);
         border-radius: var(--spacer-4);
         border: 1px solid var(--inputBorder);
