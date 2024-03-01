@@ -13,6 +13,7 @@ import { TransactionTypeComponent } from "./master/transaction-type/transaction-
 import { FreightComponent } from "./master/freight/freight.component";
 import { TransporterComponent } from "./master/transporter/transporter.component";
 import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
+import { AdviceComponent } from "./master/advice/advice.component";
 
 const routes: Routes = [
     {
@@ -33,6 +34,7 @@ const routes: Routes = [
             { path: "master/freight", component: FreightComponent },
             { path: "master/transporter", component: TransporterComponent },
             { path: "master/addEditTransporter", component: AddEditTransporterComponent },
+            { path: "master/advice", component: AdviceComponent },
         ],
     },
 ];
