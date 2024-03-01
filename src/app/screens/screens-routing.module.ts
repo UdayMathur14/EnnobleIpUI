@@ -15,6 +15,7 @@ import { AddEditFreightComponent } from "./master/freight/add-edit-freight/add-e
 import { TransporterComponent } from "./master/transporter/transporter.component";
 import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
 import { AdviceComponent } from "./master/advice/advice.component";
+import { AddEditAdviceComponent } from "./master/advice/add-edit-advice/add-edit-advice.component";
 
 const routes: Routes = [
     {
@@ -31,12 +32,13 @@ const routes: Routes = [
             { path: "master/addEditVendor", component: AddEditVendorComponent },
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
-            { path : 'master/transactionTypes', component : TransactionTypeComponent},
+            { path: 'master/transactionTypes', component: TransactionTypeComponent },
             { path: "master/freight", component: FreightComponent },
             { path: "master/addEditFreight", component: AddEditFreightComponent },
             { path: "master/transporter", component: TransporterComponent },
             { path: "master/addEditTransporter", component: AddEditTransporterComponent },
             { path: "master/advice", component: AdviceComponent },
+            { path: "master/addEditAdvice", component: AddEditAdviceComponent },
         ],
     },
 ];
