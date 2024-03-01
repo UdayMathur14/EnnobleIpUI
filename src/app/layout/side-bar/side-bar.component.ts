@@ -27,6 +27,8 @@ export class SideBarComponent {
             this.router.navigate(['/master/vendor'])
         }else if(master === 'transactionType'){
             this.router.navigate(['/master/transactionTypes'])
+        }else if(master === 'transporter'){
+            this.router.navigate(['/master/transporter'])
         }
     }
 }
