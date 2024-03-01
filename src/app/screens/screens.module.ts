@@ -16,7 +16,8 @@ import { FreightComponent } from "./master/freight/freight.component";
 import { FreightFilterComponent } from "./master/freight/components/filter/freight-filter.component";
 import { FreightGridTableComponent } from "./master/freight/components/freight-grid-table/freight-grid-table.component";
 import { AutoCompleteModule } from 'primeng/autocomplete';
-
+import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
+import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
 
 @NgModule({
     declarations: [
@@ -32,6 +33,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         VehicleComponent,
         VehicleFiltersComponent,
         VehicleGridTableComponent,
+        TransactionGridTableComponent,
+        TransactionTypeComponent,
         FreightComponent,
         FreightFilterComponent,
         FreightGridTableComponent

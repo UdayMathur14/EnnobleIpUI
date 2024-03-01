@@ -1,0 +1,13 @@
+<div class="page-title">
+  <h1>Transaction Type Master</h1>
+  <div class="action-buttons">
+    <div class="search-field">
+      <input type="text" placeholder="Search Transaction" />
+      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
+    </div>
+  </div>
+</div>
+
+<div class="content-section" [ngClass]="{ isFilters: isFilters }">
+  <app-transaction-grid-table></app-transaction-grid-table>
+</div>
