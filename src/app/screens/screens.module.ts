@@ -12,6 +12,9 @@ import { VendorGridTableComponent } from './master/vendor/components/grid-table/
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { VehicleFiltersComponent } from "./master/vehicle/components/filter/vehicle-filter.component";
 import { VehicleGridTableComponent } from "./master/vehicle/components/grid-table/vehicle-grid-table.component";
+import { FreightComponent } from "./master/freight/freight.component";
+import { FreightFilterComponent } from "./master/freight/components/filter/freight-filter.component";
+import { FreightGridTableComponent } from "./master/freight/components/freight-grid-table/freight-grid-table.component";
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
@@ -28,7 +31,10 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         VendorGridTableComponent,
         VehicleComponent,
         VehicleFiltersComponent,
-        VehicleGridTableComponent
+        VehicleGridTableComponent,
+        FreightComponent,
+        FreightFilterComponent,
+        FreightGridTableComponent
     ],
     imports: [
         LayoutModule,
