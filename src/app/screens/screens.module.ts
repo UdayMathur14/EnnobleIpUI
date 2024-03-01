@@ -12,6 +12,8 @@ import { VendorGridTableComponent } from './master/vendor/components/grid-table/
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { VehicleFiltersComponent } from "./master/vehicle/components/filter/vehicle-filter.component";
 import { VehicleGridTableComponent } from "./master/vehicle/components/grid-table/vehicle-grid-table.component";
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 @NgModule({
     declarations: [
@@ -31,7 +33,8 @@ import { VehicleGridTableComponent } from "./master/vehicle/components/grid-tabl
     imports: [
         LayoutModule,
         ScreensRoutingModule,
-        CommonModule
+        CommonModule,
+        AutoCompleteModule
     ],
     providers: [],
 })
