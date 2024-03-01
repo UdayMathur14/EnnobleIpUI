@@ -13,7 +13,8 @@ import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { VehicleFiltersComponent } from "./master/vehicle/components/filter/vehicle-filter.component";
 import { VehicleGridTableComponent } from "./master/vehicle/components/grid-table/vehicle-grid-table.component";
 import { AutoCompleteModule } from 'primeng/autocomplete';
-
+import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
+import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
 
 @NgModule({
     declarations: [
@@ -28,7 +29,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         VendorGridTableComponent,
         VehicleComponent,
         VehicleFiltersComponent,
-        VehicleGridTableComponent
+        VehicleGridTableComponent,
+        TransactionGridTableComponent,
+        TransactionTypeComponent
     ],
     imports: [
         LayoutModule,
