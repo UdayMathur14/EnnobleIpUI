@@ -15,6 +15,8 @@ import { VehicleGridTableComponent } from "./master/vehicle/components/grid-tabl
 import { FreightComponent } from "./master/freight/freight.component";
 import { FreightFilterComponent } from "./master/freight/components/filter/freight-filter.component";
 import { FreightGridTableComponent } from "./master/freight/components/freight-grid-table/freight-grid-table.component";
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 @NgModule({
     declarations: [
@@ -37,7 +39,8 @@ import { FreightGridTableComponent } from "./master/freight/components/freight-g
     imports: [
         LayoutModule,
         ScreensRoutingModule,
-        CommonModule
+        CommonModule,
+        AutoCompleteModule
     ],
     providers: [],
 })
