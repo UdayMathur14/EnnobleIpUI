@@ -7,16 +7,16 @@ import { Router } from '@angular/router';
     styleUrls: ["side-bar.component.scss"],
 })
 export class SideBarComponent {
-    constructor(private router : Router) { }
+    constructor(private router : Router) { };
+    isMasterModule : boolean = true;
 
     ngOnInit() {
-       
+        this.isMasterModule = window.location.pathname.includes('/master/');
     }
 
     onMasterChange(master : string){
         if(master === 'plant'){
             this.router.navigate(['/master/plant'])
-
         }else if(master === 'part'){
             this.router.navigate(['/master/part'])
         }else if(master === 'vehicle'){
@@ -33,6 +33,12 @@ export class SideBarComponent {
             this.router.navigate(['/master/transporter'])
         }else if(master === "pointCharge"){
             this.router.navigate(['/master/pointCharge'])
+        }
+    }
+
+    onTransactionChange(transaction : string) {
+        if(transaction === 'dispatchNote'){
+            this.router.navigate(['/transaction/dispatchNote'])
         }
     }
 }

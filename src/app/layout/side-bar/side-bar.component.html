@@ -10,7 +10,7 @@
               Masters
             </button>
           </h2>
-          <div id="collapseMasters" class="accordion-collapse collapse show" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
+          <div id="collapseMasters" class="accordion-collapse collapse" [ngClass]="{ 'show': isMasterModule }" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
                 <li (click)="onMasterChange('plant')">Plant Master</li>
@@ -32,9 +32,11 @@
               Transactions
             </button>
           </h2>
-          <div id="collapseTransactions" class="accordion-collapse collapse" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
+          <div id="collapseTransactions" class="accordion-collapse collapse" [ngClass]="{ 'show': !isMasterModule }" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
-              
+              <ul>
+                <li (click)="onTransactionChange('dispatchNote')">Dispatch Note</li>
+              </ul>
             </div>
           </div>
         </div>
