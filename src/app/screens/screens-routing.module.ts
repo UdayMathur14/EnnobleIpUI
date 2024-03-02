@@ -18,6 +18,8 @@ import { AdviceComponent } from "./master/advice/advice.component";
 import { AddEditAdviceComponent } from "./master/advice/add-edit-advice/add-edit-advice.component";
 import { PointChargeComponent } from "./master/point-charge/point-charge.component";
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
+import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
+import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 
 const routes: Routes = [
     {
@@ -43,6 +45,8 @@ const routes: Routes = [
             { path: "master/addEditAdvice", component: AddEditAdviceComponent },
             { path: "master/pointCharge", component: PointChargeComponent },
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
+            { path: "transaction/dispatchNote", component: DispatchNoteComponent },
+            { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
         ],
     },
 ];
