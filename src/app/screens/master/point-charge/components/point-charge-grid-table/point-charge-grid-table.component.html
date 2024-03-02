@@ -1,31 +1,56 @@
 <div class="custom-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Point Name</th>
-          <th>Point Charge</th>
-          <th>Same Location Charge</th>
-          <th>Location Code</th>
-          <th>Approved by Material</th>
-          <th>Approved by Material On</th>
-          <th>Approved by Accounts</th>
-          <th>Approved by Accounts On</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td class="text-center">
-              <img src="assets/images/icons/editPencil.svg" alt="edit" (click)="onEditPointCharge()">
-          </td>
-        </tr>
-    </table>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Point Name</th>
+        <th>Point Charge</th>
+        <th>Same Location Charge</th>
+        <th>Location Code</th>
+        <th>Approved by Material</th>
+        <th>Approved by Material On</th>
+        <th>Approved by Accounts</th>
+        <th>Approved by Accounts On</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          class="pointer"
+          container="body"
+          placement="end"
+          tooltipClass="table-datetime-popover"
+          [ngbTooltip]="tipContent"
+        >
+          <u>Lorem Ipsum</u>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Created On</span>
+                <span>01/01/2024</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>IL0001</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td class="text-center">
+          <img
+            src="assets/images/icons/editPencil.svg"
+            alt="edit"
+            (click)="onEditPointCharge()"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
