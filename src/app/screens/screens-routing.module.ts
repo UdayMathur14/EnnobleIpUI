@@ -9,6 +9,17 @@ import { VendorComponent } from "./master/vendor/vendor.component";
 import { AddEditVendorComponent } from "./master/vendor/add-edit-vendor/add-edit-vendor.component";
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
+import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
+import { FreightComponent } from "./master/freight/freight.component";
+import { AddEditFreightComponent } from "./master/freight/add-edit-freight/add-edit-freight.component";
+import { TransporterComponent } from "./master/transporter/transporter.component";
+import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
+import { AdviceComponent } from "./master/advice/advice.component";
+import { AddEditAdviceComponent } from "./master/advice/add-edit-advice/add-edit-advice.component";
+import { PointChargeComponent } from "./master/point-charge/point-charge.component";
+import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
+import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
+import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 
 const routes: Routes = [
     {
@@ -25,6 +36,17 @@ const routes: Routes = [
             { path: "master/addEditVendor", component: AddEditVendorComponent },
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
+            { path: 'master/transactionTypes', component: TransactionTypeComponent },
+            { path: "master/freight", component: FreightComponent },
+            { path: "master/addEditFreight", component: AddEditFreightComponent },
+            { path: "master/transporter", component: TransporterComponent },
+            { path: "master/addEditTransporter", component: AddEditTransporterComponent },
+            { path: "master/advice", component: AdviceComponent },
+            { path: "master/addEditAdvice", component: AddEditAdviceComponent },
+            { path: "master/pointCharge", component: PointChargeComponent },
+            { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
+            { path: "transaction/dispatchNote", component: DispatchNoteComponent },
+            { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
         ],
     },
 ];

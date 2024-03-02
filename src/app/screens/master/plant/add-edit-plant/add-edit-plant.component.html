@@ -2,7 +2,9 @@
   <h1>Edit Plant Master</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr">Save</button>
-    <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
+    <button class="custom-button-secondary" (click)="onCancelPress()">
+      Cancel
+    </button>
   </div>
 </div>
 <div class="content-section p-3">
@@ -10,7 +12,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Code</label>
-        <input type="text" class="input-field" type="text" />
+        <p-autoComplete [suggestions]="results" (completeMethod)="filterCountry($event)" field="name"></p-autoComplete>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">

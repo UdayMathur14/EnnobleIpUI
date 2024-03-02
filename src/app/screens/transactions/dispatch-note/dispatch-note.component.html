@@ -1,0 +1,14 @@
+<div class="page-title">
+  <h1>Dispatch Note</h1>
+  <div class="action-buttons">
+    <button class="custom-button-regulr" (click)="onCreateDispatchNote()">Create Note</button>
+  </div>
+</div>
+
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+  <app-dispatch-note-filters></app-dispatch-note-filters>
+</div>
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-dispatch-note-grid-table></app-dispatch-note-grid-table>
+</div>
