@@ -16,6 +16,8 @@ import { TransporterComponent } from "./master/transporter/transporter.component
 import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
 import { AdviceComponent } from "./master/advice/advice.component";
 import { AddEditAdviceComponent } from "./master/advice/add-edit-advice/add-edit-advice.component";
+import { PointChargeComponent } from "./master/point-charge/point-charge.component";
+import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 
 const routes: Routes = [
     {
@@ -39,6 +41,8 @@ const routes: Routes = [
             { path: "master/addEditTransporter", component: AddEditTransporterComponent },
             { path: "master/advice", component: AdviceComponent },
             { path: "master/addEditAdvice", component: AddEditAdviceComponent },
+            { path: "master/pointCharge", component: PointChargeComponent },
+            { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
         ],
     },
 ];
