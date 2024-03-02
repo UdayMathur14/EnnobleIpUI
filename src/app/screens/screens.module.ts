@@ -27,6 +27,7 @@ import { AdviceGridTableComponent } from "./master/advice/components/advice-grid
 import { PointChargeComponent } from "./master/point-charge/point-charge.component";
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { PointChargeGridTableComponent } from "./master/point-charge/components/point-charge-grid-table/point-charge-grid-table.component";
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,8 @@ import { PointChargeGridTableComponent } from "./master/point-charge/components/
         LayoutModule,
         ScreensRoutingModule,
         CommonModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        NgbTooltipModule
     ],
     providers: [],
 })
