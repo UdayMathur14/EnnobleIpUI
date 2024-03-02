@@ -31,6 +31,8 @@ export class SideBarComponent {
             this.router.navigate(['/master/transactionTypes'])
         }else if(master === 'transporter'){
             this.router.navigate(['/master/transporter'])
+        }else if(master === "pointCharge"){
+            this.router.navigate(['/master/pointCharge'])
         }
     }
 }

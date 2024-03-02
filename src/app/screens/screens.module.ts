@@ -24,6 +24,9 @@ import { TransporterFiltersComponent } from "./master/transporter/components/fil
 import { AddEditTransporterComponent } from "./master/transporter/add-edit-transporter/add-edit-transporter.component";
 import { AdviceComponent } from "./master/advice/advice.component";
 import { AdviceGridTableComponent } from "./master/advice/components/advice-grid-table/advice-grid-table.component";
+import { PointChargeComponent } from "./master/point-charge/point-charge.component";
+import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
+import { PointChargeGridTableComponent } from "./master/point-charge/components/point-charge-grid-table/point-charge-grid-table.component";
 
 @NgModule({
     declarations: [
@@ -50,6 +53,9 @@ import { AdviceGridTableComponent } from "./master/advice/components/advice-grid
         AddEditTransporterComponent,
         AdviceComponent,
         AdviceGridTableComponent,
+        PointChargeComponent,
+        AddEditPointChargeComponent,
+        PointChargeGridTableComponent
     ],
     imports: [
         LayoutModule,
