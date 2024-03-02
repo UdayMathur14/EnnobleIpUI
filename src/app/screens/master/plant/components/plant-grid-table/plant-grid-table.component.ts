@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbTimepickerModule } from "@ng-bootstrap/ng-bootstrap";
-import { TransactionTypeComponent } from '../../../../modals/transaction-type/transaction-type.component';
+import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -19,7 +19,7 @@ export class PlantGridTableComponent {
   }
 
   onLinkClick() {
-    let transactionTypeModal = this.modalService.open(TransactionTypeComponent, {
+    let transactionTypeModal = this.modalService.open(TransactionTypeModalComponent, {
       size: "lg",
       backdrop: "static",
     });

@@ -1,0 +1,24 @@
+<div class="page-title">
+  <h1>Transporter Master</h1>
+  <div class="action-buttons">
+    <div class="search-field">
+      <input type="text" placeholder="Search Transporter"/>
+      <span
+        ><img src="assets/images/icons/search.svg" alt="search"
+      /></span>
+    </div>
+    <button class="export-with-icon custom-button-export">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export
+    </button>
+
+    <button class="custom-button-regulr" (click)="onCreateTransporter()">Create Transporter</button>
+  </div>
+</div>
+
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+  <app-transporter-filter></app-transporter-filter>
+</div>
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-transporter-grid-table></app-transporter-grid-table>
+</div>

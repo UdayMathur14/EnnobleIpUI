@@ -1,0 +1,18 @@
+<div class="page-title">
+  <h1>Advice Master</h1>
+  <div class="action-buttons">
+    <div class="search-field">
+      <input type="text" placeholder="Search Advice" />
+      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
+    </div>
+    <button class="custom-button-regulr" (click)="onCreateAdvice()">Create Advice</button>
+  </div>
+</div>
+
+<div class="filter-section" [ngClass]="{ 'd-none': !isFilters }">
+  <app-filter></app-filter>
+</div>
+
+<div class="content-section" [ngClass]="{ isFilters: isFilters }">
+  <app-advice-grid-table></app-advice-grid-table>
+</div>
