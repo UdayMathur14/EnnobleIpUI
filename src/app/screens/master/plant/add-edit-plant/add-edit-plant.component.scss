@@ -4,3 +4,35 @@
     border-radius: 10px;
     box-shadow: 0px 1px 4px #00000024;
 }
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-field {
+    padding-right: 30px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+.transaction-heading {
+    margin-bottom: 0;
+    padding-bottom: 5px;
+}
+
+.title-divider {
+    width: calc(100% - 20px);
+    border-bottom: 2px solid var(--black);
+    margin: 0 10px;
+}
+
+.space-after-row {
+    margin-bottom: 80px;
+}
