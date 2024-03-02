@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PlantService } from '../../../core/service';
 
 @Component({
   selector: 'app-plant',
@@ -7,11 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./plant.component.scss']
 })
 export class PlantComponent implements OnInit {
-  constructor(private router : Router){}
+  constructor(private router : Router,private plantService:PlantService){}
 
   isFilters : boolean = false;
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.getData();
+  }
+
+  getData(){
+    this.plantService.get().subscribe(res=>{
+
+    })
+  }
 
   onCreatePlant(){
     this.router.navigate(['master/addEditPlant'])
