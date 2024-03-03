@@ -1,0 +1,97 @@
+<div class="custom-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Bilti#</th>
+        <th>Bilti Date</th>
+        <th>Bilti Bill Process Date</th>
+        <th>FRLR#</th>
+        <th>Transporter Name</th>
+        <th>Vehicle Number</th>
+        <th>Freight Amount</th>
+        <th>Paid by Amount</th>
+        <th>Debit Amount</th>
+        <th>Bilti Details</th>
+        <th>Remarks</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="pointer">
+          <span
+            container="body"
+            placement="end"
+            tooltipClass="table-datetime-popover"
+            [ngbTooltip]="tipContent"
+          >
+            <u>Lorem Ipsum</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Created On</span>
+                <span>01/01/2024</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>IL0001</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>
+          <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails()" class="pointer">
+        </td>
+        <td>Lorem Ipsum</td>
+        <td class="text-center d-flex justify-content-center">
+          <button
+            type="button"
+            class="custom-button-regulr-small me-2"
+            [ngbPopover]="popContent"
+            [popoverTitle]="popTitle"
+            [autoClose]="'outside'"
+            triggers="manual"
+            #p="ngbPopover"
+            (click)="p.open()"
+          >
+            Approve
+          </button>
+          <button
+            type="button"
+            class="custom-button-secondary-small"
+            [ngbPopover]="popContent"
+            [popoverTitle]="popTitle"
+            [autoClose]="'outside'"
+            triggers="manual"
+            #p="ngbPopover"
+            (click)="p.open()"
+          >
+            Reject
+          </button>
+
+          <ng-template #popContent>
+            <div class="custom-form-input">
+              <textarea name="" id="" rows="3" class="input-field"></textarea>
+            </div>
+            <button class="custom-button-regulr" (click)="p.close()">
+              Confirm Approve
+            </button>
+            <button class="custom-button-regulr" (click)="p.close()">
+              Confirm Reject
+            </button>
+          </ng-template>
+          <ng-template #popTitle>Remarks</ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

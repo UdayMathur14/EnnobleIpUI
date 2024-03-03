@@ -1,0 +1,12 @@
+<div class="page-title">
+  <h1>Approval</h1>
+</div>
+
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+  <app-approval-accounts-filter></app-approval-accounts-filter>
+</div>
+
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-approval-accounts-grid-table></app-approval-accounts-grid-table>
+</div>
