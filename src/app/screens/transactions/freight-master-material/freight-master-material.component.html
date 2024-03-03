@@ -1,0 +1,12 @@
+<div class="page-title">
+  <h1>Approval</h1>
+</div>
+
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+  <app-freight-master-material-filter></app-freight-master-material-filter>
+</div>
+
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-freight-master-material-grid-table></app-freight-master-material-grid-table>
+</div>
