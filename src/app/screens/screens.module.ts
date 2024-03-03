@@ -27,16 +27,34 @@ import { AdviceGridTableComponent } from "./master/advice/components/advice-grid
 import { PointChargeComponent } from "./master/point-charge/point-charge.component";
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { PointChargeGridTableComponent } from "./master/point-charge/components/point-charge-grid-table/point-charge-grid-table.component";
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 import { DispatchNoteFiltersComponent } from "./transactions/dispatch-note/components/filter/dispatch-note-filter.component";
 import { DispatchNoteGridTableComponent } from "./transactions/dispatch-note/components/grid-table/dispatch-note-grid-table.component";
 import { DeliveryNoteModalComponent } from "./modals/delivery-note/delivery-note.component";
+import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
+import { PointMasterAccountsGridTableComponent } from "./transactions/point-master-accounts/components/grid-table/point-master-accounts-grid-table.component";
+import { PointMasterAccountsFiltersComponent } from "./transactions/point-master-accounts/components/filter/point-master-accounts-filter.component";
+import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
+import { PointMasterMaterialFiltersComponent } from "./transactions/point-master-material/components/filter/point-master-material-filter.component";
+import { PointMasterMaterialGridTableComponent } from "./transactions/point-master-material/components/grid-table/point-master-material-grid-table.component";
+import { FreightMasterAccountsComponent } from "./transactions/freight-master-accounts/freight-master-accounts.component";
+import { FreightMasterAccountsFiltersComponent } from "./transactions/freight-master-accounts/components/filter/freight-master-accounts-filter.component";
+import { FreightMasterAccountsGridTableComponent } from "./transactions/freight-master-accounts/components/grid-table/freight-master-accounts-grid-table.component";
+import { FreightMasterMaterialComponent } from "./transactions/freight-master-material/freight-master-material.component";
+import { FreightMasterMaterialFiltersComponent } from "./transactions/freight-master-material/components/filter/freight-master-material-filter.component";
+import { FreightMasterMaterialGridTableComponent } from "./transactions/freight-master-material/components/grid-table/freight-master-material-grid-table.component";
+import { ApprovalAccountsComponent } from "./transactions/approval-accounts/approval-accounts.component";
+import { ApprovalAccountsFiltersComponent } from "./transactions/approval-accounts/components/filter/approval-accounts-filter.component";
+import { ApprovalAccountsGridTableComponent } from "./transactions/approval-accounts/components/grid-table/approval-accounts-grid-table.component";
+import { ApprovalMaterialComponent } from "./transactions/approval-material/approval-material.component";
+import { ApprovalMaterialFiltersComponent } from "./transactions/approval-material/components/filter/approval-material-filter.component";
+import { ApprovalMaterialGridTableComponent } from "./transactions/approval-material/components/grid-table/approval-material-grid-table.component";
 
 @NgModule({
     declarations: [
         ...ScreensComponents, 
-        ...ScreensEntryComponents, 
+        ...ScreensEntryComponents,
         PlantFilterComponent, 
         PlantGridTableComponent, 
         PartFiltersComponent, 
@@ -64,14 +82,33 @@ import { DeliveryNoteModalComponent } from "./modals/delivery-note/delivery-note
         DispatchNoteComponent,
         DispatchNoteFiltersComponent,
         DispatchNoteGridTableComponent,
-        DeliveryNoteModalComponent
+        DeliveryNoteModalComponent,
+        PointMasterAccountsComponent,
+        PointMasterAccountsGridTableComponent,
+        PointMasterAccountsFiltersComponent,
+        PointMasterMaterialComponent,
+        PointMasterMaterialFiltersComponent,
+        PointMasterMaterialGridTableComponent,
+        FreightMasterAccountsComponent,
+        FreightMasterAccountsFiltersComponent,
+        FreightMasterAccountsGridTableComponent,
+        FreightMasterMaterialComponent,
+        FreightMasterMaterialFiltersComponent,
+        FreightMasterMaterialGridTableComponent,
+        ApprovalAccountsComponent,
+        ApprovalAccountsFiltersComponent,
+        ApprovalAccountsGridTableComponent,
+        ApprovalMaterialComponent,
+        ApprovalMaterialFiltersComponent,
+        ApprovalMaterialGridTableComponent
     ],
     imports: [
         LayoutModule,
         ScreensRoutingModule,
         CommonModule,
         AutoCompleteModule,
-        NgbTooltipModule
+        NgbTooltipModule,
+        NgbPopover
     ],
     providers: [],
 })
