@@ -39,6 +39,18 @@ export class SideBarComponent {
     onTransactionChange(transaction : string) {
         if(transaction === 'dispatchNote'){
             this.router.navigate(['/transaction/dispatchNote'])
+        }else if(transaction === 'pointMasterAccounts'){
+            this.router.navigate(['/transaction/pointMasterAccounts'])
+        }else if(transaction === 'pointMasterMaterial'){
+            this.router.navigate(['/transaction/pointMasterMaterial'])
+        }else if(transaction === 'freightMasterAccounts'){
+            this.router.navigate(['/transaction/freightMasterAccounts'])
+        }else if(transaction === 'freightMasterAccounts'){
+            this.router.navigate(['/transaction/freightMasterMaterial'])
+        }else if(transaction === 'approvalMaterial'){
+            this.router.navigate(['/transaction/approvalMaterial'])
+        }else if(transaction === 'approvalAccounts'){
+            this.router.navigate(['/transaction/approvalAccounts'])
         }
     }
 }
