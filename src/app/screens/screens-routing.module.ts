@@ -20,12 +20,14 @@ import { PointChargeComponent } from "./master/point-charge/point-charge.compone
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
-import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
-import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
+
+// import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
+// import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
 import { FreightMasterMaterialComponent } from "./transactions/freight-master-material/freight-master-material.component";
 import { FreightMasterAccountsComponent } from "./transactions/freight-master-accounts/freight-master-accounts.component";
 import { ApprovalAccountsComponent } from "./transactions/approval-accounts/approval-accounts.component";
 import { ApprovalMaterialComponent } from "./transactions/approval-material/approval-material.component";
+import { BiltiComponent } from "./transactions/bilti/bilti.component";
 
 const routes: Routes = [
     {
@@ -53,8 +55,10 @@ const routes: Routes = [
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
-            { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent},
-            { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent},
+            { path: "transaction/bilti", component: BiltiComponent },
+
+            // { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent},
+            // { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent},
             { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent},
             { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent},
             { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent},
