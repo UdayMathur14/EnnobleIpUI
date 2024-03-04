@@ -7,14 +7,11 @@ import { Router } from '@angular/router';
   styleUrl: './bilti.component.scss'
 })
 export class BiltiComponent {
-  constructor(private router : Router){}
+  constructor(private router: Router) { }
 
-  isFilters : boolean = true;
+  isFilters: boolean = true;
 
-  onCreateBilti(){
-    this.router.navigate(['transaction/bilti'])
-  }
-  onCancelPress(){
-    this.router.navigate(['transaction/bilti'])
+  onCreateBilti() {
+    this.router.navigate(['transaction/addEditBilti'])
   }
 }
