@@ -32,13 +32,12 @@ import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-not
 import { DispatchNoteFiltersComponent } from "./transactions/dispatch-note/components/filter/dispatch-note-filter.component";
 import { DispatchNoteGridTableComponent } from "./transactions/dispatch-note/components/grid-table/dispatch-note-grid-table.component";
 import { DeliveryNoteModalComponent } from "./modals/delivery-note/delivery-note.component";
-
-// import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
-// import { PointMasterAccountsGridTableComponent } from "./transactions/point-master-accounts/components/grid-table/point-master-accounts-grid-table.component";
-// import { PointMasterAccountsFiltersComponent } from "./transactions/point-master-accounts/components/filter/point-master-accounts-filter.component";
-// import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
-// import { PointMasterMaterialFiltersComponent } from "./transactions/point-master-material/components/filter/point-master-material-filter.component";
-// import { PointMasterMaterialGridTableComponent } from "./transactions/point-master-material/components/grid-table/point-master-material-grid-table.component";
+import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
+import { PointMasterAccountsGridTableComponent } from "./transactions/point-master-accounts/components/grid-table/point-master-accounts-grid-table.component";
+import { PointMasterAccountsFiltersComponent } from "./transactions/point-master-accounts/components/filter/point-master-accounts-filter.component";
+import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
+import { PointMasterMaterialFiltersComponent } from "./transactions/point-master-material/components/filter/point-master-material-filter.component";
+import { PointMasterMaterialGridTableComponent } from "./transactions/point-master-material/components/grid-table/point-master-material-grid-table.component";
 import { FreightMasterAccountsComponent } from "./transactions/freight-master-accounts/freight-master-accounts.component";
 import { FreightMasterAccountsFiltersComponent } from "./transactions/freight-master-accounts/components/filter/freight-master-accounts-filter.component";
 import { FreightMasterAccountsGridTableComponent } from "./transactions/freight-master-accounts/components/grid-table/freight-master-accounts-grid-table.component";
@@ -92,12 +91,12 @@ import { BiltiGridTableComponent } from "./transactions/bilti/components/grid-ta
         BiltiComponent,
         BiltiFilterComponent,
         BiltiGridTableComponent,
-        // PointMasterAccountsComponent,
-        // PointMasterAccountsGridTableComponent,
-        // PointMasterAccountsFiltersComponent,
-        // PointMasterMaterialComponent,
-        // PointMasterMaterialFiltersComponent,
-        // PointMasterMaterialGridTableComponent,
+        PointMasterAccountsComponent,
+        PointMasterAccountsGridTableComponent,
+        PointMasterAccountsFiltersComponent,
+        PointMasterMaterialComponent,
+        PointMasterMaterialFiltersComponent,
+        PointMasterMaterialGridTableComponent,
         FreightMasterAccountsComponent,
         FreightMasterAccountsFiltersComponent,
         FreightMasterAccountsGridTableComponent,
