@@ -50,6 +50,11 @@ import { ApprovalAccountsGridTableComponent } from "./transactions/approval-acco
 import { ApprovalMaterialComponent } from "./transactions/approval-material/approval-material.component";
 import { ApprovalMaterialFiltersComponent } from "./transactions/approval-material/components/filter/approval-material-filter.component";
 import { ApprovalMaterialGridTableComponent } from "./transactions/approval-material/components/grid-table/approval-material-grid-table.component";
+import { BiltiComponent } from "./transactions/bilti/bilti.component";
+import { BiltiFilterComponent } from "./transactions/bilti/components/filter/bilti-filter.component";
+import { BiltiGridTableComponent } from "./transactions/bilti/components/grid-table/bilti-grid-table.component";
+
+
 
 @NgModule({
     declarations: [
@@ -83,6 +88,9 @@ import { ApprovalMaterialGridTableComponent } from "./transactions/approval-mate
         DispatchNoteFiltersComponent,
         DispatchNoteGridTableComponent,
         DeliveryNoteModalComponent,
+        BiltiComponent,
+        BiltiFilterComponent,
+        BiltiGridTableComponent,
         PointMasterAccountsComponent,
         PointMasterAccountsGridTableComponent,
         PointMasterAccountsFiltersComponent,

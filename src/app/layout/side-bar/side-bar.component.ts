@@ -39,6 +39,8 @@ export class SideBarComponent {
     onTransactionChange(transaction : string) {
         if(transaction === 'dispatchNote'){
             this.router.navigate(['/transaction/dispatchNote'])
+        }else if(transaction === 'bilti'){
+            this.router.navigate(['/transaction/bilti'])
         }else if(transaction === 'pointMasterAccounts'){
             this.router.navigate(['/transaction/pointMasterAccounts'])
         }else if(transaction === 'pointMasterMaterial'){

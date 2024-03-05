@@ -26,6 +26,8 @@ import { FreightMasterMaterialComponent } from "./transactions/freight-master-ma
 import { FreightMasterAccountsComponent } from "./transactions/freight-master-accounts/freight-master-accounts.component";
 import { ApprovalAccountsComponent } from "./transactions/approval-accounts/approval-accounts.component";
 import { ApprovalMaterialComponent } from "./transactions/approval-material/approval-material.component";
+import { BiltiComponent } from "./transactions/bilti/bilti.component";
+import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
 
 const routes: Routes = [
     {
@@ -53,6 +55,8 @@ const routes: Routes = [
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
+            { path: "transaction/bilti", component: BiltiComponent },
+            { path: "transaction/addEditBilti", component: AddEditBiltiComponent },
             { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent},
             { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent},
             { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent},
