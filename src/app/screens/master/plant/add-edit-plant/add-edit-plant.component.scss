@@ -11,28 +11,8 @@
     align-items: center;
 }
 
-.input-field {
-    padding-right: 30px;
-}
-
 .search-icon {
     position: absolute;
-    right: 10px;
+    right: var(--spacer-10);
     cursor: pointer;
-}
-
-
-.transaction-heading {
-    margin-bottom: 0;
-    padding-bottom: 5px;
-}
-
-.title-divider {
-    width: calc(100% - 20px);
-    border-bottom: 2px solid var(--black);
-    margin: 0 10px;
-}
-
-.space-after-row {
-    margin-bottom: 80px;
 }
