@@ -90,3 +90,9 @@
     font-size: var(--spacer-12);
     padding: var(--spacer-12) var(--spacer-10);
 }
+
+@mixin input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
