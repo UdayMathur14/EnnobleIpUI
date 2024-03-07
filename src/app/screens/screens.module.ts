@@ -16,8 +16,9 @@ import { FreightComponent } from "./master/freight/freight.component";
 import { FreightFilterComponent } from "./master/freight/components/filter/freight-filter.component";
 import { FreightGridTableComponent } from "./master/freight/components/freight-grid-table/freight-grid-table.component";
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
 import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
+import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
+import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
 import { TransporterComponent } from "./master/transporter/transporter.component";
 import { TransporterGridTableComponent } from "./master/transporter/components/grid-table/transporter-grid-table.component";
 import { TransporterFiltersComponent } from "./master/transporter/components/filter/transporter-filter.component";
@@ -72,6 +73,7 @@ import { BiltiGridTableComponent } from "./transactions/bilti/components/grid-ta
         VehicleGridTableComponent,
         TransactionGridTableComponent,
         TransactionTypeComponent,
+        AddEditTransactionTypeComponent,
         FreightComponent,
         FreightFilterComponent,
         FreightGridTableComponent,
