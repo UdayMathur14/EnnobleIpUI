@@ -1,5 +1,5 @@
 <div class="page-title">
-  <h1>Edit Plant Master</h1>
+  <h1>Edit Plant</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
@@ -12,31 +12,35 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Code</label>
-        <p-autoComplete [suggestions]="results" (completeMethod)="filterCountry($event)" field="name"></p-autoComplete>
+        <div class="input-with-icon">
+          <p-autoComplete [suggestions]="results" (completeMethod)="filterCountry($event)"
+            field="name"></p-autoComplete>
+          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+        </div>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Description</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
     <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">Plant Address</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">City</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">State</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
   </div>
@@ -44,37 +48,43 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">PAN</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">GSTIN</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Type</label>
-        <input type="text" class="input-field" type="text" />
+        <select name="" id="" disabled>
+          <option value="active">Manufacturing</option>
+          <option value="inactive">Service</option>
+        </select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Site Code</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Location Code</label>
-        <input type="text" class="input-field" type="text" />
+        <div class="input-with-icon">
+          <input type="text" class="input-field" />
+          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+        </div>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">DSC</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" />
       </div>
     </div>
   </div>
@@ -82,13 +92,16 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">DCP</label>
-        <input type="text" class="input-field" type="text" />
+        <input type="text" class="input-field" />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Status</label>
-        <input type="text" class="input-field" type="text" />
+        <select name="" id="">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
       </div>
     </div>
   </div>
@@ -115,10 +128,9 @@
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input">
                 <div class="input-with-icon">
-                  <!-- <div class="search-field"> -->
                   <input type="text" class="input-field" placeholder="RB" />
                   <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                  <!-- <span><img src="assets/images/icons/search.svg" alt="search" /></span> -->
+
                 </div>
               </div>
             </div>
@@ -127,14 +139,14 @@
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input">
-                <div class="input-with-icon">
-                  <input type="text" class="input-field" placeholder="Active" />
-                  <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
+                <select name="" id="">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
               </div>
             </div>
           </td>
-          <td class="text-center">  
+          <td class="text-center">
             <img src="assets/images/icons/trash.svg" class="me-2" alt="link">
           </td>
         </tr>

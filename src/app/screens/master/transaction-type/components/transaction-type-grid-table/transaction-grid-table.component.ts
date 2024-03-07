@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrl: './transaction-grid-table.component.scss'
 })
 export class TransactionGridTableComponent {
-  constructor() { }
+  constructor(private router : Router){}
 
+  onGoToEditTransaction(){
+    this.router.navigate(['master/addEditTransactionTypes'])
+  }
 }
