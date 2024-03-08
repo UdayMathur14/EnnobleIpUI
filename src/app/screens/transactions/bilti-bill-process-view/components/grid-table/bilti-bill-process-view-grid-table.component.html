@@ -1,0 +1,64 @@
+<div class="custom-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Bilti Date</th>
+        <th>Bill Bill Process Date</th>
+        <th>Bilti No.</th>
+        <th>FRLR Number</th>
+        <th>Transporter Name</th>
+        <th>Vehicle No.</th>
+        <th>Freight Amount</th>
+        <th>Paid By Amount</th>
+        <th>Debit Amount</th>
+        <th>Status</th>
+        <th>Remarks</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="pointer" container="body">
+          <span
+            placement="end"
+            tooltipClass="table-datetime-popover"
+            [ngbTooltip]="tipContent"
+          >
+            <u>Lorem Ipsum</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Created On</span>
+                <span>01/01/2024</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>IL0001</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>Lorem Ipsum</td>
+        <td>
+          Lorem Ipsum
+        </td>
+        <td class="text-center">
+          <img
+            src="assets/images/icons/editPencil.svg"
+            alt="edit"
+            (click)="onEditBilti()"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
