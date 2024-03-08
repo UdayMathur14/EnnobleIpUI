@@ -8,7 +8,7 @@ import { PartFiltersComponent } from "./master/part/components/filter/part-filte
 import { PartGridTableComponent } from "./master/part/components/grid-table/part-grid-table.component";
 import { PartComponent } from "./master/part/part.component";
 import { VendorComponent } from './master/vendor/vendor.component';
-import { VendorGridTableComponent } from './master/vendor/components/grid-table/vendor-grid-table/vendor-grid-table.component';
+import { VendorGridTableComponent } from "./master/vendor/components/grid-table/vendor-grid-table.component";
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { VehicleFiltersComponent } from "./master/vehicle/components/filter/vehicle-filter.component";
 import { VehicleGridTableComponent } from "./master/vehicle/components/grid-table/vehicle-grid-table.component";

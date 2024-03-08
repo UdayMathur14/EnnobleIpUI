@@ -52,12 +52,28 @@
         <td>Lorem Ipsum</td>
         <td>Lorem Ipsum</td>
         <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            class="pointer"
-            alt="edit"
-            (click)="onEditVendor()"
-          />
+          <img src="assets/images/icons/more.svg" class="me-2 pointer" alt="link" [ngbPopover]="popContent"
+            [autoClose]="'outside'" triggers="manual" #p="ngbPopover" placement="left" (click)="p.open()" />
+          <ng-template #popContent>
+            <div class="row mb-2" (click)="p.close()">
+              <div class="col-lg-6 col-md-6">
+                <div class="custom-form-input">
+                  <label for="">Transition Type Name</label>
+                  <div class="input-with-icon">
+                    <input type="text" class="input-field" />
+                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="custom-form-input">
+                  <label for="">Paid By Details</label>
+                  <input type="text" class="input-field" disabled/>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditVendor()" />
         </td>
       </tr>
     </tbody>

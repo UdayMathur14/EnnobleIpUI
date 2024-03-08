@@ -30,6 +30,7 @@ import { BiltiComponent } from "./transactions/bilti/bilti.component";
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
 import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
 import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
+import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
 
 const routes: Routes = [
     {
@@ -66,7 +67,8 @@ const routes: Routes = [
             { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent },
             { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent },
             { path: "transaction/approvalMaterial", component: ApprovalMaterialComponent },
-            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent }
+            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent },
+            { path: "transaction/biltiBillProcess", component: BiltiBillProcessComponent },
         ],
     },
 ];
