@@ -1,0 +1,13 @@
+<div class="page-title">
+    <h1>Bilti Bill Process</h1>
+    <div class="action-buttons">
+        <button class="custom-button-regulr" (click)="onCreateBilti()">Create Bilti</button>
+    </div>
+</div>
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+    <app-bilti-bill-process-filter></app-bilti-bill-process-filter>
+  </div>
+  
+  <div class="content-section" [ngClass]="{'isFilters': isFilters}">
+    <app-bilti-bill-process-grid-table></app-bilti-bill-process-grid-table>
+  </div>
