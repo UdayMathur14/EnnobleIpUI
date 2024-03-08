@@ -51,7 +51,7 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/pointMasterMaterial'])
         }else if(transaction === 'freightMasterAccounts'){
             this.router.navigate(['/transaction/freightMasterAccounts'])
-        }else if(transaction === 'freightMasterAccounts'){
+        }else if(transaction === 'freightMasterMaterial'){
             this.router.navigate(['/transaction/freightMasterMaterial'])
         }else if(transaction === 'approvalMaterial'){
             this.router.navigate(['/transaction/approvalMaterial'])
