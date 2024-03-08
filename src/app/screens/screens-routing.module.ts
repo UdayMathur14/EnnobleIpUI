@@ -29,7 +29,6 @@ import { ApprovalMaterialComponent } from "./transactions/approval-material/appr
 import { BiltiComponent } from "./transactions/bilti/bilti.component";
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
 import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
-import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
 import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
 
 const routes: Routes = [
@@ -60,7 +59,6 @@ const routes: Routes = [
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
             { path: "transaction/bilti", component: BiltiComponent },
-            { path: "transaction/biltiBillProcess", component: BiltiBillProcessComponent },
             { path: "transaction/addEditBilti", component: AddEditBiltiComponent },
             { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent },
             { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent },
