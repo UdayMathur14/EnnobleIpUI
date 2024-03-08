@@ -60,6 +60,10 @@ import { BiltiBillProcessViewFilterComponent } from "./transactions/bilti-bill-p
 import { BiltiBillProcessViewGridTableComponent } from "./transactions/bilti-bill-process-view/components/grid-table/bilti-bill-process-view-grid-table.component";
 import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
 import { AccountMaterialBiltiProcessDetailsModalComponent } from "./modals/accMat-bilti-bill-process-details/accMat-bilti-process-details.component";
+import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
+import { BiltiBillProcessFilterComponent } from "./transactions/bilti-bill-process/components/filter/bilti-bill-process-filter.component";
+import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-process/components/grid-table/bilti-bill-process-grid-table.component";
+
 
 @NgModule({
     declarations: [
@@ -120,7 +124,10 @@ import { AccountMaterialBiltiProcessDetailsModalComponent } from "./modals/accMa
         BiltiBillProcessViewFilterComponent,
         BiltiBillProcessViewGridTableComponent,
         BiltiBillProcessViewComponent,
-        AccountMaterialBiltiProcessDetailsModalComponent
+        AccountMaterialBiltiProcessDetailsModalComponent,
+        BiltiBillProcessComponent,
+        BiltiBillProcessFilterComponent,
+        BiltiBillProcessGridTableComponent,
     ],
     imports: [
         LayoutModule,
