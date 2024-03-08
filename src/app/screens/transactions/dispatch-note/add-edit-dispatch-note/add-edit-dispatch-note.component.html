@@ -13,7 +13,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Dispatch Number</label>
-        <input type="text" class="input-field" type="text" disabled/>
+        <input type="text" class="input-field" type="text" disabled />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
@@ -25,13 +25,13 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Supplier Name</label>
-        <input type="text" class="input-field" type="text" disabled/>
+        <input type="text" class="input-field" type="text" disabled />
       </div>
     </div>
     <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">Supplier Address</label>
-        <input type="text" class="input-field" type="text" disabled/>
+        <input type="text" class="input-field" type="text" disabled />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
@@ -58,16 +58,64 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Out Time</label>
-        <input type="text" class="input-field" type="text" />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
         <label for="">Creator</label>
-        <input type="text" class="input-field" type="text" disabled/>
+        <input type="text" class="input-field" type="text" disabled />
       </div>
     </div>
   </div>
 
+  <div class="edit-screen-subTable">
+    <h4 class="">
+      Part Details
+      <button class="custom-button-regulr">Add</button>
+    </h4>
+  </div>
+
+  <div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Line#</th>
+          <th>Part Number</th>
+          <th>Part Name</th>
+          <th>Part Qty.</th>
+          <th>Part Size</th>
+          <th>Remarks</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>
+            <div class="custom-form-input">
+              <div class="input-with-icon">
+                <input type="text" class="input-field" placeholder="RB" />
+                <img
+                  src="assets/images/icons/search.svg"
+                  class="search-icon"
+                  alt="Search"
+                />
+              </div>
+            </div>
+          </td>
+          <td>Plastic Bin</td>
+          <td>
+            <div class="custom-form-input">
+              <input type="text" class="input-field" placeholder="Part Qty" />
+            </div>
+          </td>
+          <td>1</td>
+          <td>
+            <div class="custom-form-input">
+              <input type="text" class="input-field" placeholder="Remarks" disabled/>
+            </div>
+          </td>
+          <td class="text-center">
+            <img src="assets/images/icons/trash.svg" class="me-2" alt="link" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
