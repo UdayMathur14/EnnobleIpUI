@@ -269,16 +269,6 @@ body {
     }
 }
 
-/*Input fields with icons*/
-// .input-with-icon {
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-//     .search-icon {
-//         position: absolute;
-//         right: var(--spacer-10);
-//     }
-// }
 .input-with-icon {
     @include input-with-icon;
 

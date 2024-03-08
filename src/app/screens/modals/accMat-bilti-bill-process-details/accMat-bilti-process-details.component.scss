@@ -1,0 +1,13 @@
+.modal-subTable {
+    margin-top: var(--spacer-30);
+
+    h4 {
+        font-size: var(--spacer-16) !important;
+        font-weight: 600 !important;
+        margin-bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacer-15);
+    }
+}

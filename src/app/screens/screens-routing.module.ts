@@ -28,6 +28,9 @@ import { ApprovalAccountsComponent } from "./transactions/approval-accounts/appr
 import { ApprovalMaterialComponent } from "./transactions/approval-material/approval-material.component";
 import { BiltiComponent } from "./transactions/bilti/bilti.component";
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
+import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
+import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
+import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
 
 const routes: Routes = [
     {
@@ -45,6 +48,7 @@ const routes: Routes = [
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
             { path: 'master/transactionTypes', component: TransactionTypeComponent },
+            { path: 'master/addEditTransactionTypes', component: AddEditTransactionTypeComponent },
             { path: "master/freight", component: FreightComponent },
             { path: "master/addEditFreight", component: AddEditFreightComponent },
             { path: "master/transporter", component: TransporterComponent },
@@ -56,13 +60,15 @@ const routes: Routes = [
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
             { path: "transaction/bilti", component: BiltiComponent },
+            { path: "transaction/biltiBillProcess", component: BiltiBillProcessComponent },
             { path: "transaction/addEditBilti", component: AddEditBiltiComponent },
-            { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent},
-            { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent},
-            { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent},
-            { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent},
-            { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent},
-            { path: "transaction/approvalMaterial", component: ApprovalMaterialComponent}
+            { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent },
+            { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent },
+            { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent },
+            { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent },
+            { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent },
+            { path: "transaction/approvalMaterial", component: ApprovalMaterialComponent },
+            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent }
         ],
     },
 ];

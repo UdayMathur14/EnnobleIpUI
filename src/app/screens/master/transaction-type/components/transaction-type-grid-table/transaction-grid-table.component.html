@@ -6,16 +6,13 @@
         <th>Transaction Code</th>
         <th>GL Sub Category Code</th>
         <th>Status</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>Lorem Ipsum</u>
           </span>
           <ng-template #tipContent>
@@ -34,10 +31,9 @@
         <td>Lorem Ipsum</td>
         <td>Lorem Ipsum</td>
         <td>Lorem Ipsum</td>
-        <!-- <td class="text-center">
-              <img src="assets/images/icons/link.svg" class="me-2" alt="link" (click)="onLinkClick()">
-              <img src="assets/images/icons/editPencil.svg" alt="edit" (click)="onGoToEditTransaction()">
-          </td> -->
+        <td class="text-center">
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditTransaction()" />
+        </td>
       </tr>
     </tbody>
   </table>

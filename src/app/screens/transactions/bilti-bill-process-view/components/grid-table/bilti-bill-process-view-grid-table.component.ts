@@ -6,13 +6,14 @@ import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/del
 
 
 @Component({
-  selector: 'app-bilti-grid-table',
-  templateUrl: './bilti-grid-table.component.html',
-  styleUrl: './bilti-grid-table.component.scss'
+  selector: 'app-bilti-bill-process-view-grid-table',
+  templateUrl: './bilti-bill-process-view-grid-table.component.html',
+  styleUrl: './bilti-bill-process-view-grid-table.component.scss'
 })
-export class BiltiGridTableComponent {
+export class BiltiBillProcessViewGridTableComponent {
   constructor(private router: Router,
     private modalService: NgbModal) { }
+    
   onPreviewBilti() {
     let documentModal = this.modalService.open(DeliveryNoteModalComponent, {
       size: "lg",

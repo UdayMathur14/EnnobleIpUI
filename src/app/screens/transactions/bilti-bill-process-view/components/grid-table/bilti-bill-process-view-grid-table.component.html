@@ -2,25 +2,24 @@
   <table>
     <thead>
       <tr>
-        <th>Bilti#</th>
         <th>Bilti Date</th>
-        <th>Bilti Bill Process Date</th>
-        <th>FRLR#</th>
+        <th>Bill Bill Process Date</th>
+        <th>Bilti No.</th>
+        <th>FRLR Number</th>
         <th>Transporter Name</th>
-        <th>Vehicle Number</th>
+        <th>Vehicle No.</th>
         <th>Freight Amount</th>
-        <th>Paid by Amount</th>
+        <th>Paid By Amount</th>
         <th>Debit Amount</th>
-        <th>Bilti Details</th>
         <th>Status</th>
         <th>Remarks</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="pointer">
+        <td class="pointer" container="body">
           <span
-            container="body"
             placement="end"
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
@@ -48,12 +47,17 @@
         <td>Lorem Ipsum</td>
         <td>Lorem Ipsum</td>
         <td>Lorem Ipsum</td>
-        <td>
-          <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails()" class="pointer">
-        </td>
-        <td>Approved</td>
         <td>Lorem Ipsum</td>
-        
+        <td>
+          Lorem Ipsum
+        </td>
+        <td class="text-center">
+          <img
+            src="assets/images/icons/editPencil.svg"
+            alt="edit"
+            (click)="onEditBilti()"
+          />
+        </td>
       </tr>
     </tbody>
   </table>

@@ -16,8 +16,9 @@ import { FreightComponent } from "./master/freight/freight.component";
 import { FreightFilterComponent } from "./master/freight/components/filter/freight-filter.component";
 import { FreightGridTableComponent } from "./master/freight/components/freight-grid-table/freight-grid-table.component";
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
 import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
+import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
+import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
 import { TransporterComponent } from "./master/transporter/transporter.component";
 import { TransporterGridTableComponent } from "./master/transporter/components/grid-table/transporter-grid-table.component";
 import { TransporterFiltersComponent } from "./master/transporter/components/filter/transporter-filter.component";
@@ -53,6 +54,15 @@ import { ApprovalMaterialGridTableComponent } from "./transactions/approval-mate
 import { BiltiComponent } from "./transactions/bilti/bilti.component";
 import { BiltiFilterComponent } from "./transactions/bilti/components/filter/bilti-filter.component";
 import { BiltiGridTableComponent } from "./transactions/bilti/components/grid-table/bilti-grid-table.component";
+import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
+import { BiltiBillProcessFilterComponent } from "./transactions/bilti-bill-process/components/filter/bilti-bill-process-filter.component";
+import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-process/components/grid-table/bilti-bill-process-grid-table.component";
+import { BiltiProcessDetailsModalComponent } from "./modals/bilti-bill-process-details/bilti-process-details.component";
+import { DebitNoteDetailsModalComponent } from "./modals/debit-note-details/debit-note-details.component";
+import { BiltiBillProcessViewFilterComponent } from "./transactions/bilti-bill-process-view/components/filter/bilti-bill-process-view-filter.component";
+import { BiltiBillProcessViewGridTableComponent } from "./transactions/bilti-bill-process-view/components/grid-table/bilti-bill-process-view-grid-table.component";
+import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
+import { AccountMaterialBiltiProcessDetailsModalComponent } from "./modals/accMat-bilti-bill-process-details/accMat-bilti-process-details.component";
 
 
 
@@ -72,6 +82,7 @@ import { BiltiGridTableComponent } from "./transactions/bilti/components/grid-ta
         VehicleGridTableComponent,
         TransactionGridTableComponent,
         TransactionTypeComponent,
+        AddEditTransactionTypeComponent,
         FreightComponent,
         FreightFilterComponent,
         FreightGridTableComponent,
@@ -108,7 +119,16 @@ import { BiltiGridTableComponent } from "./transactions/bilti/components/grid-ta
         ApprovalAccountsGridTableComponent,
         ApprovalMaterialComponent,
         ApprovalMaterialFiltersComponent,
-        ApprovalMaterialGridTableComponent
+        ApprovalMaterialGridTableComponent,
+        BiltiBillProcessComponent,
+        BiltiBillProcessFilterComponent,
+        BiltiBillProcessGridTableComponent,
+        BiltiProcessDetailsModalComponent,
+        DebitNoteDetailsModalComponent,
+        BiltiBillProcessViewFilterComponent,
+        BiltiBillProcessViewGridTableComponent,
+        BiltiBillProcessViewComponent,
+        AccountMaterialBiltiProcessDetailsModalComponent
     ],
     imports: [
         LayoutModule,
