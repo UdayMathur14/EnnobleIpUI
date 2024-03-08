@@ -12,8 +12,8 @@
         <th>Paid by Amount</th>
         <th>Debit Amount</th>
         <th>Bilti Details</th>
+        <th>Status</th>
         <th>Remarks</th>
-        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -51,46 +51,8 @@
         <td>
           <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails()" class="pointer">
         </td>
+        <td>Approved</td>
         <td>Lorem Ipsum</td>
-        <td class="text-center d-flex justify-content-center">
-          <button
-            type="button"
-            class="custom-button-regulr-small me-2"
-            [ngbPopover]="popContent"
-            [popoverTitle]="popTitle"
-            [autoClose]="'outside'"
-            triggers="manual"
-            #p="ngbPopover"
-            (click)="p.open()"
-          >
-            Approve
-          </button>
-          <button
-            type="button"
-            class="custom-button-secondary-small"
-            [ngbPopover]="popContent"
-            [popoverTitle]="popTitle"
-            [autoClose]="'outside'"
-            triggers="manual"
-            #p="ngbPopover"
-            (click)="p.open()"
-          >
-            Reject
-          </button>
-
-          <ng-template #popContent>
-            <div class="custom-form-input">
-              <textarea name="" id="" rows="3" class="input-field"></textarea>
-            </div>
-            <button class="custom-button-regulr" (click)="p.close()">
-              Confirm Approve
-            </button>
-            <button class="custom-button-regulr" (click)="p.close()">
-              Confirm Reject
-            </button>
-          </ng-template>
-          <ng-template #popTitle>Remarks</ng-template>
-        </td>
       </tr>
     </tbody>
   </table>
