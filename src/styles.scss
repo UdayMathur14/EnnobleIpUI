@@ -276,3 +276,6 @@ body {
         right: var(--spacer-10);
     }
 }
+
+// width for Vendor-Master
+.popover { max-width: 400px !important; }
