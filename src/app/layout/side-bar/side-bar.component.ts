@@ -51,12 +51,18 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/pointMasterMaterial'])
         }else if(transaction === 'freightMasterAccounts'){
             this.router.navigate(['/transaction/freightMasterAccounts'])
-        }else if(transaction === 'freightMasterAccounts'){
+        }else if(transaction === 'freightMasterMaterial'){
             this.router.navigate(['/transaction/freightMasterMaterial'])
-        }else if(transaction === 'approvalMaterial'){
-            this.router.navigate(['/transaction/approvalMaterial'])
+        }else if(transaction === 'freightMasterMaterial'){
+            this.router.navigate(['/transaction/freightMasterMaterial'])
+        }else if(transaction === 'checkedMaterialsTeam'){
+            this.router.navigate(['/transaction/checkedMaterialsTeam'])
+        } else if(transaction === 'approvalMaterialHead'){
+            this.router.navigate(['/transaction/approvalMaterialHead'])
         }else if(transaction === 'approvalAccounts'){
             this.router.navigate(['/transaction/approvalAccounts'])
+        }else if(transaction === 'changeBiltiStatus'){
+            this.router.navigate(['/transaction/changeBiltiStatus'])
         }
     }
 }

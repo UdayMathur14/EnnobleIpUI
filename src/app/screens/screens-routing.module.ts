@@ -30,6 +30,10 @@ import { BiltiComponent } from "./transactions/bilti/bilti.component";
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
 import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
 import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
+import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
+import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materials-team/checked-materials-team.component";
+import { ApprovalMaterialHeadComponent } from "./transactions/approval-material-head/approval-material-head.component";
+import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
 
 const routes: Routes = [
     {
@@ -66,7 +70,14 @@ const routes: Routes = [
             { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent },
             { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent },
             { path: "transaction/approvalMaterial", component: ApprovalMaterialComponent },
-            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent }
+            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent },
+            { path: "transaction/biltiBillProcess", component: BiltiBillProcessComponent },
+            { path: "transaction/checkedMaterialsTeam", component: CheckedMaterialsTeamComponent },
+            { path: "transaction/approvalMaterialHead", component: ApprovalMaterialHeadComponent },
+            { path: "transaction/changeBiltiStatus", component: ChangeBiltiStatusComponent },
+
+
+
         ],
     },
 ];
