@@ -1,0 +1,60 @@
+<div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Bilti Date</th>
+          <th>Bilti Bill Process Date</th>
+          <th>Bilti#</th>
+          <th>FRLR#</th>
+          <th>Transporter Name</th>
+          <th>Vehicle Number</th>
+          <th>Freight Amount</th>
+          <th>Paid by Amount</th>
+          <th>Debit Amount</th>
+          <th>Bilti Details</th>
+          <th>Status</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pointer">
+            <span
+              container="body"
+              placement="end"
+              tooltipClass="table-datetime-popover"
+              [ngbTooltip]="tipContent"
+            >
+              <u>Lorem Ipsum</u>
+            </span>
+            <ng-template #tipContent>
+              <div class="">
+                <div class="content-row">
+                  <span>Created On</span>
+                  <span>01/01/2024</span>
+                </div>
+                <div class="content-row">
+                  <span>Created By</span>
+                  <span>IL0001</span>
+                </div>
+              </div>
+            </ng-template>
+          </td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>Lorem Ipsum</td>
+          <td>
+            <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewApprovalMatHead()" class="pointer">
+          </td>
+          <td>Approved</td>
+          <td>Lorem Ipsum</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
