@@ -20,11 +20,7 @@
     <tbody>
       <tr>
         <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>Lorem Ipsum</u>
           </span>
           <ng-template #tipContent>
@@ -52,12 +48,28 @@
         <td>Lorem Ipsum</td>
         <td>Lorem Ipsum</td>
         <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            class="pointer"
-            alt="edit"
-            (click)="onEditVendor()"
-          />
+          <img src="assets/images/icons/more.svg" class="me-3 pointer" alt="link" [ngbPopover]="popContent"
+            [autoClose]="'outside'" triggers="manual" #p="ngbPopover" placement="left" (click)="p.open()" />
+          <ng-template #popContent>
+              <div class="row" (click)="p.close()">
+                <div class="col">
+                  <div class="custom-form-input">
+                    <label for="">Transaction Type</label>
+                    <div class="input-with-icon">
+                      <input type="text" class="input-field" />
+                      <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="custom-form-input">
+                    <label for="">Paid By Details</label>
+                    <input type="text" class="input-field" disabled />
+                  </div>
+                </div>
+              </div>
+          </ng-template>
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditVendor()" />
         </td>
       </tr>
     </tbody>

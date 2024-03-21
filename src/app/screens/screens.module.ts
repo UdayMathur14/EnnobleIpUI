@@ -8,7 +8,7 @@ import { PartFiltersComponent } from "./master/part/components/filter/part-filte
 import { PartGridTableComponent } from "./master/part/components/grid-table/part-grid-table.component";
 import { PartComponent } from "./master/part/part.component";
 import { VendorComponent } from './master/vendor/vendor.component';
-import { VendorGridTableComponent } from './master/vendor/components/grid-table/vendor-grid-table/vendor-grid-table.component';
+import { VendorGridTableComponent } from "./master/vendor/components/grid-table/vendor-grid-table.component";
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
 import { VehicleFiltersComponent } from "./master/vehicle/components/filter/vehicle-filter.component";
 import { VehicleGridTableComponent } from "./master/vehicle/components/grid-table/vehicle-grid-table.component";
@@ -64,6 +64,16 @@ import { BiltiBillProcessFilterComponent } from "./transactions/bilti-bill-proce
 import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-process/components/grid-table/bilti-bill-process-grid-table.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materials-team/checked-materials-team.component";
+import { CheckedMaterialsTeamFilterComponent } from "./transactions/checked-by-materials-team/components/filter/checked-materials-team-filter.component";
+import { CheckedMaterialsTeamGridTableComponent } from "./transactions/checked-by-materials-team/components/grid-table/checked-materials-team-grid-table.component";
+import { ApprovalMaterialHeadComponent } from "./transactions/approval-material-head/approval-material-head.component";
+import { ApprovalMaterialHeadFilterComponent } from "./transactions/approval-material-head/components/filter/approval-material-head-filter.component";
+import { ApprovalMaterialHeadGridTableComponent } from "./transactions/approval-material-head/components/grid-table/approval-material-head-grid-table.component";
+import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
+import { ChangeBiltiStatusGridTableComponent } from "./transactions/change-bilti-status/components/grid-table/change-bilti-status-grid-table.component";
+import { ChangeBiltiStatusFilterComponent } from "./transactions/change-bilti-status/components/filter/change-bilti-status-filter.component";
+
 
 @NgModule({
     declarations: [
@@ -128,6 +138,15 @@ import { FormsModule } from '@angular/forms';
         BiltiBillProcessComponent,
         BiltiBillProcessFilterComponent,
         BiltiBillProcessGridTableComponent,
+        CheckedMaterialsTeamComponent,
+        CheckedMaterialsTeamFilterComponent,
+        CheckedMaterialsTeamGridTableComponent,
+        ApprovalMaterialHeadComponent,
+        ApprovalMaterialHeadFilterComponent,
+        ApprovalMaterialHeadGridTableComponent,
+        ChangeBiltiStatusComponent,
+        ChangeBiltiStatusGridTableComponent,
+        ChangeBiltiStatusFilterComponent,
     ],
     imports: [
         LayoutModule,

@@ -10,6 +10,6 @@ export class AddEditDispatchNoteComponent {
   constructor(private router: Router) {}
 
   onCancelPress(){
-    this.router.navigate(['master/dispatchNote']);
+    this.router.navigate(['transaction/dispatchNote']);
   }
 }

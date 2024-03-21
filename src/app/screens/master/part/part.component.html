@@ -1,21 +1,21 @@
 <div class="page-title">
   <h1>Part Master</h1>
   <div class="action-buttons">
-    <div class="search-field">
+    <!-- <div class="search-field">
       <input type="text" placeholder="Search Part" />
       <span
         ><img src="assets/images/icons/search.svg" alt="search"
       /></span>
-    </div>
-    <button class="export-with-icon custom-button-export">
+    </div> -->
+    <!-- <button class="export-with-icon custom-button-export">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export
-    </button>
+    </button> -->
 
     <button class="custom-button-regulr" (click)="onCreatePart()">Create Part</button>
   </div>
 </div>
 
-<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+<div class="filter-section" [ngClass]="{'d-none': isFilters}">
   <app-part-filters></app-part-filters>
 </div>
 

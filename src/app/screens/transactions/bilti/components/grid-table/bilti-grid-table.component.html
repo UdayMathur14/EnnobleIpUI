@@ -2,16 +2,17 @@
     <table>
         <thead>
             <tr>
-                <th>Bilti Number</th>
-                <th>Vehicle Number</th>
+                <th>Bilti No.</th>
+                <th>Vehicle No.</th>
                 <th>Vehicle Size</th>
                 <th>Freight Code</th>
                 <th>Source</th>
                 <th>Destination</th>
                 <th>Freight Amount</th>
-                <th>FRLR Number</th>
+                <th>FRLR#</th>
+                <th>Loading Location</th>
                 <th class="text-center">Bilti Details</th>
-                <th class="text-center">Actions</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -44,12 +45,13 @@
                 <td>Lorem Ipsum</td>
                 <td>Lorem Ipsum</td>
                 <td>Lorem Ipsum</td>
+                <td>Lorem Ipsum</td>
                 <td class="text-center">
-                    <img src="assets/images/icons/link.svg" alt="link" class="me-2" (click)="onPreviewBilti()"
+                    <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewBilti()"
                         placement="top" ngbTooltip="Bilti Link" />
                 </td>
                 <td class="text-center">
-                    <img src="assets/images/icons/editPencil.svg" alt="edit" (click)="onEditBilti()" />
+                    <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditBilti()" />
                 </td>
             </tr>
         </tbody>
