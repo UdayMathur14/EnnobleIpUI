@@ -2,14 +2,9 @@
   <h1>Plant Master</h1>
   <div class="action-buttons">
     <div class="search-field">
-      <input type="text" placeholder="Search Plant" />
+      <input type="text" placeholder="Search Plant" (input)="onSearch($event)"/>
       <span><img src="assets/images/icons/search.svg" alt="search" /></span>
     </div>
-    <button class="export-with-icon custom-button-export">
-      <img src="assets/images/icons/excel.svg" alt="export" /> Export
-    </button>
-
-    <button class="custom-button-regulr" (click)="onCreatePlant()">Create Plant</button>
   </div>
 </div>
 
@@ -18,5 +13,5 @@
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters }">
-  <app-plant-grid-table></app-plant-grid-table>
+  <app-plant-grid-table [filterKeyword]="filterKeyword"></app-plant-grid-table>
 </div>

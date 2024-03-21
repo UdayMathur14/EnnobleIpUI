@@ -43,7 +43,7 @@ const routes: Routes = [
             { path: "", redirectTo: "master", pathMatch: "full" },
             { path: "master", component: PlantComponent },
             { path: "master/plant", component: PlantComponent },
-            { path: "master/addEditPlant", component: AddEditPlantComponent },
+            { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent },
             { path: "master/part", component: PartComponent },
             { path: "master/addEditPart", component: AddEditPartComponent },
             { path: "master/vendor", component: VendorComponent },
@@ -71,13 +71,11 @@ const routes: Routes = [
             { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent },
             { path: "transaction/approvalMaterial", component: ApprovalMaterialComponent },
             { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent },
+            { path: "transaction/biltiBillProcess", component : BiltiBillProcessComponent},
             { path: "transaction/biltiBillProcess", component: BiltiBillProcessComponent },
             { path: "transaction/checkedMaterialsTeam", component: CheckedMaterialsTeamComponent },
             { path: "transaction/approvalMaterialHead", component: ApprovalMaterialHeadComponent },
             { path: "transaction/changeBiltiStatus", component: ChangeBiltiStatusComponent },
-
-
-
         ],
     },
 ];
@@ -90,7 +88,9 @@ export class ScreensRoutingModule { }
 
 export const ScreensComponents = [
     ScreensComponent,
-    PlantComponent
+    AddEditPlantComponent,
+    PlantComponent,
+    PointMasterMaterialComponent
 ];
 
 export const ScreensEntryComponents = [];

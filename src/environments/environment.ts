@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiPath: window.location.origin,
+  // apiPath: window.location.origin,
+  apiPath : 'http://111.93.61.253/api/'
 };
 
 /*
