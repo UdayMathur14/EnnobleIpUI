@@ -27,25 +27,11 @@ export class AddEditPlantComponent implements OnInit {
     this.baseService.plantSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");   
     this.getPlantData(this.queryData);
-    this.getAllPlantsList();
   }
 
   getPlantData(plantId: string) {
     this.plantService.getPlantData(plantId).subscribe((response: any) => {
       this.plantData = response;
-      this.baseService.plantSpinner.next(false);
-    }, error => {
-      this.toastr.error(error.statusText, error.status);
-      this.baseService.plantSpinner.next(false);
-    })
-  }
-
-  getAllPlantsList() {
-    let data = {
-      "plantCode": ''
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
-      this.plantsList = response.plants;
       this.baseService.plantSpinner.next(false);
     }, error => {
       this.toastr.error(error.statusText, error.status);
