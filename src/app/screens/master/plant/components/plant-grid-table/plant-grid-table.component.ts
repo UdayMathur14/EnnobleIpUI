@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
 import { PlantService } from '../../../../../core/service';
+import { BaseService } from '../../../../../core/service/base.service';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -13,7 +14,8 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private modalService: NgbModal,
-    private plantService : PlantService
+    private plantService : PlantService,
+    private baseService : BaseService
   ) { }
 
   @Input()
@@ -41,6 +43,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     this.plantService.getPlants(data).subscribe((response:any) => {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
+      this.baseService.plantSpinner.next(false);
     })
   }
 
