@@ -30,6 +30,7 @@ import { BiltiComponent } from "./transactions/bilti/bilti.component";
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
 import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
 import { BiltiBillProcessViewComponent } from "./transactions/bilti-bill-process-view/bilti-bill-process-view.component";
+import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
 
 const routes: Routes = [
     {
@@ -39,7 +40,7 @@ const routes: Routes = [
             { path: "", redirectTo: "master", pathMatch: "full" },
             { path: "master", component: PlantComponent },
             { path: "master/plant", component: PlantComponent },
-            { path: "master/addEditPlant", component: AddEditPlantComponent },
+            { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent },
             { path: "master/part", component: PartComponent },
             { path: "master/addEditPart", component: AddEditPartComponent },
             { path: "master/vendor", component: VendorComponent },
@@ -66,7 +67,8 @@ const routes: Routes = [
             { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent },
             { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent },
             { path: "transaction/approvalMaterial", component: ApprovalMaterialComponent },
-            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent }
+            { path: "transaction/biltiBillProcessView", component: BiltiBillProcessViewComponent },
+            { path: "transaction/biltiBillProcess", component : BiltiBillProcessComponent}
         ],
     },
 ];
@@ -79,7 +81,9 @@ export class ScreensRoutingModule { }
 
 export const ScreensComponents = [
     ScreensComponent,
-    PlantComponent
+    AddEditPlantComponent,
+    PlantComponent,
+    PointMasterMaterialComponent
 ];
 
 export const ScreensEntryComponents = [];

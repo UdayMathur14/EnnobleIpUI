@@ -4,8 +4,7 @@
 @import './assets/SCSS/variables.scss';
 @import './assets/SCSS/mixins.scss';
 
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Roboto:wght@300;400;500;700&display=swap');
@@ -218,15 +217,19 @@ body {
         box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1411764706);
         padding: var(--spacer-10) var(--spacer-10);
         min-width: 200px;
+        max-width: none;
 
         .content-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 3px;
             column-gap: 20px;
+            padding:5px 0px;
+            border-bottom: 1px solid var(--gray2);
 
             span {
                 font-size: var(--spacer-12);
+                white-space: nowrap;
 
                 &:first-child {
                     font-weight: 600;
@@ -235,6 +238,12 @@ body {
 
             &:last-child {
                 margin-bottom: 0;
+                border-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            &:first-child{
+                padding-top: 0;
             }
         }
     }
@@ -274,5 +283,20 @@ body {
     .search-icon {
         position: absolute;
         right: var(--spacer-10);
+    }
+}
+
+//NG SELECT GLOBAL CSS
+.ng-select{
+    .ng-select-container{
+        min-height: 30px;
+        height: 30px !important;
+        border:1px solid var(--inputBorder);
+    }
+
+    &.ng-select-opened{
+        .ng-select-container{
+            border-color: var(--inputBorder);
+        }
     }
 }

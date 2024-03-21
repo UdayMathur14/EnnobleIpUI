@@ -11,19 +11,12 @@ export class PlantComponent implements OnInit {
   constructor(private router : Router,private plantService:PlantService){}
 
   isFilters : boolean = false;
-
-  ngOnInit() { 
-    this.getData();
+  filterKeyword : string = '';
+  ngOnInit() {
   }
 
-  getData(){
-    this.plantService.get().subscribe(res=>{
-
-    })
-  }
-
-  onCreatePlant(){
-    this.router.navigate(['master/addEditPlant'])
+  onSearch(e:any){
+    this.filterKeyword = e.target.value;
   }
 
 }

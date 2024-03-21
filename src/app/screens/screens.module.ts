@@ -15,7 +15,6 @@ import { VehicleGridTableComponent } from "./master/vehicle/components/grid-tabl
 import { FreightComponent } from "./master/freight/freight.component";
 import { FreightFilterComponent } from "./master/freight/components/filter/freight-filter.component";
 import { FreightGridTableComponent } from "./master/freight/components/freight-grid-table/freight-grid-table.component";
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TransactionTypeComponent } from "./master/transaction-type/transaction-type.component";
 import { TransactionGridTableComponent } from "./master/transaction-type/components/transaction-type-grid-table/transaction-grid-table.component";
 import { AddEditTransactionTypeComponent } from "./master/transaction-type/add-edit-transaction-type/add-edit-transaction-type.component";
@@ -63,7 +62,8 @@ import { AccountMaterialBiltiProcessDetailsModalComponent } from "./modals/accMa
 import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bilti-bill-process.component";
 import { BiltiBillProcessFilterComponent } from "./transactions/bilti-bill-process/components/filter/bilti-bill-process-filter.component";
 import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-process/components/grid-table/bilti-bill-process-grid-table.component";
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -133,9 +133,10 @@ import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-pr
         LayoutModule,
         ScreensRoutingModule,
         CommonModule,
-        AutoCompleteModule,
         NgbTooltipModule,
-        NgbPopover
+        NgbPopover,
+        NgSelectModule,
+        FormsModule,
     ],
     providers: [],
 })

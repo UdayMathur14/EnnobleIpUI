@@ -1,34 +1,50 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PlantService } from '../../../../core/service';
+import { ToastrService } from 'ngx-toastr';
+import { PlantDataModel } from '../../../../core/model/plant.model';
 
 @Component({
   selector: 'app-add-edit-plant',
-  standalone : true,
-  imports : [FormsModule, CommonModule, AutoCompleteModule],
   templateUrl: './add-edit-plant.component.html',
   styleUrl: './add-edit-plant.component.scss'
 })
-export class AddEditPlantComponent {
-  constructor(private router : Router){}
-  plantCode : any = '';
-  data = [
-    {name: "United States", code:"USA"},
-    {name: "United States", code:"USA"},
-    {name: "United States", code:"USA"},
-    {name: "United States", code:"USA"}
-  ];
 
-  results :any = [];
+export class AddEditPlantComponent implements OnInit {
+  constructor(
+    private _Activatedroute: ActivatedRoute,
+    private router: Router,
+    private plantService: PlantService,
+    private toastr: ToastrService
+  ) { }
+  queryData: any;
+  plantData!: PlantDataModel;
+  plantsList: any = [];
 
-  onCancelPress(){
-    this.router.navigate(['/master/plant'])
+  ngOnInit(): void {
+    this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
+    this.getPlantData(this.queryData);
+    this.getAllPlantsList();
   }
 
-  filterCountry(e:any){
-    this.results = this.data.filter((element) => element.name.toLowerCase().indexOf(e.query.toLowerCase()) !== -1)
+  getPlantData(plantId: string) {
+    this.plantService.getPlantData(plantId).subscribe((response: any) => {
+      this.plantData = response;
+    }, err => {
+    })
+  }
+
+  getAllPlantsList() {
+    let data = {
+      "plantCode": ''
+    }
+    this.plantService.getPlants(data).subscribe((response: any) => {
+      this.plantsList = response.plants;
+    })
+  }
+
+  onCancelPress() {
+    this.router.navigate(['/master/plant'])
   }
 
 }

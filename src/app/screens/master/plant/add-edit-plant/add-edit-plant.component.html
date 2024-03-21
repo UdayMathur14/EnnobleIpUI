@@ -12,35 +12,34 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Code</label>
-        <div class="input-with-icon">
-          <p-autoComplete [suggestions]="results" (completeMethod)="filterCountry($event)"
-            field="name"></p-autoComplete>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-        </div>
+        <!-- <ng-select class="input-field" [(ngModel)]="plantData.plantCode">
+          <ng-option *ngFor="let plant of plantsList" [value]="plant.plantCode">{{plant.plantCode}}</ng-option>
+       </ng-select> -->
+       <input type="text" class="input-field" [(ngModel)]="plantData.plantCode" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Description</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.plantDesc" disabled/>
       </div>
     </div>
     <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">Plant Address</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.plantAddress" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">City</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.city" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">State</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.stateCode" disabled/>
       </div>
     </div>
   </div>
@@ -48,43 +47,45 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">PAN</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.panNo" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">GSTIN</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.gstnNo" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Plant Type</label>
-        <select name="" id="" disabled>
+        <input type="text" class="input-field" [(ngModel)]="plantData.plantType" disabled />
+        <!-- <select name="" id="" disabled>
           <option value="active">Manufacturing</option>
           <option value="inactive">Service</option>
-        </select>
+        </select> -->
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Site Code</label>
-        <input type="text" class="input-field" disabled/>
+        <input type="text" class="input-field" [(ngModel)]="plantData.siteCode" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Location Code</label>
-        <div class="input-with-icon">
+        <input type="text" class="input-field" [(ngModel)]="plantData.locationId"/>
+        <!-- <div class="input-with-icon">
           <input type="text" class="input-field" />
           <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">DSC</label>
-        <input type="text" class="input-field" />
+        <input type="text" class="input-field" [(ngModel)]="plantData.dsc"/>
       </div>
     </div>
   </div>
@@ -92,15 +93,15 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">DCP</label>
-        <input type="text" class="input-field" />
+        <input type="text" class="input-field" [(ngModel)]="plantData.dcp"/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Status</label>
-        <select name="" id="">
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
+        <select name="" id="" [(ngModel)]="plantData.status">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
         </select>
       </div>
     </div>

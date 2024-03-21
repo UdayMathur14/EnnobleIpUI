@@ -18,6 +18,7 @@
       </tr>
     </thead>
     <tbody>
+      @for (plant of plantsList; track plant.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -25,32 +26,40 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>Lorem Ipsum</u>
+            <u>{{plant.plantCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{plant.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{plant.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{plant.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{plant.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
+        <td>{{plant.plantAddress}}</td>
+        <td>{{plant.stateCode}}</td>
+        <td>{{plant.city}}</td>
+        <td>{{plant.panNo}}</td>
+        <td>{{plant.gstnNo}}</td>
+        <td>{{plant.plantType}}</td>
+        <td>{{plant.siteCode}}</td>
+        <td>{{plant.locationId}}</td>
+        <td>{{plant.dsc}}</td>
+        <td>{{plant.dcp}}</td>
+        <td>{{plant.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/link.svg"
@@ -62,10 +71,15 @@
             src="assets/images/icons/editPencil.svg"
             class="pointer"
             alt="edit"
-            (click)="onGoToEditPlant()"
+            (click)="onGoToEditPlant(plant)"
           />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td>No Plant Found</td>
+      </tr>
+    }
     </tbody>
   </table>
 </div>
