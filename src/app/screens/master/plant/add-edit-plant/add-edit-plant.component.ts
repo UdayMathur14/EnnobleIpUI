@@ -34,7 +34,9 @@ export class AddEditPlantComponent implements OnInit {
     this.plantService.getPlantData(plantId).subscribe((response: any) => {
       this.plantData = response;
       this.baseService.plantSpinner.next(false);
-    }, err => {
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.baseService.plantSpinner.next(false);
     })
   }
 
@@ -44,6 +46,9 @@ export class AddEditPlantComponent implements OnInit {
     }
     this.plantService.getPlants(data).subscribe((response: any) => {
       this.plantsList = response.plants;
+      this.baseService.plantSpinner.next(false);
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
       this.baseService.plantSpinner.next(false);
     })
   }
@@ -64,6 +69,10 @@ export class AddEditPlantComponent implements OnInit {
     }
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
+      this.toastr.success('Plant Update Successfully');
+      this.baseService.plantSpinner.next(false);
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
       this.baseService.plantSpinner.next(false);
     })
   }

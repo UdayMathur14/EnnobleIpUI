@@ -4,6 +4,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
 import { PlantService } from '../../../../../core/service';
 import { BaseService } from '../../../../../core/service/base.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -15,7 +16,8 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     private router: Router,
     private modalService: NgbModal,
     private plantService : PlantService,
-    private baseService : BaseService
+    private baseService : BaseService,
+    private toastr: ToastrService
   ) { }
 
   @Input()
@@ -43,6 +45,9 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     this.plantService.getPlants(data).subscribe((response:any) => {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
+      this.baseService.plantSpinner.next(false);
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
       this.baseService.plantSpinner.next(false);
     })
   }
