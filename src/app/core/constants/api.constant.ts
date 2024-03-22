@@ -7,4 +7,5 @@ export const APIConstant = {
     lookup: `/lookup/`,
     plant: `v1/plant/search`,
     plantData : `v1/plant/`,
+    updatePlant : `v1/plant/update/`,
 }

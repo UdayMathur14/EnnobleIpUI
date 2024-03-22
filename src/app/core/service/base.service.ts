@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: "root"
@@ -9,6 +9,8 @@ export class BaseService {
     
     constructor(private http: HttpClient) {
     }
+
+    plantSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     get<T>(url: string): Observable<T> {
         return this.http.get<T>(url);

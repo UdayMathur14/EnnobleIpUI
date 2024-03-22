@@ -1,11 +1,19 @@
 import { Component, OnInit } from "@angular/core";
+import { PlantService } from "../core/service";
+import { BaseService } from "../core/service/base.service";
 
 @Component({
     templateUrl: "./screens.component.html",
     styleUrls: ["screens.component.scss"],
 })
 export class ScreensComponent implements OnInit {
-    constructor() { }
+    constructor(private plantService: PlantService,
+        public baseService: BaseService) { }
+    loadSpinner: boolean = false;
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.baseService.plantSpinner.subscribe((res) => {
+            this.loadSpinner = res;
+        })
+    }
 }
