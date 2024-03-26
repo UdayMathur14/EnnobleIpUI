@@ -11,6 +11,7 @@ export class BaseService {
     }
 
     plantSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    pointChargeSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     get<T>(url: string): Observable<T> {
         return this.http.get<T>(url);

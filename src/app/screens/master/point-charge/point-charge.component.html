@@ -2,7 +2,7 @@
   <h1>Point Charge Master</h1>
   <div class="action-buttons">
     <div class="search-field">
-      <input type="text" placeholder="Search Point Charge" />
+      <input type="text" placeholder="Search Point Charge" (input)="onSearch($event)"/>
       <span><img src="assets/images/icons/search.svg" alt="search" /></span>
     </div>
 
@@ -11,5 +11,5 @@
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters }">
-  <app-point-charge-grid-table></app-point-charge-grid-table>
+  <app-point-charge-grid-table [filterKeyword]="filterKeyword"></app-point-charge-grid-table>
 </div>
