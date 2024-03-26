@@ -19,6 +19,7 @@ export class PartFiltersComponent implements OnInit {
     this.getAllPartsListInit();
   }
 
+  //BINDING PART NUMBERS DROPDOWN
   getAllPartsListInit() {
     let data = {
       "partNumber": ''
