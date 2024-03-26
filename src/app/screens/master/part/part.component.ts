@@ -9,10 +9,14 @@ import { Router } from '@angular/router';
 export class PartComponent {
   constructor(private router : Router){}
 
-  isFilters : boolean = false;
-
+  isFilters : boolean = true;
+  searchedPart : string = '';
   onCreatePart(){
     this.router.navigate(['master/addEditPart'])
+  }
+
+  searchPart(event:any){
+    this.searchedPart = event;
   }
 
 }

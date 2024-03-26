@@ -15,10 +15,10 @@
   </div>
 </div>
 
-<div class="filter-section" [ngClass]="{'d-none': isFilters}">
-  <app-part-filters></app-part-filters>
+<div class="filter-section">
+  <app-part-filters (partNumber)="searchPart($event)"></app-part-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-part-grid-table></app-part-grid-table>
+  <app-part-grid-table [searchedPart]="searchedPart"></app-part-grid-table>
 </div>
