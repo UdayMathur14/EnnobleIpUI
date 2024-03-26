@@ -56,12 +56,12 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     this.router.navigate(['master/addEditPlant',  plantData.id]);
   }
 
-  onLinkClick() {
+  onLinkClick(plant:any) {
     let transactionTypeModal = this.modalService.open(TransactionTypeModalComponent, {
       size: "lg",
       backdrop: "static",
     });
-    // transactionTypeModal.componentInstance.data = data;
+    transactionTypeModal.componentInstance.transactionTypes = plant.transactionTypeMapping;
 
     transactionTypeModal.result.then(
       (result) => {

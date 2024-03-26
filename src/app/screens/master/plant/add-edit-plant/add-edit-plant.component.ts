@@ -63,6 +63,10 @@ export class AddEditPlantComponent implements OnInit {
     })
   }
 
+  onAddTransactionRow(){
+    
+  }
+
 }
 
 

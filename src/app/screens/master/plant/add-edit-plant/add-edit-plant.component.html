@@ -159,7 +159,7 @@
   <div class="edit-screen-subTable">
     <h4 class="">
       Transaction Details
-      <button class="custom-button-regulr">Add</button>
+      <button class="custom-button-regulr" (click)="onAddTransactionRow()">Add</button>
     </h4>
   </div>
 
@@ -174,12 +174,13 @@
         </tr>
       </thead>
       <tbody>
+        @for (transaction of plantData.transactionTypeMapping; track transaction.id) {
         <tr>
           <td>
             <div class="col-lg-6 col-md-6">
-              <div class="custom-form-input">
+              <div class="custom-form-input mb-0">
                 <div class="input-with-icon">
-                  <input type="text" class="input-field" placeholder="RB" />
+                  <input type="text" class="input-field" placeholder="RB" [(ngModel)]="transaction.code"/>
                   <img
                     src="assets/images/icons/search.svg"
                     class="search-icon"
@@ -189,13 +190,13 @@
               </div>
             </div>
           </td>
-          <td>Recycle Bin</td>
+          <td>{{transaction.name}}</td>
           <td>
             <div class="col-lg-6 col-md-6">
-              <div class="custom-form-input">
-                <select name="" id="">
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+              <div class="custom-form-input mb-0">
+                <select name="" id="" [value]="transaction.status">
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
                 </select>
               </div>
             </div>
@@ -208,6 +209,11 @@
             />
           </td>
         </tr>
+      }@empty {
+        <tr>
+          <td align="center" colspan="13">No Plant Found</td>
+        </tr>
+      }
       </tbody>
     </table>
   </div>
