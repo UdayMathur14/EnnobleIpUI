@@ -90,6 +90,7 @@ export const ScreensComponents = [
     ScreensComponent,
     AddEditPlantComponent,
     PlantComponent,
+    AddEditVendorComponent,
     PointMasterMaterialComponent
 ];
 

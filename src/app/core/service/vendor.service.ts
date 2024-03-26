@@ -18,7 +18,7 @@ export class VendorService extends CRUDService<VendorRequest> {
   }
 
   getVendorData(vendorId: string) {
-    return this.baseService.get(APIConstant.basePath + APIConstant + vendorId);
+    return this.baseService.get(APIConstant.basePath + APIConstant.vendorData + vendorId);
   }
 
   updateVendor(vendorId: string, data: object) {
