@@ -20,11 +20,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @for (transaction of transactionTypes; track transaction.id) {
                         <tr>
-                            <td>RB</td>
-                            <td>Recycle Bin</td>
-                            <td>Transaction Status</td>
+                            <td>{{transaction.code}}</td>
+                            <td>{{transaction.name}}</td>
+                            <td>{{transaction.status}}</td>
                         </tr>
+                    }@empty {
+                        <tr>
+                          <td align="center" colspan="13">No Transaction Found</td>
+                        </tr>
+                      }
                     </tbody>
                 </table>
             </div>

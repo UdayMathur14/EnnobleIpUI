@@ -31,5 +31,18 @@ export interface PlantDataModel {
     createdOn: string,
     modifiedBy: string,
     modifiedOn: string,
-    messageStatus: null
+    messageStatus: null,
+    transactionTypeMapping : [
+        {
+            id: number,
+            status: string,
+            attribute1: null,
+            attribute2: null,
+            attribute3: null,
+            attribute4: null,
+            txnTypeId: null,
+            name: string,
+            code: string    
+        }
+]
 }
