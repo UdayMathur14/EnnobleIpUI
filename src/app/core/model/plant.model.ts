@@ -32,7 +32,7 @@ export interface PlantDataModel {
     modifiedBy: string,
     modifiedOn: string,
     messageStatus: null,
-    transactionTypeMapping : [
+    transactionTypeMapping: [
         {
             id: number,
             status: string,
@@ -42,7 +42,7 @@ export interface PlantDataModel {
             attribute4: null,
             txnTypeId: null,
             name: string,
-            code: string    
+            code: string
         }
-]
+    ]
 }
