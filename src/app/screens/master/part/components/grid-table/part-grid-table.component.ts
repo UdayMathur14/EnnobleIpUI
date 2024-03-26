@@ -25,6 +25,7 @@ export class PartGridTableComponent implements OnInit, OnChanges {
     this.getAllPartsListInit();
   }
 
+  //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['searchedPart'].currentValue){
       this.getFilteredPartsList();
