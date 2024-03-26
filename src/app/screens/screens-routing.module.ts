@@ -45,7 +45,7 @@ const routes: Routes = [
             { path: "master/plant", component: PlantComponent },
             { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent },
             { path: "master/part", component: PartComponent },
-            { path: "master/addEditPart", component: AddEditPartComponent },
+            { path: "master/addEditPart/:partId", component: AddEditPartComponent },
             { path: "master/vendor", component: VendorComponent },
             { path: "master/addEditVendor/:vendorId", component: AddEditVendorComponent },
             { path: "master/vehicle", component: VehicleComponent },
@@ -91,7 +91,8 @@ export const ScreensComponents = [
     AddEditPlantComponent,
     PlantComponent,
     AddEditVendorComponent,
-    PointMasterMaterialComponent
+    PointMasterMaterialComponent,
+    AddEditPartComponent
 ];
 
 export const ScreensEntryComponents = [];

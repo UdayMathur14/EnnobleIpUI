@@ -11,4 +11,7 @@ export const APIConstant = {
     vendor: `v1/vendor/search/`,
     vendorData: `v1/vendor/`,
     updateVendor: `v1/vendor/update/`,
+    parts : `v1/part/search`,
+    partData : `v1/part/`,
+    updatePart : `v1/part/update/`,
 }
