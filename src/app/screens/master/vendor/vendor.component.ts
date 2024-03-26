@@ -7,11 +7,15 @@ import { Router } from '@angular/router';
   styleUrl: './vendor.component.scss'
 })
 export class VendorComponent {
-  constructor(private router : Router){}
+  constructor(private router: Router) { }
 
-  isFilters : boolean = false;
+  isFilters: boolean = false;
+  searchedVendor: string = '';
 
-  onCreateVendor(){
+  onCreateVendor() {
     this.router.navigate(['master/addEditVendor'])
+  }
+  searchVendor(event: any) {
+    this.searchedVendor = event;
   }
 }
