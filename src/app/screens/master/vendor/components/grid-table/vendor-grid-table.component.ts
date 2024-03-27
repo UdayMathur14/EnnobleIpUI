@@ -17,35 +17,54 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     private toastr: ToastrService
   ) { }
 
-  @Input()
-  filterKeyword!: string;
+  @Input() searchedVendor: any;
   vendorListOrg: any;
-  vendorList: any;
+  vendorList!: any;
+  loadSpinner: boolean = true;
 
   ngOnInit(): void {
     this.getAllVendorList();
   }
 
+  //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.vendorListOrg && this.vendorListOrg.length && changes['filterKeyword'].currentValue) {
-      this.vendorList = this.vendorListOrg.filter((e: any) => e.vendorCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    if (changes['searchedVendor'].currentValue) {
+      this.getFilteredVendorsList();
+    } else if (changes['searchedVendor'].firstChange === false && changes['searchedVendor'].currentValue === '') {
+      this.getAllVendorList();
     }
-    else if (this.vendorListOrg && this.vendorListOrg.length && !changes['filterKeyword'].currentValue) {
-      this.vendorList = this.vendorListOrg;
-    }
+
   }
 
   getAllVendorList() {
     let data = {
-      "vendorCode": ''
+      "vendorCode": '',
+      "vendorName": ''
     }
     this.vendorService.getVendors(data).subscribe((response: any) => {
       this.vendorList = response.vendors;
       this.vendorListOrg = response.vendors;
-      this.baseService.vendorSpinner.next(false);
+      this.loadSpinner = false;
+    },
+      error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      }
+    );
+  }
+
+  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
+  getFilteredVendorsList() {
+    let data = {
+      "vendorCode": this.searchedVendor.vendorCode,
+      "vendorName": this.searchedVendor.vendorName
+    }
+    this.vendorService.getVendors(data).subscribe((response: any) => {
+      this.vendorList = response.vendors;
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.vendorSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 

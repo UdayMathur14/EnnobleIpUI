@@ -73,18 +73,20 @@ import { ApprovalMaterialHeadGridTableComponent } from "./transactions/approval-
 import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
 import { ChangeBiltiStatusGridTableComponent } from "./transactions/change-bilti-status/components/grid-table/change-bilti-status-grid-table.component";
 import { ChangeBiltiStatusFilterComponent } from "./transactions/change-bilti-status/components/filter/change-bilti-status-filter.component";
+import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-filter.component";
 
 
 @NgModule({
     declarations: [
-        ...ScreensComponents, 
+        ...ScreensComponents,
         ...ScreensEntryComponents,
-        PlantFilterComponent, 
-        PlantGridTableComponent, 
-        PartFiltersComponent, 
-        PartGridTableComponent, 
-        PartComponent, 
-        VendorComponent, 
+        PlantFilterComponent,
+        PlantGridTableComponent,
+        PartFiltersComponent,
+        PartGridTableComponent,
+        PartComponent,
+        VendorComponent,
+        VendorFilterComponent,
         VendorGridTableComponent,
         VehicleComponent,
         VehicleFiltersComponent,

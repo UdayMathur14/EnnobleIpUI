@@ -10,15 +10,15 @@ import { APIConstant } from '../constants';
 export class VendorService extends CRUDService<VendorRequest> {
 
   constructor(protected override baseService: BaseService) {
-    super(baseService, APIConstant.vendor);
+    super(baseService, APIConstant.vendors);
   }
 
   getVendors(data: any) {
-    return this.baseService.post(APIConstant.basePath + APIConstant.vendor, data);
+    return this.baseService.post(APIConstant.basePath + APIConstant.vendors, data);
   }
 
   getVendorData(vendorId: string) {
-    return this.baseService.get(APIConstant.basePath + APIConstant + vendorId);
+    return this.baseService.get(APIConstant.basePath + APIConstant.vendorData + vendorId);
   }
 
   updateVendor(vendorId: string, data: object) {
