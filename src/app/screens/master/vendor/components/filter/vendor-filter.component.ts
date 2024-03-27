@@ -14,13 +14,10 @@ export class VendorFilterComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
-  @Output() vendorFilterData : EventEmitter<any> = new EventEmitter();
-  // @Output() filter: EventEmitter<any> = new EventEmitter();
-
+  @Output() vendorFilterData: EventEmitter<any> = new EventEmitter();
   vendorCod!: string;
   vendorsList: any;
   vendorNam!: string;
-
 
   ngOnInit(): void {
     this.getAllVendorsListInit();
@@ -38,23 +35,12 @@ export class VendorFilterComponent implements OnInit {
     });
   }
 
-  onVendorSearch(){
+  onVendorSearch() {
     let obj = {
-      "vendorCode" : this.vendorCod || "",
-      "vendorName" : this.vendorNam || ""
+      "vendorCode": this.vendorCod || "",
+      "vendorName": this.vendorNam || ""
     }
     this.vendorFilterData.emit(obj)
 
   }
-  // onVendorSearch() {
-  //   const filterData = {
-  //     "vendorCode": this.vendorCod,
-  //     "vendorName": this.vendorNam
-  //   };
-  //   // this.filter.emit(filterData);
-  //   this.vendorCode.emit(filterData);
-
-  // }
-
 }
-
