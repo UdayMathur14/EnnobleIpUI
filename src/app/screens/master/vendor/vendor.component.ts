@@ -11,12 +11,11 @@ export class VendorComponent {
 
   isFilters: boolean = false;
   searchedVendor: string = '';
-  filterKeyword: any;
   onCreateVendor() {
     this.router.navigate(['master/addEditVendor'])
   }
 
-  searchVendor(filterKeyword: any) {
-    this.filterKeyword = filterKeyword;
+  searchVendor(event: any) {
+    this.searchedVendor = event;
   }
 }

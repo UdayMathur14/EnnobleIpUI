@@ -3,7 +3,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
-                <ng-select class="input-field" [(ngModel)]="vendorCode" placeholder="Select Vendor Code">
+                <ng-select class="input-field" [(ngModel)]="vendorCod" placeholder="Select Vendor Code">
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorCode">{{vendor.vendorCode}}</ng-option>
                 </ng-select>
@@ -21,7 +21,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onVendorSearch()">Search</button>
+                <button class="custom-button-filters" (click)="onVendorSearch(vendorCod)">Search</button>
             </div>
         </div>
     </div>

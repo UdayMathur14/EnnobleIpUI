@@ -6,9 +6,9 @@
 </div>
 
 <div class="filter-section">
-  <app-vendor-filter (filterKeyword)="searchVendor($event)"></app-vendor-filter>
+  <app-vendor-filter (vendorCode)="searchVendor($event)"></app-vendor-filter>
 </div>
 
-<div class="content-section">
-  <app-vendor-grid-table [filterKeyword]="filterKeyword"></app-vendor-grid-table>
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-vendor-grid-table [searchedVendor]="searchedVendor"></app-vendor-grid-table>
 </div>

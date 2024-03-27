@@ -18,50 +18,54 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
   ) { }
 
   @Input() 
-  filterKeyword!: any;
-  vendorListOrg: any[] = [];
-  vendorList!: any[];
+  searchedVendor!: string;
+  vendorListOrg: any;
+  vendorList!: any;
+  loadSpinner : boolean = true;
 
   ngOnInit(): void {
     this.getAllVendorList();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterKeyword'] && changes['filterKeyword'].currentValue) {
-      this.applyFilter();
-    }
-  }
 
-  getAllVendorList() {
-    this.vendorService.getVendors({}).subscribe(
-      (response: any) => {
-        this.vendorList = response.vendors;
-        this.vendorListOrg = [...this.vendorList];
-        this.applyFilter();
-        this.baseService.vendorSpinner.next(false);
-      },
-      (error) => {
-        this.toastr.error(error.statusText, error.status);
-        this.baseService.vendorSpinner.next(false);
+    //SORTING DATA FROM FILTER CHANGES
+    ngOnChanges(changes: SimpleChanges): void {
+      if(changes['searchedVendor'].currentValue){
+        this.getFilteredVendorsList();
+      } else if(changes['searchedVendor'].firstChange === false && changes['searchedVendor'].currentValue === ''){
+        this.getAllVendorList();
       }
-    );
-  }
+  
+    }
 
-  applyFilter() {
-    if (!this.filterKeyword) {
-      this.vendorList = [...this.vendorListOrg];
-      return;
+    getAllVendorList() {
+      let data = {
+        "vendorCode": this.searchedVendor
+      }
+      this.vendorService.getVendors(data).subscribe((response: any) => {
+          this.vendorList = response.vendors;
+          this.vendorListOrg = response.vendors;
+          this.loadSpinner = false;
+        },
+        error => {
+          this.toastr.error(error.statusText, error.status);
+          this.loadSpinner = false;
+        }
+      );
     }
-    const { vendorCode, vendorName } = this.filterKeyword;
-    if (!vendorCode && !vendorName) {
-      this.vendorList = [...this.vendorListOrg];
-      return;
+
+    //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
+  getFilteredVendorsList() {
+    let data = {
+      "vendorCode": this.searchedVendor
     }
-    this.vendorList = this.vendorListOrg.filter((vendor) => {
-      const codeMatch = vendor.vendorCode.toLowerCase().includes(vendorCode.toLowerCase());
-      const nameMatch = vendor.vendorName.toLowerCase().includes(vendorName.toLowerCase());
-      return codeMatch && nameMatch;
-    });
+    this.vendorService.getVendors(data).subscribe((response: any) => {
+      this.vendorList = response.vendors;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
   }
 
   onGoToEditVendor(vendorData: any) {
