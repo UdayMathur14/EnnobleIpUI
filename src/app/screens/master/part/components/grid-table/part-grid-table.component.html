@@ -13,6 +13,7 @@
       </tr>
     </thead>
     <tbody>
+      @for (part of partsList; track part.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -20,36 +21,53 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>Lorem Ipsum</u>
+            <u>{{part.partNumber}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{part.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{part.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{part.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{part.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
+        <td>{{part.partName}}</td>
+        <td>{{part.description}}</td>
+        <td>{{part.partSize}}</td>
+        <td>{{part.partPrice}}</td>
+        <td>{{part.remarks}}</td>
+        <td>{{part.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
             class="pointer"
             alt="edit"
-            (click)="onGoToEditPart()"
+            (click)="onGoToEditPart(part)"
           />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Part Found</td>
+      </tr>
+    }
     </tbody>
   </table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

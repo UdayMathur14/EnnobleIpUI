@@ -1,24 +1,14 @@
 <div class="page-title">
   <h1>Part Master</h1>
   <div class="action-buttons">
-    <!-- <div class="search-field">
-      <input type="text" placeholder="Search Part" />
-      <span
-        ><img src="assets/images/icons/search.svg" alt="search"
-      /></span>
-    </div> -->
-    <!-- <button class="export-with-icon custom-button-export">
-      <img src="assets/images/icons/excel.svg" alt="export" /> Export
-    </button> -->
-
     <button class="custom-button-regulr" (click)="onCreatePart()">Create Part</button>
   </div>
 </div>
 
-<div class="filter-section" [ngClass]="{'d-none': isFilters}">
-  <app-part-filters></app-part-filters>
+<div class="filter-section">
+  <app-part-filters (partNumber)="searchPart($event)"></app-part-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-part-grid-table></app-part-grid-table>
+  <app-part-grid-table [searchedPart]="searchedPart"></app-part-grid-table>
 </div>
