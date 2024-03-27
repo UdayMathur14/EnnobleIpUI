@@ -47,7 +47,7 @@ const routes: Routes = [
             { path: "master/part", component: PartComponent },
             { path: "master/addEditPart/:partId", component: AddEditPartComponent },
             { path: "master/vendor", component: VendorComponent },
-            { path: "master/addEditVendor", component: AddEditVendorComponent },
+            { path: "master/addEditVendor/:vendorId", component: AddEditVendorComponent },
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
             { path: 'master/transactionTypes', component: TransactionTypeComponent },
