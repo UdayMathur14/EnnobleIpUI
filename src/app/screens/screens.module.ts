@@ -75,11 +75,12 @@ import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/c
 import { ChangeBiltiStatusGridTableComponent } from "./transactions/change-bilti-status/components/grid-table/change-bilti-status-grid-table.component";
 import { ChangeBiltiStatusFilterComponent } from "./transactions/change-bilti-status/components/filter/change-bilti-status-filter.component";
 import { CreatePartComponent } from "./master/part/create-part/create-part.component";
+import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-filter.component";
 
 
 @NgModule({
     declarations: [
-        ...ScreensComponents, 
+        ...ScreensComponents,
         ...ScreensEntryComponents,
         PlantFilterComponent, 
         PlantGridTableComponent, 
@@ -88,7 +89,8 @@ import { CreatePartComponent } from "./master/part/create-part/create-part.compo
         PartComponent, 
         EditPartComponent,
         CreatePartComponent,
-        VendorComponent, 
+        VendorComponent,
+        VendorFilterComponent,
         VendorGridTableComponent,
         VehicleComponent,
         VehicleFiltersComponent,

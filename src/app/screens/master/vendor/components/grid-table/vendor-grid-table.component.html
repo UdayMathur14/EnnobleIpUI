@@ -18,60 +18,72 @@
       </tr>
     </thead>
     <tbody>
+      @for( vendor of vendorList; track vendor.id){
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>Lorem Ipsum</u>
+            <u>{{vendor.vendorCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{vendor.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{vendor.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{vendor.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{vendor.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
-        <td>Lorem Ipsum</td>
+        <td>{{vendor.vendorName}}</td>
+        <td>{{vendor.vendorAddress1}}</td>
+        <td>{{vendor.contactNumber}}</td>
+        <td>{{vendor.email}}</td>
+        <td>{{vendor.state}}</td>
+        <td>{{vendor.city}}</td>
+        <td>{{vendor.poinName}}</td>
+        <td>{{vendor.gstnNo}}</td>
+        <td>{{vendor.payTermCode}}</td>
+        <td>{{vendor.payTermStatus}}</td>
+        <td>{{vendor.status}}</td>
         <td class="text-center">
           <img src="assets/images/icons/more.svg" class="me-3 pointer" alt="link" [ngbPopover]="popContent"
             [autoClose]="'outside'" triggers="manual" #p="ngbPopover" placement="left" (click)="p.open()" />
           <ng-template #popContent>
-              <div class="row" (click)="p.close()">
-                <div class="col">
-                  <div class="custom-form-input">
-                    <label for="">Transaction Type</label>
-                    <div class="input-with-icon">
-                      <input type="text" class="input-field" />
-                      <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="custom-form-input">
-                    <label for="">Paid By Details</label>
-                    <input type="text" class="input-field" disabled />
-                  </div>
+            <div class="row" (click)="p.close()">
+              <div class="col">
+                <div class="custom-form-input">
+                  <label for="">Transaction Type</label>
+                    <input type="text" class="input-field" [(ngModel)]="vendor.transactionType" disabled/>
                 </div>
               </div>
+              <div class="col">
+                <div class="custom-form-input">
+                  <label for="">Paid By Details</label>
+                  <input type="text" class="input-field" [(ngModel)]="vendor.paidByDetail" disabled />
+                </div>
+              </div>
+            </div>
           </ng-template>
-          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditVendor()" />
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditVendor(vendor)" />
         </td>
       </tr>
+      }@empty {
+      <tr>
+        <td align="center" colspan="13">No Vendor Found</td>
+      </tr>
+      }
+
     </tbody>
   </table>
 </div>

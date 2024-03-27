@@ -14,6 +14,9 @@ export class ScreensComponent implements OnInit {
     ngOnInit() {
         this.baseService.plantSpinner.subscribe((res) => {
             this.loadSpinner = res;
+        });
+        this.baseService.vendorSpinner.subscribe((res) => {
+            this.loadSpinner = res;
         })
     }
 }

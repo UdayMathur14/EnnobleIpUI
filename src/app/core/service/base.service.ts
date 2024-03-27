@@ -11,6 +11,7 @@ export class BaseService {
     }
 
     plantSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    vendorSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     partSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     get<T>(url: string): Observable<T> {
