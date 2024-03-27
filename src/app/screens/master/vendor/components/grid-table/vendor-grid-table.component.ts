@@ -40,7 +40,8 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
 
     getAllVendorList() {
       let data = {
-        "vendorCode": this.searchedVendor
+        "vendorCode": this.searchedVendor,
+        "vendorName": this.searchedVendor
       }
       this.vendorService.getVendors(data).subscribe((response: any) => {
           this.vendorList = response.vendors;
@@ -57,7 +58,8 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
   getFilteredVendorsList() {
     let data = {
-      "vendorCode": this.searchedVendor
+      "vendorCode": this.searchedVendor,
+      "vendorName": this.searchedVendor
     }
     this.vendorService.getVendors(data).subscribe((response: any) => {
       this.vendorList = response.vendors;

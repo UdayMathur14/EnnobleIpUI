@@ -15,10 +15,11 @@ export class VendorFilterComponent implements OnInit {
   ) { }
 
   @Output() vendorCode : EventEmitter<string> = new EventEmitter();
+  // @Output() filter: EventEmitter<any> = new EventEmitter();
 
   vendorCod!: string;
   vendorsList: any;
-  vendorName: string = "";
+  vendorNam!: string;
 
 
   ngOnInit(): void {
@@ -27,7 +28,8 @@ export class VendorFilterComponent implements OnInit {
 
   getAllVendorsListInit() {
     let data = {
-      "vendorCode": ''
+      "vendorCode": '',
+      "vendorName": ''
     }
     this.vendorService.getVendors(data).subscribe((response: any) => {
       this.vendorsList = response.vendors;
@@ -38,7 +40,17 @@ export class VendorFilterComponent implements OnInit {
 
   onVendorSearch(vendorCod: string){
     this.vendorCode.emit(vendorCod)
+
   }
+  // onVendorSearch() {
+  //   const filterData = {
+  //     "vendorCode": this.vendorCod,
+  //     "vendorName": this.vendorNam
+  //   };
+  //   // this.filter.emit(filterData);
+  //   this.vendorCode.emit(filterData);
+
+  // }
 
 }
 
