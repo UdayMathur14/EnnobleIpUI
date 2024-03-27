@@ -17,36 +17,51 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     private toastr: ToastrService
   ) { }
 
-  @Input()
-  filterKeyword!: string;
-  vendorListOrg: any;
-  vendorList: any;
+  @Input() 
+  filterKeyword!: any;
+  vendorListOrg: any[] = [];
+  vendorList!: any[];
 
   ngOnInit(): void {
     this.getAllVendorList();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.vendorListOrg && this.vendorListOrg.length && changes['filterKeyword'].currentValue) {
-      this.vendorList = this.vendorListOrg.filter((e: any) => e.vendorCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    }
-    else if (this.vendorListOrg && this.vendorListOrg.length && !changes['filterKeyword'].currentValue) {
-      this.vendorList = this.vendorListOrg;
+    if (changes['filterKeyword'] && changes['filterKeyword'].currentValue) {
+      this.applyFilter();
     }
   }
 
   getAllVendorList() {
-    let data = {
-      "vendorCode": ''
+    this.vendorService.getVendors({}).subscribe(
+      (response: any) => {
+        this.vendorList = response.vendors;
+        this.vendorListOrg = [...this.vendorList];
+        this.applyFilter();
+        this.baseService.vendorSpinner.next(false);
+      },
+      (error) => {
+        this.toastr.error(error.statusText, error.status);
+        this.baseService.vendorSpinner.next(false);
+      }
+    );
+  }
+
+  applyFilter() {
+    if (!this.filterKeyword) {
+      this.vendorList = [...this.vendorListOrg];
+      return;
     }
-    this.vendorService.getVendors(data).subscribe((response: any) => {
-      this.vendorList = response.vendors;
-      this.vendorListOrg = response.vendors;
-      this.baseService.vendorSpinner.next(false);
-    }, error => {
-      this.toastr.error(error.statusText, error.status);
-      this.baseService.vendorSpinner.next(false);
-    })
+    const { vendorCode, vendorName } = this.filterKeyword;
+    if (!vendorCode && !vendorName) {
+      this.vendorList = [...this.vendorListOrg];
+      return;
+    }
+    this.vendorList = this.vendorListOrg.filter((vendor) => {
+      const codeMatch = vendor.vendorCode.toLowerCase().includes(vendorCode.toLowerCase());
+      const nameMatch = vendor.vendorName.toLowerCase().includes(vendorName.toLowerCase());
+      return codeMatch && nameMatch;
+    });
   }
 
   onGoToEditVendor(vendorData: any) {

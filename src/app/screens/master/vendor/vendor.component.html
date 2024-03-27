@@ -4,10 +4,11 @@
     <button class="custom-button-regulr" (click)="onCreateVendor()">Create Vendor</button>
   </div>
 </div>
+
 <div class="filter-section">
-  <app-vendor-filter (partNumber)="searchVendor($event)"></app-vendor-filter>
+  <app-vendor-filter (filterKeyword)="searchVendor($event)"></app-vendor-filter>
 </div>
 
 <div class="content-section">
-  <app-vendor-grid-table></app-vendor-grid-table>
+  <app-vendor-grid-table [filterKeyword]="filterKeyword"></app-vendor-grid-table>
 </div>
