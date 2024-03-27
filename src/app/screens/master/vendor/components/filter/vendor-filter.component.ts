@@ -40,8 +40,8 @@ export class VendorFilterComponent implements OnInit {
 
   onVendorSearch(){
     let obj = {
-      "vendorCode" : this.vendorCod,
-      "vendorName" : this.vendorNam
+      "vendorCode" : this.vendorCod || "",
+      "vendorName" : this.vendorNam || ""
     }
     this.vendorFilterData.emit(obj)
 
