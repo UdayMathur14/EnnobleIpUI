@@ -6,7 +6,7 @@
 </div>
 
 <div class="filter-section">
-  <app-vendor-filter (vendorCode)="searchVendor($event)"></app-vendor-filter>
+  <app-vendor-filter (vendorFilterData)="searchVendor($event)"></app-vendor-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">

@@ -14,7 +14,7 @@ export class VendorFilterComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
-  @Output() vendorCode : EventEmitter<string> = new EventEmitter();
+  @Output() vendorFilterData : EventEmitter<any> = new EventEmitter();
   // @Output() filter: EventEmitter<any> = new EventEmitter();
 
   vendorCod!: string;
@@ -38,8 +38,12 @@ export class VendorFilterComponent implements OnInit {
     });
   }
 
-  onVendorSearch(vendorCod: string){
-    this.vendorCode.emit(vendorCod)
+  onVendorSearch(){
+    let obj = {
+      "vendorCode" : this.vendorCod,
+      "vendorName" : this.vendorNam
+    }
+    this.vendorFilterData.emit(obj)
 
   }
   // onVendorSearch() {

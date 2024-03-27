@@ -17,49 +17,47 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     private toastr: ToastrService
   ) { }
 
-  @Input() 
-  searchedVendor!: string;
+  @Input() searchedVendor: any;
   vendorListOrg: any;
   vendorList!: any;
-  loadSpinner : boolean = true;
+  loadSpinner: boolean = true;
 
   ngOnInit(): void {
     this.getAllVendorList();
   }
 
-
-    //SORTING DATA FROM FILTER CHANGES
-    ngOnChanges(changes: SimpleChanges): void {
-      if(changes['searchedVendor'].currentValue){
-        this.getFilteredVendorsList();
-      } else if(changes['searchedVendor'].firstChange === false && changes['searchedVendor'].currentValue === ''){
-        this.getAllVendorList();
-      }
-  
+  //SORTING DATA FROM FILTER CHANGES
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchedVendor'].currentValue) {
+      this.getFilteredVendorsList();
+    } else if (changes['searchedVendor'].firstChange === false && changes['searchedVendor'].currentValue === '') {
+      this.getAllVendorList();
     }
 
-    getAllVendorList() {
-      let data = {
-        "vendorCode": this.searchedVendor,
-        "vendorName": this.searchedVendor
-      }
-      this.vendorService.getVendors(data).subscribe((response: any) => {
-          this.vendorList = response.vendors;
-          this.vendorListOrg = response.vendors;
-          this.loadSpinner = false;
-        },
-        error => {
-          this.toastr.error(error.statusText, error.status);
-          this.loadSpinner = false;
-        }
-      );
-    }
+  }
 
-    //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
+  getAllVendorList() {
+    let data = {
+      "vendorCode": '',
+      "vendorName": ''
+    }
+    this.vendorService.getVendors(data).subscribe((response: any) => {
+      this.vendorList = response.vendors;
+      this.vendorListOrg = response.vendors;
+      this.loadSpinner = false;
+    },
+      error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      }
+    );
+  }
+
+  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
   getFilteredVendorsList() {
     let data = {
-      "vendorCode": this.searchedVendor,
-      "vendorName": this.searchedVendor
+      "vendorCode": this.searchedVendor.vendorCode,
+      "vendorName": this.searchedVendor.vendorName
     }
     this.vendorService.getVendors(data).subscribe((response: any) => {
       this.vendorList = response.vendors;
