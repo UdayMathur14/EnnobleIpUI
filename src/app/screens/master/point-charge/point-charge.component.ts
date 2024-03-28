@@ -11,19 +11,18 @@ export class PointChargeComponent implements OnInit {
   constructor(private router : Router,private plantService:PlantService){}
 
   isFilters : boolean = false;
+  filterKeyword : string = '';
 
   ngOnInit() { 
-    this.getData();
-  }
-
-  getData(){
-    this.plantService.get().subscribe(res=>{
-
-    })
+    
   }
 
   onCreatePointCharge(){
     this.router.navigate(['master/addEditPointCharge'])
+  }
+
+  onSearch(e:any){
+    this.filterKeyword = e.target.value;
   }
 
 }

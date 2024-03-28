@@ -15,6 +15,9 @@ export class ScreensComponent implements OnInit {
         this.baseService.plantSpinner.subscribe((res) => {
             this.loadSpinner = res;
         });
+        this.baseService.pointChargeSpinner.subscribe((res) => {
+            this.loadSpinner = res;
+        })
         this.baseService.vendorSpinner.subscribe((res) => {
             this.loadSpinner = res;
         })

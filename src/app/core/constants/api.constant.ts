@@ -8,6 +8,7 @@ export const APIConstant = {
     plant: `v1/plant/search`,
     plantData : `v1/plant/`,
     updatePlant : `v1/plant/update/`,
+    pointCharge: `v1/2/point-charge/search`,
     vendors: `v1/vendor/search/`,
     vendorData: `v1/vendor/`,
     updateVendor: `v1/vendor/update/`,
