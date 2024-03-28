@@ -5,11 +5,11 @@ import { PartDataModel } from '../../../../core/model/part.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-add-edit-part',
-  templateUrl: './add-edit-part.component.html',
-  styleUrl: './add-edit-part.component.scss'
+  selector: 'app-create-part',
+  templateUrl: './create-part.component.html',
+  styleUrl: './create-part.component.scss'
 })
-export class AddEditPartComponent implements OnInit {
+export class CreatePartComponent implements OnInit {
   constructor(private router: Router,
     private partService : PartService,
     private toastr: ToastrService,

@@ -11,8 +11,9 @@ export class PartComponent {
 
   isFilters : boolean = true;
   searchedPart : string = '';
+
   onCreatePart(){
-    this.router.navigate(['master/addEditPart'])
+    this.router.navigate(['master/editPart', ''])
   }
 
   searchPart(event:any){
