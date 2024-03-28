@@ -1,0 +1,40 @@
+<div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Code</th>
+          <th>Value</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Attribute 1</th>
+          <th>Attribute 2</th>
+          <th>Attribute 3</th>
+          <th>Attribute 4</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (lookup of lookupsList; track lookup.id) {
+        <tr>
+          <td>{{lookup.lookUpType.type}}</td>
+          <td>{{lookup.code}}</td>
+          <td>{{lookup.value}}</td>
+          <td>{{lookup.description}}</td>
+          <td>{{lookup.status}}</td>
+          <td>{{lookup.attribute1}}</td>
+          <td>{{lookup.attribute2}}</td>
+          <td>{{lookup.attribute3}}</td>
+          <td>{{lookup.attribute4}}</td>
+          <td class="text-center">
+              <img src="assets/images/icons/editPencil.svg" alt="edit" (click)="onGoToEditLookup(lookup)">
+          </td>
+        </tr>
+      }@empty {
+        <tr>
+          <td align="center" colspan="13">No Plant Found</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>

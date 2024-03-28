@@ -35,6 +35,8 @@ import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materia
 import { ApprovalMaterialHeadComponent } from "./transactions/approval-material-head/approval-material-head.component";
 import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
 import { CreatePartComponent } from "./master/part/create-part/create-part.component";
+import { LookupComponent } from "./master/lookup/lookup.component";
+import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit-lookup.component";
 
 const routes: Routes = [
     {
@@ -62,6 +64,9 @@ const routes: Routes = [
             { path: "master/addEditAdvice", component: AddEditAdviceComponent },
             { path: "master/pointCharge", component: PointChargeComponent },
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
+            { path: "master/lookup", component: LookupComponent },
+            { path: "master/editLookup/:lookupId", component: AddEditLookupComponent },
+            { path: "master/addLookup", component: AddEditLookupComponent },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
             { path: "transaction/bilti", component: BiltiComponent },

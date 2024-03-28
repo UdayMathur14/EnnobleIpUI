@@ -76,6 +76,10 @@ import { ChangeBiltiStatusGridTableComponent } from "./transactions/change-bilti
 import { ChangeBiltiStatusFilterComponent } from "./transactions/change-bilti-status/components/filter/change-bilti-status-filter.component";
 import { CreatePartComponent } from "./master/part/create-part/create-part.component";
 import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-filter.component";
+import { LookupComponent } from "./master/lookup/lookup.component";
+import { LookupGridTableComponent } from "./master/lookup/components/grid-table/lookup-grid-table.component";
+import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit-lookup.component";
+import { LookupFilterComponent } from "./master/lookup/components/filter/lookup-filter.component";
 
 
 @NgModule({
@@ -153,6 +157,10 @@ import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-
         ChangeBiltiStatusComponent,
         ChangeBiltiStatusGridTableComponent,
         ChangeBiltiStatusFilterComponent,
+        LookupComponent,
+        LookupGridTableComponent,
+        AddEditLookupComponent,
+        LookupFilterComponent
     ],
     imports: [
         LayoutModule,

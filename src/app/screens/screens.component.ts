@@ -17,6 +17,9 @@ export class ScreensComponent implements OnInit {
         });
         this.baseService.vendorSpinner.subscribe((res) => {
             this.loadSpinner = res;
+        });
+        this.baseService.lookupSpinner.subscribe((res) => {
+            this.loadSpinner = res;
         })
     }
 }

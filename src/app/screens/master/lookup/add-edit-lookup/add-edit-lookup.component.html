@@ -1,0 +1,118 @@
+<div class="page-title">
+    <h1>{{ mode === 'edit' ? 'Edit Lookup' : 'Create Lookup' }}</h1>
+    <div class="action-buttons">
+    <button class="custom-button-regulr">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
+        <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
+    </div>
+</div>
+
+<div class="content-section p-3">
+    <div class="row">
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Type</label>
+                <ng-select class="input-field">
+                    <ng-option>hsjjs</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Code</label>
+                <input type="text" class="input-field"
+                [(ngModel)]="lookupData.code"
+                [disabled]="mode === 'edit'"/>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Value</label>
+                <input type="text" class="input-field"
+                [(ngModel)]="lookupData.value" />
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Description</label>
+                <input type="text" class="input-field" 
+                [(ngModel)]="lookupData.description"/>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Status</label>
+                <select name="" id="" [(ngModel)]="lookupData.status">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Attribute 1</label>
+                <input type="text" class="input-field"
+                [(ngModel)]="lookupData.attribute1"/>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Attribute 2</label>
+                <input type="text" class="input-field"
+                [(ngModel)]="lookupData.attribute2" />
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Attribute 3</label>
+                <input type="text" class="input-field" 
+                [(ngModel)]="lookupData.attribute3"/>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input">
+                <label for="">Attribute 4</label>
+                <input type="text" class="input-field" 
+                [(ngModel)]="lookupData.attribute4"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="edit-screen-subTable">
+        <h4 class="">Filled Details</h4>
+    </div>
+
+    <div class="custom-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Code</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Attribute 1</th>
+                    <th>Attribute 2</th>
+                    <th>Attribute 3</th>
+                    <th>Attribute 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>App</td>
+                    <td>MFG</td>
+                    <td>Manufature</td>
+                    <td>Manufature</td>
+                    <td>Active</td>
+                    <td>manufacture</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
