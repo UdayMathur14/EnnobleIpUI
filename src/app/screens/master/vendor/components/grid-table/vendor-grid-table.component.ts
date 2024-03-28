@@ -53,7 +53,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     );
   }
 
-  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
+  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH Vendor FROM FILTERS 
   getFilteredVendorsList() {
     let data = {
       "vendorCode": this.searchedVendor.vendorCode,
