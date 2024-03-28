@@ -36,7 +36,7 @@ export class PartGridTableComponent implements OnInit, OnChanges {
   }
 
   onGoToEditPart(partData : any) {
-    this.router.navigate(['master/addEditPart',  partData.id]);
+    this.router.navigate(['master/editPart',  partData.id]);
   }
 
   //GETTINGS PARTS LISTING ON PAGE LOAD
