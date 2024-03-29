@@ -64,7 +64,7 @@ import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bil
 import { BiltiBillProcessFilterComponent } from "./transactions/bilti-bill-process/components/filter/bilti-bill-process-filter.component";
 import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-process/components/grid-table/bilti-bill-process-grid-table.component";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materials-team/checked-materials-team.component";
 import { CheckedMaterialsTeamFilterComponent } from "./transactions/checked-by-materials-team/components/filter/checked-materials-team-filter.component";
 import { CheckedMaterialsTeamGridTableComponent } from "./transactions/checked-by-materials-team/components/grid-table/checked-materials-team-grid-table.component";
@@ -162,6 +162,7 @@ import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-
         NgbPopover,
         NgSelectModule,
         FormsModule,
+        ReactiveFormsModule
     ],
     providers: [],
 })

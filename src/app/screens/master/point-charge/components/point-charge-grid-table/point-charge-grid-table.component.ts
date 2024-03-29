@@ -20,9 +20,12 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
   pointChargesList:any;
   pointChargeListOrg:any;
   @Input() filterKeyword!: string;
+  locationId:number=0;
+  lookupId:number=4;
+  loadSpinner : boolean = true;
 
   ngOnInit() :void{
-    this.getAllPointChargesList()
+    this.getLookupData()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,23 +38,29 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
   }
 
 
-  onEditPointCharge() {
-    this.router.navigate(['master/addEditPointCharge']);
+  onEditPointCharge(pointChargeData:any) {
+    this.router.navigate(['master/editPointCharge',  pointChargeData.id]);
   }
 
-  getAllPointChargesList(){
+  getAllPointChargesList(locationId:number){
     let data = {
       "pointName" : ''
     }
-    this.pointChargeService.getPointCharges(data).subscribe((response:any) => {
+    this.pointChargeService.getPointCharges(locationId,data).subscribe((response:any) => {
       this.pointChargesList = response.pointCharges;
       this.pointChargeListOrg = response.pointCharges;
-      this.baseService.pointChargeSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.pointChargeSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 
-
+  getLookupData(){
+    this.pointChargeService.getLookupData(this.lookupId).subscribe((response: any) => {
+      this.locationId = response.id;
+      this.getAllPointChargesList(this.locationId)
+    })
 }
+}
+

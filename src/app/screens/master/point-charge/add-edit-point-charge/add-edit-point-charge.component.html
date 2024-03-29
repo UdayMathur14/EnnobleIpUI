@@ -1,7 +1,7 @@
 <div class="page-title">
-  <h1>Edit Point Charge</h1>
+  <h1>{{ mode === 'edit' ? 'Edit Point Charge' : 'Create Point Charge' }}</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -9,39 +9,44 @@
 </div>
 
 <div class="content-section p-3">
-    <div class="row">
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Location Code</label>
-          <input type="text" class="input-field" value="NOIDA_LGIL_HA"/>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Point Name</label>
-          <input type="text" class="input-field" value="Faridabad"/>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Point Charge</label>
-          <input type="text" class="input-field" value="500"/>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Same Location Charge</label>
-          <input type="text" class="input-field" value="30"/>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Status</label>
-          <select name="" id="">
-            <option value="">Active</option>
-            <option value="">Inactive</option>
-          </select>
-        </div>
+  <form [formGroup]="pointChargeForm">
+  <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <div class="custom-form-input">
+        <label for="">Location Code</label>
+        <input type="text" class="input-field" disabled [value]="locationValue"/>
       </div>
     </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="custom-form-input">
+        <label for="">Point Name</label>
+        <input type="text" class="input-field" formControlName="pointName"  />
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="custom-form-input">
+        <label for="">Point Charge</label>
+        <input type="text" class="input-field"  formControlName="pointCharge"/>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="custom-form-input">
+        <label for="">Same Location Charge</label>
+        <input type="text" class="input-field" formControlName="sameLocationCharge" />
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="custom-form-input">
+        <label for="">Status</label>
+        <select name="" id="" formControlName="status">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

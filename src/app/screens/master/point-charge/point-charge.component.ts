@@ -18,7 +18,7 @@ export class PointChargeComponent implements OnInit {
   }
 
   onCreatePointCharge(){
-    this.router.navigate(['master/addEditPointCharge'])
+    this.router.navigate(['master/addPointCharge'])
   }
 
   onSearch(e:any){
