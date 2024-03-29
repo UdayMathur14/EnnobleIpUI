@@ -10,7 +10,12 @@ export class TransactionTypeComponent implements OnInit {
   constructor(private router : Router){}
 
   isFilters : boolean = false;
+  filterKeyword : string = '';
 
   ngOnInit() { }
+
+  onSearch(e:any){
+    this.filterKeyword = e.target.value;
+  }
 
 }
