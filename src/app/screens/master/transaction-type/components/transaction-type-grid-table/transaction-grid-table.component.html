@@ -10,31 +10,49 @@
       </tr>
     </thead>
     <tbody>
+      @for (transaction of transactionTypesList; track transaction.id) {
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>SVC to Branches</u>
+            <u>{{transaction.name}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{transaction.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{transaction.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{transaction.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{transaction.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>SVCB</td>
-        <td>IR</td>
-        <td>Active</td>
+        <td>{{transaction.code}}</td>
+        <td>{{transaction.glSubCategoryId}}</td>
+        <td>{{transaction.status}}</td>
         <td class="text-center">
-          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditTransaction()" />
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditTransaction(transaction)" />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Transaction Code Found</td>
+      </tr>
+    }
     </tbody>
   </table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>
