@@ -24,4 +24,8 @@ export class PartService extends CRUDService<PlantRequest> {
     updatePart(partId : string, data : object){
         return this.baseService.put(APIConstant.basePath+APIConstant.updatePart + partId, data);
     }
+
+    createPart(data : object){
+        return this.baseService.post(APIConstant.basePath+APIConstant.createPart, data);
+    }
 }

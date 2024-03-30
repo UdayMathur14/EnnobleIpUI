@@ -7,7 +7,7 @@ import { CommonModule } from "@angular/common";
 import { PartFiltersComponent } from "./master/part/components/filter/part-filter.component";
 import { PartGridTableComponent } from "./master/part/components/grid-table/part-grid-table.component";
 import { PartComponent } from "./master/part/part.component";
-import { EditPartComponent } from "./master/part/edit-part/edit-part.component";
+import { AddEditPartComponent } from "./master/part/add-edit-part/add-edit-part.component";
 import { VendorComponent } from './master/vendor/vendor.component';
 import { VendorGridTableComponent } from "./master/vendor/components/grid-table/vendor-grid-table.component";
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
@@ -64,7 +64,7 @@ import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bil
 import { BiltiBillProcessFilterComponent } from "./transactions/bilti-bill-process/components/filter/bilti-bill-process-filter.component";
 import { BiltiBillProcessGridTableComponent } from "./transactions/bilti-bill-process/components/grid-table/bilti-bill-process-grid-table.component";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materials-team/checked-materials-team.component";
 import { CheckedMaterialsTeamFilterComponent } from "./transactions/checked-by-materials-team/components/filter/checked-materials-team-filter.component";
 import { CheckedMaterialsTeamGridTableComponent } from "./transactions/checked-by-materials-team/components/grid-table/checked-materials-team-grid-table.component";
@@ -74,7 +74,6 @@ import { ApprovalMaterialHeadGridTableComponent } from "./transactions/approval-
 import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
 import { ChangeBiltiStatusGridTableComponent } from "./transactions/change-bilti-status/components/grid-table/change-bilti-status-grid-table.component";
 import { ChangeBiltiStatusFilterComponent } from "./transactions/change-bilti-status/components/filter/change-bilti-status-filter.component";
-import { CreatePartComponent } from "./master/part/create-part/create-part.component";
 import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-filter.component";
 
 
@@ -87,8 +86,7 @@ import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-
         PartFiltersComponent, 
         PartGridTableComponent, 
         PartComponent, 
-        EditPartComponent,
-        CreatePartComponent,
+        AddEditPartComponent,
         VendorComponent,
         VendorFilterComponent,
         VendorGridTableComponent,
@@ -162,6 +160,7 @@ import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-
         NgbPopover,
         NgSelectModule,
         FormsModule,
+        ReactiveFormsModule
     ],
     providers: [],
 })

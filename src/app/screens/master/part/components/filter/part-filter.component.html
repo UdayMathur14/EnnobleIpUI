@@ -1,21 +1,3 @@
-<!-- <div class="filters-box">
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">Part Number</label>
-                <input type="text" class="input-field">
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">Part Name</label>
-                <input type="text" class="input-field">
-            </div>
-        </div>
-        <button class="custom-button-regulr" >Create Part</button>
-    </div>
-</div> -->
-
 <div class="filters-box">
     <div class="row">
         <div class="col-lg-2">
@@ -38,7 +20,8 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onPartSearch(partNum)">Search</button>
+                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="!partName && !partNum">Clear</button>
+                <button class="custom-button-filters" (click)="onPartSearch()" [disabled]="!partName && !partNum">Search</button>
             </div>
         </div>
     </div>
