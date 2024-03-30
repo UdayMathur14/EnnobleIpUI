@@ -16,7 +16,7 @@ export class PartGridTableComponent implements OnInit, OnChanges {
     private partService: PartService) { }
     
   @Input()
-  searchedPart!: string;  
+  searchedPart!: any;  
   partsList: any;
   partsListOrg : any;
   loadSpinner : boolean = true;
@@ -36,13 +36,14 @@ export class PartGridTableComponent implements OnInit, OnChanges {
   }
 
   onGoToEditPart(partData : any) {
-    this.router.navigate(['master/editPart',  partData.id]);
+    this.router.navigate(['master/addEditPart',  partData.id]);
   }
 
   //GETTINGS PARTS LISTING ON PAGE LOAD
   getAllPartsListInit() {
     let data = {
-      "partNumber": this.searchedPart
+      "partNumber": '',
+      "partName" : ''
     }
     this.partService.getParts(data).subscribe((response: any) => {
       this.partsList = response.parts;
@@ -57,7 +58,8 @@ export class PartGridTableComponent implements OnInit, OnChanges {
   //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
   getFilteredPartsList() {
     let data = {
-      "partNumber": this.searchedPart
+      "partNumber": this.searchedPart.partCode || "",
+      "partName" : this.searchedPart.partName || ""
     }
     this.partService.getParts(data).subscribe((response: any) => {
       this.partsList = response.parts;

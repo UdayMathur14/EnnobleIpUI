@@ -51,22 +51,47 @@ body {
 
 .custom-button-regulr-small {
     @include buttonsPrimaryOutline(11px, 7px, 10px);
+
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed
+    }
 }
 
 .custom-button-filters {
     @include buttonsPrimaryOutline(13px, 4px, 20px);
+
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed
+    }
 }
 
 .custom-button-export {
     @include buttonsExportOutline(13px, 7px, 20px);
+
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed
+    }
 }
 
 .custom-button-secondary {
     @include buttonsSecondaryOutline(13px, 7px, 20px);
+
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed
+    }
 }
 
 .custom-button-secondary-small {
     @include buttonsSecondaryOutline(11px, 7px, 10px);
+
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed
+    }
 }
 
 .custom-form-input {

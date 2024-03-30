@@ -13,7 +13,7 @@ export class PartComponent {
   searchedPart : string = '';
 
   onCreatePart(){
-    this.router.navigate(['master/editPart', ''])
+    this.router.navigate(['master/addEditPart', '0'])
   }
 
   searchPart(event:any){
