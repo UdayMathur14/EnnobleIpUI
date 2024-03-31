@@ -12,26 +12,26 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
     super(baseService);
   }
 
-  getPointCharges(locationId:number,data: any) {
-    return this.baseService.post(APIConstant.basePath + `v1/${locationId}/point-charge/search`,data);
+  getPointCharges(locationId: number, data: any) {
+    return this.baseService.post(APIConstant.basePath + `v1/${locationId}/point-charge/search`, data);
   }
 
-  getPointChargeData(locationId:number,pointChargeId: string) {
+  getPointChargeData(locationId: number, pointChargeId: string) {
     return this.baseService.get(
       APIConstant.basePath + `v1/${locationId}/point-charge/` + pointChargeId);
   }
 
-  updatePointCharge(locationId:number, pointChargeId: string, data: object) {
+  updatePointCharge(locationId: number, pointChargeId: string, data: object) {
     return this.baseService.put(
-      APIConstant.basePath +`v1/${locationId}/point-charge/update/` + pointChargeId,data);
+      APIConstant.basePath + `v1/${locationId}/point-charge/update/` + pointChargeId, data);
   }
 
-  createPointCharge(locationId:number,data: object) {
+  createPointCharge(locationId: number, data: object) {
     return this.baseService.post(
-      APIConstant.basePath + `v1/${locationId}/point-charge/create`,data);
+      APIConstant.basePath + `v1/${locationId}/point-charge/create`, data);
   }
 
-  getLookupData(lookupId:number) {
+  getLookupData(lookupId: number) {
     return this.baseService.get(
       APIConstant.basePath + APIConstant.lookupdata + lookupId);
   }

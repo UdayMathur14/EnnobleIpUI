@@ -14,39 +14,39 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     private router: Router,
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
-    private baseService : BaseService,
+    private baseService: BaseService,
   ) { }
 
-  pointChargesList:any;
-  pointChargeListOrg:any;
+  pointChargesList: any;
+  pointChargeListOrg: any;
   @Input() filterKeyword!: string;
-  locationId:number=0;
-  lookupId:number=4;
-  loadSpinner : boolean = true;
+  locationId: number = 0;
+  lookupId: number = 4;
+  loadSpinner: boolean = true;
 
-  ngOnInit() :void{
+  ngOnInit(): void {
     this.getLookupData()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.pointChargeListOrg && this.pointChargeListOrg.length && changes['filterKeyword'].currentValue){
-      this.pointChargesList = this.pointChargeListOrg.filter((e:any) =>e.pointName.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    if (this.pointChargeListOrg && this.pointChargeListOrg.length && changes['filterKeyword'].currentValue) {
+      this.pointChargesList = this.pointChargeListOrg.filter((e: any) => e.pointName.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
-    else if(this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword'].currentValue){
+    else if (this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword'].currentValue) {
       this.pointChargesList = this.pointChargeListOrg;
     }
   }
 
 
-  onEditPointCharge(pointChargeData:any) {
-    this.router.navigate(['master/editPointCharge',  pointChargeData.id]);
+  onEditPointCharge(pointChargeData: any) {
+    this.router.navigate(['master/editPointCharge', pointChargeData.id]);
   }
 
-  getAllPointChargesList(locationId:number){
+  getAllPointChargesList(locationId: number) {
     let data = {
-      "pointName" : ''
+      "pointName": ''
     }
-    this.pointChargeService.getPointCharges(locationId,data).subscribe((response:any) => {
+    this.pointChargeService.getPointCharges(locationId, data).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
       this.pointChargeListOrg = response.pointCharges;
       this.loadSpinner = false;
@@ -56,11 +56,11 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     })
   }
 
-  getLookupData(){
+  getLookupData() {
     this.pointChargeService.getLookupData(this.lookupId).subscribe((response: any) => {
       this.locationId = response.id;
       this.getAllPointChargesList(this.locationId)
     })
-}
+  }
 }
 
