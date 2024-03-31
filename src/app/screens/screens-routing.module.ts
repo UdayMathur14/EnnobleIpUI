@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ScreensComponent } from "./screens.component";
 import { PlantComponent } from "./master/plant/plant.component";
 import { PartComponent } from "./master/part/part.component";
-import { EditPartComponent } from "./master/part/edit-part/edit-part.component";
+import { AddEditPartComponent } from "./master/part/add-edit-part/add-edit-part.component";
 import { AddEditPlantComponent } from "./master/plant/add-edit-plant/add-edit-plant.component";
 import { VendorComponent } from "./master/vendor/vendor.component";
 import { AddEditVendorComponent } from "./master/vendor/add-edit-vendor/add-edit-vendor.component";
@@ -34,7 +34,7 @@ import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bil
 import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materials-team/checked-materials-team.component";
 import { ApprovalMaterialHeadComponent } from "./transactions/approval-material-head/approval-material-head.component";
 import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
-import { CreatePartComponent } from "./master/part/create-part/create-part.component";
+// import { CreatePartComponent } from "./master/part/create-part/create-part.component";
 import { LookupComponent } from "./master/lookup/lookup.component";
 import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit-lookup.component";
 
@@ -48,14 +48,13 @@ const routes: Routes = [
             { path: "master/plant", component: PlantComponent },
             { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent },
             { path: "master/part", component: PartComponent },
-            { path: "master/editPart/:partId", component: EditPartComponent },
-            // { path: "master/createPart", component: CreatePartComponent },
+            { path: "master/addEditPart/:partId", component: AddEditPartComponent },
             { path: "master/vendor", component: VendorComponent },
             { path: "master/addEditVendor/:vendorId", component: AddEditVendorComponent },
             { path: "master/vehicle", component: VehicleComponent },
             { path: "master/addEditVehicle", component: AddEditVehicleComponent },
             { path: 'master/transactionTypes', component: TransactionTypeComponent },
-            { path: 'master/addEditTransactionTypes', component: AddEditTransactionTypeComponent },
+            { path: 'master/addEditTransactionTypes/:transactionId', component: AddEditTransactionTypeComponent },
             { path: "master/freight", component: FreightComponent },
             { path: "master/addEditFreight", component: AddEditFreightComponent },
             { path: "master/transporter", component: TransporterComponent },
@@ -99,8 +98,8 @@ export const ScreensComponents = [
     PlantComponent,
     AddEditVendorComponent,
     PointMasterMaterialComponent,
-    EditPartComponent,
-    CreatePartComponent
+    AddEditPartComponent,
+    TransactionTypeComponent
 ];
 
 export const ScreensEntryComponents = [];
