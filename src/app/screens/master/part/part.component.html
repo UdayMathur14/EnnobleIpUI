@@ -6,7 +6,7 @@
 </div>
 
 <div class="filter-section">
-  <app-part-filters (partNumber)="searchPart($event)"></app-part-filters>
+  <app-part-filters (partFilterObj)="searchPart($event)"></app-part-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">

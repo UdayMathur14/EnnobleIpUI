@@ -10,8 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 export class PartFiltersComponent implements OnInit {
   constructor(private partService : PartService,
     private toastr : ToastrService){}
-  @Output() partNumber : EventEmitter<string> = new EventEmitter();
-  partNum!: string;
+  @Output() partFilterObj : EventEmitter<object> = new EventEmitter();
+  partNum: string | undefined;
   partName : string = '';
   partsList : any;
 
@@ -31,8 +31,21 @@ export class PartFiltersComponent implements OnInit {
     })
   }
 
-  onPartSearch(partNum:string){
-    this.partNumber.emit(partNum)
+  onPartSearch(){
+    let obj = {
+      partName : this.partName,
+      partCode : this.partNum
+    }
+    this.partFilterObj.emit(obj)
+  }
+  onClearFilter(){
+    this.partNum = undefined;
+    this.partName = '';
+    let obj = {
+      partName : '',
+      partCode : ''
+    }
+    this.partFilterObj.emit(obj)
   }
 
 }

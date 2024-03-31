@@ -15,6 +15,7 @@ export const APIConstant = {
     partData : `v1/part/`,
     updatePart : `v1/part/update/`,
     lookupdata: `v1/lookup/`,
+    createPart : `v1/part/create`,
     transactionTypes : `v1/transaction-type/search`,
     transactionTypeData : `v1/transaction-type/`,
     updateTransactionTypeData : `v1/transaction-type/update/`
