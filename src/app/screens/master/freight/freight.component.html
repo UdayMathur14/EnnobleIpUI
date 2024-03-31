@@ -5,8 +5,8 @@
     </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-freight-filter></app-freight-filter>
+    <app-freight-filter (freightFilterObj)="searchFreightCode($event)"></app-freight-filter>
   </div>
   <div class="content-section" [ngClass]="{ isFilters: isFilters }">
-    <app-freight-grid-table></app-freight-grid-table>
+    <app-freight-grid-table [searchedFreight]="searchedFreight"></app-freight-grid-table>
   </div>

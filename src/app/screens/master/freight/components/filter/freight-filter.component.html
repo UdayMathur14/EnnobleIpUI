@@ -3,17 +3,16 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Freight Code</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" value="F00020" />
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div> 
+                <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight">
+                    <ng-option *ngFor="let freight of freightList" [value]="freight.freightCode">{{freight.freightCode}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Source</label>
                 <div class="input-with-icon">
-                    <input type="text" class="input-field" value="Surajpur" />
+                    <input type="text" class="input-field" [(ngModel)]="source"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
             </div>
@@ -21,13 +20,14 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vehicle Size</label>
-                <input type="text" class="input-field" value="10" />
+                <input type="text" class="input-field" [(ngModel)]="vehicleSize"/>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters">Search</button>
+                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="!freightCode && !source && !vehicleSize">Clear</button>
+                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!freightCode && !source && !vehicleSize">Search</button>
             </div>
         </div>
     </div>

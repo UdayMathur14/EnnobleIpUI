@@ -18,5 +18,11 @@ export const APIConstant = {
     createPart : `v1/part/create`,
     transactionTypes : `v1/transaction-type/search`,
     transactionTypeData : `v1/transaction-type/`,
-    updateTransactionTypeData : `v1/transaction-type/update/`
+    updateTransactionTypeData : `v1/transaction-type/update/`,
+    getLookupData : `v1/lookup/search`
 }
+
+export const freight = (locationId:any) => `v1/${locationId}/freight/search`;
+export const freightData = (locationId:any, freightId:any) => `v1/${locationId}/freight/${freightId}`;
+export const createFreight = (locationId:any) => `v1/${locationId}/freight/create`;
+export const updateFreight = (locationId:any, freightId : any) => `v1/${locationId}/freight/update/${freightId}`;
