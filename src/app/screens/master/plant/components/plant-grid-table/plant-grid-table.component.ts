@@ -5,7 +5,6 @@ import { TransactionTypeModalComponent } from '../../../../modals/transaction-ty
 import { PlantService } from '../../../../../core/service';
 import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
-import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -18,8 +17,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     private modalService: NgbModal,
     private plantService : PlantService,
     private baseService : BaseService,
-    private toastr: ToastrService,
-    private lookupService : LookupService
+    private toastr: ToastrService
   ) { }
 
   @Input()
