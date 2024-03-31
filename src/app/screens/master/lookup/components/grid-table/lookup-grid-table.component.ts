@@ -15,7 +15,8 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
   lookupsListOrg : any;
   lookupsList : any;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private lookupService : LookupService,
     private baseService : BaseService,
     private toastr: ToastrService){}

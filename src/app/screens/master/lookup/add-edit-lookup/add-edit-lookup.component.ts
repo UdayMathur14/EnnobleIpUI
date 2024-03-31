@@ -12,98 +12,75 @@ import { LookupDataModel } from '../../../../core/model/lookup.model';
 })
 export class AddEditLookupComponent implements OnInit {
 
-  constructor(private router: Router,
-    private _route: ActivatedRoute,
+  constructor(
+    private router: Router,
+    private _Activatedroute: ActivatedRoute,
     private lookupService: LookupService,
     private toastr: ToastrService,
-    private baseService : BaseService){}
-    mode:any = 'create';
-    lookupId:any;
-    lookupData:LookupDataModel = {
-      code: '',
-      value: '',
-      description: '',
-      status: '',
-      attribute1: '',
-      attribute2: '',
-      attribute3: '',
-      attribute4: '',
-      createdBy: '',
-      createdOn: '',
-      modifiedBy: '',
-      modifiedOn: '',
-      messageStatus: '',
-      lookUpType:{
-        type: ''
-      }
-    };
-    lookupsTypeList:any;
+    private baseService: BaseService
+  ) { }
+
+  lookupId: any;
+  lookupData!: LookupDataModel;
+  queryData: any;
+  filledDetails: any;
 
   ngOnInit(): void {
-    // this.baseService.pointChargeSpinner.next(true);
-    this._route.paramMap.subscribe((paramMap:ParamMap) => {
-      if(paramMap.has('lookupId')){
-        this.mode = 'edit';
-        this.lookupId = paramMap.get('lookupId')
-      }else {
-        this.mode = 'create';
-        this.lookupId = null;
-      } 
-    })  
-    this.getLookupData(this.lookupId);
-    this.getLookupsTypeData()
+    this.baseService.lookupSpinner.next(true);
+    this.queryData = this._Activatedroute.snapshot.paramMap.get("lookupId");
+    this.getLookupData(this.queryData);
   }
 
   getLookupData(lookupId: string) {
-    if(this.mode == 'edit'){
-      this.baseService.lookupSpinner.next(true);
-      this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
-        this.lookupData = response;
-        this.baseService.lookupSpinner.next(false);
-      }, error => {
-        this.toastr.error(error.statusText, error.status);
-        this.baseService.lookupSpinner.next(false);
-      })
-    }
-    
-  }
-
-  getLookupsTypeData() {
-    let data = {
-      "type": ''
-    }
-    this.lookupService.getLookupsType(data).subscribe((response: any) => {
-      console.log(response)
-      this.lookupsTypeList = response.lookUpTypes;
+    this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
+      console.log(response);
+      this.lookupData = response;
+      this.baseService.lookupSpinner.next(false);
     }, error => {
       this.toastr.error(error.statusText, error.status);
+      this.baseService.lookupSpinner.next(false);
     })
+  }
+
+  onPressSubmit() {
+    this.baseService.lookupSpinner.next(true);
+    let data = {
+      typeId: this.lookupData.lookUpType.id,
+      code: this.lookupData.code,
+      value: this.lookupData.value,
+      description: this.lookupData.description,
+      status: this.lookupData.status,
+      attribute1: this.lookupData.attribute1,
+      attribute2: this.lookupData.attribute2,
+      attribute3: this.lookupData.attribute3,
+      attribute4: this.lookupData.attribute4
+    }
+    this.lookupService.updateLookup(this.queryData, data).subscribe((response: any) => {
+      this.lookupData = response;
+      this.toastr.success("Lookup Update Successfully");
+      this.baseService.lookupSpinner.next(false);
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.baseService.vendorSpinner.next(false);
+    })
+  }
+
+  onSaveButtonClick() {
+    this.filledDetails = {
+      type: this.lookupData.lookUpType.type,
+      code: this.lookupData.code,
+      value: this.lookupData.value,
+      description: this.lookupData.description,
+      status: this.lookupData.status,
+      attribute1: this.lookupData.attribute1,
+      attribute2: this.lookupData.attribute2,
+      attribute3: this.lookupData.attribute3,
+      attribute4: this.lookupData.attribute4
+    };
   }
 
   onCancelPress() {
     this.router.navigate(['/master/lookup'])
   }
-
-  onPressSubmit(){
-    this.baseService.lookupSpinner.next(true);
-    let data = {
-      // locationId: this.lookupData.locationId,
-      // pointName: this.lookupData.pointName,
-      // pointCharge: this.lookupData.pointCharge,
-      // sameLocationCharge: this.lookupData.sameLocationCharge,
-      // modifiedBy: '',
-      // status: this.lookupData.status
-    }
-     const apiCall = this.mode === 'create' ? this.lookupService.createLookup(data) : this.lookupService.updateLookup(this.lookupId, data);
-    apiCall.subscribe((response: any) => {
-      this.lookupData = response;
-      this.mode === 'create' ? this.toastr.success('Lookup Created Successfully'): this.toastr.success('Lookup Updated Successfully');
-      this.baseService.lookupSpinner.next(false);
-    }, error => {
-      this.toastr.error(error.statusText, error.status);
-      this.baseService.lookupSpinner.next(false);
-    })
-  }
-  
 
 }

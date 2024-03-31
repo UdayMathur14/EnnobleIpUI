@@ -1,19 +1,32 @@
 export interface LookupDataModel {
-  typeId?: string;
-  code: string;
-  value: string;
-  description: string;
-  status: string;
-  attribute1: string;
-  attribute2: string;
-  attribute3: string;
-  attribute4: string;
-  createdBy: string;
-  createdOn: string;
-  modifiedBy: string;
-  modifiedOn: string;
-  messageStatus: string;
-  lookUpType:{
-    type: string;
-  }
+  id: number,
+  typeId: number,
+  code: string,
+  value: string,
+  description: string,
+  status: string,
+  attribute1: null,
+  attribute2: null,
+  attribute3: null,
+  attribute4: null,
+  createdBy: string,
+  createdOn: string,
+  modifiedBy: string,
+  modifiedOn: string,
+  lookUpType: {
+    id: number,
+    type: string,
+    description: string,
+    status: string,
+    attribute1: null,
+    attribute2: null,
+    attribute3: null,
+    attribute4: null,
+    createdBy: string,
+    createdOn: string,
+    modifiedBy: string,
+    modifiedOn: string,
+    messageStatus: null
+  },
+  messageStatus: null
 }

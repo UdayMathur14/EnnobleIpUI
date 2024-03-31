@@ -16,7 +16,7 @@ export const APIConstant = {
     updatePart : `v1/part/update/`,
     lookups: `v1/lookup/search`,
     lookupData: `v1/lookup/`,
-    updateLookup: `/api/v1/lookup/update/`,
+    updateLookup: `v1/lookup/update/`,
     createLookup: `v1/lookup/create`,
     lookupstype: `v1/lookup-type/search`
 }
