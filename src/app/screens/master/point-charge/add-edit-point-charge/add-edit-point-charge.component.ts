@@ -52,7 +52,10 @@ export class AddEditPointChargeComponent implements OnInit {
   }
 
   getPointChargeData(pointChargeId: string, locationId: any) {
-    this.loadSpinner = true;
+    if (this.mode == 'edit') {
+      this.loadSpinner = true;
+    }
+
     if (this.mode == 'edit') {
       this.pointChargeService.getPointChargeData(locationId, pointChargeId).subscribe((response: any) => {
         this.pointChargeData = response;
@@ -103,7 +106,7 @@ export class AddEditPointChargeComponent implements OnInit {
 
   onPressSave() {
     this.loadSpinner = true;
-    if (this.pointChargeForm.valid) {
+    if (this.pointChargeForm.valid && this.mode == 'edit') {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
@@ -111,16 +114,36 @@ export class AddEditPointChargeComponent implements OnInit {
         modifiedBy: '',
         status: this.pointChargeForm.get('status')?.value,
       }
-      const apiCall = this.mode === 'create' ? this.pointChargeService.createPointCharge(this.locationId, data) : this.pointChargeService.updatePointCharge(this.locationId, this.pointChargeId, data);
-      apiCall.subscribe((response: any) => {
+
+      this.pointChargeService.updatePointCharge(this.locationId, this.pointChargeId, data).subscribe((response: any) => {
         this.pointChargeData = response;
-        this.mode == 'edit' ? this.toastr.success('Point Charge Updated Successfully') : this.toastr.success('Point Charge Created Successfully');
+        this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
         this.router.navigate(['/master/pointCharge'])
       }, error => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;
       })
+    }
+    if (this.pointChargeForm.valid && this.mode == 'create') {
+      let data = {
+        pointName: this.pointChargeForm.get('pointName')?.value,
+        pointCharge: this.pointChargeForm.get('pointCharge')?.value,
+        sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
+        createdBy: '',
+        status: this.pointChargeForm.get('status')?.value,
+      }
+
+      this.pointChargeService.createPointCharge(this.locationId, data)
+        .subscribe((response: any) => {
+          this.pointChargeData = response;
+          this.toastr.success('Point Charge Created Successfully')
+          this.loadSpinner = false;
+          this.router.navigate(['/master/pointCharge'])
+        }, error => {
+          this.toastr.error(error.statusText, error.status);
+          this.loadSpinner = false;
+        })
     }
     this.loadSpinner = false;
   }

@@ -13,14 +13,9 @@
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Location Code</label>
-          <input type="text" class="input-field" disabled [value]="locationValue" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
           <label for="">Point Name</label>
-          <input type="text" class="input-field" formControlName="pointName" />
+          <input type="text" class="input-field" formControlName="pointName" [readonly]="mode == 'edit'"
+          [ngStyle]="{'background-color': mode === 'edit' ? '#D3D3D3' : ''}" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
