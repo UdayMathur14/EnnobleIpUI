@@ -29,9 +29,6 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
 
   ngOnInit() :void{
     this.getAllPlantsList();
-    let loc = this.lookupService.locations.subscribe((response:any) => {
-      localStorage.setItem('locationId', response[0].id)
-    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {

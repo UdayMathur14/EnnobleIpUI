@@ -27,7 +27,6 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
 
   //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
-    debugger
     if(changes['searchedFreight'].currentValue){
       this.getFilteredFreightsList();
     } else if(changes['searchedFreight'].firstChange === false && changes['searchedFreight'].currentValue === undefined){

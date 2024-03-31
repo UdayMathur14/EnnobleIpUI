@@ -8,21 +8,24 @@ import { LookupService } from "../core/service/lookup.service";
     styleUrls: ["screens.component.scss"],
 })
 export class ScreensComponent implements OnInit {
-    constructor(private lookupService: LookupService,
-        public baseService: BaseService) { }
+    constructor(
+        private lookupService: LookupService,
+        public baseService: BaseService
+    ) { }
     loadSpinner: boolean = false;
-    locations : any;
+    locations: any;
 
     ngOnInit() {
         let key = {
-            type : 'loc'
+            type: 'loc'
         };
 
         this.lookupService.getLookupData(key).subscribe((response: any) => {
-            this.lookupService.locations.next(response.lookUps)
+            localStorage.setItem('locationId', response[0].id)
         }, error => {
 
         })
+
         this.baseService.plantSpinner.subscribe((res) => {
             this.loadSpinner = res;
         });
