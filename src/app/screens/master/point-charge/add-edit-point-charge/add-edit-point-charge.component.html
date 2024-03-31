@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>{{ mode === 'edit' ? 'Edit Point Charge' : 'Create Point Charge' }}</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!pointChargeForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>

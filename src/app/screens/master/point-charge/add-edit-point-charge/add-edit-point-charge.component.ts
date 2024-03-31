@@ -53,6 +53,7 @@ export class AddEditPointChargeComponent implements OnInit {
   }
 
   getPointChargeData(pointChargeId: string,locationId:any) {
+    this.loadSpinner = true;
     if(this.mode == 'edit'){
       this.pointChargeService.getPointChargeData(locationId,pointChargeId).subscribe((response: any) => {
         this.pointChargeData = response;
@@ -104,7 +105,6 @@ export class AddEditPointChargeComponent implements OnInit {
   onPressSave(){
     this.loadSpinner = true;
     if(this.pointChargeForm.valid){
-      
     let data = {
       pointName: this.pointChargeForm.get('pointName')?.value,
       pointCharge: this.pointChargeForm.get('pointCharge')?.value,
@@ -117,6 +117,7 @@ export class AddEditPointChargeComponent implements OnInit {
       this.pointChargeData = response;
       this.mode=='edit'? this.toastr.success('Point Charge Updated Successfully'): this.toastr.success('Point Charge Created Successfully');
       this.loadSpinner = false;
+      this.router.navigate(['/master/pointCharge'])
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
