@@ -13,6 +13,7 @@
       </tr>
     </thead>
     <tbody>
+      @for (freight of freightList; track freight.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -20,36 +21,53 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>F00020</u>
+            <u>{{freight.freightCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{freight.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{freight.createdBy }}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{freight.modifiedOn }}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{freight.modifiedBy }}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>NOIDA_LGIL_HA/td>
-        <td>Surajpur</td>
-        <td>Noida Phase II</td>
-        <td>10</td>
-        <td>1000</td>
-        <td>-</td>
+        <td>{{freight.locationCode}}</td>
+        <td>{{freight.source}}</td>
+        <td>{{freight.destination}}</td>
+        <td>{{freight.vehicleSize}}</td>
+        <td>{{freight.freightAmount}}</td>
+        <td>{{freight.remarks}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
             class="pointer"
-            alt="edit"
-            (click)="onEditFreight()"
+            alt="edit" 
+            (click)="onGoToEditFreight(freight)"
           />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Freight Code Found</td>
+      </tr>
+    }
     </tbody>
   </table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

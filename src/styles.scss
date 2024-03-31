@@ -118,6 +118,12 @@ body {
             outline: none;
         }
     }
+
+    input,textarea{
+        &:read-only{
+            background-color: var(--gray2);
+        }
+    }
 }
 
 .filter-section {

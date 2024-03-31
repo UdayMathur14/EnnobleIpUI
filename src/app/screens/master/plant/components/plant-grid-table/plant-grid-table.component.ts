@@ -5,6 +5,7 @@ import { TransactionTypeModalComponent } from '../../../../modals/transaction-ty
 import { PlantService } from '../../../../../core/service';
 import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -17,7 +18,8 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     private modalService: NgbModal,
     private plantService : PlantService,
     private baseService : BaseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private lookupService : LookupService
   ) { }
 
   @Input()
@@ -27,6 +29,9 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
 
   ngOnInit() :void{
     this.getAllPlantsList();
+    let loc = this.lookupService.locations.subscribe((response:any) => {
+      localStorage.setItem('locationId', response[0].id)
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
