@@ -10,7 +10,7 @@ import { map, Subject } from 'rxjs';
 })
 export class LookupService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService, APIConstant.plant);
+        super(baseService);
     }
 
     locations = new Subject;

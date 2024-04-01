@@ -10,7 +10,7 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class PartService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService, APIConstant.plant);
+        super(baseService);
     }
 
     getParts(data : any){
