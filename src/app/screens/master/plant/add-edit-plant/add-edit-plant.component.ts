@@ -134,4 +134,7 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping[index].code = e.code;
   }
 
+  onDeleteTransaction(transaction:any, index:number){
+    this.plantData.transactionTypeMapping.splice(index, 1);
+  }
 }
