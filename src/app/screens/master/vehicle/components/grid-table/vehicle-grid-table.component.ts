@@ -15,6 +15,7 @@ export class VehicleGridTableComponent implements OnInit {
   lookupId:number=4;
   vehiclesList:any;
   @Input() filterKeyword!: string;
+  loadSpinner: boolean = true;
 
   constructor(private router: Router,
     private vehicleService: VehicleService,
@@ -43,10 +44,11 @@ export class VehicleGridTableComponent implements OnInit {
       "transporterId": 0
     }
     this.vehicleService.getvehicles(this.locationId,data).subscribe((response:any) => {
-      console.log(response)
       this.vehiclesList = response.vehicles;
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
     })
   }
 
