@@ -10,13 +10,13 @@ export class VehicleComponent {
   constructor(private router : Router){}
 
   isFilters : boolean = true;
-  filterKeyword: string = '';
+  searchedVehicle: string = '';
 
   onCreateVehicle(){
     this.router.navigate(['master/addVehicle'])
   }
 
-  onSearch(e: any) {
-    this.filterKeyword = e.target.value;
+  searchVehicle(event: any) {
+    this.searchedVehicle = event;
   }
 }

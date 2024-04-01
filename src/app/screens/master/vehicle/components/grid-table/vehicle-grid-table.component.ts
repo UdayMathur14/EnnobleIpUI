@@ -11,8 +11,9 @@ import { BaseService } from '../../../../../core/service/base.service';
 })
 export class VehicleGridTableComponent implements OnInit {
   vehiclesList:any;
-  @Input() filterKeyword!: string;
+  @Input() searchedVehicle: any;
   loadSpinner: boolean = true;
+  vehiclesListOrg:any;
 
   constructor(private router: Router,
     private vehicleService: VehicleService,
@@ -34,11 +35,35 @@ export class VehicleGridTableComponent implements OnInit {
     }
     this.vehicleService.getVehicles(data).subscribe((response:any) => {
       this.vehiclesList = response.vehicles;
+      this.vehiclesListOrg = response.plants;
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
     })
+  }
+
+  getFilteredVehiclesList() {
+    let data = {
+      "vehicleNumber": this.searchedVehicle.vehicleNumber,
+      "transporterId": this.searchedVehicle.transporterId
+    }
+    this.vehicleService.getVehicles(data).subscribe((response: any) => {
+      this.vehiclesList = response.vehicles;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchedVehicle'].currentValue) {
+      this.getFilteredVehiclesList();
+    } else if (changes['searchedVehicle'].firstChange === false && changes['searchedVehicle'].currentValue === '') {
+      this.getAllVehiclesList();
+    }
+
   }
 
 }
