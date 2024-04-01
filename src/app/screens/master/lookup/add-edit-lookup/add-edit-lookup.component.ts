@@ -18,7 +18,7 @@ export class AddEditLookupComponent implements OnInit {
   filledDetails: any;
   loadSpinner: boolean = true;
   lookupTypes: any;
-  // lookupTypesEdit: any;
+  showFilledDetails: boolean = false;
 
   constructor(
     private router: Router,
@@ -61,12 +61,61 @@ export class AddEditLookupComponent implements OnInit {
     })
   }
 
+  // getLookupData(lookupId: string) {
+  //   this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
+  //     console.log(response, "Lookup");
+
+  //     this.lookupForm.setValue({
+  //       // typeId: response.typeId,
+  //       typeId: response.typeId,
+  //       code: response.code,
+  //       value: response.value,
+  //       description: response.description,
+  //       status: response.status,
+  //       attribute1: response.attribute1,
+  //       attribute2: response.attribute2,
+  //       attribute3: response.attribute3,
+  //       attribute4: response.attribute4,
+  //     });
+  //     this.loadSpinner = false;
+  //   }, error => {
+  //     this.toastr.error(error.statusText, error.status);
+  //     this.loadSpinner = false;
+  //   });
+  // }
+  // getLookupData(lookupId: string) {
+  //   this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
+  //     console.log(response, "Lookup");
+  
+  //     // Set typeId form control to the id of the lookup type
+  //     this.lookupForm.patchValue({
+  //       typeId: response.typeId
+  //     });
+  
+  //     // Store the entire lookupType object for display purposes
+  //     this.lookupTypes = [response.lookUpType];
+  
+  //     this.lookupForm.setValue({
+  //       code: response.code,
+  //       value: response.value,
+  //       description: response.description,
+  //       status: response.status,
+  //       attribute1: response.attribute1,
+  //       attribute2: response.attribute2,
+  //       attribute3: response.attribute3,
+  //       attribute4: response.attribute4,
+  //     });
+  //     this.loadSpinner = false;
+  //   }, error => {
+  //     this.toastr.error(error.statusText, error.status);
+  //     this.loadSpinner = false;
+  //   });
+  // }
+
   getLookupData(lookupId: string) {
     this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
       console.log(response, "Lookup");
-
-      this.lookupForm.setValue({
-        // typeId: response.typeId,
+      this.lookupForm.patchValue({
         typeId: response.typeId,
         code: response.code,
         value: response.value,
@@ -77,13 +126,16 @@ export class AddEditLookupComponent implements OnInit {
         attribute3: response.attribute3,
         attribute4: response.attribute4,
       });
+  
+      this.lookupTypes = [response.lookUpType];
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
     });
   }
-
+  
+  
   onPressSubmit() {
     this.loadSpinner = true;
     let data = {
@@ -108,7 +160,6 @@ export class AddEditLookupComponent implements OnInit {
     this.lookupService.updateLookup(this.queryData, data).subscribe((response: any) => {
       this.lookupData = response;
       this.loadSpinner = false;
-      // this.updateFilledDetails();
       this.toastr.success('Lookup Updated Successfully')
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -120,7 +171,6 @@ export class AddEditLookupComponent implements OnInit {
     this.lookupService.createLookup(data).subscribe((response: any) => {
       this.lookupData = response;
       this.loadSpinner = false;
-      // this.updateFilledDetails();
       this.toastr.success('Lookup Created Successfully');
       this.router.navigate(['/master/lookup']);
     }, error => {
@@ -131,10 +181,26 @@ export class AddEditLookupComponent implements OnInit {
 
   onSaveButtonClick() {
     this.updateFilledDetails();
+    this.showFilledDetails = true;
   }
+
   updateFilledDetails() {
-    this.filledDetails = this.lookupForm.value;
+    const typeId = this.lookupForm.controls['typeId'].value;
+    const lookupType = this.lookupTypes.find((type: any) => type.id === typeId);
+    
+    this.filledDetails = {
+      typeId: lookupType ? lookupType.type : '',
+      code: this.lookupForm.controls['code'].value,
+      value: this.lookupForm.controls['value'].value,
+      description: this.lookupForm.controls['description'].value,
+      status: this.lookupForm.controls['status'].value,
+      attribute1: this.lookupForm.controls['attribute1'].value,
+      attribute2: this.lookupForm.controls['attribute2'].value,
+      attribute3: this.lookupForm.controls['attribute3'].value,
+      attribute4: this.lookupForm.controls['attribute4'].value,
+    };
   }
+  
 
   onCancelPress() {
     this.router.navigate(['/master/lookup'])
