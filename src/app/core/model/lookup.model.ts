@@ -1,10 +1,10 @@
 export interface LookupDataModel {
   id: number,
   typeId: number,
-  code: string,
-  value: string,
-  description: string,
-  status: string,
+  code?: string,
+  value?: string,
+  description?: string,
+  status?: string,
   attribute1: null,
   attribute2: null,
   attribute3: null,
@@ -27,6 +27,6 @@ export interface LookupDataModel {
     modifiedBy: string,
     modifiedOn: string,
     messageStatus: null
-  },
+  } 
   messageStatus: null
 }

@@ -14,7 +14,7 @@ export class LookupComponent {
   constructor(private router: Router){}
 
   onCreateLookup(){
-    this.router.navigate(['master/addLookup'])
+    this.router.navigate(['master/addEditLookup', '0'])
   }
 
   onSearch(e:any){

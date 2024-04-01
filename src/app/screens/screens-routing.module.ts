@@ -65,7 +65,7 @@ const routes: Routes = [
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
             { path: "master/lookup", component: LookupComponent },
             { path: "master/editLookup/:lookupId", component: AddEditLookupComponent },
-            { path: "master/addLookup", component: AddEditLookupComponent },
+            { path: "master/addEditLookup/:lookupId", component: AddEditLookupComponent },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
             { path: "transaction/bilti", component: BiltiComponent },

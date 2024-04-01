@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BaseService } from '../../../../core/service/base.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { LookupDataModel } from '../../../../core/model/lookup.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-edit-lookup',
@@ -12,71 +12,128 @@ import { LookupDataModel } from '../../../../core/model/lookup.model';
 })
 export class AddEditLookupComponent implements OnInit {
 
-  constructor(
-    private router: Router,
-    private _Activatedroute: ActivatedRoute,
-    private lookupService: LookupService,
-    private toastr: ToastrService,
-    private baseService: BaseService
-  ) { }
-
-  lookupId: any;
+  lookupForm: FormGroup;
   lookupData!: LookupDataModel;
   queryData: any;
   filledDetails: any;
+  loadSpinner: boolean = true;
+  lookupTypes: any;
+  // lookupTypesEdit: any;
+
+  constructor(
+    private router: Router,
+    private lookupService: LookupService,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder,
+    private _Activatedroute: ActivatedRoute,
+  ) {
+    this.lookupForm = this.formBuilder.group({
+      typeId: ['', Validators.required],
+      code: ['', Validators.required],
+      value: ['', Validators.required],
+      description: ['', Validators.required],
+      status: ['', Validators.required],
+      attribute1: ['', Validators.required],
+      attribute2: ['', Validators.required],
+      attribute3: ['', Validators.required],
+      attribute4: ['', Validators.required],
+    })
+  }
 
   ngOnInit(): void {
-    this.baseService.lookupSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("lookupId");
-    this.getLookupData(this.queryData);
+    this.queryData = this.queryData == 0 ? '' : this.queryData;
+    if (this.queryData != 0) {
+      this.getLookupData(this.queryData);
+    } else {
+      this.getLookupTypes();
+    }
+    this.loadSpinner = false;
+  }
+
+  getLookupTypes() {
+    let data = {}
+    this.lookupService.getLookupsType(data).subscribe((response: any) => {
+      console.log(response)
+      this.lookupTypes = response.lookUpTypes;
+    }, error => {
+      this.toastr.error(error.statusText, error.status)
+    })
   }
 
   getLookupData(lookupId: string) {
     this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
-      console.log(response);
-      this.lookupData = response;
-      this.baseService.lookupSpinner.next(false);
+      console.log(response, "Lookup");
+
+      this.lookupForm.setValue({
+        // typeId: response.typeId,
+        typeId: response.typeId,
+        code: response.code,
+        value: response.value,
+        description: response.description,
+        status: response.status,
+        attribute1: response.attribute1,
+        attribute2: response.attribute2,
+        attribute3: response.attribute3,
+        attribute4: response.attribute4,
+      });
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.lookupSpinner.next(false);
-    })
+      this.loadSpinner = false;
+    });
   }
 
   onPressSubmit() {
-    this.baseService.lookupSpinner.next(true);
+    this.loadSpinner = true;
     let data = {
-      typeId: this.lookupData.lookUpType.id,
-      code: this.lookupData.code,
-      value: this.lookupData.value,
-      description: this.lookupData.description,
-      status: this.lookupData.status,
-      attribute1: this.lookupData.attribute1,
-      attribute2: this.lookupData.attribute2,
-      attribute3: this.lookupData.attribute3,
-      attribute4: this.lookupData.attribute4
+      typeId: this.lookupForm.controls['typeId'].value,
+      code: this.lookupForm.controls['code'].value,
+      value: this.lookupForm.controls['value'].value,
+      description: this.lookupForm.controls['description'].value,
+      status: this.lookupForm.controls['status'].value,
+      attribute1: this.lookupForm.controls['attribute1'].value,
+      attribute2: this.lookupForm.controls['attribute2'].value,
+      attribute3: this.lookupForm.controls['attribute3'].value,
+      attribute4: this.lookupForm.controls['attribute4'].value,
     }
+    if (this.queryData) {
+      this.updateLookup(data);
+    } else {
+      this.createNewLookup(data);
+    }
+  }
+
+  updateLookup(data: any) {
     this.lookupService.updateLookup(this.queryData, data).subscribe((response: any) => {
       this.lookupData = response;
-      this.toastr.success("Lookup Update Successfully");
-      this.baseService.lookupSpinner.next(false);
+      this.loadSpinner = false;
+      // this.updateFilledDetails();
+      this.toastr.success('Lookup Updated Successfully')
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.vendorSpinner.next(false);
+      this.loadSpinner = false;
+    })
+  }
+
+  createNewLookup(data: any) {
+    this.lookupService.createLookup(data).subscribe((response: any) => {
+      this.lookupData = response;
+      this.loadSpinner = false;
+      // this.updateFilledDetails();
+      this.toastr.success('Lookup Created Successfully');
+      this.router.navigate(['/master/lookup']);
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
     })
   }
 
   onSaveButtonClick() {
-    this.filledDetails = {
-      type: this.lookupData.lookUpType.type,
-      code: this.lookupData.code,
-      value: this.lookupData.value,
-      description: this.lookupData.description,
-      status: this.lookupData.status,
-      attribute1: this.lookupData.attribute1,
-      attribute2: this.lookupData.attribute2,
-      attribute3: this.lookupData.attribute3,
-      attribute4: this.lookupData.attribute4
-    };
+    this.updateFilledDetails();
+  }
+  updateFilledDetails() {
+    this.filledDetails = this.lookupForm.value;
   }
 
   onCancelPress() {

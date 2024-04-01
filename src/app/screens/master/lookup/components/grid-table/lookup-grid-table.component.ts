@@ -35,7 +35,7 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
   }
 
   onGoToEditLookup(lookupData:any) {
-    this.router.navigate(['master/editLookup', lookupData.id]);
+    this.router.navigate(['master/addEditLookup', lookupData.id]);
   }
 
   getAllLookupsList(){

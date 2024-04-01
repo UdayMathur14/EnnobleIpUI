@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>Edit Lookup</h1>
+    <h1>{{queryData ? 'Edit' : 'Create' }} Lookup</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onSaveButtonClick()">Save</button>
         <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
@@ -8,72 +8,77 @@
 </div>
 
 <div class="content-section p-3">
-    <div class="row">
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Type</label>
-                <!-- <ng-select  disabled class="input-field" [ngModel]="lookupData.lookUpType.type" >
-                    <ng-option *ngFor="let lookUpType of lookupsTypeList"
-                        >{{lookUpType.type}}</ng-option>
-                </ng-select> -->
-                <input type="text" class="input-field" [(ngModel)]="lookupData.lookUpType.type" disabled />
+    <form [formGroup]="lookupForm">
+        <div class="row">
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Type</label>
+                    <ng-select class="input-field" formControlName="typeId" *ngIf="queryData" [readonly]="true">
+                        <ng-option *ngFor="let lookupType of lookupTypes"
+                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
+                    </ng-select>
+                    <ng-select class="input-field" formControlName="typeId" *ngIf="!queryData">
+                        <ng-option *ngFor="let lookupType of lookupTypes"
+                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
+                    </ng-select>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Code</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.code" disabled />
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Code</label>
+                    <input type="text" class="input-field" formControlName="code" />
+                </div>
             </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Value</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.value" />
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Value</label>
+                    <input type="text" class="input-field" formControlName="value" />
+                </div>
             </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Description</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.description" />
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Description</label>
+                    <input type="text" class="input-field" formControlName="description" />
+                </div>
             </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Status</label>
-                <select name="" id="" [(ngModel)]="lookupData.status">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Status</label>
+                    <select name="" id="" formControlName="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Attribute 1</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.attribute1" />
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 1</label>
+                    <input type="text" class="input-field" formControlName="attribute1" />
+                </div>
             </div>
-        </div>
 
-    </div>
-    <div class="row">
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Attribute 2</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.attribute2" />
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 2</label>
+                    <input type="text" class="input-field" formControlName="attribute2" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 3</label>
+                    <input type="text" class="input-field" formControlName="attribute3" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 4</label>
+                    <input type="text" class="input-field" formControlName="attribute4" />
+                </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Attribute 3</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.attribute3" />
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Attribute 4</label>
-                <input type="text" class="input-field" [(ngModel)]="lookupData.attribute4" />
-            </div>
-        </div>
-    </div>
+    </form>
 
     <div class="edit-screen-subTable">
         <h4 class="">Filled Details</h4>
@@ -96,7 +101,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ filledDetails?.type }}</td>
+                    <td>{{ filledDetails?.typeId }}</td>
                     <td>{{ filledDetails?.code }}</td>
                     <td>{{ filledDetails?.value }}</td>
                     <td>{{ filledDetails?.description }}</td>
