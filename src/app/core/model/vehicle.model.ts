@@ -5,6 +5,39 @@ export interface VehicleDataModel {
     vehicleSize: number;
     transporterId: number;
     vehicleCondition: string;
+    transporterEntity: {
+      locationId: number,
+      transporterCode: string,
+      transporterName: string,
+      transporterAddress1: string,
+      transporterAddress2: string,
+      city: string,
+      stateCode: string,
+      countryCode: string,
+      postalCode: string,
+      panNo: string,
+      gstnNo: string,
+      transporterPayterm: string,
+      transporterPaytermStatus: string,
+      transporterContactNo: string,
+      transporterMailId: string,
+      gstType: string,
+      regdDetails: string,
+      autoBiltiRequiredFlag: string,
+      autoBiltiStartingCharacter: string,
+      consignorName: string,
+      consignorContactInformation: string,
+      biltiHeaderComments: string,
+      note: string,
+      footer: string,
+      inactiveDate: string,
+      transporterStatus: string,
+      createdBy:string,
+      createdOn: string,
+      modifiedBy: string,
+      modifiedOn: string,
+      messageStatus: string
+    },
     remarks: string;
     vehicleStatus: string;
     inactiveDate: string;
