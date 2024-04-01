@@ -135,5 +135,3 @@ export class AddEditPlantComponent implements OnInit {
   }
 
 }
-
-
