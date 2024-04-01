@@ -24,11 +24,10 @@ export class VehicleFiltersComponent implements OnInit {
 
   getAllVehiclesListInit() {
     let data = {
-      // "vendorCode": '',
       "vehicleNumber": ''
     }
     this.vehicleService.getVehicles(data).subscribe((response: any) => {
-      this.vehiclesList = response.vendors;
+      this.vehiclesList = response.vehicles;
     }, error => {
       this.toastr.error(error.statusText, error.status);
     });
