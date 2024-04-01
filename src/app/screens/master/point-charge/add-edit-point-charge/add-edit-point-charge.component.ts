@@ -23,9 +23,6 @@ export class AddEditPointChargeComponent implements OnInit {
   pointChargeId: any;
   pointChargeData!: PointChargeDataModel
   pointChargesList: any = [];
-  lookupId: number = 4;
-  locationValue: string = '';
-  locationId: number = 0;
   loadSpinner: boolean = true;
   pointChargeForm = new FormGroup({
     pointName: new FormControl('', [Validators.required]),
@@ -48,16 +45,16 @@ export class AddEditPointChargeComponent implements OnInit {
         this.pointChargeId = null;
       }
     })
-    this.getLookupData()
+    this.getPointChargeData(this.pointChargeId)
   }
 
-  getPointChargeData(pointChargeId: string, locationId: any) {
+  getPointChargeData(pointChargeId: string) {
     if (this.mode == 'edit') {
       this.loadSpinner = true;
     }
 
     if (this.mode == 'edit') {
-      this.pointChargeService.getPointChargeData(locationId, pointChargeId).subscribe((response: any) => {
+      this.pointChargeService.getPointChargeData(pointChargeId).subscribe((response: any) => {
         this.pointChargeData = response;
         this.patchPointChargeForm(response);
         this.loadSpinner = false;
@@ -76,14 +73,6 @@ export class AddEditPointChargeComponent implements OnInit {
       sameLocationCharge: data.sameLocationCharge,
       status: data.status,
     });
-  }
-
-  getLookupData() {
-    this.pointChargeService.getLookupData(this.lookupId).subscribe((response: any) => {
-      this.locationValue = response.value;
-      this.locationId = response.id;
-      this.getPointChargeData(this.pointChargeId, this.locationId)
-    })
   }
 
 
@@ -115,7 +104,7 @@ export class AddEditPointChargeComponent implements OnInit {
         status: this.pointChargeForm.get('status')?.value,
       }
 
-      this.pointChargeService.updatePointCharge(this.locationId, this.pointChargeId, data).subscribe((response: any) => {
+      this.pointChargeService.updatePointCharge(this.pointChargeId, data).subscribe((response: any) => {
         this.pointChargeData = response;
         this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
@@ -134,7 +123,7 @@ export class AddEditPointChargeComponent implements OnInit {
         status: this.pointChargeForm.get('status')?.value,
       }
 
-      this.pointChargeService.createPointCharge(this.locationId, data)
+      this.pointChargeService.createPointCharge(data)
         .subscribe((response: any) => {
           this.pointChargeData = response;
           this.toastr.success('Point Charge Created Successfully')

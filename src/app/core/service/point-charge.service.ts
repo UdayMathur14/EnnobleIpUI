@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { PointChargeRequest } from '../models/point-charge';
 import { BaseService } from './base.service';
-import { APIConstant } from '../constants';
+import { APIConstant, pointCharge, pointChargeData, updatePointCharge, createPointCharge } from '../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -12,23 +12,21 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
     super(baseService);
   }
 
-  getPointCharges(locationId: number, data: any) {
-    return this.baseService.post(APIConstant.basePath + `v1/${locationId}/point-charge/search`, data);
+  getPointCharges(data: any) {
+    return this.baseService.post(APIConstant.basePath + pointCharge(localStorage.getItem('locationId')), data);
   }
 
-  getPointChargeData(locationId: number, pointChargeId: string) {
-    return this.baseService.get(
-      APIConstant.basePath + `v1/${locationId}/point-charge/` + pointChargeId);
+  getPointChargeData(pointChargeId: string) {
+    return this.baseService.get(APIConstant.basePath +pointChargeData(localStorage.getItem('locationId'), pointChargeId));
   }
 
-  updatePointCharge(locationId: number, pointChargeId: string, data: object) {
-    return this.baseService.put(
-      APIConstant.basePath + `v1/${locationId}/point-charge/update/` + pointChargeId, data);
+  updatePointCharge(pointChargeId: string, data: object) {
+    return this.baseService.put(APIConstant.basePath + updatePointCharge(localStorage.getItem('locationId'), pointChargeId), data);
   }
 
-  createPointCharge(locationId: number, data: object) {
+  createPointCharge(data: object) {
     return this.baseService.post(
-      APIConstant.basePath + `v1/${locationId}/point-charge/create`, data);
+      APIConstant.basePath +createPointCharge(localStorage.getItem('locationId')), data);
   }
 
   getLookupData(lookupId: number) {
