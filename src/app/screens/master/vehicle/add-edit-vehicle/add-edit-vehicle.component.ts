@@ -24,8 +24,6 @@ export class AddEditVehicleComponent implements OnInit {
   vehicleId: any;
   vehicleData!: VehicleDataModel;
   vehiclesList: any = [];
-  lookupId: number = 4;
-  locationId: number = 0;
   loadSpinner: boolean = true;
   lookupsList:any;
   transportersList = [
@@ -68,17 +66,17 @@ export class AddEditVehicleComponent implements OnInit {
         this.vehicleId = null;
       }
     })
-    this.getLookupData();
+    this.getVehicleData(this.vehicleId);
     this.getAllLookups();
   }
   
-  getPointChargeData(vehicleId: string, locationId: any) {
+  getVehicleData(vehicleId: string) {
     if (this.mode == 'edit') {
       this.loadSpinner = true;
     }
 
     if (this.mode == 'edit') {
-      this.vehicleService.getVehicleData(locationId, vehicleId).subscribe((response: any) => {
+      this.vehicleService.getVehicleData(vehicleId).subscribe((response: any) => {
         this.vehicleData = response;
         this.patchVehicleForm(response);
         this.loadSpinner = false;
@@ -107,13 +105,6 @@ export class AddEditVehicleComponent implements OnInit {
     });
   }
 
-  getLookupData() {
-    this.vehicleService.getLookupData(this.lookupId).subscribe((response: any) => {
-      this.locationId = response.id;
-      this.getPointChargeData(this.vehicleId, this.locationId)
-    })
-  }
-
   onOptionSelected(selected: any) {
     console.log(selected);
     this.vehicleForm.patchValue({
@@ -136,7 +127,7 @@ export class AddEditVehicleComponent implements OnInit {
         modifiedBy: '',
       }
 
-      this.vehicleService.updateVehicle(this.locationId,this.vehicleId, data)
+      this.vehicleService.updateVehicle(this.vehicleId, data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')
@@ -160,7 +151,7 @@ export class AddEditVehicleComponent implements OnInit {
         vehicleStatus: this.vehicleForm.get('vehicleStatus')?.value,
       }
 
-      this.vehicleService.createVehicle(this.locationId, data)
+      this.vehicleService.createVehicle(data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Created Successfully')

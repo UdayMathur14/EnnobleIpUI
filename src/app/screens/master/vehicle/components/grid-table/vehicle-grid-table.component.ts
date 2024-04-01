@@ -10,9 +10,6 @@ import { BaseService } from '../../../../../core/service/base.service';
   styleUrl: './vehicle-grid-table.component.scss'
 })
 export class VehicleGridTableComponent implements OnInit {
-
-  locationId:number=0;
-  lookupId:number=4;
   vehiclesList:any;
   @Input() filterKeyword!: string;
   loadSpinner: boolean = true;
@@ -23,17 +20,11 @@ export class VehicleGridTableComponent implements OnInit {
     private baseService : BaseService,) { }
 
   ngOnInit() :void{
-    this.getLookupData();
     this.getAllVehiclesList();
   }
 
   onEditVehicle(vehicleData: any) {
     this.router.navigate(['master/editVehicle', vehicleData.id]);
-  }
-  getLookupData() {
-    this.vehicleService.getLookupData(this.lookupId).subscribe((response: any) => {
-      this.locationId = response.id;
-    })
   }
 
   getAllVehiclesList(){
@@ -41,7 +32,7 @@ export class VehicleGridTableComponent implements OnInit {
       "vehicleNumber" : '',
       "transporterId": 0
     }
-    this.vehicleService.getVehicles(this.locationId,data).subscribe((response:any) => {
+    this.vehicleService.getVehicles(data).subscribe((response:any) => {
       this.vehiclesList = response.vehicles;
       this.loadSpinner = false;
     }, error => {

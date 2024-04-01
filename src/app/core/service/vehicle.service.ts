@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { VehicleRequest } from '../models/vehicle';
 import { BaseService } from './base.service';
 import { CRUDService } from './crud.service';
-import { APIConstant } from '../constants';
+import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,31 +13,25 @@ export class VehicleService extends CRUDService<VehicleRequest> {
     super(baseService);
   }
 
-  getVehicles(locationId:number,data: any) {
-    return this.baseService.post(APIConstant.basePath + `v1/${locationId}/vehicle/search`,data);
+  getVehicles(data: any) {
+    return this.baseService.post(APIConstant.basePath + vehicle(localStorage.getItem('locationId')), data);
   }
 
-  getVehicleData(locationId: number, vehicleId: string) {
+  getVehicleData(vehicleId: string) {
     return this.baseService.get(
-      APIConstant.basePath + `v1/${locationId}/vehicle/` + vehicleId);
+      APIConstant.basePath + vehicleData(localStorage.getItem('locationId'), vehicleId));
   }
 
-  updateVehicle(locationId: number, vehicleId: string, data: object) {
-    return this.baseService.put(
-      APIConstant.basePath + `v1/${locationId}/vehicle/update/` + vehicleId, data);
+  updateVehicle(vehicleId: string, data: object) {
+    return this.baseService.put(APIConstant.basePath + updateVehicle(localStorage.getItem('locationId'), vehicleId), data);
   }
 
-  createVehicle(locationId: number, data: object) {
-    return this.baseService.post(APIConstant.basePath + `v1/${locationId}/vehicle/create`, data);
-  }
-
-  getLookupData(lookupId:number) {
-    return this.baseService.get(
-      APIConstant.basePath + APIConstant.lookupdata + lookupId);
+  createVehicle(data: object) {
+    return this.baseService.post(APIConstant.basePath + createVehicle(localStorage.getItem('locationId')), data);
   }
 
   getLookups(data:any) {
     return this.baseService.post(
-      APIConstant.basePath + APIConstant.lookups, data);
+      APIConstant.basePath + APIConstant.getLookupData, data);
   }
 }
