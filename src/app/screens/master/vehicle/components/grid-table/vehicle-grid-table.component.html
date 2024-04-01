@@ -16,6 +16,7 @@
       </tr>
     </thead>
     <tbody>
+      @for (vehicle of vehiclesList; track vehicle.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -23,30 +24,38 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>DL1LW2399</u>
+            <u>{{vehicle.vehicleNumber}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{vehicle.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{vehicle.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{vehicle.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{vehicle.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>10</td>
-        <td>V-Trans A Group</td>
-        <td>Victor Pushin Pvt. Ltd.</td>
-        <td>Noida Dadri Road</td>
-        <td>9835626261</td>
+        <td>{{vehicle.vehicleSize}}</td>
+        <td>{{vehicle.transporterEntity.transporterName}}</td>
         <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>Active</td>
+        <td>{{vehicle.transporterEntity.transporterAddress1}}</td>
+        <td>{{vehicle.transporterEntity.transporterContactNo}}</td>
+        <td>{{vehicle.transporterEntity.transporterMailId}}</td>
+        <td>{{vehicle.vehicleCondition}}</td>
+        <td>{{vehicle.remarks}}</td>
+        <td>{{vehicle.vehicleStatus}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
@@ -56,6 +65,11 @@
           />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Vehicle Found</td>
+      </tr>
+    }
     </tbody>
   </table>
 </div>
