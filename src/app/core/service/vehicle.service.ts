@@ -13,13 +13,8 @@ export class VehicleService extends CRUDService<VehicleRequest> {
     super(baseService);
   }
 
-  getvehicles(locationId:number,data: any) {
+  getVehicles(locationId:number,data: any) {
     return this.baseService.post(APIConstant.basePath + `v1/${locationId}/vehicle/search`,data);
-  }
-
-  getLookupData(lookupId:number) {
-    return this.baseService.get(
-      APIConstant.basePath + APIConstant.lookupdata + lookupId);
   }
 
   getVehicleData(locationId: number, vehicleId: string) {
@@ -34,5 +29,15 @@ export class VehicleService extends CRUDService<VehicleRequest> {
 
   createVehicle(locationId: number, data: object) {
     return this.baseService.post(APIConstant.basePath + `v1/${locationId}/vehicle/create`, data);
+  }
+
+  getLookupData(lookupId:number) {
+    return this.baseService.get(
+      APIConstant.basePath + APIConstant.lookupdata + lookupId);
+  }
+
+  getLookups(data:any) {
+    return this.baseService.post(
+      APIConstant.basePath + APIConstant.lookups, data);
   }
 }

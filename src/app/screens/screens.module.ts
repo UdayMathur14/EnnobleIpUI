@@ -75,6 +75,7 @@ import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/c
 import { ChangeBiltiStatusGridTableComponent } from "./transactions/change-bilti-status/components/grid-table/change-bilti-status-grid-table.component";
 import { ChangeBiltiStatusFilterComponent } from "./transactions/change-bilti-status/components/filter/change-bilti-status-filter.component";
 import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-filter.component";
+import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { VendorFilterComponent } from "./master/vendor/components/filter/vendor-
         VehicleComponent,
         VehicleFiltersComponent,
         VehicleGridTableComponent,
+        AddEditVehicleComponent,
         TransactionGridTableComponent,
         TransactionTypeComponent,
         AddEditTransactionTypeComponent,

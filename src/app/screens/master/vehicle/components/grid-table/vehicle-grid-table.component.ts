@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
@@ -27,11 +27,9 @@ export class VehicleGridTableComponent implements OnInit {
     this.getAllVehiclesList();
   }
 
-
-  onEditVehicle() {
-    this.router.navigate(['master/addEditVehicle']);
+  onEditVehicle(vehicleData: any) {
+    this.router.navigate(['master/editVehicle', vehicleData.id]);
   }
-
   getLookupData() {
     this.vehicleService.getLookupData(this.lookupId).subscribe((response: any) => {
       this.locationId = response.id;
@@ -43,7 +41,7 @@ export class VehicleGridTableComponent implements OnInit {
       "vehicleNumber" : '',
       "transporterId": 0
     }
-    this.vehicleService.getvehicles(this.locationId,data).subscribe((response:any) => {
+    this.vehicleService.getVehicles(this.locationId,data).subscribe((response:any) => {
       this.vehiclesList = response.vehicles;
       this.loadSpinner = false;
     }, error => {

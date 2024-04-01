@@ -18,6 +18,7 @@ export const APIConstant = {
     updateTransactionTypeData : `v1/transaction-type/update/`,
     getLookupData : `v1/lookup/search`,
     lookupdata: `v1/lookup/`,
+    lookups: 'v1/lookup/search'
 }
 
 export const freight = (locationId:any) => `v1/${locationId}/freight/search`;
