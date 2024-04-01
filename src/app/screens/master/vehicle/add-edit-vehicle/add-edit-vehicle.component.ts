@@ -44,7 +44,7 @@ export class AddEditVehicleComponent implements OnInit {
     vehicleSize: new FormControl('', [Validators.required]),
     vehicleCondition: new FormControl('', [Validators.required]),
     remarks: new FormControl('', [Validators.required]),
-    vehicleStatus: new FormControl('', [Validators.required]),
+    vehicleStatus: new FormControl('Active', [Validators.required]),
     ownerName: new FormControl(''),
     address: new FormControl(''),
     mobileNumber1: new FormControl(''),
