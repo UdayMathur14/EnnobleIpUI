@@ -18,15 +18,16 @@ export class AddEditPlantComponent implements OnInit {
   queryData: any;
   plantData!: PlantDataModel;
   plantsList: any = [];
+  transactionTypesList: any = [];
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
     private plantService: PlantService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private baseService : BaseService,
-    private transactionService : TransactionTypesService
-  ) { 
+    private baseService: BaseService,
+    private transactionService: TransactionTypesService
+  ) {
     this.plantForm = this.formBuilder.group({
       plantCode: [''],
       plantDesc: [''],
@@ -34,7 +35,7 @@ export class AddEditPlantComponent implements OnInit {
       city: [''],
       stateCode: [''],
       gstnNo: [''],
-      panNo : [''],
+      panNo: [''],
       plantType: [''],
       siteCode: [''],
       locationId: [''],
@@ -46,7 +47,7 @@ export class AddEditPlantComponent implements OnInit {
 
   ngOnInit(): void {
     this.baseService.plantSpinner.next(true);
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");   
+    this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
     this.getPlantData(this.queryData);
     this.getTransactionTypes();
   }
@@ -54,19 +55,19 @@ export class AddEditPlantComponent implements OnInit {
   getPlantData(plantId: string) {
     this.plantService.getPlantData(plantId).subscribe((response: any) => {
       this.plantForm.setValue({
-        plantCode : response.plantCode,
-        plantDesc : response.plantDesc,
-        plantAddress : response.plantAddress,
-        city : response.city,
-        stateCode : response.stateCode,
-        gstnNo : response.gstnNo,
-        panNo : response.panNo,
-        plantType : response.plantType,
-        siteCode : response.siteCode,
-        locationId : response.locationId,
-        dsc : response.dsc,
-        dcp : response.dcp,
-        status : response.status,
+        plantCode: response.plantCode,
+        plantDesc: response.plantDesc,
+        plantAddress: response.plantAddress,
+        city: response.city,
+        stateCode: response.stateCode,
+        gstnNo: response.gstnNo,
+        panNo: response.panNo,
+        plantType: response.plantType,
+        siteCode: response.siteCode,
+        locationId: response.locationId,
+        dsc: response.dsc,
+        dcp: response.dcp,
+        status: response.status,
       });
       this.plantData = response;
       this.baseService.plantSpinner.next(false);
@@ -76,13 +77,14 @@ export class AddEditPlantComponent implements OnInit {
     })
   }
 
-  getTransactionTypes (){
+  getTransactionTypes() {
     let data = {
-      "code" : ''
+      "code": ''
     }
     this.transactionService.getTransactionTypes(data).subscribe((response: any) => {
+      this.transactionTypesList = response.transactionTypes
     }, error => {
-      
+
     })
   }
 
@@ -90,7 +92,7 @@ export class AddEditPlantComponent implements OnInit {
     this.router.navigate(['/master/plant'])
   }
 
-  onPressSave(){
+  onPressSave() {
     this.baseService.plantSpinner.next(true);
     let data = {
       locationId: this.plantData.locationId,
@@ -98,7 +100,8 @@ export class AddEditPlantComponent implements OnInit {
       dcp: this.plantData.dcp,
       transactionType: '',
       modifiedBy: '',
-      status: this.plantData.status
+      status: this.plantData.status,
+      transactionTypeDetails : this.plantData.transactionTypeMapping
     }
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
@@ -110,10 +113,25 @@ export class AddEditPlantComponent implements OnInit {
     })
   }
 
-  onAddTransactionRow(){
-    
+  onAddTransactionRow() {
+    let obj = {
+      id: 0,
+      status: '',
+      attribute1: null,
+      attribute2: null,
+      attribute3: null,
+      attribute4: null,
+      txnTypeId: null,
+      name: '',
+      code: ''
+    }
+    this.plantData.transactionTypeMapping.push(obj);
+  }
+
+  onTransactionSelect(e: any, index: any) {
+    this.plantData.transactionTypeMapping[index].name = e.name;
+    this.plantData.transactionTypeMapping[index].status = e.status;
+    this.plantData.transactionTypeMapping[index].code = e.code;
   }
 
 }
-
-
