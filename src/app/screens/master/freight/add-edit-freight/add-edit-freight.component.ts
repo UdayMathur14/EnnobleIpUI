@@ -1,15 +1,121 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FreightService } from '../../../../core/service/freight.service';
 
 @Component({
   selector: 'app-add-edit-freight',
   templateUrl: './add-edit-freight.component.html',
   styleUrl: './add-edit-freight.component.scss'
 })
-export class AddEditFreightComponent {
-  constructor(private router: Router) {}
+export class AddEditFreightComponent implements OnInit {
+  freightForm: FormGroup;
+  loadSpinner: boolean = true;
+  queryData: any = '';
+  constructor(private router: Router,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder,
+    private freightService: FreightService,
+    private _Activatedroute: ActivatedRoute) {
+    this.freightForm = this.formBuilder.group({
+      freightCode: ['', Validators.required],
+      locationCode: ['', [Validators.required]],
+      source: ['', [Validators.required]],
+      destination: ['', [Validators.required]],
+      vehicleSize: ['', [Validators.required]],
+      freightAmount: ['', [Validators.required]],
+      status: ['Active', [Validators.required]],
+      matApproval: [''],
+      matApprovalOn: [''],
+      accApproval: [''],
+      accApprovalOn: [''],
+      remarks: [''],
+    });
+  }
 
-  onCancelPress(){
+  ngOnInit(): void {
+    this.queryData = this._Activatedroute.snapshot.paramMap.get("freightId");
+    this.queryData = this.queryData == 0 ? '' : this.queryData;
+    if (this.queryData != 0) {
+      this.getFreightData(this.queryData);
+    }
+    this.loadSpinner = false;
+  }
+
+  //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
+  getFreightData(freightId: string) {
+    this.freightService.getFreightData(freightId).subscribe((response: any) => {
+      this.freightForm.setValue({
+        freightCode: response.freightCode,
+        locationCode: response.locationCode,
+        source: response.source,
+        destination: response.destination,
+        vehicleSize: response.vehicleSize,
+        freightAmount: response.freightAmount,
+        status: response.status,
+        matApproval: response.approvedByMaterial,
+        matApprovalOn: response.approvedByMaterialOn,
+        accApproval: response.approvedByAccounts,
+        accApprovalOn: response.approvedByAccountsOn,
+        remarks: response.remarks,
+      });
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+    //FUNCTION EXECUTED ON SAVE BUTTON CLICK
+    onPressSave() {
+      this.loadSpinner = true;
+      let data = {
+        freightCode: this.freightForm.controls['freightCode'].value,
+        locationCode: this.freightForm.controls['locationCode'].value,
+        source:this.freightForm.controls['source'].value,
+        destination: this.freightForm.controls['destination'].value,
+        vehicleSize: this.freightForm.controls['vehicleSize'].value,
+        freightAmount: this.freightForm.controls['freightAmount'].value,
+        status: this.freightForm.controls['status'].value,
+        matApproval: this.freightForm.controls['matApproval'].value,
+        matApprovalOn: this.freightForm.controls['matApprovalOn'].value,
+        accApproval: this.freightForm.controls['accApproval'].value,
+        accApprovalOn: this.freightForm.controls['accApprovalOn'].value,
+        remarks: this.freightForm.controls['remarks'].value,
+      }
+      if(this.queryData){
+        this.updateFreight(data);
+      } else{
+        this.createNewFreight(data);
+      }
+    }
+  
+    //UPDATING FREIGHT DATA
+    updateFreight(data:any){
+      this.freightService.updateFreight(this.queryData, data).subscribe((response: any) => {
+        this.loadSpinner = false;
+        this.toastr.success('Freight Updated Successfully');
+      }, error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      })
+    }
+  
+    //CREATING NEW FREIGHT
+    createNewFreight(data:any){
+      this.freightService.createFreight(data).subscribe((response: any) => {
+        this.loadSpinner = false;
+        this.toastr.success('Freight Created Successfully');
+        this.router.navigate(['/master/freight'])
+      }, error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      })
+    }
+
+  //REDIRECTING USER BACK TO FREIGHT LISTING SCREEN
+  onCancelPress() {
     this.router.navigate(['master/freight']);
   }
 }

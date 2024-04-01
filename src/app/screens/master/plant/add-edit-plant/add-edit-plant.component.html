@@ -8,6 +8,7 @@
   </div>
 </div>
 <div class="content-section p-3">
+  <form [formGroup]="plantForm">
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
@@ -17,9 +18,7 @@
        </ng-select> -->
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.plantCode"
-            disabled
+            class="input-field" formControlName="plantCode" readonly
           />
         </div>
       </div>
@@ -28,9 +27,7 @@
           <label for="">Plant Description</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.plantDesc"
-            disabled
+            class="input-field" formControlName="plantDesc" readonly
           />
         </div>
       </div>
@@ -39,9 +36,7 @@
           <label for="">Plant Address</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.plantAddress"
-            disabled
+            class="input-field" formControlName="plantAddress" readonly
           />
         </div>
       </div>
@@ -50,9 +45,7 @@
           <label for="">City</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.city"
-            disabled
+            class="input-field" formControlName="city" readonly
           />
         </div>
       </div>
@@ -61,9 +54,7 @@
           <label for="">State</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.stateCode"
-            disabled
+            class="input-field" formControlName="stateCode" readonly
           />
         </div>
       </div>
@@ -74,9 +65,7 @@
           <label for="">PAN</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.panNo"
-            disabled
+            class="input-field" formControlName="panNo" readonly
           />
         </div>
       </div>
@@ -85,9 +74,7 @@
           <label for="">GSTIN</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.gstnNo"
-            disabled
+            class="input-field" formControlName="gstnNo" readonly
           />
         </div>
       </div>
@@ -96,9 +83,7 @@
           <label for="">Plant Type</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.plantType"
-            disabled
+            class="input-field" formControlName="plantType" readonly
           />
           <!-- <select name="" id="" disabled>
           <option value="active">Manufacturing</option>
@@ -111,9 +96,7 @@
           <label for="">Site Code</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.siteCode"
-            disabled
+            class="input-field" formControlName="siteCode" readonly
           />
         </div>
       </div>
@@ -122,8 +105,7 @@
           <label for="">Location Code</label>
           <input
             type="text"
-            class="input-field"
-            [(ngModel)]="plantData.locationId"
+            class="input-field" formControlName="locationId"
           />
           <!-- <div class="input-with-icon">
           <input type="text" class="input-field" />
@@ -134,7 +116,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">DSC</label>
-          <input type="text" class="input-field" [(ngModel)]="plantData.dsc" />
+          <input type="text" class="input-field" formControlName="dsc"/>
         </div>
       </div>
     </div>
@@ -142,19 +124,20 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">DCP</label>
-          <input type="text" class="input-field" [(ngModel)]="plantData.dcp" />
+          <input type="text" class="input-field" formControlName="dcp"/>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Status</label>
-          <select name="" id="" [(ngModel)]="plantData.status">
+          <select name="" id="" formControlName="status">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
         </div>
       </div>
     </div>
+  </form>
 
   <div class="edit-screen-subTable">
     <h4 class="">
@@ -173,20 +156,23 @@
           <th class="text-center">Action</th>
         </tr>
       </thead>
-      <tbody>
-        @for (transaction of plantData.transactionTypeMapping; track transaction.id) {
+      <tbody *ngIf="plantData?.transactionTypeMapping">
+        @for (transaction of plantData.transactionTypeMapping; track transaction.id; let ind = $index) {
         <tr>
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input mb-0">
-                <div class="input-with-icon">
+                <!-- <div class="input-with-icon">
                   <input type="text" class="input-field" placeholder="RB" [(ngModel)]="transaction.code"/>
                   <img
                     src="assets/images/icons/search.svg"
                     class="search-icon"
                     alt="Search"
                   />
-                </div>
+                </div> -->
+                <ng-select class="input-field" [(ngModel)]="transaction.code" (change)="onTransactionSelect($event, ind)">
+                  <ng-option *ngFor="let transaction of transactionTypesList" [value]="transaction">{{transaction.code}}</ng-option>
+              </ng-select>
               </div>
             </div>
           </td>
@@ -194,7 +180,7 @@
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input mb-0">
-                <select name="" id="" [value]="transaction.status">
+                <select name="" id="" [(ngModel)]="transaction.status" disabled>
                   <option value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
                 </select>
