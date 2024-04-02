@@ -8,20 +8,20 @@ import { PlantService } from '../../../core/service';
   styleUrls: ['./point-charge.component.scss']
 })
 export class PointChargeComponent implements OnInit {
-  constructor(private router : Router,private plantService:PlantService){}
+  constructor(private router: Router) { }
 
-  isFilters : boolean = false;
-  filterKeyword : string = '';
+  isFilters: boolean = false;
+  filterKeyword: string = '';
 
-  ngOnInit() { 
-    
+  ngOnInit() {
+
   }
 
-  onCreatePointCharge(){
-    this.router.navigate(['master/addEditPointCharge'])
+  onCreatePointCharge() {
+    this.router.navigate(['master/addPointCharge'])
   }
 
-  onSearch(e:any){
+  onSearch(e: any) {
     this.filterKeyword = e.target.value;
   }
 
