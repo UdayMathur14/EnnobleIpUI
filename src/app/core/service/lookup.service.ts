@@ -1,21 +1,41 @@
-import { Injectable } from "@angular/core";
-import { CRUDService } from "./crud.service";
-import { BaseService } from "./base.service";
-import { APIConstant } from "../constants";
-import { PlantRequest } from "../models/plant";
-import { map, Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { CRUDService } from './crud.service';
+import { LookupRequest } from '../models/lookup';
+import { BaseService } from './base.service';
+import { APIConstant } from '../constants';
 
 @Injectable({
-    providedIn: "root",
+  providedIn: 'root',
 })
-export class LookupService extends CRUDService<PlantRequest> {
-    constructor(protected override baseService: BaseService) {
-        super(baseService);
-    }
+export class LookupService extends CRUDService<LookupRequest> {
+  constructor(protected override baseService: BaseService) {
+    super(baseService, APIConstant.lookups);
+  }
 
-    locations = new Subject;
+  getLookups(data: any) {
+    return this.baseService.post(APIConstant.basePath + APIConstant.lookups, data);
+  }
 
-    getLookupData(key : any){
-        return this.baseService.post(APIConstant.basePath+APIConstant.getLookupData, key);
-    }
+  //For Lookup module
+  getLookupDatas(lookupId: string) {
+    return this.baseService.get(APIConstant.basePath + APIConstant.lookupData + lookupId);
+  }
+  
+  //for Location Id
+  getLookupData(key: any) {
+    return this.baseService.post(APIConstant.basePath + APIConstant.getLookupData, key);
+  }
+
+  updateLookup(lookupId: string, data: object) {
+    return this.baseService.put(APIConstant.basePath + APIConstant.updateLookup + lookupId, data);
+  }
+
+  createLookup(data: object) {
+    return this.baseService.post(APIConstant.basePath + APIConstant.createLookup, data);
+  }
+
+  getLookupsType(data: any) {
+    return this.baseService.post(APIConstant.basePath + APIConstant.lookupstype, data);
+  }
+
 }

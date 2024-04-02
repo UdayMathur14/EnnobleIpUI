@@ -34,6 +34,12 @@ import { BiltiBillProcessComponent } from "./transactions/bilti-bill-process/bil
 import { CheckedMaterialsTeamComponent } from "./transactions/checked-by-materials-team/checked-materials-team.component";
 import { ApprovalMaterialHeadComponent } from "./transactions/approval-material-head/approval-material-head.component";
 import { ChangeBiltiStatusComponent } from "./transactions/change-bilti-status/change-bilti-status.component";
+// import { CreatePartComponent } from "./master/part/create-part/create-part.component";
+import { LookupComponent } from "./master/lookup/lookup.component";
+import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit-lookup.component";
+import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup-type/add-edit-lookup-type.component";
+import { LookupTypeComponent } from "./master/lookup-type/lookup-type.component";
+
 
 const routes: Routes = [
     {
@@ -60,6 +66,12 @@ const routes: Routes = [
             { path: "master/advice", component: AdviceComponent },
             { path: "master/addEditAdvice", component: AddEditAdviceComponent },
             { path: "master/pointCharge", component: PointChargeComponent },
+            { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
+            { path: "master/lookup", component: LookupComponent },
+            // { path: "master/editLookup/:lookupId", component: AddEditLookupComponent },
+            { path: "master/addEditLookup/:lookupId", component: AddEditLookupComponent },
+            { path: "master/lookupType", component: LookupTypeComponent },
+            { path: "master/addEditLookupType/:lookupTypeId", component: AddEditLookupTypeComponent },
             { path: "master/editPointCharge/:pointChargeId", component: AddEditPointChargeComponent },
             { path: "master/addPointCharge", component: AddEditPointChargeComponent },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },

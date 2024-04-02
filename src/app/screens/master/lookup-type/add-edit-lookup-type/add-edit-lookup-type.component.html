@@ -1,0 +1,117 @@
+<div class="page-title">
+    <h1>{{queryData ? 'Edit' : 'Create' }} Lookup</h1>
+    <div class="action-buttons">
+        <button class="custom-button-regulr" (click)="onSaveButtonClick()">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
+        <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
+    </div>
+</div>
+
+<div class="content-section p-3">
+    <form [formGroup]="lookupForm">
+        <div class="row">
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Type</label>
+                    <ng-select class="input-field" formControlName="typeId" *ngIf="queryData" [readonly]="true">
+                        <ng-option *ngFor="let lookupType of lookupTypes"
+                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
+                    </ng-select>
+                    <ng-select class="input-field" formControlName="typeId" *ngIf="!queryData">
+                        <ng-option *ngFor="let lookupType of lookupTypes"
+                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Code</label>
+                    <input type="text" class="input-field" formControlName="code" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Value</label>
+                    <input type="text" class="input-field" formControlName="value" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Description</label>
+                    <input type="text" class="input-field" formControlName="description" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Status</label>
+                    <select name="" id="" formControlName="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 1</label>
+                    <input type="text" class="input-field" formControlName="attribute1" />
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 2</label>
+                    <input type="text" class="input-field" formControlName="attribute2" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 3</label>
+                    <input type="text" class="input-field" formControlName="attribute3" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Attribute 4</label>
+                    <input type="text" class="input-field" formControlName="attribute4" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="edit-screen-subTable" *ngIf="showFilledDetails">
+        <h4 class="">Filled Details</h4>
+    </div>
+
+    <div class="custom-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Code</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Attribute 1</th>
+                    <th>Attribute 2</th>
+                    <th>Attribute 3</th>
+                    <th>Attribute 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ filledDetails?.typeId }}</td>
+                    <td>{{ filledDetails?.code }}</td>
+                    <td>{{ filledDetails?.value }}</td>
+                    <td>{{ filledDetails?.description }}</td>
+                    <td>{{filledDetails?.status}}</td>
+                    <td>{{filledDetails?.attribute1}}</td>
+                    <td>{{filledDetails?.attribute2}}</td>
+                    <td>{{filledDetails?.attribute3}}</td>
+                    <td>{{filledDetails?.attribute4}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
