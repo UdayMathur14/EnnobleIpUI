@@ -7,9 +7,9 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-vehicle-filters></app-vehicle-filters>
+  <app-vehicle-filters (vehicleFilterData)="searchVehicle($event)"></app-vehicle-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-vehicle-grid-table></app-vehicle-grid-table>
+  <app-vehicle-grid-table  [searchedVehicle]="searchedVehicle"></app-vehicle-grid-table>
 </div>

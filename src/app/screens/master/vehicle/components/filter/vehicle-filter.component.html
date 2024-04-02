@@ -4,7 +4,7 @@
             <div class="custom-form-input">
                 <label for="">Vehicle Number</label>
                 <div class="input-with-icon">
-                    <input type="text" class="input-field" value="DL1LW2399">
+                    <input type="text" class="input-field" [(ngModel)]="vehicleNum">
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
             </div>
@@ -12,16 +12,15 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
-                <div class="input-with-icon">
-                <input type="text" class="input-field" value="V-Trans A Group">
-                <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
+                <ng-select class="input-field" placeholder="Select Vehicle Code">
+                    <ng-option>V-Trans A Group</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters">Search</button>
+                <button class="custom-button-filters" (click)="onVehicleSearch()">Search</button>
             </div>
         </div>
     </div>
