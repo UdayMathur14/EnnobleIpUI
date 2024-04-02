@@ -16,8 +16,14 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.baseService.post(APIConstant.basePath + APIConstant.lookups, data);
   }
 
-  getLookupData(lookupId: string) {
+  //For Lookup module
+  getLookupDatas(lookupId: string) {
     return this.baseService.get(APIConstant.basePath + APIConstant.lookupData + lookupId);
+  }
+  
+  //for Location Id
+  getLookupData(key: any) {
+    return this.baseService.post(APIConstant.basePath + APIConstant.getLookupData, key);
   }
 
   updateLookup(lookupId: string, data: object) {

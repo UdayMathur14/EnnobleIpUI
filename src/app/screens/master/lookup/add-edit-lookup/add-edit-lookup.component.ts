@@ -62,7 +62,7 @@ export class AddEditLookupComponent implements OnInit {
   }
 
   getLookupData(lookupId: string) {
-    this.lookupService.getLookupData(lookupId).subscribe((response: any) => {
+    this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
       console.log(response, "Lookup");
       this.lookupForm.patchValue({
         typeId: response.typeId,

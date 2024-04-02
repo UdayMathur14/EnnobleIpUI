@@ -11,9 +11,6 @@ export class VendorComponent {
 
   isFilters: boolean = true;
   searchedVendor: string = '';
-  onCreateVendor() {
-    this.router.navigate(['master/addEditVendor'])
-  }
 
   searchVendor(event: any) {
     this.searchedVendor = event;
