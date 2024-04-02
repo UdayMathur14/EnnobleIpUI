@@ -56,7 +56,7 @@
           <img
             src="assets/images/icons/editPencil.svg"
             alt="edit" class="pointer"
-            (click)="onEditPointCharge()"
+            (click)="onEditPointCharge(pointcharge)"
           />
         </td>
       </tr>
@@ -67,4 +67,7 @@
     }
     </tbody>
   </table>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

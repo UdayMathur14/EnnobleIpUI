@@ -5,6 +5,9 @@ const apiPath = environment.apiPath;
 export const APIConstant = {
     basePath: apiPath,
     lookup: `/lookup/`,
+    plant: `v1/plant/search`,
+    plantData : `v1/plant/`,
+    updatePlant : `v1/plant/update/`,
     pointCharge: `v1/2/point-charge/search`,
     vendors: `v1/vendor/search/`,
     vendorData: `v1/vendor/`,
@@ -12,6 +15,7 @@ export const APIConstant = {
     parts : `v1/part/search`,
     partData : `v1/part/`,
     updatePart : `v1/part/update/`,
+    lookupdata: `v1/lookup/`,
     createPart : `v1/part/create`,
     transactionTypes : `v1/transaction-type/search`,
     transactionTypeData : `v1/transaction-type/`,
@@ -30,3 +34,7 @@ export const vehicle = (locationId:any) => `v1/${locationId}/vehicle/search`;
 export const vehicleData = (locationId:any, vehicleId:any) => `v1/${locationId}/vehicle/${vehicleId}`;
 export const createVehicle = (locationId:any) => `v1/${locationId}/vehicle/create`;
 export const updateVehicle = (locationId:any, vehicleId : any) => `v1/${locationId}/vehicle/update/${vehicleId}`;
+export const pointCharge = (locationId:any) => `v1/${locationId}/point-charge/search`;
+export const pointChargeData = (locationId:any, pointChargeId:any) => `v1/${locationId}/point-charge/${pointChargeId}`;
+export const createPointCharge = (locationId:any) => `v1/${locationId}/point-charge/create`;
+export const updatePointCharge = (locationId:any, pointChargeId : any) => `v1/${locationId}/point-charge/update/${pointChargeId}`;

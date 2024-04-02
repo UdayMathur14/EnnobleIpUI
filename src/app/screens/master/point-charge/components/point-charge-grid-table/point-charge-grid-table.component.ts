@@ -14,44 +14,44 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     private router: Router,
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
-    private baseService : BaseService,
+    private baseService: BaseService,
   ) { }
 
-  pointChargesList:any;
-  pointChargeListOrg:any;
+  pointChargesList: any;
+  pointChargeListOrg: any;
   @Input() filterKeyword!: string;
+  loadSpinner: boolean = true;
 
-  ngOnInit() :void{
+  ngOnInit(): void {
     this.getAllPointChargesList()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.pointChargeListOrg && this.pointChargeListOrg.length && changes['filterKeyword'].currentValue){
-      this.pointChargesList = this.pointChargeListOrg.filter((e:any) =>e.pointName.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    if (this.pointChargeListOrg && this.pointChargeListOrg.length && changes['filterKeyword'].currentValue) {
+      this.pointChargesList = this.pointChargeListOrg.filter((e: any) => e.pointName.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
-    else if(this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword'].currentValue){
+    else if (this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword'].currentValue) {
       this.pointChargesList = this.pointChargeListOrg;
     }
   }
 
 
-  onEditPointCharge() {
-    this.router.navigate(['master/addEditPointCharge']);
+  onEditPointCharge(pointChargeData: any) {
+    this.router.navigate(['master/editPointCharge', pointChargeData.id]);
   }
 
-  getAllPointChargesList(){
+  getAllPointChargesList() {
     let data = {
-      "pointName" : ''
+      "pointName": ''
     }
-    this.pointChargeService.getPointCharges(data).subscribe((response:any) => {
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
       this.pointChargeListOrg = response.pointCharges;
-      this.baseService.pointChargeSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.pointChargeSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
-
-
 }
+
