@@ -10,7 +10,7 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class TransactionTypesService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService, APIConstant.plant);
+        super(baseService);
     }
 
     getTransactionTypes(data : any){

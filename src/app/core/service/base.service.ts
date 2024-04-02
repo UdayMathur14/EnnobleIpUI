@@ -11,7 +11,6 @@ export class BaseService {
     }
 
     plantSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-    pointChargeSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     vendorSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     partSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     lookupSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);

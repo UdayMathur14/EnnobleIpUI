@@ -26,5 +26,18 @@ export const APIConstant = {
     createPart : `v1/part/create`,
     transactionTypes : `v1/transaction-type/search`,
     transactionTypeData : `v1/transaction-type/`,
-    updateTransactionTypeData : `v1/transaction-type/update/`
+    updateTransactionTypeData : `v1/transaction-type/update/`,
+    getLookupData : `v1/lookup/search`,
 }
+
+export const freight = (locationId:any) => `v1/${locationId}/freight/search`;
+export const freightData = (locationId:any, freightId:any) => `v1/${locationId}/freight/${freightId}`;
+export const createFreight = (locationId:any) => `v1/${locationId}/freight/create`;
+export const updateFreight = (locationId:any, freightId : any) => `v1/${locationId}/freight/update/${freightId}`;
+export const plantData = (locationId:any, plantId : any) => `v1/${locationId}/plant/${plantId}`;
+export const plant = (locationId:any) => `v1/${locationId}/plant/search`;
+export const updatePlant = (locationId:any, plantId : any) => `v1/${locationId}/plant/update/${plantId}`;
+export const pointCharge = (locationId:any) => `v1/${locationId}/point-charge/search`;
+export const pointChargeData = (locationId:any, pointChargeId:any) => `v1/${locationId}/point-charge/${pointChargeId}`;
+export const createPointCharge = (locationId:any) => `v1/${locationId}/point-charge/create`;
+export const updatePointCharge = (locationId:any, pointChargeId : any) => `v1/${locationId}/point-charge/update/${pointChargeId}`;

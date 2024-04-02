@@ -59,7 +59,7 @@ const routes: Routes = [
             { path: 'master/transactionTypes', component: TransactionTypeComponent },
             { path: 'master/addEditTransactionTypes/:transactionId', component: AddEditTransactionTypeComponent },
             { path: "master/freight", component: FreightComponent },
-            { path: "master/addEditFreight", component: AddEditFreightComponent },
+            { path: "master/addEditFreight/:freightId", component: AddEditFreightComponent },
             { path: "master/transporter", component: TransporterComponent },
             { path: "master/addEditTransporter", component: AddEditTransporterComponent },
             { path: "master/advice", component: AdviceComponent },
@@ -69,11 +69,10 @@ const routes: Routes = [
             { path: "master/lookup", component: LookupComponent },
             // { path: "master/editLookup/:lookupId", component: AddEditLookupComponent },
             { path: "master/addEditLookup/:lookupId", component: AddEditLookupComponent },
-
             { path: "master/lookupType", component: LookupTypeComponent },
             { path: "master/addEditLookupType/:lookupTypeId", component: AddEditLookupTypeComponent },
-
-
+            { path: "master/editPointCharge/:pointChargeId", component: AddEditPointChargeComponent },
+            { path: "master/addPointCharge", component: AddEditPointChargeComponent },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent },
             { path: "transaction/bilti", component: BiltiComponent },
@@ -107,7 +106,8 @@ export const ScreensComponents = [
     AddEditVendorComponent,
     PointMasterMaterialComponent,
     AddEditPartComponent,
-    TransactionTypeComponent
+    TransactionTypeComponent,
+    AddEditFreightComponent
 ];
 
 export const ScreensEntryComponents = [];
