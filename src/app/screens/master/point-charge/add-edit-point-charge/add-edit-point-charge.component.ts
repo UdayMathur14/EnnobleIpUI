@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BaseService } from '../../../../core/service/base.service';
-import { PointChargeDataModel } from '../../../../core/model/point-charge.model';
+import { PointChargeDataModel } from '../../../../core/model/masterModels.model';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BaseService } from '../../../../core/service/base.service';
 import { VehicleService } from '../../../../core/service/vehicle.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { VehicleDataModel } from '../../../../core/model/vehicle.model';
+import { VehicleDataModel } from '../../../../core/model/masterModels.model';
 
 @Component({
   selector: 'app-add-edit-vehicle',

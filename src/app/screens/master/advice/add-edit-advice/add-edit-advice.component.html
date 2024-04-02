@@ -1,51 +1,57 @@
 <div class="page-title">
-    <h1>Edit Advice Master</h1>
+    <h1>{{queryData ? 'Edit Advice' : 'Create Advice'}} Master</h1>
     <div class="action-buttons">
-        <button class="custom-button-regulr">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
     </div>
 </div>
 
 <div class="content-section p-3">
-    <div class="row">
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Location Code</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" value="NOIDA_LGEIL_HA"/>
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+    <form [formGroup]="adviceForm">
+        <div class="row">
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Location Code</label>
+                    <div class="input-with-icon">
+                        <input type="text" class="input-field" formControlName="locationCode"/>
+                        <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Advice Type</label>
+                    <div class="input-with-icon">
+                        <input type="text" class="input-field" formControlName="adviceType"/>
+                        <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Batch Name</label>
+                    <input type="text" class="input-field" formControlName="batchName" readonly />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Max Bilti No Limit</label>
+                    <input type="text" class="input-field" formControlName="maxBiltiLimit" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Manual Allocation Req.</label>
+                    <select name="" id="" formControlName="manualAllocReq">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Advice Type</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" value="Test_By_IT"/>
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Batch Name</label>
-                <input type="text" class="input-field" value="HA_Test_By_IT" disabled />
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Max Bilti No Limit</label>
-                <input type="text" class="input-field" value="10" />
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-                <label for="">Manual Allocation Req.</label>
-                <select name="" id="">
-                    <option value="active">Yes</option>
-                    <option value="inactive">No</option>
-                </select>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
+
+<div class="spinner" *ngIf="loadSpinner">
+    Loading...
+  </div>
