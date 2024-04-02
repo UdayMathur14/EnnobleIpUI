@@ -3,8 +3,6 @@
       <thead>
         <tr>
           <th>Type</th>
-          <th>Code</th>
-          <th>Value</th>
           <th>Description</th>
           <th>Status</th>
           <th>Attribute 1</th>
@@ -15,11 +13,9 @@
         </tr>
       </thead>
       <tbody>
-        @for (lookup of lookupsList; track lookup.id) {
+        @for (lookup of lookupsTypeList; track lookup.id) {
         <tr>
-          <td>{{lookup.lookUpType.type}}</td>
-          <td>{{lookup.code}}</td>
-          <td>{{lookup.value}}</td>
+          <td>{{lookup.type}}</td>
           <td>{{lookup.description}}</td>
           <td>{{lookup.status}}</td>
           <td>{{lookup.attribute1}}</td>
@@ -27,7 +23,7 @@
           <td>{{lookup.attribute3}}</td>
           <td>{{lookup.attribute4}}</td>
           <td class="text-center">
-              <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditLookup(lookup)">
+              <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditLookupType(lookup)">
           </td>
         </tr>
       }@empty {

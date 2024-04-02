@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { LookupService } from '../../../../../core/service/lookup.service';
-import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -14,11 +13,11 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
   @Input() filterKeyword!: string;
   lookupsListOrg : any;
   lookupsList : any;
+  loadSpinner : boolean = true;
 
   constructor(
     private router: Router,
     private lookupService : LookupService,
-    private baseService : BaseService,
     private toastr: ToastrService){}
 
   ngOnInit() :void{
@@ -46,10 +45,10 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
       console.log(response)
       this.lookupsList = response.lookUps;
       this.lookupsListOrg = response.lookUps;
-      this.baseService.lookupSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.lookupSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 

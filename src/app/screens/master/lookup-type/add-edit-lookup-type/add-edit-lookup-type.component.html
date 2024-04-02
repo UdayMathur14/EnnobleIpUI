@@ -26,8 +26,7 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Code</label>
-                    <input type="text" class="input-field" formControlName="code" *ngIf="queryData" [readonly]="true" [ngStyle]="{'background-color': 'var(--gray2)'}"/>
-                    <input type="text" class="input-field" formControlName="code" *ngIf="!queryData" />
+                    <input type="text" class="input-field" formControlName="code" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -85,7 +84,7 @@
         <h4 class="">Filled Details</h4>
     </div>
 
-    <div class="custom-table" *ngIf="showFilledDetails">
+    <div class="custom-table">
         <table>
             <thead>
                 <tr>

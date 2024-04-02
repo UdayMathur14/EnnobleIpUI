@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { LookupService } from '../../../../core/service/lookup.service';
-import { LookupDataModel } from '../../../../core/model/lookup.model';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LookupDataModel } from '../../../../core/model/lookup.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LookupService } from '../../../../core/service/lookup.service';
+import { ToastrService } from 'ngx-toastr';
+import { LookupTypeService } from '../../../../core/service/lookup-type.service';
 
 @Component({
-  selector: 'app-add-edit-lookup',
-  templateUrl: './add-edit-lookup.component.html',
-  styleUrl: './add-edit-lookup.component.scss'
+  selector: 'app-add-edit-lookup-type',
+  templateUrl: './add-edit-lookup-type.component.html',
+  styleUrl: './add-edit-lookup-type.component.scss'
 })
-export class AddEditLookupComponent implements OnInit {
-
+export class AddEditLookupTypeComponent {
   lookupForm: FormGroup;
   lookupData!: LookupDataModel;
   queryData: any;
@@ -23,6 +23,7 @@ export class AddEditLookupComponent implements OnInit {
   constructor(
     private router: Router,
     private lookupService: LookupService,
+    private lookupTypeService: LookupTypeService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private _Activatedroute: ActivatedRoute,
@@ -121,7 +122,7 @@ export class AddEditLookupComponent implements OnInit {
       this.lookupData = response;
       this.loadSpinner = false;
       this.toastr.success('Lookup Created Successfully');
-      this.router.navigate(['/master/lookup']);
+      this.router.navigate(['/master/lookupType']);
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
@@ -152,7 +153,7 @@ export class AddEditLookupComponent implements OnInit {
   
 
   onCancelPress() {
-    this.router.navigate(['/master/lookup'])
+    this.router.navigate(['/master/lookupType'])
   }
 
 }
