@@ -37,6 +37,10 @@ export const updateFreight = (locationId:any, freightId : any) => `v1/${location
 export const plantData = (locationId:any, plantId : any) => `v1/${locationId}/plant/${plantId}`;
 export const plant = (locationId:any) => `v1/${locationId}/plant/search`;
 export const updatePlant = (locationId:any, plantId : any) => `v1/${locationId}/plant/update/${plantId}`;
+export const vehicle = (locationId:any) => `v1/${locationId}/vehicle/search`;
+export const vehicleData = (locationId:any, vehicleId:any) => `v1/${locationId}/vehicle/${vehicleId}`;
+export const createVehicle = (locationId:any) => `v1/${locationId}/vehicle/create`;
+export const updateVehicle = (locationId:any, vehicleId : any) => `v1/${locationId}/vehicle/update/${vehicleId}`;
 export const pointCharge = (locationId:any) => `v1/${locationId}/point-charge/search`;
 export const pointChargeData = (locationId:any, pointChargeId:any) => `v1/${locationId}/point-charge/${pointChargeId}`;
 export const createPointCharge = (locationId:any) => `v1/${locationId}/point-charge/create`;

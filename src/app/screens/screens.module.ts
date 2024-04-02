@@ -83,6 +83,7 @@ import { LookupTypeComponent } from "./master/lookup-type/lookup-type.component"
 import { LookupTypeFilterComponent } from "./master/lookup-type/components/filter/lookup-type-filter.component";
 import { LookupTypeGridTableComponent } from "./master/lookup-type/components/grid-table/lookup-type-grid-table.component";
 import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup-type/add-edit-lookup-type.component";
+import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 
 
 @NgModule({
@@ -101,6 +102,7 @@ import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup
         VehicleComponent,
         VehicleFiltersComponent,
         VehicleGridTableComponent,
+        AddEditVehicleComponent,
         TransactionGridTableComponent,
         TransactionTypeComponent,
         AddEditTransactionTypeComponent,
