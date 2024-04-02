@@ -17,8 +17,8 @@ export class VehicleService extends CRUDService<VehicleRequest> {
     return this.baseService.post(APIConstant.basePath + `v1/${locationId}/vehicle/search`,data);
   }
 
-  getLookupData(lookupId:number) {
-    return this.baseService.get(
-      APIConstant.basePath + APIConstant.getLookupData + lookupId);
+  getLookups(data:any) {
+    return this.baseService.post(
+      APIConstant.basePath + APIConstant.getLookupData, data);
   }
 }
