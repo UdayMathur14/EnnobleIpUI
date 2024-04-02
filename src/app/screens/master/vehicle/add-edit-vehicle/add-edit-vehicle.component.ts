@@ -73,9 +73,6 @@ export class AddEditVehicleComponent implements OnInit {
   getVehicleData(vehicleId: string) {
     if (this.mode == 'edit') {
       this.loadSpinner = true;
-    }
-
-    if (this.mode == 'edit') {
       this.vehicleService.getVehicleData(vehicleId).subscribe((response: any) => {
         this.vehicleData = response;
         this.patchVehicleForm(response);
@@ -85,11 +82,9 @@ export class AddEditVehicleComponent implements OnInit {
         this.loadSpinner = false;
       })
     }
-
   }
 
   patchVehicleForm(data: any) {
-    console.log(data)
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
       transporterName: data.transporterEntity.transporterName,
@@ -106,7 +101,6 @@ export class AddEditVehicleComponent implements OnInit {
   }
 
   onOptionSelected(selected: any) {
-    console.log(selected);
     this.vehicleForm.patchValue({
       ownerName: selected[0].ownerName,
       address: selected[0].address,
@@ -172,7 +166,6 @@ export class AddEditVehicleComponent implements OnInit {
       "code" : 'VehicleSize',
     }
     this.vehicleService.getLookups(data).subscribe((response:any) => {
-      console.log(response)
       this.lookupsList = response.lookUps;
     }, error => {
       this.toastr.error(error.statusText, error.status);
