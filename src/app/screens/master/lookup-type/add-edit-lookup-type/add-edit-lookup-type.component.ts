@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LookupDataModel } from '../../../../core/model/lookup.model';
+import { LookupDataModel } from '../../../../core/model/masterModels.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { ToastrService } from 'ngx-toastr';

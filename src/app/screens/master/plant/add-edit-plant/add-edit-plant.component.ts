@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlantService } from '../../../../core/service';
 import { ToastrService } from 'ngx-toastr';
-import { PlantDataModel } from '../../../../core/model/plant.model';
+import { PlantDataModel } from '../../../../core/model/masterModels.model';
 import { BaseService } from '../../../../core/service/base.service';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

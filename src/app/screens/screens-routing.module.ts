@@ -64,7 +64,7 @@ const routes: Routes = [
             { path: "master/transporter", component: TransporterComponent },
             { path: "master/addEditTransporter", component: AddEditTransporterComponent },
             { path: "master/advice", component: AdviceComponent },
-            { path: "master/addEditAdvice", component: AddEditAdviceComponent },
+            { path: "master/addEditAdvice/:adviceId", component: AddEditAdviceComponent },
             { path: "master/pointCharge", component: PointChargeComponent },
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent },
             { path: "master/lookup", component: LookupComponent },
@@ -108,7 +108,8 @@ export const ScreensComponents = [
     PointMasterMaterialComponent,
     AddEditPartComponent,
     TransactionTypeComponent,
-    AddEditFreightComponent
+    AddEditFreightComponent,
+    AddEditAdviceComponent
 ];
 
 export const ScreensEntryComponents = [];

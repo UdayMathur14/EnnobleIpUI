@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorService } from '../../../../core/service/vendor.service';
 import { BaseService } from '../../../../core/service/base.service';
-import { VendorDataModel } from '../../../../core/model/vendor.model';
+import { VendorDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

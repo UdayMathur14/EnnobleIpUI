@@ -2,7 +2,7 @@ import { Component, OnInit, SimpleChanges, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionTypesService } from '../../../../../core/service/transactionTypes.service';
 import { ToastrService } from 'ngx-toastr';
-import { TransactionTypeListModel } from '../../../../../core/model/transactionType.model';
+import { TransactionTypeListModel } from '../../../../../core/model/masterModels.model';
 
 @Component({
   selector: 'app-transaction-grid-table',
