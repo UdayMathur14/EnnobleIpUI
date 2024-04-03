@@ -3,10 +3,10 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vehicle Number</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="vehicleNum">
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
+                <ng-select class="input-field" [(ngModel)]="vehicleNum" placeholder="Select Vehicle Number">
+                    <ng-option *ngFor="let vehicle of vehiclesList"
+                        [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
