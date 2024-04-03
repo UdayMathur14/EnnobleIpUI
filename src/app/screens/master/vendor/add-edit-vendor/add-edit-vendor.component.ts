@@ -19,7 +19,7 @@ export class AddEditVendorComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
   queryData: any;
-  vendorData!: VendorDataModel;
+  vendorData: VendorDataModel = {};
   vendorsList: any = [];
 
   ngOnInit(): void {
@@ -28,9 +28,9 @@ export class AddEditVendorComponent implements OnInit {
     this.getVendorData(this.queryData);
   }
 
+  //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
-      console.log(response);
       this.vendorData = response;
       this.baseService.vendorSpinner.next(false);
     }, error => {
@@ -38,7 +38,8 @@ export class AddEditVendorComponent implements OnInit {
       this.baseService.vendorSpinner.next(false);
     })
   }
-
+ 
+  //UPDATING THE VENDOR ON CLICK OF SAVE BUTTON
   onPressSave() {
     this.baseService.vendorSpinner.next(true);
     let data = {
@@ -57,7 +58,8 @@ export class AddEditVendorComponent implements OnInit {
       this.baseService.vendorSpinner.next(false);
     })
   }
-
+  
+  //NAVIGATION BACK TO VENDOR LISTING ON CLICK CANCEL BUTTON
   onCancelPress() {
     this.router.navigate(['master/vendor']);
   }

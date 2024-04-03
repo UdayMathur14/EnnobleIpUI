@@ -23,28 +23,29 @@ export class LookupTypeGridTableComponent {
     this.getAllLookupsTypeList();
   }
 
+  //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if(this.lookupsTypeListOrg && this.lookupsTypeListOrg.length && changes['filterKeyword'].currentValue){
-      this.lookupsTypeList = this.lookupsTypeListOrg.filter((e:any) =>e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+      this.lookupsTypeList = this.lookupsTypeListOrg.filter((e:any) =>e.type.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
     else if(this.lookupsTypeListOrg && this.lookupsTypeListOrg.length && !changes['filterKeyword'].currentValue){
       this.lookupsTypeList = this.lookupsTypeListOrg;
     }
   }
 
+  //NAVIGATE TO UPDATE OR CREATE LOOKUP-TYPE SCREEN
   onGoToEditLookupType(lookupTypeData:any) {
     this.router.navigate(['master/addEditLookupType', lookupTypeData.id]);
   }
 
+  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH LOOKUP-TYPE FROM FILTERS 
   getAllLookupsTypeList(){
     let data = {
       "type" : ''
     }
     this.lookupTypeService.getLookupsTypes(data).subscribe((response:any) => {
-      console.log(response)
       this.lookupsTypeList = response.lookUpTypes;
       this.lookupsTypeListOrg = response.lookUpTypes;
-      // this.baseService.lookupSpinner.next(false);
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
