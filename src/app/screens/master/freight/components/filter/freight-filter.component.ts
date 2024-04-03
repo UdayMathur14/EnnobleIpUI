@@ -10,8 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 export class FreightFilterComponent implements OnInit {
   @Output() freightFilterObj : EventEmitter<object> = new EventEmitter();
   freightCode : any = undefined;
-  source : string = '';
-  vehicleSize : string = '';
+  source : any = undefined;
+  vehicleSize : any = undefined;
   freightList : any = [];
   
   constructor(private freightService : FreightService,

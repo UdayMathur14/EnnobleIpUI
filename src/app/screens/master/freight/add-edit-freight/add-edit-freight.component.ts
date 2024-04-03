@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FreightService } from '../../../../core/service/freight.service';
+import { BaseService } from '../../../../core/service/base.service';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -13,14 +14,16 @@ export class AddEditFreightComponent implements OnInit {
   freightForm: FormGroup;
   loadSpinner: boolean = true;
   queryData: any = '';
+  locations : any = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
+    private baseService : BaseService,
     private freightService: FreightService,
     private _Activatedroute: ActivatedRoute) {
     this.freightForm = this.formBuilder.group({
       freightCode: ['', Validators.required],
-      locationCode: ['', [Validators.required]],
+      locationCode: [undefined, [Validators.required]],
       source: ['', [Validators.required]],
       destination: ['', [Validators.required]],
       vehicleSize: ['', [Validators.required]],
@@ -37,6 +40,9 @@ export class AddEditFreightComponent implements OnInit {
   ngOnInit(): void {
     this.queryData = this._Activatedroute.snapshot.paramMap.get("freightId");
     this.queryData = this.queryData == 0 ? '' : this.queryData;
+    this.baseService.lookupData.subscribe((res:any) => {
+      this.locations = res.lookUps.filter((e:any) => e.code === 'LOC');
+    })
     if (this.queryData != 0) {
       this.getFreightData(this.queryData);
     }

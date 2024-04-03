@@ -11,16 +11,17 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Source</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="source"/>
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
+                <ng-select class="input-field" [(ngModel)]="source" placeholder="Select Source">
+                    <ng-option *ngFor="let freight of freightList" [value]="freight.source">{{freight.source}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vehicle Size</label>
-                <input type="text" class="input-field" [(ngModel)]="vehicleSize"/>
+                <ng-select class="input-field" [(ngModel)]="vehicleSize" placeholder="Select Vehicle Size">
+                    <ng-option *ngFor="let freight of freightList" [value]="freight.vehicleSize">{{freight.vehicleSize}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
