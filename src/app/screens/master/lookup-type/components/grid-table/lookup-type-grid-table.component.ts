@@ -25,7 +25,7 @@ export class LookupTypeGridTableComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(this.lookupsTypeListOrg && this.lookupsTypeListOrg.length && changes['filterKeyword'].currentValue){
-      this.lookupsTypeList = this.lookupsTypeListOrg.filter((e:any) =>e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+      this.lookupsTypeList = this.lookupsTypeListOrg.filter((e:any) =>e.type.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
     else if(this.lookupsTypeListOrg && this.lookupsTypeListOrg.length && !changes['filterKeyword'].currentValue){
       this.lookupsTypeList = this.lookupsTypeListOrg;
@@ -44,7 +44,6 @@ export class LookupTypeGridTableComponent {
       console.log(response)
       this.lookupsTypeList = response.lookUpTypes;
       this.lookupsTypeListOrg = response.lookUpTypes;
-      // this.baseService.lookupSpinner.next(false);
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);

@@ -9,39 +9,39 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './lookup-grid-table.component.scss'
 })
 export class LookupGridTableComponent implements OnInit, OnChanges {
-  
+
   @Input() filterKeyword!: string;
-  lookupsListOrg : any;
-  lookupsList : any;
-  loadSpinner : boolean = true;
+  lookupsListOrg: any;
+  lookupsList: any;
+  loadSpinner: boolean = true;
 
   constructor(
     private router: Router,
-    private lookupService : LookupService,
-    private toastr: ToastrService){}
+    private lookupService: LookupService,
+    private toastr: ToastrService) { }
 
-  ngOnInit() :void{
+  ngOnInit(): void {
     this.getAllLookupsList();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.lookupsListOrg && this.lookupsListOrg.length && changes['filterKeyword'].currentValue){
-      this.lookupsList = this.lookupsListOrg.filter((e:any) =>e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    }
-    else if(this.lookupsListOrg && this.lookupsListOrg.length && !changes['filterKeyword'].currentValue){
+    if (this.lookupsListOrg && this.lookupsListOrg.length && changes['filterKeyword'] && changes['filterKeyword'].currentValue) {
+      this.lookupsList = this.lookupsListOrg.filter((e: any) =>
+        e.code && e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    } else if (this.lookupsListOrg && this.lookupsListOrg.length && (!changes['filterKeyword'] || !changes['filterKeyword'].currentValue)) {
       this.lookupsList = this.lookupsListOrg;
     }
   }
 
-  onGoToEditLookup(lookupData:any) {
+  onGoToEditLookup(lookupData: any) {
     this.router.navigate(['master/addEditLookup', lookupData.id]);
   }
 
-  getAllLookupsList(){
+  getAllLookupsList() {
     let data = {
-      "code" : ''
+      "code": ''
     }
-    this.lookupService.getLookups(data).subscribe((response:any) => {
+    this.lookupService.getLookups(data).subscribe((response: any) => {
       console.log(response)
       this.lookupsList = response.lookUps;
       this.lookupsListOrg = response.lookUps;
