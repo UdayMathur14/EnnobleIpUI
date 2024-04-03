@@ -16,12 +16,12 @@ export class LookupTypeService extends CRUDService<LookupTypeRequest> {
     return this.baseService.post(APIConstant.basePath + APIConstant.lookupstype, data);
   }
 
-  getLookupTypesData(lookupId: string) {
-    return this.baseService.get(APIConstant.basePath + APIConstant.lookuptypeData + lookupId);
+  getLookupTypesData(lookupTypeId: string) {
+    return this.baseService.get(APIConstant.basePath + APIConstant.lookuptypeData + lookupTypeId);
   }
 
-  updateLookupTypes(lookupId: string, data: object) {
-    return this.baseService.put(APIConstant.basePath + APIConstant.updatelookuptype + lookupId, data);
+  updateLookupTypes(lookupTypeId: string, data: object) {
+    return this.baseService.put(APIConstant.basePath + APIConstant.updatelookuptype + lookupTypeId, data);
   }
 
   createLookupTypes(data: object) {

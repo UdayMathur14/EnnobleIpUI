@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{queryData ? 'Edit' : 'Create' }} Lookup</h1>
+    <h1>{{queryData ? 'Edit' : 'Create' }} Lookup Type</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onSaveButtonClick()">Save</button>
         <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
@@ -8,31 +8,16 @@
 </div>
 
 <div class="content-section p-3">
-    <form [formGroup]="lookupForm">
+    <form [formGroup]="lookupTypeForm">
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Type</label>
-                    <ng-select class="input-field" formControlName="typeId" *ngIf="queryData" [readonly]="true">
+                    <ng-select class="input-field" formControlName="type" *ngIf="queryData" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
-                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
+                            [value]="lookupType.type">{{lookupType.type}}</ng-option>
                     </ng-select>
-                    <ng-select class="input-field" formControlName="typeId" *ngIf="!queryData">
-                        <ng-option *ngFor="let lookupType of lookupTypes"
-                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
-                    </ng-select>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Code</label>
-                    <input type="text" class="input-field" formControlName="code" />
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Value</label>
-                    <input type="text" class="input-field" formControlName="value" />
+                    <input type="text" class="input-field" formControlName="type" *ngIf="!queryData" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -56,9 +41,6 @@
                     <input type="text" class="input-field" formControlName="attribute1" />
                 </div>
             </div>
-
-        </div>
-        <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Attribute 2</label>
@@ -71,6 +53,8 @@
                     <input type="text" class="input-field" formControlName="attribute3" />
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Attribute 4</label>
@@ -84,13 +68,11 @@
         <h4 class="">Filled Details</h4>
     </div>
 
-    <div class="custom-table">
+    <div class="custom-table" *ngIf="showFilledDetails">
         <table>
             <thead>
                 <tr>
                     <th>Type</th>
-                    <th>Code</th>
-                    <th>Value</th>
                     <th>Description</th>
                     <th>Status</th>
                     <th>Attribute 1</th>
@@ -101,9 +83,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ filledDetails?.typeId }}</td>
-                    <td>{{ filledDetails?.code }}</td>
-                    <td>{{ filledDetails?.value }}</td>
+                    <td>{{ filledDetails?.type }}</td>
                     <td>{{ filledDetails?.description }}</td>
                     <td>{{filledDetails?.status}}</td>
                     <td>{{filledDetails?.attribute1}}</td>
