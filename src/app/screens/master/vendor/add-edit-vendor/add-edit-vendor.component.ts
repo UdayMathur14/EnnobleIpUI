@@ -19,7 +19,7 @@ export class AddEditVendorComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
   queryData: any;
-  vendorData!: VendorDataModel;
+  vendorData: VendorDataModel = {};
   vendorsList: any = [];
 
   ngOnInit(): void {
@@ -31,7 +31,6 @@ export class AddEditVendorComponent implements OnInit {
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
-      console.log(response);
       this.vendorData = response;
       this.baseService.vendorSpinner.next(false);
     }, error => {
