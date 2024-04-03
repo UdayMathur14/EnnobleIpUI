@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LookupTypeService } from '../../../../core/service/lookup-type.service';
-import { LookupTypeDataModel } from '../../../../core/model/lookup-type.model';
+import { LookupTypeDataModel } from '../../../../core/model/masterModels.model';
 
 @Component({
   selector: 'app-add-edit-lookup-type',

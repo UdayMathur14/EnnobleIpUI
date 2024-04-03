@@ -11,6 +11,7 @@
       </tr>
     </thead>
     <tbody>
+      @for (advice of adviceTypeList; track advice.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -18,33 +19,50 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>NOIDA_LGEIL_HA</u>
+            <u>{{advice.locationCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{advice.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{advice.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{advice.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{advice.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>Test_By_IT</td>
-        <td>HA_Test_By_Id</td>
-        <td>10</td>
-        <td>No</td>
+        <td>{{advice.adviceType}}</td>
+        <td>{{advice.batchName}}</td>
+        <td>{{advice.maxBiltiNumber}}</td>
+        <td>{{advice.manualAllocationRequired}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
             alt="edit" class="pointer"
-            (click)="onGoToEditAdvice()"
+            (click)="onGoToEditAdvice(advice)"
           />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Advice Type Found</td>
+      </tr>
+    }
     </tbody>
   </table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

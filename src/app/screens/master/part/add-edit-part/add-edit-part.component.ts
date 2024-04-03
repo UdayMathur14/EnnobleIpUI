@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartService } from '../../../../core/service/part.service';
-import { PartDataModel } from '../../../../core/model/part.model';
+import { PartDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 

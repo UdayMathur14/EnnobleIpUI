@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../core/service/lookup.service';
-import { LookupDataModel } from '../../../../core/model/lookup.model';
+import { LookupDataModel } from '../../../../core/model/masterModels.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({

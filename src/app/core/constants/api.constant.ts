@@ -45,3 +45,7 @@ export const pointCharge = (locationId:any) => `v1/${locationId}/point-charge/se
 export const pointChargeData = (locationId:any, pointChargeId:any) => `v1/${locationId}/point-charge/${pointChargeId}`;
 export const createPointCharge = (locationId:any) => `v1/${locationId}/point-charge/create`;
 export const updatePointCharge = (locationId:any, pointChargeId : any) => `v1/${locationId}/point-charge/update/${pointChargeId}`;
+export const adviceTypeData = (locationId:any, adviceId : any) => `v1/${locationId}/advice/${adviceId}`;
+export const adviceType = (locationId:any) => `v1/${locationId}/advice/search`;
+export const updateAdviceType = (locationId:any, adviceId : any) => `v1/${locationId}/advice/update/${adviceId}`;
+export const createAdviceType = (locationId:any) => `v1/${locationId}/advice/create`;

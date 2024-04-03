@@ -7,11 +7,16 @@ import { Router } from '@angular/router';
   styleUrl: './advice.component.scss'
 })
 export class AdviceComponent {
+  filterKeyword : string = '';
+  isFilters : boolean = false;
+  
   constructor(private router : Router){}
 
-  isFilters : boolean = false;
-
   onCreateAdvice(){
-    this.router.navigate(['master/addEditAdvice'])
+    this.router.navigate(['master/addEditAdvice', '0'])
+  }
+
+  onSearch(e:any){
+    this.filterKeyword = e.target.value;
   }
 }
