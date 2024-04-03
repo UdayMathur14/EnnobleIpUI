@@ -48,6 +48,7 @@ export class AddEditPointChargeComponent implements OnInit {
     this.getPointChargeData(this.pointChargeId)
   }
 
+  // GET SPECIFIC POINT CHARGE DATA
   getPointChargeData(pointChargeId: string) {
     if (this.mode == 'edit') {
       this.loadSpinner = true;
@@ -66,6 +67,7 @@ export class AddEditPointChargeComponent implements OnInit {
 
   }
 
+  //PATCHING VALUE ON EDIT FORM
   patchPointChargeForm(data: any) {
     this.pointChargeForm.patchValue({
       pointName: data.pointName,
@@ -85,6 +87,7 @@ export class AddEditPointChargeComponent implements OnInit {
 
   results: any = [];
 
+  // NAVIGATING TO MASTER PAGE
   onCancelPress() {
     this.router.navigate(['/master/pointCharge'])
   }
@@ -93,6 +96,7 @@ export class AddEditPointChargeComponent implements OnInit {
     this.results = this.data.filter((element) => element.name.toLowerCase().indexOf(e.query.toLowerCase()) !== -1)
   }
 
+// CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
     this.loadSpinner = true;
     if (this.pointChargeForm.valid && this.mode == 'edit') {

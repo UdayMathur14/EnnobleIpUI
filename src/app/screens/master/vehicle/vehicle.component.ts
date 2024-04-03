@@ -12,6 +12,7 @@ export class VehicleComponent {
   isFilters : boolean = true;
   searchedVehicle: string = '';
 
+  //ROUTING TO CREATE VEHICLE PAGE
   onCreateVehicle(){
     this.router.navigate(['master/addVehicle'])
   }

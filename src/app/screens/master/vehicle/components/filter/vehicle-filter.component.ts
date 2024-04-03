@@ -22,6 +22,7 @@ export class VehicleFiltersComponent implements OnInit {
     this.getAllVehiclesListInit();
   }
 
+  // GET ALL VEHICLES DATA
   getAllVehiclesListInit() {
     let data = {
       "vehicleNumber": ''
@@ -38,7 +39,5 @@ export class VehicleFiltersComponent implements OnInit {
       "vehicleNumber": this.vehicleNum || ""
     }
     this.vehicleFilterData.emit(obj)
-
   }
-
 }

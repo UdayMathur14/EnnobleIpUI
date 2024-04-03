@@ -17,6 +17,7 @@ export class PointChargeComponent implements OnInit {
 
   }
 
+  // NAVIGATING TO CREATE POINT CHARGE PAGE
   onCreatePointCharge() {
     this.router.navigate(['master/addPointCharge'])
   }
