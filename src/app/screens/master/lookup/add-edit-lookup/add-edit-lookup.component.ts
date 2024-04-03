@@ -51,19 +51,19 @@ export class AddEditLookupComponent implements OnInit {
     this.loadSpinner = false;
   }
 
+  //TO GET LOOKUP-TYPE DATA
   getLookupTypes() {
     let data = {}
     this.lookupService.getLookupsType(data).subscribe((response: any) => {
-      console.log(response)
       this.lookupTypes = response.lookUpTypes;
     }, error => {
       this.toastr.error(error.statusText, error.status)
     })
   }
 
+  //TO GET SELECTED LOOKUP DATA
   getLookupData(lookupId: string) {
     this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
-      console.log(response, "Lookup");
       this.lookupForm.patchValue({
         typeId: response.typeId,
         code: response.code,
@@ -104,7 +104,7 @@ export class AddEditLookupComponent implements OnInit {
       this.createNewLookup(data);
     }
   }
-  
+
   //UPDATING LOOKUP DATA
   updateLookup(data: any) {
     this.lookupService.updateLookup(this.queryData, data).subscribe((response: any) => {
@@ -136,6 +136,7 @@ export class AddEditLookupComponent implements OnInit {
     this.showFilledDetails = true;
   }
 
+  //EXECUTED ON SAVE BUTTON CLICK TO SHOW DATA PREVIEW
   updateFilledDetails() {
     const typeId = this.lookupForm.controls['typeId'].value;
     const lookupType = this.lookupTypes.find((type: any) => type.id === typeId);

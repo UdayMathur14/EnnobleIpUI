@@ -24,6 +24,7 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
     this.getAllLookupsList();
   }
 
+  //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if (this.lookupsListOrg && this.lookupsListOrg.length && changes['filterKeyword'] && changes['filterKeyword'].currentValue) {
       this.lookupsList = this.lookupsListOrg.filter((e: any) =>
@@ -36,7 +37,8 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
   onGoToEditLookup(lookupData: any) {
     this.router.navigate(['master/addEditLookup', lookupData.id]);
   }
-
+ 
+  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH LOOKUP FROM FILTERS 
   getAllLookupsList() {
     let data = {
       "code": ''
