@@ -44,7 +44,6 @@ export class LookupTypeGridTableComponent {
       "type" : ''
     }
     this.lookupTypeService.getLookupsTypes(data).subscribe((response:any) => {
-      console.log(response)
       this.lookupsTypeList = response.lookUpTypes;
       this.lookupsTypeListOrg = response.lookUpTypes;
       this.loadSpinner = false;
