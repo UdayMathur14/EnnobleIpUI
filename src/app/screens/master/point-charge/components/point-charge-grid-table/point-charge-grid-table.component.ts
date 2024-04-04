@@ -35,11 +35,12 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     }
   }
 
-
+  // NAVIGATING TO EDIT POINT MASTER PAGE
   onEditPointCharge(pointChargeData: any) {
     this.router.navigate(['master/editPointCharge', pointChargeData.id]);
   }
 
+  // GET ALL POINT CHARGE
   getAllPointChargesList() {
     let data = {
       "pointName": ''

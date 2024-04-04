@@ -24,10 +24,12 @@ export class VehicleGridTableComponent implements OnInit {
     this.getAllVehiclesList();
   }
 
+  //ROUTING TO EDIT VEHICLE PAGE
   onEditVehicle(vehicleData: any) {
     this.router.navigate(['master/editVehicle', vehicleData.id]);
   }
 
+ // GET ALL VEHICLE DATA 
   getAllVehiclesList(){
     let data = {
       "vehicleNumber" : '',
@@ -43,6 +45,7 @@ export class VehicleGridTableComponent implements OnInit {
     })
   }
 
+  // GET FILTERED VEHICLE DATA
   getFilteredVehiclesList() {
     let data = {
       "vehicleNumber": this.searchedVehicle.vehicleNumber,

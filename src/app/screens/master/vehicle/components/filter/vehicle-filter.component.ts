@@ -16,12 +16,13 @@ export class VehicleFiltersComponent implements OnInit {
 
   @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();
   vehiclesList: any;
-  vehicleNum!: string;
+  vehicleNum!: string | null;
 
   ngOnInit(): void {
     this.getAllVehiclesListInit();
   }
 
+  // GET ALL VEHICLES DATA
   getAllVehiclesListInit() {
     let data = {
       "vehicleNumber": ''
@@ -38,7 +39,14 @@ export class VehicleFiltersComponent implements OnInit {
       "vehicleNumber": this.vehicleNum || ""
     }
     this.vehicleFilterData.emit(obj)
+  }
 
+  onClearFilter(){
+    this.vehicleNum = null;
+    let obj = {
+      vehicleNum : null
+    }
+    this.vehicleFilterData.emit(obj)
   }
 
 }

@@ -33,7 +33,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vehicle Size</label>
-        <ng-select class="input-field" placeholder="Select Transporter Name" formControlName="vehicleSize" [readonly]="mode=='edit'" [ngStyle]="{'background-color': mode === 'edit' ? 'var(--gray2)' : ''}">
+        <ng-select class="input-field" placeholder="Select Vehicle Size" formControlName="vehicleSize" [readonly]="mode=='edit'" [ngStyle]="{'background-color': mode === 'edit' ? 'var(--gray2)' : ''}">
           <ng-option *ngFor="let vehicleSize of lookupsList" [value]="vehicleSize.value">{{vehicleSize.value}}</ng-option>
       </ng-select>
       </div>

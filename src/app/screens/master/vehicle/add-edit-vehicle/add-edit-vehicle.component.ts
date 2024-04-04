@@ -40,8 +40,8 @@ export class AddEditVehicleComponent implements OnInit {
 
   vehicleForm = new FormGroup({
     vehicleNumber: new FormControl('', [Validators.required]),
-    transporterName: new FormControl('', [Validators.required]),
-    vehicleSize: new FormControl('', [Validators.required]),
+    transporterName: new FormControl(null, [Validators.required]),
+    vehicleSize: new FormControl(null, [Validators.required]),
     vehicleCondition: new FormControl('', [Validators.required]),
     remarks: new FormControl('', [Validators.required]),
     vehicleStatus: new FormControl('Active', [Validators.required]),
@@ -69,7 +69,8 @@ export class AddEditVehicleComponent implements OnInit {
     this.getVehicleData(this.vehicleId);
     this.getAllLookups();
   }
-  
+
+  // GET THE DATA OF SPECIFIC VEHICLE
   getVehicleData(vehicleId: string) {
     if (this.mode == 'edit') {
       this.loadSpinner = true;
@@ -84,6 +85,7 @@ export class AddEditVehicleComponent implements OnInit {
     }
   }
 
+  // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
@@ -110,6 +112,7 @@ export class AddEditVehicleComponent implements OnInit {
     });
   }
 
+  // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
     this.loadSpinner = true;
     if (this.mode == 'edit') {
@@ -161,6 +164,7 @@ export class AddEditVehicleComponent implements OnInit {
 
   }
 
+  // GET VEHICLE SIZE
   getAllLookups() {
     let data = {
       "code" : 'VehicleSize',
@@ -172,6 +176,7 @@ export class AddEditVehicleComponent implements OnInit {
     })
   }
   
+  // ROUTING TO MASTER PAGE
   onCancelPress() {
     this.router.navigate(['master/vehicle']);
   }
