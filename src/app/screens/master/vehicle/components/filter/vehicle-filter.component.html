@@ -20,7 +20,10 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="!vehicleNum">Search</button>
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="!vehicleNum">Search</button>
+                    <button class="custom-button-filters ms-3" (click)="onClearFilter()" [disabled]="!vehicleNum"> Clear</button>
+                </div>
             </div>
         </div>
     </div>
