@@ -12,7 +12,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
-                <ng-select class="input-field" placeholder="Select Vehicle Code">
+                <ng-select class="input-field" placeholder="Select Transporter Name">
                     <ng-option>V-Trans A Group</ng-option>
                 </ng-select>
             </div>
@@ -20,7 +20,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onVehicleSearch()">Search</button>
+                <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="!vehicleNum">Search</button>
             </div>
         </div>
     </div>

@@ -45,6 +45,7 @@ export class VehicleGridTableComponent implements OnInit {
     })
   }
 
+  // GET FILTERED VEHICLE DATA
   getFilteredVehiclesList() {
     let data = {
       "vehicleNumber": this.searchedVehicle.vehicleNumber,
