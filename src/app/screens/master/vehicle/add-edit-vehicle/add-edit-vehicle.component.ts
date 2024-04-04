@@ -40,8 +40,8 @@ export class AddEditVehicleComponent implements OnInit {
 
   vehicleForm = new FormGroup({
     vehicleNumber: new FormControl('', [Validators.required]),
-    transporterName: new FormControl('', [Validators.required]),
-    vehicleSize: new FormControl('', [Validators.required]),
+    transporterName: new FormControl(null, [Validators.required]),
+    vehicleSize: new FormControl(null, [Validators.required]),
     vehicleCondition: new FormControl('', [Validators.required]),
     remarks: new FormControl('', [Validators.required]),
     vehicleStatus: new FormControl('Active', [Validators.required]),
