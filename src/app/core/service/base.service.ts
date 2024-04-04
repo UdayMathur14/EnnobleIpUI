@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: "root"
@@ -14,6 +14,7 @@ export class BaseService {
     vendorSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     partSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     lookupSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    lookupData = new Subject;
 
     get<T>(url: string): Observable<T> {
         return this.http.get<T>(url);

@@ -46,6 +46,7 @@ export class AddEditLookupTypeComponent {
     this.loadSpinner = false;
   }
 
+  //TO GET SELECTED LOOKUP-TYPE DATA
   getLookupTypeData(lookupTypeId: string) {
     this.lookupTypeService.getLookupTypesData(lookupTypeId).subscribe((response: any) => {
       this.lookupTypeForm.setValue({
@@ -119,6 +120,7 @@ export class AddEditLookupTypeComponent {
     this.filledDetails = this.lookupTypeForm.value;
   }
 
+  //NAVIGATE TO LOOKUP-TYPE LISTING ON CANCEL BUTTON CLICK
   onCancelPress() {
     this.router.navigate(['/master/lookupType'])
   }

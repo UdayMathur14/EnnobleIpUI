@@ -51,19 +51,19 @@ export class AddEditLookupComponent implements OnInit {
     this.loadSpinner = false;
   }
 
+  //TO GET LOOKUP-TYPE DATA
   getLookupTypes() {
     let data = {}
     this.lookupService.getLookupsType(data).subscribe((response: any) => {
-      console.log(response)
       this.lookupTypes = response.lookUpTypes;
     }, error => {
       this.toastr.error(error.statusText, error.status)
     })
   }
 
+  //TO GET SELECTED LOOKUP DATA
   getLookupData(lookupId: string) {
     this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
-      console.log(response, "Lookup");
       this.lookupForm.patchValue({
         typeId: response.typeId,
         code: response.code,
@@ -75,7 +75,7 @@ export class AddEditLookupComponent implements OnInit {
         attribute3: response.attribute3,
         attribute4: response.attribute4,
       });
-  
+
       this.lookupTypes = [response.lookUpType];
       this.loadSpinner = false;
     }, error => {
@@ -83,8 +83,8 @@ export class AddEditLookupComponent implements OnInit {
       this.loadSpinner = false;
     });
   }
-  
-  
+
+  //FUNCTION EXECUTED ON SUBMIT BUTTON CLICK
   onPressSubmit() {
     this.loadSpinner = true;
     let data = {
@@ -105,6 +105,7 @@ export class AddEditLookupComponent implements OnInit {
     }
   }
 
+  //UPDATING LOOKUP DATA
   updateLookup(data: any) {
     this.lookupService.updateLookup(this.queryData, data).subscribe((response: any) => {
       this.lookupData = response;
@@ -116,6 +117,7 @@ export class AddEditLookupComponent implements OnInit {
     })
   }
 
+  //CREATE NEW LOOKUP
   createNewLookup(data: any) {
     this.lookupService.createLookup(data).subscribe((response: any) => {
       this.lookupData = response;
@@ -128,15 +130,17 @@ export class AddEditLookupComponent implements OnInit {
     })
   }
 
+  //PREVIEW OF UPDATED AND CREATED DATA ON SAVE BUTTON CLICK
   onSaveButtonClick() {
     this.updateFilledDetails();
     this.showFilledDetails = true;
   }
 
+  //EXECUTED ON SAVE BUTTON CLICK TO SHOW DATA PREVIEW
   updateFilledDetails() {
     const typeId = this.lookupForm.controls['typeId'].value;
     const lookupType = this.lookupTypes.find((type: any) => type.id === typeId);
-    
+
     this.filledDetails = {
       typeId: lookupType ? lookupType.type : '',
       code: this.lookupForm.controls['code'].value,
@@ -149,7 +153,6 @@ export class AddEditLookupComponent implements OnInit {
       attribute4: this.lookupForm.controls['attribute4'].value,
     };
   }
-  
 
   onCancelPress() {
     this.router.navigate(['/master/lookup'])
