@@ -3,7 +3,8 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
-                <ng-select class="input-field" [(ngModel)]="vendorCod" placeholder="Select Vendor Code">
+                <ng-select class="input-field" [(ngModel)]="vendorCod" typeToSearchText
+                    placeholder="Select Vendor Code">
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorCode">{{vendor.vendorCode}}</ng-option>
                 </ng-select>
@@ -13,16 +14,23 @@
             <div class="custom-form-input">
                 <label for="">Vendor Name</label>
                 <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="vendorNam" />
+                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="vendorNam"
+                        (input)="onVendorNameInput(vendorNam)" placeholder="Vendor Name"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div>
+                <div *ngIf="showSuggestions && filteredVendors.length > 0" class="suggestions">
+                    <div *ngFor="let vendor of filteredVendors" (click)="selectSuggestion(vendor)" class="suggestion">
+                        {{vendor}}</div>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onVendorSearch()" [disabled]="!vendorCod && !vendorNam">Search</button>
-                <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!vendorCod && !vendorNam">Clear</button>
+                <button class="custom-button-filters me-2" (click)="onVendorSearch()"
+                    [disabled]="!vendorCod && !vendorNam">Search</button>
+                <button class="custom-button-filters" (click)="onClearFilter()"
+                    [disabled]="!vendorCod && !vendorNam">Clear</button>
             </div>
         </div>
     </div>
