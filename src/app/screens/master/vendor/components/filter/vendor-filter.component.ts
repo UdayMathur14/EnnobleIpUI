@@ -15,9 +15,10 @@ export class VendorFilterComponent implements OnInit {
   ) { }
 
   @Output() vendorFilterData: EventEmitter<any> = new EventEmitter();
-  vendorCod!: string;
+  vendorCod!: string | undefined;
   vendorsList: any;
   vendorNam!: string;
+
 
   ngOnInit(): void {
     this.getAllVendorsListInit();
@@ -42,5 +43,14 @@ export class VendorFilterComponent implements OnInit {
     }
     this.vendorFilterData.emit(obj)
 
+  }
+  onClearFilter(){
+    this.vendorCod = undefined;
+    this.vendorNam = '';
+    let obj = {
+      vendorCod : '',
+      vendorNam : ''
+    }
+    this.vendorFilterData.emit(obj)
   }
 }
