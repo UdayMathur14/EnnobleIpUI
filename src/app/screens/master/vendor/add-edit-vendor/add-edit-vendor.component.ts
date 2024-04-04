@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorService } from '../../../../core/service/vendor.service';
-import { BaseService } from '../../../../core/service/base.service';
 import { VendorDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
+import { PointChargeService } from '../../../../core/service/point-charge.service';
 
 @Component({
   selector: 'app-add-edit-vendor',
@@ -15,50 +15,66 @@ export class AddEditVendorComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private router: Router,
     private vendorService: VendorService,
-    private baseService: BaseService,
+    private pointChargeService: PointChargeService,
     private toastr: ToastrService,
   ) { }
   queryData: any;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
-
+  loadSpinner: boolean = true;
+  pointChargeName: any = [];
+  selectedPointName: undefined;
   ngOnInit(): void {
-    this.baseService.vendorSpinner.next(true);
+    this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
     this.getVendorData(this.queryData);
+    this.getAllPointChargesList();
   }
 
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
       this.vendorData = response;
-      this.baseService.vendorSpinner.next(false);
+      this.selectedPointName = response.poinName;
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.vendorSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
- 
+
+  //TO GET THE POINT NAME FROM POINT CHARGE 
+  getAllPointChargesList() {
+    let data = {}
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargeName = response.pointCharges;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
   //UPDATING THE VENDOR ON CLICK OF SAVE BUTTON
   onPressSave() {
-    this.baseService.vendorSpinner.next(true);
+    this.loadSpinner = true;
     let data = {
       vendorCode: this.vendorData.vendorCode,
       contactNumber: this.vendorData.contactNumber,
       email: this.vendorData.email,
-      poinName: this.vendorData.poinName,
+      poinName: this.selectedPointName,
       status: this.vendorData.status
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
       this.toastr.success("Vendor Update Successfully");
-      this.baseService.vendorSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.vendorSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
-  
+
   //NAVIGATION BACK TO VENDOR LISTING ON CLICK CANCEL BUTTON
   onCancelPress() {
     this.router.navigate(['master/vendor']);

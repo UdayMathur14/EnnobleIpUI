@@ -18,10 +18,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onVendorSearch()">Search</button>
+                <button class="custom-button-filters me-2" (click)="onVendorSearch()" [disabled]="!vendorCod && !vendorNam">Search</button>
+                <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!vendorCod && !vendorNam">Clear</button>
             </div>
         </div>
     </div>
