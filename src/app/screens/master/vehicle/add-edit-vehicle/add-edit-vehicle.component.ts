@@ -87,17 +87,17 @@ export class AddEditVehicleComponent implements OnInit {
 
   // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
+    console.log(data)
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
       transporterName: data.transporterEntity.transporterName,
       vehicleSize: data.vehicleSize,
       vehicleCondition: data.vehicleCondition,
       remarks: data.remarks,
-      vehicleStatus: data.vehicleStatus,
-      ownerName: data.ownerName,
+      vehicleStatus: data.status,
+      ownerName: data.transporterEntity.ownerName,
       address: data.transporterEntity.transporterAddress1,
       mobileNumber1: data.transporterEntity.transporterContactNo,
-      // mobileNumber2: new FormControl(''),
       emailId: data.transporterEntity.transporterMailId,
     });
   }
@@ -120,8 +120,8 @@ export class AddEditVehicleComponent implements OnInit {
         transporterId: 1,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
-        vehicleStatus: this.vehicleForm.get('vehicleStatus')?.value,
-        modifiedBy: '',
+        status: this.vehicleForm.get('vehicleStatus')?.value,
+        actionBy: 1,
       }
 
       this.vehicleService.updateVehicle(this.vehicleId, data)
