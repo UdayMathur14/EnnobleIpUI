@@ -18,6 +18,7 @@
       </tr>
     </thead>
     <tbody>
+      @for (transporter of transportersList; track transporter.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -25,41 +26,54 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>T00001</u>
+            <u>{{transporter.transporterCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>{{transporter.createdOn}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{transporter.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified On</span>
+                <span>{{transporter.modifiedOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Modified By</span>
+                <span>{{transporter.modifiedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>Choudhary Tempo</td>
-        <td>NOIDA_LGIL_HA</td>
-        <td>Dharmveer</td>
-        <td>Dharmveer</td>
-        <td>Om Prakash</td>
-        <td>Noida dadri road, Surat</td>
-        <td>9835626261</td>
-        <td>-</td>
-        <td>3992/373/AB/323</td>
-        <td>Active</td>
-        <td>Yes</td>
+        <td>{{transporter.transporterName}}</td>
+        <td>{{transporter.locationId}}</td>
+        <td>{{transporter.consignorName}}</td>
+        <td>{{transporter.ownerName}}</td>
+        <td>{{transporter.contactPerson}}</td>
+        <td>{{transporter.transporterAddress1}} {{transporter.transporterAddress2}}</td>
+        <td>{{transporter.transporterContactNo}}</td>
+        <td>{{transporter.transporterMailId}}</td>
+        <td>{{transporter.regdDetails}}</td>
+        <td>{{transporter.transporterStatus}}</td>
+        <td>{{transporter.autoBiltiRequiredFlag}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
             class="pointer"
             alt="edit"
-            (click)="onGoToEditTransporter()"
+            (click)="onGoToEditTransporter(transporter.transporterCode)"
           />
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Transporter Found</td>
+      </tr>
+    }
     </tbody>
   </table>
 </div>
