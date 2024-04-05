@@ -140,12 +140,12 @@ export class AddEditVehicleComponent implements OnInit {
     if (this.mode == 'create') {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
-        vehicleSize: this.vehicleForm.get('vehicleSize')?.value,
+        vehicleSizeId: this.vehicleForm.get('vehicleSize')?.value,
         transporterId: 1,
-        createdBy: '',
+        actionBy: 1,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
-        vehicleStatus: this.vehicleForm.get('vehicleStatus')?.value,
+        status: this.vehicleForm.get('vehicleStatus')?.value,
       }
 
       this.vehicleService.createVehicle(data)
