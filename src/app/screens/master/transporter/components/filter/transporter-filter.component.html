@@ -2,8 +2,26 @@
     <div class="row">
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Part Number</label>
-                <input type="text" class="input-field">
+                <label for="">Transporter Code</label>
+                <!-- <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select Part Number">
+                    <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
+                </ng-select> -->
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Transporter Name</label>
+                <!-- <div class="input-with-icon">
+                    <input type="text" class="input-field" [(ngModel)]="partName"/>
+                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div> -->
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <!-- <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="!partName && !partNum">Clear</button>
+                <button class="custom-button-filters" (click)="onPartSearch()" [disabled]="!partName && !partNum">Search</button> -->
             </div>
         </div>
     </div>
