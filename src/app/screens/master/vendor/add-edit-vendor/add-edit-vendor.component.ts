@@ -62,7 +62,7 @@ export class AddEditVendorComponent implements OnInit {
       vendorCode: this.vendorData.vendorCode,
       contactNumber: this.vendorData.contactNumber,
       email: this.vendorData.email,
-      poinName: this.selectedPointName,
+      pointName: this.selectedPointName,
       status: this.vendorData.status
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
