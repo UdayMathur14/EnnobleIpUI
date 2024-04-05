@@ -351,5 +351,6 @@ export interface TransporterListingModel {
     createdOn: string,
     modifiedBy: string,
     modifiedOn: string,
-    messageStatus: null
+    messageStatus: null,
+    id : number
 }

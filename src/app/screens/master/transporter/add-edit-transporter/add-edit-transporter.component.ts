@@ -55,11 +55,11 @@ export class AddEditTransporterComponent implements OnInit {
 
   getTransporterData(transporterId:string){
     this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
-      this.transporterForm.setValue({
+      this.transporterForm.patchValue({
         transporterCode : response.transporterCode,
         transporterName : response.transporterName,
         locationCode : response.locationId,
-        status : response.transporterStatus,
+        status : response.status,
         ownerName : response.ownerName,
         contactPerson : response.contactPerson,
         address1 : response.transporterAddress1,
