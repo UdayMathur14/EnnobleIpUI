@@ -62,7 +62,7 @@ const routes: Routes = [
             { path: "master/freight", component: FreightComponent },
             { path: "master/addEditFreight/:freightId", component: AddEditFreightComponent },
             { path: "master/transporter", component: TransporterComponent },
-            { path: "master/addEditTransporter", component: AddEditTransporterComponent },
+            { path: "master/addEditTransporter/:transporterCode", component: AddEditTransporterComponent },
             { path: "master/advice", component: AdviceComponent },
             { path: "master/addEditAdvice/:adviceId", component: AddEditAdviceComponent },
             { path: "master/pointCharge", component: PointChargeComponent },

@@ -49,3 +49,6 @@ export const adviceTypeData = (locationId:any, adviceId : any) => `v1/${location
 export const adviceType = (locationId:any) => `v1/${locationId}/advice/search`;
 export const updateAdviceType = (locationId:any, adviceId : any) => `v1/${locationId}/advice/update/${adviceId}`;
 export const createAdviceType = (locationId:any) => `v1/${locationId}/advice/create`;
+export const transporter = (locationId:any) => `v1/${locationId}/transporter/search`;
+export const transporterData = (locationId:any, transporterId : any) => `v1/${locationId}/transporter/${transporterId}`;
+export const updateTransporter = (locationId:any, transporterId : any) => `v1/${locationId}/transporter/update/${transporterId}`;
