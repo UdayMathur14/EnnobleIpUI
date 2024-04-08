@@ -40,7 +40,6 @@ export class AddEditVehicleComponent implements OnInit {
     ownerName: new FormControl(''),
     address: new FormControl(''),
     mobileNumber1: new FormControl(''),
-    mobileNumber2: new FormControl(''),
     emailId: new FormControl(''),
   });
 
@@ -90,7 +89,6 @@ export class AddEditVehicleComponent implements OnInit {
       ownerName: data.ownerName,
       address: data.transporterEntity.transporterAddress1,
       mobileNumber1: data.transporterEntity.transporterContactNo,
-      // mobileNumber2: new FormControl(''),
       emailId: data.transporterEntity.transporterMailId,
     });
   }
@@ -98,13 +96,6 @@ export class AddEditVehicleComponent implements OnInit {
   onOptionSelected(selectedId: any) {
     this.transporterId = selectedId;
     this.getTransporterData(this.transporterId)
-    // this.vehicleForm.patchValue({
-    //   ownerName: selected[0].ownerName,
-    //   address: selected[0].address,
-    //   mobileNumber1: selected[0].mobilenoone,
-    //   mobileNumber2: selected[0].mobileno2,
-    //   emailId: selected[0].email,
-    // });
   }
 
   // CREATING OR EDITING NEW VEHICLE
@@ -202,7 +193,6 @@ export class AddEditVehicleComponent implements OnInit {
       ownerName: data.ownerName,
       address: data.transporterAddress1,
       mobileNumber1: data.transporterContactNo,
-      // mobileNumber2: data.mobileno2,
       emailId: data.transporterMailId,
     });
 
