@@ -17,9 +17,17 @@ export class VehicleFiltersComponent implements OnInit {
   @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();
   vehiclesList: any;
   vehicleNum!: string | null;
+  transporterNam!: any | null;
+  transportersList = [];
+  loadSpinner: boolean = true;
+  filteredVehicles:any= [];
+  allVehicleNames = [];
+  showSuggestions: boolean = false;
+  transporterId: number = 0;
 
   ngOnInit(): void {
     this.getAllVehiclesListInit();
+    this.getAllTransportersList()
   }
 
   // GET ALL VEHICLES DATA
@@ -36,17 +44,48 @@ export class VehicleFiltersComponent implements OnInit {
 
   onVehicleSearch() {
     let obj = {
-      "vehicleNumber": this.vehicleNum || ""
+      "vehicleNumber": this.vehicleNum || "",
+      "transporterId":  this.transporterId
     }
     this.vehicleFilterData.emit(obj)
   }
 
   onClearFilter(){
     this.vehicleNum = null;
+    this.transporterNam = null
     let obj = {
-      vehicleNum : null
+      vehicleNum : null,
+      transporterNam: null
     }
     this.vehicleFilterData.emit(obj)
   }
 
+  getAllTransportersList() {
+    let data = {
+      "transporterCode": '',
+      "transporterName" : ''
+    }
+    this.vehicleService.getTransporters(data).subscribe((response: any) => {
+      this.transportersList = response.transporters;
+      this.allVehicleNames = response.transporters.map((vehicles: any) =>  vehicles);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  onTransporterNameInput() {
+    this.filteredVehicles = this.allVehicleNames.filter((vehicle:any) =>
+      vehicle.transporterName.toLowerCase().includes(this.transporterNam.toLowerCase())
+    );
+    this.showSuggestions = this.filteredVehicles.length > 0;
+  }
+
+  selectSuggestion(vehicle: any) {
+    this.transporterNam = vehicle.transporterName;
+    this.transporterId = vehicle.id;
+    this.filteredVehicles = [];
+    this.showSuggestions = false;
+  }
 }

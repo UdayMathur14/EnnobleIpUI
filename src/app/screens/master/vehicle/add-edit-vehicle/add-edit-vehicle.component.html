@@ -26,7 +26,7 @@
         <ng-select class="input-field" placeholder="Select Transporter Name" formControlName="transporterName" 
         (change)="onOptionSelected($event)" [readonly]="mode=='edit'" [ngStyle]="{'background-color': mode === 'edit' ? 'var(--gray2)' : ''}">
           <ng-option *ngFor="let transporter of transportersList"
-              [value]="transportersList">{{transporter.transporterName}}</ng-option>
+              [value]="transporter?.id">{{transporter.transporterName}}</ng-option>
       </ng-select>
       </div>
     </div>

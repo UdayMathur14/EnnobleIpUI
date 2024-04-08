@@ -26,17 +26,9 @@ export class AddEditVehicleComponent implements OnInit {
   vehiclesList: any = [];
   loadSpinner: boolean = true;
   lookupsList:any;
-  transportersList = [
-    {
-      transporterId: 1,
-      transporterName: 'V-Trans A Group',
-      ownerName: 'Victor Pushin Pvt Ltd',
-      address: 'Noida dadri road, Noida',
-      mobilenoone: '9835626261',
-      mobileno2: '8835926061',
-      email: 'test@yahoo.com',
-    },
-  ];
+  transportersList: any;
+  transporterId: number = 0;
+  transporterData:any
 
   vehicleForm = new FormGroup({
     vehicleNumber: new FormControl('', [Validators.required]),
@@ -53,6 +45,7 @@ export class AddEditVehicleComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.getAllTransportersList()
     if (this.mode == 'create') {
       this.loadSpinner = false;
     }
@@ -102,14 +95,16 @@ export class AddEditVehicleComponent implements OnInit {
     });
   }
 
-  onOptionSelected(selected: any) {
-    this.vehicleForm.patchValue({
-      ownerName: selected[0].ownerName,
-      address: selected[0].address,
-      mobileNumber1: selected[0].mobilenoone,
-      mobileNumber2: selected[0].mobileno2,
-      emailId: selected[0].email,
-    });
+  onOptionSelected(selectedId: any) {
+    this.transporterId = selectedId;
+    this.getTransporterData(this.transporterId)
+    // this.vehicleForm.patchValue({
+    //   ownerName: selected[0].ownerName,
+    //   address: selected[0].address,
+    //   mobileNumber1: selected[0].mobilenoone,
+    //   mobileNumber2: selected[0].mobileno2,
+    //   emailId: selected[0].email,
+    // });
   }
 
   // CREATING OR EDITING NEW VEHICLE
@@ -120,8 +115,8 @@ export class AddEditVehicleComponent implements OnInit {
         transporterId: 1,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
-        vehicleStatus: this.vehicleForm.get('vehicleStatus')?.value,
-        modifiedBy: '',
+        status: this.vehicleForm.get('vehicleStatus')?.value,
+        actionBy: 1,
       }
 
       this.vehicleService.updateVehicle(this.vehicleId, data)
@@ -141,11 +136,11 @@ export class AddEditVehicleComponent implements OnInit {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
         vehicleSize: this.vehicleForm.get('vehicleSize')?.value,
-        transporterId: 1,
-        createdBy: '',
+        transporterId: this.transporterId,
+        actionBy: 1,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
-        vehicleStatus: this.vehicleForm.get('vehicleStatus')?.value,
+        status: this.vehicleForm.get('vehicleStatus')?.value,
       }
 
       this.vehicleService.createVehicle(data)
@@ -174,6 +169,43 @@ export class AddEditVehicleComponent implements OnInit {
     }, error => {
       this.toastr.error(error.statusText, error.status);
     })
+  }
+
+  getAllTransportersList() {
+    let data = {
+      "transporterCode": '',
+      "transporterName" : ''
+    }
+    this.vehicleService.getTransporters(data).subscribe((response: any) => {
+      this.transportersList = response.transporters;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  getTransporterData(transporterId:any) {
+      this.loadSpinner = true;
+      this.vehicleService.getTransporterData(transporterId).subscribe((response: any) => {
+        this.patchTransporterField(response);
+        this.loadSpinner = false;
+      }, error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      })   
+  }
+
+  patchTransporterField(data:any){
+    console.log(data)
+      this.vehicleForm.patchValue({
+      ownerName: data.ownerName,
+      address: data.transporterAddress1,
+      mobileNumber1: data.transporterContactNo,
+      // mobileNumber2: data.mobileno2,
+      emailId: data.transporterMailId,
+    });
+
   }
   
   // ROUTING TO MASTER PAGE
