@@ -28,4 +28,9 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
     return this.baseService.post(
       APIConstant.basePath +createPointCharge(localStorage.getItem('locationId')), data);
   }
+
+  getLookups(lookupId:any) {
+    return this.baseService.get(
+      APIConstant.basePath + APIConstant.lookupData + lookupId);
+  }
 }

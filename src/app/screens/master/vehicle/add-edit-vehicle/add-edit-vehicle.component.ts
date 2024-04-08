@@ -79,14 +79,15 @@ export class AddEditVehicleComponent implements OnInit {
 
   // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
+    console.log(data)
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
       transporterName: data.transporterEntity.transporterName,
-      vehicleSize: data.vehicleSize,
+      vehicleSize: data.vehicleSizeId,
       vehicleCondition: data.vehicleCondition,
       remarks: data.remarks,
-      vehicleStatus: data.vehicleStatus,
-      ownerName: data.ownerName,
+      vehicleStatus: data.status,
+      ownerName: data.transporterEntity.ownerName,
       address: data.transporterEntity.transporterAddress1,
       mobileNumber1: data.transporterEntity.transporterContactNo,
       emailId: data.transporterEntity.transporterMailId,
