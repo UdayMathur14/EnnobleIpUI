@@ -180,8 +180,8 @@
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input mb-0">
-                <select name="" id="" [(ngModel)]="transaction.status" disabled>
-                  <option value="Active">Active</option>
+                <select name="" id="" [(ngModel)]="transaction.status">
+                  <option value="Active" selected>Active</option>
                   <option value="Inactive">Inactive</option>
                 </select>
               </div>
@@ -191,7 +191,7 @@
             <img
               src="assets/images/icons/trash.svg"
               class="me-2 pointer"
-              alt="link"
+              alt="link" *ngIf="transaction.id === 0"
               (click)="onDeleteTransaction(transaction, ind)"
             />
           </td>
