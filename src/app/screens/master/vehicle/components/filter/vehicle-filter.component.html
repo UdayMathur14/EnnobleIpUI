@@ -12,17 +12,23 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
-                <ng-select class="input-field" placeholder="Select Transporter Name">
-                    <ng-option>V-Trans A Group</ng-option>
-                </ng-select>
+                <div class="input-with-icon">
+                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="transporterNam"
+                        (input)="onTransporterNameInput()" placeholder="Transporter Name" />
+                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div>
+                <div *ngIf="showSuggestions && filteredVehicles.length > 0" class="suggestions">
+                    <div *ngFor="let vehicle of filteredVehicles" (click)="selectSuggestion(vehicle)" class="suggestion">
+                        {{vehicle.transporterName}}</div>
+                </div>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="!vehicleNum">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!vehicleNum"> Clear</button>
+                    <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="!vehicleNum && !transporterNam">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!vehicleNum && !transporterNam"> Clear</button>
                 </div>
             </div>
         </div>

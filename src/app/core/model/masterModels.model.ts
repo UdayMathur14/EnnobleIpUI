@@ -139,7 +139,8 @@ export interface PlantDataModel {
             attribute4: null,
             txnTypeId: null,
             name: string,
-            code: string
+            code: any,
+            transactionTypeId : number
         }
     ]
 }

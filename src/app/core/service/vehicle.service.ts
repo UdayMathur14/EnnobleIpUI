@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { VehicleRequest } from '../models/vehicle';
 import { BaseService } from './base.service';
 import { CRUDService } from './crud.service';
-import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle } from '../constants';
+import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle,transporter, transporterData, } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService extends CRUDService<VehicleRequest> {
 
-  constructor(protected override baseService: BaseService) { 
+  constructor(protected override baseService: BaseService) {
     super(baseService);
   }
 
@@ -30,8 +30,16 @@ export class VehicleService extends CRUDService<VehicleRequest> {
     return this.baseService.post(APIConstant.basePath + createVehicle(localStorage.getItem('locationId')), data);
   }
 
-  getLookups(data:any) {
+  getLookups(data: any) {
     return this.baseService.post(
       APIConstant.basePath + APIConstant.getLookupData, data);
+  }
+
+  getTransporters(data: any) {
+    return this.baseService.post(APIConstant.basePath + transporter(localStorage.getItem('locationId')), data);
+  }
+
+  getTransporterData(transporterId: string) {
+    return this.baseService.get(APIConstant.basePath + transporterData(localStorage.getItem('locationId'), transporterId));
   }
 }

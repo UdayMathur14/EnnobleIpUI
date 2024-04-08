@@ -45,7 +45,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
       attribute2: "",
       attribute3: "",
       attribute4: "",
-      actionBy: ""
+      actionBy: 1
     }
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
       this.transactionData = response;
