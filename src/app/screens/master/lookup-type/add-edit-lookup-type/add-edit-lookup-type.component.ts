@@ -29,7 +29,7 @@ export class AddEditLookupTypeComponent {
     this.lookupTypeForm = this.formBuilder.group({
       type: ['', Validators.required],
       description: ['', Validators.required],
-      status: ['', Validators.required],
+      status: ['Active', Validators.required],
       attribute1: ['', Validators.required],
       attribute2: ['', Validators.required],
       attribute3: ['', Validators.required],

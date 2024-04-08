@@ -35,7 +35,7 @@ export class AddEditVendorComponent implements OnInit {
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
       this.vendorData = response;
-      this.selectedPointName = response.poinName;
+      this.selectedPointName = response.pointName;
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);

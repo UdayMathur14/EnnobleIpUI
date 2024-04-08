@@ -28,7 +28,8 @@ export class PartFiltersComponent implements OnInit {
   //BINDING PART NUMBERS DROPDOWN
   getAllPartsListInit() {
     let data = {
-      "partNumber": ''
+      "partNumber": '',
+      "partName": ''
     }
     this.partService.getParts(data).subscribe((response: any) => {
       this.partsList = response.parts;
