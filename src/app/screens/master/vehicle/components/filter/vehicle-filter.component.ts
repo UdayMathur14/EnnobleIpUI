@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 
@@ -11,7 +11,8 @@ export class VehicleFiltersComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private elementRef: ElementRef
   ) { }
 
   @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();
@@ -88,5 +89,12 @@ export class VehicleFiltersComponent implements OnInit {
     this.transporterId = vehicle.id;
     this.filteredVehicles = [];
     this.showSuggestions = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: any) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.showSuggestions = false;
+    }
   }
 }
