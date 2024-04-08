@@ -12,16 +12,23 @@
             <div class="custom-form-input">
                 <label for="">Part Name</label>
                 <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="partName"/>
+                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="partName"
+                        (input)="onPartNameInput(partName)" placeholder="Part Name" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div>
+                <div *ngIf="showSuggestions && filteredParts.length > 0" class="suggestions">
+                    <div *ngFor="let part of filteredParts" (click)="selectSuggestion(part)" class="suggestion">
+                        {{part}}</div>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="!partName && !partNum">Clear</button>
-                <button class="custom-button-filters" (click)="onPartSearch()" [disabled]="!partName && !partNum">Search</button>
+                <button class="custom-button-filters me-2" (click)="onClearFilter()"
+                    [disabled]="!partName && !partNum">Clear</button>
+                <button class="custom-button-filters" (click)="onPartSearch()"
+                    [disabled]="!partName && !partNum">Search</button>
             </div>
         </div>
     </div>
