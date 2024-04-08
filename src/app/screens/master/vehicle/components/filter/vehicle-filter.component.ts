@@ -27,12 +27,14 @@ export class VehicleFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTransportersList();
+    this.getAllVehiclesListInit();
   }
 
   // GET ALL VEHICLES DATA
   getAllVehiclesListInit() {
     let data = {
-      "vehicleNumber": ''
+      "vehicleNumber": '',
+      "transporterId": 0
     }
     this.vehicleService.getVehicles(data).subscribe((response: any) => {
       this.vehiclesList = response.vehicles;
