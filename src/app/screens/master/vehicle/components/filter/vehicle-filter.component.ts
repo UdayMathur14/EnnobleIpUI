@@ -26,8 +26,7 @@ export class VehicleFiltersComponent implements OnInit {
   transporterId: number = 0;
 
   ngOnInit(): void {
-    this.getAllVehiclesListInit();
-    this.getAllTransportersList()
+    this.getAllTransportersList();
   }
 
   // GET ALL VEHICLES DATA
