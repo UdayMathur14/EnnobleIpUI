@@ -94,14 +94,23 @@ export class AddEditPlantComponent implements OnInit {
 
   onPressSave() {
     this.baseService.plantSpinner.next(true);
+    let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
+    this.plantData.transactionTypeMapping.forEach((e) => {
+      let transactionObj = {
+        id : e.id,
+        transactionTypeId : e.transactionTypeId,
+        status : e.status
+      }
+      transactionData.push(transactionObj);
+    })
+    
     let data = {
+      status: this.plantData.status,
+      actionBy: 1,
       locationId: this.plantData.locationId,
       dsc: this.plantData.dsc,
       dcp: this.plantData.dcp,
-      transactionType: '',
-      modifiedBy: '',
-      status: this.plantData.status,
-      transactionTypeDetails : this.plantData.transactionTypeMapping
+      transactionTypeDetails : transactionData
     }
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
@@ -123,7 +132,8 @@ export class AddEditPlantComponent implements OnInit {
       attribute4: null,
       txnTypeId: null,
       name: '',
-      code: ''
+      code: null,
+      transactionTypeId : 0
     }
     this.plantData.transactionTypeMapping.push(obj);
   }
@@ -132,6 +142,7 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping[index].name = e.name;
     this.plantData.transactionTypeMapping[index].status = e.status;
     this.plantData.transactionTypeMapping[index].code = e.code;
+    this.plantData.transactionTypeMapping[index].transactionTypeId = e.id
   }
 
   onDeleteTransaction(transaction:any, index:number){
