@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import { TransporterService } from '../../../../../core/service/transporter.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 export class TransporterGridTableComponent implements OnInit{
   transportersList : any = [];
   loadSpinner : boolean = true
+  @Input()
+  searchedTransporter!: any;  
   constructor(private router: Router,
     private toastr: ToastrService,
     private transporterService : TransporterService) {}
@@ -18,6 +20,15 @@ export class TransporterGridTableComponent implements OnInit{
   ngOnInit(): void {
     this.getAllTransportersListInit();
   }
+
+    //SORTING DATA FROM FILTER CHANGES
+    ngOnChanges(changes: SimpleChanges): void {
+      if(changes['searchedTransporter'].currentValue){
+        this.getFilteredTransportersList();
+      } else if(changes['searchedTransporter'].firstChange === false && changes['searchedTransporter'].currentValue === ''){
+        this.getAllTransportersListInit();
+      }
+    }
 
   getAllTransportersListInit() {
     let data = {
@@ -32,6 +43,22 @@ export class TransporterGridTableComponent implements OnInit{
       this.loadSpinner = false;
     })
   }
+
+    //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH TRANSPORTER FROM FILTERS 
+    getFilteredTransportersList() {
+      debugger
+      let data = {
+        "transporterCode": this.searchedTransporter.transCode || "",
+        "transporterName" : this.searchedTransporter.transName || ""
+      }
+      this.transporterService.getTransporters(data).subscribe((response: any) => {
+        this.transportersList = response.transporters;
+        this.loadSpinner = false;
+      }, error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      })
+    }
 
   onGoToEditTransporter(transporterId : any){
     this.router.navigate(['master/addEditTransporter', transporterId]);
