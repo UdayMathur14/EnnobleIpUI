@@ -42,13 +42,13 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">City</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.city" disabled />
+        <input type="text" class="input-field" [value]="vendorData.city?.value" disabled />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">State</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.state" disabled />
+        <input type="text" class="input-field" [value]="vendorData.state?.value" disabled />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">

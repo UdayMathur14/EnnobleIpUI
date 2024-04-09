@@ -13,7 +13,6 @@
         <th>GSTIN</th>
         <th>Payment Term Code</th>
         <th>Payment Term Status</th>
-        <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -49,13 +48,12 @@
         <td>{{vendor.vendorAddress1 || '-' }}</td>
         <td>{{vendor.contactNumber || '-' }}</td>
         <td>{{ vendor.email || '-' }}</td>
-        <td>{{ vendor.state || '-' }}</td>
-        <td>{{ vendor.city || '-' }}</td>
+        <td>{{ vendor.state.value || '-' }}</td>
+        <td>{{ vendor.city.value || '-' }}</td>
         <td>{{vendor.pointName || '-' }}</td>
         <td>{{vendor.gstnNo || '-' }}</td>
         <td>{{vendor.payTermCode || '-' }}</td>
         <td>{{vendor.payTermStatus || '-' }}</td>
-        <td>{{vendor.status || '-' }}</td>
         <td class="text-center">
           <img src="assets/images/icons/more.svg" class="me-3 pointer" alt="link" [ngbPopover]="popContent"
             [autoClose]="'outside'" triggers="manual" #p="ngbPopover" placement="left" (click)="p.open()" />
