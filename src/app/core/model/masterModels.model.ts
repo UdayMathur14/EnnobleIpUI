@@ -19,7 +19,8 @@ export interface AdviceDataModel {
     createdOn: string,
     modifiedBy: string,
     modifiedOn: string,
-    messageStatus: null
+    messageStatus: null,
+    status: string
 }
 
 export interface FreightDataModel {
@@ -195,7 +196,7 @@ export interface VehicleDataModel {
     id: number;
     locationId: number;
     vehicleNumber: string;
-    vehicleSize: number;
+    vehicleSizeId: number;
     transporterId: number;
     vehicleCondition: string;
     transporterEntity: {
@@ -232,7 +233,7 @@ export interface VehicleDataModel {
         messageStatus: string
     },
     remarks: string;
-    vehicleStatus: string;
+    status: string;
     inactiveDate: string;
     attribute1: string;
     attribute2: string;
