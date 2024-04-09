@@ -13,7 +13,7 @@
                 <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" *ngIf="this.queryData != 0" formControlName="locationCode" readonly/>
+                        <input type="text" class="input-field" *ngIf="this.queryData != 0" [value]="locationCode" readonly/>
                         <input type="text" class="input-field" *ngIf="this.queryData == 0" value="HA" readonly/>
                         <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                     </div>
@@ -31,7 +31,7 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Batch Name</label>
-                    <input type="text" class="input-field" formControlName="batchName" readonly/>
+                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="this.queryData != 0"/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
