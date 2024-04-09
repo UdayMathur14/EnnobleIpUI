@@ -35,6 +35,13 @@ export class AddEditAdviceComponent implements OnInit {
       this.getAdviceTypeData(this.queryData);
     }
     this.loadSpinner = false;
+       // Enable or disable status control based on queryData for Create and Update
+       const statusControl = this.adviceForm.get('status');
+       if(statusControl){
+         if(this.queryData == 0){
+           statusControl.disable()
+         }
+       }
   }
 
   getAdviceTypeData(adviceId : string){
