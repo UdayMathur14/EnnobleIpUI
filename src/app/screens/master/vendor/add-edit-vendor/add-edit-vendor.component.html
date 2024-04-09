@@ -10,7 +10,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vendor Code</label>
-          <input type="text" class="input-field" [(ngModel)]="vendorData.vendorCode" />
+          <input type="text" class="input-field" [(ngModel)]="vendorData.vendorCode" disabled/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
@@ -27,13 +27,13 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Phone</label>
+        <label for="">Phone <span class="text-danger">*</span></label>
         <input type="text" class="input-field" [(ngModel)]="vendorData.contactNumber" />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Email</label>
+        <label for="">Email <span class="text-danger">*</span></label>
         <input type="text" class="input-field" [(ngModel)]="vendorData.email" />
       </div>
     </div>
@@ -65,7 +65,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Point Name</label>
+        <label for="">Point Name <span class="text-danger">*</span></label>
         <ng-select class="input-field" [(ngModel)]="selectedPointName" placeholder="Select Vendor Name">
           <ng-option *ngFor="let point of pointChargeName" [value]="point.pointName">{{point.pointName}}</ng-option>
         </ng-select>
@@ -93,7 +93,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Status</label>
+        <label for="">Status <span class="text-danger">*</span></label>
         <select name="" id="" [(ngModel)]="vendorData.status">
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>

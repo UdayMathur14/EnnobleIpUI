@@ -24,6 +24,8 @@ export class AddEditPointChargeComponent implements OnInit {
   pointChargeData!: PointChargeDataModel
   pointChargesList: any = [];
   loadSpinner: boolean = true;
+  lookupId=1;
+  lookupIdvalue:string=''
   pointChargeForm = new FormGroup({
     pointName: new FormControl('', [Validators.required]),
     pointCharge: new FormControl('', [Validators.required]),
@@ -32,6 +34,7 @@ export class AddEditPointChargeComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.getLookupData()
     if (this.mode == 'create') {
       this.loadSpinner = false;
     }
@@ -104,7 +107,7 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        modifiedBy: '',
+        actionBy: 1,
         status: this.pointChargeForm.get('status')?.value,
       }
 
@@ -123,7 +126,7 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        createdBy: '',
+        actionBy: 1,
         status: this.pointChargeForm.get('status')?.value,
       }
 
@@ -141,6 +144,11 @@ export class AddEditPointChargeComponent implements OnInit {
     this.loadSpinner = false;
   }
 
+  getLookupData(){
+    this.pointChargeService.getLookups(this.lookupId).subscribe((response: any) => {
+      this.lookupIdvalue = response.value;
+    })
+}
 }
 
 

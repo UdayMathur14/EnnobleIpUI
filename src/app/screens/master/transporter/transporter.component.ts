@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transporter',
@@ -7,12 +6,11 @@ import { Router } from '@angular/router';
   styleUrl: './transporter.component.scss'
 })
 export class TransporterComponent {
-  constructor(private router : Router){}
-
+  constructor(){}
+  searchedTransporter : any;
   isFilters : boolean = true;
 
-  onCreateTransporter(){
-    this.router.navigate(['master/addEditTransporter'])
+  searchTransporter(event:any){
+    this.searchedTransporter = event;
   }
-
 }

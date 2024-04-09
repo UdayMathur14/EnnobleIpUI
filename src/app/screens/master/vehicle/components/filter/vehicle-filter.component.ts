@@ -12,7 +12,7 @@ export class VehicleFiltersComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    private elementRef: ElementRef,
+    private elementRef: ElementRef
   ) { }
 
   @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();

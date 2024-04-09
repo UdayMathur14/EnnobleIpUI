@@ -21,35 +21,35 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{freight.freightCode}}</u>
+            <u>{{freight.freightCode || '-' }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>{{freight.createdOn}}</span>
+                <span>{{freight.createdOn || '-' }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>{{freight.createdBy }}</span>
+                <span>{{freight.createdBy || '-' }}</span>
               </div>
               <div class="content-row">
                 <span>Modified On</span>
-                <span>{{freight.modifiedOn }}</span>
+                <span>{{freight.modifiedOn || '-' }}</span>
               </div>
               <div class="content-row">
                 <span>Modified By</span>
-                <span>{{freight.modifiedBy }}</span>
+                <span>{{freight.modifiedBy || '-' }}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>{{freight.locationCode}}</td>
-        <td>{{freight.source}}</td>
-        <td>{{freight.destination}}</td>
-        <td>{{freight.vehicleSize}}</td>
-        <td>{{freight.freightAmount}}</td>
-        <td>{{freight.remarks}}</td>
+        <td>{{freight.locationCode || '-' }}</td>
+        <td>{{freight.source || '-' }}</td>
+        <td>{{freight.destination || '-' }}</td>
+        <td>{{freight.vehicleSize || '-' }}</td>
+        <td>{{freight.freightAmount || '-' }}</td>
+        <td>{{freight.remarks || '-' }}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
