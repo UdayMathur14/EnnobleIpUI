@@ -3,10 +3,15 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vehicle Number</label>
-                <ng-select class="input-field" [(ngModel)]="vehicleNum" placeholder="Select Vehicle Number">
-                    <ng-option *ngFor="let vehicle of vehiclesList"
-                        [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
-                </ng-select>
+                <div class="input-with-icon">
+                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="vehicleNum"
+                        (input)="onVehicleNoInput(vehicleNum)" placeholder="Vehicle Number"/>
+                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div>
+                <div *ngIf="showSuggestionsVehicle && filteredVehicleNo.length > 0" class="suggestions">
+                    <div *ngFor="let vehicleNo of filteredVehicleNo" (click)="selectSuggestionVehicleNo(vehicleNo)" class="suggestion">
+                        {{vehicleNo}}</div>
+                </div>
             </div>
         </div>
         <div class="col-lg-2">
