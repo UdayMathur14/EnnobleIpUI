@@ -49,6 +49,16 @@ export class AddEditLookupComponent implements OnInit {
       this.getLookupTypes();
     }
     this.loadSpinner = false;
+
+    // Enable or disable status control based on queryData for Create and Update
+    const statusControl = this.lookupForm.get('status');
+    if (statusControl) {
+      if (this.queryData) {
+        statusControl.enable();
+      } else {
+        statusControl.disable();
+      }
+    }
   }
 
   //TO GET LOOKUP-TYPE DATA

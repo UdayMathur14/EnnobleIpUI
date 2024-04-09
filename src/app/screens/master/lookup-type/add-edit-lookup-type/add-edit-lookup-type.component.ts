@@ -44,6 +44,16 @@ export class AddEditLookupTypeComponent {
       this.getLookupTypeData(this.queryData);
     }
     this.loadSpinner = false;
+
+    // Enable or disable status control based on queryData for Create and Update
+    const statusControl = this.lookupTypeForm.get('status');
+    if (statusControl) {
+      if (this.queryData) {
+        statusControl.enable();
+      } else {
+        statusControl.disable();
+      }
+    }
   }
 
   //TO GET SELECTED LOOKUP-TYPE DATA
@@ -83,7 +93,7 @@ export class AddEditLookupTypeComponent {
       this.createNewLookupType(data);
     }
   }
-  
+
   //UPDATING LOOKUP TYPE DATA
   updateLookupType(data: any) {
     this.lookupTypeService.updateLookupTypes(this.queryData, data).subscribe((response: any) => {
