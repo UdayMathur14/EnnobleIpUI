@@ -30,7 +30,7 @@ export class AddEditPointChargeComponent implements OnInit {
     pointName: new FormControl('', [Validators.required]),
     pointCharge: new FormControl('', [Validators.required]),
     sameLocationCharge: new FormControl('', [Validators.required]),
-    status: new FormControl('', [Validators.required]),
+    status: new FormControl('Active', [Validators.required]),
   })
 
   ngOnInit(): void {
@@ -49,6 +49,13 @@ export class AddEditPointChargeComponent implements OnInit {
       }
     })
     this.getPointChargeData(this.pointChargeId)
+        // Enable or disable status control based on mode for Create and Update
+        const statusControl = this.pointChargeForm.get('status');
+        if(statusControl){
+          if(this.mode == 'create'){
+            statusControl.disable()
+          }
+        }
   }
 
   // GET SPECIFIC POINT CHARGE DATA

@@ -1,6 +1,5 @@
 export interface AdviceDataModel {
     id: number,
-    locationCode: string,
     adviceType: string,
     batchName: string,
     maxBiltiNumber: string,
@@ -20,6 +19,30 @@ export interface AdviceDataModel {
     modifiedBy: string,
     modifiedOn: string,
     messageStatus: null,
+    lookUpEntity: {
+        typeId: number,
+        code: string,
+        value: string,
+        description: string,
+        lookUpType: string,
+        id: number,
+        createdBy: number,
+        createdOn: string,
+        modifiedBy: number,
+        modifiedOn: string,
+        status: string,
+        attribute1?: null,
+        attribute2?: null,
+        attribute3?: null,
+        attribute4?: null,
+        attribute5?: 0,
+        attribute6: 0,
+        attribute7: 0,
+        attribute8: 0,
+        attribute9: null,
+        attribute10: null,
+        messageStatus: null
+      },
     status: string
 }
 

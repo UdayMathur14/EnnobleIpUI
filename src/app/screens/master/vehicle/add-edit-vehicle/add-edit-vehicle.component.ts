@@ -60,6 +60,14 @@ export class AddEditVehicleComponent implements OnInit {
     })
     this.getVehicleData(this.vehicleId);
     this.getAllLookups();
+    
+    // Enable or disable status control based on mode for Create and Update
+    const statusControl = this.vehicleForm.get('vehicleStatus');
+    if(statusControl){
+      if(this.mode == 'create'){
+        statusControl.disable()
+      }
+    }
   }
 
   // GET THE DATA OF SPECIFIC VEHICLE
@@ -127,7 +135,7 @@ export class AddEditVehicleComponent implements OnInit {
     if (this.mode == 'create') {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
-        vehicleSize: this.vehicleForm.get('vehicleSize')?.value,
+        vehicleSizeId: this.vehicleForm.get('vehicleSize')?.value,
         transporterId: this.transporterId,
         actionBy: 1,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,

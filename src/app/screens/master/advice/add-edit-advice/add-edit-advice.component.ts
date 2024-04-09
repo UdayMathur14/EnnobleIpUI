@@ -13,18 +13,18 @@ export class AddEditAdviceComponent implements OnInit {
   adviceForm : FormGroup
   queryData : any = '';
   loadSpinner: boolean = true;
-
+  locationCode: string = '';
   constructor(private router: Router,
     private _Activatedroute: ActivatedRoute,
     private adviceService : AdviceTypeService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder) { 
     this.adviceForm = this.formBuilder.group({
-      locationCode: ['', Validators.required],
       adviceType: ['', [Validators.required]],
       batchName: ['', [Validators.required]],
       maxBiltiLimit: ['', [Validators.required]],
       manualAllocReq: ['Yes', [Validators.required]],
+      status: ['Active', [Validators.required]]
     });
   }
 
@@ -35,16 +35,24 @@ export class AddEditAdviceComponent implements OnInit {
       this.getAdviceTypeData(this.queryData);
     }
     this.loadSpinner = false;
+       // Enable or disable status control based on queryData for Create and Update
+       const statusControl = this.adviceForm.get('status');
+       if(statusControl){
+         if(this.queryData == 0){
+           statusControl.disable()
+         }
+       }
   }
 
   getAdviceTypeData(adviceId : string){
     this.adviceService.getAdviceTypeData(adviceId).subscribe((response: any) => {
+      this.locationCode = response.lookUpEntity.value
       this.adviceForm.setValue({
-        locationCode : response.locationCode,
         adviceType : response.adviceType,
         batchName : response.batchName,
         maxBiltiLimit : response.maxBiltiNumber,
         manualAllocReq : response.manualAllocationRequired,
+        status: response.status
       });
       this.loadSpinner = false;
     }, error => {
@@ -57,14 +65,22 @@ export class AddEditAdviceComponent implements OnInit {
     onPressSave() {
       this.loadSpinner = true;
       let data = {
-        locationCode: this.adviceForm.controls['locationCode'].value,
-        adviceType: this.adviceForm.controls['adviceType'].value,
-        // batchName:this.adviceForm.controls['batchName'].value,
-        maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit'].value,
-        manualAllocationRequired: this.adviceForm.controls['manualAllocReq'].value,
+        adviceType: this.adviceForm.controls['adviceType']?.value,
+        batchName:this.adviceForm.controls['batchName']?.value,
+        maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
+        manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
+        status: this.adviceForm.controls['status']?.value,
+        actionBy: 1
+      }
+      let editData = {
+        adviceType: this.adviceForm.controls['adviceType']?.value,
+        maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
+        manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
+        status: this.adviceForm.controls['status']?.value,
+        actionBy: 1
       }
       if(this.queryData){
-        this.updateAdviceType(data);
+        this.updateAdviceType(editData);
       } else{
         this.createNewAdvice(data);
       }
@@ -72,20 +88,21 @@ export class AddEditAdviceComponent implements OnInit {
   
     //UPDATING PART DATA
     updateAdviceType(data:any){
-      this.adviceService.updateAdviceType(this.queryData, data).subscribe((response: any) => {
-        this.adviceForm.setValue({
-          locationCode : response.locationCode,
-          adviceType : response.adviceType,
-          batchName : response.batchName,
-          maxBiltiLimit : response.maxBiltiNumber,
-          manualAllocReq : response.manualAllocationRequired,
-        });
-        this.loadSpinner = false;
-        this.toastr.success('Advice Type Updated Successfully');
-      }, error => {
-        this.toastr.error(error.statusText, error.status);
-        this.loadSpinner = false;
-      })
+        this.adviceService.updateAdviceType(this.queryData, data).subscribe((response: any) => {
+          this.adviceForm.setValue({
+            adviceType : response.adviceType,
+            batchName : response.batchName,
+            maxBiltiLimit : response.maxBiltiNumber,
+            manualAllocReq : response.manualAllocationRequired,
+            status: response.status
+          });
+          this.loadSpinner = false;
+          this.toastr.success('Advice Type Updated Successfully');
+          this.router.navigate(['/master/advice'])
+        }, error => {
+          this.toastr.error(error.statusText, error.status);
+          this.loadSpinner = false;
+        })
     }
   
     //CREATING NEW PART
