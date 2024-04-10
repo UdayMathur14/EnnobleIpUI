@@ -14,7 +14,8 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Location Code</label>
-          <input type="text" class="input-field" disabled [value]="lookupIdvalue"/>
+          <input type="text" class="input-field" *ngIf="mode == 'edit'" [value]="locationCode" readonly/>
+          <input type="text" class="input-field" *ngIf="mode == 'create'" value="HA" readonly/>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
