@@ -51,7 +51,6 @@ export class AddEditTransactionTypeComponent implements OnInit {
       this.transactionData = response;
       this.loadSpinner = false;
       this.toastr.success('Transaction Updated Successfully');
-      this.router.navigate(['/master/transactionTypes'])
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;

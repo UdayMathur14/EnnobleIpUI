@@ -122,7 +122,6 @@ export class AddEditPointChargeComponent implements OnInit {
         this.pointChargeData = response;
         this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
-        this.router.navigate(['/master/pointCharge'])
       }, error => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;

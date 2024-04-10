@@ -124,7 +124,6 @@ export class AddEditVehicleComponent implements OnInit {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')
           this.loadSpinner = false;
-          this.router.navigate(['/master/vehicle'])
         }, error => {
           this.toastr.error(error.statusText, error.status);
           this.loadSpinner = false;
