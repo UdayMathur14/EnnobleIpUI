@@ -9,6 +9,7 @@
         <th>Vehicle Size</th>
         <th>Freight Amount</th>
         <th>Remarks</th>
+        <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -66,6 +67,7 @@
         <td>{{freight.vehicleSize.value || '-' }}</td>
         <td>{{freight.freightAmount || '-' }}</td>
         <td>{{freight.remarks || '-' }}</td>
+        <td>{{freight.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
