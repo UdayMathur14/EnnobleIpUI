@@ -39,7 +39,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
       code: this.transactionData.code,
       name: this.transactionData.name,
       interfaceTxnTypeId: 0,
-      glSubCategoryId: 0,
+      glSubCategoryId:  parseInt(this.transactionData.glSubCategoryId) ,
       status: this.transactionData.status,
       attribute1: "",
       attribute2: "",
