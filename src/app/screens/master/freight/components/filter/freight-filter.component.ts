@@ -24,7 +24,9 @@ export class FreightFilterComponent implements OnInit {
   //BINDING FREIGHT NUMBERS DROPDOWN
   getAllFreightsListInit() {
     let data = {
-      "freightCode": ''
+      "freightCode": '',
+      "source": '',
+      "vehicleSize": ''
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;

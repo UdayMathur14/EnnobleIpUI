@@ -14,16 +14,24 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Freight Code</label>
-                    <input type="text" class="input-field" formControlName="freightCode" [readonly]="queryData != 0"/>
+                    <input type="text" class="input-field" formControlName="freightCode" [readonly]="queryData != 0" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
+                <!-- <div class="custom-form-input">
                     <label for="">Location Code</label>
-                    <!-- <input type="text" class="input-field" formControlName="locationCode"/> -->
-                    <ng-select class="input-field" formControlName="locationCode" placeholder="Select Location Code">
+                    <ng-select class="input-field" formControlName="locationCode" placeholder="Select Location Code" [readonly]="true">
                         <ng-option *ngFor="let loc of locations" [value]="loc.value">{{loc.value}}</ng-option>
                     </ng-select>
+                </div> -->
+                <div class="custom-form-input">
+                    <label for="">Location Code</label>
+                    <div class="input-with-icon">
+                        <input type="text" class="input-field" *ngIf="this.queryData != 0" [value]="locationCode"
+                            readonly />
+                        <input type="text" class="input-field" *ngIf="this.queryData == 0" value="HA" readonly />
+                        <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                    </div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -35,58 +43,23 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Destination</label>
-                    <input type="text" class="input-field" formControlName="destination"/>
+                    <input type="text" class="input-field" formControlName="destination" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-4">
                 <div class="custom-form-input">
                     <label for="">Vehicle Size</label>
-                    <!-- <select name="" id="">
+                    <select name="" id="">
                         <option value="active">10</option>
                         <option value="inactive">11</option>
-                    </select> -->
-                    <input type="text" class="input-field" formControlName="vehicleSize">
+                    </select>
+                    <!-- <input type="text" class="input-field" formControlName="vehicleSize"> -->
                 </div>
             </div>
             <div class="col-lg-2 col-md-4">
                 <div class="custom-form-input">
                     <label for="">Freight Amount</label>
-                    <input type="text" class="input-field" formControlName="freightAmount" [readonly]="queryData != 0"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Status</label>
-                    <select formControlName="status" name="status">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Approved by Material</label>
-                    <input type="text" class="input-field" formControlName="matApproval" [readonly]="queryData != 0"/>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4">
-                <div class="custom-form-input">
-                    <label for="">Approved by Material On</label>
-                    <input type="text" class="input-field" formControlName="matApprovalOn" [readonly]="queryData != 0"/>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4">
-                <div class="custom-form-input">
-                    <label for="">Approved by Accounts</label>
-                    <input type="text" class="input-field" formControlName="accApproval" [readonly]="queryData != 0"/>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Approved by Accounts On</label>
-                    <input type="text" class="input-field" formControlName="accApprovalOn" [readonly]="queryData != 0"/>
+                    <input type="text" class="input-field" formControlName="freightAmount" />
                 </div>
             </div>
         </div>
@@ -94,7 +67,16 @@
             <div class="col-lg-4 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Remarks</label>
-                    <input type="text" class="input-field" formControlName="remarks"/>
+                    <input type="text" class="input-field" formControlName="remarks" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Status</label>
+                    <select formControlName="status" name="status" >
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
                 </div>
             </div>
         </div>
