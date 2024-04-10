@@ -6,10 +6,7 @@
         <th>Point Charge</th>
         <th>Same Location Charge</th>
         <th>Location Code</th>
-        <th>Approved by Material</th>
-        <th>Approved by Material On</th>
-        <th>Approved by Accounts</th>
-        <th>Approved by Accounts On</th>
+        <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -42,16 +39,29 @@
                 <span>Modified On</span>
                 <span>{{pointcharge?.modifiedOn}}</span>
               </div>
+              <div class="content-row">
+                <span>Approved by Material</span>
+                <span>{{pointcharge?.approvedByMaterial}}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Material On</span>
+                <span>{{pointcharge?.approvedByMaterialOn}}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Accounts</span>
+                <span>{{pointcharge?.approvedByAccounts}}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Accounts On</span>
+                <span>{{pointcharge?.approvedByAccountsOn}}</span>
+              </div>
             </div>
           </ng-template>
         </td>
         <td>{{pointcharge?.pointCharge}}</td>
         <td>{{pointcharge?.sameLocationCharge}}</td>
-        <td>{{pointcharge?.locationId}}</td>
-        <td>{{pointcharge?.approvedByMaterial}}</td>
-        <td>{{pointcharge?.approvedByMaterialOn}}</td>
-        <td>{{pointcharge?.approvedByAccounts}}</td>
-        <td>{{pointcharge?.approvedByAccountsOn}}</td>
+        <td>{{pointcharge?.locations.value}}</td>
+        <td>{{pointcharge?.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"

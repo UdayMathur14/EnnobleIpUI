@@ -98,7 +98,6 @@ export class AddEditAdviceComponent implements OnInit {
           });
           this.loadSpinner = false;
           this.toastr.success('Advice Type Updated Successfully');
-          this.router.navigate(['/master/advice'])
         }, error => {
           this.toastr.error(error.statusText, error.status);
           this.loadSpinner = false;
