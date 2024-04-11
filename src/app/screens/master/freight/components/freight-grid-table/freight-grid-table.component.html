@@ -22,7 +22,7 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{freight.freightCode || '-' }}</u>
+            <u>{{freight?.freightCode || '-' }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -61,13 +61,13 @@
             </div>
           </ng-template>
         </td>
-        <td>{{freight.locations.value || '-' }}</td>
-        <td>{{freight.source.value || '-' }}</td>
-        <td>{{freight.destination.value || '-' }}</td>
-        <td>{{freight.vehicleSize.value || '-' }}</td>
-        <td>{{freight.freightAmount || '-' }}</td>
-        <td>{{freight.remarks || '-' }}</td>
-        <td>{{freight.status}}</td>
+        <td>{{freight?.locations?.value || '-' }}</td>
+        <td>{{freight?.source?.value || '-' }}</td>
+        <td>{{freight?.destination?.value || '-' }}</td>
+        <td>{{freight?.vehicleSize?.value || '-' }}</td>
+        <td>{{freight?.freightAmount || '-' }}</td>
+        <td>{{freight?.remarks || '-' }}</td>
+        <td>{{freight?.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
