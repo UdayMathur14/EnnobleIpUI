@@ -10,165 +10,165 @@
 
 <div class="content-section p-3">
   <form [formGroup]="transporterForm">
-  <div class="row">
-      <div class="col-lg-4 col-md-4">
-        <div class="row">
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Transporter Code</label>
-              <div class="input-with-icon">
-                <input type="text" class="input-field" formControlName="transporterCode" readonly/>
-                <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" >
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Transporter Name</label>
-              <input type="text" class="input-field" formControlName="transporterName" readonly/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Owner Name</label>
-              <input type="text" class="input-field" formControlName="ownerName"/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Contact Person</label>
-              <input type="text" class="input-field" formControlName="contactPerson"/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Contact Number</label>
-              <input type="text" class="input-field" formControlName="contactNumber"/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">PAN Number</label>
-              <input type="text" class="input-field" formControlName="pan" readonly/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">GSTIN</label>
-              <input type="text" class="input-field" formControlName="gst" readonly/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Auto Bilti Required</label>
-              <select formControlName="autoBiltiReq">
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">RCM/Non-RCM</label>
-              <select formControlName="rcmNonRcm">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Auto Bilti Starting Char.</label>
-              <input type="text" class="input-field" formControlName="autoBiltiCharactor"/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Regd. Details</label>
-              <input type="text" class="input-field" formControlName="regdDetails"/>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Mode of Transport</label>
-              <select formControlName="modeOfTransport">
-                <option value="NHA">NHA</option>
-                <option value="Truck">Truck</option>
-              </select>
-            </div>
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Transporter Code</label>
+          <div class="input-with-icon">
+            <input type="text" class="input-field" formControlName="transporterCode" readonly />
+            <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
           </div>
         </div>
       </div>
-
-      <div class="col-lg-4 col-md-4">
-        <div class="row">
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Location Code</label>
-              <div class="input-with-icon">
-                <input type="text" class="input-field" formControlName="locationCode"/>
-                <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" >
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="custom-form-input">
-              <label for="">Status</label>
-              <select formControlName="status">
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Address 1</label>
-              <input type="text" class="input-field" formControlName="address1" readonly/>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Address 2</label>
-              <input type="text" class="input-field" formControlName="address2"/>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Consigner Contact Information</label>
-              <input type="text" class="input-field" formControlName="consignorContactInfo"/>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Consigner Name</label>
-              <input type="text" class="input-field" formControlName="consignorName" readonly/> 
-            </div>
-          </div>
-    
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Transporter Name</label>
+          <input type="text" class="input-field" formControlName="transporterName" readonly />
         </div>
       </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="row">
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Bilti Header Comments</label>
-              <textarea class="input-field" formControlName="biltiHeaderComment"></textarea>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Notes</label>
-              <textarea class="input-field" formControlName="note" rows="3"></textarea>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-12">
-            <div class="custom-form-input">
-              <label for="">Footer</label>
-              <textarea class="input-field" formControlName="footer" rows="3"></textarea>
-            </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Location Code</label>
+          <div class="input-with-icon">
+            <input type="text" class="input-field" formControlName="locationCode" readonly />
+            <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
           </div>
         </div>
       </div>
-  </div>
-</form>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Owner Name</label>
+          <input type="text" class="input-field" formControlName="ownerName" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Contact Number</label>
+          <input type="text" class="input-field" formControlName="contactNumber" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Transporter Email</label>
+          <input type="text" class="input-field" formControlName="transporterMailId" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Contact Person</label>
+          <input type="text" class="input-field" formControlName="contactPerson" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Address 1</label>
+          <input type="text" class="input-field" formControlName="address1" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Address 2</label>
+          <input type="text" class="input-field" formControlName="address2" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Postal Code</label>
+          <input type="text" class="input-field" formControlName="postalCode" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">PAN Number</label>
+          <input type="text" class="input-field" formControlName="pan" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">GSTIN</label>
+          <input type="text" class="input-field" formControlName="gst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Regd. Details</label>
+          <input type="text" class="input-field" formControlName="regdDetails" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">RCM/Non-RCM</label>
+          <select formControlName="rcmNonRcm" readonly>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Auto Bilti Required</label>
+          <select formControlName="autoBiltiReq">
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Auto Bilti Starting Char.</label>
+          <input type="text" class="input-field" formControlName="autoBiltiCharactor" />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Consigner Name</label>
+          <input type="text" class="input-field" formControlName="consignorName" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Consigner Contact</label>
+          <input type="text" class="input-field" formControlName="consignorContactInfo" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Mode of Transport</label>
+          <select formControlName="modeOfTransport">
+            <option value="1">NHA</option>
+            <option value="62">Truck</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Status</label>
+          <select formControlName="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Bilti Header Comments</label>
+          <textarea class="input-field" formControlName="biltiHeaderComment" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Notes</label>
+          <textarea class="input-field" formControlName="note" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Footer</label>
+          <textarea class="input-field" formControlName="footer" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
