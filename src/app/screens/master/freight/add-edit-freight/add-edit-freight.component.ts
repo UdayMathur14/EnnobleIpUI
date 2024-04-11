@@ -65,13 +65,14 @@ export class AddEditFreightComponent implements OnInit {
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: string) {
     this.freightService.getFreightData(freightId).subscribe((response: any) => {
+      console.log(response)
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
         // locationCode: response.locations.value,
-        source: response.source.value,
-        destination: response.destination.value,
-        vehicleSize: response.vehicleSize.value,
+        source: response.source.id,
+        destination: response.destination.id,
+        vehicleSize: response.vehicleSize.id,
         freightAmount: response.freightAmount,
         status: response.status,
         matApproval: response.approvedByMaterial,
