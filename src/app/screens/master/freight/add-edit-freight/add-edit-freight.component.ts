@@ -69,9 +69,9 @@ export class AddEditFreightComponent implements OnInit {
       this.freightForm.patchValue({
         freightCode: response.freightCode,
         // locationCode: response.locations.value,
-        source: response.source.value,
-        destination: response.destination.value,
-        vehicleSize: response.vehicleSize.value,
+        source: response.source.id,
+        destination: response.destination.id,
+        vehicleSize: response.vehicleSize.id,
         freightAmount: response.freightAmount,
         status: response.status,
         matApproval: response.approvedByMaterial,

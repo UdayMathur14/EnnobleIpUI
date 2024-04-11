@@ -218,7 +218,7 @@ export interface PartDataModel {
 export interface PlantDataModel {
     id: number,
     plantCode: string,
-    locationId: string,
+    locations: any,
     plantDesc: string,
     plantAddress: string,
     city: string,
