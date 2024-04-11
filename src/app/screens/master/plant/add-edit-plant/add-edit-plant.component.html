@@ -142,7 +142,7 @@
   <div class="edit-screen-subTable">
     <h4 class="">
       Transaction Details
-      <button class="custom-button-regulr" (click)="onAddTransactionRow()" [disabled]="plantData.transactionTypeMapping.length >= transactionTypesList.length">Add</button>
+      <button class="custom-button-regulr" (click)="onAddTransactionRow()" [disabled]="plantData && plantData.transactionTypeMapping.length >= transactionTypesList.length">Add</button>
     </h4>
   </div>
 

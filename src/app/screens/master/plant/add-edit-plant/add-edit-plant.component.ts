@@ -103,13 +103,12 @@ export class AddEditPlantComponent implements OnInit {
       }
       transactionData.push(transactionObj);
     })
-    
     let data = {
-      status: this.plantData.status,
+      status: this.plantForm.controls['status'].value,
       actionBy: 1,
-      locationId: this.plantData.locationId,
-      dsc: this.plantData.dsc,
-      dcp: this.plantData.dcp,
+      locationId: this.plantData.locations.id,
+      dsc: this.plantForm.controls['dsc'].value,
+      dcp: this.plantForm.controls['dcp'].value,
       transactionTypeDetails : transactionData
     }
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
