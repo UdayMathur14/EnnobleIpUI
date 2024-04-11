@@ -26,7 +26,7 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Code</label>
-                    <input type="text" class="input-field" formControlName="code" *ngIf="queryData" [readonly]="true" [ngStyle]="{'background-color': 'var(--gray2)'}"/>
+                    <input type="text" class="input-field" formControlName="code" *ngIf="queryData" readonly/>
                     <input type="text" class="input-field" formControlName="code" *ngIf="!queryData" />
                 </div>
             </div>

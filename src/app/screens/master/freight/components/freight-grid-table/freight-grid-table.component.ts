@@ -40,6 +40,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   getAllFreightListInit() {
     let data = {
       "freightCode": '',
+      "sourceId": 0,
+      "vehicleSizeId": 0
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -54,6 +56,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   getFilteredFreightsList() {
     let data = {
       "freightCode": this.searchedFreight.freightCode || "",
+      "sourceId": this.searchedFreight.source || 0,
+      "vehicleSizeId": this.searchedFreight.vehicleSize || 0,
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;

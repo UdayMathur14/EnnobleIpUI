@@ -336,6 +336,12 @@ body {
             border-color: var(--inputBorder);
         }
     }
+
+    &.ng-select-disabled{
+        .ng-select-container{
+            background-color: var(--gray2);
+        }
+    }
 }
 
 
