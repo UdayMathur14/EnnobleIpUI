@@ -83,7 +83,7 @@ export class AddEditTransporterComponent implements OnInit {
         autoBiltiCharactor : response.autoBiltiStartingCharacter,
         consignorName : response.consignorName,
         regdDetails : response.regdDetails,
-        modeOfTransport : response.transportation_Mode_id,
+        modeOfTransport : response.transportationModeId,
         biltiHeaderComment : response.biltiHeaderComments,
         note : response.note,
         footer : response.footer,
