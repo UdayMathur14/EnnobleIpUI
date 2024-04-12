@@ -12,7 +12,7 @@
             <div class="custom-form-input">
                 <label for="">Source</label>
                 <ng-select class="input-field" [(ngModel)]="source" placeholder="Select Source">
-                    <ng-option *ngFor="let freight of freightList" [value]="freight.source.id">{{freight.source.value}}</ng-option>
+                    <ng-option *ngFor="let source of sources" [value]="source.id">{{source.value}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -20,7 +20,7 @@
             <div class="custom-form-input">
                 <label for="">Vehicle Size</label>
                 <ng-select class="input-field" [(ngModel)]="vehicleSize" placeholder="Select Vehicle Size">
-                    <ng-option *ngFor="let freight of freightList" [value]="freight?.vehicleSize?.id">{{freight?.vehicleSize?.value}}</ng-option>
+                    <ng-option *ngFor="let vehicleSize of vehcileSizes" [value]="vehicleSize?.id">{{vehicleSize?.value}}</ng-option>
                 </ng-select>
             </div>
         </div>
