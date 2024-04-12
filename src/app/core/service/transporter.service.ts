@@ -24,4 +24,9 @@ export class TransporterService extends CRUDService<PlantRequest> {
     updateTransporter(transporterId : string, data : object){
         return this.baseService.put(APIConstant.basePath+updateTransporter(localStorage.getItem('locationId'), transporterId), data);
     }
+
+    getDropdownData(data : object, type: string){
+        return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
+            + type ,data);
+    }
 }

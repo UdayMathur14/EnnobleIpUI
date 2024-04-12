@@ -134,10 +134,10 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Mode of Transport</label>
-          <select formControlName="modeOfTransport">
-            <option value="1">NHA</option>
-            <option value="62">Truck</option>
-          </select>
+          <ng-select class="input-field" placeholder="Select Mode of Transport" formControlName="modeOfTransport">
+          <ng-option *ngFor="let mode of transportMode"
+            [value]="mode.id">{{mode.value}}</ng-option>
+        </ng-select>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

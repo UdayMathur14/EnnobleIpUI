@@ -13,6 +13,7 @@ export class AddEditTransporterComponent implements OnInit {
   transporterForm: FormGroup;
   queryData: any;
   loadSpinner: boolean = true;
+  transportMode: any = [];
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -60,11 +61,11 @@ export class AddEditTransporterComponent implements OnInit {
           statusControl.disable()
         }
       }
+      this.getTransporterModeDropdownData();
   }
 
   getTransporterData(transporterId:string){
     this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
-      console.log(response)
       this.transporterForm.patchValue({
         transporterCode : response.transporterCode,
         transporterName : response.transporterName,
@@ -83,7 +84,7 @@ export class AddEditTransporterComponent implements OnInit {
         autoBiltiCharactor : response.autoBiltiStartingCharacter,
         consignorName : response.consignorName,
         regdDetails : response.regdDetails,
-        modeOfTransport : response.transportationModeId,
+        modeOfTransport : response.transporterMode.value,
         biltiHeaderComment : response.biltiHeaderComments,
         note : response.note,
         footer : response.footer,
@@ -150,5 +151,17 @@ export class AddEditTransporterComponent implements OnInit {
 
   onCancelPress() {
     this.router.navigate(['/master/transporter'])
+  }
+
+  getTransporterModeDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'TransporterMode'
+    this.transporterService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.transportMode = res.lookUps
+    })
   }
 }
