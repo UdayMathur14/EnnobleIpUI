@@ -89,7 +89,6 @@ export class AddEditVehicleComponent implements OnInit {
 
   // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
-    console.log(data)
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
       transporterName: data.transporterEntity.transporterName,
@@ -198,7 +197,6 @@ export class AddEditVehicleComponent implements OnInit {
   }
 
   patchTransporterField(data:any){
-    console.log(data)
       this.vehicleForm.patchValue({
       ownerName: data.ownerName,
       address: data.transporterAddress1,

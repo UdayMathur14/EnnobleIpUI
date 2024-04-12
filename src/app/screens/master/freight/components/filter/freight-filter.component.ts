@@ -34,7 +34,6 @@ export class FreightFilterComponent implements OnInit {
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
-      console.log(this.freightList)
     }, error => {
       this.toastr.error(error.statusText, error.status);
     })
@@ -69,7 +68,6 @@ export class FreightFilterComponent implements OnInit {
     }
     const type = 'Source'
     this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
-      console.log(res)
       this.sources = res.lookUps
     })
   }
