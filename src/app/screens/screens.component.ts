@@ -22,7 +22,8 @@ export class ScreensComponent implements OnInit {
 
         this.lookupService.getLookupData(key).subscribe((response: any) => {
             this.baseService.lookupData.next(response);
-            this.locations = response.lookUps.filter((e:any) => e.code === 'LOC');
+            console.log(response)
+            this.locations = response.lookUps.filter((e:any) => e.code === 'HA');
             localStorage.setItem('locationId', this.locations[0].id)
         }, error => {
 

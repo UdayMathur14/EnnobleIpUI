@@ -38,7 +38,7 @@
           </ng-template>
         </td>
         <td>{{transaction.code}}</td>
-        <td>{{transaction.glSubCategoryId}}</td>
+        <td>{{transaction.glSubCategory.value}}</td>
         <td>{{transaction.status}}</td>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditTransaction(transaction)" />

@@ -298,7 +298,7 @@ export interface TransactionTypeListModel {
     code: string,
     name: string,
     interfaceTxnTypeId: number,
-    glSubCategoryId: number,
+    glSubCategory: any,
     status: string,
     attribute1: null,
     attribute2: null,
