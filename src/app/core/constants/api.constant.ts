@@ -1,9 +1,17 @@
 import { environment } from "../../../environments/environment";
 
 const apiPath = environment.apiPath;
+const umsURL = environment.umsURL;
+const mfgURL = environment.mfgURL;
+const svcURL = environment.svcURL;
+const gtmURL = environment.gtmURL;
 
 export const APIConstant = {
     basePath: apiPath,
+    Ums:umsURL,
+    Mfg:mfgURL,
+    Svc:svcURL,
+    Gtm:gtmURL,
     lookup: `/lookup/`,
     plant: `v1/plant/search`,
     plantData : `v1/plant/`,

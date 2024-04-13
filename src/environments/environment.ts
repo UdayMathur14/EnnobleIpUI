@@ -5,7 +5,11 @@
 export const environment = {
   production: false,
   // apiPath: window.location.origin,
-  apiPath : 'http://111.93.61.253/api/'
+  apiPath : 'http://111.93.61.253/api/',
+  umsURL: "http://111.93.61.253:3251",
+  mfgURL: "http://111.93.61.253:9090",
+  svcURL: "http://111.93.61.253:9091",
+  gtmURL: "http://111.93.61.253:9092",
 };
 
 /*
