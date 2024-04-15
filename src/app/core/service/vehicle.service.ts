@@ -42,4 +42,10 @@ export class VehicleService extends CRUDService<VehicleRequest> {
   getTransporterData(transporterId: string) {
     return this.baseService.get(APIConstant.basePath + transporterData(localStorage.getItem('locationId'), transporterId));
   }
+
+  getDropdownData(data : object, type: string){
+    return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
+        + type ,data);
+}
+
 }

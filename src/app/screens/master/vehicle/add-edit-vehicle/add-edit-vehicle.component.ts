@@ -29,6 +29,7 @@ export class AddEditVehicleComponent implements OnInit {
   transportersList: any;
   transporterId: number = 0;
   transporterData:any
+  vehcileSizes: any = []
 
   vehicleForm = new FormGroup({
     vehicleNumber: new FormControl('', [Validators.required]),
@@ -60,6 +61,7 @@ export class AddEditVehicleComponent implements OnInit {
     })
     this.getVehicleData(this.vehicleId);
     this.getAllLookups();
+    this.getVehicleSizeDropdownData();
     
     // Enable or disable status control based on mode for Create and Update
     const statusControl = this.vehicleForm.get('vehicleStatus');
@@ -87,7 +89,6 @@ export class AddEditVehicleComponent implements OnInit {
 
   // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
-    console.log(data)
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
       transporterName: data.transporterEntity.transporterName,
@@ -196,7 +197,6 @@ export class AddEditVehicleComponent implements OnInit {
   }
 
   patchTransporterField(data:any){
-    console.log(data)
       this.vehicleForm.patchValue({
       ownerName: data.ownerName,
       address: data.transporterAddress1,
@@ -209,5 +209,17 @@ export class AddEditVehicleComponent implements OnInit {
   // ROUTING TO MASTER PAGE
   onCancelPress() {
     this.router.navigate(['master/vehicle']);
+  }
+
+  getVehicleSizeDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'VehicleSize'
+    this.vehicleService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.vehcileSizes = res.lookUps
+    })
   }
 }

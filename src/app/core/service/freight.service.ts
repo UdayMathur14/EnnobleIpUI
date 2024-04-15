@@ -28,4 +28,9 @@ export class FreightService extends CRUDService<PlantRequest> {
     createFreight(data : object){
         return this.baseService.post(APIConstant.basePath+createFreight(localStorage.getItem('locationId')), data);
     }
+
+    getDropdownData(data : object, type: string){
+        return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
+            + type ,data);
+    }
 }

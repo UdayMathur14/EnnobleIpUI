@@ -15,9 +15,9 @@ export interface AdviceDataModel {
     extraAttr9: string,
     extraAttr10: string,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: null,
     lookUpEntity: {
         typeId: number,
@@ -283,9 +283,9 @@ export interface PointChargeDataModel {
     extraAttr9: string,
     extraAttr10: string,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     approvedByMaterial: string,
     approvedByMaterialOn: string,
     approvedByAccounts: string,
@@ -298,16 +298,16 @@ export interface TransactionTypeListModel {
     code: string,
     name: string,
     interfaceTxnTypeId: number,
-    glSubCategoryId: number,
+    glSubCategory: any,
     status: string,
     attribute1: null,
     attribute2: null,
     attribute3: null,
     attribute4: null,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: null
 }
 
@@ -364,10 +364,10 @@ export interface VehicleDataModel {
     attribute8: string;
     attribute9: string;
     attribute10: string;
-    createdBy: string;
-    createdOn: string;
-    modifiedBy: string;
-    modifiedOn: string;
+    createdBy: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: string;
 }
 
@@ -500,9 +500,9 @@ export interface TransporterListingModel {
     inactiveDate: string,
     transporterStatus: null,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: null,
     id: number
 }

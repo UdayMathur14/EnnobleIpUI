@@ -13,12 +13,16 @@ export class FreightFilterComponent implements OnInit {
   source : any = undefined;
   vehicleSize : any = undefined;
   freightList : any = [];
+  sources: any = [];
+  vehcileSizes: any = [];
   
   constructor(private freightService : FreightService,
     private toastr : ToastrService){}
 
   ngOnInit(): void {
     this.getAllFreightsListInit();
+    this.getSourceDropdownData();
+    this.getVehicleSizeDropdownData();
   }
 
   //BINDING FREIGHT NUMBERS DROPDOWN
@@ -30,7 +34,6 @@ export class FreightFilterComponent implements OnInit {
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
-      console.log(this.freightList)
     }, error => {
       this.toastr.error(error.statusText, error.status);
     })
@@ -55,6 +58,30 @@ export class FreightFilterComponent implements OnInit {
       vehicleSize : ''
     }
     this.freightFilterObj.emit(obj)
+  }
+
+  getSourceDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'Source'
+    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.sources = res.lookUps
+    })
+  }
+
+  getVehicleSizeDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'VehicleSize'
+    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.vehcileSizes = res.lookUps
+    })
   }
   
 }

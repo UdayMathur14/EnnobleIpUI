@@ -44,7 +44,6 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
       "code": ''
     }
     this.lookupService.getLookups(data).subscribe((response: any) => {
-      console.log(response)
       this.lookupsList = response.lookUps;
       this.lookupsListOrg = response.lookUps;
       this.loadSpinner = false;

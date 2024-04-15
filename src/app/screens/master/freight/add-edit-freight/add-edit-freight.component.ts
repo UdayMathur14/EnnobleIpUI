@@ -17,7 +17,10 @@ export class AddEditFreightComponent implements OnInit {
   loadSpinner: boolean = true;
   queryData: any = '';
   locations: any = [];
+  sources: any = [];
   locationCode: string = '';
+  vehcileSizes: any = [];
+  destinations: any = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -60,6 +63,9 @@ export class AddEditFreightComponent implements OnInit {
         statusControl.disable();
       }
     }
+    this.getSourceDropdownData();
+    this.getDestinationDropdownData();
+    this.getVehicleSizeDropdownData();
   }
 
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
@@ -68,10 +74,10 @@ export class AddEditFreightComponent implements OnInit {
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
-        // locationCode: response.locations.value,
-        source: response.source.id,
-        destination: response.destination.id,
-        vehicleSize: response.vehicleSize.id,
+        locationCode: response.locations.value,
+        source: response.sourceId,
+        destination: response.destinationId,
+        vehicleSize: response.vehicleSizeId,
         freightAmount: response.freightAmount,
         status: response.status,
         matApproval: response.approvedByMaterial,
@@ -95,8 +101,8 @@ export class AddEditFreightComponent implements OnInit {
       locationCode: this.freightForm.controls['locationCode'].value,
       // source:this.freightForm.controls['source'].value,
       sourceId: parseInt( this.freightForm.controls['source'].value),
-      destination: parseInt(this.freightForm.controls['destination'].value),
-      vehicleSize: parseInt(this.freightForm.controls['vehicleSize'].value),
+      destinationId: parseInt(this.freightForm.controls['destination'].value),
+      vehicleSizeId: parseInt(this.freightForm.controls['vehicleSize'].value),
       freightAmount: this.freightForm.controls['freightAmount'].value,
       status: this.freightForm.controls['status'].value,
       matApproval: this.freightForm.controls['matApproval'].value,
@@ -139,5 +145,41 @@ export class AddEditFreightComponent implements OnInit {
   //REDIRECTING USER BACK TO FREIGHT LISTING SCREEN
   onCancelPress() {
     this.router.navigate(['master/freight']);
+  }
+
+  getSourceDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'Source'
+    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.sources = res.lookUps
+    })
+  }
+
+  getDestinationDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'Destination'
+    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.destinations = res.lookUps
+    })
+  }
+
+  getVehicleSizeDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'VehicleSize'
+    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.vehcileSizes = res.lookUps
+    })
   }
 }
