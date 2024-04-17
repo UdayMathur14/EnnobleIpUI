@@ -1,6 +1,5 @@
 export interface AdviceDataModel {
     id: number,
-    locationCode: string,
     adviceType: string,
     batchName: string,
     maxBiltiNumber: string,
@@ -16,41 +15,162 @@ export interface AdviceDataModel {
     extraAttr9: string,
     extraAttr10: string,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
-    messageStatus: null
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
+    messageStatus: null,
+    lookUpEntity: {
+        typeId: number,
+        code: string,
+        value: string,
+        description: string,
+        lookUpType: string,
+        id: number,
+        createdBy: number,
+        createdOn: string,
+        modifiedBy: number,
+        modifiedOn: string,
+        status: string,
+        attribute1?: null,
+        attribute2?: null,
+        attribute3?: null,
+        attribute4?: null,
+        attribute5?: 0,
+        attribute6: 0,
+        attribute7: 0,
+        attribute8: 0,
+        attribute9: null,
+        attribute10: null,
+        messageStatus: null
+    },
+    status: string
 }
 
 export interface FreightDataModel {
-    id: number,
+    locationId: number,
     freightCode: string,
-    source: string,
-    vehicleSize: string,
-    locationCode: string,
-    destination: string,
+    sourceId: number,
+    vehicleSizeId: number,
+    destinationId: number,
     freightAmount: string,
     remarks: string,
-    extraAttr1: string,
-    extraAttr2: string,
-    extraAttr3: null,
-    extraAttr4: null,
-    extraAttr5: null,
-    extraAttr6: null,
-    extraAttr7: null,
-    extraAttr8: null,
-    extraAttr9: null,
-    extraAttr10: null,
-    createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
-    messageStatus: null,
     approvedByMaterial: null,
     approvedByMaterialOn: null,
     approvedByAccounts: null,
     approvedByAccountsOn: null,
-    status: null
+    locations: {
+        typeId: number,
+        code: string,
+        value: string,
+        description: string,
+        lookUpType: null,
+        id: number,
+        createdBy: string,
+        createdOn: string,
+        modifiedBy: string,
+        modifiedOn: string,
+        status: string,
+        attribute1: null,
+        attribute2: null,
+        attribute3: null,
+        attribute4: null,
+        attribute5: null,
+        attribute6: null,
+        attribute7: null,
+        attribute8: null,
+        attribute9: string,
+        attribute10: string,
+        messageStatus: null
+    },
+    source: {
+        typeId: number,
+        code: string,
+        value: string,
+        description: string,
+        lookUpType: null,
+        id: number,
+        createdBy: string,
+        createdOn: string,
+        modifiedBy: string,
+        modifiedOn: string,
+        status: string,
+        attribute1: null,
+        attribute2: null,
+        attribute3: null,
+        attribute4: null,
+        attribute5: null,
+        attribute6: null,
+        attribute7: null,
+        attribute8: null,
+        attribute9: string,
+        attribute10: string,
+        messageStatus: null
+    },
+    vehicleSize: {
+        typeId: number,
+        code: string,
+        value: string,
+        description: string,
+        lookUpType: null,
+        id: number,
+        createdBy: string,
+        createdOn: string,
+        modifiedBy: string,
+        modifiedOn: string,
+        status: string,
+        attribute1: null,
+        attribute2: null,
+        attribute3: null,
+        attribute4: null,
+        attribute5: null,
+        attribute6: null,
+        attribute7: null,
+        attribute8: null,
+        attribute9: string,
+        attribute10: string,
+        messageStatus: null
+    },
+    destination: {
+        typeId: number,
+        code: string,
+        value: string,
+        description: string,
+        lookUpType: null,
+        id: number,
+        createdBy: string,
+        createdOn: string,
+        modifiedBy: string,
+        modifiedOn: string,
+        status: string,
+        attribute1: null,
+        attribute2: null,
+        attribute3: null,
+        attribute4: null,
+        attribute5: null,
+        attribute6: null,
+        attribute7: null,
+        attribute8: null,
+        attribute9: string,
+        attribute10: string,
+        messageStatus: null
+    },
+    id: number,
+    createdBy: string,
+    createdOn: string,
+    modifiedBy: string,
+    modifiedOn: string,
+    status: string,
+    attribute1: null,
+    attribute2: null,
+    attribute3: null,
+    attribute4: null,
+    attribute5: null,
+    attribute6: null,
+    attribute7: null,
+    attribute8: null,
+    attribute9: string,
+    attribute10: string,
+    messageStatus: null
 }
 
 export interface LookupTypeDataModel {
@@ -98,7 +218,7 @@ export interface PartDataModel {
 export interface PlantDataModel {
     id: number,
     plantCode: string,
-    locationId: string,
+    locations: any,
     plantDesc: string,
     plantAddress: string,
     city: string,
@@ -139,7 +259,8 @@ export interface PlantDataModel {
             attribute4: null,
             txnTypeId: null,
             name: string,
-            code: string
+            code: any,
+            transactionTypeId: number
         }
     ]
 }
@@ -162,9 +283,9 @@ export interface PointChargeDataModel {
     extraAttr9: string,
     extraAttr10: string,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     approvedByMaterial: string,
     approvedByMaterialOn: string,
     approvedByAccounts: string,
@@ -177,16 +298,16 @@ export interface TransactionTypeListModel {
     code: string,
     name: string,
     interfaceTxnTypeId: number,
-    glSubCategoryId: number,
+    glSubCategory: any,
     status: string,
     attribute1: null,
     attribute2: null,
     attribute3: null,
     attribute4: null,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: null
 }
 
@@ -194,7 +315,7 @@ export interface VehicleDataModel {
     id: number;
     locationId: number;
     vehicleNumber: string;
-    vehicleSize: number;
+    vehicleSizeId: number;
     transporterId: number;
     vehicleCondition: string;
     transporterEntity: {
@@ -231,7 +352,7 @@ export interface VehicleDataModel {
         messageStatus: string
     },
     remarks: string;
-    vehicleStatus: string;
+    status: string;
     inactiveDate: string;
     attribute1: string;
     attribute2: string;
@@ -243,46 +364,77 @@ export interface VehicleDataModel {
     attribute8: string;
     attribute9: string;
     attribute10: string;
-    createdBy: string;
-    createdOn: string;
-    modifiedBy: string;
-    modifiedOn: string;
+    createdBy: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: string;
 }
 
 export interface VendorDataModel {
-    id?: number,
     vendorCode?: string,
     vendorName?: string,
     vendorAddress1?: string,
     vendorAddress2?: string,
     contactNumber?: string,
     email?: string,
-    state?: string,
-    city?: string,
-    poinName?: string,
+    stateId?: number,
+    cityId?: number,
+    pointName?: string,
     panNo?: string,
+    status?: string,
     gstnNo?: string,
     payTermCode?: string,
     payTermStatus?: string,
-    paidByDetail?: string,
-    status?: string,
-    transactionType?: string,
-    extraAttr1?: string,
-    extraAttr2?: string,
-    extraAttr3?: string,
-    extraAttr4?: string,
-    extraAttr5?: string,
-    extraAttr6?: string,
-    extraAttr7?: string,
-    extraAttr8?: string,
-    extraAttr9?: string,
-    extraAttr10?: string,
-    createdBy?: string,
-    createdOn?: string,
-    modifiedBy?: string,
-    modifiedOn?: string,
-    messageStatus?: null
+    paidByDetail?: number,
+    city?: {
+        typeId: number,
+        code?: string,
+        value?: string,
+        description?: string,
+        lookUpType?: null,
+        id?: number,
+        createdBy?: string,
+        createdOn?: string,
+        modifiedBy?: string,
+        modifiedOn?: string,
+        status?: string,
+        attribute1?: null,
+        attribute2?: null,
+        attribute3?: null,
+        attribute4?: null,
+        attribute5?: null,
+        attribute6?: null,
+        attribute7?: null,
+        attribute8?: null,
+        attribute9?: string,
+        attribute10?: string,
+        messageStatus: null
+    },
+    state?: {
+        typeId: number,
+        code?: string,
+        value?: string,
+        description?: string,
+        lookUpType?: null,
+        id: number,
+        createdBy?: string,
+        createdOn?: string,
+        modifiedBy?: string,
+        modifiedOn?: string,
+        status?: string,
+        attribute1?: null,
+        attribute2?: null,
+        attribute3?: null,
+        attribute4?: null,
+        attribute5?: null,
+        attribute6?: null,
+        attribute7?: null,
+        attribute8?: null,
+        attribute9?: string,
+        attribute10?: string,
+        messageStatus?: null
+    },
 }
 
 export interface LookupDataModel {
@@ -348,9 +500,9 @@ export interface TransporterListingModel {
     inactiveDate: string,
     transporterStatus: null,
     createdBy: string,
-    createdOn: string,
-    modifiedBy: string,
-    modifiedOn: string,
+    creationDate: string,
+    lastUpdatedBy: string,
+    lastUpdateOn: string,
     messageStatus: null,
-    id : number
+    id: number
 }

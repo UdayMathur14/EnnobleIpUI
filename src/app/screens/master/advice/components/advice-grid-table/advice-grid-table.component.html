@@ -7,6 +7,7 @@
         <th>Batch Name</th>
         <th>Max Bilti No Limit</th>
         <th>Manual Allocation Required</th>
+        <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -19,25 +20,25 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{advice.locationCode}}</u>
+            <u>{{advice.lookUpEntity.value}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
-                <span>Created On</span>
-                <span>{{advice.createdOn}}</span>
+                <span>Creation Date</span>
+                <span>{{advice.creationDate}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
                 <span>{{advice.createdBy}}</span>
               </div>
               <div class="content-row">
-                <span>Modified On</span>
-                <span>{{advice.modifiedOn}}</span>
+                <span>Last Update Date</span>
+                <span>{{advice.lastUpdateOn}}</span>
               </div>
               <div class="content-row">
-                <span>Modified By</span>
-                <span>{{advice.modifiedBy}}</span>
+                <span>Last Updated By</span>
+                <span>{{advice.lastUpdatedBy}}</span>
               </div>
             </div>
           </ng-template>
@@ -46,6 +47,7 @@
         <td>{{advice.batchName}}</td>
         <td>{{advice.maxBiltiNumber}}</td>
         <td>{{advice.manualAllocationRequired}}</td>
+        <td>{{advice.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"

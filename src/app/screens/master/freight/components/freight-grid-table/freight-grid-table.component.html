@@ -9,6 +9,7 @@
         <th>Vehicle Size</th>
         <th>Freight Amount</th>
         <th>Remarks</th>
+        <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -21,35 +22,52 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{freight.freightCode}}</u>
+            <u>{{freight?.freightCode || '-' }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
-                <span>Created On</span>
-                <span>{{freight.createdOn}}</span>
+                <span>Creation Date</span>
+                <span>{{freight.creationDate }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>{{freight.createdBy }}</span>
+                <span>{{freight.createdBy || '-' }}</span>
               </div>
               <div class="content-row">
-                <span>Modified On</span>
-                <span>{{freight.modifiedOn }}</span>
+                <span>Last Update Date</span>
+                <span>{{freight.lastUpdateOn || '-' }}</span>
               </div>
               <div class="content-row">
-                <span>Modified By</span>
-                <span>{{freight.modifiedBy }}</span>
+                <span>Last Updated By</span>
+                <span>{{freight.lastUpdatedBy || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Material</span>
+                <span>{{freight.modifiedBy || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Material On</span>
+                <span>{{freight.modifiedBy || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Accounts</span>
+                <span>{{freight.modifiedBy || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Approved by Accounts On</span>
+                <span>{{freight.modifiedBy || '-' }}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>{{freight.locationCode}}</td>
-        <td>{{freight.source}}</td>
-        <td>{{freight.destination}}</td>
-        <td>{{freight.vehicleSize}}</td>
-        <td>{{freight.freightAmount}}</td>
-        <td>{{freight.remarks}}</td>
+        <td>{{freight?.locations?.value || '-' }}</td>
+        <td>{{freight?.source?.value || '-' }}</td>
+        <td>{{freight?.destination?.value || '-' }}</td>
+        <td>{{freight?.vehicleSize?.value || '-' }}</td>
+        <td>{{freight?.freightAmount || '-' }}</td>
+        <td>{{freight?.remarks || '-' }}</td>
+        <td>{{freight?.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"

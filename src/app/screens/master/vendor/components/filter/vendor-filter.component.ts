@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-vendor-filter',
   templateUrl: './vendor-filter.component.html',
-  styleUrls: ['./vendor-filter.component.scss']
+  styleUrl: './vendor-filter.component.scss'
 })
 export class VendorFilterComponent implements OnInit {
   constructor(

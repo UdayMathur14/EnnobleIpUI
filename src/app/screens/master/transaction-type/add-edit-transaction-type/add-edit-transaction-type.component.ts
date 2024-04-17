@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { ToastrService } from 'ngx-toastr';
+import { TransactionTypeListModel } from '../../../../core/model/masterModels.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-edit-transaction-type',
@@ -15,17 +17,25 @@ export class AddEditTransactionTypeComponent implements OnInit {
     private _Activatedroute : ActivatedRoute) {}
 
   queryData : any = '';
-  transactionData : any;
+  transactionTypeForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    code: new FormControl(null, [Validators.required]),
+    glSubcategory: new FormControl('', [Validators.required]),
+    status: new FormControl('', [Validators.required]),
+  });
   loadSpinner : boolean = true;
+  glSubcategoryCode: any = [];
+  transactionData: any = []
 
   ngOnInit(): void {
     this.queryData = this._Activatedroute.snapshot.paramMap.get("transactionId");   
     this.getTransactionData(this.queryData);
+    this.getGlSubCategoryDropdownData()
   }
 
   getTransactionData(transactionId: string) {
     this.transactionTypesService.getTransactionTypeData(transactionId).subscribe((response: any) => {
-      this.transactionData = response;
+      this.patchVehicleForm(response)
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -33,19 +43,24 @@ export class AddEditTransactionTypeComponent implements OnInit {
     })
   }
 
+  patchVehicleForm(data: any){
+    this.transactionTypeForm.patchValue({
+      code: data?.code,
+      name: data?.name,
+      glSubcategory: data.glSubCategory.id,
+      status: data.status
+    });
+  }
+
   onPressSave(){
     this.loadSpinner = true;
     let data = {
-      code: this.transactionData.code,
-      name: this.transactionData.name,
+      code: this.transactionTypeForm.get('code')?.value,
+      name: this.transactionTypeForm.get('name')?.value,
       interfaceTxnTypeId: 0,
-      glSubCategoryId: 0,
-      status: this.transactionData.status,
-      attribute1: "",
-      attribute2: "",
-      attribute3: "",
-      attribute4: "",
-      actionBy: ""
+      glSubCategoryId:  this.transactionTypeForm.get('glSubcategory')?.value ,
+      status: this.transactionTypeForm.get('status')?.value,
+      actionBy: 1
     }
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
       this.transactionData = response;
@@ -60,4 +75,17 @@ export class AddEditTransactionTypeComponent implements OnInit {
   onCancelPress(){
     this.router.navigate(['/master/transactionTypes'])
   }
+
+  getGlSubCategoryDropdownData(){
+    let data = {
+      "CreatedOn": "",
+      "ModifiedBy": "",
+      "ModifiedOn": ""
+    }
+    const type = 'GLSubCategory'
+    this.transactionTypesService.getDropdownData(data, type).subscribe((res:any)=>{
+      this.glSubcategoryCode = res.lookUps
+    })
+  }
+  
 }

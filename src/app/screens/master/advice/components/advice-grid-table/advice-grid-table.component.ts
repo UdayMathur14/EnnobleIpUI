@@ -34,7 +34,7 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
 
   getAllAdviceTypesListInit() {
     let data = {
-      "locationCode": '',
+      "adviceType": '',
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
       this.adviceTypeList = response.advices;

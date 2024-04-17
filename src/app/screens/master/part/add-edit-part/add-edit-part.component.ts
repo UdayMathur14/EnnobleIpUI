@@ -40,20 +40,29 @@ export class AddEditPartComponent implements OnInit {
       this.getPartData(this.queryData);
     }
     this.loadSpinner = false;
-    // this.getAllPartsListInit();
+
+    // Enable or disable status control based on queryData for Create and Update
+    const statusControl = this.partForm.get('status');
+    if (statusControl) {
+      if (this.queryData) {
+        statusControl.enable();
+      } else {
+        statusControl.disable();
+      }
+    }
   }
 
   //FETCHING SELECTED PART'S DATA FROM API
   getPartData(partId: string) {
     this.partService.getPartData(partId).subscribe((response: any) => {
       this.partForm.setValue({
-        partNumber : response.partNumber,
-        partName : response.partName,
-        description : response.description,
-        partSize : response.partSize,
-        partPrice : response.partPrice,
-        status : response.status,
-        remarks : response.remarks
+        partNumber: response.partNumber,
+        partName: response.partName,
+        description: response.description,
+        partSize: response.partSize,
+        partPrice: response.partPrice,
+        status: response.status,
+        remarks: response.remarks
       });
       this.loadSpinner = false;
     }, error => {
@@ -81,22 +90,22 @@ export class AddEditPartComponent implements OnInit {
     let data = {
       partNumber: this.partForm.controls['partNumber'].value,
       partName: this.partForm.controls['partName'].value,
-      description:this.partForm.controls['description'].value,
+      description: this.partForm.controls['description'].value,
       partSize: this.partForm.controls['partSize'].value,
       remarks: this.partForm.controls['remarks'].value,
       partPrice: this.partForm.controls['partPrice'].value,
       status: this.partForm.controls['status'].value,
       modifiedBy: ""
     }
-    if(this.queryData){
+    if (this.queryData) {
       this.updatePart(data);
-    } else{
+    } else {
       this.createNewPart(data);
     }
   }
 
   //UPDATING PART DATA
-  updatePart(data:any){
+  updatePart(data: any) {
     this.partService.updatePart(this.queryData, data).subscribe((response: any) => {
       this.partData = response;
       this.loadSpinner = false;
@@ -108,7 +117,7 @@ export class AddEditPartComponent implements OnInit {
   }
 
   //CREATING NEW PART
-  createNewPart(data:any){
+  createNewPart(data: any) {
     this.partService.createPart(data).subscribe((response: any) => {
       this.partData = response;
       this.loadSpinner = false;

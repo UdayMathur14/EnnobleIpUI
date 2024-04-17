@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th>Transporter Code</th>
-        <th>Transporter Name</th>
+        <th>Trans. Name</th>
         <th>Location Code</th>
         <th>Consignor Name</th>
         <th>Owner</th>
@@ -31,20 +31,20 @@
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
-                <span>Created On</span>
-                <span>{{transporter.createdOn}}</span>
+                <span>Creation Date</span>
+                <span>{{transporter.creationDate}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
                 <span>{{transporter.createdBy}}</span>
               </div>
               <div class="content-row">
-                <span>Modified On</span>
-                <span>{{transporter.modifiedOn}}</span>
+                <span>Last Update Date</span>
+                <span>{{transporter.lastUpdateOn}}</span>
               </div>
               <div class="content-row">
-                <span>Modified By</span>
-                <span>{{transporter.modifiedBy}}</span>
+                <span>Last Updated By</span>
+                <span>{{transporter.lastUpdatedBy}}</span>
               </div>
             </div>
           </ng-template>

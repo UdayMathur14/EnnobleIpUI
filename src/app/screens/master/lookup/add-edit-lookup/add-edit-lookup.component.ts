@@ -32,7 +32,7 @@ export class AddEditLookupComponent implements OnInit {
       code: ['', Validators.required],
       value: ['', Validators.required],
       description: ['', Validators.required],
-      status: ['', Validators.required],
+      status: ['Active', Validators.required],
       attribute1: ['', Validators.required],
       attribute2: ['', Validators.required],
       attribute3: ['', Validators.required],
@@ -49,6 +49,16 @@ export class AddEditLookupComponent implements OnInit {
       this.getLookupTypes();
     }
     this.loadSpinner = false;
+
+    // Enable or disable status control based on queryData for Create and Update
+    const statusControl = this.lookupForm.get('status');
+    if (statusControl) {
+      if (this.queryData) {
+        statusControl.enable();
+      } else {
+        statusControl.disable();
+      }
+    }
   }
 
   //TO GET LOOKUP-TYPE DATA

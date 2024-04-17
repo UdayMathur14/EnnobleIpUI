@@ -58,13 +58,13 @@ export class AddEditPlantComponent implements OnInit {
         plantCode: response.plantCode,
         plantDesc: response.plantDesc,
         plantAddress: response.plantAddress,
-        city: response.city,
-        stateCode: response.stateCode,
+        city: response.city.value,
+        stateCode: response.state.value,
         gstnNo: response.gstnNo,
         panNo: response.panNo,
         plantType: response.plantType,
         siteCode: response.siteCode,
-        locationId: response.locationId,
+        locationId: response.locations.value,
         dsc: response.dsc,
         dcp: response.dcp,
         status: response.status,
@@ -94,14 +94,22 @@ export class AddEditPlantComponent implements OnInit {
 
   onPressSave() {
     this.baseService.plantSpinner.next(true);
+    let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
+    this.plantData.transactionTypeMapping.forEach((e) => {
+      let transactionObj = {
+        id : e.id,
+        transactionTypeId : e.transactionTypeId,
+        status : e.status
+      }
+      transactionData.push(transactionObj);
+    })
     let data = {
-      locationId: this.plantData.locationId,
-      dsc: this.plantData.dsc,
-      dcp: this.plantData.dcp,
-      transactionType: '',
-      modifiedBy: '',
-      status: this.plantData.status,
-      transactionTypeDetails : this.plantData.transactionTypeMapping
+      status: this.plantForm.controls['status'].value,
+      actionBy: 1,
+      locationId: this.plantData.locations.id,
+      dsc: this.plantForm.controls['dsc'].value,
+      dcp: this.plantForm.controls['dcp'].value,
+      transactionTypeDetails : transactionData
     }
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
@@ -123,7 +131,8 @@ export class AddEditPlantComponent implements OnInit {
       attribute4: null,
       txnTypeId: null,
       name: '',
-      code: ''
+      code: null,
+      transactionTypeId : 0
     }
     this.plantData.transactionTypeMapping.push(obj);
   }
@@ -132,6 +141,7 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping[index].name = e.name;
     this.plantData.transactionTypeMapping[index].status = e.status;
     this.plantData.transactionTypeMapping[index].code = e.code;
+    this.plantData.transactionTypeMapping[index].transactionTypeId = e.id
   }
 
   onDeleteTransaction(transaction:any, index:number){

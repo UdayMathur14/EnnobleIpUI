@@ -19,26 +19,26 @@
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
-                <span>Created On</span>
-                <span>{{transaction.createdOn}}</span>
+                <span>Creation Date</span>
+                <span>{{transaction.creationDate}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
                 <span>{{transaction.createdBy}}</span>
               </div>
               <div class="content-row">
-                <span>Modified On</span>
-                <span>{{transaction.modifiedOn}}</span>
+                <span>Last Update Date</span>
+                <span>{{transaction.lastUpdateOn}}</span>
               </div>
               <div class="content-row">
-                <span>Modified By</span>
-                <span>{{transaction.modifiedBy}}</span>
+                <span>Last Updated By</span>
+                <span>{{transaction.lastUpdatedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
         <td>{{transaction.code}}</td>
-        <td>{{transaction.glSubCategoryId}}</td>
+        <td>{{transaction.glSubCategory.value}}</td>
         <td>{{transaction.status}}</td>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditTransaction(transaction)" />

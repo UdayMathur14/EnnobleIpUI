@@ -1,0 +1,22 @@
+.content-section {
+    height: calc(100vh - 113px);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px #00000024;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .not-found-wrapper{
+        text-align: center;
+        .title{
+            font-size: 160px;
+            font-weight: 600;
+            line-height: 150px;
+            margin-bottom: var(--spacer-40);
+        }
+        .description{
+            font-size: var(--spacer-20);
+        }
+    }
+}

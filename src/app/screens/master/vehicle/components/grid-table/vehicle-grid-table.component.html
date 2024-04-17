@@ -29,33 +29,33 @@
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
-                <span>Created On</span>
-                <span>{{vehicle.createdOn}}</span>
+                <span>Creation Date</span>
+                <span>{{vehicle.creationDate}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
                 <span>{{vehicle.createdBy}}</span>
               </div>
               <div class="content-row">
-                <span>Modified On</span>
-                <span>{{vehicle.modifiedOn}}</span>
+                <span>Last Update Date</span>
+                <span>{{vehicle.lastUpdateOn}}</span>
               </div>
               <div class="content-row">
-                <span>Modified By</span>
-                <span>{{vehicle.modifiedBy}}</span>
+                <span>Last Updated By</span>
+                <span>{{vehicle.lastUpdatedBy}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>{{vehicle.vehicleSize}}</td>
+        <td>{{vehicle.vehicleSize.value}}</td>
         <td>{{vehicle.transporterEntity.transporterName}}</td>
-        <td>-</td>
+        <td>{{vehicle.transporterEntity.ownerName}}</td>
         <td>{{vehicle.transporterEntity.transporterAddress1}}</td>
         <td>{{vehicle.transporterEntity.transporterContactNo}}</td>
         <td>{{vehicle.transporterEntity.transporterMailId}}</td>
         <td>{{vehicle.vehicleCondition}}</td>
         <td>{{vehicle.remarks}}</td>
-        <td>{{vehicle.vehicleStatus}}</td>
+        <td>{{vehicle.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"

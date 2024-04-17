@@ -24,11 +24,12 @@ export class AddEditPointChargeComponent implements OnInit {
   pointChargeData!: PointChargeDataModel
   pointChargesList: any = [];
   loadSpinner: boolean = true;
+  locationCode: string = '';
   pointChargeForm = new FormGroup({
     pointName: new FormControl('', [Validators.required]),
     pointCharge: new FormControl('', [Validators.required]),
     sameLocationCharge: new FormControl('', [Validators.required]),
-    status: new FormControl('', [Validators.required]),
+    status: new FormControl('Active', [Validators.required]),
   })
 
   ngOnInit(): void {
@@ -46,6 +47,13 @@ export class AddEditPointChargeComponent implements OnInit {
       }
     })
     this.getPointChargeData(this.pointChargeId)
+        // Enable or disable status control based on mode for Create and Update
+        const statusControl = this.pointChargeForm.get('status');
+        if(statusControl){
+          if(this.mode == 'create'){
+            statusControl.disable()
+          }
+        }
   }
 
   // GET SPECIFIC POINT CHARGE DATA
@@ -69,6 +77,7 @@ export class AddEditPointChargeComponent implements OnInit {
 
   //PATCHING VALUE ON EDIT FORM
   patchPointChargeForm(data: any) {
+    this.locationCode = data.locations.value
     this.pointChargeForm.patchValue({
       pointName: data.pointName,
       pointCharge: data.pointCharge,
@@ -104,7 +113,7 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        modifiedBy: '',
+        actionBy: 1,
         status: this.pointChargeForm.get('status')?.value,
       }
 
@@ -112,7 +121,6 @@ export class AddEditPointChargeComponent implements OnInit {
         this.pointChargeData = response;
         this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
-        this.router.navigate(['/master/pointCharge'])
       }, error => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;
@@ -123,7 +131,7 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        createdBy: '',
+        actionBy: 1,
         status: this.pointChargeForm.get('status')?.value,
       }
 
@@ -140,7 +148,6 @@ export class AddEditPointChargeComponent implements OnInit {
     }
     this.loadSpinner = false;
   }
-
 }
 
 

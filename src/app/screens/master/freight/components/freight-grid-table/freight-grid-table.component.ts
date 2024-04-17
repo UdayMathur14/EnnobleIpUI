@@ -1,7 +1,6 @@
 import { Component, OnChanges, OnInit, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BaseService } from '../../../../../core/service/base.service';
 import { FreightService } from '../../../../../core/service/freight.service';
 
 @Component({
@@ -13,7 +12,6 @@ import { FreightService } from '../../../../../core/service/freight.service';
 export class FreightGridTableComponent implements OnInit, OnChanges {
   constructor(private router: Router,
     private toastr: ToastrService,
-    private baseService : BaseService,
     private freightService: FreightService) { }
     
   @Input()
@@ -42,6 +40,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   getAllFreightListInit() {
     let data = {
       "freightCode": '',
+      "sourceId": 0,
+      "vehicleSizeId": 0
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -56,6 +56,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   getFilteredFreightsList() {
     let data = {
       "freightCode": this.searchedFreight.freightCode || "",
+      "sourceId": this.searchedFreight.source || 0,
+      "vehicleSizeId": this.searchedFreight.vehicleSize || 0,
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;

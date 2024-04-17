@@ -13,8 +13,8 @@
                 <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" formControlName="locationCode"/>
-                        <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                        <input type="text" class="input-field" *ngIf="this.queryData != 0" [value]="locationCode" readonly/>
+                        <input type="text" class="input-field" *ngIf="this.queryData == 0" value="HA" readonly/>
                     </div>
                 </div>
             </div>
@@ -23,14 +23,13 @@
                     <label for="">Advice Type</label>
                     <div class="input-with-icon">
                         <input type="text" class="input-field" formControlName="adviceType"/>
-                        <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Batch Name</label>
-                    <input type="text" class="input-field" formControlName="batchName" readonly />
+                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="this.queryData != 0"/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -45,6 +44,15 @@
                     <select name="" id="" formControlName="manualAllocReq">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Status</label>
+                    <select name="" id="" formControlName="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
                     </select>
                 </div>
             </div>
