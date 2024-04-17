@@ -40,6 +40,7 @@ import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit
 import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup-type/add-edit-lookup-type.component";
 import { LookupTypeComponent } from "./master/lookup-type/lookup-type.component";
 import { AuthGuard } from "../core/guards/auth.guard";
+import { NotFound404Component } from "./not-found-404/not-found-404.component";
 
 
 const routes: Routes = [
@@ -48,9 +49,10 @@ const routes: Routes = [
         component: ScreensComponent,
         children: [
             { path: "", redirectTo: "master", pathMatch: "full"},
-            { path: "master", component: PlantComponent, canActivate: [AuthGuard] },
-            { path: "master/plant", component: PlantComponent, canActivate: [AuthGuard] },
-            { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent, canActivate: [AuthGuard] },
+            { path: '**', component: NotFound404Component },
+            { path: "master", component: PlantComponent},
+            { path: "master/plant", component: PlantComponent},
+            { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent },
             { path: "master/part", component: PartComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPart/:partId", component: AddEditPartComponent, canActivate: [AuthGuard] },
             { path: "master/vendor", component: VendorComponent, canActivate: [AuthGuard] },
@@ -110,7 +112,8 @@ export const ScreensComponents = [
     AddEditPartComponent,
     TransactionTypeComponent,
     AddEditFreightComponent,
-    AddEditAdviceComponent
+    AddEditAdviceComponent,
+    NotFound404Component
 ];
 
 export const ScreensEntryComponents = [];
