@@ -21,7 +21,7 @@ export class AddEditAdviceComponent implements OnInit {
     private formBuilder: FormBuilder) { 
     this.adviceForm = this.formBuilder.group({
       adviceType: ['', [Validators.required]],
-      batchName: ['', [Validators.required]],
+      batchName: [''],
       maxBiltiLimit: ['', [Validators.required]],
       manualAllocReq: ['Yes', [Validators.required]],
       status: ['Active', [Validators.required]]

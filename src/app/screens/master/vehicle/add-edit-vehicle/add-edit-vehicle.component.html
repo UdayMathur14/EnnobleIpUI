@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Vehicle Number</label>
+          <label for="">Vehicle Number <span class="text-danger" *ngIf="mode == 'create'">*</span></label>
           <div class="input-with-icon">
             <input type="text" class="input-field" formControlName="vehicleNumber" [readonly]="mode=='edit'"
  />
@@ -22,7 +22,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Transporter Name</label>
+          <label for="">Transporter Name <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Transporter Name" formControlName="transporterName"
             (change)="onOptionSelected($event)" [readonly]="mode=='edit'">
             <ng-option *ngFor="let transporter of transportersList"
@@ -32,7 +32,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Vehicle Size</label>
+          <label for="">Vehicle Size <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Vehicle Size" formControlName="vehicleSize"
           [readonly]="mode=='edit'">
             <ng-option *ngFor="let vehcileSize of vehcileSizes"
@@ -70,19 +70,19 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Vehicle Condition</label>
+          <label for="">Vehicle Condition <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="vehicleCondition"/>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Remarks</label>
+          <label for="">Remarks <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="remarks" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Status</label>
+          <label for="">Status <span class="text-danger">*</span></label>
           <select name="" formControlName="vehicleStatus">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>

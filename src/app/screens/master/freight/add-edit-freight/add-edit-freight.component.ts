@@ -39,7 +39,7 @@ export class AddEditFreightComponent implements OnInit {
       matApprovalOn: [''],
       accApproval: [''],
       accApprovalOn: [''],
-      remarks: [''],
+      remarks: ['',[Validators.required]],
     });
   }
 

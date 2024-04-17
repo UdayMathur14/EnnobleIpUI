@@ -21,27 +21,27 @@ export class AddEditTransporterComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private transporterService: TransporterService) {
     this.transporterForm = this.formBuilder.group({
-      transporterCode: ['', Validators.required],
-      transporterName: ['', [Validators.required]],
+      transporterCode: [''],
+      transporterName: [''],
       locationCode: ['', [Validators.required]],
       status: ['Active', [Validators.required]],
-      ownerName: ['', [Validators.required]],
-      contactPerson: ['', [Validators.required]],
+      ownerName: [''],
+      contactPerson: [''],
       address1: [''],
       address2: [''],
-      contactNumber: [''],
+      contactNumber: ['', [Validators.required]],
       pan: [''],
       gst: [''],
-      autoBiltiReq: [''],
+      autoBiltiReq: ['', [Validators.required]],
       consignorContactInfo: [''],
-      rcmNonRcm: [''],
+      rcmNonRcm: ['', [Validators.required]],
       autoBiltiCharactor: [''],
       consignorName: [''],
       regdDetails: [''],
       modeOfTransport: [''],
-      biltiHeaderComment: [''],
-      note: [''],
-      footer: [''],
+      biltiHeaderComment: ['', [Validators.required]],
+      note: ['', [Validators.required]],
+      footer: ['', [Validators.required]],
       transporterMailId: [''],
       postalCode: [''],
     });
@@ -55,7 +55,7 @@ export class AddEditTransporterComponent implements OnInit {
     }
     this.loadSpinner = false;
       // Enable or disable status control based on queryData for Create and Update
-      const statusControl = this.transporterForm.get('rcmNonRcm');
+      const statusControl = this.transporterForm.get('status');
       if(statusControl){
         if(this.queryData != 0){
           statusControl.disable()

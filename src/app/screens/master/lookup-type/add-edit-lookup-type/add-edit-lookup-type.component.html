@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Type</label>
+                    <label for="">Type <span class="text-danger" *ngIf="!this.queryData">*</span></label>
                     <ng-select class="input-field" formControlName="type" *ngIf="queryData" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
                             [value]="lookupType.type">{{lookupType.type}}</ng-option>
@@ -22,13 +22,13 @@
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Description</label>
+                    <label for="">Description <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="description" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Status</label>
+                    <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
@@ -37,19 +37,19 @@
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Attribute 1</label>
+                    <label for="">Attribute 1 <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="attribute1" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Attribute 2</label>
+                    <label for="">Attribute 2 <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="attribute2" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Attribute 3</label>
+                    <label for="">Attribute 3 <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="attribute3" />
                 </div>
             </div>
@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Attribute 4</label>
+                    <label for="">Attribute 4 <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="attribute4" />
                 </div>
             </div>

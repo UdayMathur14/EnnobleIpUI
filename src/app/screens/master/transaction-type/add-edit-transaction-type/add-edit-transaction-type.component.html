@@ -23,7 +23,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">GL Sub Category Code</label>
+        <label for="">GL Sub Category Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="glSubcategory">
           <ng-option *ngFor="let glSubCategory of glSubcategoryCode" [value]="glSubCategory.id">{{glSubCategory.value}}</ng-option>
         </ng-select>
@@ -31,7 +31,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Status</label>
+        <label for="">Status <span class="text-danger">*</span></label>
         <select name="" id="" formControlName="status">
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>

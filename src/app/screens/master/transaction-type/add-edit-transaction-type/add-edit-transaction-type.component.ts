@@ -18,8 +18,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
   queryData : any = '';
   transactionTypeForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    code: new FormControl(null, [Validators.required]),
+    name: new FormControl(''),
+    code: new FormControl(null),
     glSubcategory: new FormControl('', [Validators.required]),
     status: new FormControl('', [Validators.required]),
   });
