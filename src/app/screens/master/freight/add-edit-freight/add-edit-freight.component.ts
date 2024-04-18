@@ -149,9 +149,9 @@ export class AddEditFreightComponent implements OnInit {
 
   getSourceDropdownData(){
     let data = {
-      "CreatedOn": "",
-      "ModifiedBy": "",
-      "ModifiedOn": ""
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
     }
     const type = 'Source'
     this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
@@ -161,9 +161,9 @@ export class AddEditFreightComponent implements OnInit {
 
   getDestinationDropdownData(){
     let data = {
-      "CreatedOn": "",
-      "ModifiedBy": "",
-      "ModifiedOn": ""
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
     }
     const type = 'Destination'
     this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
@@ -173,9 +173,9 @@ export class AddEditFreightComponent implements OnInit {
 
   getVehicleSizeDropdownData(){
     let data = {
-      "CreatedOn": "",
-      "ModifiedBy": "",
-      "ModifiedOn": ""
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
     }
     const type = 'VehicleSize'
     this.freightService.getDropdownData(data, type).subscribe((res:any)=>{

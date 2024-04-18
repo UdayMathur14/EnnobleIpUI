@@ -84,7 +84,7 @@ export class AddEditTransporterComponent implements OnInit {
         autoBiltiCharactor : response.autoBiltiStartingCharacter,
         consignorName : response.consignorName,
         regdDetails : response.regdDetails,
-        modeOfTransport : response.transporterMode.value,
+        modeOfTransport : response.transporterMode.id,
         biltiHeaderComment : response.biltiHeaderComments,
         note : response.note,
         footer : response.footer,
@@ -155,9 +155,9 @@ export class AddEditTransporterComponent implements OnInit {
 
   getTransporterModeDropdownData(){
     let data = {
-      "CreatedOn": "",
-      "ModifiedBy": "",
-      "ModifiedOn": ""
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
     }
     const type = 'TransporterMode'
     this.transporterService.getDropdownData(data, type).subscribe((res:any)=>{

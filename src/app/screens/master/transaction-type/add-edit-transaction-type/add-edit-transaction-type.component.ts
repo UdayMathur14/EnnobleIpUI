@@ -78,9 +78,9 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
   getGlSubCategoryDropdownData(){
     let data = {
-      "CreatedOn": "",
-      "ModifiedBy": "",
-      "ModifiedOn": ""
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
     }
     const type = 'GLSubCategory'
     this.transactionTypesService.getDropdownData(data, type).subscribe((res:any)=>{
