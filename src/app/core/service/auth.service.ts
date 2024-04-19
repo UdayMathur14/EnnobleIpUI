@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   private isAuthenticated = false;
-  private authSecretKey = 'data';
+  private authSecretKey = 'profile';
 
   constructor() { 
     this.isAuthenticated = !!localStorage.getItem(this.authSecretKey);

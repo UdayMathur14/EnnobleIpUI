@@ -1,0 +1,21 @@
+import { Injectable } from "@angular/core";
+import { CRUDService } from "./crud.service";
+import { BaseService } from "./base.service";
+import { APIConstant } from "../constants";
+import { PlantRequest } from "../models/plant";
+import { map, BehaviorSubject } from 'rxjs';
+
+@Injectable({
+    providedIn: "root",
+})
+export class ValidateService extends CRUDService<PlantRequest> {
+    constructor(protected override baseService: BaseService) {
+        super(baseService);
+    }
+
+    generateToken(data: any, accessToken: string) {
+        const headers = new Headers();
+        headers.append('Authorization', `Bearer ${accessToken}`);
+        return this.baseService.post(APIConstant.commonURL + APIConstant.generateToken, data, {headers:headers});
+    }
+}

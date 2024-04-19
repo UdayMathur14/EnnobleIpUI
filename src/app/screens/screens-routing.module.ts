@@ -49,7 +49,7 @@ const routes: Routes = [
         component: ScreensComponent,
         children: [
             { path: "", redirectTo: "master", pathMatch: "full"},
-            { path: '**', component: NotFound404Component },
+            //{ path: '**', component: NotFound404Component },
             { path: "master", component: PlantComponent, canActivate: [AuthGuard] },
             { path: "master/plant", component: PlantComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent, canActivate: [AuthGuard] },
