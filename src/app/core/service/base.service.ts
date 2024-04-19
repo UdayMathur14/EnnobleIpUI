@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
     providedIn: "root"
 })
 export class BaseService {
-    
+
     constructor(private http: HttpClient) {
     }
 
@@ -32,8 +32,8 @@ export class BaseService {
         return this.http.get<T>(url, { responseType: type as 'json' });
     }
 
-    post<T>(url: string, data: any): Observable<T> {
-        return this.http.post<T>(url, data);
+    post<T>(url: string, data: any, headers: any={}): Observable<any> {
+        return this.http.post<any>(url, data, headers);
     }
 
     postWithResponseType<T>(url: string, data: any, type: string = 'blob'): Observable<any> {
