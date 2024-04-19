@@ -23,6 +23,7 @@ export class ValidateComponent implements OnInit {
     validate = "Validating...";
 
     ngOnInit() {
+        localStorage.clear();
         this.activatedRoute.queryParams.subscribe(params => {
             const data = params['data'];
             if (!data) {
@@ -31,8 +32,10 @@ export class ValidateComponent implements OnInit {
             }
             const atobParam: any = atob(data);
             const userData = JSON.parse(atobParam);
-            this.validateService.fetchPermissions({ appId: userData.apps[0].id }).subscribe((res) => {
-                localStorage.setItem("data", atobParam);
+            const app = userData.apps.find((e:any)=>e.name==="Mfg");
+            this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe((res) => {
+                localStorage.setItem("logindata", atobParam);
+                localStorage.setItem("profile", JSON.stringify(res));
                 this.router.navigateByUrl("/master");
                 console.log(atobParam);
             })

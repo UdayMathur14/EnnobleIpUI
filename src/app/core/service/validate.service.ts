@@ -13,7 +13,9 @@ export class ValidateService extends CRUDService<PlantRequest> {
         super(baseService);
     }
 
-    fetchPermissions(data : any){
-        return this.baseService.post(APIConstant.Ums+'/'+APIConstant.fetchPermissions, data);
+    generateToken(data: any, accessToken: string) {
+        const headers = new Headers();
+        headers.append('Authorization', `Bearer ${accessToken}`);
+        return this.baseService.post(APIConstant.commonURL + APIConstant.generateToken, data, {headers:headers});
     }
 }

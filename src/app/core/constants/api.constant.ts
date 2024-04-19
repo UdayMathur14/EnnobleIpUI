@@ -5,6 +5,7 @@ const umsURL = environment.umsURL;
 const mfgURL = environment.mfgURL;
 const svcURL = environment.svcURL;
 const gtmURL = environment.gtmURL;
+const commonURL = environment.commonAPi;
 
 export const APIConstant = {
     basePath: apiPath,
@@ -12,7 +13,8 @@ export const APIConstant = {
     Mfg: mfgURL,
     Svc: svcURL,
     Gtm: gtmURL,
-    fetchPermissions: `api/v1/auth/fetch-permissions`,
+    commonURL:commonURL,
+    generateToken: `api/v1/login/generate-token`,
     lookup: `/lookup/`,
     plant: `v1/plant/search`,
     plantData: `v1/plant/`,
