@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-transaction-type',
@@ -7,7 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./transaction-type.component.scss']
 })
 export class TransactionTypeComponent implements OnInit {
-  constructor(private router : Router){}
+  exportAsConfig: ExportAsConfig = {
+    type: 'csv', // the file type to download
+    elementIdOrContent: 'exportableTable', // the id of html/table element
+  }
+
+  constructor(private router : Router,
+    private exportAsService: ExportAsService
+  ){}
 
   isFilters : boolean = false;
   filterKeyword : string = '';
@@ -18,4 +26,8 @@ export class TransactionTypeComponent implements OnInit {
     this.filterKeyword = e.target.value;
   }
 
+  exportData(fileName : string){
+    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
+    });
+  }
 }

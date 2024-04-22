@@ -46,7 +46,6 @@ export class TransporterGridTableComponent implements OnInit{
 
     //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH TRANSPORTER FROM FILTERS 
     getFilteredTransportersList() {
-      debugger
       let data = {
         "transporterCode": this.searchedTransporter.transCode || "",
         "transporterName" : this.searchedTransporter.transName || ""

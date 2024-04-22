@@ -5,9 +5,8 @@
             <input type="text" placeholder="Search Type" (input)="onSearch($event)" />
             <span><img src="assets/images/icons/search.svg" alt="search" /></span>
         </div>
-        <button class="export-with-icon custom-button-export">
-            <img src="assets/images/icons/excel.svg" alt="export" /> Export
-        </button>
+        <button class="custom-button-export" (click)="exportData('LookupTypes')">
+            <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
 
         <button class="custom-button-regulr" (click)="onCreateLookup()">Create Lookup Type</button>
     </div>

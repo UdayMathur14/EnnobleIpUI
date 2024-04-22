@@ -7,9 +7,8 @@
           ><img src="assets/images/icons/search.svg" alt="search"
         /></span>
       </div>
-      <button class="export-with-icon custom-button-export">
-        <img src="assets/images/icons/excel.svg" alt="export" /> Export
-      </button>
+      <button class="custom-button-export" (click)="exportData('Lookups')">
+        <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
   
       <button class="custom-button-regulr" (click)="onCreateLookup()">Create Lookup</button>
     </div>

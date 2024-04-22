@@ -30,19 +30,19 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.plantsListOrg && this.plantsListOrg.length && changes['filterKeyword'].currentValue){
-      this.plantsList = this.plantsListOrg.filter((e:any) =>e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    if (this.plantsListOrg && this.plantsListOrg.length && changes['filterKeyword'].currentValue) {
+      this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
-    else if(this.plantsListOrg && this.plantsListOrg.length && !changes['filterKeyword'].currentValue){
+    else if (this.plantsListOrg && this.plantsListOrg.length && !changes['filterKeyword'].currentValue) {
       this.plantsList = this.plantsListOrg;
     }
   }
 
-  getAllPlantsList(){
+  getAllPlantsList() {
     let data = {
-      "plantCode" : ''
+      "plantCode": ''
     }
-    this.plantService.getPlants(data).subscribe((response:any) => {
+    this.plantService.getPlants(data).subscribe((response: any) => {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
       this.baseService.plantSpinner.next(false);
@@ -52,11 +52,11 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     })
   }
 
-  onGoToEditPlant(plantData:any) {
-    this.router.navigate(['master/addEditPlant',  plantData.id]);
+  onGoToEditPlant(plantData: any) {
+    this.router.navigate(['master/addEditPlant', plantData.id]);
   }
 
-  onLinkClick(plant:any) {
+  onLinkClick(plant: any) {
     let transactionTypeModal = this.modalService.open(TransactionTypeModalComponent, {
       size: "lg",
       backdrop: "static",
@@ -65,13 +65,13 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
 
     transactionTypeModal.result.then(
       (result) => {
-          if (result) {
+        if (result) {
 
-          }
+        }
       },
       (reason) => {
       }
-  );
+    );
 
   }
 }
