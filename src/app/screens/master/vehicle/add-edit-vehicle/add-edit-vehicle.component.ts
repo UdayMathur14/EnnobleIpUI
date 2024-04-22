@@ -213,9 +213,9 @@ export class AddEditVehicleComponent implements OnInit {
 
   getVehicleSizeDropdownData(){
     let data = {
-      "CreatedOn": "",
-      "ModifiedBy": "",
-      "ModifiedOn": ""
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
     }
     const type = 'VehicleSize'
     this.vehicleService.getDropdownData(data, type).subscribe((res:any)=>{

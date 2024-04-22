@@ -36,7 +36,7 @@
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Source</label>
+                    <label for="">Source <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Source" formControlName="source">
                     <ng-option *ngFor="let source of sources"
                       [value]="source.id">{{source.value}}</ng-option>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Destination</label>
+                    <label for="">Destination <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Destination" formControlName="destination">
                         <ng-option *ngFor="let destination of destinations"
                           [value]="destination.id">{{destination.value}}</ng-option>
@@ -54,7 +54,7 @@
             </div>
             <div class="col-lg-2 col-md-4">
                 <div class="custom-form-input">
-                    <label for="">Vehicle Size</label>
+                    <label for="">Vehicle Size <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Vehicle Size" formControlName="vehicleSize">
                         <ng-option *ngFor="let vehcileSize of vehcileSizes"
                           [value]="vehcileSize.id">{{vehcileSize.value}}</ng-option>
@@ -64,7 +64,7 @@
             </div>
             <div class="col-lg-2 col-md-4">
                 <div class="custom-form-input">
-                    <label for="">Freight Amount</label>
+                    <label for="">Freight Amount <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="freightAmount" />
                 </div>
             </div>
@@ -72,13 +72,13 @@
         <div class="row">
             <div class="col-lg-4 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Remarks</label>
+                    <label for="">Remarks <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="remarks" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Status</label>
+                    <label for="">Status <span class="text-danger">*</span></label>
                     <select formControlName="status" name="status" >
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>

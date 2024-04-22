@@ -28,7 +28,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Location Code</label>
+          <label for="">Location Code <span class="text-danger">*</span></label>
           <div class="input-with-icon">
             <input type="text" class="input-field" formControlName="locationCode" readonly />
             <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
@@ -43,7 +43,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Contact Number</label>
+          <label for="">Contact Number <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactNumber" />
         </div>
       </div>
@@ -97,8 +97,8 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">RCM/Non-RCM</label>
-          <select formControlName="rcmNonRcm" readonly>
+          <label for="">RCM/Non-RCM <span class="text-danger">*</span></label>
+          <select formControlName="rcmNonRcm">
             <option value="Y">Yes</option>
             <option value="N">No</option>
           </select>
@@ -106,7 +106,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Auto Bilti Required</label>
+          <label for="">Auto Bilti Required <span class="text-danger">*</span></label>
           <select formControlName="autoBiltiReq">
             <option value="Y">Yes</option>
             <option value="N">No</option>
@@ -142,7 +142,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Status</label>
+          <label for="">Status <span class="text-danger">*</span></label>
           <select formControlName="status">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
@@ -153,19 +153,19 @@
     <div class="row">
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Bilti Header Comments</label>
+          <label for="">Bilti Header Comments <span class="text-danger">*</span></label>
           <textarea class="input-field" formControlName="biltiHeaderComment" rows="3"></textarea>
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Notes</label>
+          <label for="">Notes <span class="text-danger">*</span></label>
           <textarea class="input-field" formControlName="note" rows="3"></textarea>
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Footer</label>
+          <label for="">Footer <span class="text-danger">*</span></label>
           <textarea class="input-field" formControlName="footer" rows="3"></textarea>
         </div>
       </div>
