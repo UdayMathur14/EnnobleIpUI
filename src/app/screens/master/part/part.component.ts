@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-part',
@@ -7,17 +8,28 @@ import { Router } from '@angular/router';
   styleUrl: './part.component.scss'
 })
 export class PartComponent {
-  constructor(private router : Router){}
+  exportAsConfig: ExportAsConfig = {
+    type: 'csv', // the file type to download
+    elementIdOrContent: 'exportableTable', // the id of html/table element
+  }
+  constructor(private router: Router,
+    private exportAsService: ExportAsService
+  ) { }
 
-  isFilters : boolean = true;
-  searchedPart : string = '';
+  isFilters: boolean = true;
+  searchedPart: string = '';
 
-  onCreatePart(){
+  onCreatePart() {
     this.router.navigate(['master/addEditPart', '0'])
   }
 
-  searchPart(event:any){
+  searchPart(event: any) {
     this.searchedPart = event;
   }
 
-}
+  exportData(fileName: string) {
+    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
+    });
+  }
+
+  }

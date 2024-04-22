@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-vehicle',
@@ -7,7 +8,13 @@ import { Router } from '@angular/router';
   styleUrl: './vehicle.component.scss'
 })
 export class VehicleComponent {
-  constructor(private router : Router){}
+  exportAsConfig: ExportAsConfig = {
+    type: 'csv', // the file type to download
+    elementIdOrContent: 'exportableTable', // the id of html/table element
+  }
+  constructor(private router : Router,
+    private exportAsService: ExportAsService
+  ){}
 
   isFilters : boolean = true;
   searchedVehicle: string = '';
@@ -19,5 +26,10 @@ export class VehicleComponent {
 
   searchVehicle(event: any) {
     this.searchedVehicle = event;
+  }
+
+  exportData(fileName : string){
+    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
+    });
   }
 }

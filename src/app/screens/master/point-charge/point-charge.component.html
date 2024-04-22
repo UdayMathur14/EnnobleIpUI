@@ -1,6 +1,8 @@
 <div class="page-title">
   <h1>Point Charge Master</h1>
   <div class="action-buttons">
+    <button class="custom-button-export" (click)="exportData('PointCharges')">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
     <div class="search-field">
       <input type="text" placeholder="Search Point Charge" (input)="onSearch($event)"/>
       <span><img src="assets/images/icons/search.svg" alt="search" /></span>

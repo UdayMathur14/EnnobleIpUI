@@ -1,5 +1,9 @@
 <div class="page-title">
   <h1>Transporter Master</h1>
+  <div class="action-buttons">
+    <button class="custom-button-export" (click)="exportData('Transporters')">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+    </div>
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">

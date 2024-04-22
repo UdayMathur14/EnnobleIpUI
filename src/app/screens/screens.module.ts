@@ -84,6 +84,7 @@ import { LookupTypeFilterComponent } from "./master/lookup-type/components/filte
 import { LookupTypeGridTableComponent } from "./master/lookup-type/components/grid-table/lookup-type-grid-table.component";
 import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup-type/add-edit-lookup-type.component";
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
+import { ExportAsModule } from 'ngx-export-as';
 
 
 @NgModule({
@@ -178,7 +179,8 @@ import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-e
         NgbPopover,
         NgSelectModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ExportAsModule
     ],
     providers: [],
 })
