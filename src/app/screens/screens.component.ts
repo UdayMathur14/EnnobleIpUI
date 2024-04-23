@@ -16,17 +16,8 @@ export class ScreensComponent implements OnInit {
     locations: any;
 
     ngOnInit() {
-        let key = {
-            type: 'Locations'
-        };
 
-        this.lookupService.getLookupData(key).subscribe((response: any) => {
-            this.baseService.lookupData.next(response);
-            this.locations = response.lookUps.filter((e:any) => e.code === 'HA');
-            localStorage.setItem('locationId', this.locations[0].id)
-        }, error => {
-
-        })
+        this.lookupService.getLookupDataForLocation();
 
         this.baseService.plantSpinner.subscribe((res) => {
             this.loadSpinner = res;
