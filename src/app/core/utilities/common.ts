@@ -4,26 +4,37 @@ export class CommonUtility {
 
     static datatable: any = null;
 
-    static delay = (ms:any) => new Promise(res => setTimeout(res, ms));
+    static delay = (ms: any) => new Promise(res => setTimeout(res, ms));
 
-    static isNull(item:any): boolean {
+    static flatten(array: any) {
+        var result: any = [];
+        array.forEach((a: any) => {
+            result.push(a);
+            if (Array.isArray(a.subMenus)) {
+                result = result.concat(this.flatten(a.subMenus));
+            }
+        });
+        return result;
+    }
+
+    static isNull(item: any): boolean {
         return item === undefined || item === null;
     }
 
-    static isEmpty(item:any): boolean {
+    static isEmpty(item: any): boolean {
         return item === undefined || item === null
             || item.length === 0 || item === 0 || item === '' || item === 'null';
     }
 
-    static isNotNull(item:any): boolean {
+    static isNotNull(item: any): boolean {
         return item !== undefined && item !== null;
     }
 
-    static isNotEmpty(item:any): boolean {
+    static isNotEmpty(item: any): boolean {
         return item !== undefined && item !== null && item.length !== 0;
     }
 
-    static isObjectEmpty(obj:any): boolean {
+    static isObjectEmpty(obj: any): boolean {
         return CommonUtility.isNull(obj) || Object.keys(obj).length === 0 || !Object.keys(obj).some(k => CommonUtility.isNotEmpty(obj[k]));
     }
 
@@ -31,13 +42,13 @@ export class CommonUtility {
         return keys.split(separator);
     }
 
-    static convertObjectToParams(paramObj:any) {
-        let params:any = new URLSearchParams();
+    static convertObjectToParams(paramObj: any) {
+        let params: any = new URLSearchParams();
         for (let key in (paramObj || {})) {
             if (paramObj.hasOwnProperty(key) && CommonUtility.isNotEmpty(paramObj[key]) && typeof (paramObj[key]) !== 'object') {
                 params.set(key, paramObj[key])
             } else if (Array.isArray(paramObj[key])) {
-                paramObj[key].forEach((k:any) => {
+                paramObj[key].forEach((k: any) => {
                     params.append(key, k);
                 })
             }
@@ -54,7 +65,7 @@ export class CommonUtility {
         return params;
     }
 
-    static convertObjectToUrlEncoded(paramObj:any) {
+    static convertObjectToUrlEncoded(paramObj: any) {
         let params = new HttpParams();
         for (let key in paramObj) {
             if (paramObj.hasOwnProperty(key) && paramObj[key]) {
@@ -64,7 +75,7 @@ export class CommonUtility {
         return params;
     }
 
-    static convertToUrlParams = (object:any) => {
+    static convertToUrlParams = (object: any) => {
         var parameters = [];
         for (var property in object) {
             if (object.hasOwnProperty(property)) {
@@ -75,7 +86,7 @@ export class CommonUtility {
         return parameters.join('&');
     }
 
-    static getParameter(paramName:any) {
+    static getParameter(paramName: any) {
         var searchString = window.location.search.substring(1),
             i, val, params = searchString.split("&");
 
@@ -89,7 +100,7 @@ export class CommonUtility {
     }
 
 
-    static isNumber(n:any): boolean {
+    static isNumber(n: any): boolean {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 }

@@ -2,12 +2,28 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanDeactivate, CanLoad, Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { APIConstant } from '../constants';
+import { CommonUtility } from '../utilities/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad  {
   constructor(private authService: AuthService, private router: Router) {}
+
+  get menu(){
+    const profile:any = localStorage.getItem("profile");
+    const userData = JSON.parse(profile);
+    const svcMenu = userData.app.find((e:any)=>e.name=='Manufacture');
+    //console.log(CommonUtility.flatten(svcMenu.menus))
+    return CommonUtility.flatten(svcMenu.menus);
+  }
+
+  securityGroups(permission:String){
+    if(this.menu.find((e:any)=>e.key===permission)){
+      return true;
+    }
+    return true;
+  }
 
   canActivate(): boolean {
     return this.checkAuth();
