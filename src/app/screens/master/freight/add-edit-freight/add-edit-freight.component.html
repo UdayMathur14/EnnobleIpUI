@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{queryData ? 'Edit Freight' : 'Create Freight'}}</h1>
+    <h1>{{freightId>0 ? 'Edit Freight' : 'Create Freight'}}</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">
@@ -11,7 +11,7 @@
 <div class="content-section p-3">
     <form [formGroup]="freightForm">
         <div class="row">
-            <div class="col-lg-2 col-md-2" *ngIf="queryData != 0">
+            <div class="col-lg-2 col-md-2" *ngIf="freightId>0">
                 <div class="custom-form-input">
                     <label for="">Freight Code</label>
                     <input type="text" class="input-field" formControlName="freightCode" readonly />
@@ -27,9 +27,9 @@
                 <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" *ngIf="this.queryData != 0" [value]="locationCode"
+                        <input type="text" class="input-field" *ngIf="freightId>0" [value]="locationCode"
                             readonly />
-                        <input type="text" class="input-field" *ngIf="this.queryData == 0" value="HA" readonly />
+                        <input type="text" class="input-field" *ngIf="freightId == 0" value="HA" readonly />
                         <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                     </div>
                 </div>
@@ -68,15 +68,13 @@
                     <input type="text" class="input-field" formControlName="freightAmount" />
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-2">
+            <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Remarks <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="remarks" />
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2" *ngIf="this.queryData">
+            <div class="col-lg-2 col-md-2" *ngIf="freightId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select formControlName="status" name="status" >

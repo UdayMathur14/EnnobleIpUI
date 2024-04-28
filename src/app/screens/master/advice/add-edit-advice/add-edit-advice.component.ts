@@ -35,13 +35,6 @@ export class AddEditAdviceComponent implements OnInit {
       this.getAdviceTypeData(this.adviceId);
     }
     this.loadSpinner = false;
-       // Enable or disable status control based on adviceId for Create and Update
-       const statusControl = this.adviceForm.get('status');
-       if(statusControl){
-         if(this.adviceId == 0){
-           statusControl.disable()
-         }
-       }
   }
 
   getAdviceTypeData(adviceId : number){
@@ -79,7 +72,7 @@ export class AddEditAdviceComponent implements OnInit {
         status: this.adviceForm.controls['status']?.value,
         actionBy: 1
       }
-      if(this.adviceId){
+      if(this.adviceId>0){
         this.updateAdviceType(editData);
       } else{
         this.createNewAdvice(data);

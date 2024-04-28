@@ -17,11 +17,11 @@ export class FreightService extends CRUDService<PlantRequest> {
         return this.baseService.post(APIConstant.basePath+freight(localStorage.getItem('locationId')), data);
     }
 
-    getFreightData(freightId : string){
+    getFreightData(freightId : number){
         return this.baseService.get(APIConstant.basePath+freightData(localStorage.getItem('locationId'), freightId));
     }
 
-    updateFreight(freightId : string, data : object){
+    updateFreight(freightId : number, data : object){
         return this.baseService.put(APIConstant.basePath+updateFreight(localStorage.getItem('locationId'), freightId), data);
     }
 

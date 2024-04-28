@@ -15,7 +15,7 @@ export class AddEditFreightComponent implements OnInit {
   freightForm: FormGroup;
   freightData!: FreightDataModel;
   loadSpinner: boolean = true;
-  queryData: any = '';
+  freightId: number = 0;
   locations: any = [];
   sources: any = [];
   locationCode: string = '';
@@ -44,32 +44,22 @@ export class AddEditFreightComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("freightId");
-    this.queryData = this.queryData == 0 ? '' : this.queryData;
+    this.freightId = Number(this._Activatedroute.snapshot.paramMap.get("freightId"));
+    this.freightId = this.freightId == 0 ? 0 : this.freightId;
     this.baseService.lookupData.subscribe((res: any) => {
       this.locations = res.lookUps.filter((e: any) => e.code === 'LOC');
     })
-    if (this.queryData != 0) {
-      this.getFreightData(this.queryData);
+    if (this.freightId != 0) {
+      this.getFreightData(this.freightId);
     }
     this.loadSpinner = false;
-
-    // Enable or disable status control based on queryData for Create and Update
-    const statusControl = this.freightForm.get('status');
-    if (statusControl) {
-      if (this.queryData) {
-        statusControl.enable();
-      } else {
-        statusControl.disable();
-      }
-    }
     this.getSourceDropdownData();
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();
   }
 
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
-  getFreightData(freightId: string) {
+  getFreightData(freightId: number) {
     this.freightService.getFreightData(freightId).subscribe((response: any) => {
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
@@ -111,7 +101,7 @@ export class AddEditFreightComponent implements OnInit {
       accApprovalOn: this.freightForm.controls['accApprovalOn'].value,
       remarks: this.freightForm.controls['remarks'].value,
     }
-    if (this.queryData) {
+    if (this.freightId>0) {
       this.updateFreight(data);
     } else {
       this.createNewFreight(data);
@@ -120,7 +110,7 @@ export class AddEditFreightComponent implements OnInit {
 
   //UPDATING FREIGHT DATA
   updateFreight(data: any) {
-    this.freightService.updateFreight(this.queryData, data).subscribe((response: any) => {
+    this.freightService.updateFreight(this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
