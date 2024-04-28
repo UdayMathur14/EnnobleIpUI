@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddEditAdviceComponent implements OnInit {
   adviceForm : FormGroup
-  queryData : any = '';
+  adviceId : number = 0;
   loadSpinner: boolean = true;
   locationCode: string = '';
   constructor(private router: Router,
@@ -29,22 +29,22 @@ export class AddEditAdviceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("adviceId");
-    this.queryData = this.queryData == 0 ? '' : this.queryData;
-    if (this.queryData != 0) {
-      this.getAdviceTypeData(this.queryData);
+    this.adviceId = Number(this._Activatedroute.snapshot.paramMap.get("adviceId"));
+    this.adviceId = this.adviceId === 0 ? 0 : this.adviceId;
+    if (this.adviceId != 0) {
+      this.getAdviceTypeData(this.adviceId);
     }
     this.loadSpinner = false;
-       // Enable or disable status control based on queryData for Create and Update
+       // Enable or disable status control based on adviceId for Create and Update
        const statusControl = this.adviceForm.get('status');
        if(statusControl){
-         if(this.queryData == 0){
+         if(this.adviceId == 0){
            statusControl.disable()
          }
        }
   }
 
-  getAdviceTypeData(adviceId : string){
+  getAdviceTypeData(adviceId : number){
     this.adviceService.getAdviceTypeData(adviceId).subscribe((response: any) => {
       this.locationCode = response.lookUpEntity.value
       this.adviceForm.setValue({
@@ -79,7 +79,7 @@ export class AddEditAdviceComponent implements OnInit {
         status: this.adviceForm.controls['status']?.value,
         actionBy: 1
       }
-      if(this.queryData){
+      if(this.adviceId){
         this.updateAdviceType(editData);
       } else{
         this.createNewAdvice(data);
@@ -88,7 +88,7 @@ export class AddEditAdviceComponent implements OnInit {
   
     //UPDATING PART DATA
     updateAdviceType(data:any){
-        this.adviceService.updateAdviceType(this.queryData, data).subscribe((response: any) => {
+        this.adviceService.updateAdviceType(this.adviceId, data).subscribe((response: any) => {
           this.adviceForm.setValue({
             adviceType : response.adviceType,
             batchName : response.batchName,
