@@ -26,7 +26,7 @@
                     <input type="text" class="input-field" formControlName="description" />
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-2 col-md-2" *ngIf="this.queryData">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">
@@ -53,8 +53,6 @@
                     <input type="text" class="input-field" formControlName="attribute3" />
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Attribute 4 <span class="text-danger">*</span></label>

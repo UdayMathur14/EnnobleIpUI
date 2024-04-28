@@ -80,7 +80,7 @@
           <input type="text" class="input-field" formControlName="remarks" />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-2 col-md-2" *ngIf="mode=='edit'">
         <div class="custom-form-input">
           <label for="">Status <span class="text-danger">*</span></label>
           <select name="" formControlName="vehicleStatus">
