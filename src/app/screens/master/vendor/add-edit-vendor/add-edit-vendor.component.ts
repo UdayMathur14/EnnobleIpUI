@@ -4,6 +4,7 @@ import { VendorService } from '../../../../core/service/vendor.service';
 import { VendorDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-edit-vendor',
@@ -18,6 +19,26 @@ export class AddEditVendorComponent implements OnInit {
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
   ) { }
+  vendorForm = new FormGroup({
+    vendorCode: new FormControl(''),
+    vendorName: new FormControl(''),
+    vendorAddress: new FormControl(''),
+    phone: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
+    city: new FormControl(''),
+    state: new FormControl(''),
+    pan: new FormControl(''),
+    gstin: new FormControl(''),
+    paymentTermCode: new FormControl(''),
+    paymentStatus: new FormControl(''),
+    paidByDetail: new FormControl(''),
+    taxationCode: new FormControl('', [Validators.required]),
+    cgst: new FormControl(''),
+    sgst: new FormControl(''),
+    igst: new FormControl(''),
+    rcmNonRcm: new FormControl(''),
+    status:  new FormControl('')
+  });
   queryData: any;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
@@ -36,8 +57,7 @@ export class AddEditVendorComponent implements OnInit {
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
-      this.vendorData = response;
-      this.selectedPointName = response.pointName;
+      this.patchVendorData(response)
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -61,11 +81,10 @@ export class AddEditVendorComponent implements OnInit {
   onPressSave() {
     this.loadSpinner = true;
     let data = {
-      vendorCode: this.vendorData.vendorCode,
-      contactNumber: this.vendorData.contactNumber,
-      email: this.vendorData.email,
-      pointName: this.selectedPointName,
-      status: this.vendorData.status
+      "actionBy": 0,
+      "contactNumber": this.vendorForm.get('phone')?.value,
+      "email": this.vendorForm.get('email')?.value,
+      "status": this.vendorForm.get('status')?.value,
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
@@ -93,5 +112,41 @@ export class AddEditVendorComponent implements OnInit {
   //NAVIGATION BACK TO VENDOR LISTING ON CLICK CANCEL BUTTON
   onCancelPress() {
     this.router.navigate(['master/vendor']);
+  }
+
+  patchVendorData(data: any){
+    console.log(data)
+      this.vendorForm.patchValue({
+        vendorCode: data.vendorCode,
+        vendorName: data.vendorName,
+        vendorAddress: data.vendorAddress1,
+        phone: data.contactNumber,
+        email: data.email,
+        city: data.city.value,
+        state: data.state.value,
+        pan: data.panNo,
+        gstin: data.gstnNo,
+        paymentTermCode: data.payTermCode,
+        paymentStatus: data.payTermStatus,
+        paidByDetail: data.paidByDetail.value,
+        taxationCode: data.taxationType.id,
+        cgst: data.taxationType.attribute5,
+        sgst: data.taxationType.attribute6,
+        igst: data.taxationType.attribute7,
+        status: data.status,
+        rcmNonRcm : data.taxationType.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
+      });
+    }
+
+
+  onOptionSelected(event:any) {
+    const selectedLookup = this.taxationCode.find((lookup: any) => lookup.id === event);
+    this.vendorForm.patchValue({
+      cgst: selectedLookup.attribute5,
+      sgst: selectedLookup.attribute6,
+      igst: selectedLookup.attribute7,
+      rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
+    });
+
   }
 }

@@ -6,35 +6,36 @@
   </div>
 </div>
 <div class="content-section p-3">
+  <form [formGroup]="vendorForm">
   <div class="row">
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vendor Code</label>
-          <input type="text" class="input-field" [(ngModel)]="vendorData.vendorCode" disabled/>
+          <input type="text" class="input-field" formControlName="vendorCode" readonly/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vendor Name</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.vendorName" disabled />
+        <input type="text" class="input-field" formControlName="vendorName" readonly />
       </div>
     </div>
     <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">Vendor Address</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.vendorAddress1" disabled />
+        <input type="text" class="input-field" formControlName="vendorAddress" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Phone <span class="text-danger">*</span></label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.contactNumber" />
+        <input type="text" class="input-field" formControlName="phone" />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Email <span class="text-danger">*</span></label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.email" />
+        <input type="text" class="input-field" formControlName="email" />
       </div>
     </div>
   </div>
@@ -42,96 +43,87 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">City</label>
-        <input type="text" class="input-field" [value]="vendorData.city?.value" disabled />
+        <input type="text" class="input-field" formControlName="city" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">State</label>
-        <input type="text" class="input-field" [value]="vendorData.state?.value" disabled />
+        <input type="text" class="input-field" formControlName="state" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">PAN</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.panNo" disabled />
+        <input type="text" class="input-field" formControlName="pan" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">GSTIN</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.gstnNo" disabled />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Point Name <span class="text-danger">*</span></label>
-        <ng-select class="input-field" [(ngModel)]="selectedPointName" placeholder="Select Vendor Name">
-          <ng-option *ngFor="let point of pointChargeName" [value]="point.pointName">{{point.pointName}}</ng-option>
-        </ng-select>
+        <input type="text" class="input-field" formControlName="gstin" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Payment Term Code</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.payTermCode" disabled />
+        <input type="text" class="input-field" formControlName="paymentTermCode" readonly />
       </div>
     </div>
-  </div>
-  <div class="row">
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Payment Term Status</label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.payTermStatus" disabled />
+        <input type="text" class="input-field" formControlName="paymentStatus" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Paid By Details <span class="text-danger">*</span></label>
-        <input type="text" class="input-field" [(ngModel)]="vendorData.paidByDetail" disabled />
+        <input type="text" class="input-field" formControlName="paidByDetail" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Taxation Code <span class="text-danger">*</span></label>
-        <ng-select name="" id="">
+        <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
           <ng-option *ngFor="let code of taxationCode"
-            [value]="code">{{code.value}}</ng-option>
+            [value]="code.id">{{code.value}}</ng-option>
         </ng-select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">CGST</label>
-        <input type="text" class="input-field" readonly />
+        <input type="text" class="input-field" formControlName="cgst" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">SGST</label>
-        <input type="text" class="input-field" readonly />
+        <input type="text" class="input-field" formControlName="sgst" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">IGST</label>
-        <input type="text" class="input-field" readonly />
+        <input type="text" class="input-field" formControlName="igst" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">RCM/Non RCM</label>
-        <input type="text" class="input-field" readonly />
+        <input type="text" class="input-field" formControlName="rcmNonRcm" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Status <span class="text-danger">*</span></label>
-        <select name="" id="" [(ngModel)]="vendorData.status">
+        <select name="" formControlName="status">
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
         </select>
       </div>
     </div>
   </div>
+</form>
 </div>
