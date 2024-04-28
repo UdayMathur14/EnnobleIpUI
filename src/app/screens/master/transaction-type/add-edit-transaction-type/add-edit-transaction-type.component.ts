@@ -14,7 +14,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   constructor(private router: Router,
     private transactionTypesService : TransactionTypesService,
     private toastr : ToastrService,
-    private _Activatedroute : ActivatedRoute) {}
+    private activatedRoute : ActivatedRoute) {}
 
   queryData : any = '';
   transactionTypeForm = new FormGroup({
@@ -30,7 +30,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   transactionTypeInterfaceData: any = [];
 
   ngOnInit(): void {
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("transactionId");   
+    this.queryData = this.activatedRoute.snapshot.paramMap.get("transactionId");   
     this.getTransactionData(this.queryData);
     this.getGlSubCategoryDropdownData();
     this.getTransactionTypeInterfaceDropdownData();
@@ -58,7 +58,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
   onPressSave(){
     this.loadSpinner = true;
-    let data = {
+    const data = {
       code: this.transactionTypeForm.get('code')?.value,
       name: this.transactionTypeForm.get('name')?.value,
       interfaceTxnTypeId: this.transactionTypeForm.get('transactionTypeInterface')?.value,
@@ -81,7 +81,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   }
 
   getGlSubCategoryDropdownData(){
-    let data = {
+    const data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
@@ -93,7 +93,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   }
 
   getTransactionTypeInterfaceDropdownData() {
-    let data = {
+    const data = {
       "code": "",
       "name": ""
     }

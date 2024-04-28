@@ -61,7 +61,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.loadSpinner = false;
       // Enable or disable status control based on queryData for Create and Update
       this.getTransporterModeDropdownData();
-      this.getTaxationCodeDropdownData();
+      this.getTaxationcode();
   }
 
   getTransporterData(transporterId:string){
@@ -105,7 +105,7 @@ export class AddEditTransporterComponent implements OnInit {
     //FUNCTION EXECUTED ON SAVE BUTTON CLICK
     onSavePress() {
       this.loadSpinner = true;
-      let data = {
+      const data = {
         status: this.transporterForm.controls['status'].value,
         actionBy: 1,
         transporterName: this.transporterForm.controls['transporterName'].value,
@@ -159,7 +159,7 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   getTransporterModeDropdownData(){
-    let data = {
+    const data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
@@ -170,8 +170,8 @@ export class AddEditTransporterComponent implements OnInit {
     })
   }
 
-  getTaxationCodeDropdownData(){
-    let data = {
+  getTaxationcode(){
+    const data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
