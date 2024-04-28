@@ -17,7 +17,7 @@ export class LookupService extends CRUDService<LookupRequest> {
   }
 
   //For Lookup module
-  getLookupDatas(lookupId: string) {
+  getLookupDatas(lookupId: number) {
     return this.baseService.get(APIConstant.basePath + APIConstant.lookupData + lookupId);
   }
 
@@ -36,7 +36,7 @@ export class LookupService extends CRUDService<LookupRequest> {
     })
   }
 
-  updateLookup(lookupId: string, data: object) {
+  updateLookup(lookupId: number, data: object) {
     return this.baseService.put(APIConstant.basePath + APIConstant.updateLookup + lookupId, data);
   }
 

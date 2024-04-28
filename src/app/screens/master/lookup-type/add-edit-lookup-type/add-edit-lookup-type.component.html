@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{queryData ? 'Edit' : 'Create' }} Lookup Type</h1>
+    <h1>{{lookuptypeId>0 ? 'Edit' : 'Create' }} Lookup Type</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onSaveButtonClick()">Save</button>
         <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
@@ -12,12 +12,12 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Type <span class="text-danger" *ngIf="!this.queryData">*</span></label>
-                    <ng-select class="input-field" formControlName="type" *ngIf="queryData" [readonly]="true">
+                    <label for="">Type <span class="text-danger" *ngIf="lookuptypeId == 0">*</span></label>
+                    <ng-select class="input-field" formControlName="type" *ngIf="lookuptypeId>0" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
                             [value]="lookupType.type">{{lookupType.type}}</ng-option>
                     </ng-select>
-                    <input type="text" class="input-field" formControlName="type" *ngIf="!queryData" />
+                    <input type="text" class="input-field" formControlName="type" *ngIf="lookuptypeId == 0" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -26,7 +26,7 @@
                     <input type="text" class="input-field" formControlName="description" />
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2" *ngIf="this.queryData">
+            <div class="col-lg-2 col-md-2" *ngIf="lookuptypeId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">
