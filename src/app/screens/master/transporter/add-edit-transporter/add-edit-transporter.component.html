@@ -97,11 +97,35 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">RCM/Non-RCM <span class="text-danger">*</span></label>
-          <select formControlName="rcmNonRcm">
-            <option value="Y">Yes</option>
-            <option value="N">No</option>
-          </select>
+          <label for="">Taxation Code <span class="text-danger">*</span></label>
+          <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
+            <ng-option *ngFor="let code of taxationCode"
+              [value]="code.id">{{code.value}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">CGST</label>
+          <input type="text" class="input-field" formControlName="cgst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">SGST</label>
+          <input type="text" class="input-field" formControlName="sgst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">IGST</label>
+          <input type="text" class="input-field" formControlName="igst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">RCM/Non RCM</label>
+          <input type="text" class="input-field" formControlName="rcmNonRcm" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

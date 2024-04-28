@@ -24,11 +24,13 @@ export class AddEditVendorComponent implements OnInit {
   loadSpinner: boolean = true;
   pointChargeName: any = [];
   selectedPointName: undefined;
+  taxationCode:any
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
     this.getVendorData(this.queryData);
     this.getAllPointChargesList();
+    this.getTaxationCodeDropdownData();
   }
 
   //TO GET THE VENDOR DATA
@@ -72,6 +74,19 @@ export class AddEditVendorComponent implements OnInit {
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
+    })
+  }
+
+  getTaxationCodeDropdownData(){
+    let data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'taxationCode'
+    this.vendorService.getDropdownData(data, type).subscribe((res:any)=>{
+      console.log(res)
+      this.taxationCode = res.lookUps
     })
   }
 
