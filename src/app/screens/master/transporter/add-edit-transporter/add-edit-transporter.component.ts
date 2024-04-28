@@ -60,12 +60,6 @@ export class AddEditTransporterComponent implements OnInit {
     }
     this.loadSpinner = false;
       // Enable or disable status control based on queryData for Create and Update
-      const statusControl = this.transporterForm.get('status');
-      if(statusControl){
-        if(this.queryData != 0){
-          statusControl.disable()
-        }
-      }
       this.getTransporterModeDropdownData();
       this.getTaxationCodeDropdownData();
   }
