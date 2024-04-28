@@ -47,7 +47,6 @@ export class AddEditTransactionTypeComponent implements OnInit {
   }
 
   patchTransactionForm(data: any){
-    console.log(data)
     this.transactionTypeForm.patchValue({
       code: data?.code,
       name: data?.name,
