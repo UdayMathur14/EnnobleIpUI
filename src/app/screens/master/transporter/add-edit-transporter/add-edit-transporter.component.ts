@@ -195,7 +195,7 @@ export class AddEditTransporterComponent implements OnInit {
       cgst: selectedLookup.attribute5,
       sgst: selectedLookup.attribute6,
       igst: selectedLookup.attribute7,
-      rcmNonRcm: event.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
+      rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
     });
 
   }
