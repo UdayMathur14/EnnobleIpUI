@@ -29,4 +29,8 @@ export class TransactionTypesService extends CRUDService<PlantRequest> {
         return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
             + type ,data);
     }
+
+    getTransactionTypeInterface(data: any){
+        return this.baseService.post(APIConstant.basePath + APIConstant.transactionTypeInterfaces, data);
+    }
 }

@@ -22,20 +22,23 @@ export class AddEditTransactionTypeComponent implements OnInit {
     code: new FormControl(null),
     glSubcategory: new FormControl('', [Validators.required]),
     status: new FormControl('', [Validators.required]),
+    transactionTypeInterface: new FormControl('', [Validators.required]),
   });
   loadSpinner : boolean = true;
   glSubcategoryCode: any = [];
-  transactionData: any = []
+  transactionData: any = [];
+  transactionTypeInterfaceData: any = [];
 
   ngOnInit(): void {
     this.queryData = this._Activatedroute.snapshot.paramMap.get("transactionId");   
     this.getTransactionData(this.queryData);
-    this.getGlSubCategoryDropdownData()
+    this.getGlSubCategoryDropdownData();
+    this.getTransactionTypeInterfaceDropdownData();
   }
 
   getTransactionData(transactionId: string) {
     this.transactionTypesService.getTransactionTypeData(transactionId).subscribe((response: any) => {
-      this.patchVehicleForm(response)
+      this.patchTransactionForm(response)
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -43,12 +46,14 @@ export class AddEditTransactionTypeComponent implements OnInit {
     })
   }
 
-  patchVehicleForm(data: any){
+  patchTransactionForm(data: any){
+    console.log(data)
     this.transactionTypeForm.patchValue({
       code: data?.code,
       name: data?.name,
       glSubcategory: data.glSubCategory.id,
-      status: data.status
+      status: data.status,
+      transactionTypeInterface: data.iTransactionTypeId
     });
   }
 
@@ -57,7 +62,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
     let data = {
       code: this.transactionTypeForm.get('code')?.value,
       name: this.transactionTypeForm.get('name')?.value,
-      interfaceTxnTypeId: 0,
+      interfaceTxnTypeId: this.transactionTypeForm.get('transactionTypeInterface')?.value,
       glSubCategoryId:  this.transactionTypeForm.get('glSubcategory')?.value ,
       status: this.transactionTypeForm.get('status')?.value,
       actionBy: 1
@@ -85,6 +90,17 @@ export class AddEditTransactionTypeComponent implements OnInit {
     const type = 'GLSubCategory'
     this.transactionTypesService.getDropdownData(data, type).subscribe((res:any)=>{
       this.glSubcategoryCode = res.lookUps
+    })
+  }
+
+  getTransactionTypeInterfaceDropdownData() {
+    let data = {
+      "code": "",
+      "name": ""
+    }
+    this.transactionTypesService.getTransactionTypeInterface(data).subscribe((res: any) => {
+      this.transactionTypeInterfaceData = res.transactionTypeInterfaces
+
     })
   }
   
