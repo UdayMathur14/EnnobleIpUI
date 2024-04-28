@@ -59,11 +59,11 @@ export class AddEditTransactionTypeComponent implements OnInit {
   onPressSave(){
     this.loadSpinner = true;
     const data = {
-      code: this.transactionTypeForm.get('code')?.value,
-      name: this.transactionTypeForm.get('name')?.value,
-      interfaceTxnTypeId: this.transactionTypeForm.get('transactionTypeInterface')?.value,
-      glSubCategoryId:  this.transactionTypeForm.get('glSubcategory')?.value ,
-      status: this.transactionTypeForm.get('status')?.value,
+      code: this.transactionTypeForm.controls['code']?.value,
+      name: this.transactionTypeForm.controls['name']?.value,
+      interfaceTxnTypeId: this.transactionTypeForm.controls['transactionTypeInterface']?.value,
+      glSubCategoryId:  this.transactionTypeForm.controls['glSubcategory']?.value ,
+      status: this.transactionTypeForm.controls['status']?.value,
       actionBy: 1
     }
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {

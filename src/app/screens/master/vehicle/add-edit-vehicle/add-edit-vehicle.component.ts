@@ -20,7 +20,6 @@ export class AddEditVehicleComponent implements OnInit {
     private baseService: BaseService
   ) {}
 
-  mode: any = 'create';
   vehicleId: any;
   vehicleData!: VehicleDataModel;
   vehiclesList: any = [];
@@ -46,35 +45,25 @@ export class AddEditVehicleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTransportersList()
-    if (this.mode == 'create') {
+    if (!this.vehicleId) {
       this.loadSpinner = false;
     }
 
     this._route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('vehicleId')) {
-        this.mode = 'edit';
         this.vehicleId = paramMap.get('vehicleId')
       } else {
-        this.mode = 'create';
         this.vehicleId = null;
       }
     })
     this.getVehicleData(this.vehicleId);
     this.getAllLookups();
     this.getVehicleSizeDropdownData();
-    
-    // Enable or disable status control based on mode for Create and Update
-    const statusControl = this.vehicleForm.get('vehicleStatus');
-    if(statusControl){
-      if(this.mode == 'create'){
-        statusControl.disable()
-      }
-    }
   }
 
   // GET THE DATA OF SPECIFIC VEHICLE
   getVehicleData(vehicleId: string) {
-    if (this.mode == 'edit') {
+    if (this.vehicleId) {
       this.loadSpinner = true;
       this.vehicleService.getVehicleData(vehicleId).subscribe((response: any) => {
         this.vehicleData = response;
@@ -111,7 +100,7 @@ export class AddEditVehicleComponent implements OnInit {
   // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
     this.loadSpinner = true;
-    if (this.mode == 'edit') {
+    if (this.vehicleId) {
       let data = {
         transporterId: 1,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
@@ -132,7 +121,7 @@ export class AddEditVehicleComponent implements OnInit {
 
     this.loadSpinner = false;
   }
-    if (this.mode == 'create') {
+    if (!this.vehicleId) {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
         vehicleSizeId: this.vehicleForm.get('vehicleSize')?.value,
