@@ -19,7 +19,6 @@ export class AddEditPointChargeComponent implements OnInit {
     private toastr: ToastrService,
     private baseService: BaseService) {
   }
-  mode: any = 'create';
   pointChargeId: any;
   pointChargeData!: PointChargeDataModel
   pointChargesList: any = [];
@@ -33,36 +32,24 @@ export class AddEditPointChargeComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    if (this.mode == 'create') {
+    if (!this.pointChargeId) {
       this.loadSpinner = false;
     }
 
     this._route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('pointChargeId')) {
-        this.mode = 'edit';
         this.pointChargeId = paramMap.get('pointChargeId')
       } else {
-        this.mode = 'create';
         this.pointChargeId = null;
       }
     })
     this.getPointChargeData(this.pointChargeId)
-        // Enable or disable status control based on mode for Create and Update
-        const statusControl = this.pointChargeForm.get('status');
-        if(statusControl){
-          if(this.mode == 'create'){
-            statusControl.disable()
-          }
-        }
   }
 
   // GET SPECIFIC POINT CHARGE DATA
   getPointChargeData(pointChargeId: string) {
-    if (this.mode == 'edit') {
+    if (this.pointChargeId) {
       this.loadSpinner = true;
-    }
-
-    if (this.mode == 'edit') {
       this.pointChargeService.getPointChargeData(pointChargeId).subscribe((response: any) => {
         this.pointChargeData = response;
         this.patchPointChargeForm(response);
@@ -108,7 +95,7 @@ export class AddEditPointChargeComponent implements OnInit {
 // CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
     this.loadSpinner = true;
-    if (this.pointChargeForm.valid && this.mode == 'edit') {
+    if (this.pointChargeForm.valid && this.pointChargeId) {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
@@ -126,7 +113,7 @@ export class AddEditPointChargeComponent implements OnInit {
         this.loadSpinner = false;
       })
     }
-    if (this.pointChargeForm.valid && this.mode == 'create') {
+    if (this.pointChargeForm.valid && !this.pointChargeId) {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
