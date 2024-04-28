@@ -62,7 +62,6 @@ export class AddEditAdviceComponent implements OnInit {
         batchName:this.adviceForm.controls['batchName']?.value,
         maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
         manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
-        status: this.adviceForm.controls['status']?.value,
         actionBy: 1
       }
       let editData = {
