@@ -75,7 +75,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.transporterForm.patchValue({
         transporterCode : response.transporterCode,
         transporterName : response.transporterName,
-        locationCode : response.locationId,
+        locationCode : response.locations.value,
         status : response.status,
         ownerName : response.ownerName,
         contactPerson : response.contactPerson,
