@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant } from "../constants";
+import { APIConstant,getDropdownDatas } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -26,7 +26,10 @@ export class TransactionTypesService extends CRUDService<PlantRequest> {
     }
 
     getDropdownData(data : object, type: string){
-        return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
-            + type ,data);
+        return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
+    }
+
+    getTransactionTypeInterface(data: any){
+        return this.baseService.post(APIConstant.basePath + APIConstant.transactionTypeInterfaces, data);
     }
 }

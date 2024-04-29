@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{queryData ? 'Edit Part' : 'Create Part'}} Master</h1>
+    <h1>{{partId>0 ? 'Edit Part' : 'Create Part'}} Master</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="
             !this.partForm.controls['partNumber'].value ||
@@ -15,11 +15,11 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Part Number <span class="text-danger" *ngIf="!queryData">*</span></label>
-                    <ng-select class="input-field" formControlName="partNumber" *ngIf="queryData" [readonly]="true">
+                    <label for="">Part Number <span class="text-danger" *ngIf="partId == 0">*</span></label>
+                    <ng-select class="input-field" formControlName="partNumber" *ngIf="partId>0" [readonly]="true">
                         <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
                     </ng-select>
-                    <input type="text" class="input-field" formControlName="partNumber" *ngIf="!queryData"/>
+                    <input type="text" class="input-field" formControlName="partNumber" *ngIf="partId == 0"/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -49,19 +49,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-4 col-md-4">
+                <div class="custom-form-input">
+                    <label for="">Remarks <span class="text-danger">*</span></label>
+                    <input type="text" class="input-field" formControlName="remarks"/>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2" *ngIf="partId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-                <div class="custom-form-input">
-                    <label for="">Remarks <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="remarks"/>
                 </div>
             </div>
         </div>

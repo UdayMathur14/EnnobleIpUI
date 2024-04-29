@@ -14,7 +14,7 @@ export class AddEditLookupComponent implements OnInit {
 
   lookupForm: FormGroup;
   lookupData!: LookupDataModel;
-  queryData: any;
+  lookupId: number = 0;
   filledDetails: any;
   loadSpinner: boolean = true;
   lookupTypes: any;
@@ -25,7 +25,7 @@ export class AddEditLookupComponent implements OnInit {
     private lookupService: LookupService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private _Activatedroute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.lookupForm = this.formBuilder.group({
       typeId: ['', Validators.required],
@@ -41,24 +41,14 @@ export class AddEditLookupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("lookupId");
-    this.queryData = this.queryData == 0 ? '' : this.queryData;
-    if (this.queryData != 0) {
-      this.getLookupData(this.queryData);
+    this.lookupId = Number(this.activatedRoute.snapshot.paramMap.get("lookupId"));
+    this.lookupId = this.lookupId == 0 ? 0 : this.lookupId;
+    if (this.lookupId != 0) {
+      this.getLookupData(this.lookupId);
     } else {
       this.getLookupTypes();
     }
     this.loadSpinner = false;
-
-    // Enable or disable status control based on queryData for Create and Update
-    const statusControl = this.lookupForm.get('status');
-    if (statusControl) {
-      if (this.queryData) {
-        statusControl.enable();
-      } else {
-        statusControl.disable();
-      }
-    }
   }
 
   //TO GET LOOKUP-TYPE DATA
@@ -72,7 +62,7 @@ export class AddEditLookupComponent implements OnInit {
   }
 
   //TO GET SELECTED LOOKUP DATA
-  getLookupData(lookupId: string) {
+  getLookupData(lookupId: number) {
     this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
       this.lookupForm.patchValue({
         typeId: response.typeId,
@@ -108,7 +98,7 @@ export class AddEditLookupComponent implements OnInit {
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
     }
-    if (this.queryData) {
+    if (this.lookupId>0) {
       this.updateLookup(data);
     } else {
       this.createNewLookup(data);
@@ -117,7 +107,7 @@ export class AddEditLookupComponent implements OnInit {
 
   //UPDATING LOOKUP DATA
   updateLookup(data: any) {
-    this.lookupService.updateLookup(this.queryData, data).subscribe((response: any) => {
+    this.lookupService.updateLookup(this.lookupId, data).subscribe((response: any) => {
       this.lookupData = response;
       this.loadSpinner = false;
       this.toastr.success('Lookup Updated Successfully')

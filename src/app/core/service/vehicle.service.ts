@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { VehicleRequest } from '../models/vehicle';
 import { BaseService } from './base.service';
 import { CRUDService } from './crud.service';
-import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle,transporter, transporterData, } from '../constants';
+import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle,transporter, transporterData,getDropdownDatas } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -44,8 +44,7 @@ export class VehicleService extends CRUDService<VehicleRequest> {
   }
 
   getDropdownData(data : object, type: string){
-    return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
-        + type ,data);
+    return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
 }
 
 }

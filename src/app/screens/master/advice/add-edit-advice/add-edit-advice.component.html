@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{queryData ? 'Edit Advice' : 'Create Advice'}} Master</h1>
+    <h1>{{adviceId > 0 ? 'Edit Advice' : 'Create Advice'}} Master</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
@@ -13,8 +13,8 @@
                 <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" *ngIf="this.queryData != 0" [value]="locationCode" readonly/>
-                        <input type="text" class="input-field" *ngIf="this.queryData == 0" value="HA" readonly/>
+                        <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly/>
+                        <input type="text" class="input-field" *ngIf="adviceId == 0" value="HA" readonly/>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Batch Name</label>
-                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="this.queryData != 0"/>
+                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="adviceId > 0"/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -47,7 +47,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-2 col-md-2" *ngIf="adviceId > 0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">

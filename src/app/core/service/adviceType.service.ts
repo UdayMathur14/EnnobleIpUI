@@ -16,11 +16,11 @@ export class AdviceTypeService extends CRUDService<PlantRequest> {
         return this.baseService.post(APIConstant.basePath+adviceType(localStorage.getItem('locationId')), data);
     }
 
-    getAdviceTypeData(adviceId : string){
+    getAdviceTypeData(adviceId : number){
         return this.baseService.get(APIConstant.basePath+adviceTypeData(localStorage.getItem('locationId'), adviceId));
     }
 
-    updateAdviceType(adviceId : string, data : object){
+    updateAdviceType(adviceId : number, data : object){
         return this.baseService.put(APIConstant.basePath+updateAdviceType(localStorage.getItem('locationId'), adviceId), data);
     }
 

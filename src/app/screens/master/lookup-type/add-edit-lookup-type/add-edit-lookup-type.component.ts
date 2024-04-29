@@ -13,7 +13,7 @@ import { LookupTypeDataModel } from '../../../../core/model/masterModels.model';
 export class AddEditLookupTypeComponent {
   lookupTypeForm: FormGroup;
   lookupData!: LookupTypeDataModel;
-  queryData: any;
+  lookuptypeId: number = 0;
   filledDetails: any;
   loadSpinner: boolean = true;
   lookupTypes: any;
@@ -24,7 +24,7 @@ export class AddEditLookupTypeComponent {
     private lookupTypeService: LookupTypeService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private _Activatedroute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.lookupTypeForm = this.formBuilder.group({
       type: ['', Validators.required],
@@ -38,26 +38,16 @@ export class AddEditLookupTypeComponent {
   }
 
   ngOnInit(): void {
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("lookupTypeId");
-    this.queryData = this.queryData == 0 ? '' : this.queryData;
-    if (this.queryData != 0) {
-      this.getLookupTypeData(this.queryData);
+    this.lookuptypeId = Number(this.activatedRoute.snapshot.paramMap.get("lookupTypeId"));
+    this.lookuptypeId = this.lookuptypeId == 0 ? 0 : this.lookuptypeId;
+    if (this.lookuptypeId != 0) {
+      this.getLookupTypeData(this.lookuptypeId);
     }
     this.loadSpinner = false;
-
-    // Enable or disable status control based on queryData for Create and Update
-    const statusControl = this.lookupTypeForm.get('status');
-    if (statusControl) {
-      if (this.queryData) {
-        statusControl.enable();
-      } else {
-        statusControl.disable();
-      }
-    }
   }
 
   //TO GET SELECTED LOOKUP-TYPE DATA
-  getLookupTypeData(lookupTypeId: string) {
+  getLookupTypeData(lookupTypeId: number) {
     this.lookupTypeService.getLookupTypesData(lookupTypeId).subscribe((response: any) => {
       this.lookupTypeForm.setValue({
         type: response.type,
@@ -87,7 +77,7 @@ export class AddEditLookupTypeComponent {
       attribute3: this.lookupTypeForm.controls['attribute3'].value,
       attribute4: this.lookupTypeForm.controls['attribute4'].value,
     }
-    if (this.queryData) {
+    if (this.lookuptypeId>0) {
       this.updateLookupType(data);
     } else {
       this.createNewLookupType(data);
@@ -96,7 +86,7 @@ export class AddEditLookupTypeComponent {
 
   //UPDATING LOOKUP TYPE DATA
   updateLookupType(data: any) {
-    this.lookupTypeService.updateLookupTypes(this.queryData, data).subscribe((response: any) => {
+    this.lookupTypeService.updateLookupTypes(this.lookuptypeId, data).subscribe((response: any) => {
       this.lookupData = response;
       this.loadSpinner = false;
       this.toastr.success('Lookup Updated Successfully')

@@ -17,11 +17,11 @@ export class PartService extends CRUDService<PlantRequest> {
         return this.baseService.post(APIConstant.basePath+APIConstant.parts, data);
     }
 
-    getPartData(partId : string){
+    getPartData(partId : number){
         return this.baseService.get(APIConstant.basePath+APIConstant.partData + partId);
     }
 
-    updatePart(partId : string, data : object){
+    updatePart(partId : number, data : object){
         return this.baseService.put(APIConstant.basePath+APIConstant.updatePart + partId, data);
     }
 

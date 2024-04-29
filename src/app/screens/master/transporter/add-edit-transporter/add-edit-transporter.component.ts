@@ -14,6 +14,7 @@ export class AddEditTransporterComponent implements OnInit {
   queryData: any;
   loadSpinner: boolean = true;
   transportMode: any = [];
+  taxationCode:any;
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -34,16 +35,20 @@ export class AddEditTransporterComponent implements OnInit {
       gst: [''],
       autoBiltiReq: ['', [Validators.required]],
       consignorContactInfo: [''],
-      rcmNonRcm: ['', [Validators.required]],
       autoBiltiCharactor: [''],
       consignorName: [''],
       regdDetails: [''],
-      modeOfTransport: [''],
+      modeOfTransport: [],
       biltiHeaderComment: ['', [Validators.required]],
       note: ['', [Validators.required]],
       footer: ['', [Validators.required]],
       transporterMailId: [''],
       postalCode: [''],
+      taxationCode: [],
+      rcmNonRcm: [''],
+      sgst: [''],
+      cgst: [''],
+      igst: [''],
     });
   }
 
@@ -55,13 +60,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     this.loadSpinner = false;
       // Enable or disable status control based on queryData for Create and Update
-      const statusControl = this.transporterForm.get('status');
-      if(statusControl){
-        if(this.queryData != 0){
-          statusControl.disable()
-        }
-      }
       this.getTransporterModeDropdownData();
+      this.getTaxationcode();
   }
 
   getTransporterData(transporterId:string){
@@ -69,7 +69,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.transporterForm.patchValue({
         transporterCode : response.transporterCode,
         transporterName : response.transporterName,
-        locationCode : response.locationId,
+        locationCode : response.locations.value,
         status : response.status,
         ownerName : response.ownerName,
         contactPerson : response.contactPerson,
@@ -80,7 +80,7 @@ export class AddEditTransporterComponent implements OnInit {
         gst : response.gstnNo,
         autoBiltiReq : response.autoBiltiRequiredFlag,
         consignorContactInfo : response.consignorContactInformation,
-        rcmNonRcm : response.rcmFlag,
+        rcmNonRcm : response.taxationType.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
         autoBiltiCharactor : response.autoBiltiStartingCharacter,
         consignorName : response.consignorName,
         regdDetails : response.regdDetails,
@@ -89,7 +89,11 @@ export class AddEditTransporterComponent implements OnInit {
         note : response.note,
         footer : response.footer,
         transporterMailId: response.transporterMailId,
-        postalCode: response.postalCode
+        postalCode: response.postalCode,
+        cgst: response.taxationType.attribute5,
+        sgst: response.taxationType.attribute6,
+        igst: response.taxationType.attribute7,
+        taxationCode: response.taxationType.id
       });
       this.loadSpinner = false;
     }, error => {
@@ -101,7 +105,7 @@ export class AddEditTransporterComponent implements OnInit {
     //FUNCTION EXECUTED ON SAVE BUTTON CLICK
     onSavePress() {
       this.loadSpinner = true;
-      let data = {
+      const data = {
         status: this.transporterForm.controls['status'].value,
         actionBy: 1,
         transporterName: this.transporterForm.controls['transporterName'].value,
@@ -121,9 +125,10 @@ export class AddEditTransporterComponent implements OnInit {
         consignorContactInformation: this.transporterForm.controls['consignorContactInfo'].value,
         biltiHeaderComments: this.transporterForm.controls['biltiHeaderComment'].value,
         rcmFlag: this.transporterForm.controls['rcmNonRcm'].value,
-        transportationModeId: parseInt(this.transporterForm.controls['modeOfTransport'].value),
+        transportationModeId: this.transporterForm.controls['modeOfTransport'].value,
         note: this.transporterForm.controls['note'].value,
         footer: this.transporterForm.controls['footer'].value,
+        taxationTypeId: this.transporterForm.controls['taxationCode'].value,
       }
       if(this.queryData){
         this.updateTransporter(data);
@@ -154,7 +159,7 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   getTransporterModeDropdownData(){
-    let data = {
+    const data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
@@ -163,5 +168,29 @@ export class AddEditTransporterComponent implements OnInit {
     this.transporterService.getDropdownData(data, type).subscribe((res:any)=>{
       this.transportMode = res.lookUps
     })
+  }
+
+  getTaxationcode(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'taxationCode'
+    this.transporterService.getDropdownData(data, type).subscribe((res:any)=>{
+      console.log(res)
+      this.taxationCode = res.lookUps
+    })
+  }
+
+  onOptionSelected(event:any) {
+    const selectedLookup = this.taxationCode.find((lookup: any) => lookup.id === event);
+    this.transporterForm.patchValue({
+      cgst: selectedLookup.attribute5,
+      sgst: selectedLookup.attribute6,
+      igst: selectedLookup.attribute7,
+      rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
+    });
+
   }
 }

@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{queryData ? 'Edit' : 'Create' }} Lookup</h1>
+    <h1>{{lookupId>0 ? 'Edit' : 'Create' }} Lookup</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onSaveButtonClick()">Save</button>
         <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
@@ -12,12 +12,12 @@
         <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
-                    <label for="">Type <span class="text-danger" *ngIf="!this.queryData">*</span></label>
-                    <ng-select class="input-field" formControlName="typeId" *ngIf="queryData" [readonly]="true">
+                    <label for="">Type <span class="text-danger" *ngIf="lookupId==0">*</span></label>
+                    <ng-select class="input-field" formControlName="typeId" *ngIf="lookupId>0" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
                             [value]="lookupType.id">{{lookupType.type}}</ng-option>
                     </ng-select>
-                    <ng-select class="input-field" formControlName="typeId" *ngIf="!queryData">
+                    <ng-select class="input-field" formControlName="typeId" *ngIf="lookupId == 0">
                         <ng-option *ngFor="let lookupType of lookupTypes"
                             [value]="lookupType.id">{{lookupType.type}}</ng-option>
                     </ng-select>
@@ -26,8 +26,8 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Code <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="code" *ngIf="queryData" readonly/>
-                    <input type="text" class="input-field" formControlName="code" *ngIf="!queryData" />
+                    <input type="text" class="input-field" formControlName="code" *ngIf="lookupId>0" readonly/>
+                    <input type="text" class="input-field" formControlName="code" *ngIf="lookupId == 0" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -42,7 +42,7 @@
                     <input type="text" class="input-field" formControlName="description" />
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-2 col-md-2" *ngIf="lookupId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">
@@ -57,9 +57,6 @@
                     <input type="text" class="input-field" formControlName="attribute1" />
                 </div>
             </div>
-
-        </div>
-        <div class="row">
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Attribute 2 <span class="text-danger">*</span></label>

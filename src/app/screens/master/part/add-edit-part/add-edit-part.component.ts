@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddEditPartComponent implements OnInit {
   partForm: FormGroup;
-  queryData: any;
+  partId: number = 0;
   partData!: PartDataModel;
   partsList: any;
   loadSpinner: boolean = true;
@@ -21,7 +21,7 @@ export class AddEditPartComponent implements OnInit {
     private partService: PartService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private _Activatedroute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute) {
     this.partForm = this.formBuilder.group({
       partNumber: ['', Validators.required],
       partName: ['', [Validators.required]],
@@ -34,26 +34,16 @@ export class AddEditPartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("partId");
-    this.queryData = this.queryData == 0 ? '' : this.queryData;
-    if (this.queryData != 0) {
-      this.getPartData(this.queryData);
+    this.partId = Number(this.activatedRoute.snapshot.paramMap.get("partId"));
+    this.partId = this.partId == 0 ? 0 : this.partId;
+    if (this.partId != 0) {
+      this.getPartData(this.partId);
     }
     this.loadSpinner = false;
-
-    // Enable or disable status control based on queryData for Create and Update
-    const statusControl = this.partForm.get('status');
-    if (statusControl) {
-      if (this.queryData) {
-        statusControl.enable();
-      } else {
-        statusControl.disable();
-      }
-    }
   }
 
   //FETCHING SELECTED PART'S DATA FROM API
-  getPartData(partId: string) {
+  getPartData(partId: number) {
     this.partService.getPartData(partId).subscribe((response: any) => {
       this.partForm.setValue({
         partNumber: response.partNumber,
@@ -97,7 +87,7 @@ export class AddEditPartComponent implements OnInit {
       status: this.partForm.controls['status'].value,
       modifiedBy: ""
     }
-    if (this.queryData) {
+    if (this.partId>0) {
       this.updatePart(data);
     } else {
       this.createNewPart(data);
@@ -106,7 +96,7 @@ export class AddEditPartComponent implements OnInit {
 
   //UPDATING PART DATA
   updatePart(data: any) {
-    this.partService.updatePart(this.queryData, data).subscribe((response: any) => {
+    this.partService.updatePart(this.partId, data).subscribe((response: any) => {
       this.partData = response;
       this.loadSpinner = false;
       this.toastr.success('Part Updated Successfully');
