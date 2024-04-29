@@ -26,7 +26,6 @@ export class VendorService extends CRUDService<VendorRequest> {
   }
 
   getDropdownData(data : object, type: string){
-    return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
-        + type ,data);
+    return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownDatas(type) ,data);
 }
 }
