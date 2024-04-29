@@ -39,9 +39,7 @@ export const APIConstant = {
     transactionTypeData: `v1/transaction-type/`,
     updateTransactionTypeData: `v1/transaction-type/update/`,
     getLookupData: `v1/lookup/search`,
-    getDropdownData: `v1/lookup/search-type?type=`,
     transactionTypeInterfaces: `v1/transactiontypeinterface/search`,
-    getDropdownDatas: (type: any) => `v1/lookup/search-type?type=${type}`,
 }
 
 export const freight = (locationId: any) => `v1/${locationId}/freight/search`;
@@ -66,3 +64,4 @@ export const createAdviceType = (locationId: any) => `v1/${locationId}/advice/cr
 export const transporter = (locationId: any) => `v1/${locationId}/transporter/search`;
 export const transporterData = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/${transporterId}`;
 export const updateTransporter = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/update/${transporterId}`;
+export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`

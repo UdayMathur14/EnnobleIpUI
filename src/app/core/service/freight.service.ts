@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, createFreight, freight, freightData, updateFreight } from "../constants";
+import { APIConstant, createFreight, freight, freightData, updateFreight,getDropdownDatas } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -30,7 +30,6 @@ export class FreightService extends CRUDService<PlantRequest> {
     }
 
     getDropdownData(data : object, type: string){
-        return this.baseService.post(APIConstant.basePath+ APIConstant.getDropdownData 
-            + type ,data);
+        return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
     }
 }
