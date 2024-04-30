@@ -26,18 +26,24 @@ export class ValidateComponent implements OnInit {
         localStorage.clear();
         this.activatedRoute.queryParams.subscribe(params => {
             const data = params['data'];
+            const return_url = params['return_url'];
             if (!data) {
                 this.validate = "Validation Failed";
                 return;
             }
             const atobParam: any = atob(data);
             const userData = JSON.parse(atobParam);
-            const app = userData.apps.find((e:any)=>e.name==="Mfg");
+            const app = userData.apps.find((e:any)=>e.name===APIConstant.appSlug);
             this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe((res) => {
                 localStorage.setItem("logindata", atobParam);
                 localStorage.setItem("profile", JSON.stringify(res));
-                this.router.navigateByUrl("/master");
-                console.log(atobParam);
+
+                if(return_url){
+                    window.location.href = return_url;
+                }else{
+                    this.router.navigateByUrl("/master");
+                }
+                
             })
         });
     }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-vendor',
@@ -8,23 +8,19 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrl: './vendor.component.scss'
 })
 export class VendorComponent {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
-  constructor(private router: Router,
-    private exportAsService: ExportAsService
-  ) { }
 
   isFilters: boolean = true;
   searchedVendor: string = '';
+
+  constructor(private router: Router,
+    private exportService: ExportService
+  ) { }
 
   searchVendor(event: any) {
     this.searchedVendor = event;
   }
 
-  exportData(fileName : string){
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Vendor") {
+    this.exportService.csvExport(fileName);
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlantService } from '../../../core/service';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-point-charge',
@@ -9,16 +10,13 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrls: ['./point-charge.component.scss']
 })
 export class PointChargeComponent implements OnInit {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
-  constructor(private router: Router,
-    private exportAsService: ExportAsService
-  ) { }
-
   isFilters: boolean = false;
   filterKeyword: string = '';
+
+  constructor(private router: Router,
+    private exportService: ExportService
+  ) { }
+
 
   ngOnInit() {
 
@@ -33,8 +31,7 @@ export class PointChargeComponent implements OnInit {
     this.filterKeyword = e.target.value;
   }
 
-  exportData(fileName : string){
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Point Charge") {
+    this.exportService.csvExport(fileName);
   }
 }

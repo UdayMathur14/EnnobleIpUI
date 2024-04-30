@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-advice',
@@ -8,27 +8,23 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrl: './advice.component.scss'
 })
 export class AdviceComponent {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
-  filterKeyword : string = '';
-  isFilters : boolean = false;
-  
-  constructor(private router : Router,
-    private exportAsService: ExportAsService
-  ){}
 
-  onCreateAdvice(){
+  filterKeyword: string = '';
+  isFilters: boolean = false;
+
+  constructor(private router: Router,
+    private exportService: ExportService
+  ) { }
+
+  onCreateAdvice() {
     this.router.navigate(['master/addEditAdvice', '0'])
   }
 
-  onSearch(e:any){
+  onSearch(e: any) {
     this.filterKeyword = e.target.value;
   }
 
-  exportData(fileName : string){
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Advice") {
+    this.exportService.csvExport(fileName);
   }
 }

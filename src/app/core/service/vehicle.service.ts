@@ -10,41 +10,41 @@ import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle,transpo
 export class VehicleService extends CRUDService<VehicleRequest> {
 
   constructor(protected override baseService: BaseService) {
-    super(baseService);
+    super(baseService, APIConstant.basePath);
   }
 
   getVehicles(data: any) {
-    return this.baseService.post(APIConstant.basePath + vehicle(localStorage.getItem('locationId')), data);
+    return this.post(vehicle(localStorage.getItem('locationId')), data);
   }
 
   getVehicleData(vehicleId: string) {
-    return this.baseService.get(
-      APIConstant.basePath + vehicleData(localStorage.getItem('locationId'), vehicleId));
+    return this.get(
+      vehicleData(localStorage.getItem('locationId'), vehicleId));
   }
 
   updateVehicle(vehicleId: string, data: object) {
-    return this.baseService.put(APIConstant.basePath + updateVehicle(localStorage.getItem('locationId'), vehicleId), data);
+    return this.put(updateVehicle(localStorage.getItem('locationId'), vehicleId), data);
   }
 
   createVehicle(data: object) {
-    return this.baseService.post(APIConstant.basePath + createVehicle(localStorage.getItem('locationId')), data);
+    return this.post(createVehicle(localStorage.getItem('locationId')), data);
   }
 
   getLookups(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + APIConstant.getLookupData, data);
+    return this.post(
+      APIConstant.getLookupData, data);
   }
 
   getTransporters(data: any) {
-    return this.baseService.post(APIConstant.basePath + transporter(localStorage.getItem('locationId')), data);
+    return this.post(transporter(localStorage.getItem('locationId')), data);
   }
 
   getTransporterData(transporterId: string) {
-    return this.baseService.get(APIConstant.basePath + transporterData(localStorage.getItem('locationId'), transporterId));
+    return this.get(transporterData(localStorage.getItem('locationId'), transporterId));
   }
 
   getDropdownData(data : object, type: string){
-    return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
+    return this.post( getDropdownDatas(type) ,data);
 }
 
 }
