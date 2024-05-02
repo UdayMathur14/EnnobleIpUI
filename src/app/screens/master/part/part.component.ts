@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-part',
@@ -8,12 +8,9 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrl: './part.component.scss'
 })
 export class PartComponent {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
+
   constructor(private router: Router,
-    private exportAsService: ExportAsService
+    private exportService: ExportService
   ) { }
 
   isFilters: boolean = true;
@@ -27,9 +24,8 @@ export class PartComponent {
     this.searchedPart = event;
   }
 
-  exportData(fileName: string) {
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Part") {
+    this.exportService.csvExport(fileName);
   }
 
-  }
+}

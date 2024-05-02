@@ -10,18 +10,18 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class PlantService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
     getPlants(data : any){
-        return this.baseService.post(APIConstant.basePath+plant(localStorage.getItem('locationId')), data);
+        return this.post(plant(localStorage.getItem('locationId')), data);
     }
 
     getPlantData(plantId : string){
-        return this.baseService.get(APIConstant.basePath+plantData(localStorage.getItem('locationId'), plantId));
+        return this.get(plantData(localStorage.getItem('locationId'), plantId));
     }
 
     updatePlant(plantId : string, data : object){
-        return this.baseService.put(APIConstant.basePath+updatePlant(localStorage.getItem('locationId'), plantId), data);
+        return this.put(updatePlant(localStorage.getItem('locationId'), plantId), data);
     }
 }

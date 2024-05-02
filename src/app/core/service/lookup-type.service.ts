@@ -9,23 +9,23 @@ import { LookupTypeRequest } from '../models/lookup-type';
 })
 export class LookupTypeService extends CRUDService<LookupTypeRequest> {
   constructor(protected override baseService: BaseService) {
-    super(baseService, APIConstant.lookupstype);
+    super(baseService, APIConstant.basePath);
   }
 
   getLookupsTypes(data: any) {
-    return this.baseService.post(APIConstant.basePath + APIConstant.lookupstype, data);
+    return this.post(APIConstant.lookupstype, data);
   }
 
   getLookupTypesData(lookupTypeId: number) {
-    return this.baseService.get(APIConstant.basePath + APIConstant.lookuptypeData + lookupTypeId);
+    return this.get(APIConstant.lookuptypeData + lookupTypeId);
   }
 
   updateLookupTypes(lookupTypeId: number, data: object) {
-    return this.baseService.put(APIConstant.basePath + APIConstant.updatelookuptype + lookupTypeId, data);
+    return this.put(APIConstant.updatelookuptype + lookupTypeId, data);
   }
 
   createLookupTypes(data: object) {
-    return this.baseService.post(APIConstant.basePath + APIConstant.createlookuptype, data);
+    return this.post(APIConstant.createlookuptype, data);
   }
 
 }

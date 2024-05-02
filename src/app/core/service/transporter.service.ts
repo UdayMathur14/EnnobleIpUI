@@ -10,22 +10,22 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class TransporterService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
     getTransporters(data : any){
-        return this.baseService.post(APIConstant.basePath+transporter(localStorage.getItem('locationId')), data);
+        return this.post(transporter(localStorage.getItem('locationId')), data);
     }
 
     getTransporterData(transporterId : string){
-        return this.baseService.get(APIConstant.basePath+transporterData(localStorage.getItem('locationId'), transporterId));
+        return this.get(transporterData(localStorage.getItem('locationId'), transporterId));
     }
 
     updateTransporter(transporterId : string, data : object){
-        return this.baseService.put(APIConstant.basePath+updateTransporter(localStorage.getItem('locationId'), transporterId), data);
+        return this.put(updateTransporter(localStorage.getItem('locationId'), transporterId), data);
     }
 
     getDropdownData(data : object, type: string){
-        return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
+        return this.post( getDropdownDatas(type) ,data);
     }
 }

@@ -1,14 +1,14 @@
 <div class="page-title">
-    <h1>Freight Master</h1>
-    <div class="action-buttons">
-      <button class="custom-button-export" (click)="exportData('Freights')">
-        <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
-        <button class="custom-button-regulr" (click)="onCreateFreight()">Create Freight</button>
-    </div>
+  <h1>Freight Master</h1>
+  <div class="action-buttons">
+    <button class="custom-button-export" (click)="exportData()">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+    <button class="custom-button-regulr" (click)="onCreateFreight()">Create Freight</button>
+  </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-freight-filter (freightFilterObj)="searchFreightCode($event)"></app-freight-filter>
-  </div>
-  <div class="content-section" [ngClass]="{ isFilters: isFilters }">
-    <app-freight-grid-table [searchedFreight]="searchedFreight"></app-freight-grid-table>
-  </div>
+  <app-freight-filter (freightFilterObj)="searchFreightCode($event)"></app-freight-filter>
+</div>
+<div class="content-section" [ngClass]="{ isFilters: isFilters }">
+  <app-freight-grid-table [searchedFreight]="searchedFreight"></app-freight-grid-table>
+</div>

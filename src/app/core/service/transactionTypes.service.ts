@@ -10,26 +10,26 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class TransactionTypesService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
     getTransactionTypes(data : any){
-        return this.baseService.post(APIConstant.basePath+APIConstant.transactionTypes, data);
+        return this.post(APIConstant.transactionTypes, data);
     }
 
     getTransactionTypeData(transactionId : string){
-        return this.baseService.get(APIConstant.basePath+APIConstant.transactionTypeData + transactionId);
+        return this.get(APIConstant.transactionTypeData + transactionId);
     }
 
     updateTransaction(transactionId : string, data : object){
-        return this.baseService.put(APIConstant.basePath+APIConstant.updateTransactionTypeData + transactionId, data);
+        return this.put(APIConstant.updateTransactionTypeData + transactionId, data);
     }
 
     getDropdownData(data : object, type: string){
-        return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
+        return this.post( getDropdownDatas(type) ,data);
     }
 
     getTransactionTypeInterface(data: any){
-        return this.baseService.post(APIConstant.basePath + APIConstant.transactionTypeInterfaces, data);
+        return this.post(APIConstant.transactionTypeInterfaces, data);
     }
 }

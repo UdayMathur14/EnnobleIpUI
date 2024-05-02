@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlantService } from '../../../core/service';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-plant',
@@ -9,27 +9,24 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrls: ['./plant.component.scss']
 })
 export class PlantComponent implements OnInit {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
 
-  constructor(private router : Router,
-    private plantService:PlantService,
-    private exportAsService: ExportAsService){}
+  isFilters: boolean = false;
+  filterKeyword: string = '';
 
-  isFilters : boolean = false;
-  filterKeyword : string = '';
+  constructor(private router: Router,
+    private plantService: PlantService,
+    private exportService: ExportService
+  ) { }
+
   ngOnInit() {
   }
 
-  onSearch(e:any){
+  onSearch(e: any) {
     this.filterKeyword = e.target.value;
   }
 
-  exportData(fileName : string){
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Plants") {
+    this.exportService.csvExport(fileName);
   }
 
 }

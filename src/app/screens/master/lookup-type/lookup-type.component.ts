@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-lookup-type',
@@ -8,15 +9,12 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrl: './lookup-type.component.scss'
 })
 export class LookupTypeComponent {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
+
   isFilters: boolean = false;
   filterKeyword: string = '';
 
   constructor(private router: Router,
-    private exportAsService: ExportAsService
+    private exportService: ExportService
   ) { }
 
   onCreateLookup() {
@@ -27,8 +25,7 @@ export class LookupTypeComponent {
     this.filterKeyword = e.target.value;
   }
 
-  exportData(fileName: string) {
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Lookup Type") {
+    this.exportService.csvExport(fileName);
   }
 }

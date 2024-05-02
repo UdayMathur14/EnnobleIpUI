@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>Vehicle Master</h1>
   <div class="action-buttons">
-    <button class="custom-button-export" (click)="exportData('Vehicles')">
+    <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
     <button class="custom-button-regulr" (click)="onCreateVehicle()">Create Vehicle</button>
   </div>
@@ -12,5 +12,5 @@
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-vehicle-grid-table  [searchedVehicle]="searchedVehicle"></app-vehicle-grid-table>
+  <app-vehicle-grid-table [searchedVehicle]="searchedVehicle"></app-vehicle-grid-table>
 </div>
