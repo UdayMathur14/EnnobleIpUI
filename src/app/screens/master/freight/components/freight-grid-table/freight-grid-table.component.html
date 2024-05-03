@@ -10,6 +10,8 @@
         <th>Vehicle Size</th>
         <th>Freight Amount</th>
         <th>Remarks</th>
+        <th>Material Remarks</th>
+        <th>Account Remarks</th>
         <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
@@ -68,6 +70,8 @@
         <td>{{freight?.vehicleSize?.value || '-' }}</td>
         <td>{{freight?.freightAmount || '-' }}</td>
         <td>{{freight?.remarks || '-' }}</td>
+        <td>{{freight?.materialRemarks || '-'}}</td>
+        <td>{{freight?.AccountsRemarks || '-'}}</td>
         <td>{{freight?.status}}</td>
         <td class="text-center">
           <img
