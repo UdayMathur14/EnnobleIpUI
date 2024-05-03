@@ -41,44 +41,55 @@
         <td>1200</td>
         <td>-</td>
         <td class="text-center d-flex justify-content-center">
+          <!-- Approve Button -->
           <button
             type="button"
-            class="custom-button-regulr-small me-2"
-            [ngbPopover]="popContent"
+            class="custom-button-secondary-small me-2"
+            [ngbPopover]="approvePopContent"
             [popoverTitle]="popTitle"
             [autoClose]="'outside'"
             triggers="manual"
-            #p="ngbPopover"
-            (click)="p.open()"
+            placement="left"
+            #approvePopover="ngbPopover"
+            (click)="approvePopover.open()"
           >
             Approve
           </button>
+          <!-- Reject Button -->
           <button
             type="button"
-            class="custom-button-secondary-small"
-            [ngbPopover]="popContent"
+            class="custom-button-regulr-small"
+            [ngbPopover]="rejectPopContent"
             [popoverTitle]="popTitle"
             [autoClose]="'outside'"
             triggers="manual"
-            #p="ngbPopover"
-            (click)="p.open()"
+            placement="left"
+            #rejectPopover="ngbPopover"
+            (click)="rejectPopover.open()"
           >
             Reject
           </button>
-
-          <ng-template #popContent>
+          <!-- Approve Popover Content -->
+          <ng-template #approvePopContent>
             <div class="custom-form-input">
               <textarea name="" id="" rows="3" class="input-field"></textarea>
             </div>
-            <button class="custom-button-regulr" (click)="p.close()">
+            <button class="custom-button-regulr" (click)="approvePopover.close()">
               Confirm Approve
             </button>
-            <button class="custom-button-regulr" (click)="p.close()">
+          </ng-template>
+        
+          <!-- Reject Popover Content -->
+          <ng-template #rejectPopContent>
+            <div class="custom-form-input">
+              <textarea name="" id="" rows="3" class="input-field"></textarea>
+            </div>
+            <button class="custom-button-regulr" (click)="rejectPopover.close()">
               Confirm Reject
             </button>
           </ng-template>
           <ng-template #popTitle>Remarks</ng-template>
-        </td>
+        </td>      
       </tr>
     </tbody>
   </table>
