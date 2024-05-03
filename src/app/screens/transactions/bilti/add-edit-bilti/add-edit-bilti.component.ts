@@ -34,6 +34,13 @@ export class AddEditBiltiComponent implements OnInit {
   frmId: number = 0;
   vehicleNumber: any;
   loadingLocation: any = [];
+  filteredTransactionTypesLists: any = [];
+  filteredVehiclesLists: any = [];
+  filteredFreightsLists: any = [];
+  filteredTransportersLists: any = [];
+  filteredLoadinglocation: any = [];
+  filteredVendorcode: any = [];
+  filteredPointname: any = [];
   biltiForm = new FormGroup({
     transactionType: new FormControl('', [Validators.required]),
     frlrNo: new FormControl('', [Validators.required]),
@@ -67,7 +74,8 @@ export class AddEditBiltiComponent implements OnInit {
     this.getAllVendorList();
     this.getAllPointChargesList();
     this.getLoadingLocationData();
-
+    this.getVehicleNumber();
+    this.getAllTransportersList();
   }
 
   onCancelPress(){
@@ -80,6 +88,7 @@ export class AddEditBiltiComponent implements OnInit {
     }
     this.biltiService.getTransactionTypes(data).subscribe((response:any) => {
       this.transactionTypesLists = response.transactionTypes;
+      this.filteredTransactionTypesLists = this.transactionTypesLists.filter((transactionType: any) => transactionType.status === 'Active');
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -94,8 +103,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.biltiService.getFrmTransactions(data).subscribe((response:any) => {
       this.frmTransactionData = response.frmTransactions;
       this.frlrList = response.transactionTypes;
-      this.getVehicleNumber();
-      this.getAllTransportersList();
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -112,6 +119,8 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
+    this.getVehicleNumber();
+    this.getAllTransportersList();
     const selected = this.frmTransactionData.find((data: any) => data.frlrNumber === selectedFrlr.frlrNumber);
     this.frlrNumber = selected.frlrNumber
     this.transporterId  = selected.transporterId
@@ -140,6 +149,7 @@ export class AddEditBiltiComponent implements OnInit {
     }
     this.biltiService.getVehicleNo(data).subscribe((response:any) => {
       this.vehiclesList = response.vehicles;
+      this.filteredVehiclesLists = this.vehiclesList.filter((vehicles: any) => vehicles.status === 'Active');
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -154,6 +164,7 @@ export class AddEditBiltiComponent implements OnInit {
     }
     this.biltiService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
+      this.filteredTransportersLists = this.transportersList.filter((transporters: any) => transporters.status === 'Active');
       response.transporters.forEach((transporter: any) => {
         this.transporterMapCode[transporter.id] = transporter.transporterCode;
         this.transporterMapName[transporter.id] = transporter.transporterName;
@@ -192,6 +203,7 @@ export class AddEditBiltiComponent implements OnInit {
     }
     this.biltiService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
+      this.filteredFreightsLists = this.freightList.filter((freight: any) => freight.status === 'Active');
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -213,6 +225,7 @@ export class AddEditBiltiComponent implements OnInit {
     }
     this.biltiService.getVendors(data).subscribe((response: any) => {
       this.vendorList = response.vendors;
+      this.filteredVendorcode = this.vendorList.filter((vendors: any) => vendors.status === 'Active');
       this.loadSpinner = false;
     },
       error => {
@@ -236,6 +249,7 @@ export class AddEditBiltiComponent implements OnInit {
     }
     this.biltiService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
+      this.filteredPointname = this.pointChargesList.filter((pointname: any) => pointname.status === 'Active');
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -297,7 +311,8 @@ getLoadingLocationData(){
   }
   const type = 'LoadingLocation'
   this.biltiService.getLoadingLocation(data, type).subscribe((res:any)=>{
-    this.loadingLocation = res.lookUps
+    this.loadingLocation = res.lookUps;
+    this.filteredLoadinglocation = this.loadingLocation.filter((locations: any) => locations.status === 'Active');
   })
 }
   // patchBiltiForm(data: any){
