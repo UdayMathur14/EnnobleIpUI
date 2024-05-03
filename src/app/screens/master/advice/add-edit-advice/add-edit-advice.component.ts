@@ -39,7 +39,7 @@ export class AddEditAdviceComponent implements OnInit {
 
   getAdviceTypeData(adviceId : number){
     this.adviceService.getAdviceTypeData(adviceId).subscribe((response: any) => {
-      this.locationCode = response.lookUpEntity.value
+      this.locationCode = response.location.value
       this.adviceForm.setValue({
         adviceType : response.adviceType,
         batchName : response.batchName,
