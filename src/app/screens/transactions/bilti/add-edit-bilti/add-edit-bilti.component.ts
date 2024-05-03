@@ -1,15 +1,309 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BiltiService } from '../../../../core/service/bilti.service';
+import { ToastrService } from 'ngx-toastr';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-edit-bilti',
   templateUrl: './add-edit-bilti.component.html',
   styleUrl: './add-edit-bilti.component.scss'
 })
-export class AddEditBiltiComponent {
-  constructor(private router : Router){}
+export class AddEditBiltiComponent implements OnInit {
+
+  transporterMapCode: { [key: string]: string } = {};
+  transporterMapName: { [key: string]: string } = {};
+  vehicleMapId: { [key: string]: string } = {};
+  frlrList:any = [];
+  transactionTypesLists:any = [];
+  selectedTransactionType: string = '';
+  frmTransactionData: any = [];
+  vehiclesList: any = [];
+  transportersList: any = [];
+  loadSpinner : boolean = true;
+  freightList: any = [];
+  vendorList: any  = [];
+  pointChargesList: any = [];
+  transactionTypeId: number = 0;
+  transporterId: number = 0;
+  vendorId: number = 0;
+  pointChargeId: number = 0;
+  frlrNumber: any;
+  freightId: number = 0;
+  vehicleId: number = 0;
+  frmId: number = 0;
+  vehicleNumber: any;
+  loadingLocation: any = [];
+  biltiForm = new FormGroup({
+    transactionType: new FormControl('', [Validators.required]),
+    frlrNo: new FormControl('', [Validators.required]),
+    vehicleNumber: new FormControl('', [Validators.required]),
+    vehicleSize: new FormControl(null, [Validators.required]),
+    source: new FormControl(''),
+    destination: new FormControl(''),
+    freightCode: new FormControl(''),
+    freightAmount: new FormControl(null),
+    transporterCode: new FormControl(''),
+    transporterName: new FormControl(''),
+    biltiDetailsTransactionType: new FormControl(''),
+    documentrefNo: new FormControl(''),
+    vendorCode: new FormControl(''),
+    vendorName: new FormControl(''),
+    pointName: new FormControl(''),
+    pointCharge: new FormControl(''),
+    remarks: new FormControl(''),
+    paidByDetails: new FormControl(''),
+    loadingLocation: new FormControl(),
+  });
+  constructor(
+    private router : Router,
+    private biltiService: BiltiService,
+    private toastr : ToastrService
+  ){}
+
+  ngOnInit() { 
+    this.getAllTransactionTypes();
+    this.getAllFreightList();
+    this.getAllVendorList();
+    this.getAllPointChargesList();
+    this.getLoadingLocationData();
+
+  }
 
   onCancelPress(){
     this.router.navigate(['transaction/bilti'])
   }
+
+  getAllTransactionTypes(){
+    const data = {
+      "code" : ''
+    }
+    this.biltiService.getTransactionTypes(data).subscribe((response:any) => {
+      this.transactionTypesLists = response.transactionTypes;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  getFrlr(selectedTransactionType: string){
+    const data = {
+      "transactionType": selectedTransactionType
+    }
+    this.biltiService.getFrmTransactions(data).subscribe((response:any) => {
+      this.frmTransactionData = response.frmTransactions;
+      this.frlrList = response.transactionTypes;
+      this.getVehicleNumber();
+      this.getAllTransportersList();
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  onOptionSelected(selectedTransactionType:any) {
+    this.transactionTypeId = selectedTransactionType.id
+    this.getFrlr(selectedTransactionType.code); 
+    this.biltiForm.patchValue({
+      biltiDetailsTransactionType: selectedTransactionType.code
+    });
+  }
+
+  onFrlrNoSelectionChange(selectedFrlr: any) {
+    const selected = this.frmTransactionData.find((data: any) => data.frlrNumber === selectedFrlr.frlrNumber);
+    this.frlrNumber = selected.frlrNumber
+    this.transporterId  = selected.transporterId
+    this.frmId = selected.id
+    if (selected) {
+      this.vehicleNumber = selected.vehicleNumber;
+    const matchedVehicle = this.vehiclesList.find((vehicle: any) => 
+      vehicle.vehicleNumber === this.vehicleNumber);
+      this.vehicleId = matchedVehicle.id;
+      this.biltiForm.patchValue({
+        vehicleNumber: selected.vehicleNumber,
+        vehicleSize: selected.vehicleSizeId,
+        source: selected.fromDestination,
+        destination: selected.toDestination,
+        documentrefNo: selected.documentNumber,
+        transporterCode: this.transporterMapCode[selected.transporterId],
+        transporterName: this.transporterMapName[selected.transporterId]
+      });
+    }
+  }
+
+  getVehicleNumber(){
+    const data = {
+      "vehicleNumber" : '',
+      "transporterId": 0
+    }
+    this.biltiService.getVehicleNo(data).subscribe((response:any) => {
+      this.vehiclesList = response.vehicles;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  getAllTransportersList() {
+    const data = {
+      "transporterCode": '',
+      "transporterName" : ''
+    }
+    this.biltiService.getTransporters(data).subscribe((response: any) => {
+      this.transportersList = response.transporters;
+      response.transporters.forEach((transporter: any) => {
+        this.transporterMapCode[transporter.id] = transporter.transporterCode;
+        this.transporterMapName[transporter.id] = transporter.transporterName;
+      });
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  onTransporterChange(data: any){
+    this.transportersList.forEach((transporter: any) => {
+      if (transporter.transporterCode === data){
+        this.transporterId = transporter.id
+        this.biltiForm.patchValue({
+          transporterName: transporter.transporterName
+        })
+      }
+    })
+  }
+
+  onVehicleChange(data: any){
+    this.vehiclesList.forEach((vehicle: any) => {
+      if (vehicle.vehicleNumber === data){
+        this.vehicleId = vehicle.id
+      }
+    })
+  }
+
+  getAllFreightList() {
+    const data = {
+      "freightCode": '',
+      "sourceId": 0,
+      "vehicleSizeId": 0
+    }
+    this.biltiService.getFreightsList(data).subscribe((response: any) => {
+      this.freightList = response.freights;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  onFreightChange(data: any){
+    this.freightId = data.id
+    this.biltiForm.patchValue({
+      freightAmount: data.freightAmount
+    })
+  }
+
+  getAllVendorList() {
+    const data = {
+      "vendorCode": '',
+      "vendorName": ''
+    }
+    this.biltiService.getVendors(data).subscribe((response: any) => {
+      this.vendorList = response.vendors;
+      this.loadSpinner = false;
+    },
+      error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      }
+    );
+  }
+
+  onVendorChange(data: any){
+    this.vendorId = data.id
+    this.biltiForm.patchValue({
+      vendorName: data.vendorName,
+      paidByDetails: data.paidByDetail.code
+    })
+  }
+
+  getAllPointChargesList() {
+    let data = {
+      "pointName": ''
+    }
+    this.biltiService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  onPointchargeChange(data: any){
+    this.pointChargeId = data.id
+    this.biltiForm.patchValue({
+      pointCharge: data.pointCharge,
+    })
+  }
+
+  onPressSave() {
+    this.loadSpinner = true;
+    const data = {
+      "actionBy": 1,
+      "transactionTypeId": this.transactionTypeId,
+      "frlrNumber": parseInt(this.frlrNumber ?? ''),
+      "transporterId": this.transporterId,
+      "freightId": this.freightId,
+      "loadingLocationId": this.biltiForm.controls['loadingLocation'].value,
+      "vehicleId": this.vehicleId,
+      "lineItemsEntity": [
+        {
+          "actionBy": 0,
+          "frmId": this.frmId,
+          "vendorId": this.vendorId,
+          "pointId": this.pointChargeId,
+          "remarks": this.biltiForm.controls['remarks'].value,
+        }
+      ]
+      // partName: this.biltiForm.controls['partName'].value,
+      // description: this.biltiForm.controls['description'].value,
+      // partSize: this.biltiForm.controls['partSize'].value,
+      // remarks: this.biltiForm.controls['remarks'].value,
+      // partPrice: this.biltiForm.controls['partPrice'].value,
+      // status: this.biltiForm.controls['status'].value,
+      // modifiedBy: ""
+    }
+    this.biltiService.createBilti(data)
+    .subscribe((response: any) => {
+      this.toastr.success('Bilti Created Successfully')
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+
+this.loadSpinner = false;
+}
+
+getLoadingLocationData(){
+  let data = {
+    "CreationDate": "",
+    "LastUpdatedBy": "",
+    "LastUpdateDate": ""
+  }
+  const type = 'LoadingLocation'
+  this.biltiService.getLoadingLocation(data, type).subscribe((res:any)=>{
+    this.loadingLocation = res.lookUps
+  })
+}
+  // patchBiltiForm(data: any){
+  //   this.biltiForm.patchValue({
+  //     source: data.fromDestination,
+  //     destination: data.toDestination
+  //   })
+  // }
 }
