@@ -52,7 +52,6 @@ export class BiltiGridTableComponent implements OnInit {
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {
-        console.log(response)
         this.biltisList = response.biltiCreations;
         this.loadSpinner = false;
       },
