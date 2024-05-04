@@ -39,6 +39,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit() {
     let data = {
+      "screenCode": 101,
       "freightCode": '',
       "sourceId": 0,
       "vehicleSizeId": 0
