@@ -507,20 +507,45 @@ export interface TransporterListingModel {
     id: number
 }
 export interface BiltiListingModel {
-    actionBy: number,
-    transactionTypeId: number,
-    frlrNumber: number,
-    vehicleId: number,
-    transporterId: number,
-    freightId: number,
-    loadingLocationId: number,
-  lineItemsEntity: [
-    {
-      actionBy: number,
-      frmId: number,
-      vendorId: number,
-      pointId: number,
-      remarks: string
-    }
-  ]
+  biltiNumber: string;
+  frlrNumber: number;
+  loadingLocation: {
+    id: number;
+    code: string;
+    value: string;
+  };
+  vehicles: {
+    vehicleNumber: string;
+    vehicleSize: {
+      id: number;
+      code: number;
+      value: number;
+    };
+    id: number;
+    code: string;
+    value: string;
+  };
+  freights: {
+    freightAmount: number;
+    source: {
+      id: number;
+      code: string;
+      value: string;
+    };
+    destination: {
+      id: number;
+      code: string;
+      value: string;
+    };
+    id: number;
+    code: string;
+    value: string;
+  };
+  id: number;
+  createdBy: string;
+  creationDate: string;
+  lastUpdatedBy: string;
+  inactiveDate: string;
+  lastUpdateOn: string;
+  status: string;
 }
