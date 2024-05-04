@@ -42,8 +42,8 @@ export class BiltiGridTableComponent implements OnInit {
       }
   );
   }
-  onEditBilti() {
-    this.router.navigate(['transaction/addEditBilti']);
+  onEditBilti(id: number) {
+    this.router.navigate([`transaction/addEditBilti/${id}`]);
   }
 
   getAllBiltisList() {

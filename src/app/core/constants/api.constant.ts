@@ -69,3 +69,5 @@ export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type
 export const bilti = (locationId: any) => `v1/${locationId}/bilti-creation/search`;
 export const frlr = (locationId: any) => `v1/${locationId}/frm-transactions/search`;
 export const createBilti = (locationId: any) => `v1/${locationId}/bilti-creation/create`;
+export const biltiData = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/${biltiId}`;
+export const updateBitli = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/update/${biltiId}`;

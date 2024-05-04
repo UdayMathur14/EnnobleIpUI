@@ -5,12 +5,14 @@ import { CRUDService } from './crud.service';
 import {
   APIConstant,
   bilti,
+  biltiData,
   createBilti,
   freight,
   frlr,
   getDropdownDatas,
   pointCharge,
   transporter,
+  updateBitli,
   vehicle,
 } from '../constants';
 
@@ -77,5 +79,13 @@ export class BiltiService extends CRUDService<BiltiRequest> {
 
   getLoadingLocation(data : object, type: string){
     return this.post( getDropdownDatas(type) ,data);
+}
+
+getBiltiData(biltiId : number){
+  return this.get(biltiData(localStorage.getItem('locationId'), biltiId));
+}
+
+updateBilti(biltiId : number, data: object){
+  return this.put(updateBitli(localStorage.getItem('locationId'), biltiId), data);
 }
 }

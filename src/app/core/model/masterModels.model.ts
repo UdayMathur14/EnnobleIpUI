@@ -506,3 +506,21 @@ export interface TransporterListingModel {
     messageStatus: null,
     id: number
 }
+export interface BiltiListingModel {
+    actionBy: number,
+    transactionTypeId: number,
+    frlrNumber: number,
+    vehicleId: number,
+    transporterId: number,
+    freightId: number,
+    loadingLocationId: number,
+  lineItemsEntity: [
+    {
+      actionBy: number,
+      frmId: number,
+      vendorId: number,
+      pointId: number,
+      remarks: string
+    }
+  ]
+}
