@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { LookupRequest } from '../models/lookup';
 import { BaseService } from './base.service';
-import { APIConstant } from '../constants';
+import { APIConstant, getDropdownDatas } from '../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +46,10 @@ export class LookupService extends CRUDService<LookupRequest> {
 
   getLookupsType(data: any) {
     return this.baseService.post(APIConstant.basePath + APIConstant.lookupstype, data);
+  }
+
+  getDropdownData(data: string): any{
+    return this.baseService.post(APIConstant.basePath + getDropdownDatas(data), {})
   }
 
 }
