@@ -351,6 +351,7 @@ export class AddEditBiltiComponent implements OnInit {
           this.biltiData = response;
           this.toastr.success('Bilti Created Successfully');
           this.loadSpinner = false;
+          this.router.navigate(['transaction/bilti'])
         },
         (error) => {
           this.toastr.error(error.statusText, error.status);
