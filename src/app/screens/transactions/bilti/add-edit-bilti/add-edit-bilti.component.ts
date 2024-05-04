@@ -122,7 +122,6 @@ export class AddEditBiltiComponent implements OnInit {
     };
     this.biltiService.getFrmTransactions(data).subscribe(
       (response: any) => {
-        console.log(response)
         this.frmTransactionData = response.frmTransactions;
         this.frlrList = response.transactionTypes;
         this.frmDocument = this.frmTransactionData.find(
@@ -133,8 +132,6 @@ export class AddEditBiltiComponent implements OnInit {
           documentrefNo: this.frmDocument?.documentNumber
         })
         }
-
-        console.log(this.frmDocument)
         this.loadSpinner = false;
       },
       (error) => {
