@@ -119,8 +119,6 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
-    this.getVehicleNumber();
-    this.getAllTransportersList();
     const selected = this.frmTransactionData.find((data: any) => data.frlrNumber === selectedFrlr.frlrNumber);
     this.frlrNumber = selected.frlrNumber
     this.transporterId  = selected.transporterId
