@@ -12,84 +12,65 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let freight of freightList; let i = index">
         <td class="pointer">
-          <span
-            container="body"
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
-            <u>FR000038</u>
+          <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{freight?.freightCode || '-'}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
-                <span>Created On</span>
-                <span>01/01/2024</span>
+                <span>Creation Date</span>
+                <span>{{freight?.creationDate || '-'}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>IL0001</span>
+                <span>{{freight?.createdBy || '-'}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>Sultanpur</td>
-        <td>Noida Phase II</td>
-        <td>10</td>
-        <td>1200</td>
-        <td>-</td>
-        <td class="text-center d-flex justify-content-center">
+        <td>{{freight?.source?.value || '-' }}</td>
+        <td>{{freight?.destination?.value || '-' }}</td>
+        <td>{{freight?.vehicleSize?.value || '-' }}</td>
+        <td>{{freight?.freightAmount || '-' }}</td>
+        <td>{{freight?.remarks || '-' }}</td>
+        <td class="text-center d-flex justify-content-center" (click)="selectFreight(freight.id)">
           <!-- Approve Button -->
-          <button
-            type="button"
-            class="custom-button-secondary-small me-2"
-            [ngbPopover]="approvePopContent"
-            [popoverTitle]="popTitle"
-            [autoClose]="'outside'"
-            triggers="manual"
-            placement="left"
-            #approvePopover="ngbPopover"
-            (click)="approvePopover.open()"
-          >
+          <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
+            [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left"
+            #approvePopover="ngbPopover" (click)="openPopover(approvePopover)">
             Approve
           </button>
           <!-- Reject Button -->
-          <button
-            type="button"
-            class="custom-button-regulr-small"
-            [ngbPopover]="rejectPopContent"
-            [popoverTitle]="popTitle"
-            [autoClose]="'outside'"
-            triggers="manual"
-            placement="left"
-            #rejectPopover="ngbPopover"
-            (click)="rejectPopover.open()"
-          >
+          <button type="button" class="custom-button-regulr-small" [ngbPopover]="rejectPopContent"
+            [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left"
+            #rejectPopover="ngbPopover" (click)="openPopover(rejectPopover)">
             Reject
           </button>
+
           <!-- Approve Popover Content -->
-          <ng-template #approvePopContent>
+          <ng-template #approvePopContent approveRemarks="ngbPopover">
             <div class="custom-form-input">
-              <textarea name="" id="" rows="3" class="input-field"></textarea>
+              <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
             </div>
-            <button class="custom-button-secondary" (click)="approvePopover.close()">
+            <button class="custom-button-secondary" (click)="approveFreight(approveRemarks.value, approvePopover)">
               Confirm Approve
             </button>
           </ng-template>
-        
+
           <!-- Reject Popover Content -->
-          <ng-template #rejectPopContent>
+          <ng-template #rejectPopContent rejectRemarks="ngbPopover">
             <div class="custom-form-input">
-              <textarea name="" id="" rows="3" class="input-field"></textarea>
+              <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
             </div>
-            <button class="custom-button-regulr" (click)="rejectPopover.close()">
+            <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''"
+              (click)="rejectFreight(rejectRemarks.value, rejectPopover)">
               Confirm Reject
             </button>
           </ng-template>
           <ng-template #popTitle>Remarks</ng-template>
-        </td>      
+        </td>
       </tr>
     </tbody>
   </table>
