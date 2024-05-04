@@ -31,7 +31,7 @@
       <div class="custom-form-input">
         <label for="">Vehicle Number</label>
         <ng-select name="" id="" formControlName="vehicleNumber" (change)="onVehicleChange($event)">
-          <ng-option *ngFor="let vehicle of filteredVehiclesLists"  [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
+          <ng-option *ngFor="let vehicle of filteredVehiclesLists"  [value]="vehicle">{{vehicle.vehicleNumber}}</ng-option>
         </ng-select>
       </div>
     </div>

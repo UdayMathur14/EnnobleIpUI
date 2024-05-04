@@ -160,10 +160,7 @@ export class AddEditBiltiComponent implements OnInit {
       this.transporterId = selected?.transporterId;
       this.frmId = selected?.id;
       this.loadingLocationid = selected?.loadingLocationId;
-      const matchedVehicle = this.vehiclesList.find(
-        (vehicle: any) => vehicle.vehicleNumber === this.vehicleNumber
-      );
-      this.vehicleId = matchedVehicle?.id;
+      this.vehicleId = selected?.id;
       this.biltiForm.patchValue({
         vehicleNumber: selected.vehicleNumber,
         vehicleSize: selected.vehicleSizeId,
@@ -232,11 +229,15 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onVehicleChange(data: any) {
-    this.vehiclesList.forEach((vehicle: any) => {
-      if (vehicle.vehicleNumber === data) {
-        this.vehicleId = vehicle.id;
-      }
+    this.vehicleId = data.id;
+    this.biltiForm.patchValue({
+      vehicleSize: data.vehicleSize.value,
     });
+    // this.vehiclesList.forEach((vehicle: any) => {
+    //   if (vehicle.vehicleNumber === data) {
+    //     this.vehicleId = vehicle.id;
+    //   }
+    // });
   }
 
   getAllFreightList() {
@@ -332,6 +333,8 @@ export class AddEditBiltiComponent implements OnInit {
         freightId: this.freightId,
         loadingLocationId: this.biltiForm.controls['loadingLocation'].value,
         vehicleId: this.vehicleId,
+        "attribute9": "2024-05-04T13:03:47.509Z",
+        "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity: [
           {
             actionBy: 0,
@@ -339,6 +342,8 @@ export class AddEditBiltiComponent implements OnInit {
             vendorId: this.vendorId,
             pointId: this.pointChargeId,
             remarks: this.biltiForm.controls['remarks'].value,
+            "attribute9": "2024-05-04T13:03:47.509Z",
+            "attribute10": "2024-05-04T13:03:47.509Z",
           },
         ],
       };
@@ -361,6 +366,8 @@ export class AddEditBiltiComponent implements OnInit {
         freightId: this.freightId,
         loadingLocationId: this.biltiForm.controls['loadingLocation'].value,
         vehicleId: this.vehicleId,
+        "attribute9": "2024-05-04T13:03:47.509Z",
+        "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity: [
           {
             actionBy: 1,
@@ -370,6 +377,8 @@ export class AddEditBiltiComponent implements OnInit {
             pointId: this.pointChargeId,
             remarks: this.biltiForm.controls['remarks'].value,
             status: this.biltiForm.controls['biltiStatus'].value,
+            "attribute9": "2024-05-04T13:03:47.509Z",
+            "attribute10": "2024-05-04T13:03:47.509Z",
           },
         ],
         status: this.biltiForm.controls['status'].value,
@@ -408,6 +417,7 @@ export class AddEditBiltiComponent implements OnInit {
     this.loadSpinner = true;
     this.biltiService.getBiltiData(biltiId).subscribe(
       (response: any) => {
+        console.log(response)
         this.biltiData = response;
         this.patchBiltiForm(response);
         this.getFrlr(this.selectedTransactionTypeCode);
