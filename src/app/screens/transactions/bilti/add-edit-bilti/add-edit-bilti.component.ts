@@ -86,9 +86,11 @@ export class AddEditBiltiComponent implements OnInit {
     this.getAllPointChargesList();
     this.getLoadingLocationData();
     this.getVehicleNumber();
-    if (this.biltiId > 0) {
-      this.getBiltiData(this.biltiId);
-    }
+    setTimeout(() => {
+      if (this.biltiId > 0) {
+        this.getBiltiData(this.biltiId);
+      }
+    },500)
   }
 
   onCancelPress() {
@@ -371,7 +373,6 @@ export class AddEditBiltiComponent implements OnInit {
         lineItemsEntity: [
           {
             actionBy: 1,
-            id: this.frmId,
             frmId: this.frmId,
             vendorId: this.vendorId,
             pointId: this.pointChargeId,
@@ -385,7 +386,7 @@ export class AddEditBiltiComponent implements OnInit {
       };
       this.biltiService.updateBilti(this.biltiId, data).subscribe(
         (response: any) => {
-          this.toastr.success('Bilti Created Successfully');
+          this.toastr.success('Bilti Updated Successfully');
           this.loadSpinner = false;
         },
         (error) => {
@@ -413,83 +414,76 @@ export class AddEditBiltiComponent implements OnInit {
     });
   }
 
+
   getBiltiData(biltiId: number) {
     this.loadSpinner = true;
     this.biltiService.getBiltiData(biltiId).subscribe(
       (response: any) => {
-        console.log(response)
-        this.biltiData = response;
-        this.patchBiltiForm(response);
+        const transactionTypeId = response.transactionTypeId;
+        const transactionType = this.transactionTypesLists.find(
+          (type: any) => type.id === transactionTypeId
+        );
+        this.transactionTypeId = transactionType?.id;
+        const vehicleId = response.vehicleId;
+        const vehicleNumber = this.vehiclesList.find(
+          (vehicle: any) => vehicle.id === vehicleId
+        );
+        this.vehicleId = vehicleNumber?.id;
+        const transporterId = response?.transporterId;
+        const transporter = this.transportersList.find(
+          (transporter: any) => transporter.id === transporterId
+        );
+        this.transporterId = transporter?.id;
+        const freightId = response?.freightId;
+        const freight = this.freightList.find(
+          (freight: any) => freight?.id === freightId
+        );
+        this.freightId = freight?.id;
+        const loadinglocationId = response?.loadingLocationId;
+        const location = this.loadingLocation.find(
+          (location: any) => location?.id === loadinglocationId
+        );
+        const vendorId = response?.biltiCreationLineItems[0]?.vendorId;
+        const vendor = this.vendorList.find(
+          (vendor: any) => vendor?.id === vendorId
+        );
+        this.vendorId = vendor?.id;
+        const pointChargeId = response?.biltiCreationLineItems[0]?.pointId;
+        const pointCharge = this.pointChargesList.find(
+          (pointCharge: any) => pointCharge?.id === pointChargeId
+        );
+        this.pointChargeId = pointCharge?.id;
+        this.frlrNumber = response?.frlrNumber;
+        this.frmId = response?.biltiCreationLineItems[0]?.frmId
+        this.selectedTransactionTypeCode = transactionType?.code;
+        this.frmdocumentId = response?.biltiCreationLineItems[0]?.frmId;
+        this.biltiForm.patchValue({
+          transactionType: transactionType?.code,
+          frlrNo: response?.frlrNumber,
+          vehicleNumber: vehicleNumber?.vehicleNumber,
+          vehicleSize: vehicleNumber?.vehicleSize.value,
+          transporterCode: transporter?.transporterCode,
+          transporterName: transporter?.transporterName,
+          freightCode: freight?.freightCode,
+          freightAmount: freight?.freightAmount,
+          source: freight?.source?.value,
+          destination: freight?.destination?.value,
+          loadingLocation: location?.id,
+          biltiDetailsTransactionType: transactionType?.code,
+          vendorCode: vendor?.vendorCode,
+          vendorName: vendor?.vendorName,
+          paidByDetails: vendor?.paidByDetail?.value,
+          pointName: pointCharge?.pointName,
+          pointCharge: pointCharge?.pointCharge,
+          remarks: response?.biltiCreationLineItems[0]?.remarks
+        });
         this.getFrlr(this.selectedTransactionTypeCode);
-        this.loadSpinner = false;
       },
       (error) => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;
       }
     );
-  }
-
-  patchBiltiForm(response: any) {
-    console.log(response, 'data');
-    const transactionTypeId = response.transactionTypeId;
-    const transactionType = this.transactionTypesLists.find(
-      (type: any) => type.id === transactionTypeId
-    );
-    this.transactionTypeId = transactionType?.id;
-    const vehicleId = response.vehicleId;
-    const vehicleNumber = this.vehiclesList.find(
-      (vehicle: any) => vehicle.id === vehicleId
-    );
-    this.vehicleId = vehicleNumber?.id;
-    const transporterId = response?.transporterId;
-    const transporter = this.transportersList.find(
-      (transporter: any) => transporter.id === transporterId
-    );
-    this.transporterId = transporter?.id;
-    const freightId = response?.freightId;
-    const freight = this.freightList.find(
-      (freight: any) => freight?.id === freightId
-    );
-    this.freightId = freight?.id;
-    const loadinglocationId = response?.loadingLocationId;
-    const location = this.loadingLocation.find(
-      (location: any) => location?.id === loadinglocationId
-    );
-    const vendorId = response?.biltiCreationLineItems[0]?.vendorId;
-    const vendor = this.vendorList.find(
-      (vendor: any) => vendor?.id === vendorId
-    );
-    this.vendorId = vendor?.id;
-    const pointChargeId = response?.biltiCreationLineItems[0]?.pointId;
-    const pointCharge = this.pointChargesList.find(
-      (pointCharge: any) => pointCharge?.id === pointChargeId
-    );
-    this.pointChargeId = pointCharge?.id;
-    this.frlrNumber = response?.frlrNumber;
-    this.frmId = response?.biltiCreationLineItems[0]?.frmId
-    this.selectedTransactionTypeCode = transactionType?.code;
-    this.frmdocumentId = response?.biltiCreationLineItems[0]?.frmId;
-    this.biltiForm.patchValue({
-      transactionType: transactionType?.code,
-      frlrNo: response?.frlrNumber,
-      vehicleNumber: vehicleNumber?.vehicleNumber,
-      vehicleSize: vehicleNumber?.vehicleSize.value,
-      transporterCode: transporter?.transporterCode,
-      transporterName: transporter?.transporterName,
-      freightCode: freight?.freightCode,
-      freightAmount: freight?.freightAmount,
-      source: freight?.source?.value,
-      destination: freight?.destination?.value,
-      loadingLocation: location?.id,
-      biltiDetailsTransactionType: transactionType?.code,
-      vendorCode: vendor?.vendorCode,
-      vendorName: vendor?.vendorName,
-      paidByDetails: vendor?.paidByDetail?.value,
-      pointName: pointCharge?.pointName,
-      pointCharge: pointCharge?.pointCharge,
-      remarks: response?.biltiCreationLineItems[0]?.remarks
-    });
   }
   // patchBiltiForm(data: any){
   //   this.biltiForm.patchValue({
