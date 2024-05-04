@@ -5,10 +5,11 @@ const umsURL = environment.umsURL;
 const mfgURL = environment.mfgURL;
 const svcURL = environment.svcURL;
 const gtmURL = environment.gtmURL;
-const commonURL = environment.commonAPi;
+const commonURL = environment.commonAPI;
 
 export const APIConstant = {
     basePath: apiPath,
+    appSlug : `Mfg`,
     Ums: umsURL,
     Mfg: mfgURL,
     Svc: svcURL,

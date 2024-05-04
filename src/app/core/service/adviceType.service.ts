@@ -9,22 +9,22 @@ import { PlantRequest } from "../models/plant";
 })
 export class AdviceTypeService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
     getAdviceTypes(data : any){
-        return this.baseService.post(APIConstant.basePath+adviceType(localStorage.getItem('locationId')), data);
+        return this.post(adviceType(localStorage.getItem('locationId')), data);
     }
 
     getAdviceTypeData(adviceId : number){
-        return this.baseService.get(APIConstant.basePath+adviceTypeData(localStorage.getItem('locationId'), adviceId));
+        return this.get(adviceTypeData(localStorage.getItem('locationId'), adviceId));
     }
 
     updateAdviceType(adviceId : number, data : object){
-        return this.baseService.put(APIConstant.basePath+updateAdviceType(localStorage.getItem('locationId'), adviceId), data);
+        return this.put(updateAdviceType(localStorage.getItem('locationId'), adviceId), data);
     }
 
     createAdviceType(data : object){
-        return this.baseService.post(APIConstant.basePath+createAdviceType(localStorage.getItem('locationId')), data);
+        return this.post(createAdviceType(localStorage.getItem('locationId')), data);
     }
 }

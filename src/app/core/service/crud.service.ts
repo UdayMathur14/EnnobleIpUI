@@ -1,16 +1,23 @@
 import { Optional } from "@angular/core";
 import { BaseService } from "./base.service";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { CommonUtility } from "../utilities/common";
 
 export class CRUDService<T> {
-    protected apiPath = "";
+    protected baseUrl = "";
+
+    plantSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    vendorSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    partSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    lookupSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    lookupData = new Subject;
+
     constructor(protected baseService: BaseService, @Optional() name: string = "master") {
-        this.apiPath = name;
+        this.baseUrl = name;
     }
 
-    get(params?: { [key: string]: any }): Observable<T[]> {
-        let url: string = this.apiPath;
+    get(path: string, params?: { [key: string]: any }): Observable<T[]> {
+        let url: string = this.baseUrl + path;
         const query = CommonUtility.convertObjectToParams(params);
         if (query) {
             url += `?${query}`;
@@ -19,27 +26,31 @@ export class CRUDService<T> {
     }
 
     getById(id: number): Observable<T> {
-        return this.baseService.get<T>(`${this.apiPath}${id}`);
+        return this.baseService.get<T>(`${this.baseUrl}${id}`);
     }
 
-    add(data: T): Observable<T> {
-        return this.baseService.post<T>(this.apiPath, data);
+    post(path: string, data: any): Observable<T> {
+        return this.add(path, data);
+    }
+    put(path: string, data: T) {
+        return this.update(path, data);
     }
 
-    update(id: number, data: T): Observable<T> {
-        let url: string = this.apiPath;
-        if (id) {
-            url += `${id}`;
-        }
+    add(path: string, data: any): Observable<T> {
+        return this.baseService.post<T>(this.baseUrl + path, data);
+    }
+
+    update(path: string, data: T): Observable<T> {
+        let url: string = this.baseUrl + path;
         return this.baseService.put<T>(url, data);
     }
 
     remove(id: number): Observable<any> {
-        return this.baseService.delete<any>(`${this.apiPath}${id}`);
+        return this.baseService.delete<any>(`${this.baseUrl}${id}`);
     }
 
     removeByParams(params?: { [key: string]: any }): Observable<T[]> {
-        let url: string = this.apiPath;
+        let url: string = this.baseUrl;
         const query = CommonUtility.convertObjectToParams(params);
         if (query) {
             url += `?${query}`;

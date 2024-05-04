@@ -10,22 +10,22 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class PartService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
-    getParts(data : any){
-        return this.baseService.post(APIConstant.basePath+APIConstant.parts, data);
+    getParts(data: any) {
+        return this.post(APIConstant.parts, data);
     }
 
-    getPartData(partId : number){
-        return this.baseService.get(APIConstant.basePath+APIConstant.partData + partId);
+    getPartData(partId: number) {
+        return this.get(APIConstant.partData + partId);
     }
 
-    updatePart(partId : number, data : object){
-        return this.baseService.put(APIConstant.basePath+APIConstant.updatePart + partId, data);
+    updatePart(partId: number, data: object) {
+        return this.put(APIConstant.updatePart + partId, data);
     }
 
-    createPart(data : object){
-        return this.baseService.post(APIConstant.basePath+APIConstant.createPart, data);
+    createPart(data: object) {
+        return this.post(APIConstant.createPart, data);
     }
 }

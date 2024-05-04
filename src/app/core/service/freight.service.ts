@@ -10,26 +10,26 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class FreightService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
     getFreightsList(data : any){
-        return this.baseService.post(APIConstant.basePath+freight(localStorage.getItem('locationId')), data);
+        return this.post(freight(localStorage.getItem('locationId')), data);
     }
 
     getFreightData(freightId : number){
-        return this.baseService.get(APIConstant.basePath+freightData(localStorage.getItem('locationId'), freightId));
+        return this.get(freightData(localStorage.getItem('locationId'), freightId));
     }
 
     updateFreight(freightId : number, data : object){
-        return this.baseService.put(APIConstant.basePath+updateFreight(localStorage.getItem('locationId'), freightId), data);
+        return this.put(updateFreight(localStorage.getItem('locationId'), freightId), data);
     }
 
     createFreight(data : object){
-        return this.baseService.post(APIConstant.basePath+createFreight(localStorage.getItem('locationId')), data);
+        return this.post(createFreight(localStorage.getItem('locationId')), data);
     }
 
     getDropdownData(data : object, type: string){
-        return this.baseService.post(APIConstant.basePath+ getDropdownDatas(type) ,data);
+        return this.post( getDropdownDatas(type) ,data);
     }
 }

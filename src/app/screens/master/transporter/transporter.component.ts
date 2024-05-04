@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-transporter',
@@ -7,20 +7,18 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
   styleUrl: './transporter.component.scss'
 })
 export class TransporterComponent {
-  exportAsConfig: ExportAsConfig = {
-    type: 'csv', // the file type to download
-    elementIdOrContent: 'exportableTable', // the id of html/table element
-  }
-  constructor(private exportAsService: ExportAsService){}
-  searchedTransporter : any;
-  isFilters : boolean = true;
 
-  searchTransporter(event:any){
+  searchedTransporter: any;
+  isFilters: boolean = true;
+
+  constructor(private exportService: ExportService
+  ) { }
+
+  searchTransporter(event: any) {
     this.searchedTransporter = event;
   }
 
-  exportData(fileName : string){
-    this.exportAsService.save(this.exportAsConfig, fileName).subscribe(() => {
-    });
+  exportData(fileName: string = "Transporter") {
+    this.exportService.csvExport(fileName);
   }
 }

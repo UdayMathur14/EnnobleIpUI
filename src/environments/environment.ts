@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // apiPath: window.location.origin,
   apiPath : 'http://111.93.61.253/api/',
-  commonAPi: "http://111.93.61.253:8083/",
+  commonAPI: "http://111.93.61.253:8083/",
   umsURL: "http://111.93.61.253:3251",
   mfgURL: "http://111.93.61.253:9090",
   svcURL: "http://111.93.61.253:9091",

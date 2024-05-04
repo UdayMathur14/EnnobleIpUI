@@ -10,7 +10,7 @@ import { map, BehaviorSubject } from 'rxjs';
 })
 export class ValidateService extends CRUDService<PlantRequest> {
     constructor(protected override baseService: BaseService) {
-        super(baseService);
+        super(baseService, APIConstant.basePath);
     }
 
     generateToken(data: any, accessToken: string) {
