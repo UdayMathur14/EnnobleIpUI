@@ -28,7 +28,7 @@ import { AdviceGridTableComponent } from "./master/advice/components/advice-grid
 import { PointChargeComponent } from "./master/point-charge/point-charge.component";
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { PointChargeGridTableComponent } from "./master/point-charge/components/point-charge-grid-table/point-charge-grid-table.component";
-import { NgbTooltipModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopover, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 import { DispatchNoteFiltersComponent } from "./transactions/dispatch-note/components/filter/dispatch-note-filter.component";
 import { DispatchNoteGridTableComponent } from "./transactions/dispatch-note/components/grid-table/dispatch-note-grid-table.component";
@@ -180,7 +180,8 @@ import { ExportAsModule } from 'ngx-export-as';
         NgSelectModule,
         FormsModule,
         ReactiveFormsModule,
-        ExportAsModule
+        ExportAsModule,
+        NgbPopoverModule
     ],
     providers: [],
 })
