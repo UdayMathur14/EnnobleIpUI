@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>Edit Dispatch Note</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr">Save</button>
+    <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
     <button class="custom-button-regulr">Print</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
@@ -10,81 +10,66 @@
 </div>
 
 <div class="content-section p-3">
-  <div class="row">
-    <!-- <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Dispatch Number</label>
-        <input type="text" class="input-field" type="text" disabled />
+  <form [formGroup]="addOrEditDispatchNoteFormGroup">
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Supplier Code</label>
+          <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)"
+            formControlName="vehicleNumber" class="input-field" placeholder="Select Part Number">
+            <ng-option *ngFor="let supplier of supplierList"
+              [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
+          </ng-select>
+        </div>
       </div>
-    </div> -->
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Supplier Code</label>
-        <div class="input-with-icon">
-        <input type="text" class="input-field" value="IN000001"/>
-        <img
-        src="assets/images/icons/search.svg"
-        class="search-icon"
-        alt="Search"
-      />
-    </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Supplier Name</label>
+          <input formControlName="supplierName" type="text" class="input-field" readonly
+            value="Sunplast Electronics Pvt Ltd" />
+        </div>
       </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Supplier Name</label>
-        <input type="text" class="input-field" disabled value="Sunplast Electronics Pvt Ltd"/>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Supplier Address</label>
+          <input formControlName="supplierAddress" type="text" class="input-field" readonly
+            value="LG Electronics Pvt. Ltd, Surajpur, Greater Noida" />
+        </div>
       </div>
-    </div>
-    <div class="col-lg-4 col-md-4">
-      <div class="custom-form-input">
-        <label for="">Supplier Address</label>
-        <input type="text" class="input-field" disabled value="LG Electronics Pvt. Ltd, Surajpur, Greater Noida"/>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vehicle Number</label>
+          <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
+            placeholder="Select Part Number">
+            <ng-option *ngFor="let vehicle of vehicleList"
+              [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
+          </ng-select>
+        </div>
       </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vehicle Size</label>
+          <input formControlName="vehicleSize" type="text" class="input-field" readonly value="17" />
+        </div>
+      </div>
+
     </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Vehicle Number</label>
-        <div class="input-with-icon">
-        <input type="text" class="input-field" value="UP16ET8383"/>
-        <img
-        src="assets/images/icons/search.svg"
-        class="search-icon"
-        alt="Search"
-      />
+    <div class="row">
+
+
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">FRLR#</label>
+          <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
         </div>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Vehicle Size</label>
-        <input type="text" class="input-field" disabled value="17"/>
-      </div>
-    </div>
-    <!-- <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Dispatch Note Status</label>
-        <select name="" id="">
-          <option value="">Open</option>
-        </select>
-      </div>
-    </div> -->
-  </div>
-  <div class="row">
-
-
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">FRLR#</label>
-        <input type="text" class="input-field" value="FRLR1"/>
-      </div>
-    </div>
-  </div>
+  </form>
 
   <div class="edit-screen-subTable">
     <h4 class="">
       Part Details
-      <button class="custom-button-regulr">Add</button>
+      <button (click)="onAddPress()" class="custom-button-regulr">Add</button>
     </h4>
   </div>
 
@@ -101,37 +86,40 @@
           <th class="text-center">Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="dispatchNote.partDetails">
+        @for (part of partDetailsList; track part.id; let i = $index) {
+
         <tr>
-          <td>1</td>
+          <td>{{i+1}}</td>
           <td>
             <div class="custom-form-input">
-              <div class="input-with-icon">
-                <input type="text" class="input-field" placeholder="RB" value="BN001"/>
-                <img
-                  src="assets/images/icons/search.svg"
-                  class="search-icon"
-                  alt="Search"
-                />
-              </div>
+              <ng-select class="input-field" placeholder="Select Part Number" (change)="onPartSelect($event, i)">
+                <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
+              </ng-select>
+
             </div>
           </td>
-          <td>Plastic Bin</td>
+          <td>{{part.partName}}</td>
           <td>
             <div class="custom-form-input">
-              <input type="text" class="input-field" placeholder="Part Qty" value="20"/>
+              <ng-select class="input-field" #qty placeholder="Select Quantity"
+                (change)="onQuantitySelection($event, i)">
+                <ng-option *ngFor="let lookup of lookupList" [value]="lookup.id">{{lookup.value}}</ng-option>
+              </ng-select>
             </div>
           </td>
-          <td>1</td>
+          <td>{{part.partSize}}</td>
           <td>
             <div class="custom-form-input">
-              <input type="text" class="input-field" placeholder="Remarks" disabled value="empty item returned to vendor not for sale"/>
+              <input type="text" class="input-field" placeholder="Remarks" readonly [value]="part?.remarks || ''" />
             </div>
           </td>
           <td class="text-center">
-            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link" />
+            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
+              (click)="onDeletePartDetail(part, i)" />
           </td>
         </tr>
+        }
       </tbody>
     </table>
   </div>
