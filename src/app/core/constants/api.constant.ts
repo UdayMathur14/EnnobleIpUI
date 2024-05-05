@@ -72,3 +72,4 @@ export const frlr = (locationId: any) => `v1/${locationId}/frm-transactions/sear
 export const createBilti = (locationId: any) => `v1/${locationId}/bilti-creation/create`;
 export const biltiData = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/${biltiId}`;
 export const updateBitli = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/update/${biltiId}`;
+export const createDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/create`;

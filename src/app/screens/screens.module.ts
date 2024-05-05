@@ -86,6 +86,7 @@ import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 import { ExportAsModule } from 'ngx-export-as';
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
+import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
 
 
 @NgModule({
@@ -171,7 +172,8 @@ import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-e
         LookupTypeFilterComponent,
         LookupTypeGridTableComponent,
         AddEditLookupTypeComponent,
-        AddEditBiltiComponent
+        AddEditBiltiComponent,
+        AddEditDispatchNoteComponent
     ],
     imports: [
         LayoutModule,
