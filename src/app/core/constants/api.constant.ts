@@ -65,4 +65,5 @@ export const createAdviceType = (locationId: any) => `v1/${locationId}/advice/cr
 export const transporter = (locationId: any) => `v1/${locationId}/transporter/search`;
 export const transporterData = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/${transporterId}`;
 export const updateTransporter = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/update/${transporterId}`;
-export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`
+export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
+export const bilti = (locationId: any) => `v1/${locationId}/bilti-creation/search`;
