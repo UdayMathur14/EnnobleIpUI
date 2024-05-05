@@ -80,7 +80,7 @@ const routes: Routes = [
             { path: "transaction/dispatchNote", component: DispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/bilti", component: BiltiComponent, canActivate: [AuthGuard] },
-            { path: "transaction/addEditBilti", component: AddEditBiltiComponent, canActivate: [AuthGuard] },
+            { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [AuthGuard] },
             { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent, canActivate: [AuthGuard] },
             { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent, canActivate: [AuthGuard] },
             { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent, canActivate: [AuthGuard] },

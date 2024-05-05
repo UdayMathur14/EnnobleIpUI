@@ -1,7 +1,7 @@
 <div class="page-title">
-  <h1>Create Bilti</h1>
+  <h1>{{biltiId>0?'Edit':'Add'}} Bilti</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
     <button class="custom-button-regulr">Print</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
@@ -9,94 +9,94 @@
   </div>
 </div>
 <div class="content-section p-3">
+  <form [formGroup]="biltiForm">
   <div class="row">
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Transaction Type</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="RTV"/>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
-        </div>
-        <!-- <div class="input-with-icon">
-                  <p-autoComplete [suggestions]="results" (completeMethod)="filterCountry($event)"
-                    field="name"></p-autoComplete>
-                  <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div> -->
+        <ng-select name="" id="" formControlName="transactionType" (change)="onOptionSelected($event)" [readonly]="biltiId>0">
+          <ng-option *ngFor="let transactionTypesList of filteredTransactionTypesLists" [value]="transactionTypesList">{{transactionTypesList.code}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">FRLR Number</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="FRLR1"/>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
-        </div>
+        <ng-select name="" id="" formControlName="frlrNo" (ngModelChange)="onFrlrNoSelectionChange($event)">
+          <ng-option *ngFor="let frmTransactionData of frmTransactionData" [value]="frmTransactionData">{{frmTransactionData.frlrNumber}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vehicle Number</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="HR38E1112"/>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
-        </div>
+        <ng-select name="" id="" formControlName="vehicleNumber" (change)="onVehicleChange($event)">
+          <ng-option *ngFor="let vehicle of filteredVehiclesLists"  [value]="vehicle">{{vehicle.vehicleNumber}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vehicle Size</label>
-        <input type="text" class="input-field" disabled value="17"/>
+        <input type="text" class="input-field" formControlName="vehicleSize" readonly/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Transporter Code</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="T00001"/>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
-        </div>
+        <ng-select name="" id="" formControlName="transporterCode" (change)="onTransporterChange($event)">
+          <ng-option *ngFor="let transporter of filteredTransportersLists" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Transporter Name</label>
-        <input type="text" class="input-field" disabled value="V Grill logistics"/>
+        <input type="text" class="input-field" readonly formControlName="transporterName" />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Freight Code</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="F0001"/>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
-        </div>
+        <ng-select name="" id="" formControlName="freightCode" (change)="onFreightChange($event)">
+          <ng-option *ngFor="let freight of filteredFreightsLists" [value]="freight">{{freight.freightCode}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Source</label>
-        <input type="text" class="input-field" disabled value="Surajpur"/>
+        <input type="text" class="input-field" formControlName="source" readonly/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Destination</label>
-        <input type="text" class="input-field" disabled value="Noida Phase II"/>
+        <input type="text" class="input-field" formControlName="destination" readonly/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Freight Amount</label>
-        <input type="text" class="input-field" disabled value="600"/>
+        <input type="text" class="input-field" formControlName="freightAmount" readonly />
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Loading Location</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="19"/>
-          <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
-        </div>
+        <ng-select class="input-field" placeholder="Select Loading Location" formControlName="loadingLocation">
+          <ng-option *ngFor="let loadingLocation of filteredLoadinglocation"
+            [value]="loadingLocation.id">{{loadingLocation.value}}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2" *ngIf="biltiId > 0">
+      <div class="custom-form-input">
+        <label for="">Status</label>
+        <select name="" id="" formControlName="status">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
       </div>
     </div>
   </div>
@@ -121,6 +121,7 @@
           <th>Point Charge</th>
           <th>Remarks</th>
           <th>Paid by details</th>
+          <th *ngIf="biltiId > 0">status</th>
           <!-- <th class="text-center">Action</th> -->
         </tr>
       </thead>
@@ -129,65 +130,75 @@
           <td>1</td>
           <td>
             <div class="col-lg-10 col-md-10">
-              <div class="custom-form-input">
-                <div class="input-with-icon">
-                  <input type="text" class="input-field" />
-                  <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" value="Recycle Bin"/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="col-lg-10 col-md-10">
-              <div class="custom-form-input">
-                <div class="input-with-icon">
-                  <input type="text" class="input-field" disabled />
-                </div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="col-lg-10 col-md-10">
-              <div class="custom-form-input">
-                <div class="input-with-icon">
-                  <input type="text" class="input-field" value="IN001089"/>
-                  <img src="assets/images/icons/search.svg" class="search-icon" alt="Search" />
+              <div class="custom-form-input biltiwidth">
+                <div class="input-with-icon" >
+                  <input type="text" class="input-field" formControlName="biltiDetailsTransactionType" [readonly]="biltiId > 0" />
                 </div>
               </div>
             </div>
           </td>
           <td>
             <div class="col-lg-12 col-md-12">
-              <div class="custom-form-input">
-                <input type="text" class="input-field" disabled />
+              <div class="custom-form-input biltiwidth">
+                <div class="input-with-icon">
+                  <input type="text" class="input-field" readonly formControlName="documentrefNo" />
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-12 col-md-12">
+              <div class="custom-form-input biltiwidth">
+                <ng-select name="" id="" formControlName="vendorCode" (change)="onVendorChange($event)">
+                  <ng-option *ngFor="let vendor of filteredVendorcode" [value]="vendor">{{vendor.vendorCode}}</ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-12 col-md-12">
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" readonly formControlName="vendorName" readonly />
               </div>
             </div>
           </td>
           <td>
             <div class="col-lg-10 col-md-10">
-              <div class="custom-form-input">
-                <input type="text" class="input-field" />
+              <div class="custom-form-input biltiwidth">
+                <ng-select name="" id="" formControlName="pointName" (change)="onPointchargeChange($event)" [readonly]="biltiId>0">
+                  <ng-option *ngFor="let pointCharge of filteredPointname" [value]="pointCharge">{{pointCharge.pointName}}</ng-option>
+                </ng-select>
               </div>
             </div>
           </td>
           <td>
             <div class="col-lg-10 col-md-10">
-              <div class="custom-form-input">
-                <input type="text" class="input-field" disabled />
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" readonly formControlName="pointCharge"  />
               </div>
             </div>
           </td>
           <td>
             <div class="col-lg-10 col-md-10">
-              <div class="custom-form-input">
-                <input type="text" class="input-field" />
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" formControlName="remarks"  />
               </div>
             </div>
           </td>
           <td>
             <div class="col-lg-10 col-md-0">
-              <div class="custom-form-input">
-                <input type="text" class="input-field" />
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" formControlName="paidByDetails" [readonly]="biltiId > 0"  />
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-10 col-md-10" *ngIf="biltiId > 0">
+              <div class="custom-form-input biltiwidth">
+                <select name="" id="" formControlName="biltiStatus">
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
               </div>
             </div>
           </td>
@@ -198,4 +209,8 @@
       </tbody>
     </table>
   </div>
+  </form>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>
