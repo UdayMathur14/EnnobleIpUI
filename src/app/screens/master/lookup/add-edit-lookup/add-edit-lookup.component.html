@@ -15,7 +15,7 @@
                     <label for="">Type <span class="text-danger" *ngIf="lookupId==0">*</span></label>
                     <ng-select class="input-field" formControlName="typeId" *ngIf="lookupId>0" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
-                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
+                            [value]="lookupType.id">{{lookupType.value}}</ng-option>
                     </ng-select>
                     <ng-select class="input-field" formControlName="typeId" *ngIf="lookupId == 0">
                         <ng-option *ngFor="let lookupType of lookupTypes"
