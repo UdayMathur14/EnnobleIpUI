@@ -167,8 +167,8 @@ export class AddEditBiltiComponent implements OnInit {
       this.loadingLocationid = selected?.loadingLocationId;
       this.vehicleId = this.vehicleId;
       this.biltiForm.patchValue({
-        vehicleNumber: selected.vehicleNumber,
-        vehicleSize: selected.vehicleSizeId,
+        vehicleNumber: vehicleNumber.vehicleNumber,
+        vehicleSize: vehicleNumber.vehicleSize.value,
         source: selected.fromDestination,
         destination: selected.toDestination,
         documentrefNo: selected.documentNumber,
