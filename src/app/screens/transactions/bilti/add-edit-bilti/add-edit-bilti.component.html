@@ -84,7 +84,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Loading Location</label>
-        <ng-select class="input-field" placeholder="Select Loading Location" formControlName="loadingLocation">
+        <ng-select class="input-field" formControlName="loadingLocation">
           <ng-option *ngFor="let loadingLocation of filteredLoadinglocation"
             [value]="loadingLocation.id">{{loadingLocation.value}}</ng-option>
         </ng-select>
