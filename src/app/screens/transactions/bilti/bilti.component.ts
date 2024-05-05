@@ -12,6 +12,6 @@ export class BiltiComponent {
   isFilters: boolean = true;
 
   onCreateBilti() {
-    this.router.navigate(['transaction/addEditBilti'])
+    this.router.navigate([`transaction/addEditBilti/0`])
   }
 }

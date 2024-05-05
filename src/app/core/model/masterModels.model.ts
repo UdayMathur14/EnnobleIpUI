@@ -506,3 +506,46 @@ export interface TransporterListingModel {
     messageStatus: null,
     id: number
 }
+export interface BiltiListingModel {
+  biltiNumber: string;
+  frlrNumber: number;
+  loadingLocation: {
+    id: number;
+    code: string;
+    value: string;
+  };
+  vehicles: {
+    vehicleNumber: string;
+    vehicleSize: {
+      id: number;
+      code: number;
+      value: number;
+    };
+    id: number;
+    code: string;
+    value: string;
+  };
+  freights: {
+    freightAmount: number;
+    source: {
+      id: number;
+      code: string;
+      value: string;
+    };
+    destination: {
+      id: number;
+      code: string;
+      value: string;
+    };
+    id: number;
+    code: string;
+    value: string;
+  };
+  id: number;
+  createdBy: string;
+  creationDate: string;
+  lastUpdatedBy: string;
+  inactiveDate: string;
+  lastUpdateOn: string;
+  status: string;
+}
