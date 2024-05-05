@@ -90,7 +90,7 @@ export class AddEditBiltiComponent implements OnInit {
       if (this.biltiId > 0) {
         this.getBiltiData(this.biltiId);
       }
-    },600)
+    },1000)
   }
 
   onCancelPress() {
