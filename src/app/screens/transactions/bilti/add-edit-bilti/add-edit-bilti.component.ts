@@ -153,13 +153,19 @@ export class AddEditBiltiComponent implements OnInit {
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr.frlrNumber
     );
+    const selectedVehiclenumber = selectedFrlr.vehicleNumber;
+    const vehicleNumber = this.vehiclesList.find(
+      (vehicle: any) => vehicle.vehicleNumber === selectedVehiclenumber
+    );
+    this.vehicleId = vehicleNumber.id
+    // this.vehicleId = vehicleNumber?.id;
     if (selected) {
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
       this.transporterId = selected?.transporterId;
       this.frmId = selected?.id;
       this.loadingLocationid = selected?.loadingLocationId;
-      this.vehicleId = selected?.id;
+      this.vehicleId = this.vehicleId;
       this.biltiForm.patchValue({
         vehicleNumber: selected.vehicleNumber,
         vehicleSize: selected.vehicleSizeId,
@@ -384,7 +390,9 @@ export class AddEditBiltiComponent implements OnInit {
       };
       this.biltiService.updateBilti(this.biltiId, data).subscribe(
         (response: any) => {
+          this.biltiData = response;
           this.toastr.success('Bilti Updated Successfully');
+          this.router.navigate(['transaction/bilti'])
           this.loadSpinner = false;
         },
         (error) => {
