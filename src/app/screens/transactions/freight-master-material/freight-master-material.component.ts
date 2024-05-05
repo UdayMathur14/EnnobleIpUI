@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
 })
 export class FreightMasterMaterialComponent {
   constructor(private router : Router){}
-
+  searchedFreight: any;
   isFilters : boolean = true;
-
+  //HOLDING SEARCHED VALUE FROM FILTERS
+  searchFreightCode(event: any) {
+    this.searchedFreight = event;
+  }
 }
