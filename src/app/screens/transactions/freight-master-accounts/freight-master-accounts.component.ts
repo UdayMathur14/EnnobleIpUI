@@ -7,8 +7,13 @@ import { Router } from '@angular/router';
   styleUrl: './freight-master-accounts.component.scss'
 })
 export class FreightMasterAccountsComponent {
-  constructor(private router : Router){}
+  constructor(private router: Router) { }
 
-  isFilters : boolean = true;
+  searchedFreight: any;
+  isFilters: boolean = true;
+  //HOLDING SEARCHED VALUE FROM FILTERS
+  searchFreightCode(event: any) {
+    this.searchedFreight = event;
+  }
 
 }
