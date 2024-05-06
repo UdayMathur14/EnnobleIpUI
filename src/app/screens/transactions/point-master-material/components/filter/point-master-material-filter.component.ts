@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './point-master-material-filter.component.html',
   styleUrl: './point-master-material-filter.component.scss'
 })
-export class PointMasterMaterialFiltersComponent {
+export class PointMasterMaterialFiltersComponent implements OnInit{
   @Output() pointFilterObj : EventEmitter<object> = new EventEmitter();
   pointName : any = undefined;
   pointChargeList : any = [];

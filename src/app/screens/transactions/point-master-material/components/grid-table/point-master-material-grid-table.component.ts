@@ -30,7 +30,7 @@ export class PointMasterMaterialGridTableComponent {
     //SORTING DATA FROM FILTER CHANGES
     ngOnChanges(changes: SimpleChanges): void {
       if(changes['searchedPoint'].currentValue){
-        this.getAllPointChargesList();
+        this.getFilteredPointList();
       } else if(changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined){
         this.getAllPointChargesList();
       }
@@ -51,6 +51,20 @@ export class PointMasterMaterialGridTableComponent {
         this.loadSpinner = false;
       })
     }
+
+  getFilteredPointList(){
+    let data = {
+      "screenCode": 103,
+      "pointName": this.searchedPoint.pointName || "",
+    }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
 
   selectPoint(pointId: number) {
     this.selectedPointId = pointId;
