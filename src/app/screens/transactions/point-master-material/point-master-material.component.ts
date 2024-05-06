@@ -10,5 +10,8 @@ export class PointMasterMaterialComponent {
   constructor(private router : Router){}
 
   isFilters : boolean = true;
-
+  searchedPoint: any;
+  searchFreightCode(e: any) {
+    this.searchedPoint = event;
+  }
 }

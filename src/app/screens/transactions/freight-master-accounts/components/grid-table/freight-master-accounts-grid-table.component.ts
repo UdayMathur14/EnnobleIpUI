@@ -13,8 +13,6 @@ import { FreightDataModel } from '../../../../../core/model/masterModels.model';
 })
 export class FreightMasterAccountsGridTableComponent implements OnInit {
   constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
-  @ViewChild('approvePopover') approvePopover!: NgbPopover;
-  @ViewChild('rejectPopover') rejectPopover!: NgbPopover;
   @Input()
   searchedFreight!: any;
   freightList: any;

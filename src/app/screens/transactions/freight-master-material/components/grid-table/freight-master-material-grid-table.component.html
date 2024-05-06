@@ -12,7 +12,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let freight of freightList; let i = index">
+      @for(freight of freightList; track freight.id){
+      <tr>
         <td class="pointer">
           <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{freight?.freightCode || '-'}}</u>
@@ -71,6 +72,11 @@
           <ng-template #popTitle>Remarks</ng-template>
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">Results Not Found</td>
+      </tr>
+    }
     </tbody>
   </table>
 </div>

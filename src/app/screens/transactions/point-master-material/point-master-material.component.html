@@ -3,10 +3,10 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-point-master-material-filter></app-point-master-material-filter>
+  <app-point-master-material-filter (freightFilterObj)="searchFreightCode($event)"></app-point-master-material-filter>
 </div>
 
 
-<div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-point-master-material-grid-table></app-point-master-material-grid-table>
+<div class="content-section" [ngClass]="{isFilters: isFilters}">
+  <app-point-master-material-grid-table [searchedPoint]="searchedPoint"></app-point-master-material-grid-table>
 </div>
