@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './freight-master-material-filter.component.html',
   styleUrl: './freight-master-material-filter.component.scss'
 })
-export class FreightMasterMaterialFiltersComponent {
+export class FreightMasterMaterialFiltersComponent implements OnInit {
   @Output() freightFilterObj : EventEmitter<object> = new EventEmitter();
   freightCode : any = undefined;
   freightList : any = [];

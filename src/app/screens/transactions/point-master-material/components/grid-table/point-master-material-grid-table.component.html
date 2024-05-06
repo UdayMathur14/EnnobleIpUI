@@ -10,7 +10,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let pointchargeMat of pointChargesList; let i = index">
+      @for (pointchargeMat of pointChargesList; track pointchargeMat.id) {
+      <tr>
         <td class="pointer">
           <span
             container="body"
@@ -72,6 +73,11 @@
           <ng-template #popTitle>Remarks</ng-template>
         </td>
       </tr>
+    }@empty {
+      <tr>
+        <td align="center" colspan="13">No Results Found</td>
+      </tr>
+    }
     </tbody>
   </table>
 </div>

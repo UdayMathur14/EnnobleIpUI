@@ -14,8 +14,6 @@ import { PointChargeService } from '../../../../../core/service/point-charge.ser
 })
 export class PointMasterMaterialGridTableComponent {
   constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
-  // @ViewChild('approvePopover') approvePopover!: NgbPopover;
-  // @ViewChild('rejectPopover') rejectPopover!: NgbPopover;
   @Input()
   searchedPoint!: any;
   searchedFreight!: any; 
