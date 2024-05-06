@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dispatch-note-filters',
@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class DispatchNoteFiltersComponent {
   
+  @Output() getData: EventEmitter<any> = new EventEmitter();
+  dispatchNumber:any = '';
+
+  constructor() { }
+
+  handleSearch() {
+    this.getData.emit({ dispatchNumber: this.dispatchNumber })
+  }
+
 }
