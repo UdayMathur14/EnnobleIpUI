@@ -15,7 +15,7 @@ export const APIConstant = {
     Svc: svcURL,
     Gtm: gtmURL,
     commonURL:commonURL,
-    generateToken: `api/v1/login/generate-token`,
+    generateToken:(appId:string)=> `api/v1/login/generate-token/${appId}`,
     lookup: `/lookup/`,
     plant: `v1/plant/search`,
     plantData: `v1/plant/`,

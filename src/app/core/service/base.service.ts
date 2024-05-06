@@ -20,8 +20,8 @@ export class BaseService {
         return this.http.get<T>(url);
     }
 
-    getWithHeader<T>(url: string, headers: any): Observable<T> {
-        return this.http.get<T>(url, { headers: headers });
+    getWithHeader<T>(url: string, headers: any={}): Observable<any> {
+        return this.http.get<T>(url, headers);
     }
 
     getWithResponse<T>(url: string): Observable<any> {

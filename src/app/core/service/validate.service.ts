@@ -16,6 +16,6 @@ export class ValidateService extends CRUDService<PlantRequest> {
     generateToken(data: any, accessToken: string) {
         const headers = new Headers();
         headers.append('Authorization', `Bearer ${accessToken}`);
-        return this.baseService.post(APIConstant.commonURL + APIConstant.generateToken, data, {headers:headers});
+        return this.baseService.getWithHeader(APIConstant.commonURL + APIConstant.generateToken(data.appId), {headers:headers});
     }
 }
