@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './point-master-material-filter.component.html',
   styleUrl: './point-master-material-filter.component.scss'
 })
-export class PointMasterMaterialFiltersComponent implements OnInit{
+export class PointMasterMaterialFiltersComponent implements OnInit {
   @Output() pointFilterObj : EventEmitter<object> = new EventEmitter();
   pointName : any = undefined;
   pointChargeList : any = [];
@@ -46,4 +46,5 @@ export class PointMasterMaterialFiltersComponent implements OnInit{
     }
     this.pointFilterObj.emit(obj)
   }
+
 }

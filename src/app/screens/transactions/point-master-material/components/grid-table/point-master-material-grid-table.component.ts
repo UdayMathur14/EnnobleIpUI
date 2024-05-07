@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbPopover } from "@ng-bootstrap/ng-bootstrap";
-import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../../../core/service/commonTransaction.service';
-import { FreightDataModel, PointChargeDataModel } from '../../../../../core/model/masterModels.model';
+import { PointChargeDataModel } from '../../../../../core/model/masterModels.model';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 
 @Component({
@@ -16,9 +15,7 @@ export class PointMasterMaterialGridTableComponent {
   constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
   @Input()
   searchedPoint!: any;
-  searchedFreight!: any; 
   pointChargesList: any;
-  pointChargeListOrg: any;
   loadSpinner: boolean = true;
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
@@ -44,7 +41,7 @@ export class PointMasterMaterialGridTableComponent {
       }
       this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
         this.pointChargesList = response.pointCharges;
-        this.pointChargeListOrg = response.pointCharges;
+        this.selectPoint(this.selectedPointId);
         this.loadSpinner = false;
       }, error => {
         this.toastr.error(error.statusText, error.status);
@@ -54,7 +51,7 @@ export class PointMasterMaterialGridTableComponent {
 
   getFilteredPointList(){
     let data = {
-      "screenCode": 103,
+      "screenCode": 102,
       "pointName": this.searchedPoint.pointName || "",
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {

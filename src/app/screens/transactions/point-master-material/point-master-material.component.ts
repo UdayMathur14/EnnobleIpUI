@@ -10,7 +10,7 @@ export class PointMasterMaterialComponent {
   isFilters : boolean = true;
   searchedPoint: any;
   // HOLDING SEARCHED VALUES FROM FILTER
-  searchFreightCode(event: any) {
+  searchPointName(event: any) {
     this.searchedPoint = event;
   }
 }

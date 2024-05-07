@@ -41,7 +41,6 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
-      console.log(this.freightList, "this.freightList");
       this.selectFreight(this.selectedFreightId);
 
       this.loadSpinner = false;
