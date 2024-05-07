@@ -16,7 +16,6 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
   @Input()
   searchedPoint!: any;
   pointChargesList: any;
-  pointChargeListOrg: any;
   loadSpinner: boolean = true;
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
@@ -28,7 +27,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
     //SORTING DATA FROM FILTER CHANGES
     ngOnChanges(changes: SimpleChanges): void {
       if(changes['searchedPoint'].currentValue){
-        this.getAllPointChargesList();
+        this.getFilteredPointList();
       } else if(changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined){
         this.getAllPointChargesList();
       }
@@ -42,7 +41,21 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
       }
       this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
         this.pointChargesList = response.pointCharges;
-        this.pointChargeListOrg = response.pointCharges;
+        this.selectPoint(this.selectedPointId);
+        this.loadSpinner = false;
+      }, error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      })
+    }
+
+    getFilteredPointList(){
+      let data = {
+        "screenCode": 103,
+        "pointName": this.searchedPoint.pointName || "",
+      }
+      this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+        this.pointChargesList = response.pointCharges;
         this.loadSpinner = false;
       }, error => {
         this.toastr.error(error.statusText, error.status);
