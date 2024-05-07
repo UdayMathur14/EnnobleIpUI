@@ -1,5 +1,5 @@
 <div class="page-title">
-  <h1>Edit Dispatch Note</h1>
+  <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Dispatch Note</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
     <button class="custom-button-regulr">Print</button>
@@ -16,7 +16,7 @@
         <div class="custom-form-input">
           <label for="">Supplier Code</label>
           <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)"
-            formControlName="vehicleNumber" class="input-field" placeholder="Select Part Number">
+            formControlName="supplierCode" class="input-field" placeholder="Select Part Number">
             <ng-option *ngFor="let supplier of supplierList"
               [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
           </ng-select>
