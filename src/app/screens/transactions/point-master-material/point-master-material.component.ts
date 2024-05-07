@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-point-master-material',
@@ -7,8 +6,11 @@ import { Router } from '@angular/router';
   styleUrl: './point-master-material.component.scss'
 })
 export class PointMasterMaterialComponent {
-  constructor(private router : Router){}
 
   isFilters : boolean = true;
-
+  searchedPoint: any;
+  // HOLDING SEARCHED VALUES FROM FILTER
+  searchPointName(event: any) {
+    this.searchedPoint = event;
+  }
 }

@@ -38,6 +38,7 @@ export class AddEditDispatchNoteComponent {
   vehicleId!: number;
   partQtyId: number = 0;
   lookupList: any[] = [];
+  selectedPartNumber!: string;
 
   constructor(
     private router: Router,
@@ -145,7 +146,7 @@ export class AddEditDispatchNoteComponent {
 
   onAddPress() {
     let note = {
-      actionBy: 0,
+      actionBy: 1,
       attribute1: '',
       attribute2: '',
       attribute3: '',
@@ -209,9 +210,9 @@ export class AddEditDispatchNoteComponent {
   onPartSelect(e: any, i: number) {
     this.partsList.forEach((part: any) => {
       if (part.partNumber === e) {
+        console.log(e)
         this.partDetailsList[i] = part;
         if (this.dispatchNote?.partDetails != undefined) {
-          console.log(part.id);
           this.dispatchNote.partDetails[i].partId = part.id;
         }
       }
