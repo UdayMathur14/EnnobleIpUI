@@ -5,6 +5,7 @@ import { TransactionTypeModalComponent } from '../../../../modals/transaction-ty
 import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
+import { BiltiPdfModalComponent } from '../../../../modals/bilti-pdf/bilti-pdf.component';
 
 
 @Component({
@@ -42,6 +43,27 @@ export class BiltiGridTableComponent implements OnInit {
       }
   );
   }
+
+  onPreviewPdf(bilti: any) {
+    let documentModal = this.modalService.open(BiltiPdfModalComponent, {
+      size: "lg",
+      backdrop: "static",
+      windowClass: 'modal-width',
+    });
+    documentModal.componentInstance.title = 'Bilti';
+    documentModal.componentInstance.biltiData = bilti;
+
+    documentModal.result.then(
+      (result) => {
+          if (result) {
+
+          }
+      },
+      (reason) => {
+      }
+  );
+  }
+
   onEditBilti(id: number) {
     this.router.navigate([`transaction/addEditBilti/${id}`]);
   }
