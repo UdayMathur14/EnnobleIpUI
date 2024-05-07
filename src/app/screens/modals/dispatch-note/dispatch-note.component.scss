@@ -1,0 +1,126 @@
+.address {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    line-gap-override: 0.5em;
+    p{
+        font-size: 10px;
+        margin: 0.1em;
+    }
+}
+
+.phone{
+    font-size: 10px;
+}
+
+.more-information{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .info{
+        display: flex;
+        gap: 1em;
+    
+        .key{
+            width: 120px;
+        }
+    }
+}
+
+.part-details{
+    margin-top: 2em;
+
+    .dispatch-details{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    thead > th {
+        border: 1px solid #ccc;
+        padding: 8px;
+        background-color: #f2f2f2;
+    }
+
+    tbody > td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+}
+
+.part-details, .acknowledgement > * {
+    border: 1px solid #ccc;
+    padding: 10px;
+    // margin-bottom: 10px;
+}
+
+.acknowledgement{
+    margin-top: 15em;
+    h3{
+        text-align: center;
+    }
+
+    .vehicle-details{
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+}
+
+// .acknowledgement-details {
+//     width: 100%;
+//     border-collapse: collapse;
+//   }
+  
+//   .acknowledgement-details thead th,
+//   .acknowledgement-details tbody td {
+//     border: 1px solid #ccc;
+//     padding: 10px;
+//   }
+  
+//   .acknowledgement-details thead th {
+//     background-color: #f0f0f0;
+//   }
+  
+//   .time-cell {
+//     display: flex;
+//     justify-content: space-between;
+//     // flex-direction: column;
+//   }
+  
+//   .time-cell p {
+//     margin: 0;
+//   }
+  
+  
+table.acknowledgement-details {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.acknowledgement-details th, table.acknowledgement-details td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table.acknowledgement-details th {
+    background-color: #f2f2f2;
+}
+
+.time-cell {
+    font-weight: bold;
+}
+
+.time-cell p {
+    margin: 0;
+}
+
+.time-cell span {
+    font-weight: normal;
+}
