@@ -13,10 +13,8 @@ import { FreightDataModel } from '../../../../../core/model/masterModels.model';
 })
 export class FreightMasterMaterialGridTableComponent implements OnInit {
   constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
-  @ViewChild('approvePopover') approvePopover!: NgbPopover;
-  @ViewChild('rejectPopover') rejectPopover!: NgbPopover;
   @Input()
-  searchedFreight!: any; 
+  searchedFreight!: any;
   freightList: any;
   loadSpinner: boolean = true;
   freightData!: FreightDataModel;
@@ -26,28 +24,40 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     this.getAllFreightListInit();
   }
 
-    //SORTING DATA FROM FILTER CHANGES
-    ngOnChanges(changes: SimpleChanges): void {
-      if(changes['searchedFreight'].currentValue){
-        this.getAllFreightListInit();
-      } else if(changes['searchedFreight'].firstChange === false && changes['searchedFreight'].currentValue === undefined){
-        this.getAllFreightListInit();
-      }
+  //SORTING DATA FROM FILTER CHANGES
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchedFreight'].currentValue) {
+      this.getFilteredFreightsList();
+    } else if (changes['searchedFreight'].firstChange === false && changes['searchedFreight'].currentValue === undefined) {
+      this.getAllFreightListInit();
     }
+  }
 
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit() {
     let data = {
       "screenCode": 102, //Freight Material Screen Code
       "freightCode": '',
-      "sourceId": 0,
-      "vehicleSizeId": 0
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
-      console.log(this.freightList, "this.freightList");
       this.selectFreight(this.selectedFreightId);
 
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
+
+  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH FREIGHT FROM FILTERS 
+  getFilteredFreightsList() {
+    let data = {
+      "screenCode": 102,
+      "freightCode": this.searchedFreight.freightCode || "",
+    }
+    this.freightService.getFreightsList(data).subscribe((response: any) => {
+      this.freightList = response.freights;
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);

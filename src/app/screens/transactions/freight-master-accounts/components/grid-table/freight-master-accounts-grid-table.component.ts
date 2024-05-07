@@ -13,8 +13,6 @@ import { FreightDataModel } from '../../../../../core/model/masterModels.model';
 })
 export class FreightMasterAccountsGridTableComponent implements OnInit {
   constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
-  @ViewChild('approvePopover') approvePopover!: NgbPopover;
-  @ViewChild('rejectPopover') rejectPopover!: NgbPopover;
   @Input()
   searchedFreight!: any;
   freightList: any;
@@ -29,7 +27,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
   //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchedFreight'].currentValue) {
-      this.getAllFreightListInit();
+      this.getFilteredFreightsList();
     } else if (changes['searchedFreight'].firstChange === false && changes['searchedFreight'].currentValue === undefined) {
       this.getAllFreightListInit();
     }
@@ -40,14 +38,25 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": '',
-      "sourceId": 0,
-      "vehicleSizeId": 0
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
-      console.log(this.freightList, "this.freightList");
       this.selectFreight(this.selectedFreightId);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
 
+   //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH FREIGHT FROM FILTERS 
+   getFilteredFreightsList() {
+    let data = {
+      "screenCode": 103,
+      "freightCode": this.searchedFreight.freightCode || "",
+    }
+    this.freightService.getFreightsList(data).subscribe((response: any) => {
+      this.freightList = response.freights;
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);

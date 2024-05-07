@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-freight-master-accounts',
@@ -7,7 +6,6 @@ import { Router } from '@angular/router';
   styleUrl: './freight-master-accounts.component.scss'
 })
 export class FreightMasterAccountsComponent {
-  constructor(private router: Router) { }
 
   searchedFreight: any;
   isFilters: boolean = true;
