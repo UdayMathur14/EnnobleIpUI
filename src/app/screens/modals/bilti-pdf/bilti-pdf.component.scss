@@ -1,0 +1,82 @@
+.container-fluid {
+  padding: 40px;
+}
+
+.bilti-header {
+  text-align: center;
+
+  .header {
+    font-weight: bold;
+    font-size: 28px;
+  }
+
+  .transporter-header {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+}
+
+.address-header {
+  text-align: center;
+
+  .address-services {
+    margin-bottom: 0;
+  }
+}
+
+.col-auto{
+  padding-right:0;
+  padding-bottom:0
+}
+
+.horizontal-line{
+  width: 100px;
+}
+
+.custom-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.custom-table th,
+.custom-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+.custom-table th {
+  background-color: #f2f2f2;
+}
+
+.vehicle-header{
+  margin-top: 50px;
+
+  .vehicle-number{
+    font-size:18px;
+    font-weight: bold;
+  }
+
+  .vehicle{
+    margin-top:5px;
+  }
+}
+
+.signature-clerk{
+  margin-top: 80px;
+}
+
+.footer{
+  margin-top: 0
+}
+
+.agreement{
+  margin-bottom: 0;
+}
+
+.footer{
+  margin-top:50px;
+}
+
+
+

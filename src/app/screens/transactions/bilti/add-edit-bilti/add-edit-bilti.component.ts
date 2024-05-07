@@ -157,7 +157,7 @@ export class AddEditBiltiComponent implements OnInit {
     const vehicleNumber = this.vehiclesList.find(
       (vehicle: any) => vehicle.vehicleNumber === selectedVehiclenumber
     );
-    this.vehicleId = vehicleNumber.id
+    this.vehicleId = vehicleNumber?.id
     // this.vehicleId = vehicleNumber?.id;
     if (selected) {
       this.vehicleNumber = selected?.vehicleNumber;
