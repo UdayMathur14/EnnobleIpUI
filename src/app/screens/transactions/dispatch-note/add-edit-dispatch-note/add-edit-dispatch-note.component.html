@@ -93,7 +93,7 @@
           <td>{{i+1}}</td>
           <td>
             <div class="custom-form-input">
-              <ng-select class="input-field" placeholder="Select Part Number" (change)="onPartSelect($event, i)">
+              <ng-select class="input-field" placeholder="Select Part Number" [(ngModel)]="selectedPartNumber" (change)="onPartSelect($event, i)">
                 <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
               </ng-select>
 
