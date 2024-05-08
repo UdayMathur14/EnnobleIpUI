@@ -74,3 +74,5 @@ export const biltiData = (locationId: any, biltiId: any) => `v1/${locationId}/bi
 export const updateBitli = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/update/${biltiId}`;
 export const createDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/create`;
 export const getDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/search`;
+export const dispatchData = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/${dispatchId}`;
+export const updateDispatchNote = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/update/${dispatchId}`;

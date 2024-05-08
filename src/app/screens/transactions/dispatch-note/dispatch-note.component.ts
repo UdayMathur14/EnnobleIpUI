@@ -34,6 +34,6 @@ export class DispatchNoteComponent {
   }
 
   onCreateDispatchNote(){
-    this.router.navigate(['transaction/addEditDispatchNote'])
+    this.router.navigate(['transaction/addEditDispatchNote/0'])
   }
 }

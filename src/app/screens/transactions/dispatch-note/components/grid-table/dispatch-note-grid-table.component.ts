@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
+import { DispatchNoteModelComponent } from '../../../../modals/dispatch-note/dispatch-note.component';
 
 @Component({
   selector: 'app-dispatch-note-grid-table',
@@ -19,14 +20,14 @@ export class DispatchNoteGridTableComponent {
     this.router.navigate([`transaction/addEditDispatchNote/${id}`]);
   }
 
-  onPreviewDeliveryNote() {
-    let deliveryNoteModal = this.modalService.open(DeliveryNoteModalComponent, {
+  onPreviewDispatchNote(dispatch: any){
+    let dispatchNoteModal = this.modalService.open(DispatchNoteModelComponent, {
       size: "lg",
       backdrop: "static",
     });
-    // deliveryNoteModal.componentInstance.data = data;
+    dispatchNoteModal.componentInstance.dispatch = dispatch;
 
-    deliveryNoteModal.result.then(
+    dispatchNoteModal.result.then(
       (result) => {
         if (result) {
 
