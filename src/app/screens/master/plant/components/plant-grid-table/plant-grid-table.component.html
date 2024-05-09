@@ -4,12 +4,12 @@
       <thead>
         <tr>
           <th>Plant Code</th>
+          <th>Plant Name</th>
           <th>Address</th>
           <th>State</th>
           <th>City</th>
           <th>PAN</th>
           <th>GSTIN</th>
-          <th>Plant Type</th>
           <th>Site Code</th>
           <th>Location Code</th>
           <th>DSC</th>
@@ -50,12 +50,12 @@
               </div>
             </ng-template>
           </td>
+          <td>{{plant.plantDesc}}</td>
           <td>{{ plant.plantAddress }}</td>
           <td>{{ plant.state.value }}</td>
           <td>{{ plant.city.value }}</td>
           <td>{{ plant.panNo }}</td>
           <td>{{ plant.gstnNo }}</td>
-          <td>{{ plant.plantType }}</td>
           <td>{{ plant.siteCode }}</td>
           <td>{{ plant.locations.value }}</td>
           <td>{{ plant.dsc }}</td>

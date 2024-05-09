@@ -19,11 +19,12 @@ export class AddEditVendorComponent implements OnInit {
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
   ) { }
+
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
     vendorName: new FormControl(''),
     vendorAddress: new FormControl(''),
-    phone: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
     email: new FormControl('', [Validators.required]),
     city: new FormControl(''),
     state: new FormControl(''),
@@ -37,7 +38,7 @@ export class AddEditVendorComponent implements OnInit {
     sgst: new FormControl(''),
     igst: new FormControl(''),
     rcmNonRcm: new FormControl(''),
-    status:  new FormControl('')
+    status: new FormControl('')
   });
   queryData: any;
   vendorData: VendorDataModel = {};
@@ -45,7 +46,7 @@ export class AddEditVendorComponent implements OnInit {
   loadSpinner: boolean = true;
   pointChargeName: any = [];
   selectedPointName: undefined;
-  taxationCode:any
+  taxationCode: any
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
@@ -81,10 +82,11 @@ export class AddEditVendorComponent implements OnInit {
   onPressSave() {
     this.loadSpinner = true;
     let data = {
-      "actionBy": 0,
+      "actionBy": 1,
       "contactNumber": this.vendorForm.get('phone')?.value,
       "email": this.vendorForm.get('email')?.value,
       "status": this.vendorForm.get('status')?.value,
+      "taxationTypeId": this.vendorForm.get('taxationCode')?.value,
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
@@ -96,14 +98,14 @@ export class AddEditVendorComponent implements OnInit {
     })
   }
 
-  getTaxationCodeDropdownData(){
+  getTaxationCodeDropdownData() {
     let data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'taxationCode'
-    this.vendorService.getDropdownData(data, type).subscribe((res:any)=>{
+    this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
       console.log(res)
       this.taxationCode = res.lookUps
     })
@@ -114,32 +116,32 @@ export class AddEditVendorComponent implements OnInit {
     this.router.navigate(['master/vendor']);
   }
 
-  patchVendorData(data: any){
+  patchVendorData(data: any) {
     console.log(data)
-      this.vendorForm.patchValue({
-        vendorCode: data.vendorCode,
-        vendorName: data.vendorName,
-        vendorAddress: data.vendorAddress1,
-        phone: data.contactNumber,
-        email: data.email,
-        city: data.city.value,
-        state: data.state.value,
-        pan: data.panNo,
-        gstin: data.gstnNo,
-        paymentTermCode: data.payTermCode,
-        paymentStatus: data.payTermStatus,
-        paidByDetail: data.paidByDetail.value,
-        taxationCode: data.taxationType.id,
-        cgst: data.taxationType.attribute5,
-        sgst: data.taxationType.attribute6,
-        igst: data.taxationType.attribute7,
-        status: data.status,
-        rcmNonRcm : data.taxationType.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
-      });
-    }
+    this.vendorForm.patchValue({
+      vendorCode: data.vendorCode,
+      vendorName: data.vendorName,
+      vendorAddress: data.vendorAddress1,
+      phone: data.contactNumber,
+      email: data.email,
+      city: data.city.value,
+      state: data.state.value,
+      pan: data.panNo,
+      gstin: data.gstnNo,
+      paymentTermCode: data.payTermCode,
+      paymentStatus: data.payTermStatus,
+      paidByDetail: data.paidByDetail.value,
+      taxationCode: data.taxationType.id,
+      cgst: data.taxationType.attribute5,
+      sgst: data.taxationType.attribute6,
+      igst: data.taxationType.attribute7,
+      status: data.status,
+      rcmNonRcm: data.taxationType.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
+    });
+  }
 
 
-  onOptionSelected(event:any) {
+  onOptionSelected(event: any) {
     const selectedLookup = this.taxationCode.find((lookup: any) => lookup.id === event);
     this.vendorForm.patchValue({
       cgst: selectedLookup.attribute5,
@@ -149,4 +151,15 @@ export class AddEditVendorComponent implements OnInit {
     });
 
   }
+
+  // Custom keypress event handler for phone input field
+  // Allow only numeric characters and limit to 10 characters
+  onPhoneKeyPress(event: KeyboardEvent) {
+    const allowedCharacters = /^[0-9]$/;
+    const phoneControl = this.vendorForm.get('phone');
+    if (phoneControl?.value && phoneControl?.value.length >= 10 || !allowedCharacters.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
 }
