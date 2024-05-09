@@ -2,7 +2,6 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PartService } from '../../../../../core/service/part.service';
-import { BaseService } from '../../../../../core/service/base.service';
 
 @Component({
   selector: 'app-part-grid-table',
@@ -12,7 +11,6 @@ import { BaseService } from '../../../../../core/service/base.service';
 export class PartGridTableComponent implements OnInit, OnChanges {
   constructor(private router: Router,
     private toastr: ToastrService,
-    private baseService : BaseService,
     private partService: PartService) { }
     
   @Input()

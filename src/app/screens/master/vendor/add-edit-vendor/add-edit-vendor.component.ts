@@ -91,6 +91,7 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
       this.toastr.success("Vendor Update Successfully");
+      this.router.navigate(['master/vendor']);
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);

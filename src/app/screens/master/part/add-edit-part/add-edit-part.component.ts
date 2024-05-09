@@ -100,6 +100,7 @@ export class AddEditPartComponent implements OnInit {
       this.partData = response;
       this.loadSpinner = false;
       this.toastr.success('Part Updated Successfully');
+      this.router.navigate(['master/part']);
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;

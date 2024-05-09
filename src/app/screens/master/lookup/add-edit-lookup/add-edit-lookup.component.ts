@@ -110,7 +110,8 @@ export class AddEditLookupComponent implements OnInit {
     this.lookupService.updateLookup(this.lookupId, data).subscribe((response: any) => {
       this.lookupData = response;
       this.loadSpinner = false;
-      this.toastr.success('Lookup Updated Successfully')
+      this.toastr.success('Lookup Updated Successfully');
+      this.router.navigate(['/master/lookup']);
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;

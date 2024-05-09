@@ -133,6 +133,7 @@ export class AddEditPlantComponent implements OnInit {
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
       this.toastr.success('Plant Update Successfully');
+      this.router.navigate(['master/plant']);
       this.baseService.plantSpinner.next(false);
     }, error => {
       this.toastr.error(error.statusText, error.status);
