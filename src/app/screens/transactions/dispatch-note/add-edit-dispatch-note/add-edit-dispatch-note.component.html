@@ -87,7 +87,7 @@
         </tr>
       </thead>
       <tbody *ngIf="dispatchNote.partDetails">
-        @for (part of partDetailsList; track part.id; let i = $index) {
+        @for (partDetail of partDetailsList; track partDetail.id; let i = $index) {
 
         <tr>
           <td>{{i+1}}</td>
@@ -99,24 +99,24 @@
 
             </div>
           </td>
-          <td>{{part.partName}}</td>
+          <td>{{partDetail.partName}}</td>
           <td>
             <div class="custom-form-input">
               <ng-select class="input-field" #qty placeholder="Select Quantity"
-                (change)="onQuantitySelection($event, i)">
-                <ng-option *ngFor="let lookup of lookupList" [value]="lookup.id">{{lookup.value}}</ng-option>
+                (change)="onQuantitySelection($event, i)" [(ngModel)]="selectedQuantity">
+                <ng-option *ngFor="let lookup of lookupList" [value]="lookup?.id">{{lookup.value}}</ng-option>
               </ng-select>
             </div>
           </td>
-          <td>{{part.partSize}}</td>
+          <td>{{partDetail.partSize}}</td>
           <td>
             <div class="custom-form-input">
-              <input type="text" class="input-field" placeholder="Remarks" readonly [value]="part?.remarks || ''" />
+              <input type="text" class="input-field" placeholder="Remarks" readonly [value]="partDetail?.remarks || ''" />
             </div>
           </td>
           <td class="text-center">
             <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
-              (click)="onDeletePartDetail(part, i)" />
+              (click)="onDeletePartDetail(partDetail, i)" />
           </td>
         </tr>
         }

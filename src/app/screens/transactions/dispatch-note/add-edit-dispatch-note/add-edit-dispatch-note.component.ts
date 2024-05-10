@@ -5,10 +5,8 @@ import { PartService } from '../../../../core/service/part.service';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../core/service/vehicle.service';
 import { VendorService } from '../../../../core/service/vendor.service';
-import { DispatchNoteModel } from '../../../../core/model/masterModels.model';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { BaseService } from '../../../../core/service/base.service';
-import { LookupTypeService } from '../../../../core/service/lookup-type.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
@@ -27,18 +25,19 @@ export class AddEditDispatchNoteComponent {
   });
 
   partNum: string | undefined;
-  partsList: any;
+  partsList: any[] = [];
   allPartsNames: string[] = [];
   vehicleList: any[] = [];
   allVehiclNumbers: string[] = [];
   dispatchNote!: any;
   supplierList: any[] = [];
-  partDetailsList: any[] = [];
+  partDetailsList: any[] = [];               //just to show part data on table
   supplierId!: number;
   vehicleId!: number;
   partQtyId: number = 0;
   lookupList: any[] = [];
   selectedPartNumber!: string;
+  selectedQuantity!: number;
   dispatchId: number = 0;
 
   constructor(
@@ -49,9 +48,8 @@ export class AddEditDispatchNoteComponent {
     private vendorService: VendorService,
     private dispatchNoteService: DispatchNoteService,
     private baseService: BaseService,
-    private lookuptypeService: LookupTypeService,
     private lookupService: LookupService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -62,15 +60,19 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNoteInit();
     this.getAllLookups();
 
-    if (this.dispatchId > 0) {
-      this.getDispatchData(this.dispatchId);
-    }
+      if (this.dispatchId > 0) {
+        this.getDispatchData(this.dispatchId);
+      }
   }
   getDispatchData(dispatchId: number) {
     this.dispatchNoteService.getDispatchNoteById(dispatchId).subscribe((response: any) => {
-      console.log(response);
+      if (response.dispatchNotePartItems[0]) {
+        this.selectedPartNumber = response.dispatchNotePartItems[0].parts.partNumber;
+        this.selectedQuantity = response.dispatchNotePartItems[0].partsQty.value;
+      }
       const vehicles = response.vehicles
       const suppliers = response.suppliers
+
       this.addOrEditDispatchNoteFormGroup.patchValue({
         vehicleNumber: vehicles.vehicleNumber,
         vehicleSize: vehicles.vehicleSize.value,
@@ -82,13 +84,12 @@ export class AddEditDispatchNoteComponent {
       this.supplierId = suppliers.id;
       this.vehicleId = vehicles.id
       
-      console.log(response.dispatchNotePartItems.map(mapPartDetails));
       this.dispatchNote.supplierId = response?.supplierId
       this.dispatchNote.vehicleId = response.vehicleId
       this.dispatchNote.frlrNumber = response.frlrNumber
       this.dispatchNote.status = response.status
       this.dispatchNote.partDetails = response.dispatchNotePartItems.map(mapPartDetails);
-      this.partDetailsList = response.dispatchNotePartItems.map(mapPartDetails);
+      this.partDetailsList = response.dispatchNotePartItems.map((item: any) => item.parts);
     })
     function mapPartDetails(partItem: any){
       let partData = {
@@ -111,6 +112,7 @@ export class AddEditDispatchNoteComponent {
   
       return partData;
     }
+
   }
 
 
@@ -122,7 +124,6 @@ export class AddEditDispatchNoteComponent {
     await this.partService.getParts(data).subscribe(
       (response: any) => {
         this.partsList = response.parts;
-        console.log(this.partsList);
       },
       (error) => {
         this.toastr.error(error.statusText, error.status);
@@ -163,7 +164,6 @@ export class AddEditDispatchNoteComponent {
     };
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
-        console.log(response.lookUps);
         this.lookupList = response.lookUps;
       },
       (error: any) => {
@@ -227,7 +227,6 @@ export class AddEditDispatchNoteComponent {
     if (!!vehicleNumber) {
       this.vehicleList.forEach((vehicle) => {
         if (vehicle.vehicleNumber === vehicleNumber) {
-          console.log(vehicle);
           this.addOrEditDispatchNoteFormGroup.patchValue({
             vehicleSize: vehicle?.vehicleSize?.value,
           });
@@ -242,7 +241,6 @@ export class AddEditDispatchNoteComponent {
     if (!!supplierCode) {
       this.supplierList.forEach((supplier) => {
         if (supplier.vendorCode === supplierCode) {
-          console.log(supplier);
           this.addOrEditDispatchNoteFormGroup.patchValue({
             supplierName: supplier.vendorName,
             supplierAddress: supplier.vendorAddress1,
@@ -254,7 +252,6 @@ export class AddEditDispatchNoteComponent {
   }
 
   onDeletePartDetail(part: any, i: number) {
-    console.log('delete index ', i);
     if (this.dispatchNote.partDetails != undefined) {
       this.dispatchNote.partDetails?.splice(i, 1);
       this.partDetailsList.splice(i, 1);
@@ -264,7 +261,6 @@ export class AddEditDispatchNoteComponent {
   onPartSelect(e: any, i: number) {
     this.partsList.forEach((part: any) => {
       if (part.partNumber === e) {
-        console.log(e)
         this.partDetailsList[i] = part;
         if (this.dispatchNote?.partDetails != undefined) {
           this.dispatchNote.partDetails[i].partId = part.id;
@@ -285,14 +281,13 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNote.frlrNumber = this.addOrEditDispatchNoteFormGroup.controls
       .frlrNumber.value as string;
 
-      console.log(this.dispatchNote);
-
       if (this.dispatchId > 0) {
         this.dispatchNoteService.updateDispatchNote(this.dispatchId, this.dispatchNote).subscribe(
           (response: any) => {
             this.dispatchNote = response;
             this.toastr.success('Dispatch Updated Successfully');
             this.baseService.plantSpinner.next(false);
+            this.router.navigate(['transaction/dispatchNote']);
           },
           (error) => {
             this.toastr.error(error.statusText, error.status);
@@ -307,6 +302,7 @@ export class AddEditDispatchNoteComponent {
               this.dispatchNote = response;
               this.toastr.success('Dispatch Created Successfully');
               this.baseService.plantSpinner.next(false);
+              
             },
             (error) => {
               this.toastr.error(error.statusText, error.status);
