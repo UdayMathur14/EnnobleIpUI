@@ -81,12 +81,17 @@ export class AddEditVendorComponent implements OnInit {
   //UPDATING THE VENDOR ON CLICK OF SAVE BUTTON
   onPressSave() {
     this.loadSpinner = true;
+    const rcmNonRcmValue = this.vendorForm.get('rcmNonRcm')?.value === 'RCM' ? 1 : 0;
     let data = {
       "actionBy": 1,
       "contactNumber": this.vendorForm.get('phone')?.value,
       "email": this.vendorForm.get('email')?.value,
       "status": this.vendorForm.get('status')?.value,
       "taxationTypeId": this.vendorForm.get('taxationCode')?.value,
+      "attribute5": this.vendorForm.get('cgst')?.value,
+      "attribute6": this.vendorForm.get('sgst')?.value,
+      "attribute7": this.vendorForm.get('igst')?.value,
+      "attribute8": rcmNonRcmValue,
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
@@ -133,9 +138,9 @@ export class AddEditVendorComponent implements OnInit {
       paymentStatus: data.payTermStatus,
       paidByDetail: data.paidByDetail.value,
       taxationCode: data.taxationType.id,
-      cgst: data.taxationType.attribute5,
-      sgst: data.taxationType.attribute6,
-      igst: data.taxationType.attribute7,
+      cgst: data.attribute5,
+      sgst: data.attribute6,
+      igst: data.attribute7,
       status: data.status,
       rcmNonRcm: data.taxationType.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
     });
