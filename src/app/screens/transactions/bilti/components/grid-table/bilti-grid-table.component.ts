@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
@@ -16,6 +16,8 @@ import { BiltiPdfModalComponent } from '../../../../modals/bilti-pdf/bilti-pdf.c
 export class BiltiGridTableComponent implements OnInit {
   biltisList: any = [];
   loadSpinner: boolean = true;
+  @Input() searchedBilti: any;
+  biltisListOrg:any;
 
   constructor(private router: Router,
     private modalService: NgbModal,
@@ -24,6 +26,7 @@ export class BiltiGridTableComponent implements OnInit {
 
     ngOnInit() :void{
       this.getAllBiltisList();
+      console.log(this.searchedBilti)
     }
   
   onPreviewBilti() {
@@ -83,5 +86,26 @@ export class BiltiGridTableComponent implements OnInit {
       }
     );
   }
+
+  getFilteredBiltisList() {
+    let data = {
+      "biltiNumber": this.searchedBilti.biltiNumber,
+    }
+    this.biltiService.getBiltis(data).subscribe((response: any) => {
+      this.biltisList = response.biltiCreations;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    })
+  }
   
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchedBilti'].currentValue) {
+      this.getFilteredBiltisList();
+    } else if (changes['searchedBilti'].firstChange === false && changes['searchedBilti'].currentValue === '') {
+      this.getAllBiltisList();
+    }
+
+  }
 }
