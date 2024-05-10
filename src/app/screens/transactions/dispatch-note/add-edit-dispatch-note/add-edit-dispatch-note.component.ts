@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PartService } from '../../../../core/service/part.service';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../core/service/vehicle.service';
 import { VendorService } from '../../../../core/service/vendor.service';
-import { DispatchNoteModel } from '../../../../core/model/masterModels.model';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { BaseService } from '../../../../core/service/base.service';
-import { LookupTypeService } from '../../../../core/service/lookup-type.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
@@ -27,18 +25,20 @@ export class AddEditDispatchNoteComponent {
   });
 
   partNum: string | undefined;
-  partsList: any;
+  partsList: any[] = [];
   allPartsNames: string[] = [];
   vehicleList: any[] = [];
   allVehiclNumbers: string[] = [];
-  dispatchNote!: DispatchNoteModel;
+  dispatchNote!: any;
   supplierList: any[] = [];
-  partDetailsList: any[] = [];
+  partDetailsList: any[] = [];               //just to show part data on table
   supplierId!: number;
   vehicleId!: number;
   partQtyId: number = 0;
   lookupList: any[] = [];
   selectedPartNumber!: string;
+  selectedQuantity!: number;
+  dispatchId: number = 0;
 
   constructor(
     private router: Router,
@@ -48,17 +48,73 @@ export class AddEditDispatchNoteComponent {
     private vendorService: VendorService,
     private dispatchNoteService: DispatchNoteService,
     private baseService: BaseService,
-    private lookuptypeService: LookupTypeService,
-    private lookupService: LookupService
+    private lookupService: LookupService,
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit() {
+    this.dispatchId = Number(this.activatedRoute.snapshot.paramMap.get('dispatchId'));
     this.getAllPartsListInit();
     this.getAllVehicles();
     this.getAllVendors();
     this.dispatchNoteInit();
     this.getAllLookups();
+
+      if (this.dispatchId > 0) {
+        this.getDispatchData(this.dispatchId);
+      }
   }
+  getDispatchData(dispatchId: number) {
+    this.dispatchNoteService.getDispatchNoteById(dispatchId).subscribe((response: any) => {
+      if (response.dispatchNotePartItems[0]) {
+        this.selectedPartNumber = response.dispatchNotePartItems[0].parts.partNumber;
+        this.selectedQuantity = response.dispatchNotePartItems[0].partsQty.value;
+      }
+      const vehicles = response.vehicles
+      const suppliers = response.suppliers
+
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        vehicleNumber: vehicles.vehicleNumber,
+        vehicleSize: vehicles.vehicleSize.value,
+        supplierName: suppliers.vendorName,
+        supplierCode: suppliers.vendorCode,
+        frlrNumber: response.frlrNumber,
+        supplierAddress: suppliers.vendorAddress1
+      });
+      this.supplierId = suppliers.id;
+      this.vehicleId = vehicles.id
+      
+      this.dispatchNote.supplierId = response?.supplierId
+      this.dispatchNote.vehicleId = response.vehicleId
+      this.dispatchNote.frlrNumber = response.frlrNumber
+      this.dispatchNote.status = response.status
+      this.dispatchNote.partDetails = response.dispatchNotePartItems.map(mapPartDetails);
+      this.partDetailsList = response.dispatchNotePartItems.map((item: any) => item.parts);
+    })
+    function mapPartDetails(partItem: any){
+      let partData = {
+        actionBy: 1,
+        attribute1: partItem.parts.attribute1,
+        attribute2: partItem.parts.attribute2,
+        attribute3: partItem.parts.attribute3,
+        attribute4: partItem.parts.attribute4,
+        attribute5: partItem.parts.attribute5,
+        attribute6: partItem.parts.attribute6,
+        attribute7: partItem.parts.attribute7,
+        attribute8: partItem.parts.attribute8,
+        attribute9: partItem.parts.attribute9,
+        attribute10: partItem.parts.attribute10,
+        partId: partItem.parts.id,
+        partQtyId: partItem.partsQty.id,
+        dispatchNoteid: dispatchId,
+        status: partItem.status
+      }
+  
+      return partData;
+    }
+
+  }
+
 
   private async getAllPartsListInit() {
     const data = {
@@ -68,7 +124,6 @@ export class AddEditDispatchNoteComponent {
     await this.partService.getParts(data).subscribe(
       (response: any) => {
         this.partsList = response.parts;
-        console.log(this.partsList);
       },
       (error) => {
         this.toastr.error(error.statusText, error.status);
@@ -109,7 +164,6 @@ export class AddEditDispatchNoteComponent {
     };
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
-        console.log(response.lookUps);
         this.lookupList = response.lookUps;
       },
       (error: any) => {
@@ -173,7 +227,6 @@ export class AddEditDispatchNoteComponent {
     if (!!vehicleNumber) {
       this.vehicleList.forEach((vehicle) => {
         if (vehicle.vehicleNumber === vehicleNumber) {
-          console.log(vehicle);
           this.addOrEditDispatchNoteFormGroup.patchValue({
             vehicleSize: vehicle?.vehicleSize?.value,
           });
@@ -188,7 +241,6 @@ export class AddEditDispatchNoteComponent {
     if (!!supplierCode) {
       this.supplierList.forEach((supplier) => {
         if (supplier.vendorCode === supplierCode) {
-          console.log(supplier);
           this.addOrEditDispatchNoteFormGroup.patchValue({
             supplierName: supplier.vendorName,
             supplierAddress: supplier.vendorAddress1,
@@ -200,7 +252,6 @@ export class AddEditDispatchNoteComponent {
   }
 
   onDeletePartDetail(part: any, i: number) {
-    console.log('delete index ', i);
     if (this.dispatchNote.partDetails != undefined) {
       this.dispatchNote.partDetails?.splice(i, 1);
       this.partDetailsList.splice(i, 1);
@@ -210,7 +261,6 @@ export class AddEditDispatchNoteComponent {
   onPartSelect(e: any, i: number) {
     this.partsList.forEach((part: any) => {
       if (part.partNumber === e) {
-        console.log(e)
         this.partDetailsList[i] = part;
         if (this.dispatchNote?.partDetails != undefined) {
           this.dispatchNote.partDetails[i].partId = part.id;
@@ -231,18 +281,36 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNote.frlrNumber = this.addOrEditDispatchNoteFormGroup.controls
       .frlrNumber.value as string;
 
-    await this.dispatchNoteService
-      .createDispatchNote(this.dispatchNote)
-      .subscribe(
-        (response: any) => {
-          this.dispatchNote = response;
-          this.toastr.success('Dispatch Created Successfully');
-          this.baseService.plantSpinner.next(false);
-        },
-        (error) => {
-          this.toastr.error(error.statusText, error.status);
-          this.baseService.plantSpinner.next(false);
-        }
-      );
+      if (this.dispatchId > 0) {
+        this.dispatchNoteService.updateDispatchNote(this.dispatchId, this.dispatchNote).subscribe(
+          (response: any) => {
+            this.dispatchNote = response;
+            this.toastr.success('Dispatch Updated Successfully');
+            this.baseService.plantSpinner.next(false);
+            this.router.navigate(['transaction/dispatchNote']);
+          },
+          (error) => {
+            this.toastr.error(error.statusText, error.status);
+            this.baseService.plantSpinner.next(false);
+          }
+        );
+      }else{
+        await this.dispatchNoteService
+          .createDispatchNote(this.dispatchNote)
+          .subscribe(
+            (response: any) => {
+              this.dispatchNote = response;
+              this.toastr.success('Dispatch Created Successfully');
+              this.baseService.plantSpinner.next(false);
+              
+            },
+            (error) => {
+              this.toastr.error(error.statusText, error.status);
+              this.baseService.plantSpinner.next(false);
+            }
+          );
+
+      }
+
   }
 }

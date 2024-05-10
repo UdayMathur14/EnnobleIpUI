@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, plant, plantData, updatePlant } from "../constants";
+import { APIConstant, getDropdownDatas, plant, plantData, updatePlant } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -24,4 +24,8 @@ export class PlantService extends CRUDService<PlantRequest> {
     updatePlant(plantId : string, data : object){
         return this.put(updatePlant(localStorage.getItem('locationId'), plantId), data);
     }
+
+    getLocationsLookup(data: object, type: string) {
+        return this.post(getDropdownDatas(type), data);
+      }
 }

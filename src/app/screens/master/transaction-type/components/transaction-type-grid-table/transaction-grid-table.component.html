@@ -3,8 +3,8 @@
   <table>
     <thead>
       <tr>
-        <th>Transaction Type Name</th>
         <th>Transaction Code</th>
+        <th>Transaction Type Name</th>
         <th>GL Sub Category Code</th>
         <th>Status</th>
         <th class="text-center">Action</th>
@@ -15,7 +15,7 @@
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{transaction.name}}</u>
+            <u>{{transaction.code}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -38,7 +38,7 @@
             </div>
           </ng-template>
         </td>
-        <td>{{transaction.code}}</td>
+        <td>{{transaction.name}}</td>
         <td>{{transaction.glSubCategory.value}}</td>
         <td>{{transaction.status}}</td>
         <td class="text-center">

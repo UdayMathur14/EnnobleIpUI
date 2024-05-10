@@ -31,7 +31,7 @@ export class LookupService extends CRUDService<LookupRequest> {
     this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
       this.baseService.lookupData.next(response);
       const locations = response.lookUps.filter((e: any) => e.code === 'HA');
-      localStorage.setItem('locationId', locations[0].id)
+      localStorage.setItem('locationId', locations[0]?.id)
     }, error => {
 
     })
@@ -51,6 +51,10 @@ export class LookupService extends CRUDService<LookupRequest> {
 
   getDropdownData(data: string): any{
     return this.baseService.post(APIConstant.basePath + getDropdownDatas(data), {})
+  }
+
+  getLocationsLookup(data: object, type: string) {
+    return this.post(getDropdownDatas(type), data);
   }
 
 }

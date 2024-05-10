@@ -1,0 +1,125 @@
+<div class="common-modal">
+    <div class="ngmodal-header">
+        <h3>
+          Dispatch Note
+          <span class="float-right pointer" (click)="activeModal.dismiss('Cross click')">
+              <img src="assets/images/icons/close.svg" alt="">
+          </span>
+          <div class="clearfix"></div>
+        </h3>
+      </div>
+        <div class="ngmodal-body">
+            <!-- <img src="assets/images/test-delivery-note.jpg" alt=""> -->
+            <p>Recycling Person Contact Number: <span class="fw-bold fs-6 phone">9953551886</span></p>
+            <div class="address">
+                <p>LG Electronics India Pvt. Ltd.</p>
+                <p>Surajpur, Greater NOIDA</p>
+                <p>Uttar Pradesh</p>
+            </div>
+
+            <p class="fw-bold">Supplier Name: <span class="fs-5">{{dispatch.suppliers.vendorName}}</span></p>
+            <div class="more-information">
+                <div class="info">
+                    <div class="key fw-bold">Address: </div>
+                    <div class="value">{{dispatch.suppliers.vendorAddress1}}</div>
+                </div>
+                <div class="info">
+                    <div class="key">Address: </div>
+                    <div class="value">{{dispatch.suppliers.vendorAddress2}}</div>
+                </div>
+                <div class="info">
+                    <div class="key">LG TIN Number: </div>
+                    <div class="value">09AAACL1745Q1Z2</div>
+                </div>
+                <div class="info">
+                    <div class="key">C.S.T. Number: </div>
+                    <div class="value">ND 5078331 DT. 14/04/97</div>
+                </div>
+                <div class="info">
+                    <div class="key">L.S.T. Number: </div>
+                    <div class="value">09AAAFCS4674J1ZU</div>
+                </div>
+            </div>
+
+            <div class="part-details">
+                <p class="mb-0">Mode Of Dispatch: <span>Road/AIr</span></p>
+                <div class="dispatch-details">
+                    <p>Gate Pass: <span>NFHA2402280676</span></p>
+                    <p>Disptch Date: <span>28-FEB-24</span></p>
+                </div>
+                @if (dispatch.dispatchNotePartItems) {
+
+                    <table>
+                        @for (part of dispatch.dispatchNotePartItems; track i; let i = $index) {
+                            
+                            <thead>
+                                <th>S. No.</th>
+                                <th>Part No.</th>
+                                <th>Part Description</th>
+                                <th>Dispatch(Qty/Kg)</th>
+                                <th>Remarks</th>
+                            </thead>
+                            <tbody >
+                                <td>{{i+1}}</td>
+                                <td>{{part.parts.partNumber}}</td>
+                                <td>{{part.parts.partName}}</td>
+                                <td>{{part.partsQty.value}}</td>
+                                <td>{{part.parts.remarks}}</td>
+                            </tbody>
+                        }
+                    </table>
+                }
+
+            </div>
+
+            <div class="acknowledgement">
+                <h3 class="fw-bold">Acknowledgement Copy</h3>
+                <div class="vehicle-details mb-0">
+                    <p>Vehicle Size: <span>{{dispatch.vehicles.vehicleSize.value}}</span></p>
+                    <p>Vehicle No.: <span>{{dispatch.vehicles.vehicleNumber}}</span></p>
+                    <p>Vehicle Owner Name: <span>RAJESH KUMAR</span></p>
+                    <p>Mobile No.: <span>9811642437</span></p>
+                </div>
+
+                <table class="acknowledgement-details">
+                    <thead>
+                        <tr>
+                            <th>LGEIL</th>
+                            <th>STARION INDIA PVT. LTD.</th>
+                            <th>At LG Gate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-cell">
+                                <p>Time In: <span>16:57</span></p>
+                                <p>Date: <span>26-FEB-24</span></p>
+                            </td>
+                            <td class="time-cell">
+                                <p>Reporting: <span>16:57</span></p>
+                                <p>Date: <span>26-FEB-24</span></p>
+                            </td>
+                            <td class="time-cell">
+                                <p>Reporting Time: <span></span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="time-cell">
+                                <p>Time Out: <span>17:27</span></p>
+                                <p>Date: <span>26-FEB-24</span></p>
+                            </td>
+                            <td class="time-cell">
+                                <p>Time In: <span>16:57</span></p>
+                                <p>Date: <span>26-FEB-24</span></p>
+                            </td>
+                            <td class="time-cell">
+                                <p>Time In: <span>16:57</span></p>
+                                <p>Date: <span>26-FEB-24</span></p>
+                            </td>
+                        </tr>
+                    </tbody>                    
+                </table>
+            </div>
+        </div>
+      
+</div>

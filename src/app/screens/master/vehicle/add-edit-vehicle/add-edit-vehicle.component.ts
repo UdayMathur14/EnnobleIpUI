@@ -16,7 +16,7 @@ export class AddEditVehicleComponent implements OnInit {
     private router: Router,
     private _route: ActivatedRoute,
     private vehicleService: VehicleService,
-    private toastr: ToastrService,
+    private toastr: ToastrService,  
     private baseService: BaseService
   ) {}
 
@@ -114,6 +114,7 @@ export class AddEditVehicleComponent implements OnInit {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')
           this.loadSpinner = false;
+          this.router.navigate(['/master/vehicle'])
         }, error => {
           this.toastr.error(error.statusText, error.status);
           this.loadSpinner = false;
