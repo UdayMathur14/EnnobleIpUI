@@ -14,7 +14,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Transaction Type</label>
-        <ng-select name="" id="" formControlName="transactionType" (change)="onOptionSelected($event)" [readonly]="biltiId>0">
+        <ng-select name="" id="" formControlName="transactionType" (change)="onOptionSelected($event)">
           <ng-option *ngFor="let transactionTypesList of filteredTransactionTypesLists" [value]="transactionTypesList">{{transactionTypesList.code}}</ng-option>
         </ng-select>
       </div>
@@ -132,7 +132,7 @@
             <div class="col-lg-10 col-md-10">
               <div class="custom-form-input biltiwidth">
                 <div class="input-with-icon" >
-                  <input type="text" class="input-field" formControlName="biltiDetailsTransactionType" [readonly]="biltiId > 0" />
+                  <input type="text" class="input-field" formControlName="biltiDetailsTransactionType" readonly />
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@
           <td>
             <div class="col-lg-10 col-md-10">
               <div class="custom-form-input biltiwidth">
-                <ng-select name="" id="" formControlName="pointName" (change)="onPointchargeChange($event)" [readonly]="biltiId>0">
+                <ng-select name="" id="" formControlName="pointName" (change)="onPointchargeChange($event)" [readonly]="true">
                   <ng-option *ngFor="let pointCharge of filteredPointname" [value]="pointCharge">{{pointCharge.pointName}}</ng-option>
                 </ng-select>
               </div>
@@ -188,7 +188,7 @@
           <td>
             <div class="col-lg-10 col-md-0">
               <div class="custom-form-input biltiwidth">
-                <input type="text" class="input-field" formControlName="paidByDetails" [readonly]="biltiId > 0"  />
+                <input type="text" class="input-field" formControlName="paidByDetails" [readonly]="true"  />
               </div>
             </div>
           </td>

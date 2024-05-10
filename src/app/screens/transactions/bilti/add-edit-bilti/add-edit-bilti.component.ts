@@ -122,15 +122,18 @@ export class AddEditBiltiComponent implements OnInit {
     };
     this.biltiService.getFrmTransactions(data).subscribe(
       (response: any) => {
-        this.frmTransactionData = response.frmTransactions;
+        // Get the unique transactions
+        this.frmTransactionData = [...new Set(response.frmTransactions.map((item: any) => 
+          item.frlrNumber))].map(frlrNumber => response.frmTransactions.find((t: any) => 
+            t.frlrNumber === frlrNumber));
         this.frlrList = response.transactionTypes;
         this.frmDocument = this.frmTransactionData.find(
-          (frmDocument: any) => frmDocument?.id ===this.frmdocumentId
+          (frmDocument: any) => frmDocument?.id === this.frmdocumentId
         );
-        if(this.biltiId>0){
-        this.biltiForm.patchValue({
-          documentrefNo: this.frmDocument?.documentNumber
-        })
+        if (this.biltiId > 0) {
+          this.biltiForm.patchValue({
+            documentrefNo: this.frmDocument?.documentNumber
+          })
         }
         this.loadSpinner = false;
       },
@@ -140,7 +143,7 @@ export class AddEditBiltiComponent implements OnInit {
       }
     );
   }
-
+  
   onOptionSelected(selectedTransactionType: any) {
     this.transactionTypeId = selectedTransactionType.id;
     this.getFrlr(selectedTransactionType.code);
@@ -151,14 +154,15 @@ export class AddEditBiltiComponent implements OnInit {
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
     const selected = this.frmTransactionData.find(
-      (data: any) => data.frlrNumber === selectedFrlr.frlrNumber
+      (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
     );
-    const selectedVehiclenumber = selectedFrlr.vehicleNumber;
+    const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
-      (vehicle: any) => vehicle.vehicleNumber === selectedVehiclenumber
+      (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
     );
-    this.vehicleId = vehicleNumber?.id
+    this.vehicleId = vehicleNumber?.id;
     // this.vehicleId = vehicleNumber?.id;
+    console.log(selected)
     if (selected) {
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
@@ -167,11 +171,9 @@ export class AddEditBiltiComponent implements OnInit {
       this.loadingLocationid = selected?.loadingLocationId;
       this.vehicleId = this.vehicleId;
       this.biltiForm.patchValue({
-        vehicleNumber: vehicleNumber.vehicleNumber,
-        vehicleSize: vehicleNumber.vehicleSize.value,
-        source: selected.fromDestination,
-        destination: selected.toDestination,
-        documentrefNo: selected.documentNumber,
+        vehicleNumber: vehicleNumber?.vehicleNumber,
+        vehicleSize: vehicleNumber?.vehicleSize.value,
+        documentrefNo: selected?.documentNumber,
         transporterCode: this.transporterMapCode[selected.transporterId],
         transporterName: this.transporterMapName[selected.transporterId],
       });
@@ -269,7 +271,9 @@ export class AddEditBiltiComponent implements OnInit {
   onFreightChange(data: any) {
     this.freightId = data.id;
     this.biltiForm.patchValue({
-      freightAmount: data.freightAmount,
+      freightAmount: data?.freightAmount,
+      source: data?.source?.value,
+      destination: data?.destination?.value
     });
   }
 
