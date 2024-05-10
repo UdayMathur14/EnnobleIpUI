@@ -53,4 +53,8 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.baseService.post(APIConstant.basePath + getDropdownDatas(data), {})
   }
 
+  getLocationsLookup(data: object, type: string) {
+    return this.post(getDropdownDatas(type), data);
+  }
+
 }

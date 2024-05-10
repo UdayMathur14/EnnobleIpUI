@@ -6,6 +6,7 @@ import { PlantDataModel } from '../../../../core/model/masterModels.model';
 import { BaseService } from '../../../../core/service/base.service';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-plant',
@@ -19,6 +20,7 @@ export class AddEditPlantComponent implements OnInit {
   plantData!: PlantDataModel;
   plantsList: any = [];
   transactionTypesList: any = [];
+  locationsDropdownData: any = [];
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -26,7 +28,8 @@ export class AddEditPlantComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private baseService: BaseService,
-    private transactionService: TransactionTypesService
+    private transactionService: TransactionTypesService,
+    private lookupService: LookupService,
   ) {
     this.plantForm = this.formBuilder.group({
       plantCode: [''],
@@ -50,6 +53,22 @@ export class AddEditPlantComponent implements OnInit {
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
     this.getPlantData(this.queryData);
     this.getTransactionTypes();
+    this.getLocations();
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.baseService.plantSpinner.next(false);
+    });
   }
 
   getPlantData(plantId: string) {
@@ -114,6 +133,7 @@ export class AddEditPlantComponent implements OnInit {
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
       this.toastr.success('Plant Update Successfully');
+      this.router.navigate(['master/plant']);
       this.baseService.plantSpinner.next(false);
     }, error => {
       this.toastr.error(error.statusText, error.status);

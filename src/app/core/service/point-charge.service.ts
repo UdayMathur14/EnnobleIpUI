@@ -17,7 +17,7 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
   }
 
   getPointChargeData(pointChargeId: string) {
-    return this.get(APIConstant.basePath +pointChargeData(localStorage.getItem('locationId'), pointChargeId));
+    return this.get(pointChargeData(localStorage.getItem('locationId'), pointChargeId));
   }
 
   updatePointCharge(pointChargeId: string, data: object) {
@@ -25,8 +25,7 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
   }
 
   createPointCharge(data: object) {
-    return this.post(
-      APIConstant.basePath +createPointCharge(localStorage.getItem('locationId')), data);
+    return this.post(createPointCharge(localStorage.getItem('locationId')), data);
   }
 
   getLookups(lookupId:any) {

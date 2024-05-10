@@ -13,23 +13,24 @@
                 <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly/>
-                        <input type="text" class="input-field" *ngIf="adviceId == 0" value="HA" readonly/>
+                        <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly />
+                        <input type="text" class="input-field" *ngIf="adviceId == 0" value="HA" readonly />
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Advice Type <span class="text-danger">*</span></label>
-                    <div class="input-with-icon">
-                        <input type="text" class="input-field" formControlName="adviceType"/>
-                    </div>
+                        <ng-select name="" id="" formControlName="adviceType">
+                            <ng-option *ngFor="let location of transactionTypesList"
+                                [value]="{name: location.name, id: location.id}">{{location.name}}</ng-option>
+                        </ng-select>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Batch Name</label>
-                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="adviceId > 0"/>
+                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="adviceId > 0" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -62,4 +63,4 @@
 
 <div class="spinner" *ngIf="loadSpinner">
     Loading...
-  </div>
+</div>
