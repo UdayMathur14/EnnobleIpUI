@@ -66,7 +66,6 @@ export class AddEditDispatchNoteComponent {
   }
   getDispatchData(dispatchId: number) {
     this.dispatchNoteService.getDispatchNoteById(dispatchId).subscribe((response: any) => {
-      console.log(response)
       if (response.dispatchNotePartItems[0]) {
         this.selectedPartNumber = response.dispatchNotePartItems[0].parts.partNumber;
         this.selectedQuantity = response.dispatchNotePartItems[0].partsQty.value;
@@ -91,8 +90,6 @@ export class AddEditDispatchNoteComponent {
       this.dispatchNote.status = response.status
       this.dispatchNote.partDetails = response.dispatchNotePartItems.map(mapPartDetails);
       this.partDetailsList = response.dispatchNotePartItems.map((item: any) => item.parts);
-      console.log(this.dispatchNote.partDetails)
-      console.log(this.partDetailsList)
     })
     function mapPartDetails(partItem: any){
       let partData = {
@@ -168,7 +165,6 @@ export class AddEditDispatchNoteComponent {
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
         this.lookupList = response.lookUps;
-        console.log("lookups",response)
       },
       (error: any) => {
         this.toastr.error(error.statusText, error.status);
