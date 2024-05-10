@@ -84,18 +84,17 @@ export class AddEditAdviceComponent implements OnInit {
   //FUNCTION EXECUTED ON SAVE BUTTON CLICK
   onPressSave() {
     this.loadSpinner = true;
-    const selectedAdviceType = this.adviceForm.controls['adviceType'].value;
     let data = {
-      adviceType: selectedAdviceType.name,
-      transactionTypeId: selectedAdviceType.id,
+      adviceType: this.adviceForm.controls['adviceType'].value.name,
+      transactionTypeId: this.adviceForm.controls['adviceType'].value.id,
       batchName: this.adviceForm.controls['batchName']?.value,
       maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       actionBy: 1
     }
     let editData = {
-      adviceType: this.isAdviceTypeTouched() ? selectedAdviceType.name : this.adviceForm.value.adviceType,
-      transactionTypeId: this.isAdviceTypeTouched() ? selectedAdviceType.id : this.transactionTypeId,
+      adviceType: this.isAdviceTypeTouched() ? this.adviceForm.controls['adviceType'].value.name : this.adviceForm.value.adviceType,
+      transactionTypeId: this.isAdviceTypeTouched() ? this.adviceForm.controls['adviceType'].value.id : this.transactionTypeId,
       maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       status: this.adviceForm.controls['status']?.value,
