@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BiltiService } from '../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BiltiListingModel } from '../../../../core/model/masterModels.model';
 
 @Component({
@@ -26,7 +26,7 @@ export class AddEditBiltiComponent implements OnInit {
   pointChargesList: any = [];
   transactionTypeId: number = 0;
   transporterId: number = 0;
-  vendorId: number = 0;
+  vendorId: any;
   pointChargeId: number = 0;
   frlrNumber: any;
   freightId: number = 0;
@@ -34,7 +34,7 @@ export class AddEditBiltiComponent implements OnInit {
   frmId: number = 0;
   biltiId: number = 0;
   loadingLocationid: number = 0;
-  frmdocumentId: number = 0;
+  biltiCreationLineItemsData: any = [];
   vehicleNumber: any;
   selectedTransactionTypeCode: string = '';
   loadingLocation: any = [];
@@ -46,35 +46,21 @@ export class AddEditBiltiComponent implements OnInit {
   filteredVendorcode: any = [];
   filteredPointname: any = [];
   frmDocument: any = [];
+  allFrmTransactionData: any = [];
+  displayRows: any = [];
+  pointName: string = '';
   biltiData!: BiltiListingModel;
-  biltiForm = new FormGroup({
-    transactionType: new FormControl('', [Validators.required]),
-    frlrNo: new FormControl('', [Validators.required]),
-    vehicleNumber: new FormControl('', [Validators.required]),
-    vehicleSize: new FormControl(null, [Validators.required]),
-    source: new FormControl(''),
-    destination: new FormControl(''),
-    freightCode: new FormControl(''),
-    freightAmount: new FormControl(null),
-    transporterCode: new FormControl(''),
-    transporterName: new FormControl(''),
-    biltiDetailsTransactionType: new FormControl(''),
-    documentrefNo: new FormControl(''),
-    vendorCode: new FormControl(''),
-    vendorName: new FormControl(''),
-    pointName: new FormControl(''),
-    pointCharge: new FormControl(''),
-    remarks: new FormControl(''),
-    paidByDetails: new FormControl(''),
-    loadingLocation: new FormControl(),
-    status: new FormControl('Active'),
-    biltiStatus: new FormControl('Active'),
-  });
+  biltiForm!: FormGroup;
+  biltiTransactionType: string= '';
+  editDisplayrow:any = []
+  lineItem:any = [];
+  vendorName: any;
   constructor(
     private router: Router,
     private biltiService: BiltiService,
     private toastr: ToastrService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -91,7 +77,76 @@ export class AddEditBiltiComponent implements OnInit {
         this.getBiltiData(this.biltiId);
       }
     },1000)
+    this.initForm();
   }
+
+  initForm() {
+    this.biltiForm = this.fb.group({
+        transactionType: new FormControl('', [Validators.required]),
+        frlrNo: new FormControl('', [Validators.required]),
+        vehicleNumber: new FormControl('', [Validators.required]),
+        vehicleSize: new FormControl(null, [Validators.required]),
+        source: new FormControl(''),
+        destination: new FormControl(''),
+        freightCode: new FormControl(''),
+        freightAmount: new FormControl(null),
+        transporterCode: new FormControl(''),
+        transporterName: new FormControl(''),
+        loadingLocation: new FormControl(),
+        status: new FormControl('Active'),
+        vendors: this.fb.array([])
+    });
+  }
+
+  createVendorGroup(vendor: any): FormGroup {
+    return this.fb.group({
+      vendorCode: [''],
+      vendorName: [''],
+      pointName: [''],
+      pointCharge: [''],
+      remarks: [''],
+      paidByDetails: [''],
+      biltiStatus: [''],
+      biltiDetailsTransactionType: [''],
+      documentrefNo: ['']
+    });
+  }
+
+  onVendorCodeChange(event: any, index: number) {
+    console.log(event)
+    const vendorData = this.vendorList.find(
+      (vendor: any) => 
+      vendor?.id == event
+    );
+    const selectedVendorCode = vendorData;
+    const cityId = vendorData.cityId;
+    const pointCharges = this.pointChargesList.find(
+      (pointCharge: any) => 
+      pointCharge?.cityId === cityId
+    );
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    const vendorGroup = vendorsArray.at(index) as FormGroup;
+    if (index > 0) {
+      vendorGroup.patchValue({
+        pointCharge: pointCharges?.sameLocationCharge,
+      });
+  } else {
+      vendorGroup.patchValue({
+          pointCharge: pointCharges?.pointCharge,
+      });
+  }
+  console.log(pointCharges)
+    vendorGroup.patchValue({
+      vendorName: selectedVendorCode?.vendorName,
+      pointName: pointCharges?.pointName,
+      paidByDetails: selectedVendorCode?.paidByDetail?.value,
+    });
+  }
+  
+  getVendorControls() {
+    return (this.biltiForm.get('vendors') as FormArray).controls;
+  }
+
 
   onCancelPress() {
     this.router.navigate(['transaction/bilti']);
@@ -116,24 +171,29 @@ export class AddEditBiltiComponent implements OnInit {
     );
   }
 
+
   getFrlr(selectedTransactionType: string) {
     const data = {
       transactionType: selectedTransactionType,
     };
     this.biltiService.getFrmTransactions(data).subscribe(
       (response: any) => {
-        // Get the unique transactions
+        console.log(response)
+        this.allFrmTransactionData = response.frmTransactions
         this.frmTransactionData = [...new Set(response.frmTransactions.map((item: any) => 
           item.frlrNumber))].map(frlrNumber => response.frmTransactions.find((t: any) => 
             t.frlrNumber === frlrNumber));
         this.frlrList = response.transactionTypes;
-        this.frmDocument = this.frmTransactionData.find(
-          (frmDocument: any) => frmDocument?.id === this.frmdocumentId
-        );
+        console.log(this.frmDocument)
         if (this.biltiId > 0) {
-          this.biltiForm.patchValue({
-            documentrefNo: this.frmDocument?.documentNumber
-          })
+          const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+          vendorsArray.controls.forEach((vendorGroup, index) => {
+            const frmId = this.biltiCreationLineItemsData[index]?.frmId;
+            const frmDocument = this.allFrmTransactionData.find((frmDoc: any) => frmDoc.id === frmId);
+            vendorGroup.patchValue({
+              documentrefNo: frmDocument?.documentNumber
+            });
+          });
         }
         this.loadSpinner = false;
       },
@@ -145,40 +205,78 @@ export class AddEditBiltiComponent implements OnInit {
   }
   
   onOptionSelected(selectedTransactionType: any) {
+    console.log(selectedTransactionType)
     this.transactionTypeId = selectedTransactionType.id;
     this.getFrlr(selectedTransactionType.code);
-    this.biltiForm.patchValue({
-      biltiDetailsTransactionType: selectedTransactionType.code,
+    this.patchTransactionType(selectedTransactionType.code);
+  }
+  
+  patchTransactionType(value: any) {
+    this.biltiTransactionType = value
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    vendorsArray.controls.forEach((vendorGroup) => {
+      vendorGroup.patchValue({
+        biltiDetailsTransactionType: value,
+      });
     });
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
+    console.log(selectedFrlr)
+    this.displayRows = [];
+    this.allFrmTransactionData.forEach((element: any) => {
+        const commonData = element.frlrNumber == selectedFrlr.frlrNumber
+        if (commonData) {
+            this.displayRows.push({
+                documentrefNo: element.documentNumber,
+            });
+        }
+        console.log(this.displayRows)
+    });
+
+    const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
+    this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
+
+    // Patch documentrefNo into each vendor form group
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    this.displayRows.forEach((row: any, index: number) => {
+        const vendorGroup = vendorsArray.at(index) as FormGroup;
+        vendorGroup.patchValue({
+            documentrefNo: row.documentrefNo
+        });
+    });
+
     const selected = this.frmTransactionData.find(
-      (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
+        (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
     );
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
-      (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
+        (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
     );
     this.vehicleId = vehicleNumber?.id;
-    // this.vehicleId = vehicleNumber?.id;
-    console.log(selected)
     if (selected) {
-      this.vehicleNumber = selected?.vehicleNumber;
-      this.frlrNumber = selected?.frlrNumber;
-      this.transporterId = selected?.transporterId;
-      this.frmId = selected?.id;
-      this.loadingLocationid = selected?.loadingLocationId;
-      this.vehicleId = this.vehicleId;
-      this.biltiForm.patchValue({
-        vehicleNumber: vehicleNumber?.vehicleNumber,
-        vehicleSize: vehicleNumber?.vehicleSize.value,
-        documentrefNo: selected?.documentNumber,
-        transporterCode: this.transporterMapCode[selected.transporterId],
-        transporterName: this.transporterMapName[selected.transporterId],
-      });
+        this.vehicleNumber = selected?.vehicleNumber;
+        this.frlrNumber = selected?.frlrNumber;
+        this.transporterId = selected?.transporterId;
+        this.frmId = selected?.id;
+        this.loadingLocationid = selected?.loadingLocationId;
+        this.vehicleId = this.vehicleId;
+        this.biltiForm.patchValue({
+            vehicleNumber: vehicleNumber?.vehicleNumber,
+            vehicleSize: vehicleNumber?.vehicleSize.value,
+            transporterCode: this.transporterMapCode[selected.transporterId],
+            transporterName: this.transporterMapName[selected.transporterId],
+        });
     }
-  }
+    if(this.biltiId == 0){
+      this.patchTransactionType(this.biltiTransactionType)
+    } else{
+      this.patchTransactionType(this.selectedTransactionTypeCode)
+    }
+  
+}
+
+
 
    getVehicleNumber() {
     const data = {
@@ -240,11 +338,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.biltiForm.patchValue({
       vehicleSize: data.vehicleSize.value,
     });
-    // this.vehiclesList.forEach((vehicle: any) => {
-    //   if (vehicle.vehicleNumber === data) {
-    //     this.vehicleId = vehicle.id;
-    //   }
-    // });
   }
 
   getAllFreightList() {
@@ -297,14 +390,6 @@ export class AddEditBiltiComponent implements OnInit {
     );
   }
 
-  onVendorChange(data: any) {
-    this.vendorId = data.id;
-    this.biltiForm.patchValue({
-      vendorName: data.vendorName,
-      paidByDetails: data.paidByDetail.code,
-    });
-  }
-
   getAllPointChargesList() {
     let data = {
       pointName: '',
@@ -324,15 +409,12 @@ export class AddEditBiltiComponent implements OnInit {
     );
   }
 
-  onPointchargeChange(data: any) {
-    this.pointChargeId = data.id;
-    this.biltiForm.patchValue({
-      pointCharge: data.pointCharge,
-    });
-  }
-
   onPressSave() {
+    console.log(this.vendorId)
     this.loadSpinner = true;
+    const formData = this.biltiForm.value;
+    console.log(formData)
+    
     if (this.biltiId == 0) {
       const data = {
         actionBy: 1,
@@ -347,15 +429,31 @@ export class AddEditBiltiComponent implements OnInit {
         lineItemsEntity: [
           {
             actionBy: 0,
-            frmId: this.frmId,
-            vendorId: this.vendorId,
-            pointId: this.pointChargeId,
-            remarks: this.biltiForm.controls['remarks'].value,
-            "attribute9": "2024-05-04T13:03:47.509Z",
-            "attribute10": "2024-05-04T13:03:47.509Z",
-          },
+            vendorId: '',
+            remarks: '',
+            attribute9: '',
+            attribute10: '',
+            frmId: 0
+          }
         ],
       };
+      for (const vendorControl of formData.vendors) {
+        const lineItem = {
+          actionBy: 1,
+          vendorId: vendorControl?.vendorCode,
+          remarks: vendorControl?.remarks,
+          attribute9: "2024-05-04T13:03:47.509Z",
+          attribute10: "2024-05-04T13:03:47.509Z",
+          frmId: this.frmId,
+        };
+        if(data.lineItemsEntity[0].actionBy == 0){
+          data.lineItemsEntity[0] = lineItem
+        }else{
+          data.lineItemsEntity.push(lineItem);
+        }
+      }
+  
+      
       this.biltiService.createBilti(data).subscribe(
         (response: any) => {
           this.biltiData = response;
@@ -380,18 +478,33 @@ export class AddEditBiltiComponent implements OnInit {
         "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity: [
           {
-            actionBy: 1,
-            frmId: this.frmId,
-            vendorId: this.vendorId,
-            pointId: this.pointChargeId,
-            remarks: this.biltiForm.controls['remarks'].value,
-            status: this.biltiForm.controls['biltiStatus'].value,
-            "attribute9": "2024-05-04T13:03:47.509Z",
-            "attribute10": "2024-05-04T13:03:47.509Z",
-          },
-        ],
+          actionBy: 0,
+          vendorId: '',
+          remarks: '',
+          attribute9: '',
+          attribute10: '',
+          frmId: 0,
+          status: ''
+        }
+      ],
         status: this.biltiForm.controls['status'].value,
       };
+      for (const vendorControl of formData.vendors) {
+        const lineItem = {
+          actionBy: 1,
+          vendorId: vendorControl?.vendorCode,
+          remarks: vendorControl?.remarks,
+          attribute9: "2024-05-04T13:03:47.509Z",
+          attribute10: "2024-05-04T13:03:47.509Z",
+          frmId: this.frmId,
+          status: vendorControl?.biltiStatus
+        };
+        if(data.lineItemsEntity[0].actionBy == 0){
+          data.lineItemsEntity[0] = lineItem
+        }else{
+          data.lineItemsEntity.push(lineItem);
+        }
+      }
       this.biltiService.updateBilti(this.biltiId, data).subscribe(
         (response: any) => {
           this.biltiData = response;
@@ -424,16 +537,17 @@ export class AddEditBiltiComponent implements OnInit {
     });
   }
 
-
   getBiltiData(biltiId: number) {
     this.loadSpinner = true;
     this.biltiService.getBiltiData(biltiId).subscribe(
       (response: any) => {
+        this.loadSpinner=false
+        console.log(response)
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
           (type: any) => type.id === transactionTypeId
         );
-        this.transactionTypeId = transactionType?.id;
+        console.log(transactionTypeId)
         const vehicleId = response.vehicleId;
         const vehicleNumber = this.vehiclesList.find(
           (vehicle: any) => vehicle.id === vehicleId
@@ -453,11 +567,11 @@ export class AddEditBiltiComponent implements OnInit {
         const location = this.loadingLocation.find(
           (location: any) => location?.id === loadinglocationId
         );
-        const vendorId = response?.biltiCreationLineItems[0]?.vendorId;
-        const vendor = this.vendorList.find(
-          (vendor: any) => vendor?.id === vendorId
-        );
-        this.vendorId = vendor?.id;
+        // const vendorId = response?.biltiCreationLineItems[0]?.vendorId;
+        // const vendor = this.vendorList.find(
+        //   (vendor: any) => vendor?.id === vendorId
+        // );
+        // this.vendorId = vendor?.id;
         const pointChargeId = response?.biltiCreationLineItems[0]?.pointId;
         const pointCharge = this.pointChargesList.find(
           (pointCharge: any) => pointCharge?.id === pointChargeId
@@ -466,7 +580,44 @@ export class AddEditBiltiComponent implements OnInit {
         this.frlrNumber = response?.frlrNumber;
         this.frmId = response?.biltiCreationLineItems[0]?.frmId
         this.selectedTransactionTypeCode = transactionType?.code;
-        this.frmdocumentId = response?.biltiCreationLineItems[0]?.frmId;
+        this.displayRows = response.biltiCreationLineItems
+        const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
+        this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
+        const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    vendorsArray.controls.forEach((vendorGroup) => {
+      vendorGroup.patchValue({
+        biltiDetailsTransactionType:transactionType?.code
+      });
+    });
+
+    this.biltiCreationLineItemsData = response?.biltiCreationLineItems
+    vendorsArray.controls.forEach((vendorGroup, index) => {
+      const vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
+      this.vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
+      const remarks = this.biltiCreationLineItemsData[index]?.remarks;
+      const biltiStatus = this.biltiCreationLineItemsData[index]?.status;
+      const cityId = this.biltiCreationLineItemsData[index]?.vendor.cityDetail.id;
+      const vendor = this.vendorList.find((vendor: any) => vendor.id === vendorId);
+      const pointCharge = this.pointChargesList.find((pointCharge: any) => pointCharge.cityId === cityId);
+      console.log(pointCharge)
+      if (index > 0) {
+        vendorGroup.patchValue({
+          pointCharge: pointCharge?.sameLocationCharge,
+        });
+    } else {
+        vendorGroup.patchValue({
+            pointCharge: pointCharge?.pointCharge,
+        });
+    }
+      vendorGroup.patchValue({
+        vendorCode: vendor?.id,
+        vendorName: vendor?.vendorName,
+        pointName: vendor?.city.value,
+        paidByDetails: vendor?.paidByDetail?.value,
+        remarks: remarks,
+        biltiStatus: biltiStatus,
+      });
+    });
         this.biltiForm.patchValue({
           transactionType: transactionType?.code,
           frlrNo: response?.frlrNumber,
@@ -479,13 +630,6 @@ export class AddEditBiltiComponent implements OnInit {
           source: freight?.source?.value,
           destination: freight?.destination?.value,
           loadingLocation: location?.id,
-          biltiDetailsTransactionType: transactionType?.code,
-          vendorCode: vendor?.vendorCode,
-          vendorName: vendor?.vendorName,
-          paidByDetails: vendor?.paidByDetail?.value,
-          pointName: pointCharge?.pointName,
-          pointCharge: pointCharge?.pointCharge,
-          remarks: response?.biltiCreationLineItems[0]?.remarks
         });
         this.getFrlr(this.selectedTransactionTypeCode);
       },
@@ -495,10 +639,4 @@ export class AddEditBiltiComponent implements OnInit {
       }
     );
   }
-  // patchBiltiForm(data: any){
-  //   this.biltiForm.patchValue({
-  //     source: data.fromDestination,
-  //     destination: data.toDestination
-  //   })
-  // }
 }
