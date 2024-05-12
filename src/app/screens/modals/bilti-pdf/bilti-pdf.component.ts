@@ -3,8 +3,6 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 
 @Component({
   selector: 'app-bilti-pdf',
-  standalone: true,
-  imports: [],
   templateUrl: './bilti-pdf.component.html',
   styleUrl: './bilti-pdf.component.scss'
 })
@@ -13,14 +11,15 @@ export class BiltiPdfModalComponent implements OnInit {
   modalRef!: NgbModalRef;
 
   constructor(private activeModal: NgbActiveModal){}
-
   @Input() biltiData: any;
 
   ngOnInit(): void {
-  
+
   }
 
   onClose(){
     this.activeModal.close();
   }
+
+  
 }
