@@ -77,8 +77,8 @@
                 <div class="vehicle-details mb-0">
                     <p>Vehicle Size: <span>{{dispatch.vehicles.vehicleSize.value}}</span></p>
                     <p>Vehicle No.: <span>{{dispatch.vehicles.vehicleNumber}}</span></p>
-                    <p>Vehicle Owner Name: <span>RAJESH KUMAR</span></p>
-                    <p>Mobile No.: <span>9811642437</span></p>
+                    <p>Vehicle Owner Name: <span>{{dispatch?.vehicles.transporterEntity?.ownerName}}</span></p>
+                    <p>Mobile No.: <span>{{dispatch?.vehicles.transporterEntity?.transporterContactNo}}</span></p>
                 </div>
 
                 <table class="acknowledgement-details">
