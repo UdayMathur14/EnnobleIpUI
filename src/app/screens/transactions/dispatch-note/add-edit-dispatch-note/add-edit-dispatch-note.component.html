@@ -15,8 +15,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Supplier Code</label>
-          <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)"
-            formControlName="supplierCode" class="input-field" placeholder="Select Part Number">
+          <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field" placeholder="Select Part Number">
             <ng-option *ngFor="let supplier of supplierList"
               [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
           </ng-select>
@@ -64,63 +63,81 @@
         </div>
       </div>
     </div>
+
+    <div class="edit-screen-subTable">
+      <h4 class="">
+        Part Details
+        <button (click)="createPartDetailsGroup()" class="custom-button-regulr">Add</button>
+      </h4>
+    </div>
+
+    <div class="custom-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Line#</th>
+            <th>Part Number</th>
+            <th>Part Name</th>
+            <th>Part Qty</th>
+            <th>Part Size</th>
+            <th>Remarks</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <!-- <tbody *ngIf="dispatchNote.partDetails"> -->
+        <!-- <tbody *ngIf="partDetails.controls.length "> -->
+          <tbody formArrayName="partdetails">
+
+            <ng-container *ngFor="let vendorGroup of partDetails.controls; let ind = index" >
+
+              <tr formGroupName={{ind}}>
+                <td>{{ind+1}}</td>
+                <td>
+                  <div class="custom-form-input">
+                    <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
+                    (change)="onPartSelect($event, ind)">
+                    <ng-option *ngFor="let part of partsList" [value]="part">{{part.partNumber}}</ng-option>
+                  </ng-select>
+                  
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
+                  <input formControlName="partName" type="text" class="input-field" placeholder="Part Name" readonly
+                  [value]="" />
+                  
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
+                  <ng-select formControlName="partQuantity" class="input-field" #qty placeholder="Select Quantity"
+                  (change)="onQuantitySelection($event, ind)">
+                  <ng-option *ngFor="let lookup of lookupList" [value]="lookup">{{lookup.value}}</ng-option>
+                </ng-select>
+              </div>
+            </td>
+            <td>
+              <div class="custom-form-input">
+                <input formControlName="partSize" type="text" class="input-field" placeholder="Part Size" readonly
+                [value]="" />
+                
+              </div>
+            </td>
+            <td>
+              <div class="custom-form-input">
+                <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks" readonly
+                [value]="" />
+              </div>
+            </td>
+              <td class="text-center">
+                <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
+                (click)="onDeletePartDetail(vendorGroup, ind)" />
+              </td>
+            </tr>
+          </ng-container>
+            
+          </tbody>
+      </table>
+    </div>
   </form>
-
-  <div class="edit-screen-subTable">
-    <h4 class="">
-      Part Details
-      <button (click)="onAddPress()" class="custom-button-regulr">Add</button>
-    </h4>
-  </div>
-
-  <div class="custom-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Line#</th>
-          <th>Part Number</th>
-          <th>Part Name</th>
-          <th>Part Qty</th>
-          <th>Part Size</th>
-          <th>Remarks</th>
-          <th class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="dispatchNote.partDetails">
-        @for (partDetail of partDetailsList; track partDetail.id; let i = $index) {
-
-        <tr>
-          <td>{{i+1}}</td>
-          <td>
-            <div class="custom-form-input">
-              <ng-select class="input-field" placeholder="Select Part Number" [(ngModel)]="selectedPartNumber" (change)="onPartSelect($event, i)">
-                <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
-              </ng-select>
-
-            </div>
-          </td>
-          <td>{{partDetail.partName}}</td>
-          <td>
-            <div class="custom-form-input">
-              <ng-select class="input-field" #qty placeholder="Select Quantity"
-                (change)="onQuantitySelection($event, i)" [(ngModel)]="selectedQuantity">
-                <ng-option *ngFor="let lookup of lookupList" [value]="lookup?.id">{{lookup.value}}</ng-option>
-              </ng-select>
-            </div>
-          </td>
-          <td>{{partDetail.partSize}}</td>
-          <td>
-            <div class="custom-form-input">
-              <input type="text" class="input-field" placeholder="Remarks" readonly [value]="partDetail?.remarks || ''" />
-            </div>
-          </td>
-          <td class="text-center">
-            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
-              (click)="onDeletePartDetail(partDetail, i)" />
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
 </div>
