@@ -50,15 +50,15 @@
                 @if (dispatch.dispatchNotePartItems) {
 
                     <table>
+                        <thead>
+                            <th>S. No.</th>
+                            <th>Part No.</th>
+                            <th>Part Description</th>
+                            <th>Dispatch(Qty/Kg)</th>
+                            <th>Remarks</th>
+                        </thead>
                         @for (part of dispatch.dispatchNotePartItems; track i; let i = $index) {
                             
-                            <thead>
-                                <th>S. No.</th>
-                                <th>Part No.</th>
-                                <th>Part Description</th>
-                                <th>Dispatch(Qty/Kg)</th>
-                                <th>Remarks</th>
-                            </thead>
                             <tbody >
                                 <td>{{i+1}}</td>
                                 <td>{{part.parts.partNumber}}</td>
