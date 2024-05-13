@@ -1,3 +1,10 @@
+.main-content{
+    border: 1px solid black;
+    padding: 1em;
+    margin: 4em 6em;
+    color: black;
+}
+
 .address {
     display: flex;
     flex-direction: column;
@@ -31,9 +38,17 @@
 .part-details{
     margin-top: 2em;
 
+    .dispatch-mode{
+        padding: 0.5em;
+        border: 1px solid black;
+    }
+
     .dispatch-details{
         display: flex;
         justify-content: space-between;
+        border-inline: 1px solid black;
+        padding-top: 1em;
+        padding-inline: 0.5em;
     }
 
     table {
@@ -42,60 +57,37 @@
     }
 
     thead > th {
-        border: 1px solid #ccc;
+        border: 1px solid black;
         padding: 8px;
         background-color: #f2f2f2;
     }
 
     tbody > td {
-        border: 1px solid #ccc;
+        border: 1px solid black;
         padding: 8px;
     }
 
 }
 
-.part-details, .acknowledgement > * {
-    border: 1px solid #ccc;
-    padding: 10px;
-    // margin-bottom: 10px;
-}
-
 .acknowledgement{
     margin-top: 15em;
+    font-size: 6px;
     h3{
         text-align: center;
+        border: 1px solid black;
+        text-decoration: underline;
+        padding-block: 1em;
     }
 
     .vehicle-details{
         display: grid;
         grid-template-columns: auto auto;
+        border-inline: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 1em;
+        padding-inline: 0.5em;
     }
 }
-
-// .acknowledgement-details {
-//     width: 100%;
-//     border-collapse: collapse;
-//   }
-  
-//   .acknowledgement-details thead th,
-//   .acknowledgement-details tbody td {
-//     border: 1px solid #ccc;
-//     padding: 10px;
-//   }
-  
-//   .acknowledgement-details thead th {
-//     background-color: #f0f0f0;
-//   }
-  
-//   .time-cell {
-//     display: flex;
-//     justify-content: space-between;
-//     // flex-direction: column;
-//   }
-  
-//   .time-cell p {
-//     margin: 0;
-//   }
   
   
 table.acknowledgement-details {
@@ -104,7 +96,7 @@ table.acknowledgement-details {
 }
 
 table.acknowledgement-details th, table.acknowledgement-details td {
-    border: 1px solid #dddddd;
+    border: 1px solid black;
     padding: 8px;
     text-align: left;
 }

@@ -1,4 +1,4 @@
-<div class="common-modal">
+<div class="common-modal main-content">
     <div class="ngmodal-header">
         <h3>
           Dispatch Note
@@ -10,7 +10,7 @@
       </div>
         <div class="ngmodal-body">
             <!-- <img src="assets/images/test-delivery-note.jpg" alt=""> -->
-            <p>Recycling Person Contact Number: <span class="fw-bold fs-6 phone">9953551886</span></p>
+            <p>Recycling Person Contact Number: <span class="fw-bold fs-6 phone">{{dispatch.suppliers.contactNumber}}</span></p>
             <div class="address">
                 <p>LG Electronics India Pvt. Ltd.</p>
                 <p>Surajpur, Greater NOIDA</p>
@@ -29,23 +29,23 @@
                 </div>
                 <div class="info">
                     <div class="key">LG TIN Number: </div>
-                    <div class="value">09AAACL1745Q1Z2</div>
+                    <div class="value">{{dispatch.suppliers.gstnNo}}</div>
                 </div>
                 <div class="info">
                     <div class="key">C.S.T. Number: </div>
-                    <div class="value">ND 5078331 DT. 14/04/97</div>
+                    <div class="value"></div>
                 </div>
                 <div class="info">
                     <div class="key">L.S.T. Number: </div>
-                    <div class="value">09AAAFCS4674J1ZU</div>
+                    <div class="value"></div>
                 </div>
             </div>
 
             <div class="part-details">
-                <p class="mb-0">Mode Of Dispatch: <span>Road/AIr</span></p>
+                <p class="mb-0 dispatch-mode">Mode Of Dispatch: <span>Road</span></p>
                 <div class="dispatch-details">
-                    <p>Gate Pass: <span>NFHA2402280676</span></p>
-                    <p>Disptch Date: <span>28-FEB-24</span></p>
+                    <p>Gate Pass: <span>{{dispatch.dispatchNumber}}</span></p>
+                    <p>Disptch Date: <span>{{dispatch.creationDate | date}}</span></p>
                 </div>
                 @if (dispatch.dispatchNotePartItems) {
 
@@ -85,19 +85,19 @@
                     <thead>
                         <tr>
                             <th>LGEIL</th>
-                            <th>STARION INDIA PVT. LTD.</th>
+                            <th>{{dispatch.suppliers.vendorName}}</th>
                             <th>At LG Gate</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="time-cell">
-                                <p>Time In: <span>16:57</span></p>
-                                <p>Date: <span>26-FEB-24</span></p>
+                                <p>Time In: <span></span></p>
+                                <p>Date: <span></span></p>
                             </td>
                             <td class="time-cell">
-                                <p>Reporting: <span>16:57</span></p>
-                                <p>Date: <span>26-FEB-24</span></p>
+                                <p>Reporting: <span></span></p>
+                                <p>Date: <span></span></p>
                             </td>
                             <td class="time-cell">
                                 <p>Reporting Time: <span></span></p>
@@ -105,17 +105,32 @@
                         </tr>
                         <tr>
                             <td class="time-cell">
-                                <p>Time Out: <span>17:27</span></p>
-                                <p>Date: <span>26-FEB-24</span></p>
+                                <p>Time Out: <span></span></p>
+                                <p>Date: <span></span></p>
                             </td>
                             <td class="time-cell">
-                                <p>Time In: <span>16:57</span></p>
-                                <p>Date: <span>26-FEB-24</span></p>
+                                <p>Time In: <span></span></p>
+                                <p>Date: <span></span></p>
                             </td>
                             <td class="time-cell">
-                                <p>Time In: <span>16:57</span></p>
-                                <p>Date: <span>26-FEB-24</span></p>
+                                <p>Time In: <span></span></p>
+                                <p>Date: <span></span></p>
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="time-cell">
+                                <p>Created By: <span></span></p>
+                                <p>Auth By: <span></span></p>
+                            </td>
+                            <td class="time-cell">
+                                <p>Recieved By: <span></span></p>
+                                <p>Signature: <span></span></p>
+                            </td>
+                            <td class="time-cell">
+                                <p>Recieved By: <span></span></p>
+                                <p>Signature: <span></span></p>
+                            </td>
+                            
                         </tr>
                     </tbody>                    
                 </table>
