@@ -13,7 +13,11 @@ import { BiltiListingModel } from '../../../../core/model/masterModels.model';
 export class AddEditBiltiComponent implements OnInit {
   transporterMapCode: { [key: string]: string } = {};
   transporterMapName: { [key: string]: string } = {};
-  vehicleMapId: { [key: string]: string } = {};
+  vendorMapCode: { [key: string]: string } = {};
+  vendorMapName: { [key: string]: string } = {};
+  pointMapName: { [key: string]: string } = {};
+  pointMapCharge: { [key: string]: string } = {};
+  paidByDetailsMap: { [key: string]: string } = {};
   frlrList: any = [];
   transactionTypesLists: any = [];
   selectedTransactionType: string = '';
@@ -230,18 +234,24 @@ export class AddEditBiltiComponent implements OnInit {
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
     this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
 
+    const selected = this.frmTransactionData.find(
+      (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
+  );
+  const toDestination = 'IN001168';
+  // const cityId = 
     // Patch documentrefNo into each vendor form group
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
         const vendorGroup = vendorsArray.at(index) as FormGroup;
         vendorGroup.patchValue({
-            documentrefNo: row.documentrefNo
+            documentrefNo: row.documentrefNo,
+            vendorCode: this.vendorMapCode[toDestination],
+            vendorName: this.vendorMapName[toDestination],
+            pointName: this.pointMapName[toDestination],
+            paidByDetails: this.paidByDetailsMap[toDestination],
+            pointCharge: this.pointMapCharge[toDestination],
         });
     });
-
-    const selected = this.frmTransactionData.find(
-        (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
-    );
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
         (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
@@ -374,6 +384,18 @@ export class AddEditBiltiComponent implements OnInit {
         this.filteredVendorcode = this.vendorList.filter(
           (vendors: any) => vendors.status === 'Active'
         );
+        this.pointChargesList.forEach((pointCharge: any) => {
+          this.pointMapCharge[pointCharge.cityId] = pointCharge.pointCharge;
+      });
+
+        response.vendors.forEach((vendor: any) => {
+          const cityId = vendor.cityId;
+          this.vendorMapCode[vendor.vendorCode] = vendor.vendorCode;
+          this.vendorMapName[vendor.vendorCode] = vendor.vendorName;
+          this.pointMapName[vendor.vendorCode] = vendor.city.value;
+          this.pointMapCharge[vendor.vendorCode] = this.pointMapCharge[cityId]
+          this.paidByDetailsMap[vendor.vendorCode] = vendor.paidByDetail.value;
+        });
         this.loadSpinner = false;
       },
       (error) => {
@@ -556,11 +578,6 @@ export class AddEditBiltiComponent implements OnInit {
         const location = this.loadingLocation.find(
           (location: any) => location?.id === loadinglocationId
         );
-        // const vendorId = response?.biltiCreationLineItems[0]?.vendorId;
-        // const vendor = this.vendorList.find(
-        //   (vendor: any) => vendor?.id === vendorId
-        // );
-        // this.vendorId = vendor?.id;
         const pointChargeId = response?.biltiCreationLineItems[0]?.pointId;
         const pointCharge = this.pointChargesList.find(
           (pointCharge: any) => pointCharge?.id === pointChargeId
