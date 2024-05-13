@@ -87,6 +87,7 @@ import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-e
 import { ExportAsModule } from 'ngx-export-as';
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
 import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
+import { BiltiPdfModalComponent } from "./modals/bilti-pdf/bilti-pdf.component";
 import { DispatchNoteModelComponent } from "./modals/dispatch-note/dispatch-note.component";
 
 
@@ -175,6 +176,7 @@ import { DispatchNoteModelComponent } from "./modals/dispatch-note/dispatch-note
         AddEditLookupTypeComponent,
         AddEditBiltiComponent,
         AddEditDispatchNoteComponent,
+        BiltiPdfModalComponent,
         DispatchNoteModelComponent
     ],
     imports: [

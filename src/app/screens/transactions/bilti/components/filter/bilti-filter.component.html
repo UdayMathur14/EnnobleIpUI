@@ -9,14 +9,25 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Bilti Number</label>
-                <input type="text" class="input-field">
+                <div class="input-with-icon">
+                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="biltiNum"
+                        (input)="onBiltiNoInput(biltiNum)" placeholder="Bilti Number"/>
+                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div>
+                <div *ngIf="showSuggestionsBilti && filteredBiltiNo.length > 0" class="suggestions">
+                    <div *ngFor="let biltiNo of filteredBiltiNo" (click)="selectSuggestionBiltiNo(biltiNo)" class="suggestion">
+                        {{biltiNo}}</div>
+                </div>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters">Search</button>
+                <div class="d-flex">
+                <button class="custom-button-filters" (click)="onBiltiSearch()" [disabled]="!biltiNum">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!biltiNum"> Clear</button>
             </div>
+        </div>
         </div>
     </div>
 </div>

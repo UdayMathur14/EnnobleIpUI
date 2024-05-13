@@ -6,21 +6,21 @@
     <div class="bilti-header">
       <div class="col-12">
         <p class="header">Bilti</p>
-        <p class="transporter-header">Surajpur Transporter Association</p>
+        <p class="transporter-header">{{biltiData?.transport?.transporterName}}</p>
       </div>
       <div class="d-flex justify-content-end col-8">
         <p><b>Mobile No : </b></p>
-        <p>&nbsp;&nbsp; 1234567890,1234567890</p>
+        <p>{{biltiData?.transport?.transporterContactNo}}</p>
       </div>
     </div>
   </div>
   <div class="address-header">
-    <p>Surajpur Greater Noida, Uttar Pradesh</p>
+    <p>{{biltiData?.transport?.transporterAddress1}}</p>
     <p class="address-services">Daily Services Delhi, UP</p>
     <p>For all over India</p>
   </div>
-  <div>REGD: 60355(M) 25-02-2015(GSTIN 098888387387288F)</div>
-  <div>PAN No. AAMAS4552R</div>
+  <div>REGD: GSTIN({{biltiData?.transport?.transporterContactNo}})</div>
+  <div>PAN No. {{biltiData?.transport?.panNo}}</div>
   <div class="row">
     <div class="col-6">
       <div class="row">
@@ -59,7 +59,7 @@
           <p><b>Consignor Name:</b></p>
         </div>
         <div class="col-auto">
-          <p>LG Electronics India PVT Ltd</p>
+          <p>{{biltiData?.transport?.consignorName}}</p>
         </div>
       </div>
     </div>
@@ -127,13 +127,13 @@
         <tr>
           <td>{{biltiData?.freights?.freightAmount}}</td>
           <td>0</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>Lorem Ipsum</td>
-          <td>950</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
@@ -151,11 +151,11 @@
           <th>Point Charge</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngFor="let biltiData of biltiData.lineItemDetail">
         <tr>
-          <td>IN001947_STARION INDIA PVT LTD NOIDA</td>
-          <td>NFHA24022867890</td>
-          <td>SURAJPUR</td>
+          <td>{{biltiData?.vendor?.vendorName}}</td>
+          <td>{{biltiData?.frmTransactionDetail?.documentNumber}}</td>
+          <td>{{biltiData?.vendor?.cityDetail?.code}}</td>
           <td></td>
         </tr>
       </tbody>

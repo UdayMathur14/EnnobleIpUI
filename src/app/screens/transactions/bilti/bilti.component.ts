@@ -10,8 +10,13 @@ export class BiltiComponent {
   constructor(private router: Router) { }
 
   isFilters: boolean = true;
+  searchedBilti: string = '';
 
   onCreateBilti() {
     this.router.navigate([`transaction/addEditBilti/0`])
+  }
+
+  searchBilti(event: any) {
+    this.searchedBilti = event;
   }
 }
