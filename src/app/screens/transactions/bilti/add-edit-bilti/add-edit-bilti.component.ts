@@ -237,18 +237,17 @@ export class AddEditBiltiComponent implements OnInit {
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
   );
-  // const cityId = 
-    // Patch documentrefNo into each vendor form group
+
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
         const vendorGroup = vendorsArray.at(index) as FormGroup;
         vendorGroup.patchValue({
             documentrefNo: row.documentrefNo,
-            vendorCode: this.vendorMapCode[selected.toDestination],
-            vendorName: this.vendorMapName[selected.toDestination],
-            pointName: this.pointMapName[selected.toDestination],
-            paidByDetails: this.paidByDetailsMap[selected.toDestination],
-            pointCharge: this.pointMapCharge[selected.toDestination],
+            vendorCode: this.vendorMapCode[selected?.toDestination],
+            vendorName: this.vendorMapName[selected?.toDestination],
+            pointName: this.pointMapName[selected?.toDestination],
+            paidByDetails: this.paidByDetailsMap[selected?.toDestination],
+            pointCharge: this.pointMapCharge[selected?.toDestination],
         });
     });
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
