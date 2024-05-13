@@ -15,7 +15,8 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Supplier Code</label>
-          <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field" placeholder="Select Part Number">
+          <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
+            placeholder="Select Part Number">
             <ng-option *ngFor="let supplier of supplierList"
               [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
           </ng-select>
@@ -86,57 +87,57 @@
         </thead>
         <!-- <tbody *ngIf="dispatchNote.partDetails"> -->
         <!-- <tbody *ngIf="partDetails.controls.length "> -->
-          <tbody formArrayName="partdetails">
+        <tbody formArrayName="partdetails">
 
-            <ng-container *ngFor="let vendorGroup of partDetails.controls; let ind = index" >
+          <ng-container *ngFor="let vendorGroup of partDetails.controls; let ind = index">
 
-              <tr formGroupName={{ind}}>
-                <td>{{ind+1}}</td>
-                <td>
-                  <div class="custom-form-input">
-                    <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
+            <tr formGroupName={{ind}}>
+              <td>{{ind+1}}</td>
+              <td>
+                <div class="custom-form-input">
+                  <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
                     (change)="onPartSelect($event, ind)">
                     <ng-option *ngFor="let part of partsList" [value]="part">{{part.partNumber}}</ng-option>
                   </ng-select>
-                  
+
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input formControlName="partName" type="text" class="input-field" placeholder="Part Name" readonly
-                  [value]="" />
-                  
+                    [value]="" />
+
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <ng-select formControlName="partQuantity" class="input-field" #qty placeholder="Select Quantity"
-                  (change)="onQuantitySelection($event, ind)">
-                  <ng-option *ngFor="let lookup of lookupList" [value]="lookup">{{lookup.value}}</ng-option>
-                </ng-select>
-              </div>
-            </td>
-            <td>
-              <div class="custom-form-input">
-                <input formControlName="partSize" type="text" class="input-field" placeholder="Part Size" readonly
-                [value]="" />
-                
-              </div>
-            </td>
-            <td>
-              <div class="custom-form-input">
-                <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks" readonly
-                [value]="" />
-              </div>
-            </td>
+                    (change)="onQuantitySelection($event, ind)">
+                    <ng-option *ngFor="let lookup of lookupList" [value]="lookup.id">{{lookup.value}}</ng-option>
+                  </ng-select>
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
+                  <input formControlName="partSize" type="text" class="input-field" placeholder="Part Size" readonly
+                    [value]="" />
+
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
+                  <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks" readonly
+                    [value]="" />
+                </div>
+              </td>
               <td class="text-center">
                 <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
-                (click)="onDeletePartDetail(vendorGroup, ind)" />
+                  (click)="onDeletePartDetail(vendorGroup, ind)" />
               </td>
             </tr>
           </ng-container>
-            
-          </tbody>
+
+        </tbody>
       </table>
     </div>
   </form>
