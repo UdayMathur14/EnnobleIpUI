@@ -22,7 +22,6 @@ export class VehicleGridTableComponent implements OnInit {
 
   ngOnInit() :void{
     this.getAllVehiclesList();
-    console.log(this.searchedVehicle)
   }
 
   //ROUTING TO EDIT VEHICLE PAGE
