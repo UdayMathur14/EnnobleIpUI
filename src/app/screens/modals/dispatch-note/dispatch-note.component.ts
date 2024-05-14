@@ -3,8 +3,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dispatch-note',
-  standalone: true,
-  imports: [],
   templateUrl: './dispatch-note.component.html',
   styleUrl: './dispatch-note.component.scss'
 })
