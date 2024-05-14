@@ -1,21 +1,21 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2">
+        <!-- <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Location Code</label>
                 <input type="text" class="input-field" value="LC00001">
             </div>
-        </div>
+        </div> -->
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Dispatch Number</label>
-                <input type="text" class="input-field" value="NFHA89398">
+                <input type="text" class="input-field" value="NFHA89398" [(ngModel)]="dispatchNumber">
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters">Search</button>
+                <button class="custom-button-filters" (click)="handleSearch()">Search</button>
             </div>
         </div>
     </div>

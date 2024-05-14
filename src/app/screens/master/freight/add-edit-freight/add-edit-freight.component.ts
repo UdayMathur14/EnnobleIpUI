@@ -114,6 +114,7 @@ export class AddEditFreightComponent implements OnInit {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
+      this.router.navigate(['/master/freight']);
     }, error => {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;

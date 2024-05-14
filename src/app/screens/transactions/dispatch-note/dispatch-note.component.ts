@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExportService } from '../../../core/service/export.service';
+import { DispatchNoteService } from '../../../core/service/dispatch-note.service';
 
 @Component({
   selector: 'app-dispatch-note',
@@ -7,11 +9,31 @@ import { Router } from '@angular/router';
   styleUrl: './dispatch-note.component.scss'
 })
 export class DispatchNoteComponent {
-  constructor(private router : Router){}
 
   isFilters : boolean = true;
+  dispatchNumber:string="";
+  dispatchNotes=[];
+
+  constructor(private router : Router,
+    private dispatchNoteService: DispatchNoteService,
+    private exportService:ExportService
+  ){}
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  handleSearch() {
+    this.getData(this.dispatchNumber);
+  }
+
+  getData(dispatchNumber: string = "") {
+    this.dispatchNoteService.getDispatchNote(dispatchNumber).subscribe((res: any) => {
+      this.dispatchNotes = res.dispatchNotes;
+    })
+  }
 
   onCreateDispatchNote(){
-    this.router.navigate(['transaction/addEditDispatchNote'])
+    this.router.navigate(['transaction/addEditDispatchNote/0'])
   }
 }

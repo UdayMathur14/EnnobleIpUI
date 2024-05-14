@@ -3,22 +3,32 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Number</label>
-                <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select Part Number">
-                    <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
-                </ng-select>
+                <div class="input-with-icon">
+                    <input type="text" class="input-field" [(ngModel)]="partNum" (input)="onInput('partNum', $event)"
+                        placeholder="Enter Part Number" />
+                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
+                </div>
+                <div *ngIf="showSuggestions.partNum && filteredItems.partNum.length > 0" class="suggestions">
+                    <div *ngFor="let partNum of filteredItems.partNum" (click)="selectItem('partNum', partNum)"
+                        class="suggestion">
+                        {{partNum}}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Name</label>
                 <div class="input-with-icon">
-                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="partName"
-                        (input)="onPartNameInput(partName)" placeholder="Part Name" />
+                    <input type="text" class="input-field" [(ngModel)]="partName" (input)="onInput('partName', $event)"
+                        placeholder="Enter Part Name" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
-                <div *ngIf="showSuggestions && filteredParts.length > 0" class="suggestions">
-                    <div *ngFor="let part of filteredParts" (click)="selectSuggestion(part)" class="suggestion">
-                        {{part}}</div>
+                <div *ngIf="showSuggestions.partName && filteredItems.partName.length > 0" class="suggestions">
+                    <div *ngFor="let partName of filteredItems.partName" (click)="selectItem('partName', partName)"
+                        class="suggestion">
+                        {{partName}}
+                    </div>
                 </div>
             </div>
         </div>

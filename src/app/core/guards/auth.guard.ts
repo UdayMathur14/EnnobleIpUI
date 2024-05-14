@@ -13,9 +13,12 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad  {
   get menu(){
     const profile:any = localStorage.getItem("profile");
     const userData = JSON.parse(profile);
-    const svcMenu = userData.app.find((e:any)=>e.name=='Manufacture');
+    const mfgMenu = userData.app.find((e:any)=>e.name=='Manufacture');
     //console.log(CommonUtility.flatten(svcMenu.menus))
-    return CommonUtility.flatten(svcMenu.menus);
+    if(!mfgMenu){
+      return [];
+    }
+    return CommonUtility.flatten(mfgMenu.menus);
   }
 
   securityGroups(permission:String){

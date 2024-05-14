@@ -1,0 +1,118 @@
+.main-content{
+    border: 1px solid black;
+    padding: 1em;
+    margin: 4em 6em;
+    color: black;
+}
+
+.address {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    line-gap-override: 0.5em;
+    p{
+        font-size: 10px;
+        margin: 0.1em;
+    }
+}
+
+.phone{
+    font-size: 10px;
+}
+
+.more-information{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .info{
+        display: flex;
+        gap: 1em;
+    
+        .key{
+            width: 120px;
+        }
+    }
+}
+
+.part-details{
+    margin-top: 2em;
+
+    .dispatch-mode{
+        padding: 0.5em;
+        border: 1px solid black;
+    }
+
+    .dispatch-details{
+        display: flex;
+        justify-content: space-between;
+        border-inline: 1px solid black;
+        padding-top: 1em;
+        padding-inline: 0.5em;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    thead > th {
+        border: 1px solid black;
+        padding: 8px;
+        background-color: #f2f2f2;
+    }
+
+    tbody > td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+
+}
+
+.acknowledgement{
+    margin-top: 15em;
+    font-size: 6px;
+    h3{
+        text-align: center;
+        border: 1px solid black;
+        text-decoration: underline;
+        padding-block: 1em;
+    }
+
+    .vehicle-details{
+        display: grid;
+        grid-template-columns: auto auto;
+        border-inline: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 1em;
+        padding-inline: 0.5em;
+    }
+}
+  
+  
+table.acknowledgement-details {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.acknowledgement-details th, table.acknowledgement-details td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+table.acknowledgement-details th {
+    background-color: #f2f2f2;
+}
+
+.time-cell {
+    font-weight: bold;
+}
+
+.time-cell p {
+    margin: 0;
+}
+
+.time-cell span {
+    font-weight: normal;
+}

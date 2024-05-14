@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -6,7 +6,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './bilti-process-details.component.html',
   styleUrl: './bilti-process-details.component.scss'
 })
-export class BiltiProcessDetailsModalComponent {
+export class BiltiProcessDetailsModalComponent implements OnInit{
+  @Input() biltiProcess: any;
   constructor(public activeModal: NgbActiveModal){}
+  ngOnInit(): void {
+    console.log(this.biltiProcess, "modal data");
+    
+  }
 
 }

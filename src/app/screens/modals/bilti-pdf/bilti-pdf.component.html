@@ -1,0 +1,200 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-end">
+    <img src="assets/images/icons/close.svg" alt="close" class="pointer" (click)="onClose()" />
+  </div>
+  <div class="row">
+    <div class="bilti-header">
+      <div class="col-12">
+        <p class="header">Bilti</p>
+        <p class="transporter-header">{{biltiData?.transport?.transporterName}}</p>
+      </div>
+      <div class="d-flex justify-content-end col-8">
+        <p><b>Mobile No : </b></p>
+        <p>{{biltiData?.transport?.transporterContactNo}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="address-header">
+    <p>{{biltiData?.transport?.transporterAddress1}}</p>
+    <p class="address-services">Daily Services Delhi, UP</p>
+    <p>For all over India</p>
+  </div>
+  <div>REGD: GSTIN({{biltiData?.transport?.transporterContactNo}})</div>
+  <div>PAN No. {{biltiData?.transport?.panNo}}</div>
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-auto">
+          <p>Bilti No.:</p>
+        </div>
+        <div class="col-auto">
+          <p><b>{{biltiData.biltiNumber}}</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-auto">
+          <b>Bilti Creation Date:</b>
+        </div>
+        <div class="col-auto">{{biltiData.creationDate}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6"></div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-auto">
+          <b>Bilti Printing Date:</b>
+        </div>
+        <div class="col-auto">28 Feb 2024 17:29:22</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-auto">
+          <p><b>Consignor Name:</b></p>
+        </div>
+        <div class="col-auto">
+          <p>{{biltiData?.transport?.consignorName}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-auto">
+          <p><b>Consignee Name:</b></p>
+        </div>
+        <div class="col-auto">
+          <p>STAR(NFSHHHKDHJKHK)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <div class="row">
+        <div class="col-auto">
+          <p><b>Source:</b></p>
+        </div>
+        <div class="col-auto">
+          <p>{{biltiData?.freights?.source?.value}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="row">
+        <div class="col-auto">
+          <p><b>Destination:</b></p>
+        </div>
+        <div class="col-auto">
+          <p>{{biltiData?.freights?.destination?.value}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col-auto">
+          <p><b>Gross Weight:</b></p>
+        </div>
+        <div class="horizontal-line col-auto">
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Freight Basic</th>
+          <th>Point Charges</th>
+          <th>Toll Tax</th>
+          <th>Halting Day</th>
+          <th>Halting Night</th>
+          <th>Kanta Slip</th>
+          <th>Overload</th>
+          <th>Others</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{biltiData?.freights?.freightAmount}}</td>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="custom-table mt-4">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="4">Point Details</th>
+        </tr>
+        <tr>
+          <th>Vendor Name</th>
+          <th>Ref. Doc. No</th>
+          <th>Point</th>
+          <th>Point Charge</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let biltiData of biltiData.lineItemDetail">
+        <tr>
+          <td>{{biltiData?.vendor?.vendorName}}</td>
+          <td>{{biltiData?.frmTransactionDetail?.documentNumber}}</td>
+          <td>{{biltiData?.vendor?.cityDetail?.code}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="vehicle-header">
+    <div class="row">
+      <div class="col-auto">
+        <p class="vehicle"><b>Vehicle No.:</b></p>
+      </div>
+      <div class="col-auto">
+        <p class="vehicle-number">{{biltiData.vehicles.vehicleNumber}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-auto">
+          <p><b>Note: </b></p>
+        </div>
+        <div class="col-auto">
+          <p>Transit Expense Payable by Consignee</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="signature-clerk">
+    <p>Signature of Booking Clerk</p>
+  </div>
+  <div>
+    <p class="agreement">Agreed with all booking Terms and Conditions</p>
+    <p>LG is not responsible for breakage or missing of goods in transit</p>
+  </div>
+  <div class="row footer">
+    <div class="col-3">
+        <p><b>Customer's Signature</b></p>
+  </div>
+  <div class="col-3">
+    <p><b>Driver's Signature</b></p>
+</div>
+</div>

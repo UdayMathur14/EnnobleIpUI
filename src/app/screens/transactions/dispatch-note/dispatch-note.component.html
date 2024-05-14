@@ -6,9 +6,9 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-dispatch-note-filters></app-dispatch-note-filters>
+  <app-dispatch-note-filters (getData)="getData($event.dispatchNumber)"></app-dispatch-note-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-dispatch-note-grid-table></app-dispatch-note-grid-table>
+  <app-dispatch-note-grid-table [dispatchNotes]="dispatchNotes"></app-dispatch-note-grid-table>
 </div>

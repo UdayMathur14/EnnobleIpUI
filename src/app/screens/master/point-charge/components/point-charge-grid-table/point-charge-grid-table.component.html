@@ -7,6 +7,8 @@
         <th>Point Charge</th>
         <th>Same Location Charge</th>
         <th>Location Code</th>
+        <th>Material Remarks</th>
+        <th>Account Remarks</th>
         <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
@@ -62,6 +64,8 @@
         <td>{{pointcharge?.pointCharge}}</td>
         <td>{{pointcharge?.sameLocationCharge}}</td>
         <td>{{pointcharge?.locations.value}}</td>
+        <td>{{pointcharge?.materialRemarks || '-'}}</td>
+        <td>{{pointcharge?.accountsRemarks || '-'}}</td>
         <td>{{pointcharge?.status}}</td>
         <td class="text-center">
           <img

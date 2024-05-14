@@ -143,6 +143,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.transporterService.updateTransporter(this.queryData, data).subscribe((response: any) => {
         this.loadSpinner = false;
         this.toastr.success('Transporter Updated Successfully');
+        this.router.navigate(['/master/transporter']);
       }, error => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;

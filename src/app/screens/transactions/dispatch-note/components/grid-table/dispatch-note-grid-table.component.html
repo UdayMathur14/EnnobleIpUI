@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let dispatchNote of dispatchNotes">
         <td class="pointer">
           <span
             container="body"
@@ -21,42 +21,45 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>NFHA89398</u>
+            <u>{{dispatchNote.dispatchNumber}}</u>
             <ng-template #tipContent>
               <div class="">
                 <div class="content-row">
                   <span>Created On</span>
-                  <span>01/01/2024</span>
+                  <span>{{dispatchNote.creationDate}}</span>
                 </div>
                 <div class="content-row">
                   <span>Created By</span>
-                  <span>IL0001</span>
+                  <span>{{dispatchNote.createdBy}}</span>
                 </div>
               </div>
             </ng-template>
           </span>
         </td>
-        <td>IN000001</td>
-        <td>Sunplast Electronics Pvt Ltd.</td>
-        <td>UP16ET8383</td>
-        <td>17</td>
-        <td>Manoj</td>
-        <td>Generated</td>
+        <td>{{dispatchNote.suppliers.vendorCode}}</td>
+        <td>{{dispatchNote.suppliers.vendorName}}</td>
+        <td>{{dispatchNote.vehicles.vehicleNumber}}</td>
+        <td>{{dispatchNote.vehicles.vehicleSize.value}}</td>
+        <td>{{dispatchNote.createdBy}}</td>
+        <td>{{dispatchNote.status}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/link.svg"
             alt="link"
             class="me-2 pointer"
-            (click)="onPreviewDeliveryNote()"
+            (click)="onPreviewDispatchNote(dispatchNote)"
             placement="top"
-            ngbTooltip="Delivery Note"
+            ngbTooltip="Dispatch Note"
           />
           <img
             src="assets/images/icons/editPencil.svg"
             alt="edit" class="pointer"
-            (click)="onEditDispatchNote()"
+            (click)="onEditDispatchNote(dispatchNote.id)"
           />
         </td>
+      </tr>
+      <tr *ngIf="dispatchNotes.length==0">
+        <td align="center" colspan="13">No Result Found</td>
       </tr>
     </tbody>
   </table>

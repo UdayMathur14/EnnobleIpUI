@@ -16,6 +16,7 @@
             </tr>
         </thead>
         <tbody>
+          @for (bilti of biltisList; track bilti.id) {
             <tr>
                 <td class="pointer" container="body">
                     <span
@@ -23,37 +24,51 @@
                       tooltipClass="table-datetime-popover"
                       [ngbTooltip]="tipContent"
                     >
-                      <u>BILNHA0001</u>
+                      <u>{{bilti.biltiNumber}}</u>
                     </span>
                     <ng-template #tipContent>
                       <div class="">
                         <div class="content-row">
-                          <span>Created On</span>
-                          <span>01/01/2024</span>
+                          <span>Creation Date</span>
+                          <span>{{bilti.creationDate}}</span>
                         </div>
                         <div class="content-row">
                           <span>Created By</span>
-                          <span>IL0001</span>
+                          <span>{{bilti.createdBy}}</span> </div>
+                          <div class="content-row">
+                            <span>Last Update Date</span>
+                            <span>{{bilti.lastUpdateOn}}</span>
+                          </div>
+                          <div class="content-row">
+                            <span>Last Updated By</span>
+                            <span>{{bilti.lastUpdatedBy}}</span>
                         </div>
                       </div>
                     </ng-template>
                   </td>
-                <td>HR38E1112</td>
-                <td>17</td>
-                <td>SUR_NOI_0001</td>
-                <td>Surajpur</td>
-                <td>Noida Phase II</td>
-                <td>600</td>
-                <td>FRLR1</td>
-                <td>19</td>
+                  <td>{{bilti.vehicles.vehicleNumber}}</td>
+                  <td>{{bilti.vehicles.vehicleSize.value}}</td>
+                  <td>{{bilti.freights.code}}</td>
+                  <td>{{bilti.freights.source.value}}</td>
+                  <td>{{bilti.freights.destination.value}}</td>
+                  <td>{{bilti.freights.freightAmount}}</td>
+                  <td>{{bilti.frlrNumber}}</td>
+                  <td>{{bilti.loadingLocation.value}}</td>
                 <td class="text-center">
                     <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewBilti()"
                         placement="top" ngbTooltip="Bilti Link" />
                 </td>
                 <td class="text-center">
-                    <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditBilti()" />
+                  <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewPdf(bilti)"
+                  placement="top" ngbTooltip="Bilti PDF" />
+                    <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditBilti(bilti.id)" />
                 </td>
             </tr>
+          }@empty {
+            <tr>
+              <td align="center" colspan="13">No Biltis Found </td>
+            </tr>
+          }
         </tbody>
     </table>
 </div>

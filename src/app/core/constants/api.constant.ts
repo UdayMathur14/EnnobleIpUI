@@ -15,7 +15,7 @@ export const APIConstant = {
     Svc: svcURL,
     Gtm: gtmURL,
     commonURL:commonURL,
-    generateToken: `api/v1/login/generate-token`,
+    generateToken:(appId:string)=> `api/v1/login/generate-token/${appId}`,
     lookup: `/lookup/`,
     plant: `v1/plant/search`,
     plantData: `v1/plant/`,
@@ -65,4 +65,16 @@ export const createAdviceType = (locationId: any) => `v1/${locationId}/advice/cr
 export const transporter = (locationId: any) => `v1/${locationId}/transporter/search`;
 export const transporterData = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/${transporterId}`;
 export const updateTransporter = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/update/${transporterId}`;
-export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`
+export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
+export const commonTransaction= (locationId:any, id: any) => `v1/${locationId}/commonTransaction/updateStatus/${id}`;   
+export const bilti = (locationId: any) => `v1/${locationId}/bilti-creation/search`;
+export const frlr = (locationId: any) => `v1/${locationId}/frm-transactions/search`;
+export const createBilti = (locationId: any) => `v1/${locationId}/bilti-creation/create`;
+export const biltiData = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/${biltiId}`;
+export const updateBitli = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/update/${biltiId}`;
+export const createDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/create`;
+export const getDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/search`;
+export const dispatchData = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/${dispatchId}`;
+export const updateDispatchNote = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/update/${dispatchId}`;
+export const biltiBillProcess = (locationId:any) => `v1/${locationId}/bilti-process/search`;
+export const biltiBillProcessbyId = (locationId:any, biltiProcessId:any) => `v1/${locationId}/bilti-process/${biltiProcessId}` 

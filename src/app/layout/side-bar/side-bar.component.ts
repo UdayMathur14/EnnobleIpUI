@@ -50,8 +50,6 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/dispatchNote'])
         } else if (transaction === 'bilti') {
             this.router.navigate(['/transaction/bilti'])
-        } else if (transaction === 'biltiBillProcess') {
-            this.router.navigate(['/transaction/biltiBillProcess'])
         } else if (transaction === 'biltiBillProcessView') {
             this.router.navigate(['/transaction/biltiBillProcessView'])
         } else if (transaction === 'pointMasterAccounts') {

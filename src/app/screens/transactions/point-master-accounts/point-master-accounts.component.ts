@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-point-master-accounts',
@@ -7,8 +6,11 @@ import { Router } from '@angular/router';
   styleUrl: './point-master-accounts.component.scss'
 })
 export class PointMasterAccountsComponent {
-  constructor(private router : Router){}
+  constructor(){}
 
   isFilters : boolean = true;
-
+  searchedPoint: any;
+  searchPointName(event: any) {
+    this.searchedPoint = event;
+  }
 }

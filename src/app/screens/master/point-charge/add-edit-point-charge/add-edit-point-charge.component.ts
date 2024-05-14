@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BaseService } from '../../../../core/service/base.service';
 import { PointChargeDataModel } from '../../../../core/model/masterModels.model';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-point-charge',
@@ -13,23 +14,30 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './add-edit-point-charge.component.scss'
 })
 export class AddEditPointChargeComponent implements OnInit {
-  constructor(private router: Router,
-    private _route: ActivatedRoute,
-    private pointChargeService: PointChargeService,
-    private toastr: ToastrService,
-    private baseService: BaseService) {
-  }
+  pointChargeForm: FormGroup;
   pointChargeId: any;
   pointChargeData!: PointChargeDataModel
   pointChargesList: any = [];
   loadSpinner: boolean = true;
   locationCode: string = '';
-  pointChargeForm = new FormGroup({
-    pointName: new FormControl('', [Validators.required]),
-    pointCharge: new FormControl('', [Validators.required]),
-    sameLocationCharge: new FormControl('', [Validators.required]),
-    status: new FormControl('Active', [Validators.required]),
-  })
+  pointNameData: any = [];
+
+  constructor(private router: Router,
+    private _route: ActivatedRoute,
+    private pointChargeService: PointChargeService,
+    private toastr: ToastrService,
+    private baseService: BaseService,
+    private lookupService: LookupService,
+    private formBuilder: FormBuilder,
+  ) {
+    this.pointChargeForm = this.formBuilder.group({
+      pointName: ['', [Validators.required]],
+      pointCharge: ['', [Validators.required]],
+      sameLocationCharge: ['', [Validators.required]],
+      status: ['Active', [Validators.required]],
+    })
+  }
+
 
   ngOnInit(): void {
     if (!this.pointChargeId) {
@@ -44,6 +52,22 @@ export class AddEditPointChargeComponent implements OnInit {
       }
     })
     this.getPointChargeData(this.pointChargeId)
+    this.getCityLookup();
+  }
+
+  getCityLookup() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'City';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.pointNameData = res.lookUps;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.baseService.plantSpinner.next(false);
+    });
   }
 
   // GET SPECIFIC POINT CHARGE DATA
@@ -92,7 +116,7 @@ export class AddEditPointChargeComponent implements OnInit {
     this.results = this.data.filter((element) => element.name.toLowerCase().indexOf(e.query.toLowerCase()) !== -1)
   }
 
-// CREATING OR EDITING NEW POINT CHARGE
+  // CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
     this.loadSpinner = true;
     if (this.pointChargeForm.valid && this.pointChargeId) {
@@ -108,6 +132,7 @@ export class AddEditPointChargeComponent implements OnInit {
         this.pointChargeData = response;
         this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
+        this.router.navigate(['/master/pointCharge']);
       }, error => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;
@@ -115,12 +140,15 @@ export class AddEditPointChargeComponent implements OnInit {
     }
     if (this.pointChargeForm.valid && !this.pointChargeId) {
       let data = {
-        pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
+        pointName: this.pointChargeForm.get('pointName')?.value.name,
+        cityId: this.pointChargeForm.get('pointName')?.value.id,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
         actionBy: 1,
         status: this.pointChargeForm.get('status')?.value,
+
       }
+      // }
 
       this.pointChargeService.createPointCharge(data)
         .subscribe((response: any) => {

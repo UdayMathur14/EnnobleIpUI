@@ -1,0 +1,10 @@
+.datepicker{
+    button{
+        padding:0px 4px;
+    }
+    ::ng-deep{
+        ngb-datepicker.dropdown-menu{
+        top:30px;
+        }
+    }
+}

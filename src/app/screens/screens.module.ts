@@ -28,7 +28,7 @@ import { AdviceGridTableComponent } from "./master/advice/components/advice-grid
 import { PointChargeComponent } from "./master/point-charge/point-charge.component";
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { PointChargeGridTableComponent } from "./master/point-charge/components/point-charge-grid-table/point-charge-grid-table.component";
-import { NgbTooltipModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopover, NgbPopoverModule, NgbDatepicker, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 import { DispatchNoteFiltersComponent } from "./transactions/dispatch-note/components/filter/dispatch-note-filter.component";
 import { DispatchNoteGridTableComponent } from "./transactions/dispatch-note/components/grid-table/dispatch-note-grid-table.component";
@@ -85,6 +85,10 @@ import { LookupTypeGridTableComponent } from "./master/lookup-type/components/gr
 import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup-type/add-edit-lookup-type.component";
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 import { ExportAsModule } from 'ngx-export-as';
+import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
+import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
+import { BiltiPdfModalComponent } from "./modals/bilti-pdf/bilti-pdf.component";
+import { DispatchNoteModelComponent } from "./modals/dispatch-note/dispatch-note.component";
 
 
 @NgModule({
@@ -169,7 +173,11 @@ import { ExportAsModule } from 'ngx-export-as';
         LookupTypeComponent,
         LookupTypeFilterComponent,
         LookupTypeGridTableComponent,
-        AddEditLookupTypeComponent
+        AddEditLookupTypeComponent,
+        AddEditBiltiComponent,
+        AddEditDispatchNoteComponent,
+        BiltiPdfModalComponent,
+        DispatchNoteModelComponent
     ],
     imports: [
         LayoutModule,
@@ -180,7 +188,10 @@ import { ExportAsModule } from 'ngx-export-as';
         NgSelectModule,
         FormsModule,
         ReactiveFormsModule,
-        ExportAsModule
+        ExportAsModule,
+        NgbPopoverModule,
+        NgbDatepicker,
+        NgbDatepickerModule
     ],
     providers: [],
 })
