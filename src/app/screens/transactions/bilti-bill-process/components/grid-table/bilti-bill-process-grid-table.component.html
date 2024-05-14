@@ -16,62 +16,65 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
-            <u>4/1/2024</u>
-          </span>
-          <ng-template #tipContent>
-            <div class="">
-              <div class="content-row">
-                <span>Created On</span>
-                <span>01/01/2024</span>
+        <tr *ngFor="let biltiProcess of biltiBillProcess">
+          <td class="pointer" container="body">
+            <span
+              placement="end"
+              tooltipClass="table-datetime-popover"
+              [ngbTooltip]="tipContent"
+            >
+              <u>{{biltiProcess.creationDate}}</u>
+            </span>
+            <ng-template #tipContent>
+              <div class="">
+                <div class="content-row">
+                  <span>Created On</span>
+                  <span>01/01/2024</span>
+                </div>
+                <div class="content-row">
+                  <span>Created By</span>
+                  <span>IL0001</span>
+                </div>
               </div>
-              <div class="content-row">
-                <span>Created By</span>
-                <span>IL0001</span>
+            </ng-template>
+          </td>
+          <td>{{biltiProcess.biltiBillProcessModel?.biltiBillProcessDate}}</td>
+          <td>{{biltiProcess.biltiNumber}}</td>
+          <td>{{biltiProcess.frlrNumber}}</td>
+          <td>{{biltiProcess.transporterModel?.transporterName}}</td>
+          <td>{{biltiProcess.vehicles?.vehicleNumber}}</td>
+          <td>{{biltiProcess.freights?.freightAmount}}</td>
+          <td>{{biltiProcess.biltiBillProcessModel?.paidByAmount}}</td>
+          <td>{{biltiProcess.biltiBillProcessModel?.debitAmount}}</td>
+          <td class="text-center">
+            <img
+              src="assets/images/icons/more.svg"
+              class="me-3 pointer"
+              alt="edit"
+              [ngbPopover]="popContent"
+              [autoClose]="'outside'"
+              triggers="manual"
+              #p="ngbPopover"
+              (click)="p.open()"
+            />
+            <img
+              src="assets/images/icons/editPencil.svg"
+              alt="edit"
+              (click)="onEditBilti()"
+            />
+            <ng-template #popContent>
+              <div class="popover-list">
+                <ul>
+                  <li (click)="onOpenProcessModal(biltiProcess); p.close()">Bilti Bill Process Details</li>
+                  <li (click)="onOpenDebitNoteModal(); p.close()">Debit Note Details</li>
+                </ul>
               </div>
-            </div>
-          </ng-template>
-        </td>
-        <td>5/1/2024</td>
-        <td>BILNHA0001</td>
-        <td>FRLR1</td>
-        <td>Sunplast Electronics</td>
-        <td>HR38E1112</td>
-        <td>600.00</td>
-        <td>700</td>
-        <td>600.00</td>
-        <td class="text-center">
-          <img
-            src="assets/images/icons/more.svg"
-            class="me-3"
-            alt="edit"
-            [ngbPopover]="popContent"
-            [autoClose]="'outside'"
-            triggers="manual"
-            #p="ngbPopover"
-            (click)="p.open()"
-          />
-          <img
-            src="assets/images/icons/editPencil.svg"
-            alt="edit"
-            (click)="onEditBilti()"
-          />
-          <ng-template #popContent>
-            <div class="popover-list">
-              <ul>
-                <li (click)="onOpenProcessModal(); p.close()">Bilti Bill Process Details</li>
-                <li (click)="onOpenDebitNoteModal(); p.close()">Debit Note Details</li>
-              </ul>
-            </div>
-          </ng-template>
-        </td>
-      </tr>
+            </ng-template>
+          </td>
+        </tr> 
+        <tr *ngIf="biltiBillProcess.length == 0">
+          <td align="center" colspan="13">No Bilti Bill Process Found</td>
+        </tr>
     </tbody>
   </table>
 </div>

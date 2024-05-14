@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
-import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
 import { BiltiProcessDetailsModalComponent } from '../../../../modals/bilti-bill-process-details/bilti-process-details.component';
 import { DebitNoteDetailsModalComponent } from '../../../../modals/debit-note-details/debit-note-details.component';
+import { BiltiBillProcessService } from '../../../../../core/service/biltiBillProcess.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -12,16 +12,24 @@ import { DebitNoteDetailsModalComponent } from '../../../../modals/debit-note-de
   templateUrl: './bilti-bill-process-grid-table.component.html',
   styleUrl: './bilti-bill-process-grid-table.component.scss'
 })
-export class BiltiBillProcessGridTableComponent {
-  constructor(private router: Router,
-    private modalService: NgbModal) { }
+export class BiltiBillProcessGridTableComponent implements OnInit{
+  // biltiBillProcess: any = [];
+  @Input() biltiBillProcess: any = [];
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private biltiBIllProService: BiltiBillProcessService,
+  ) { }
 
-  onOpenProcessModal() {
+  ngOnInit(): void {
+  }
+
+  onOpenProcessModal(biltiProcess:any) {
     let processDetailsModal = this.modalService.open(BiltiProcessDetailsModalComponent, {
       size: "xl",
       backdrop: "static",
     });
-
+    processDetailsModal.componentInstance.biltiProcess = biltiProcess;
     processDetailsModal.result.then(
       (result) => {
         if (result) {

@@ -1,79 +1,68 @@
 <div class="filters-box">
   <div class="row">
-    <div class="col-lg-2">
+    <div class="col">
       <div class="custom-form-input">
         <label for="">From Date</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="01/20/2024"/>
-          <img
-            src="assets/images/icons/calendar.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
-          />
+        <div class="input-group datepicker">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" [(ngModel)]="fromDate"
+            [maxDate]="today" (dateSelect)="onDateSelect('fromDate',$event)" ngbDatepicker #fromDt="ngbDatepicker" />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+            <img src="assets/images/icons/calendar.svg" alt="" width="15px">
+          </button>
         </div>
       </div>
     </div>
-    <div class="col-lg-2">
+    <div class="col">
       <div class="custom-form-input">
         <label for="">To Date</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="01/30/2024"/>
-          <img
-            src="assets/images/icons/calendar.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
+        <div class="input-group datepicker">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="toDt" [autoClose]="true"
+            [(ngModel)]="toDate"
+            [maxDate]="today"
+            (dateSelect)="onDateSelect('toDate',$event)"
+            ngbDatepicker
+            #toDt="ngbDatepicker"
           />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="toDt.toggle()" type="button">
+            <img src="assets/images/icons/calendar.svg" alt="" width="15px">
+          </button>
         </div>
       </div>
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Advice Type</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" value="RM Sales to Vendor"/>
-          <img
-            src="assets/images/icons/search.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
-          />
-        </div>
+        <ng-select class="input-field" [(ngModel)]="adviceType" [readonly]=" biltiNumber || biltiNumber " (change)="onAdviceTypeSelect(adviceType)">
+          <ng-option *ngFor="let plant of adviceTypeList" [value]="plant.plantCode">{{plant.adviceType}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Batch Name</label>
         <div class="input-with-icon">
-          <input type="text" class="input-field" value="RM_SALES_HA_62"/>
-          <img
-            src="assets/images/icons/search.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
-          />
+          <input #batchNameInput type="text" [readonly]="adviceType || biltiNumber" class="input-field" />
+          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
         </div>
       </div>
     </div>
+    
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Bilti Number</label>
         <div class="input-with-icon">
-          <input type="text" class="input-field" />
-          <img
-            src="assets/images/icons/search.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
-          />
+          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="batchName || adviceType"/>
+          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
         </div>
       </div>
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters">Search</button>
+        <button class="custom-button-filters" (click)="handleSearch()">Search</button>
       </div>
     </div>
   </div>
