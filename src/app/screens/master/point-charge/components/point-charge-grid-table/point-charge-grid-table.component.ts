@@ -43,6 +43,7 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
   // GET ALL POINT CHARGE
   getAllPointChargesList() {
     let data = {
+      "screenCode": 101,
       "pointName": ''
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
