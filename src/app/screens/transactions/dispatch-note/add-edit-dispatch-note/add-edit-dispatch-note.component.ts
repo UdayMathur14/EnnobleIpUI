@@ -93,8 +93,8 @@ export class AddEditDispatchNoteComponent {
     return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
   }
 
-  getDispatchData(dispatchId: number) {
-    this.dispatchNoteService
+  async getDispatchData(dispatchId: number) {
+    await this.dispatchNoteService
       .getDispatchNoteById(dispatchId)
       .subscribe((response: any) => {
         const vehicles = response.vehicles;
