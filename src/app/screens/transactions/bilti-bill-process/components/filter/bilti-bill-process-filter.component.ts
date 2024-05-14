@@ -19,7 +19,6 @@ export class BiltiBillProcessFilterComponent {
   biltiNumber: any = undefined;
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
-  // maxDate : {year:new Date().getFullYear(),month: new Date().getMonth(), day: new Date().getDate()}
   loadSpinner: boolean = true;
   adviceTypeList: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
@@ -52,20 +51,13 @@ export class BiltiBillProcessFilterComponent {
   }
 
   onAdviceTypeSelect(selectedAdvice: any) {
-    const adviceType = selectedAdvice.$ngOptionLabel; // Extract advice type from $ngOptionLabel
-    console.log('Advice Type Selected:', adviceType);
-    console.log('Advice Type List:', this.adviceTypeList);
-
+    const adviceType = selectedAdvice.$ngOptionLabel;
     const matchedAdvice = this.adviceTypeList.find((advice: any) => advice.adviceType.trim() === adviceType.trim());
-    console.log('Selected Advice:', matchedAdvice);
-
     if (!matchedAdvice) {
       console.log('No advice found for the selected type:', adviceType);
     }
-
     if (matchedAdvice && this.batchNameInput && this.batchNameInput.nativeElement) {
       console.log('Updating Batch Name:', matchedAdvice.batchName);
-      // Update batch name input field using property binding
       this.batchNameInput.nativeElement.value = matchedAdvice.batchName;
     }
   }
@@ -83,10 +75,9 @@ export class BiltiBillProcessFilterComponent {
 
   handleSearch() {
     const filterObj = {
-      // "plantCode": this.plantCode || "",
-      // "transactionTypeId": this.transactionTypeId || 0,
-      "biltiNumber": this.biltiNumber || 0,
-      "batchName": this.batchName || "",
+      "biltiNumber": this.biltiNumber || "",
+      "batchNumber": this.batchName || "",
+      "adviceType": this.adviceType || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
     }

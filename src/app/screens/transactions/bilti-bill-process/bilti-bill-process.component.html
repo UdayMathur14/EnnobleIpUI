@@ -2,7 +2,7 @@
     <h1>Bilti Bill Process</h1>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-bilti-bill-process-filter></app-bilti-bill-process-filter>
+    <app-bilti-bill-process-filter (filterSearchObj)="filteredData($event)"></app-bilti-bill-process-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
