@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
-import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
 import { BiltiProcessDetailsModalComponent } from '../../../../modals/bilti-bill-process-details/bilti-process-details.component';
 import { DebitNoteDetailsModalComponent } from '../../../../modals/debit-note-details/debit-note-details.component';
+import { BiltiBillProcessService } from '../../../../../core/service/biltiBillProcess.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -12,16 +12,48 @@ import { DebitNoteDetailsModalComponent } from '../../../../modals/debit-note-de
   templateUrl: './bilti-bill-process-grid-table.component.html',
   styleUrl: './bilti-bill-process-grid-table.component.scss'
 })
-export class BiltiBillProcessGridTableComponent {
-  constructor(private router: Router,
-    private modalService: NgbModal) { }
+export class BiltiBillProcessGridTableComponent implements OnInit{
+  // biltiBillProcess: any = [];
+  @Input() biltiBillProcess: any = [];
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private biltiBIllProService: BiltiBillProcessService,
+  ) { }
 
-  onOpenProcessModal() {
+  ngOnInit(): void {
+    // this.getAllBiltiProcess();
+  }
+
+  // getAllBiltiProcess(){
+  //   const obj = {
+  //     screenCode: 0,
+  //     // fromDate: "",
+  //     // toDate: "",
+  //     adviceType: "",
+  //     batchNumber: "",
+  //     biltiNumber: ""
+  //   }
+  //     this.biltiBIllProService.getBiltiBillProcess(obj).subscribe((response:any)=>{
+  //       response.biltiBillProcess.forEach((element:any) => {
+  //         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
+  //         // element.biltiBillProcessModel.biltiBillProcessDate = moment.utc(element.biltiBillProcessModel.biltiBillProcessDate).local().format("YYYY-MM-DD");
+  //         if (element.biltiBillProcessModel) {
+  //           element.biltiBillProcessModel.biltiBillProcessDate = moment.utc(element.biltiBillProcessModel.biltiBillProcessDate).local().format("YYYY-MM-DD");
+  //         }
+  //       });
+  //       this.biltiBillProcess = response.biltiBillProcess;
+  //       console.log(this.biltiBillProcess);
+        
+  //     })
+  // }
+
+  onOpenProcessModal(biltiProcess:any) {
     let processDetailsModal = this.modalService.open(BiltiProcessDetailsModalComponent, {
       size: "xl",
       backdrop: "static",
     });
-
+    processDetailsModal.componentInstance.biltiProcess = biltiProcess;
     processDetailsModal.result.then(
       (result) => {
         if (result) {

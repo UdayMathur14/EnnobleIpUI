@@ -12,6 +12,6 @@ export class BiltiBillProcessViewComponent {
   isFilters: boolean = true;
 
   onCreateBilti() {
-    this.router.navigate(['transaction/addEditBilti'])
+    this.router.navigate(['transaction/biltiBillProcess'])
   }
 }
