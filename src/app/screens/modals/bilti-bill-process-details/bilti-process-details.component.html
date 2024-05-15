@@ -8,69 +8,72 @@
       <div class="clearfix"></div>
     </h3>
   </div>
-  <form>
+  <form [formGroup]="biltiBillProcess">
     <div class="ngmodal-body">
       <div class="row">
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Bilti Number</label>
-            <input type="text" class="input-field" disabled value="{{biltiProcess.biltiNumber}}"/>
+            <input type="text" class="input-field" readonly formControlName="biltiNumber"/>
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Bilti Date</label>
-            <input type="text" class="input-field" disabled value="{{biltiProcess.creationDate}}"/>
+            <input type="text" class="input-field" readonly formControlName="creationDate"/>
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Advice Type</label>
-            <input type="text" class="input-field" disabled value="RM Sales to Vendor"/>
+            <input type="text" class="input-field" readonly formControlName="adviceType"/>
           </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <!-- <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Document Ref. Number</label>
-            <input type="text" class="input-field" disabled value="SINDGZA989398983"/>
+            <input type="text" class="input-field" readonly formControlName="documentNumber"/>
           </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
+        </div> -->
+        <!-- <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Supplier Name</label>
-            <input type="text" class="input-field" disabled value="IN0001947"/>
+            <input type="text" class="input-field" readonly formControlName="vendorName"/>
           </div>
-        </div>
+        </div> -->
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Freight Amount</label>
-            <input type="text" class="input-field" disabled value="5000.00"/>
+            <input type="text" class="input-field" readonly formControlName="freightAmount"/>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Penalty Amount</label>
-            <input type="text" class="input-field" disabled />
+            <input type="text" class="input-field" readonly formControlName="penaltyAmount"/>
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Penalty Reason</label>
-            <input type="text" class="input-field" />
+            <input type="text" class="input-field" formControlName="penaltyReason"/>
           </div>
         </div>
+      </div>
+
+      <div class="row">
+  
+
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Excess Amount</label>
-            <input type="text" class="input-field" disabled />
+            <input type="text" class="input-field" readonly formControlName="excessAmount"/>
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Excess Reason</label>
-            <input type="text" class="input-field" value="RM_SALES_HA_650"/>
+            <input type="text" class="input-field" formControlName="excessReason"/>
           </div>
         </div>
       </div>

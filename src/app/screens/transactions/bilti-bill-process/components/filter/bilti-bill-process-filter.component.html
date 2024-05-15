@@ -36,7 +36,7 @@
       <div class="custom-form-input">
         <label for="">Advice Type</label>
         <ng-select class="input-field" [(ngModel)]="adviceType" [readonly]=" biltiNumber || biltiNumber " (change)="onAdviceTypeSelect(adviceType)">
-          <ng-option *ngFor="let plant of adviceTypeList" [value]="plant.plantCode">{{plant.adviceType}}</ng-option>
+          <ng-option *ngFor="let advice of adviceTypeList" >{{advice.adviceType}}</ng-option>
         </ng-select>
       </div>
     </div>

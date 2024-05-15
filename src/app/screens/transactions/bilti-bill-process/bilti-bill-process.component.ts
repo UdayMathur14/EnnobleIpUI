@@ -31,7 +31,7 @@ export class BiltiBillProcessComponent implements OnInit {
       screenCode: 302,
       fromDate: this.fromDate,
       toDate: this.toDate,
-      // adviceType: this.adviceType,
+      adviceType: this.adviceType,
       batchNumber: this.batchNumber,
       biltiNumber: this.biltiNumber
     }

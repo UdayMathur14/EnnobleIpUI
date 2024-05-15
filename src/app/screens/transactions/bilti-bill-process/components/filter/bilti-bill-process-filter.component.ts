@@ -42,7 +42,6 @@ export class BiltiBillProcessFilterComponent {
       console.log(this.adviceTypeList, "this.adviceTypeList");
       // Populate batch names related to advice types
       this.batchNames = this.adviceTypeList.map((advice: any) => advice.batchName);
-
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
@@ -53,11 +52,7 @@ export class BiltiBillProcessFilterComponent {
   onAdviceTypeSelect(selectedAdvice: any) {
     const adviceType = selectedAdvice.$ngOptionLabel;
     const matchedAdvice = this.adviceTypeList.find((advice: any) => advice.adviceType.trim() === adviceType.trim());
-    if (!matchedAdvice) {
-      console.log('No advice found for the selected type:', adviceType);
-    }
     if (matchedAdvice && this.batchNameInput && this.batchNameInput.nativeElement) {
-      console.log('Updating Batch Name:', matchedAdvice.batchName);
       this.batchNameInput.nativeElement.value = matchedAdvice.batchName;
     }
   }
@@ -74,10 +69,17 @@ export class BiltiBillProcessFilterComponent {
 
 
   handleSearch() {
+    let selectedAdviceType: string = '';
+    if (this.adviceType && this.adviceType.$ngOptionLabel) {
+      selectedAdviceType = this.adviceType.$ngOptionLabel;
+    } else if (typeof this.adviceType === 'string') {
+      selectedAdviceType = this.adviceType;
+    }
+    const batchNameValue = this.batchNameInput ? this.batchNameInput.nativeElement.value : '';
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
-      "batchNumber": this.batchName || "",
-      "adviceType": this.adviceType || "",
+      "batchNumber": batchNameValue || "",
+      "adviceType": selectedAdviceType || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
     }
