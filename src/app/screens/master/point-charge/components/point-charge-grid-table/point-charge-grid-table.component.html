@@ -28,7 +28,7 @@
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{pointcharge?.creationDate}}</span>
+                <span>{{pointcharge?.creationDate | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -40,7 +40,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{pointcharge?.lastUpdateOn}}</span>
+                <span>{{pointcharge?.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Approved by Material</span>
