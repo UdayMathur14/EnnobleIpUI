@@ -4,7 +4,7 @@
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
                 <ng-select class="input-field" [(ngModel)]="vendorCod" typeToSearchText
-                    placeholder="Select Vendor Code">
+                    placeholder="Select Vendor Code" [readonly]="vendorNam ? true :false">
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorCode">{{vendor.vendorCode}}</ng-option>
                 </ng-select>
@@ -15,7 +15,7 @@
                 <label for="">Vendor Name</label>
                 <div class="input-with-icon">
                     <input type="text" class="suggestion" class="input-field" [(ngModel)]="vendorNam"
-                        (input)="onVendorNameInput(vendorNam)" placeholder="Vendor Name"/>
+                        (input)="onVendorNameInput(vendorNam)" placeholder="Vendor Name" [readonly]="vendorCod ? true :false"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestions && filteredVendors.length > 0" class="suggestions">

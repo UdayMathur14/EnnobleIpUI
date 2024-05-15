@@ -28,7 +28,7 @@
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{vendor.creationDate || '-' }}</span>
+                <span>{{vendor.creationDate | date: 'yyyy-MM-dd' || '-' }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -36,7 +36,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{vendor.lastUpdateOn || '-' }}</span>
+                <span>{{vendor.lastUpdateOn | date: 'yyyy-MM-dd' || '-' }}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>

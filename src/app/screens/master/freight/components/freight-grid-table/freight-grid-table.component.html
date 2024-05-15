@@ -31,7 +31,7 @@
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{freight.creationDate }}</span>
+                <span>{{freight.creationDate | date: 'yyyy-MM-dd' }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -39,7 +39,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{freight.lastUpdateOn || '-' }}</span>
+                <span>{{freight.lastUpdateOn | date: 'yyyy-MM-dd' || '-' }}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
