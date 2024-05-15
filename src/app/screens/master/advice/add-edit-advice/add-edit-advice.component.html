@@ -10,27 +10,43 @@
     <form [formGroup]="adviceForm">
         <div class="row">
             <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
+                <!-- <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
                         <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly />
                         <input type="text" class="input-field" *ngIf="adviceId == 0" value="HA" readonly />
                     </div>
+                </div> -->
+                <!-- <div class="custom-form-input">
+                    
+                    <label for="">Location Code <span class="text-danger">*</span></label>
+                    <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly />
+                    <ng-select name="" id="" *ngIf="adviceId == 0" formControlName="locationCode">
+                      <ng-option *ngFor="let location of locationsDropdownData"
+                        [value]="location.id">{{location.value}}</ng-option>
+                    </ng-select>
+                  </div> -->
+                  <div class="custom-form-input">
+                    <label for="">Location Code <span class="text-danger">*</span></label>
+                    <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly #locationCodeInput />
+                    <ng-select *ngIf="adviceId == 0" formControlName="locationCode">
+                        <ng-option *ngFor="let location of locationsDropdownData" [value]="location.value">{{location.value}}</ng-option>
+                    </ng-select>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Advice Type <span class="text-danger">*</span></label>
                         <ng-select name="" id="" formControlName="adviceType">
-                            <ng-option *ngFor="let location of transactionTypesList"
-                                [value]="{name: location.name, id: location.id}">{{location.name}}</ng-option>
+                            <ng-option *ngFor="let advice of transactionTypesList"
+                                [value]="{name: advice.name, id: advice.id}">{{advice.name}}</ng-option>
                         </ng-select>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Batch Name</label>
-                    <input type="text" class="input-field" formControlName="batchName" [readOnly]="adviceId > 0" />
+                    <input type="text" class="input-field" formControlName="batchName"  readOnly />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">

@@ -77,4 +77,4 @@ export const getDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-n
 export const dispatchData = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/${dispatchId}`;
 export const updateDispatchNote = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/update/${dispatchId}`;
 export const biltiBillProcess = (locationId:any) => `v1/${locationId}/bilti-process/search`;
-export const biltiBillProcessbyId = (locationId:any, biltiProcessId:any) => `v1/${locationId}/bilti-process/${biltiProcessId}` 
+export const biltiBillProcessbyId = (locationId:any, biltiProcessId:any) => `v1/${locationId}/bilti-process/${biltiProcessId}`;
