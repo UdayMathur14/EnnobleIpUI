@@ -5,10 +5,10 @@
                 <label for="">Part Number</label>
                 <div class="input-with-icon">
                     <input type="text" class="input-field" [(ngModel)]="partNum" (input)="onInput('partNum', $event)"
-                        placeholder="Enter Part Number" />
+                        placeholder="Enter Part Number" [readonly]="partName ? true :false" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
-                <div *ngIf="showSuggestions.partNum && filteredItems.partNum.length > 0" class="suggestions">
+                <div *ngIf="showSuggestions.partNum && filteredItems.partNum.length > 0" class="suggestions" >
                     <div *ngFor="let partNum of filteredItems.partNum" (click)="selectItem('partNum', partNum)"
                         class="suggestion">
                         {{partNum}}
@@ -21,7 +21,7 @@
                 <label for="">Part Name</label>
                 <div class="input-with-icon">
                     <input type="text" class="input-field" [(ngModel)]="partName" (input)="onInput('partName', $event)"
-                        placeholder="Enter Part Name" />
+                        placeholder="Enter Part Name" [readonly]="partNum ? true :false"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestions.partName && filteredItems.partName.length > 0" class="suggestions">
