@@ -42,7 +42,7 @@ export class AddEditTransporterComponent implements OnInit {
       biltiHeaderComment: ['', [Validators.required]],
       note: ['', [Validators.required]],
       footer: ['', [Validators.required]],
-      transporterMailId: [''],
+      transporterMailId: ['', Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
       postalCode: [''],
       taxationCode: [],
       rcmNonRcm: [''],
