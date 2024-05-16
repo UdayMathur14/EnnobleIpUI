@@ -84,6 +84,7 @@ export class AddEditDispatchNoteComponent {
       partQuantity: [''],
       remarks: [''],
       status: [''],
+      id: []
     });
 
     this.partDetails.push(detail);
@@ -102,6 +103,7 @@ export class AddEditDispatchNoteComponent {
         this.supplierId = suppliers.id;
         this.vehicleId = vehicles.id;
         this.dispatchNote.status = response.status;
+        this.dispatchNote.id =response.id
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
           vehicleSize: vehicles.vehicleSize.value,
@@ -124,6 +126,7 @@ export class AddEditDispatchNoteComponent {
               remarks: partItem.parts.remarks,
               partQuantity: this.mapQuantities(partItem.partsQty.id),
               status: partItem.status,
+              id: partItem.id
             });
           }
         );
@@ -255,11 +258,11 @@ export class AddEditDispatchNoteComponent {
     const detailsGroup = detailsArray.at(i) as FormGroup;
 
     detailsGroup.patchValue({
-      partId: data.id,
-      partNumber: data.partNumber,
-      partName: data.partName,
-      partSize: data.partSize,
-      remarks: data.remarks,
+      partId: data?.id,
+      partNumber: data?.partNumber,
+      partName: data?.partName,
+      partSize: data?.partSize,
+      remarks: data?.remarks,
     });
   }
 
@@ -303,6 +306,7 @@ export class AddEditDispatchNoteComponent {
           partId: dg.controls['partId'].value,
           partQtyId: dg.controls['partQuantity'].value,
           status: dg.controls['status'].value,
+          id: dg.controls['id'].value
         };
         this.dispatchNote.partDetails.push(note);
       }
@@ -335,7 +339,7 @@ export class AddEditDispatchNoteComponent {
           attribute9: new Date(),
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
-          partQtyId: dg.controls['partQuantity'].value['id'],
+          partQtyId: dg.controls['partQuantity'].value,
           status: "Active",
         };
         this.dispatchNote.partDetails.push(note);

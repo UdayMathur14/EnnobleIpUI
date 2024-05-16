@@ -112,7 +112,7 @@ export class AddEditBiltiComponent implements OnInit {
       paidByDetails: [''],
       biltiStatus: [''],
       biltiDetailsTransactionType: [''],
-      documentrefNo: ['']
+      documentrefNo: [''],
     });
   }
 
@@ -425,7 +425,6 @@ export class AddEditBiltiComponent implements OnInit {
   onPressSave() {
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
-    
     if (this.biltiId == 0) {
       const data = {
         actionBy: 1,
@@ -455,7 +454,7 @@ export class AddEditBiltiComponent implements OnInit {
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
-          frmId: this.frmId,
+          frmId: this.frmId
         };
         if(data.lineItemsEntity[0].actionBy == 0){
           data.lineItemsEntity[0] = lineItem
@@ -479,6 +478,7 @@ export class AddEditBiltiComponent implements OnInit {
       );
     } else {
       const data = {
+        id: this.biltiId,
         actionBy: 1,
         frlrNumber: parseInt(this.frlrNumber),
         transporterId: this.transporterId,
@@ -487,7 +487,7 @@ export class AddEditBiltiComponent implements OnInit {
         vehicleId: this.vehicleId,
         "attribute9": "2024-05-04T13:03:47.509Z",
         "attribute10": "2024-05-04T13:03:47.509Z",
-        lineItemsEntity: [
+        lineItemsEntity:  [
           {
           actionBy: 0,
           vendorId: '',
@@ -495,7 +495,8 @@ export class AddEditBiltiComponent implements OnInit {
           attribute9: '',
           attribute10: '',
           frmId: 0,
-          status: ''
+          status: '',
+          id: 0
         }
       ],
         status: this.biltiForm.controls['status'].value,
@@ -508,12 +509,21 @@ export class AddEditBiltiComponent implements OnInit {
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
           frmId: this.frmId,
-          status: vendorControl?.biltiStatus
+          status: vendorControl?.biltiStatus,
+          id: 0
         };
         if(data.lineItemsEntity[0].actionBy == 0){
           data.lineItemsEntity[0] = lineItem
         }else{
           data.lineItemsEntity.push(lineItem);
+        }
+        if (this.lineItem.length > 1) {
+          data.lineItemsEntity.forEach((item, index) => {
+            item.id = this.lineItem[index].id;
+          });
+        } else if (this.lineItem.length === 1) {
+          // If only one line item, add its ID
+          data.lineItemsEntity[0].id = this.lineItem[0].id;
         }
       }
       this.biltiService.updateBilti(this.biltiId, data).subscribe(
@@ -552,6 +562,7 @@ export class AddEditBiltiComponent implements OnInit {
     this.loadSpinner = true;
     this.biltiService.getBiltiData(biltiId).subscribe(
       (response: any) => {
+        this.lineItem = response.biltiCreationLineItems
         this.loadSpinner=false
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
