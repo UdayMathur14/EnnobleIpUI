@@ -21,6 +21,18 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   totalTollTax: number = 0;
   totalUnloadingCharge: number = 0;
   totalOtherCharges: number = 0;
+  grandTotal: number = 0;
+
+  // Define variables to store the total sum for each charge type in Charges by LG section
+totalLGFreightCharge: number = 0;
+totalLGPointCharge: number = 0;
+totalLGDetentionCharge: number = 0;
+totalLGOverloadCharge: number = 0;
+totalLGTollTax: number = 0;
+totalLGUnloadingCharge: number = 0;
+totalLGOtherCharges: number = 0;
+grandTotalLG:number = 0;
+
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -133,6 +145,25 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.totalTollTax = this.sumColumn('tollTax');
     this.totalUnloadingCharge = this.sumColumn('unloadingCharge');
     this.totalOtherCharges = this.sumColumn('otherCharges');
+
+     this.grandTotal = this.totalFreightCharge + this.totalPointCharge + this.totalDetentionCharge +
+                    this.totalOverloadCharge + this.totalTollTax + this.totalUnloadingCharge +
+                    this.totalOtherCharges;
+  }
+
+  calculateTotalLGCharges(): void {
+    // Calculate the total sum for each charge type
+    this.totalLGFreightCharge = parseFloat((document.getElementById('lgFreightCharge') as HTMLInputElement).value) || 0;
+    this.totalLGPointCharge = parseFloat((document.getElementById('lgPointCharge') as HTMLInputElement).value) || 0;
+    this.totalLGDetentionCharge = parseFloat((document.getElementById('lgDetentionCharge') as HTMLInputElement).value) || 0;
+    this.totalLGOverloadCharge = parseFloat((document.getElementById('lgOverloadCharge') as HTMLInputElement).value) || 0;
+    this.totalLGTollTax = parseFloat((document.getElementById('lgTollTax') as HTMLInputElement).value) || 0;
+    this.totalLGUnloadingCharge = parseFloat((document.getElementById('lgUnloadingCharge') as HTMLInputElement).value) || 0;
+    this.totalLGOtherCharges = parseFloat((document.getElementById('lgOtherCharges') as HTMLInputElement).value) || 0;
+     // Calculate the grand total for Charges by LG
+  this.grandTotalLG = this.totalLGFreightCharge + this.totalLGPointCharge + this.totalLGDetentionCharge +
+  this.totalLGOverloadCharge + this.totalLGTollTax + this.totalLGUnloadingCharge +
+  this.totalLGOtherCharges;
   }
 
   sumColumn(column: string): number {

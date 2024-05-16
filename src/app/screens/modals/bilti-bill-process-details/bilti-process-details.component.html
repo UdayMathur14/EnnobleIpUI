@@ -153,6 +153,11 @@
               <td><strong>{{ totalOtherCharges }}</strong></td>
               <td></td>
             </tr>
+            <!-- Grand Total -->
+            <tr>
+              <td colspan="2" class="ps-0"><strong>Grand Total by Vendor:</strong></td>
+              <td colspan="8"><strong>{{ grandTotal }}</strong></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -179,37 +184,38 @@
             <tr>
               <td class="ps-0">
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="5000.00" />
+                  <!-- <input type="text" class="input-field" value="0.00" /> -->
+                  <input type="text" class="input-field" id="lgFreightCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00" />
+                  <input type="text" class="input-field" id="lgPointCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00" />
+                  <input type="text" class="input-field" id="lgDetentionCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00" />
+                  <input type="text" class="input-field" id="lgOverloadCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00" />
+                  <input type="text" class="input-field" id="lgTollTax" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00" />
+                  <input type="text" class="input-field" id="lgUnloadingCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00" />
+                  <input type="text" class="input-field" id="lgOtherCharges" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
@@ -217,6 +223,11 @@
                   <input type="text" class="input-field" />
                 </div>
               </td>
+            </tr>
+            <!-- Grand Total LG -->
+            <tr>
+              <td colspan="2" class="ps-0"><strong>Grand Total by LG:</strong></td>
+              <td colspan="8"><strong>{{ grandTotalLG }}</strong></td>
             </tr>
           </tbody>
         </table>
@@ -227,7 +238,7 @@
           <div class="col-lg-2 col-md-2">
             <div class="custom-form-input">
               <label for="">Grand Total</label>
-              <input type="text" class="input-field" disabled value="5925.00" />
+              <input type="text" class="input-field" disabled value="{{ grandTotal + grandTotalLG }}" />
             </div>
           </div>
           <div class="col-lg-10 col-md-10">
