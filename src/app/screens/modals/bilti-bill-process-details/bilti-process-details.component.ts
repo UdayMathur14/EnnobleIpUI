@@ -21,17 +21,20 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   totalTollTax: number = 0;
   totalUnloadingCharge: number = 0;
   totalOtherCharges: number = 0;
-  grandTotal: number = 0;
+  grandTotalVendor: number = 0;
+
 
   // Define variables to store the total sum for each charge type in Charges by LG section
-totalLGFreightCharge: number = 0;
-totalLGPointCharge: number = 0;
-totalLGDetentionCharge: number = 0;
-totalLGOverloadCharge: number = 0;
-totalLGTollTax: number = 0;
-totalLGUnloadingCharge: number = 0;
-totalLGOtherCharges: number = 0;
-grandTotalLG:number = 0;
+  totalLGFreightCharge: number = 0;
+  totalLGPointCharge: number = 0;
+  totalLGDetentionCharge: number = 0;
+  totalLGOverloadCharge: number = 0;
+  totalLGTollTax: number = 0;
+  totalLGUnloadingCharge: number = 0;
+  totalLGOtherCharges: number = 0;
+  grandTotalLG: number = 0;
+
+   grandTotal: number = 0;
 
 
   constructor(
@@ -41,7 +44,6 @@ grandTotalLG:number = 0;
   ) { }
 
   ngOnInit(): void {
-
     this.initForm();
     this.getBiltiBillProcessbyId();
   }
@@ -94,6 +96,60 @@ grandTotalLG:number = 0;
   }
 
   populateForm(): void {
+  //     // Populate other form fields as before
+
+  // // Calculate the grand total by vendor
+  // this.calculateTotals();
+
+  // // Calculate the difference between grandTotalLG and Freight Amount
+  // const difference = this.grandTotalLG - this.biltiBillProcessData?.freightDetails?.freightAmount || 0;
+
+  // // Determine the appropriate values for Excess Amount and Penalty Amount
+  // let excessAmount = 0;
+  // let penaltyAmount = 0;
+
+  // if (difference > 0) {
+  //   // If grandTotalLG is greater than Freight Amount
+  //   excessAmount = difference;
+  //   // Disable Penalty Reason
+  //   this.biltiBillProcess.get('penaltyReason')?.disable();
+  // } else if (difference < 0) {
+  //   // If grandTotalLG is less than Freight Amount
+  //   penaltyAmount = Math.abs(difference);
+  //   // Disable Excess Reason
+  //   this.biltiBillProcess.get('excessReason')?.disable();
+  // }
+
+
+    // Populate other form fields as before
+
+  // Calculate the grand total by vendor
+  this.calculateTotals();
+
+  // Check if biltiBillProcessData is not null or undefined
+  if (this.biltiBillProcessData) {
+    console.log(this.biltiBillProcessData,"data check");
+    
+    // Calculate the difference between grandTotalLG and Freight Amount
+    const difference = this.grandTotalLG - (this.biltiBillProcessData?.freightDetails?.freightAmount || 0);
+console.log( difference,"difference");
+
+    // Determine the appropriate values for Excess Amount and Penalty Amount
+    let excessAmount = 0;
+    let penaltyAmount = 0;
+
+    if (difference > 0) {
+      // If grandTotalLG is greater than Freight Amount
+      excessAmount = difference;
+      // Disable Penalty Reason
+      this.biltiBillProcess.get('penaltyReason')?.disable();
+    } else if (difference < 0) {
+      // If grandTotalLG is less than Freight Amount
+      penaltyAmount = Math.abs(difference);
+      // Disable Excess Reason
+      this.biltiBillProcess.get('excessReason')?.disable();
+    }
+  
 
     this.biltiBillProcess.patchValue({
       biltiNumber: this.biltiBillProcessData?.biltiNumber,
@@ -101,9 +157,13 @@ grandTotalLG:number = 0;
       adviceType: this.biltiBillProcessData.transactionTypeDetails?.name,
       // vendorName: vendorNames,
       freightAmount: this.biltiBillProcessData.freightDetails?.freightAmount,
-      penaltyAmount: this.biltiBillProcessData.biltiBillProcessModel?.penaltyAmount,
+      // penaltyAmount: this.biltiBillProcessData.biltiBillProcessModel?.penaltyAmount,
+      penaltyAmount: penaltyAmount,
+
       penaltyReason: this.biltiBillProcessData.biltiBillProcessModel?.penaltyReason,
-      excessAmount: this.biltiBillProcessData.biltiBillProcessModel?.excessAmount,
+      // excessAmount: this.biltiBillProcessData.biltiBillProcessModel?.excessAmount,
+      excessAmount: excessAmount,
+
       excessReason: this.biltiBillProcessData.biltiBillProcessModel?.excessReason
     });
     const biltiCreationLineItemDetailsData = this.biltiBillProcessData?.biltiCreationLineItemDetails;
@@ -119,6 +179,7 @@ grandTotalLG:number = 0;
         formArray.push(this.createLineItemFormGroup(item));
       });
     }
+  }
   }
 
   createLineItemFormGroup(item: any): FormGroup {
@@ -146,9 +207,10 @@ grandTotalLG:number = 0;
     this.totalUnloadingCharge = this.sumColumn('unloadingCharge');
     this.totalOtherCharges = this.sumColumn('otherCharges');
 
-     this.grandTotal = this.totalFreightCharge + this.totalPointCharge + this.totalDetentionCharge +
-                    this.totalOverloadCharge + this.totalTollTax + this.totalUnloadingCharge +
-                    this.totalOtherCharges;
+    this.grandTotalVendor = this.totalFreightCharge + this.totalPointCharge + this.totalDetentionCharge +
+      this.totalOverloadCharge + this.totalTollTax + this.totalUnloadingCharge +
+      this.totalOtherCharges;
+      this.grandTotalSum();
   }
 
   calculateTotalLGCharges(): void {
@@ -160,10 +222,11 @@ grandTotalLG:number = 0;
     this.totalLGTollTax = parseFloat((document.getElementById('lgTollTax') as HTMLInputElement).value) || 0;
     this.totalLGUnloadingCharge = parseFloat((document.getElementById('lgUnloadingCharge') as HTMLInputElement).value) || 0;
     this.totalLGOtherCharges = parseFloat((document.getElementById('lgOtherCharges') as HTMLInputElement).value) || 0;
-     // Calculate the grand total for Charges by LG
-  this.grandTotalLG = this.totalLGFreightCharge + this.totalLGPointCharge + this.totalLGDetentionCharge +
-  this.totalLGOverloadCharge + this.totalLGTollTax + this.totalLGUnloadingCharge +
-  this.totalLGOtherCharges;
+    // Calculate the grand total for Charges by LG
+    this.grandTotalLG = this.totalLGFreightCharge + this.totalLGPointCharge + this.totalLGDetentionCharge +
+      this.totalLGOverloadCharge + this.totalLGTollTax + this.totalLGUnloadingCharge +
+      this.totalLGOtherCharges;
+      this.grandTotalSum();
   }
 
   sumColumn(column: string): number {
@@ -171,6 +234,10 @@ grandTotalLG:number = 0;
       const value = parseFloat((control as FormGroup).get(column)?.value) || 0;
       return total + value;
     }, 0);
+  }
+
+  grandTotalSum(){
+    this.grandTotal = this.grandTotalLG + this.grandTotalVendor
   }
 
 }
