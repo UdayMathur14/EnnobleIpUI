@@ -354,10 +354,22 @@ onFrlrNoClear() {
     });
   }
 
+  onTransporterClear() {
+    this.biltiForm.patchValue({
+      transporterName: null
+    });
+  }
+
   onVehicleChange(data: any) {
     this.vehicleId = data.id;
     this.biltiForm.patchValue({
       vehicleSize: data.vehicleSize.value,
+    });
+  }
+
+  onVehicleClear() {
+    this.biltiForm.patchValue({
+      vehicleSize: null
     });
   }
 
