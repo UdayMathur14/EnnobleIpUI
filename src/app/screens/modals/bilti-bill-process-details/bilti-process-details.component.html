@@ -220,7 +220,7 @@
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" />
+                  <input type="text" class="input-field" formControlName="lgRemarks"/>
                 </div>
               </td>
             </tr>
@@ -251,7 +251,7 @@
       </div>
     </div>
     <div class="ngmodal-footer text-center mt-5">
-      <button class="custom-button-regulr">Save</button>
+      <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
     </div>
   </form>
 </div>
