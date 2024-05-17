@@ -32,6 +32,7 @@ export class AddEditDispatchNoteComponent {
   selectedPartNumber!: string;
   selectedQuantity!: number;
   dispatchId: number = 0;
+  loadSpinner: boolean = true;
 
   constructor(
     private router: Router,
@@ -57,9 +58,11 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNoteInit();
     this.getAllLookups();
 
-    if (this.dispatchId > 0) {
-      this.getDispatchData(this.dispatchId);
-    }
+    setTimeout(() => {
+      if (this.dispatchId > 0) {
+        this.getDispatchData(this.dispatchId);
+      }
+    }, 1000);
   }
 
   initForm() {
@@ -95,9 +98,11 @@ export class AddEditDispatchNoteComponent {
   }
 
   async getDispatchData(dispatchId: number) {
+    this.loadSpinner = true;
     await this.dispatchNoteService
       .getDispatchNoteById(dispatchId)
       .subscribe((response: any) => {
+        this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
         this.supplierId = suppliers.id;
