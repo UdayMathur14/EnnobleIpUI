@@ -21,7 +21,7 @@
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{transaction.creationDate}}</span>
+                <span>{{transaction.creationDate | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -29,7 +29,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{transaction.lastUpdateOn}}</span>
+                <span>{{transaction.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>

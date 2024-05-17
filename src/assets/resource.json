@@ -1,11 +1,11 @@
 {
-    "commonAPI": "http://111.93.61.253:8083/",
-    "mfgAPIURL": "http://111.93.61.253/api/",
-    "svcAPIURL": "http://111.93.61.253:8080/api/",
-    "gtmAPIURL": "http://111.93.61.253:8081/api/",
-    "umsAPIURL": "http://111.93.61.253:8082/api/",
-    "umsURL": "http://111.93.61.253:3251",
-    "mfgURL": "http://111.93.61.253:9090",
-    "svcURL": "http://111.93.61.253:9091",
-    "gtmURL": "http://111.93.61.253:9092"
+    "commonAPI": "http://111.93.61.251:8081/",
+    "umsAPIURL": "http://111.93.61.251:8082/api/",
+    "mfgAPIURL": "http://111.93.61.251:8083/api/",
+    "svcAPIURL": "http://111.93.61.251:8084/api/",
+    "gtmAPIURL": "http://111.93.61.251:8085/api/",
+    "umsURL": "http://111.93.61.251:3251",
+    "mfgURL": "http://111.93.61.251:9090",
+    "svcURL": "http://111.93.61.251:9091",
+    "gtmURL": "http://111.93.61.251:9092"
 }

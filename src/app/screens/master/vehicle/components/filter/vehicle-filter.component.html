@@ -5,7 +5,8 @@
                 <label for="">Vehicle Number</label>
                 <div class="input-with-icon">
                     <input type="text" class="suggestion" class="input-field" [(ngModel)]="vehicleNum"
-                        (input)="onVehicleNoInput(vehicleNum)" placeholder="Vehicle Number"/>
+                        (input)="onVehicleNoInput(vehicleNum)" placeholder="Vehicle Number"
+                         [readonly]="transporterNam ? true :false"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestionsVehicle && filteredVehicleNo.length > 0" class="suggestions">
@@ -19,7 +20,7 @@
                 <label for="">Transporter Name</label>
                 <div class="input-with-icon">
                     <input type="text" class="suggestion" class="input-field" [(ngModel)]="transporterNam"
-                        (input)="onTransporterNameInput()" placeholder="Transporter Name" />
+                        (input)="onTransporterNameInput()" placeholder="Transporter Name" [readonly]="vehicleNum ? true :false"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestions && filteredVehicles.length > 0" class="suggestions">

@@ -70,7 +70,7 @@ export class AddEditDispatchNoteComponent {
       vehicleNumber: [''],
       vehicleSize: [''],
       frlrNumber: [''],
-      status: [''],
+      status: ['Active'],
       partdetails: this.fb.array([]),
     });
   }
@@ -93,8 +93,8 @@ export class AddEditDispatchNoteComponent {
     return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
   }
 
-  getDispatchData(dispatchId: number) {
-    this.dispatchNoteService
+  async getDispatchData(dispatchId: number) {
+    await this.dispatchNoteService
       .getDispatchNoteById(dispatchId)
       .subscribe((response: any) => {
         const vehicles = response.vehicles;
@@ -336,6 +336,7 @@ export class AddEditDispatchNoteComponent {
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
           partQtyId: dg.controls['partQuantity'].value['id'],
+          status: "Active",
         };
         this.dispatchNote.partDetails.push(note);
       }

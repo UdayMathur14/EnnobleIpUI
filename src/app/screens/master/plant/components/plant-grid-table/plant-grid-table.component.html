@@ -33,7 +33,7 @@
               <div class="">
                 <div class="content-row">
                   <span>Creation Date</span>
-                  <span>{{ plant.creationDate }}</span>
+                  <span>{{ plant.creationDate | date: 'yyyy-MM-dd' }}</span>
                 </div>
                 <div class="content-row">
                   <span>Created By</span>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="content-row">
                   <span>Last Update Date</span>
-                  <span>{{ plant.lastUpdateOn }}</span>
+                  <span>{{ plant.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
                 </div>
                 <div class="content-row">
                   <span>Last Updated By</span>

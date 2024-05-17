@@ -7,6 +7,8 @@
         <th>Point Charge</th>
         <th>Same Location Charge</th>
         <th>Location Code</th>
+        <th>Material Remarks</th>
+        <th>Account Remarks</th>
         <th>Status</th>
         <th class="text-center">Action</th>
       </tr>
@@ -26,7 +28,7 @@
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{pointcharge?.creationDate}}</span>
+                <span>{{pointcharge?.creationDate | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -38,7 +40,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{pointcharge?.lastUpdateOn}}</span>
+                <span>{{pointcharge?.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Approved by Material</span>
@@ -62,6 +64,8 @@
         <td>{{pointcharge?.pointCharge}}</td>
         <td>{{pointcharge?.sameLocationCharge}}</td>
         <td>{{pointcharge?.locations.value}}</td>
+        <td>{{pointcharge?.materialRemarks || '-'}}</td>
+        <td>{{pointcharge?.accountsRemarks || '-'}}</td>
         <td>{{pointcharge?.status}}</td>
         <td class="text-center">
           <img

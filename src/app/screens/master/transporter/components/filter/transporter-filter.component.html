@@ -3,7 +3,8 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Transporter Code</label>
-                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number">
+                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number"
+                [readonly]="transName ? true :false">
                     <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
                 </ng-select>
             </div>
@@ -12,7 +13,8 @@
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
                 <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="transName"/>
+                    <input type="text" class="input-field" [(ngModel)]="transName" 
+                    [readonly]="transCode ? true :false"/>
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
             </div>
