@@ -32,6 +32,7 @@ export class AddEditDispatchNoteComponent {
   selectedPartNumber!: string;
   selectedQuantity!: number;
   dispatchId: number = 0;
+  loadSpinner: boolean = true;
 
   constructor(
     private router: Router,
@@ -57,9 +58,11 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNoteInit();
     this.getAllLookups();
 
-    if (this.dispatchId > 0) {
-      this.getDispatchData(this.dispatchId);
-    }
+    setTimeout(() => {
+      if (this.dispatchId > 0) {
+        this.getDispatchData(this.dispatchId);
+      }
+    }, 1000);
   }
 
   initForm() {
@@ -84,6 +87,7 @@ export class AddEditDispatchNoteComponent {
       partQuantity: [''],
       remarks: [''],
       status: [''],
+      id: []
     });
 
     this.partDetails.push(detail);
@@ -94,9 +98,11 @@ export class AddEditDispatchNoteComponent {
   }
 
   async getDispatchData(dispatchId: number) {
+    this.loadSpinner = true;
     await this.dispatchNoteService
       .getDispatchNoteById(dispatchId)
       .subscribe((response: any) => {
+        this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
         this.supplierId = suppliers.id;
@@ -124,6 +130,7 @@ export class AddEditDispatchNoteComponent {
               remarks: partItem.parts.remarks,
               partQuantity: this.mapQuantities(partItem.partsQty.id),
               status: partItem.status,
+              id: partItem.id
             });
           }
         );
@@ -212,6 +219,7 @@ export class AddEditDispatchNoteComponent {
       supplierId: 0,
       vehicleId: 0,
       partDetails: [],
+      id: this.dispatchId
     };
   }
 
@@ -229,6 +237,12 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
+  onVehicleNumberClear(){
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      vehicleSize: null,
+    });
+  }
+
   onSupplierCodeSelection(event: any) {
     const supplierCode = event;
     if (!!supplierCode) {
@@ -244,6 +258,13 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
+  onSupplierCodeClear(){
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      supplierName: null,
+      supplierAddress: null,
+    });
+  }
+
   onDeletePartDetail(part: any, i: number) {
     this.partDetails.controls.splice(i, 1);
   }
@@ -255,11 +276,11 @@ export class AddEditDispatchNoteComponent {
     const detailsGroup = detailsArray.at(i) as FormGroup;
 
     detailsGroup.patchValue({
-      partId: data.id,
-      partNumber: data.partNumber,
-      partName: data.partName,
-      partSize: data.partSize,
-      remarks: data.remarks,
+      partId: data?.id,
+      partNumber: data?.partNumber,
+      partName: data?.partName,
+      partSize: data?.partSize,
+      remarks: data?.remarks,
     });
   }
 
@@ -303,6 +324,7 @@ export class AddEditDispatchNoteComponent {
           partId: dg.controls['partId'].value,
           partQtyId: dg.controls['partQuantity'].value,
           status: dg.controls['status'].value,
+          id: dg.controls['id'].value
         };
         this.dispatchNote.partDetails.push(note);
       }
@@ -311,8 +333,8 @@ export class AddEditDispatchNoteComponent {
         .updateDispatchNote(this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
-            this.dispatchNote = response;
             this.toastr.success('Dispatch Updated Successfully');
+            this.router.navigate(['transaction/dispatchNote'])
           },
           (error) => {
             this.toastr.error(error.statusText, error.status);
@@ -335,7 +357,7 @@ export class AddEditDispatchNoteComponent {
           attribute9: new Date(),
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
-          partQtyId: dg.controls['partQuantity'].value['id'],
+          partQtyId: dg.controls['partQuantity'].value,
           status: "Active",
         };
         this.dispatchNote.partDetails.push(note);

@@ -16,7 +16,7 @@
         <div class="custom-form-input">
           <label for="">Supplier Code</label>
           <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
-            placeholder="Select Part Number">
+            placeholder="Select Part Number" (clear)="onSupplierCodeClear()">
             <ng-option *ngFor="let supplier of supplierList"
               [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
           </ng-select>
@@ -40,7 +40,7 @@
         <div class="custom-form-input">
           <label for="">Vehicle Number</label>
           <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
-            placeholder="Select Part Number">
+            placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
             <ng-option *ngFor="let vehicle of vehicleList"
               [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
           </ng-select>
@@ -141,4 +141,7 @@
       </table>
     </div>
   </form>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

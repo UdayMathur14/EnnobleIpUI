@@ -46,13 +46,15 @@ export class AddEditVendorComponent implements OnInit {
   loadSpinner: boolean = true;
   pointChargeName: any = [];
   selectedPointName: undefined;
-  taxationCode: any
+  taxationCode: any;
+  paidbyDetailsList:any = []
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
     this.getVendorData(this.queryData);
     this.getAllPointChargesList();
     this.getTaxationCodeDropdownData();
+    this.getAllPaidByDetails();
   }
 
   //TO GET THE VENDOR DATA
@@ -112,7 +114,6 @@ export class AddEditVendorComponent implements OnInit {
     }
     const type = 'taxationCode'
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      console.log(res)
       this.taxationCode = res.lookUps
     })
   }
@@ -123,7 +124,6 @@ export class AddEditVendorComponent implements OnInit {
   }
 
   patchVendorData(data: any) {
-    console.log(data)
     this.vendorForm.patchValue({
       vendorCode: data.vendorCode,
       vendorName: data.vendorName,
@@ -166,6 +166,20 @@ export class AddEditVendorComponent implements OnInit {
     if (phoneControl?.value && phoneControl?.value.length >= 10 || !allowedCharacters.test(event.key)) {
       event.preventDefault();
     }
+  }
+
+  getAllPaidByDetails() {
+    let data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'PaidByDetails'
+    this.vendorService.getDropdownData(data,type).subscribe((response:any) => {
+      this.paidbyDetailsList = response.lookUps;
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+    })
   }
 
 }

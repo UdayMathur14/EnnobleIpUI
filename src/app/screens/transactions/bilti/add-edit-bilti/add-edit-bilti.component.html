@@ -22,7 +22,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">FRLR Number</label>
-        <ng-select name="" id="" formControlName="frlrNo" (change)="onFrlrNoSelectionChange($event)">
+        <ng-select name="" id="" formControlName="frlrNo" (change)="onFrlrNoSelectionChange($event)" (clear)="onFrlrNoClear()">
           <ng-option *ngFor="let frmTransactionData of frmTransactionData" [value]="frmTransactionData">{{frmTransactionData.frlrNumber}}</ng-option>
         </ng-select>
       </div>
@@ -30,7 +30,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Vehicle Number</label>
-        <ng-select name="" id="" formControlName="vehicleNumber" (change)="onVehicleChange($event)">
+        <ng-select name="" id="" formControlName="vehicleNumber" (change)="onVehicleChange($event)" (clear)="onVehicleClear()">
           <ng-option *ngFor="let vehicle of filteredVehiclesLists"  [value]="vehicle">{{vehicle.vehicleNumber}}</ng-option>
         </ng-select>
       </div>
@@ -44,7 +44,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Transporter Code</label>
-        <ng-select name="" id="" formControlName="transporterCode" (change)="onTransporterChange($event)">
+        <ng-select name="" id="" formControlName="transporterCode" (change)="onTransporterChange($event)" (clear)="onTransporterClear()">
           <ng-option *ngFor="let transporter of filteredTransportersLists" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
         </ng-select>
       </div>
@@ -58,7 +58,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Freight Code</label>
-        <ng-select name="" id="" formControlName="freightCode" (change)="onFreightChange($event)">
+        <ng-select name="" id="" formControlName="freightCode" (change)="onFreightChange($event)" (clear)="onFreightClear()">
           <ng-option *ngFor="let freight of filteredFreightsLists" [value]="freight">{{freight.freightCode}}</ng-option>
         </ng-select>
       </div>
@@ -90,15 +90,6 @@
         </ng-select>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2" *ngIf="biltiId > 0">
-      <div class="custom-form-input">
-        <label for="">Status</label>
-        <select name="" id="" formControlName="status">
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
-      </div>
-    </div>
   </div>
 
   <div class="edit-screen-subTable">
@@ -121,8 +112,6 @@
           <th>Point Charge</th>
           <th>Remarks</th>
           <th>Paid by details</th>
-          <th *ngIf="biltiId > 0">Status</th>
-          <!-- <th class="text-center">Action</th> -->
         </tr>
       </thead>
       <tbody formArrayName="vendors">
@@ -150,7 +139,7 @@
             <td>
               <div class="col-lg-12 col-md-12">
                 <div class="custom-form-input biltiwidth">
-                  <ng-select name="" id="" formControlName="vendorCode" (change)="onVendorCodeChange($event,i)">
+                  <ng-select name="" id="" formControlName="vendorCode" (change)="onVendorCodeChange($event,i)" (clear)="onVendorCodeClear(i)">
                     <ng-option *ngFor="let vendor of filteredVendorcode" [value]="vendor.id">{{vendor.vendorCode}}</ng-option>
                     
                   </ng-select>
@@ -167,9 +156,7 @@
             <td>
               <div class="col-lg-10 col-md-10">
                 <div class="custom-form-input biltiwidth">
-                  <ng-select name="" id="" formControlName="pointName" [readonly]="true">
-                    <ng-option *ngFor="let pointCharge of filteredPointname" [value]="pointCharge">{{pointCharge.pointName}}</ng-option>
-                  </ng-select>
+                  <input name="" id="" formControlName="pointName" [readonly]="true">
                 </div>
               </div>
             </td>
@@ -191,16 +178,6 @@
               <div class="col-lg-10 col-md-0">
                 <div class="custom-form-input biltiwidth">
                   <input type="text" class="input-field" formControlName="paidByDetails" [readonly]="true"  />
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="col-lg-10 col-md-10" *ngIf="biltiId > 0">
-                <div class="custom-form-input biltiwidth">
-                  <select name="" id="" formControlName="biltiStatus">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
                 </div>
               </div>
             </td>
