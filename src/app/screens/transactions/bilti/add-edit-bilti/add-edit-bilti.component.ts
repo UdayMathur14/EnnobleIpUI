@@ -149,6 +149,19 @@ export class AddEditBiltiComponent implements OnInit {
     return (this.biltiForm.get('vendors') as FormArray).controls;
   }
 
+  onVendorCodeClear(index: number) {
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    const vendorGroup = vendorsArray.at(index) as FormGroup;
+  
+    vendorGroup.patchValue({
+      vendorCode: null,
+      vendorName: null,
+      pointCharge: null,
+      pointName: null,
+      paidByDetails: null
+    });
+  }
+
 
   onCancelPress() {
     this.router.navigate(['transaction/bilti']);

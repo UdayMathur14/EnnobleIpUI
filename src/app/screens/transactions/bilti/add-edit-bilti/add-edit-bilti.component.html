@@ -150,7 +150,7 @@
             <td>
               <div class="col-lg-12 col-md-12">
                 <div class="custom-form-input biltiwidth">
-                  <ng-select name="" id="" formControlName="vendorCode" (change)="onVendorCodeChange($event,i)">
+                  <ng-select name="" id="" formControlName="vendorCode" (change)="onVendorCodeChange($event,i)" (clear)="onVendorCodeClear(i)">
                     <ng-option *ngFor="let vendor of filteredVendorcode" [value]="vendor.id">{{vendor.vendorCode}}</ng-option>
                     
                   </ng-select>
@@ -167,9 +167,7 @@
             <td>
               <div class="col-lg-10 col-md-10">
                 <div class="custom-form-input biltiwidth">
-                  <ng-select name="" id="" formControlName="pointName" [readonly]="true">
-                    <ng-option *ngFor="let pointCharge of filteredPointname" [value]="pointCharge">{{pointCharge.pointName}}</ng-option>
-                  </ng-select>
+                  <input name="" id="" formControlName="pointName" [readonly]="true">
                 </div>
               </div>
             </td>
