@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, adviceTypeData, biltiBillProcess, biltiBillProcessbyId, createAdviceType, updateAdviceType } from "../constants";
+import { APIConstant, adviceTypeData, biltiBillProcess, biltiBillProcessbyId, createAdviceType, createBiltiBillProcess, updateAdviceType } from "../constants";
 import { PlantRequest } from "../models/plant";
 
 @Injectable({
@@ -20,15 +20,8 @@ export class BiltiBillProcessService extends CRUDService<PlantRequest> {
         return this.get(biltiBillProcessbyId(localStorage.getItem('locationId'), biltiProcessId))
     }
 
-    getAdviceTypeData(adviceId: number) {
-        return this.get(adviceTypeData(localStorage.getItem('locationId'), adviceId));
+    createBiltiBillProcess(data: object) {
+        return this.post(createBiltiBillProcess(localStorage.getItem('locationId')), data);
     }
 
-    updateAdviceType(adviceId: number, data: object) {
-        return this.put(updateAdviceType(localStorage.getItem('locationId'), adviceId), data);
-    }
-
-    createAdviceType(data: object) {
-        return this.post(createAdviceType(localStorage.getItem('locationId')), data);
-    }
 }

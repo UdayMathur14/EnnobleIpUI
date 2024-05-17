@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
-import { FormBuilder, FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bilti-process-details-modal',
@@ -13,6 +14,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   biltiBillProcess!: FormGroup;
   biltiBillProcessData: any;
 
+  loadSpinner: boolean = true;
   // Totals
   totalFreightCharge: number = 0;
   totalPointCharge: number = 0;
@@ -22,7 +24,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   totalUnloadingCharge: number = 0;
   totalOtherCharges: number = 0;
   grandTotalVendor: number = 0;
-
 
   // Define variables to store the total sum for each charge type in Charges by LG section
   totalLGFreightCharge: number = 0;
@@ -34,13 +35,13 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   totalLGOtherCharges: number = 0;
   grandTotalLG: number = 0;
 
-   grandTotal: number = 0;
-
+  grandTotal: number = 0;
 
   constructor(
     public activeModal: NgbActiveModal,
     private biltiBillService: BiltiBillProcessService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -85,117 +86,32 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
 
   getBiltiBillProcessbyId() {
     this.biltiBillService.getBiltiBillProcessbyId(this.biltiProcess.id).subscribe((response => {
-      console.log(response, "response");
       this.biltiBillProcessData = response;
-      console.log(this.biltiBillProcessData.biltiNumber, "this.biltiBillProcessData");
-
-      console.log(this.biltiBillProcessData.biltiCreationLineItemDetails?.supplierDetail?.vendorName, "vendor Name");
-
       this.populateForm();
-    }))
+    }));
   }
 
   populateForm(): void {
-  //     // Populate other form fields as before
-
-  // // Calculate the grand total by vendor
-  // this.calculateTotals();
-
-  // // Calculate the difference between grandTotalLG and Freight Amount
-  // const difference = this.grandTotalLG - this.biltiBillProcessData?.freightDetails?.freightAmount || 0;
-
-  // // Determine the appropriate values for Excess Amount and Penalty Amount
-  // let excessAmount = 0;
-  // let penaltyAmount = 0;
-
-  // if (difference > 0) {
-  //   // If grandTotalLG is greater than Freight Amount
-  //   excessAmount = difference;
-  //   // Disable Penalty Reason
-  //   this.biltiBillProcess.get('penaltyReason')?.disable();
-  // } else if (difference < 0) {
-  //   // If grandTotalLG is less than Freight Amount
-  //   penaltyAmount = Math.abs(difference);
-  //   // Disable Excess Reason
-  //   this.biltiBillProcess.get('excessReason')?.disable();
-  // }
-
-
-    // Populate other form fields as before
-
-  // Calculate the grand total by vendor
-  this.calculateTotals();
-
-  // Check if biltiBillProcessData is not null or undefined
-  if (this.biltiBillProcessData) {
-    console.log(this.biltiBillProcessData,"data check");
-    
-    // Calculate the difference between grandTotalLG and Freight Amount
-    const difference = this.grandTotalLG - (this.biltiBillProcessData?.freightDetails?.freightAmount || 0);
-console.log( difference,"difference");
-
-    // Determine the appropriate values for Excess Amount and Penalty Amount
-    let excessAmount = 0;
-    let penaltyAmount = 0;
-
-    if (difference > 0) {
-      // If grandTotalLG is greater than Freight Amount
-      excessAmount = difference;
-      // Disable Penalty Reason
-      this.biltiBillProcess.get('penaltyReason')?.disable();
-    } else if (difference < 0) {
-      // If grandTotalLG is less than Freight Amount
-      penaltyAmount = Math.abs(difference);
-      // Disable Excess Reason
-      this.biltiBillProcess.get('excessReason')?.disable();
-    }
-  
-
-    this.biltiBillProcess.patchValue({
-      biltiNumber: this.biltiBillProcessData?.biltiNumber,
-      creationDate: this.biltiBillProcessData?.creationDate,
-      adviceType: this.biltiBillProcessData.transactionTypeDetails?.name,
-      // vendorName: vendorNames,
-      freightAmount: this.biltiBillProcessData.freightDetails?.freightAmount,
-      // penaltyAmount: this.biltiBillProcessData.biltiBillProcessModel?.penaltyAmount,
-      penaltyAmount: penaltyAmount,
-
-      penaltyReason: this.biltiBillProcessData.biltiBillProcessModel?.penaltyReason,
-      // excessAmount: this.biltiBillProcessData.biltiBillProcessModel?.excessAmount,
-      excessAmount: excessAmount,
-
-      excessReason: this.biltiBillProcessData.biltiBillProcessModel?.excessReason
-    });
-    const biltiCreationLineItemDetailsData = this.biltiBillProcessData?.biltiCreationLineItemDetails;
-
-    if (biltiCreationLineItemDetailsData) {
-      const formArray = this.biltiBillProcess.get('biltiCreationLineItemDetails') as FormArray;
-
-      // Clear existing form array controls
-      formArray.clear();
-
-      // Populate form array with new form groups
-      biltiCreationLineItemDetailsData.forEach((item: any) => {
-        formArray.push(this.createLineItemFormGroup(item));
+    if (this.biltiBillProcessData) {
+      this.calculateTotals();
+      this.biltiBillProcess.patchValue({
+        biltiNumber: this.biltiBillProcessData.biltiNumber,
+        creationDate: this.biltiBillProcessData.creationDate,
+        adviceType: this.biltiBillProcessData.transactionTypeDetails?.name,
+        freightAmount: this.biltiBillProcessData.freightDetails?.freightAmount
       });
-    }
-  }
-  }
 
-  createLineItemFormGroup(item: any): FormGroup {
-    return this.formBuilder.group({
-      // Define your form controls here and set their initial values
-      documentNumber: [item.fRMTransactionDetails?.documentNumber || ''],
-      vendorName: [item.supplierDetail?.vendorName || ''],
-      freightCharge: [item.freightCharge || ''],
-      pointCharge: [item.pointCharge || ''],
-      detentionCharge: [item.detentionCharge || ''],
-      overloadCharge: [item.overloadCharge || ''],
-      tollTax: [item.tollTax || ''],
-      unloadingCharge: [item.unloadingCharge || ''],
-      otherCharges: [item.otherCharges || ''],
-      remarks: [item.remarks || '']
-    });
+      const biltiCreationLineItemDetailsData = this.biltiBillProcessData.biltiCreationLineItemDetails;
+
+      if (biltiCreationLineItemDetailsData) {
+        const formArray = this.biltiBillProcess.get('biltiCreationLineItemDetails') as FormArray;
+        formArray.clear();
+
+        biltiCreationLineItemDetailsData.forEach((item: any) => {
+          formArray.push(this.createLineItem(item));
+        });
+      }
+    }
   }
 
   calculateTotals(): void {
@@ -210,11 +126,12 @@ console.log( difference,"difference");
     this.grandTotalVendor = this.totalFreightCharge + this.totalPointCharge + this.totalDetentionCharge +
       this.totalOverloadCharge + this.totalTollTax + this.totalUnloadingCharge +
       this.totalOtherCharges;
-      this.grandTotalSum();
+
+    this.calculateTotalLGCharges();
+    this.calculateDifference();
   }
 
   calculateTotalLGCharges(): void {
-    // Calculate the total sum for each charge type
     this.totalLGFreightCharge = parseFloat((document.getElementById('lgFreightCharge') as HTMLInputElement).value) || 0;
     this.totalLGPointCharge = parseFloat((document.getElementById('lgPointCharge') as HTMLInputElement).value) || 0;
     this.totalLGDetentionCharge = parseFloat((document.getElementById('lgDetentionCharge') as HTMLInputElement).value) || 0;
@@ -222,11 +139,42 @@ console.log( difference,"difference");
     this.totalLGTollTax = parseFloat((document.getElementById('lgTollTax') as HTMLInputElement).value) || 0;
     this.totalLGUnloadingCharge = parseFloat((document.getElementById('lgUnloadingCharge') as HTMLInputElement).value) || 0;
     this.totalLGOtherCharges = parseFloat((document.getElementById('lgOtherCharges') as HTMLInputElement).value) || 0;
-    // Calculate the grand total for Charges by LG
+
     this.grandTotalLG = this.totalLGFreightCharge + this.totalLGPointCharge + this.totalLGDetentionCharge +
       this.totalLGOverloadCharge + this.totalLGTollTax + this.totalLGUnloadingCharge +
       this.totalLGOtherCharges;
-      this.grandTotalSum();
+
+    this.calculateDifference();
+  }
+
+  calculateDifference(): void {
+    const freightAmount = this.biltiBillProcessData?.freightDetails?.freightAmount || 0;
+    const difference = this.grandTotalLG - freightAmount;
+
+    let excessAmount = 0;
+    let penaltyAmount = 0;
+
+    if (difference > 0) {
+      excessAmount = difference;
+      penaltyAmount = 0;
+      this.biltiBillProcess.get('penaltyReason')?.disable();
+      this.biltiBillProcess.get('excessReason')?.enable();
+    } else if (difference < 0) {
+      penaltyAmount = Math.abs(difference);
+      excessAmount = 0;
+      this.biltiBillProcess.get('penaltyReason')?.enable();
+      this.biltiBillProcess.get('excessReason')?.disable();
+    } else {
+      penaltyAmount = 0;
+      excessAmount = 0;
+      this.biltiBillProcess.get('penaltyReason')?.disable();
+      this.biltiBillProcess.get('excessReason')?.disable();
+    }
+
+    this.biltiBillProcess.patchValue({
+      penaltyAmount: penaltyAmount,
+      excessAmount: excessAmount
+    });
   }
 
   sumColumn(column: string): number {
@@ -236,8 +184,17 @@ console.log( difference,"difference");
     }, 0);
   }
 
-  grandTotalSum(){
-    this.grandTotal = this.grandTotalLG + this.grandTotalVendor
+  createBiltiProcess(data: any) {
+    this.biltiBillService.createBiltiBillProcess(data).subscribe(
+      (response: any) => {
+        this.loadSpinner = false;
+        this.toastr.success('Bilti Bill Process Created Successfully');
+        // this.router.navigate(['']);
+      },
+      error => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      }
+    );
   }
-
 }
