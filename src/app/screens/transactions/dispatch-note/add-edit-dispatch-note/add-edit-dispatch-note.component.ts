@@ -103,7 +103,6 @@ export class AddEditDispatchNoteComponent {
         this.supplierId = suppliers.id;
         this.vehicleId = vehicles.id;
         this.dispatchNote.status = response.status;
-        this.dispatchNote.id =response.id
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
           vehicleSize: vehicles.vehicleSize.value,
@@ -215,6 +214,7 @@ export class AddEditDispatchNoteComponent {
       supplierId: 0,
       vehicleId: 0,
       partDetails: [],
+      id: this.dispatchId
     };
   }
 
@@ -232,6 +232,12 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
+  onVehicleNumberClear(){
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      vehicleSize: null,
+    });
+  }
+
   onSupplierCodeSelection(event: any) {
     const supplierCode = event;
     if (!!supplierCode) {
@@ -245,6 +251,13 @@ export class AddEditDispatchNoteComponent {
         }
       });
     }
+  }
+
+  onSupplierCodeClear(){
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      supplierName: null,
+      supplierAddress: null,
+    });
   }
 
   onDeletePartDetail(part: any, i: number) {
@@ -315,8 +328,8 @@ export class AddEditDispatchNoteComponent {
         .updateDispatchNote(this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
-            this.dispatchNote = response;
             this.toastr.success('Dispatch Updated Successfully');
+            this.router.navigate(['transaction/dispatchNote'])
           },
           (error) => {
             this.toastr.error(error.statusText, error.status);
