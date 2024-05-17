@@ -110,7 +110,7 @@ export class AddEditBiltiComponent implements OnInit {
       pointCharge: [''],
       remarks: [''],
       paidByDetails: [''],
-      biltiStatus: [''],
+      biltiStatus: ['Active'],
       biltiDetailsTransactionType: [''],
       documentrefNo: [''],
     });
@@ -290,7 +290,14 @@ export class AddEditBiltiComponent implements OnInit {
   
 }
 
-
+onFrlrNoClear() {
+  this.biltiForm.patchValue({
+    vehicleNumber: null,
+    vehicleSize: null,
+    transporterCode: null,
+    transporterName: null,
+  });
+}
 
    getVehicleNumber() {
     const data = {
@@ -381,6 +388,14 @@ export class AddEditBiltiComponent implements OnInit {
       freightAmount: data?.freightAmount,
       source: data?.source?.value,
       destination: data?.destination?.value
+    });
+  }
+
+  onFreightClear() {
+    this.biltiForm.patchValue({
+      source: null,
+      destination: null,
+      freightAmount: null,
     });
   }
 
