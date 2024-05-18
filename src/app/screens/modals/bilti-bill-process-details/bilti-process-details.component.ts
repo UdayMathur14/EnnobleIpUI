@@ -46,8 +46,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   transactionTypeId: any;
   maxBiltiNumber: any;
   transacttionTypeCode: any;
-  debitAmount: number = 0;
-  paidByAmount: number = 0;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -322,7 +320,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       transactionTypeId: this.transactionTypeId,
       maxBiltiNumber: this.maxBiltiNumber,
       transactionTypeCode: this.transacttionTypeCode,
-      paidByAmount: 0,
+      paidByAmount: this.grandTotal,
       debitAmount: this.biltiBillProcess.get('penaltyAmount')?.value || 0,
       penaltyAmount: this.biltiBillProcess.get('penaltyAmount')?.value || 0,
       penaltyReason: this.biltiBillProcess.get('penaltyReason')?.value || '',
