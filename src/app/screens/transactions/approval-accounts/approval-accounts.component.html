@@ -3,10 +3,10 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-approval-accounts-filter></app-approval-accounts-filter>
+  <app-approval-accounts-filter (filterSearchObj)="filteredData($event)"></app-approval-accounts-filter>
 </div>
 
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-approval-accounts-grid-table></app-approval-accounts-grid-table>
+  <app-approval-accounts-grid-table [biltiBillProcess]="biltiBillProcess"></app-approval-accounts-grid-table>
 </div>
