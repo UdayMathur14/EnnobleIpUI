@@ -79,3 +79,4 @@ export const updateDispatchNote = (locationId: any, dispatchId: any) => `v1/${lo
 export const biltiBillProcess = (locationId:any) => `v1/${locationId}/bilti-process/search`;
 export const biltiBillProcessbyId = (locationId:any, biltiProcessId:any) => `v1/${locationId}/bilti-process/${biltiProcessId}`;
 export const createBiltiBillProcess = (locationId: any) => `v1/${locationId}/bilti-process/create`;
+export const updateBiltiBillProcess = (locationId: any, biltiBillProcessId: any) => `v1/${locationId}/bilti-process/update/${biltiBillProcessId}`

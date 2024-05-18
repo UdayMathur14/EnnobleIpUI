@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import { FormBuilder, FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bilti-process-details-modal',
@@ -37,15 +38,16 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
 
   grandTotal: number = 0;
 
-  transactionTypeId:any;
-  maxBiltiNumber:any;
-  transacttionTypeCode:any;
+  transactionTypeId: any;
+  maxBiltiNumber: any;
+  transacttionTypeCode: any;
 
   constructor(
     public activeModal: NgbActiveModal,
     private biltiBillService: BiltiBillProcessService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -92,20 +94,9 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   getBiltiBillProcessbyId() {
     this.biltiBillService.getBiltiBillProcessbyId(this.biltiProcess.id).subscribe((response => {
       this.biltiBillProcessData = response;
-      console.log("RESPONSE",this.biltiBillProcessData);
-      // console.log("Creation Line Item Id", this.biltiBillProcessData.biltiCreationLineItemDetails?.id);
-      console.log("TraID",this.biltiBillProcessData.transactionTypeId);
-this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
+      this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
       this.maxBiltiNumber = this.biltiBillProcessData.transactionTypeDetails.adviceTypeDetails.maxBiltiNumber;
-      console.log("maxBiltiNumber",this.maxBiltiNumber);
-      this.transacttionTypeCode=this.biltiBillProcessData.transactionTypeDetails.code;
-      console.log("Code",this.transacttionTypeCode);
-      
-      if (this.biltiBillProcessData.biltiCreationLineItemDetails) {
-        this.biltiBillProcessData.biltiCreationLineItemDetails.forEach((item: any) => {
-          console.log("Creation Line Item Id", item.id);
-        });
-      }
+      this.transacttionTypeCode = this.biltiBillProcessData.transactionTypeDetails.code;
       this.populateForm();
     }));
   }
@@ -162,7 +153,7 @@ this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
     this.grandTotalLG = this.totalLGFreightCharge + this.totalLGPointCharge + this.totalLGDetentionCharge +
       this.totalLGOverloadCharge + this.totalLGTollTax + this.totalLGUnloadingCharge +
       this.totalLGOtherCharges;
-      this.grandTotalSum();
+    this.grandTotalSum();
     this.calculateDifference();
   }
 
@@ -203,18 +194,16 @@ this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
     }, 0);
   }
 
-   grandTotalSum(){
+  grandTotalSum() {
     this.grandTotal = this.grandTotalLG + this.grandTotalVendor
   }
 
-  onPressSave(){
-   let data = this.constructPayload();
-   this.createBiltiProcess(data);
+  onPressSave() {
+    let data = this.constructPayload();
+    this.createBiltiProcess(data);
   }
 
   constructPayload(): any {
-    console.log(this.biltiBillProcess.get('lgRemarks')?.value,"VALUE");
-    
     const chargesByLGDetails = {
       id: 0,
       actionBy: 1,
@@ -229,7 +218,7 @@ this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
       remarks: this.biltiBillProcess.get('lgRemarks')?.value,
     };
 
-    const chargesByVendorDetails = this.biltiCreationLineItemDetails.controls.map((control: AbstractControl,index: number) => {
+    const chargesByVendorDetails = this.biltiCreationLineItemDetails.controls.map((control: AbstractControl, index: number) => {
       const formGroup = control as FormGroup;
       const lineItemId = this.biltiBillProcessData.biltiCreationLineItemDetails[index]?.id || 0;
       return {
@@ -284,7 +273,7 @@ this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
       (response: any) => {
         this.loadSpinner = false;
         this.toastr.success('Bilti Bill Process Created Successfully');
-        // this.router.navigate(['']);
+        this.router.navigate(['transaction/biltiBillProcess']);
       },
       error => {
         this.toastr.error(error.statusText, error.status);
