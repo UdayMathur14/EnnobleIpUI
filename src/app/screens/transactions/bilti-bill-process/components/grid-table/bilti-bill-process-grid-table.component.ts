@@ -41,12 +41,12 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
     );
   }
 
-  onOpenDebitNoteModal(){
+  onOpenDebitNoteModal(biltiProcess:any){
     let debitNoteModal = this.modalService.open(DebitNoteDetailsModalComponent, {
       size: "xl",
       backdrop: "static",
     });
-
+    debitNoteModal.componentInstance.biltiProcess = biltiProcess;
     debitNoteModal.result.then(
       (result) => {
         if (result) {

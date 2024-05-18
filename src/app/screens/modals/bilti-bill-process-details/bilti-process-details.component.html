@@ -14,77 +14,68 @@
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Bilti Number</label>
-            <input type="text" class="input-field" readonly formControlName="biltiNumber"/>
+            <input type="text" class="input-field" readonly formControlName="biltiNumber" />
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Bilti Date</label>
-            <input type="text" class="input-field" readonly formControlName="creationDate"/>
+            <input type="text" class="input-field" readonly formControlName="creationDate" />
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Advice Type</label>
-            <input type="text" class="input-field" readonly formControlName="adviceType"/>
+            <input type="text" class="input-field" readonly formControlName="adviceType" />
           </div>
         </div>
-        <!-- <div class="col-lg-2 col-md-2">
-          <div class="custom-form-input">
-            <label for="">Document Ref. Number</label>
-            <input type="text" class="input-field" readonly formControlName="documentNumber"/>
-          </div>
-        </div> -->
-        <!-- <div class="col-lg-2 col-md-2">
-          <div class="custom-form-input">
-            <label for="">Supplier Name</label>
-            <input type="text" class="input-field" readonly formControlName="vendorName"/>
-          </div>
-        </div> -->
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Freight Amount</label>
-            <input type="text" class="input-field" readonly formControlName="freightAmount"/>
+            <input type="text" class="input-field" readonly formControlName="freightAmount" />
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Penalty Amount</label>
-            <input type="text" class="input-field" readonly formControlName="penaltyAmount"/>
+            <input type="text" class="input-field" readonly formControlName="penaltyAmount" />
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Penalty Reason</label>
-            <input type="text" class="input-field" formControlName="penaltyReason"/>
+            <input type="text" class="input-field" formControlName="penaltyReason" />
           </div>
         </div>
       </div>
 
       <div class="row">
-  
+
 
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Excess Amount</label>
-            <input type="text" class="input-field" readonly formControlName="excessAmount"/>
+            <input type="text" class="input-field" readonly formControlName="excessAmount" />
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Excess Reason</label>
-            <input type="text" class="input-field" formControlName="excessReason"/>
+            <input type="text" class="input-field" formControlName="excessReason" />
           </div>
         </div>
       </div>
       <div class="modal-subTable">
         <h4 class="">Charges by Vendor</h4>
       </div>
+
       <div class="custom-table">
         <table>
           <thead>
             <tr>
-              <th class="ps-0">Freight Charge</th>
+              <th class="ps-0">Document Ref. Number</th>
+              <th>Supplier Name</th>
+              <th>Freight Charge</th>
               <th>Point Charge</th>
               <th>Detention Charge</th>
               <th>Overload Charge</th>
@@ -94,52 +85,84 @@
               <th>Remarks</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody formArrayName="biltiCreationLineItemDetails">
+            <!-- <tr *ngFor="let item of biltiBillProcess.get('biltiCreationLineItemDetails')?.controls; let i = index" [formGroupName]="i"> -->
+            <tr *ngFor="let item of biltiCreationLineItemDetails.controls; let i = index" [formGroupName]="i">
               <td class="ps-0">
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" formControlName="documentNumber" readonly />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" formControlName="vendorName" readonly />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="925.00"/>
+                  <input type="text" class="input-field" formControlName="freightCharge" (input)="calculateTotals()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" formControlName="pointCharge" (input)="calculateTotals()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" formControlName="detentionCharge"
+                    (input)="calculateTotals()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" formControlName="overloadCharge" (input)="calculateTotals()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" formControlName="tollTax" (input)="calculateTotals()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" />
+                  <input type="text" class="input-field" formControlName="unloadingCharge"
+                    (input)="calculateTotals()" />
                 </div>
               </td>
+              <td>
+                <div class="custom-form-input">
+                  <input type="text" class="input-field" formControlName="otherCharges" (input)="calculateTotals()" />
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
+                  <input type="text" class="input-field" formControlName="remarks" />
+                </div>
+              </td>
+            </tr>
+            <!-- Totals row -->
+            <tr>
+              <td colspan="2" class="ps-0"><strong>Total:</strong></td>
+              <td><strong>{{ totalFreightCharge }}</strong></td>
+              <td><strong>{{ totalPointCharge }}</strong></td>
+              <td><strong>{{ totalDetentionCharge }}</strong></td>
+              <td><strong>{{ totalOverloadCharge }}</strong></td>
+              <td><strong>{{ totalTollTax }}</strong></td>
+              <td><strong>{{ totalUnloadingCharge }}</strong></td>
+              <td><strong>{{ totalOtherCharges }}</strong></td>
+              <td></td>
+            </tr>
+            <!-- Grand Total -->
+            <tr>
+              <td colspan="2" class="ps-0"><strong>Grand Total by Vendor:</strong></td>
+              <td colspan="8"><strong>{{ grandTotalVendor }}</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
+
+
       <div class="modal-subTable">
         <h4 class="">Charges by LG</h4>
       </div>
@@ -161,44 +184,50 @@
             <tr>
               <td class="ps-0">
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="5000.00"/>
+                  <!-- <input type="text" class="input-field" value="0.00" /> -->
+                  <input type="text" class="input-field" id="lgFreightCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" id="lgPointCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" id="lgDetentionCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" id="lgOverloadCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" id="lgTollTax" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" id="lgUnloadingCharge" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" value="0.00"/>
+                  <input type="text" class="input-field" id="lgOtherCharges" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" />
+                  <input type="text" class="input-field" formControlName="lgRemarks"/>
                 </div>
               </td>
+            </tr>
+            <!-- Grand Total LG -->
+            <tr>
+              <td colspan="2" class="ps-0"><strong>Grand Total by LG:</strong></td>
+              <td colspan="8"><strong>{{ grandTotalLG }}</strong></td>
             </tr>
           </tbody>
         </table>
@@ -209,7 +238,7 @@
           <div class="col-lg-2 col-md-2">
             <div class="custom-form-input">
               <label for="">Grand Total</label>
-              <input type="text" class="input-field" disabled value="5925.00"/>
+              <input type="text" class="input-field" disabled [value]="grandTotal" />
             </div>
           </div>
           <div class="col-lg-10 col-md-10">
@@ -222,7 +251,7 @@
       </div>
     </div>
     <div class="ngmodal-footer text-center mt-5">
-      <button class="custom-button-regulr">Save</button>
+      <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
     </div>
   </form>
 </div>
