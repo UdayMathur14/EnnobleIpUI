@@ -2,9 +2,9 @@
     <h1>Approval by Material's Head</h1>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-approval-material-head-filter></app-approval-material-head-filter>
+    <app-approval-material-head-filter (filterSearchObj)="filteredData($event)"></app-approval-material-head-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-approval-material-head-grid-table></app-approval-material-head-grid-table>
+    <app-approval-material-head-grid-table [biltiBillProcess]="biltiBillProcess"></app-approval-material-head-grid-table>
   </div>
