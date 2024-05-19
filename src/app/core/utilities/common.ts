@@ -111,8 +111,14 @@ export class CommonUtility {
           if(field.includes('.')){
             const splitVal1 = field.split('.')[0];
             const splitVal2 = field.split('.')[1];
-            aValue = a[splitVal1][splitVal2];
-            bValue = b[splitVal1][splitVal2];
+            const splitVal3 = field.split('.')[2];
+            if(splitVal3){
+                aValue = a[splitVal1][splitVal2][splitVal3];
+                bValue = b[splitVal1][splitVal2][splitVal3];
+            }else{
+                aValue = a[splitVal1][splitVal2];
+                bValue = b[splitVal1][splitVal2];
+            }
           } else{
             aValue = a[field];
             bValue = b[field];
