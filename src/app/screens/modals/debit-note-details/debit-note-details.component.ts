@@ -53,7 +53,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     return this.formBuilder.group({
       paidByDetails: [item.supplierDetail?.paidByDetails?.value || ''],
       vendorName: [item.supplierDetail?.vendorName || ''],
-      remarks: [item?.biltiBillProcessChargesByVendor?.remarks],
+      remarks: [this.biltiProcess?.loadingLocation?.value],
       id: [item.id],
       debitAmount: [item?.biltiBillProcessChargesByVendor?.debitAmount || 0,
       ],
