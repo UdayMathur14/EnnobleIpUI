@@ -12,7 +12,7 @@ export class PlantComponent implements OnInit {
 
   isFilters: boolean = false;
   filterKeyword: string = '';
-
+  fullScreen : boolean = false;
   constructor(private router: Router,
     private plantService: PlantService,
     private exportService: ExportService

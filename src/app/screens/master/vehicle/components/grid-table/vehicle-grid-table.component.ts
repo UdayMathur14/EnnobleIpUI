@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { BaseService } from '../../../../../core/service/base.service';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-vehicle-grid-table',
@@ -14,7 +15,8 @@ export class VehicleGridTableComponent implements OnInit {
   @Input() searchedVehicle: any;
   loadSpinner: boolean = true;
   vehiclesListOrg:any;
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
@@ -67,6 +69,12 @@ export class VehicleGridTableComponent implements OnInit {
       this.getAllVehiclesList();
     }
 
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.vehiclesList);
   }
 
 }

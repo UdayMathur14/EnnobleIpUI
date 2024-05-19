@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 import { BaseService } from '../../../../../core/service/base.service';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-point-charge-grid-table',
@@ -16,7 +17,8 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     private toastr: ToastrService,
     private baseService: BaseService,
   ) { }
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   pointChargesList: any;
   pointChargeListOrg: any;
   @Input() filterKeyword!: string;
@@ -54,6 +56,12 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
     })
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.pointChargesList);
   }
 }
 

@@ -15,6 +15,7 @@ export class PartComponent {
 
   isFilters: boolean = true;
   searchedPart: string = '';
+  fullScreen : boolean = false;
 
   onCreatePart() {
     this.router.navigate(['master/addEditPart', '0'])

@@ -1,17 +1,17 @@
 <div id="exportableTable">
   <div class="custom-table">
-    <table>
+    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Code</th>
-          <th>Value</th>
-          <th>Description</th>
-          <th>Attribute 1</th>
-          <th>Attribute 2</th>
-          <th>Attribute 3</th>
-          <th>Attribute 4</th>
-          <th>Status</th>
+          <th (click)="sortData('lookUpType.value')">Type</th>
+          <th (click)="sortData('code')">Code</th>
+          <th (click)="sortData('value')">Value</th>
+          <th (click)="sortData('description')">Description</th>
+          <th (click)="sortData('attribute1')">Attribute 1</th>
+          <th (click)="sortData('attribute2')">Attribute 2</th>
+          <th (click)="sortData('attribute3')">Attribute 3</th>
+          <th (click)="sortData('attribute4')">Attribute 4</th>
+          <th (click)="sortData('status')">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -41,3 +41,6 @@
   </div>
 </div>
 
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

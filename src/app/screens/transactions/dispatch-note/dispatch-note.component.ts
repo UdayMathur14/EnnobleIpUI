@@ -13,7 +13,7 @@ export class DispatchNoteComponent {
   isFilters : boolean = true;
   dispatchNumber:string="";
   dispatchNotes=[];
-
+  loadSpinner : boolean = true;
   constructor(private router : Router,
     private dispatchNoteService: DispatchNoteService,
     private exportService:ExportService
@@ -30,6 +30,7 @@ export class DispatchNoteComponent {
   getData(dispatchNumber: string = "") {
     this.dispatchNoteService.getDispatchNote(dispatchNumber).subscribe((res: any) => {
       this.dispatchNotes = res.dispatchNotes;
+      this.loadSpinner = false;
     })
   }
 

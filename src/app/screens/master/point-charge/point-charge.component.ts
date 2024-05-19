@@ -12,7 +12,7 @@ import { ExportService } from '../../../core/service/export.service';
 export class PointChargeComponent implements OnInit {
   isFilters: boolean = false;
   filterKeyword: string = '';
-
+  fullScreen : boolean = false;
   constructor(private router: Router,
     private exportService: ExportService
   ) { }

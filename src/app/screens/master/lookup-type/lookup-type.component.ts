@@ -12,7 +12,7 @@ export class LookupTypeComponent {
 
   isFilters: boolean = false;
   filterKeyword: string = '';
-
+  fullScreen : boolean = false;
   constructor(private router: Router,
     private exportService: ExportService
   ) { }

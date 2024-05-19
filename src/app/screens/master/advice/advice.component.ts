@@ -11,7 +11,7 @@ export class AdviceComponent {
 
   filterKeyword: string = '';
   isFilters: boolean = false;
-
+  fullScreen : boolean = false;
   constructor(private router: Router,
     private exportService: ExportService
   ) { }

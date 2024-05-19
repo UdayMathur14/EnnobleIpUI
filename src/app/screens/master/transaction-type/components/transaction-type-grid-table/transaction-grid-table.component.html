@@ -1,12 +1,12 @@
 <div id="exportableTable">
   <div class="custom-table">
-  <table>
+  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th>Transaction Code</th>
-        <th>Transaction Type Name</th>
-        <th>GL Sub Category Code</th>
-        <th>Status</th>
+        <th (click)="sortData('code')">Transaction Code</th>
+        <th (click)="sortData('name')">Transaction Type Name</th>
+        <th (click)="sortData('glSubCategory.value')">GL Sub Category Code</th>
+        <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>

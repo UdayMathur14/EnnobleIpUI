@@ -10,7 +10,7 @@ export class TransporterComponent {
 
   searchedTransporter: any;
   isFilters: boolean = true;
-
+  fullScreen : boolean = false;
   constructor(private exportService: ExportService
   ) { }
 

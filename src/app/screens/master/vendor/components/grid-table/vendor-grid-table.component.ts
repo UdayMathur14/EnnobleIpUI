@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { VendorService } from '../../../../../core/service/vendor.service';
 import { ToastrService } from 'ngx-toastr';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-vendor-grid-table',
@@ -19,7 +20,8 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
   vendorListOrg: any;
   vendorList!: any;
   loadSpinner: boolean = true;
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   ngOnInit(): void {
     this.getAllVendorList();
   }
@@ -70,5 +72,11 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
   //NAVIGATING TO VENDOR EDIT/UDATE COMPONENT
   onGoToEditVendor(vendorData: any) {
     this.router.navigate(['master/addEditVendor', vendorData.id]);
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.vendorList);
   }
 }
