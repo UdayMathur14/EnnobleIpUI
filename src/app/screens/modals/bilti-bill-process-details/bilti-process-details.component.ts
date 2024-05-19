@@ -112,13 +112,13 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     return this.formBuilder.group({
       documentNumber: [item?.fRMTransactionDetails?.documentNumber || ''],
       vendorName: [item?.supplierDetail?.vendorName || ''],
-      freightCharge: [item?.biltiBillProcessChargesByVendor?.freightCharge || 0],
-      pointCharge: [item?.biltiBillProcessChargesByVendor?.pointCharge || 0],
-      detentionCharge: [item?.biltiBillProcessChargesByVendor?.detentionCharge || 0],
-      overloadCharge: [item?.biltiBillProcessChargesByVendor?.overloadCharge || 0],
-      tollTax: [item?.biltiBillProcessChargesByVendor?.tollTax || 0],
-      unloadingCharge: [item?.biltiBillProcessChargesByVendor?.unloadingCharge || 0],
-      otherCharges: [item?.biltiBillProcessChargesByVendor?.otherCharges || 0],
+      freightCharge: [item?.biltiBillProcessChargesByVendor?.freightCharge],
+      pointCharge: [item?.biltiBillProcessChargesByVendor?.pointCharge],
+      detentionCharge: [item?.biltiBillProcessChargesByVendor?.detentionCharge],
+      overloadCharge: [item?.biltiBillProcessChargesByVendor?.overloadCharge],
+      tollTax: [item?.biltiBillProcessChargesByVendor?.tollTax],
+      unloadingCharge: [item?.biltiBillProcessChargesByVendor?.unloadingCharge],
+      otherCharges: [item?.biltiBillProcessChargesByVendor?.otherCharges],
       remarks: [item?.biltiBillProcessChargesByVendor?.remarks || ''],
     });
     
