@@ -84,6 +84,7 @@
     font-weight: 600;
     padding: var(--spacer-13) var(--spacer-10);
     border-bottom: 1px solid var(--tableBorderColor);
+    cursor: pointer;
 }
 
 @mixin gridTableBody() {

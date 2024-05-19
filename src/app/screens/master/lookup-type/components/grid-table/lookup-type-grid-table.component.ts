@@ -2,6 +2,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LookupTypeService } from '../../../../../core/service/lookup-type.service';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-lookup-type-grid-table',
@@ -13,7 +14,8 @@ export class LookupTypeGridTableComponent {
   lookupsTypeListOrg : any;
   lookupsTypeList : any;
   loadSpinner : boolean = true;
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   constructor(
     private router: Router,
     private lookupTypeService: LookupTypeService,
@@ -51,5 +53,11 @@ export class LookupTypeGridTableComponent {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
     })
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.lookupsTypeList);
   }
 }

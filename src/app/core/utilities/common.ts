@@ -103,4 +103,33 @@ export class CommonUtility {
     static isNumber(n: any): boolean {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
+
+    static sortTableData(field: string, sortDirection :any, data:any) {
+        data.sort((a:any, b:any) => {
+          let aValue;
+          let bValue;
+          if(field.includes('.')){
+            const splitVal1 = field.split('.')[0];
+            const splitVal2 = field.split('.')[1];
+            const splitVal3 = field.split('.')[2];
+            if(splitVal3){
+                aValue = a[splitVal1][splitVal2][splitVal3];
+                bValue = b[splitVal1][splitVal2][splitVal3];
+            }else{
+                aValue = a[splitVal1][splitVal2];
+                bValue = b[splitVal1][splitVal2];
+            }
+          } else{
+            aValue = a[field];
+            bValue = b[field];
+          }
+          let comparison = 0;
+          if (aValue > bValue) {
+            comparison = 1;
+          } else if (aValue < bValue) {
+            comparison = -1;
+          }
+          return sortDirection === 'asc' ? comparison : -comparison;
+        });
+      }
 }

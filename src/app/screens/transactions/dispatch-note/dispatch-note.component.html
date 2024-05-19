@@ -12,3 +12,7 @@
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
   <app-dispatch-note-grid-table [dispatchNotes]="dispatchNotes"></app-dispatch-note-grid-table>
 </div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

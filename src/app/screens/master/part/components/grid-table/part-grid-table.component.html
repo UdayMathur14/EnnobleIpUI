@@ -1,15 +1,15 @@
 <div id="exportableTable">
   <div class="custom-table">
-  <table>
+  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th>Part#</th>
-        <th>Part Name</th>
-        <th>Description</th>
-        <th>Part Size</th>
-        <th>Part Price</th>
-        <th>Remarks</th>
-        <th>Status</th>
+        <th (click)="sortData('partNumber')">Part#</th>
+        <th (click)="sortData('partName')">Part Name</th>
+        <th (click)="sortData('description')">Description</th>
+        <th (click)="sortData('partSize')">Part Size</th>
+        <th (click)="sortData('partPrice')">Part Price</th>
+        <th (click)="sortData('remarks')">Remarks</th>
+        <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>

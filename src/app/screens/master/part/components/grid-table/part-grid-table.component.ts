@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PartService } from '../../../../../core/service/part.service';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-part-grid-table',
@@ -18,7 +19,8 @@ export class PartGridTableComponent implements OnInit, OnChanges {
   partsList: any;
   partsListOrg : any;
   loadSpinner : boolean = true;
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   ngOnInit(): void {
     this.getAllPartsListInit();
   }
@@ -66,6 +68,12 @@ export class PartGridTableComponent implements OnInit, OnChanges {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
     })
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.partsList);
   }
 
 }

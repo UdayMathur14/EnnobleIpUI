@@ -6,6 +6,7 @@ import { PlantService } from '../../../../../core/service';
 import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../../core/service/lookup.service';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -26,7 +27,9 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   filterKeyword!: string;
   plantsListOrg : any;
   plantsList : any;
-
+  loadSpinner : boolean = true;
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   ngOnInit() :void{
     this.baseService.plantSpinner.next(true);
     setTimeout(() => {
@@ -51,10 +54,10 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     this.plantService.getPlants(data).subscribe((response: any) => {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
-      this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status);
-      this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 
@@ -78,6 +81,11 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       (reason) => {
       }
     );
+  }
 
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.plantsList);
   }
 }

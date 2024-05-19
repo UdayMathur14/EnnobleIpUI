@@ -1,18 +1,18 @@
 <div id="exportableTable">
   <div class="custom-table">
-  <table>
+  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th>Vehicle Number</th>
-        <th>Vehicle Size</th>
-        <th>Transporter Name</th>
-        <th>Owner Name</th>
-        <th>Address</th>
-        <th>Contact</th>
-        <th>Email</th>
-        <th>Vehicle Condition</th>
-        <th>Remarks</th>
-        <th>Status</th>
+        <th (click)="sortData('vehicleNumber')">Vehicle Number</th>
+        <th (click)="sortData('vehicleSize.value')">Vehicle Size</th>
+        <th (click)="sortData('transporterEntity.transporterName')">Transporter Name</th>
+        <th (click)="sortData('transporterEntity.ownerName')">Owner Name</th>
+        <th (click)="sortData('transporterEntity.transporterAddress1')">Address</th>
+        <th (click)="sortData('transporterEntity.transporterContactNo')">Contact</th>
+        <th (click)="sortData('transporterEntity.transporterMailId')">Email</th>
+        <th (click)="sortData('vehicleCondition')">Vehicle Condition</th>
+        <th (click)="sortData('remarks')">Remarks</th>
+        <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -76,3 +76,6 @@
 </div>
 </div>
 
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

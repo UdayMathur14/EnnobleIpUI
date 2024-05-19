@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { AdviceTypeService } from '../../../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-advice-grid-table',
@@ -13,7 +14,8 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
   adviceTypeListOrg: any = [];
   loadSpinner: boolean = true;
   @Input() filterKeyword!: string;
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router,
     private adviceService: AdviceTypeService,
     private toastr: ToastrService) { }
@@ -48,5 +50,11 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
 
   onGoToEditAdvice(advice : any) {
     this.router.navigate(['master/addEditAdvice', advice.id]);
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.adviceTypeList);
   }
 }
