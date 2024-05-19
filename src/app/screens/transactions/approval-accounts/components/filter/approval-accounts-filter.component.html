@@ -1,46 +1,99 @@
 <div class="filters-box">
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">From Date</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" value="01/20/2024">
-                    <img src="assets/images/icons/calendar.svg" width="12px" class="search-icon" alt="Search" />
-                </div>
-            </div>
+  <div class="row">
+    <div class="col">
+      <div class="custom-form-input">
+        <label for="">From Date</label>
+        <div class="input-group datepicker">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="fromDt"
+            [autoClose]="true"
+            [(ngModel)]="fromDate"
+            [maxDate]="today"
+            (dateSelect)="onDateSelect('fromDate', $event)"
+            ngbDatepicker
+            #fromDt="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary bi bi-calendar3"
+            (click)="fromDt.toggle()"
+            type="button"
+          >
+            <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+          </button>
         </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">To Date</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" value="01/30/2024">
-                    <img src="assets/images/icons/calendar.svg" width="12px" class="search-icon" alt="Search" />
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">Batch Name</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field">
-                    <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">Bilti Number</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" value="BILNHA0001">
-                    <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters">Search</button>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col">
+      <div class="custom-form-input">
+        <label for="">To Date</label>
+        <div class="input-group datepicker">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="toDt"
+            [autoClose]="true"
+            [(ngModel)]="toDate"
+            [maxDate]="today"
+            (dateSelect)="onDateSelect('toDate', $event)"
+            ngbDatepicker
+            #toDt="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary bi bi-calendar3"
+            (click)="toDt.toggle()"
+            type="button"
+          >
+            <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+        <label for="">Batch Number</label>
+        <div class="input-with-icon">
+          <input
+            #batchNameInput
+            type="text"
+            class="input-field"/>
+          <img
+            src="assets/images/icons/search.svg"
+            width="12px"
+            class="search-icon"
+            alt="Search"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+        <label for="">Bilti Number</label>
+        <div class="input-with-icon">
+          <input
+            type="text"
+            class="input-field"
+            [(ngModel)]="biltiNumber"
+            [disabled]="batchName"
+          />
+          <img
+            src="assets/images/icons/search.svg"
+            width="12px"
+            class="search-icon"
+            alt="Search"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+        <label for="" class="d-block">&nbsp;</label>
+        <button class="custom-button-filters" (click)="handleSearch()">
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

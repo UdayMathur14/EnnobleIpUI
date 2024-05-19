@@ -32,7 +32,7 @@ export class AddEditDispatchNoteComponent {
   selectedPartNumber!: string;
   selectedQuantity!: number;
   dispatchId: number = 0;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
 
   constructor(
     private router: Router,
@@ -98,7 +98,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   async getDispatchData(dispatchId: number) {
-    this.loadSpinner = true;
+    this.loadSpinner = true
     await this.dispatchNoteService
       .getDispatchNoteById(dispatchId)
       .subscribe((response: any) => {
@@ -333,7 +333,7 @@ export class AddEditDispatchNoteComponent {
         .updateDispatchNote(this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
-            this.toastr.success('Dispatch Updated Successfully');
+            this.toastr.success('Dispatch Note Updated Successfully');
             this.router.navigate(['transaction/dispatchNote'])
           },
           (error) => {

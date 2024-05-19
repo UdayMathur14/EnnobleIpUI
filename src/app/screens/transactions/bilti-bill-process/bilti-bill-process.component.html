@@ -6,5 +6,5 @@
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-bilti-bill-process-grid-table [biltiBillProcess]="biltiBillProcess"></app-bilti-bill-process-grid-table>
+    <app-bilti-bill-process-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-bilti-bill-process-grid-table>
   </div>

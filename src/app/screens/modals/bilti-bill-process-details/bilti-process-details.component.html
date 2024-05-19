@@ -185,37 +185,37 @@
               <td class="ps-0">
                 <div class="custom-form-input">
                   <!-- <input type="text" class="input-field" value="0.00" /> -->
-                  <input type="text" class="input-field" id="lgFreightCharge" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgFreightCharge" formControlName="freightChargeLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgPointCharge" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgPointCharge" formControlName="pointChargeLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgDetentionCharge" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgDetentionCharge" formControlName="detentionChargeLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgOverloadCharge" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgOverloadCharge" formControlName="overloadChargeLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgTollTax" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgTollTax" formControlName="tollTaxLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgUnloadingCharge" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgUnloadingCharge" formControlName="unloadingChargeLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgOtherCharges" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgOtherCharges" formControlName="otherChargeLg" (input)="calculateTotalLGCharges()" />
                 </div>
               </td>
               <td>
@@ -244,14 +244,17 @@
           <div class="col-lg-10 col-md-10">
             <div class="custom-form-input">
               <label for="" class="d-block">&nbsp;</label>
-              Four Thousand Nine Hundred Twenty Five Rupees Only
+              {{amountInWords}}
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="ngmodal-footer text-center mt-5">
-      <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
+    <div *ngIf="freightAmount > grandTotal">
+      <p class="text-danger mb-0">Grand Total Cannot be less than Freight Amount</p>
+    </div>
+    <div class="text-center">
+      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
     </div>
   </form>
 </div>

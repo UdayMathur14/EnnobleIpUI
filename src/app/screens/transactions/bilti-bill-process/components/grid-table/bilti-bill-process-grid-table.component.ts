@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BiltiProcessDetailsModalComponent } from '../../../../modals/bilti-bill-process-details/bilti-process-details.component';
@@ -15,6 +15,7 @@ import * as moment from 'moment';
 export class BiltiBillProcessGridTableComponent implements OnInit{
   // biltiBillProcess: any = [];
   @Input() biltiBillProcess: any = [];
+  @Output() refreshList = new EventEmitter<void>();
   constructor(
     private router: Router,
     private modalService: NgbModal,
@@ -32,12 +33,11 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
     processDetailsModal.componentInstance.biltiProcess = biltiProcess;
     processDetailsModal.result.then(
       (result) => {
-        if (result) {
-
+          if (result === 'save') {
+            this.router.navigate(['transaction/biltiBillProcess']);
+            this.refreshList.emit(); 
         }
       },
-      (reason) => {
-      }
     );
   }
 
@@ -50,7 +50,10 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
     debitNoteModal.result.then(
       (result) => {
         if (result) {
-
+          if (result === 'save') {
+            this.router.navigate(['transaction/biltiBillProcess']);
+            this.refreshList.emit();
+          }
         }
       },
       (reason) => {
