@@ -70,7 +70,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.fullPath = this.router.url;
       this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
       this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts') ||
-      this.fullPath.includes('transaction/checkedMaterialsTeam');
+      this.fullPath.includes('transaction/checkedMaterialsTeam') || this.fullPath.includes('transaction/approvalMaterialHead');
     });
     console.log(this.biltiProcess)
     this.initForm();
@@ -513,7 +513,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         return;
       }
     }
-    if(this.fullPath.includes('transaction/approvalAccounts')){
+    if(this.fullPath.includes('transaction/approvalAccounts') || this.fullPath.includes('transaction/approvalMaterialHead')){
       const data = {
         approvalLevel: 'Material',
         status: status,

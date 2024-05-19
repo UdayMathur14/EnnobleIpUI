@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApprovalMaterialHeadModalComponent } from '../../../../modals/approval-material-head/approval-material-head.component';
 import { ToastrService } from 'ngx-toastr';
 import { BiltiBillProcessService } from '../../../../../core/service/biltiBillProcess.service';
+import { BiltiProcessDetailsModalComponent } from '../../../../modals/bilti-bill-process-details/bilti-process-details.component';
 
 @Component({
   selector: 'app-approval-material-head-grid-table',
@@ -22,13 +23,16 @@ export class ApprovalMaterialHeadGridTableComponent implements OnInit {
     ngOnInit(): void {
       
     }
-
-    onPreviewApprovalMatHead(){
-      let deliveryNoteModal = this.modalService.open(ApprovalMaterialHeadModalComponent, {
-        size: "xl",
-        backdrop: "static",
-      });
+    onPreviewBiltiDetails(biltiProcess:any) {
+      let deliveryNoteModal = this.modalService.open(
+        BiltiProcessDetailsModalComponent,
+        {
+          size: 'xl',
+          backdrop: 'static',
+        }
+      );
       // deliveryNoteModal.componentInstance.data = data;
+      deliveryNoteModal.componentInstance.biltiProcess = biltiProcess;
   
       deliveryNoteModal.result.then(
         (result) => {
@@ -36,9 +40,9 @@ export class ApprovalMaterialHeadGridTableComponent implements OnInit {
   
           }
         },
-        (reason) => {
-        }
+        (reason) => {}
       );
     }
+   
     
 }
