@@ -250,8 +250,11 @@
         </div>
       </div>
     </div>
-    <div class="ngmodal-footer text-center mt-5">
-      <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
+    <div *ngIf="freightAmount > grandTotal">
+      <p class="text-danger mb-0">Grand Total Cannot be less than Freight Amount</p>
+    </div>
+    <div class="text-center">
+      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
     </div>
   </form>
 </div>

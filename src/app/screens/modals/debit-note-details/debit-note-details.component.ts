@@ -23,6 +23,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     private router: Router
   ) { }
   ngOnInit(): void {
+    console.log(this.biltiProcess)
     this.initForm();
     this.getBiltiBillProcessbyId();
   }

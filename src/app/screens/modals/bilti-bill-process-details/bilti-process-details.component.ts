@@ -48,7 +48,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   transactionTypeId: any;
   maxBiltiNumber: any;
   transacttionTypeCode: any;
-  amountInWords: string = ''
+  amountInWords: string = '';
+  freightAmount: number = 0;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -59,6 +60,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.biltiProcess)
     this.initForm();
     this.getBiltiBillProcessbyId();
   }
@@ -106,10 +108,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       otherCharges: [item?.biltiBillProcessChargesByVendor?.otherCharges || 0],
       remarks: [item?.biltiBillProcessChargesByVendor?.remarks || ''],
     });
-    
-  }
-
-  calculateTotalFreightCharge(): void {
     
   }
 
@@ -223,34 +221,14 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   calculateTotalLGCharges(): void {
-    this.totalLGFreightCharge =
-      parseFloat(
-        (document.getElementById('lgFreightCharge') as HTMLInputElement).value
-      ) || 0;
-    this.totalLGPointCharge =
-      parseFloat(
-        (document.getElementById('lgPointCharge') as HTMLInputElement).value
-      ) || 0;
-    this.totalLGDetentionCharge =
-      parseFloat(
-        (document.getElementById('lgDetentionCharge') as HTMLInputElement).value
-      ) || 0;
-    this.totalLGOverloadCharge =
-      parseFloat(
-        (document.getElementById('lgOverloadCharge') as HTMLInputElement).value
-      ) || 0;
-    this.totalLGTollTax =
-      parseFloat(
-        (document.getElementById('lgTollTax') as HTMLInputElement).value
-      ) || 0;
-    this.totalLGUnloadingCharge =
-      parseFloat(
-        (document.getElementById('lgUnloadingCharge') as HTMLInputElement).value
-      ) || 0;
-    this.totalLGOtherCharges =
-      parseFloat(
-        (document.getElementById('lgOtherCharges') as HTMLInputElement).value
-      ) || 0;
+    const formValue = this.biltiBillProcess.value;
+    this.totalLGFreightCharge = parseFloat(formValue.freightChargeLg) || 0;
+    this.totalLGPointCharge = parseFloat(formValue.pointChargeLg) || 0;
+    this.totalLGDetentionCharge = parseFloat(formValue.detentionChargeLg) || 0;
+    this.totalLGOverloadCharge = parseFloat(formValue.overloadChargeLg) || 0;
+    this.totalLGTollTax = parseFloat(formValue.tollTaxLg) || 0;
+    this.totalLGUnloadingCharge = parseFloat(formValue.unloadingChargeLg) || 0;
+    this.totalLGOtherCharges = parseFloat(formValue.otherChargeLg) || 0;
 
     this.grandTotalLG =
       this.totalLGFreightCharge +
@@ -265,9 +243,9 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   calculateDifference(): void {
-    const freightAmount =
+     this.freightAmount =
       this.biltiBillProcessData?.freightDetails?.freightAmount || 0;
-    const difference = this.grandTotalLG - freightAmount;
+    const difference = this.grandTotalLG - this.freightAmount;
 
     let excessAmount = 0;
     let penaltyAmount = 0;
@@ -320,8 +298,13 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   onPressSave() {
-    let data = this.constructPayload();
-    this.createBiltiProcess(data);
+    const data = this.constructPayload();
+    const editData = this.constructPayloadEdit()
+    if(this.biltiProcess.biltiBillProcessModel){
+      this.updateBiltiProcess(editData);
+    } else{
+      this.createBiltiProcess(data);
+    }
   }
 
   sumRowDebits(control: AbstractControl): number {
@@ -344,14 +327,14 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       id: 0,
       actionBy: 1,
       status: 'Active',
-      freightCharge: this.totalLGFreightCharge,
-      pointCharge: this.totalLGPointCharge,
-      detentionCharge: this.totalLGDetentionCharge,
-      overloadCharge: this.totalLGOverloadCharge,
-      tollTax: this.totalLGTollTax,
-      unloadingCharge: this.totalLGUnloadingCharge,
-      otherCharges: this.totalLGOtherCharges,
-      remarks: this.biltiBillProcess.get('lgRemarks')?.value,
+      freightCharge: this.biltiBillProcess.controls['freightChargeLg'].value,
+      pointCharge: this.biltiBillProcess.controls['pointChargeLg'].value,
+      detentionCharge: this.biltiBillProcess.controls['detentionChargeLg'].value,
+      overloadCharge: this.biltiBillProcess.controls['overloadChargeLg'].value,
+      tollTax: this.biltiBillProcess.controls['tollTaxLg'].value,
+      unloadingCharge: this.biltiBillProcess.controls['unloadingChargeLg'].value,
+      otherCharges: this.biltiBillProcess.controls['otherChargeLg'].value,
+      remarks: this.biltiBillProcess.controls['lgRemarks'].value,
     };
 
     const chargesByVendorDetails =
@@ -410,8 +393,87 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     };
   }
 
+  constructPayloadEdit(): any {
+    const chargesByLGDetails = {
+      id: this.biltiBillProcessData?.biltiBillProcessModel?.biltiBillProcessChargesByLG?.id,
+      actionBy: 1,
+      status: 'Active',
+      freightCharge: this.biltiBillProcess.controls['freightChargeLg'].value,
+      pointCharge: this.biltiBillProcess.controls['pointChargeLg'].value,
+      detentionCharge: this.biltiBillProcess.controls['detentionChargeLg'].value,
+      overloadCharge: this.biltiBillProcess.controls['overloadChargeLg'].value,
+      tollTax: this.biltiBillProcess.controls['tollTaxLg'].value,
+      unloadingCharge: this.biltiBillProcess.controls['unloadingChargeLg'].value,
+      otherCharges: this.biltiBillProcess.controls['otherChargeLg'].value,
+      remarks: this.biltiBillProcess.controls['lgRemarks'].value,
+      grandTotal: this.grandTotal,
+    };
+
+    const chargesByVendorDetails =
+      this.biltiCreationLineItemDetails.controls.map(
+        (control: AbstractControl, index: number) => {
+          const formGroup = control as FormGroup;
+          const lineItemId =
+            this.biltiBillProcessData.biltiCreationLineItemDetails[index]?.id ||
+            0;
+          return {
+            id: lineItemId,
+            actionBy: 1,
+            status: formGroup.get('status')?.value || 'Active',
+            creationLineItemId: lineItemId,
+            freightCharge: Number(formGroup.get('freightCharge')?.value) || 0,
+            pointCharge: Number(formGroup.get('pointCharge')?.value) || 0,
+            detentionCharge:
+              Number(formGroup.get('detentionCharge')?.value) || 0,
+            overloadCharge: Number(formGroup.get('overloadCharge')?.value) || 0,
+            tollTax: Number(formGroup.get('tollTax')?.value) || 0,
+            unloadingCharge:
+              Number(formGroup.get('unloadingCharge')?.value) || 0,
+            otherCharges: Number(formGroup.get('otherCharges')?.value) || 0,
+            remarks: formGroup.get('remarks')?.value || '',
+            debitAmount: this.sumRowDebits(control),
+            debitRemarks: formGroup.get('debitRemarks')?.value || '',
+          };
+        }
+      );
+
+    return {
+      id: this.biltiProcess?.id,
+      actionBy: 1,
+      status: 'Active',
+
+      // biltiCreationId: this.biltiProcess.id,
+      // transactionTypeId: this.transactionTypeId,
+      // maxBiltiNumber: this.maxBiltiNumber,
+      // transactionTypeCode: this.transacttionTypeCode,
+      paidByAmount: this.grandTotal,
+      debitAmount: this.grandTotalVendor,
+      penaltyAmount: this.biltiBillProcess.get('penaltyAmount')?.value || 0,
+      penaltyReason: this.biltiBillProcess.get('penaltyReason')?.value || '',
+      excessAmount: this.biltiBillProcess.get('excessAmount')?.value || 0,
+      excessReason: this.biltiBillProcess.get('excessReason')?.value || '',
+      grandTotal: this.grandTotal,
+      chargesByLGDetails: chargesByLGDetails,
+      chargesByVendorDetails: chargesByVendorDetails,
+    };
+  }
+
   createBiltiProcess(data: any) {
     this.biltiBillService.createBiltiBillProcess(data).subscribe(
+      (response: any) => {
+        this.loadSpinner = false;
+        this.toastr.success('Bilti Bill Process Created Successfully');
+        this.activeModal.close('save');
+      },
+      (error) => {
+        this.toastr.error(error.statusText, error.status);
+        this.loadSpinner = false;
+      }
+    );
+  }
+
+  updateBiltiProcess(data: any) {
+    this.biltiBillService.updateBiltiBillProcess(this.biltiProcess.id,data).subscribe(
       (response: any) => {
         this.loadSpinner = false;
         this.toastr.success('Bilti Bill Process Created Successfully');
