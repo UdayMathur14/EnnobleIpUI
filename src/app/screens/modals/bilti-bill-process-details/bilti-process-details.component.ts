@@ -261,6 +261,21 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.createBiltiProcess(data);
   }
 
+  sumRowDebits(control: AbstractControl): number {
+    const formGroup = control as FormGroup;
+    const debitAmount = Number(formGroup.get('debitAmount')?.value) || 0;
+    const charges = [
+      Number(formGroup.get('freightCharge')?.value) || 0,
+      Number(formGroup.get('pointCharge')?.value) || 0,
+      Number(formGroup.get('detentionCharge')?.value) || 0,
+      Number(formGroup.get('overloadCharge')?.value) || 0,
+      Number(formGroup.get('tollTax')?.value) || 0,
+      Number(formGroup.get('unloadingCharge')?.value) || 0,
+      Number(formGroup.get('otherCharges')?.value) || 0,
+    ];
+    return debitAmount + charges.reduce((total, value) => total + value, 0);
+  }
+
   constructPayload(): any {
     const chargesByLGDetails = {
       id: 0,
@@ -298,7 +313,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
               Number(formGroup.get('unloadingCharge')?.value) || 0,
             otherCharges: Number(formGroup.get('otherCharges')?.value) || 0,
             remarks: Number(formGroup.get('remarks')?.value) || 'string',
-            debitAmount: Number(formGroup.get('debitAmount')?.value) || 0,
+            debitAmount: this.sumRowDebits(control),
             debitRemarks: formGroup.get('debitRemarks')?.value || 'string',
           };
         }
@@ -321,7 +336,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       maxBiltiNumber: this.maxBiltiNumber,
       transactionTypeCode: this.transacttionTypeCode,
       paidByAmount: this.grandTotal,
-      debitAmount: this.biltiBillProcess.get('penaltyAmount')?.value || 0,
+      debitAmount: this.grandTotalVendor,
       penaltyAmount: this.biltiBillProcess.get('penaltyAmount')?.value || 0,
       penaltyReason: this.biltiBillProcess.get('penaltyReason')?.value || '',
       excessAmount: this.biltiBillProcess.get('excessAmount')?.value || 0,
