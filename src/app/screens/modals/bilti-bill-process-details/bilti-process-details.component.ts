@@ -501,10 +501,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   updateStatus(status: string) {
-    if (status === 'rejected') {
+    if (status === 'Rejected') {
       const rejectRemarks = this.biltiBillProcess.controls['rejectRemarks']?.value;
       if (!rejectRemarks || rejectRemarks.trim().length === 0) {
-        this.toastr.error('Reject remarks are required when rejecting.');
+        this.toastr.error('Remarks are required when rejecting.');
         return;
       }
     }
