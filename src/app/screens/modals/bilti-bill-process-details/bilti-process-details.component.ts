@@ -441,7 +441,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     return {
       id: this.biltiBillProcessData?.biltiBillProcessModel?.id,
       actionBy: 1,
-      status: 'Active',
+      status: this.biltiBillProcessData?.biltiBillProcessModel?.status,
 
       // biltiCreationId: this.biltiProcess.id,
       // transactionTypeId: this.transactionTypeId,

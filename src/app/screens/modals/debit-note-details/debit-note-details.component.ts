@@ -158,7 +158,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     const payload = {
       id: this.biltiBillDetailsData.biltiBillProcessModel?.id,
       actionBy: 1,
-      status: 'Active',
+      status: this.biltiBillDetailsData.biltiBillProcessModel?.status,
       chargesByVendorDetails: chargesByVendorDetails,
       chargesByLGDetails:chargesByLGDetails,
       debitAmount: this.biltiBillDetailsData?.biltiBillProcessModel?.debitAmount,
