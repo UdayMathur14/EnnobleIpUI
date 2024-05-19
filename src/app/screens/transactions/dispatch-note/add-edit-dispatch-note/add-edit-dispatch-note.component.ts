@@ -333,7 +333,7 @@ export class AddEditDispatchNoteComponent {
         .updateDispatchNote(this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
-            this.toastr.success('Dispatch Updated Successfully');
+            this.toastr.success('Dispatch Note Updated Successfully');
             this.router.navigate(['transaction/dispatchNote'])
           },
           (error) => {

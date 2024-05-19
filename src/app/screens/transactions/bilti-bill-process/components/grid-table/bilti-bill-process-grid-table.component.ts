@@ -33,11 +33,9 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
     processDetailsModal.componentInstance.biltiProcess = biltiProcess;
     processDetailsModal.result.then(
       (result) => {
-        if (result) {
           if (result === 'save') {
             this.router.navigate(['transaction/biltiBillProcess']);
-            this.refreshList.emit();
-          }
+            this.refreshList.emit(); 
         }
       },
     );
@@ -52,7 +50,10 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
     debitNoteModal.result.then(
       (result) => {
         if (result) {
-
+          if (result === 'save') {
+            this.router.navigate(['transaction/biltiBillProcess']);
+            this.refreshList.emit();
+          }
         }
       },
       (reason) => {

@@ -416,8 +416,9 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
           const lineItemId =
             this.biltiBillProcessData.biltiCreationLineItemDetails[index]?.id ||
             0;
+            const vendorId = this.biltiBillProcessData.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.id
           return {
-            id: lineItemId,
+            id: vendorId,
             actionBy: 1,
             status: formGroup.get('status')?.value || 'Active',
             creationLineItemId: lineItemId,
@@ -438,7 +439,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       );
 
     return {
-      id: this.biltiProcess?.id,
+      id: this.biltiBillProcessData?.biltiBillProcessModel?.id,
       actionBy: 1,
       status: 'Active',
 
@@ -473,15 +474,16 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   updateBiltiProcess(data: any) {
-    this.biltiBillService.updateBiltiBillProcess(this.biltiProcess.id,data).subscribe(
+    this.biltiBillService.updateBiltiBillProcess(this.biltiBillProcessData?.biltiBillProcessModel?.id,data).subscribe(
       (response: any) => {
         this.loadSpinner = false;
-        this.toastr.success('Bilti Bill Process Created Successfully');
-        this.router.navigate(['transaction/biltiBillProcess']);
+        this.toastr.success('Bilti Bill Process Updated Successfully');
+        this.activeModal.close('save');
       },
       (error) => {
         this.toastr.error(error.statusText, error.status);
         this.loadSpinner = false;
+        
       }
     );
   }
