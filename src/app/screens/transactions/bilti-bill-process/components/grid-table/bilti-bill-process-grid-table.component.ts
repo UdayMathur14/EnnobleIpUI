@@ -24,6 +24,7 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
 
   ngOnInit(): void {
   }
+  
 
   onOpenProcessModal(biltiProcess:any) {
     let processDetailsModal = this.modalService.open(BiltiProcessDetailsModalComponent, {
