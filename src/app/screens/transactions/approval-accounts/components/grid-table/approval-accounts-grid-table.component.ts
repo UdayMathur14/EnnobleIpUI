@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountMaterialBiltiProcessDetailsModalComponent } from '../../../../modals/accMat-bilti-bill-process-details/accMat-bilti-process-details.component';
@@ -12,6 +12,7 @@ import { BiltiProcessDetailsModalComponent } from '../../../../modals/bilti-bill
 export class ApprovalAccountsGridTableComponent implements OnInit {
 
   @Input() biltiBillProcess: any = [];
+  @Output() refreshList = new EventEmitter<void>();
   constructor(
     private router: Router,
     private modalService: NgbModal,
@@ -34,11 +35,12 @@ export class ApprovalAccountsGridTableComponent implements OnInit {
 
     deliveryNoteModal.result.then(
       (result) => {
-        if (result) {
-
+        if (result === 'save') {
+          this.router.navigate(['transaction/biltiBillProcess']);
+          this.refreshList.emit();
         }
       },
-      (reason) => {}
+      
     );
   }
 }

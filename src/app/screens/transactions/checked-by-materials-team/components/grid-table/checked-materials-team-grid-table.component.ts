@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CheckedMaterialTeamModalComponent } from '../../../../modals/checked-material-team/checked-material-team.component';
@@ -16,7 +16,7 @@ export class CheckedMaterialsTeamGridTableComponent implements OnInit{
   biltiBillProcessList: any = [];
   loadSpinner: boolean = true;
   @Input() biltiBillProcess: any = [];
-  
+  @Output() refreshList = new EventEmitter<void>();
   constructor(private router: Router,
     private modalService: NgbModal) {}
 
