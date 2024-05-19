@@ -8,8 +8,9 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToWords } from 'to-words';
+import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
 
 @Component({
   selector: 'app-bilti-process-details-modal',
@@ -50,16 +51,26 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   transacttionTypeCode: any;
   amountInWords: string = '';
   freightAmount: number = 0;
+  showSaveButton: boolean = false;
+  showApproveRejectButtons: boolean = false;
 
   constructor(
     public activeModal: NgbActiveModal,
     private biltiBillService: BiltiBillProcessService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private commonTransaction: CommonTransactionService
   ) {}
 
   ngOnInit(): void {
+    this.route.url.subscribe(url => {
+      const fullPath = this.router.url;
+      console.log(fullPath)
+      this.showSaveButton = fullPath.includes('transaction/biltiBillProcess');
+      this.showApproveRejectButtons = fullPath.includes('transaction/approvalAccounts');
+    });
     console.log(this.biltiProcess)
     this.initForm();
     this.getBiltiBillProcessbyId();
@@ -85,6 +96,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       tollTaxLg: [0],
       unloadingChargeLg: [0],
       otherChargeLg: [0],
+      rejectRemarks: [''],
       biltiCreationLineItemDetails: this.formBuilder.array([]),
     });
   }
@@ -486,5 +498,29 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         
       }
     );
+  }
+
+  updateStatus(status: string) {
+    if (status === 'rejected') {
+      const rejectRemarks = this.biltiBillProcess.controls['rejectRemarks']?.value;
+      if (!rejectRemarks || rejectRemarks.trim().length === 0) {
+        this.toastr.error('Reject remarks are required when rejecting.');
+        return;
+      }
+    }
+    const data = {
+      approvalLevel: 'Material',
+      status: status,
+      remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
+      actionBy: 1,
+      transactionCode: 203,
+    };
+    this.commonTransaction.updateStatus(this.biltiProcess.id, data).subscribe((response: any) => {
+      this.loadSpinner = false;
+      this.toastr.success('Status Updated Successfully');
+    }, error => {
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    });
   }
 }

@@ -253,8 +253,21 @@
     <div *ngIf="freightAmount > grandTotal">
       <p class="text-danger mb-0">Grand Total Cannot be less than Freight Amount</p>
     </div>
-    <div class="text-center">
+    <div class="text-center"  *ngIf="showSaveButton">
       <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
+    </div>
+    <div class="row approve-button" *ngIf="showApproveRejectButtons">
+      <div class="col-lg-6 col-md-6">
+        <div class="custom-form-input">
+          <textarea name="" id="" cols="10" rows="3" placeholder="Action Remarks" formControlName="rejectRemarks"></textarea>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <button class="custom-button-regulr me-3" (click)="updateStatus('Approved')">Approve</button>
+          <button class="custom-button-regulr" (click)="updateStatus('Rejected')">Reject</button>
+        </div>
+      </div>
     </div>
   </form>
 </div>

@@ -57,10 +57,10 @@
         <td>{{biltiList?.biltiBillProcessModel?.paidByAmount}}</td>
         <td>{{biltiList?.biltiBillProcessModel?.debitAmount}}</td>
         <td>
-          <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails()" class="pointer">
+          <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails(biltiList)" class="pointer">
         </td>
-        <td>Approved</td>
-        <td>-</td>
+        <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
       </tr>
     </tbody>
   </table>
