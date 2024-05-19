@@ -2,9 +2,9 @@
     <h1>Checked by Material's Team</h1>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-checked-materials-team-filter></app-checked-materials-team-filter>
+    <app-checked-materials-team-filter (filterSearchObj)="filteredData($event)"></app-checked-materials-team-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-checked-materials-team-grid-table></app-checked-materials-team-grid-table>
+    <app-checked-materials-team-grid-table [biltiBillProcess]="biltiBillProcess"></app-checked-materials-team-grid-table>
   </div>

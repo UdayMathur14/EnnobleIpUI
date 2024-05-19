@@ -53,6 +53,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   freightAmount: number = 0;
   showSaveButton: boolean = false;
   showApproveRejectButtons: boolean = false;
+  fullPath:any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -66,10 +67,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.url.subscribe(url => {
-      const fullPath = this.router.url;
-      console.log(fullPath)
-      this.showSaveButton = fullPath.includes('transaction/biltiBillProcess');
-      this.showApproveRejectButtons = fullPath.includes('transaction/approvalAccounts');
+      this.fullPath = this.router.url;
+      this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
+      this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts') ||
+      this.fullPath.includes('transaction/checkedMaterialsTeam');
     });
     console.log(this.biltiProcess)
     this.initForm();
@@ -500,6 +501,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     );
   }
 
+  approveAccountsPayload(){
+    
+  }
+
   updateStatus(status: string) {
     if (status === 'Rejected') {
       const rejectRemarks = this.biltiBillProcess.controls['rejectRemarks']?.value;
@@ -508,13 +513,15 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         return;
       }
     }
-    const data = {
-      approvalLevel: 'Material',
-      status: status,
-      remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
-      actionBy: 1,
-      transactionCode: 203,
-    };
+    if(this.fullPath.includes('transaction/approvalAccounts')){
+      const data = {
+        approvalLevel: 'Material',
+        status: status,
+        remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
+        actionBy: 1,
+        transactionCode: 203,
+      };
+   
     this.commonTransaction.updateStatus(this.biltiProcess.id, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Status Updated Successfully');
@@ -523,4 +530,22 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.loadSpinner = false;
     });
   }
+  else {
+    const data = {
+      approvalLevel: 'MaterialChecked',
+      status: status,
+      remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
+      actionBy: 1,
+      transactionCode: 203,
+    };
+ 
+  this.commonTransaction.updateStatus(this.biltiProcess.id, data).subscribe((response: any) => {
+    this.loadSpinner = false;
+    this.toastr.success('Status Updated Successfully');
+  }, error => {
+    this.toastr.error(error.statusText, error.status);
+    this.loadSpinner = false;
+  });
+}
+}
 }
