@@ -2,6 +2,7 @@ import { Component, OnInit, Input, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import { TransporterService } from '../../../../../core/service/transporter.service';
 import { ToastrService } from 'ngx-toastr';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-transporter-grid-table',
@@ -13,6 +14,8 @@ export class TransporterGridTableComponent implements OnInit{
   loadSpinner : boolean = true
   @Input()
   searchedTransporter!: any;  
+  sortField: string = '';
+sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router,
     private toastr: ToastrService,
     private transporterService : TransporterService) {}
@@ -61,6 +64,12 @@ export class TransporterGridTableComponent implements OnInit{
 
   onGoToEditTransporter(transporterId : any){
     this.router.navigate(['master/addEditTransporter', transporterId]);
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.transportersList);
   }
 
 }

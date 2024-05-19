@@ -2,6 +2,7 @@ import { Component, OnChanges, OnInit, Input, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FreightService } from '../../../../../core/service/freight.service';
+import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
   selector: 'app-freight-grid-table',
@@ -18,7 +19,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   searchedFreight!: any;  
   freightList: any;
   loadSpinner : boolean = true;
-
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   ngOnInit(): void {
     this.getAllFreightListInit();
   }
@@ -67,5 +69,11 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
       this.toastr.error(error.statusText, error.status);
       this.loadSpinner = false;
     })
+  }
+
+  sortData(field: string) {
+    this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
+    this.sortField = field;
+    CommonUtility.sortTableData(field, this.sortDirection, this.freightList);
   }
 }

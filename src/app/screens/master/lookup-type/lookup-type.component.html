@@ -9,6 +9,18 @@
             <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
 
         <button class="custom-button-regulr" (click)="onCreateLookup()">Create Lookup Type</button>
+        <div container="body">
+            <img
+              src="assets/images/icons/fullScreen.svg"
+              alt=""
+              class="pointer"
+              width="14px"
+              (click)="fullScreen = !fullScreen"
+              placement="start"
+              [ngbTooltip]="tipContent"
+            />
+            <ng-template #tipContent> Full Screen </ng-template>
+          </div>
     </div>
 </div>
 
@@ -16,6 +28,14 @@
     <app-lookup-type-filter></app-lookup-type-filter>
 </div>
 
-<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+<div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
+    <img
+        *ngIf="fullScreen"
+        src="assets/images/icons/fullScreenCollapse.svg"
+        alt=""
+        class="me-3 pointer float-end"
+        width="14px"
+        (click)="fullScreen = !fullScreen"
+      />
     <app-lookup-type-grid-table [filterKeyword]="filterKeyword"></app-lookup-type-grid-table>
 </div>

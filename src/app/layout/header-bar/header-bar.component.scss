@@ -1,4 +1,20 @@
 header {
     height: 80px;
     background-color: var(--primaryColor);
+    padding: 19px 15px;
+
+    .header-wrapper{
+        .logged-user-details{
+            p{
+                color: var(--white);
+                margin-bottom: 0;
+                font-weight: 600;
+                text-align: right;
+
+                span{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }

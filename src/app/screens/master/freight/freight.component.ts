@@ -11,7 +11,7 @@ export class FreightComponent {
 
   isFilters: boolean = true;
   searchedFreight: any;
-
+  fullScreen : boolean = false;
   constructor(private router: Router,
     private exportService: ExportService
   ) { }
