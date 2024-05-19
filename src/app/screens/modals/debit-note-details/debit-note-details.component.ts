@@ -75,7 +75,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
         biltiNumber: this.biltiBillDetailsData.biltiNumber,
         creationDate: this.biltiBillDetailsData.creationDate,
         adviceType: this.biltiBillDetailsData.transactionTypeDetails?.name,
-        freightAmount: this.biltiBillDetailsData.freightDetails?.freightAmount
+        freightAmount: this.biltiBillDetailsData.biltiBillProcessModel?.debitAmount
       });
 
       const biltiCreationLineItemDetailsData = this.biltiBillDetailsData.biltiCreationLineItemDetails;
