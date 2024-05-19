@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApprovalMaterialHeadModalComponent } from '../../../../modals/approval-material-head/approval-material-head.component';
@@ -16,7 +16,7 @@ export class ApprovalMaterialHeadGridTableComponent implements OnInit {
   biltiBillProcessList: any = [];
   loadSpinner: boolean = true;
   @Input() biltiBillProcess: any = [];
-
+  @Output() refreshList = new EventEmitter<void>();
   constructor(private router: Router,
     private modalService: NgbModal) {}
 
@@ -36,11 +36,11 @@ export class ApprovalMaterialHeadGridTableComponent implements OnInit {
   
       deliveryNoteModal.result.then(
         (result) => {
-          if (result) {
-  
+          if (result === 'save') {
+            this.router.navigate(['transaction/biltiBillProcess']);
+            this.refreshList.emit();
           }
         },
-        (reason) => {}
       );
     }
    

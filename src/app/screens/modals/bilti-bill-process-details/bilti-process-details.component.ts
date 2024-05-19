@@ -542,6 +542,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   this.commonTransaction.updateStatus(this.biltiProcess.id, data).subscribe((response: any) => {
     this.loadSpinner = false;
     this.toastr.success('Status Updated Successfully');
+    this.activeModal.close('save');
   }, error => {
     this.toastr.error(error.statusText, error.status);
     this.loadSpinner = false;
