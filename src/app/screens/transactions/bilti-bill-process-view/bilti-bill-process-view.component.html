@@ -5,9 +5,9 @@
     </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-bilti-bill-process-view-filter></app-bilti-bill-process-view-filter>
+    <app-bilti-bill-process-view-filter (filterSearchObj)="filteredData($event)"></app-bilti-bill-process-view-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-bilti-bill-process-view-grid-table></app-bilti-bill-process-view-grid-table>
+    <app-bilti-bill-process-view-grid-table [biltiBillProcess]="biltiBillProcess"></app-bilti-bill-process-view-grid-table>
   </div>
