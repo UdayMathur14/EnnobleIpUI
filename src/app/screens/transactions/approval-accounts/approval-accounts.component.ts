@@ -29,7 +29,7 @@ export class ApprovalAccountsComponent implements OnInit{
 
   getAllBiltiProcess() {
     const data = {
-      screenCode: 303,
+      screenCode: 305,
       fromDate: this.fromDate,
       toDate: this.toDate,
       adviceType: "",
