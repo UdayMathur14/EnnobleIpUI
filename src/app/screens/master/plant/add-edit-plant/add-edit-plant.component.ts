@@ -66,7 +66,7 @@ export class AddEditPlantComponent implements OnInit {
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.locationsDropdownData = res.lookUps;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.baseService.plantSpinner.next(false);
     });
   }
@@ -91,7 +91,7 @@ export class AddEditPlantComponent implements OnInit {
       this.plantData = response;
       this.baseService.plantSpinner.next(false);
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.baseService.plantSpinner.next(false);
     })
   }
@@ -136,7 +136,7 @@ export class AddEditPlantComponent implements OnInit {
       this.router.navigate(['master/plant']);
       this.baseService.plantSpinner.next(false);
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.baseService.plantSpinner.next(false);
     })
   }

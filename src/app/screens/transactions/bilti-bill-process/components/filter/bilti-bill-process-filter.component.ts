@@ -43,7 +43,7 @@ export class BiltiBillProcessFilterComponent {
       this.batchNames = this.adviceTypeList.map((advice: any) => advice.batchName);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }

@@ -50,7 +50,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
       this.freightList = response.freights;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
@@ -66,7 +66,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
       this.freightList = response.freights;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }

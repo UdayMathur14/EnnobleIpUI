@@ -76,7 +76,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.loadSpinner = false;
       },
       error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -98,7 +98,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.loadSpinner = false;
       },
       error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -117,7 +117,7 @@ export class AddEditAdviceComponent implements OnInit {
         console.log(this.locationsDropdownData, 'this.locationsDropdownData');
       },
       error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       }
     );
   }
@@ -172,7 +172,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.toastr.success('Advice Type Updated Successfully');
       },
       error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -187,7 +187,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.router.navigate(['/master/advice']);
       },
       error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );

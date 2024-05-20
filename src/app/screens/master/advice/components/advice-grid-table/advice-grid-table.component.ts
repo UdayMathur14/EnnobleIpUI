@@ -43,7 +43,7 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
       this.adviceTypeListOrg =  response.advices;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }

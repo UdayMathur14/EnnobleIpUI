@@ -70,7 +70,7 @@ export class AddEditVehicleComponent implements OnInit {
         this.patchVehicleForm(response);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       })
     }
@@ -116,7 +116,7 @@ export class AddEditVehicleComponent implements OnInit {
           this.loadSpinner = false;
           this.router.navigate(['/master/vehicle'])
         }, error => {
-          this.toastr.error(error.error?.details?.[0]?.description);
+          this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
           this.loadSpinner = false;
         })
 
@@ -140,7 +140,7 @@ export class AddEditVehicleComponent implements OnInit {
           this.loadSpinner = false;
           this.router.navigate(['/master/vehicle'])
         }, error => {
-          this.toastr.error(error.error?.details?.[0]?.description);
+          this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
           this.loadSpinner = false;
         })
   
@@ -157,7 +157,7 @@ export class AddEditVehicleComponent implements OnInit {
     this.vehicleService.getLookups(data).subscribe((response:any) => {
       this.lookupsList = response.lookUps;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
     })
   }
 
@@ -170,7 +170,7 @@ export class AddEditVehicleComponent implements OnInit {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
@@ -181,7 +181,7 @@ export class AddEditVehicleComponent implements OnInit {
         this.patchTransporterField(response);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       })   
   }

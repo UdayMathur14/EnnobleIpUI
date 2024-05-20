@@ -28,7 +28,7 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargeList = response.pointCharges;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
     })
   }
 

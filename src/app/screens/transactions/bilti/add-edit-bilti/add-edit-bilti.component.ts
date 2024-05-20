@@ -180,7 +180,7 @@ export class AddEditBiltiComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -211,7 +211,7 @@ export class AddEditBiltiComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -313,7 +313,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -337,7 +337,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -388,7 +388,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -437,7 +437,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -456,7 +456,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -512,7 +512,7 @@ onFrlrNoClear() {
           this.router.navigate(['transaction/bilti'])
         },
         (error) => {
-          this.toastr.error(error.error?.details?.[0]?.description);
+          this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
           this.loadSpinner = false;
         }
       );
@@ -574,7 +574,7 @@ onFrlrNoClear() {
           this.loadSpinner = false;
         },
         (error) => {
-          this.toastr.error(error.error?.details?.[0]?.description);
+          this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
           this.loadSpinner = false;
         }
       );
@@ -688,7 +688,7 @@ onFrlrNoClear() {
         this.getFrlr(this.selectedTransactionTypeCode);
       },
       (error) => {
-        this.toastr.error(error.error?.details?.[0]?.description);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );

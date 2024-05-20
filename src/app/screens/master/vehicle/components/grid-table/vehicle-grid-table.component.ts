@@ -42,7 +42,7 @@ export class VehicleGridTableComponent implements OnInit {
       this.vehiclesListOrg = response.plants;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
@@ -57,7 +57,7 @@ export class VehicleGridTableComponent implements OnInit {
       this.vehiclesList = response.vehicles;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }

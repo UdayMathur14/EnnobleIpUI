@@ -53,7 +53,7 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
       this.pointChargeListOrg = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error?.details?.[0]?.description);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
