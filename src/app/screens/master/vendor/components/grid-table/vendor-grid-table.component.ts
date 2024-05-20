@@ -48,7 +48,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
       this.loadSpinner = false;
     },
       error => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -64,7 +64,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
       this.vendorList = response.vendors;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }

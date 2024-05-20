@@ -60,7 +60,7 @@ export class AddEditLookupTypeComponent {
       });
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     });
   }
@@ -91,7 +91,7 @@ export class AddEditLookupTypeComponent {
       this.loadSpinner = false;
       this.toastr.success('Lookup Updated Successfully')
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
@@ -104,7 +104,7 @@ export class AddEditLookupTypeComponent {
       this.toastr.success('Lookup Type Created Successfully');
       this.router.navigate(['/master/lookupType']);
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }

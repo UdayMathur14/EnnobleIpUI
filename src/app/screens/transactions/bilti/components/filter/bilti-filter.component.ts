@@ -37,7 +37,7 @@ export class BiltiFilterComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );

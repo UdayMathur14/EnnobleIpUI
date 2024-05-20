@@ -478,7 +478,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         this.activeModal.close('save');
       },
       (error) => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
       }
     );
@@ -492,7 +492,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         this.activeModal.close('save');
       },
       (error) => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
         this.loadSpinner = false;
         
       }
@@ -521,7 +521,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.toastr.success('Status Updated Successfully');
       this.activeModal.close('save');
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     });
   }
@@ -558,7 +558,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');
   }, error => {
-    this.toastr.error(error.statusText, error.status);
+    this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
     this.loadSpinner = false;
   });
 }

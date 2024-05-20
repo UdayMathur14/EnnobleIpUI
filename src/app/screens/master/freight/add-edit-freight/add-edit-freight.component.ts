@@ -78,7 +78,7 @@ export class AddEditFreightComponent implements OnInit {
       });
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
@@ -116,7 +116,7 @@ export class AddEditFreightComponent implements OnInit {
       this.toastr.success('Freight Updated Successfully');
       this.router.navigate(['/master/freight']);
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
@@ -128,7 +128,7 @@ export class AddEditFreightComponent implements OnInit {
       this.toastr.success('Freight Created Successfully');
       this.router.navigate(['/master/freight'])
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
       this.loadSpinner = false;
     })
   }
