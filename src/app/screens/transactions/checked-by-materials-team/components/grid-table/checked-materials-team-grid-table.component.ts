@@ -37,8 +37,9 @@ export class CheckedMaterialsTeamGridTableComponent implements OnInit{
   
       deliveryNoteModal.result.then(
         (result) => {
-          if (result) {
-  
+          if (result === 'save') {
+            this.router.navigate(['transaction/checkedMaterialsTeam']);
+            this.refreshList.emit();
           }
         },
         (reason) => {}

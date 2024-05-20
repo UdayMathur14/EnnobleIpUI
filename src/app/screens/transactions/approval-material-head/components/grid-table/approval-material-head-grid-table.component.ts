@@ -37,7 +37,7 @@ export class ApprovalMaterialHeadGridTableComponent implements OnInit {
       deliveryNoteModal.result.then(
         (result) => {
           if (result === 'save') {
-            this.router.navigate(['transaction/biltiBillProcess']);
+            this.router.navigate(['transaction/approvalMaterialHead']);
             this.refreshList.emit();
           }
         },
