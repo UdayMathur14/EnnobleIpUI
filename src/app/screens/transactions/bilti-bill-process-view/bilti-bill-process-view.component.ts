@@ -28,7 +28,7 @@ export class BiltiBillProcessViewComponent {
 
   getAllBiltiProcess() {
     const obj = {
-      screenCode: 302,
+      screenCode: 301,
       fromDate: this.fromDate,
       toDate: this.toDate,
       adviceType: this.adviceType,

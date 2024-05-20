@@ -41,13 +41,13 @@
                 <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('mfg-bilti')">Bilti</li>
                 <!-- <li (click)="onTransactionChange('biltiBillProcess')" *ngIf="securityGroups('mfg-bilti-bill-process')">Bilti Bill Process</li> -->
                 <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('mfg-bilti-bill-process-view')">Bilti Bill Process View</li>
-                <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('mfg-point-master-accounts')">Point Master by Accounts</li>
-                <li (click)="onTransactionChange('pointMasterMaterial')" *ngIf="securityGroups('mfg-point-master-material')">Point Master by Material</li>
-                <li (click)="onTransactionChange('freightMasterAccounts')" *ngIf="securityGroups('mfg-freight-master-accounts')">Freight Master by Accounts</li>
-                <li (click)="onTransactionChange('freightMasterMaterial')" *ngIf="securityGroups('mfg-freight-master-material')">Freight Master by Material</li>
-                <li (click)="onTransactionChange('approvalAccounts')" *ngIf="securityGroups('mfg-approval-accounts')">Approval by Accounts</li>
                 <li (click)="onTransactionChange('checkedMaterialsTeam')" *ngIf="securityGroups('mfg-checked-materials')">Checked by Material's Team</li>
                 <li (click)="onTransactionChange('approvalMaterialHead')" *ngIf="securityGroups('mfg-approval-materials')">Approval by Material's Head</li>
+                <li (click)="onTransactionChange('approvalAccounts')" *ngIf="securityGroups('mfg-approval-accounts')">Approval by Accounts</li>
+                <li (click)="onTransactionChange('pointMasterMaterial')" *ngIf="securityGroups('mfg-point-master-material')">Point Master by Material</li>
+                <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('mfg-point-master-accounts')">Point Master by Accounts</li>
+                <li (click)="onTransactionChange('freightMasterMaterial')" *ngIf="securityGroups('mfg-freight-master-material')">Freight Master by Material</li>
+                <li (click)="onTransactionChange('freightMasterAccounts')" *ngIf="securityGroups('mfg-freight-master-accounts')">Freight Master by Accounts</li>
                 <li (click)="onTransactionChange('changeBiltiStatus')" *ngIf="securityGroups('mfg-change-bilti-statu')">Change Bilti Status</li>
                 <!-- <li (click)="onTransactionChange('approvalMaterial')">Approval by Material</li> -->
               </ul>
