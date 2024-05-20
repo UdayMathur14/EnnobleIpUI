@@ -43,7 +43,6 @@ export class BiltiBillProcessComponent implements OnInit {
         }
       });
       this.biltiBillProcess = response.biltiBillProcess;
-      console.log(this.biltiBillProcess);
 
     })
   }

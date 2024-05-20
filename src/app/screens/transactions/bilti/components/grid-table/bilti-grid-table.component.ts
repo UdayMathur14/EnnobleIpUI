@@ -26,7 +26,6 @@ export class BiltiGridTableComponent implements OnInit {
 
     ngOnInit() :void{
       this.getAllBiltisList();
-      console.log(this.searchedBilti)
     }
   
   onPreviewBilti() {

@@ -43,7 +43,6 @@ export class BiltiBillProcessViewComponent {
         }
       });
       this.biltiBillProcess = response.biltiBillProcess;
-      console.log(this.biltiBillProcess);
 
     })
   }

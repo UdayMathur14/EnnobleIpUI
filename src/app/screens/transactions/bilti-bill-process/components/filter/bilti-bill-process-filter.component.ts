@@ -39,7 +39,6 @@ export class BiltiBillProcessFilterComponent {
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
       this.adviceTypeList = response.advices;
-      console.log(this.adviceTypeList, "this.adviceTypeList");
       // Populate batch names related to advice types
       this.batchNames = this.adviceTypeList.map((advice: any) => advice.batchName);
       this.loadSpinner = false;

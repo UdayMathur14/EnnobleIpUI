@@ -23,7 +23,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    console.log(this.biltiProcess);
     this.initForm();
     this.getBiltiBillProcessbyId();
   }
@@ -49,7 +48,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
   }
 
   createLineItem(item: any): FormGroup {
-    console.log(item)
     return this.formBuilder.group({
       paidByDetails: [item.supplierDetail?.paidByDetails?.value || ''],
       vendorName: [item.supplierDetail?.vendorName || ''],
@@ -66,7 +64,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       .getBiltiBillProcessbyId(this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillDetailsData = response;
-        console.log(this.biltiBillDetailsData, 'data details');
 
         // this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
         // this.maxBiltiNumber = this.biltiBillProcessData.transactionTypeDetails.adviceTypeDetails.maxBiltiNumber;
@@ -88,7 +85,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
 
       const biltiCreationLineItemDetailsData =
         this.biltiBillDetailsData.biltiCreationLineItemDetails;
-      console.log(this.biltiBillDetailsData.biltiCreationLineItemDetails);
 
       if (biltiCreationLineItemDetailsData) {
         const formArray = this.biltiBillDetails.get(

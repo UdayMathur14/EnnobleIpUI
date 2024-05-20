@@ -72,7 +72,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts') ||
       this.fullPath.includes('transaction/checkedMaterialsTeam') || this.fullPath.includes('transaction/approvalMaterialHead');
     });
-    console.log(this.biltiProcess)
     this.initForm();
     this.getBiltiBillProcessbyId();
   }
@@ -139,7 +138,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   populateForm(): void {
-    console.log(this.biltiBillProcessData)
     if(this.biltiBillProcessData?.biltiBillProcessModel){
       const freightChargeLg = this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.freightCharge;
       const pointChargeLg = this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.pointCharge;
