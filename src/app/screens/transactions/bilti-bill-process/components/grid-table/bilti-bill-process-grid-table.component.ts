@@ -24,6 +24,7 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
 
   ngOnInit(): void {
   }
+  
 
   onOpenProcessModal(biltiProcess:any) {
     let processDetailsModal = this.modalService.open(BiltiProcessDetailsModalComponent, {
@@ -49,15 +50,11 @@ export class BiltiBillProcessGridTableComponent implements OnInit{
     debitNoteModal.componentInstance.biltiProcess = biltiProcess;
     debitNoteModal.result.then(
       (result) => {
-        if (result) {
           if (result === 'save') {
             this.router.navigate(['transaction/biltiBillProcess']);
             this.refreshList.emit();
-          }
         }
       },
-      (reason) => {
-      }
     );
   }
 

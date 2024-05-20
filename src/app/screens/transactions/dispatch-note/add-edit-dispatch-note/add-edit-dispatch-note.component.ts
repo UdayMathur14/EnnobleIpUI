@@ -87,7 +87,7 @@ export class AddEditDispatchNoteComponent {
       partQuantity: [''],
       remarks: [''],
       status: [''],
-      id: []
+      id: [0]
     });
 
     this.partDetails.push(detail);
@@ -323,8 +323,8 @@ export class AddEditDispatchNoteComponent {
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
           partQtyId: dg.controls['partQuantity'].value,
-          status: dg.controls['status'].value,
-          id: dg.controls['id'].value
+          status: 'Active',
+          id: dg.controls['id'].value || 0,
         };
         this.dispatchNote.partDetails.push(note);
       }

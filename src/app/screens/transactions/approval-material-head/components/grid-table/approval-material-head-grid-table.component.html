@@ -1,69 +1,67 @@
 <div class="custom-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Bilti#</th>
-          <th> Bilti Date</th>
-          <th>Bilti Bill Process Date</th>
-          <th>FRLR#</th>
-          <th>Transporter Name</th>
-          <th>Vehicle Number</th>
-          <th>Freight Amount</th>
-          <th>Paid by Amount</th>
-          <th>Debit Amount</th>
-          <th>Bilti Details</th>
-          <th>Status</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let biltiList of biltiBillProcess">
-        <tr>
-          <td class="pointer">
-            <span
-              container="body"
-              placement="end"
-              tooltipClass="table-datetime-popover"
-              [ngbTooltip]="tipContent"
-            >
-              <u>{{biltiList?.biltiNumber}}</u>
-            </span>
-            <ng-template #tipContent>
-              <div class="">
-                <div class="content-row">
-                  <span>Creation Date</span>
-                  <span>{{biltiList.creationDate | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Created By</span>
-                  <span>{{biltiList.createdBy}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Update Date</span>
-                  <span>{{biltiList.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Updated By</span>
-                  <span>{{biltiList.lastUpdatedBy}}</span>
-                </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Bilti#</th>
+        <th>Bilti Date</th>
+        <th>Bilti Bill Process Date</th>
+        <th>FRLR#</th>
+        <th>Transporter Name</th>
+        <th>Vehicle Number</th>
+        <th>Freight Amount</th>
+        <th>Paid by Amount</th>
+        <th>Debit Amount</th>
+        <th>Bilti Details</th>
+        <th>Status</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let biltiList of biltiBillProcess">
+      <tr>
+        <td class="pointer">
+          <span
+            container="body"
+            placement="end"
+            tooltipClass="table-datetime-popover"
+            [ngbTooltip]="tipContent"
+          >
+            <u>{{biltiList?.biltiNumber}}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{biltiList.creationDate | date: 'yyyy-MM-dd'}}</span>
               </div>
-            </ng-template>
-          </td>
-          <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td>
-          <td>{{biltiList?.biltiBillProcessModel?.biltiBillProcessDate}}</td>
-          <td>{{biltiList?.frlrNumber}}</td>
-          <td>{{biltiList?.transporterModel?.transporterName}}</td>
-          <td>{{biltiList?.vehicles?.vehicleNumber}}</td>
-          <td>{{biltiList?.freights?.freightAmount}}</td>
-          <td>{{biltiList?.biltiBillProcessModel?.paidByAmount}}</td>
-          <td>{{biltiList?.biltiBillProcessModel?.debitAmount}}</td>
-          <td>
-          <td>
-            <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewApprovalMatHead()" class="pointer">
-          </td>
-          <td>Approved</td>
-          <td>-</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{biltiList.createdBy}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{biltiList.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{biltiList.lastUpdatedBy}}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.biltiBillProcessDate}}</td>
+        <td>{{biltiList?.frlrNumber}}</td>
+        <td>{{biltiList?.transporterModel?.transporterName}}</td>
+        <td>{{biltiList?.vehicles?.vehicleNumber}}</td>
+        <td>{{biltiList?.freights?.freightAmount}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.paidByAmount}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.debitAmount}}</td>
+        <td>
+          <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails(biltiList)" class="pointer">
+        </td>
+        <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

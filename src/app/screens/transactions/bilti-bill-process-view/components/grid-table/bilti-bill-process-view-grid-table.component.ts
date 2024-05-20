@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
 import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
+import { BiltiProcessDetailsModalComponent } from '../../../../modals/bilti-bill-process-details/bilti-process-details.component';
 
 
 @Component({
@@ -11,26 +12,34 @@ import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/del
   styleUrl: './bilti-bill-process-view-grid-table.component.scss'
 })
 export class BiltiBillProcessViewGridTableComponent {
+
+  biltiBillProcessList: any = [];
+  loadSpinner: boolean = true;
+  @Input() biltiBillProcess: any = [];
+  @Output() refreshList = new EventEmitter<void>();
   constructor(private router: Router,
     private modalService: NgbModal) { }
     
-  onPreviewBilti() {
-    let documentModal = this.modalService.open(DeliveryNoteModalComponent, {
-      size: "lg",
-      backdrop: "static",
-    });
-    documentModal.componentInstance.title = 'Bilti';
-
-    documentModal.result.then(
-      (result) => {
-          if (result) {
-
+    onPreviewBiltiDetails(biltiProcess:any) {
+      let deliveryNoteModal = this.modalService.open(
+        BiltiProcessDetailsModalComponent,
+        {
+          size: 'xl',
+          backdrop: 'static',
+        }
+      );
+      // deliveryNoteModal.componentInstance.data = data;
+      deliveryNoteModal.componentInstance.biltiProcess = biltiProcess;
+  
+      deliveryNoteModal.result.then(
+        (result) => {
+          if (result === 'save') {
+            this.router.navigate(['transaction/biltiBillProcess']);
+            this.refreshList.emit();
           }
-      },
-      (reason) => {
-      }
-  );
-  }
+        },
+      );
+    }
   onEditBilti() {
     this.router.navigate(['transaction/addEditBilti']);
   }

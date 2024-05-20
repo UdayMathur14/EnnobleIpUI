@@ -66,7 +66,7 @@
               <div class="popover-list">
                 <ul>
                   <li (click)="onOpenProcessModal(biltiProcess); p.close()">Bilti Bill Process Details</li>
-                  <li (click)="onOpenDebitNoteModal(biltiProcess); p.close()">Debit Note Details</li>
+                  <li *ngIf="biltiProcess.biltiBillProcessModel?.debitAmount != 0 && biltiProcess.biltiBillProcessModel != null" (click)="onOpenDebitNoteModal(biltiProcess); p.close()">Debit Note Details</li>
                 </ul>
               </div>
             </ng-template>

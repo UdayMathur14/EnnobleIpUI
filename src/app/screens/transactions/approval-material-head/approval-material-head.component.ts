@@ -26,7 +26,7 @@ export class ApprovalMaterialHeadComponent {
 
   getAllBiltiProcess() {
     const data = {
-      screenCode: 303,
+      screenCode: 304,
       fromDate: this.fromDate,
       toDate: this.toDate,
       adviceType: '',
