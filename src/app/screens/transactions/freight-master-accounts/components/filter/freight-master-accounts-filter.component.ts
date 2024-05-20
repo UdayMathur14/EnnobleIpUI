@@ -28,7 +28,7 @@ export class FreightMasterAccountsFiltersComponent {
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
     })
   }
 

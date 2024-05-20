@@ -42,7 +42,7 @@ sortDirection: 'asc' | 'desc' = 'asc';
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
       this.loadSpinner = false;
     })
   }
@@ -57,7 +57,7 @@ sortDirection: 'asc' | 'desc' = 'asc';
         this.transportersList = response.transporters;
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error?.details?.[0]?.description);
         this.loadSpinner = false;
       })
     }

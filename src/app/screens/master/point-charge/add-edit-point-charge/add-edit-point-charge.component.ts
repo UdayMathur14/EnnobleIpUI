@@ -65,7 +65,7 @@ export class AddEditPointChargeComponent implements OnInit {
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.pointNameData = res.lookUps;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
       this.baseService.plantSpinner.next(false);
     });
   }
@@ -79,7 +79,7 @@ export class AddEditPointChargeComponent implements OnInit {
         this.patchPointChargeForm(response);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error?.details?.[0]?.description);
         this.loadSpinner = false;
       })
     }
@@ -134,7 +134,7 @@ export class AddEditPointChargeComponent implements OnInit {
         this.loadSpinner = false;
         this.router.navigate(['/master/pointCharge']);
       }, error => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error?.details?.[0]?.description);
         this.loadSpinner = false;
       })
     }
@@ -157,7 +157,7 @@ export class AddEditPointChargeComponent implements OnInit {
           this.loadSpinner = false;
           this.router.navigate(['/master/pointCharge'])
         }, error => {
-          this.toastr.error(error.statusText, error.status);
+          this.toastr.error(error.error?.details?.[0]?.description);
           this.loadSpinner = false;
         })
     }

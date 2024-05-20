@@ -80,7 +80,7 @@ export class BiltiGridTableComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.statusText, error.status);
+        this.toastr.error(error.error?.details?.[0]?.description);
         this.loadSpinner = false;
       }
     );
@@ -94,7 +94,7 @@ export class BiltiGridTableComponent implements OnInit {
       this.biltisList = response.biltiCreations;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
       this.loadSpinner = false;
     })
   }

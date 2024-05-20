@@ -175,7 +175,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
           this.activeModal.close('save');
         },
         (error) => {
-          this.toastr.error(error.statusText, error.status);
+          this.toastr.error(error.error?.details?.[0]?.description);
           this.loadSpinner = false;
         }
       );

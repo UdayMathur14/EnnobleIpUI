@@ -56,7 +56,7 @@ export class AddEditPartComponent implements OnInit {
       });
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
       this.loadSpinner = false;
     })
   }
@@ -102,7 +102,7 @@ export class AddEditPartComponent implements OnInit {
       this.toastr.success('Part Updated Successfully');
       this.router.navigate(['master/part']);
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
       this.loadSpinner = false;
     })
   }
@@ -115,7 +115,7 @@ export class AddEditPartComponent implements OnInit {
       this.toastr.success('Part Created Successfully');
       this.router.navigate(['/master/part'])
     }, error => {
-      this.toastr.error(error.statusText, error.status);
+      this.toastr.error(error.error?.details?.[0]?.description);
       this.loadSpinner = false;
     })
   }
