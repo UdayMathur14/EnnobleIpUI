@@ -501,10 +501,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     );
   }
 
-  approveAccountsPayload(){
-    
-  }
-
   updateStatus(status: string) {
     if (status === 'Rejected') {
       const rejectRemarks = this.biltiBillProcess.controls['rejectRemarks']?.value;
