@@ -251,7 +251,7 @@
       </div>
     </div>
     <div *ngIf="freightAmount > grandTotal && grandTotal !=0">
-      <p class="text-danger mb-0">Grand Total Cannot be less than Freight Amount</p>
+      <p class="text-danger mb-0">Grand Total cannot be less than Freight Amount</p>
     </div>
     <div class="text-center"  *ngIf="showSaveButton">
       <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
