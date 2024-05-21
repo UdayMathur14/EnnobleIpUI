@@ -88,7 +88,7 @@ export class AddEditLookupComponent implements OnInit {
   onPressSubmit() {
     this.loadSpinner = true;
     let data = {
-      typeId: this.lookupForm.controls['typeId'].value,
+      typeId: Number(this.lookupForm.controls['typeId'].value),
       code: this.lookupForm.controls['code'].value,
       value: this.lookupForm.controls['value'].value,
       description: this.lookupForm.controls['description'].value,
