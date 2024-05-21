@@ -56,7 +56,7 @@ export class AddEditPartComponent implements OnInit {
       });
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -83,7 +83,7 @@ export class AddEditPartComponent implements OnInit {
       description: this.partForm.controls['description'].value,
       partSize: this.partForm.controls['partSize'].value,
       remarks: this.partForm.controls['remarks'].value,
-      partPrice: this.partForm.controls['partPrice'].value,
+      partPrice: Number(this.partForm.controls['partPrice'].value),
       status: this.partForm.controls['status'].value,
       modifiedBy: ""
     }
@@ -102,7 +102,7 @@ export class AddEditPartComponent implements OnInit {
       this.toastr.success('Part Updated Successfully');
       this.router.navigate(['master/part']);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -115,7 +115,7 @@ export class AddEditPartComponent implements OnInit {
       this.toastr.success('Part Created Successfully');
       this.router.navigate(['/master/part'])
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

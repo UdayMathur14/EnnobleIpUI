@@ -97,7 +97,7 @@ export class AddEditTransporterComponent implements OnInit {
       });
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -145,7 +145,7 @@ export class AddEditTransporterComponent implements OnInit {
         this.toastr.success('Transporter Updated Successfully');
         this.router.navigate(['/master/transporter']);
       }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       })
     }

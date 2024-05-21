@@ -79,7 +79,7 @@ export class AddEditLookupComponent implements OnInit {
       this.lookupTypes = [response.lookUpType];
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }
@@ -113,7 +113,7 @@ export class AddEditLookupComponent implements OnInit {
       this.toastr.success('Lookup Updated Successfully');
       this.router.navigate(['/master/lookup']);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -126,7 +126,7 @@ export class AddEditLookupComponent implements OnInit {
       this.toastr.success('Lookup Created Successfully');
       this.router.navigate(['/master/lookup']);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

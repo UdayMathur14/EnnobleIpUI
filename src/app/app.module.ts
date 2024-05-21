@@ -21,7 +21,9 @@ import { ExportAsModule, ExportAsService } from 'ngx-export-as';
     HttpClientModule,
     HttpClientJsonpModule,
     ExportAsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      enableHtml: true,
+    })
   ],
   providers: [
     ExportAsService,

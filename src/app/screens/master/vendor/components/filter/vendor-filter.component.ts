@@ -35,7 +35,7 @@ export class VendorFilterComponent implements OnInit {
       this.vendorsList = response.vendors;
       this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
     });
   }
 

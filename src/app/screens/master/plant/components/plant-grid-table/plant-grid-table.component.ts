@@ -56,7 +56,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.plantsListOrg = response.plants;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

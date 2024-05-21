@@ -45,7 +45,7 @@ export class TransactionGridTableComponent implements OnInit{
       this.transactionTypesListOrg = response.transactionTypes;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

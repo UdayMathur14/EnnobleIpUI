@@ -50,7 +50,7 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
       this.lookupsListOrg = response.lookUps;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

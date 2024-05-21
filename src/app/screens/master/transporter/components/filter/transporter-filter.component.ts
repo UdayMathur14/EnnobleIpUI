@@ -30,7 +30,7 @@ export class TransporterFiltersComponent implements OnInit {
     this.transporterService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
     })
   }
 
