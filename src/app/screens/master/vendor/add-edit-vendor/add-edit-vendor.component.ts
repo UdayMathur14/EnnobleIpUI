@@ -63,7 +63,7 @@ export class AddEditVendorComponent implements OnInit {
       this.patchVendorData(response)
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -75,7 +75,7 @@ export class AddEditVendorComponent implements OnInit {
       this.pointChargeName = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -101,7 +101,7 @@ export class AddEditVendorComponent implements OnInit {
       this.router.navigate(['master/vendor']);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -178,7 +178,7 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorService.getDropdownData(data,type).subscribe((response:any) => {
       this.paidbyDetailsList = response.lookUps;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
     })
   }
 

@@ -44,7 +44,7 @@ export class VehicleFiltersComponent implements OnInit {
       this.vehiclesList = response.vehicles;
       this.allVehicleNo = response.vehicles.map((vehicle: any) => vehicle.vehicleNumber);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
     });
   }
 
@@ -76,7 +76,7 @@ export class VehicleFiltersComponent implements OnInit {
       this.allVehicleNames = response.transporters.map((vehicles: any) => vehicles);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }

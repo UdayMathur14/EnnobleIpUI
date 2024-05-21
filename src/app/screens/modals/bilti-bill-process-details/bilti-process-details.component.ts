@@ -478,7 +478,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         this.activeModal.close('save');
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
         this.loadSpinner = false;
       }
     );
@@ -492,7 +492,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         this.activeModal.close('save');
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
         this.loadSpinner = false;
         
       }
@@ -520,7 +520,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.loadSpinner = false;
       this.toastr.success('Status Updated Successfully');
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     });
   }
@@ -538,7 +538,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');
   }, error => {
-    this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+    this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
     this.loadSpinner = false;
   });
 }

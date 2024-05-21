@@ -50,7 +50,7 @@ export class PartGridTableComponent implements OnInit, OnChanges {
       this.partsListOrg = response.parts;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -65,7 +65,7 @@ export class PartGridTableComponent implements OnInit, OnChanges {
       this.partsList = response.parts;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }

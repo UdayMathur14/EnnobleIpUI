@@ -41,7 +41,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
       this.patchTransactionForm(response)
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -72,7 +72,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
       this.toastr.success('Transaction Updated Successfully');
       this.router.navigate(['/master/transactionTypes']);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }

@@ -44,7 +44,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
       this.selectFreight(this.selectedFreightId);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -59,7 +59,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
       this.freightList = response.freights;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -104,7 +104,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
       popover.close();
       this.getAllFreightListInit();
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     });
   }

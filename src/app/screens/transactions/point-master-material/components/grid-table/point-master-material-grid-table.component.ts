@@ -44,7 +44,7 @@ export class PointMasterMaterialGridTableComponent {
         this.selectPoint(this.selectedPointId);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
         this.loadSpinner = false;
       })
     }
@@ -58,7 +58,7 @@ export class PointMasterMaterialGridTableComponent {
       this.pointChargesList = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     })
   }
@@ -103,7 +103,7 @@ export class PointMasterMaterialGridTableComponent {
       popover.close();
       this.getAllPointChargesList();
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
       this.loadSpinner = false;
     });
   }
