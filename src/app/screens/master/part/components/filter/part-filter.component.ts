@@ -37,7 +37,7 @@ export class PartFiltersComponent implements OnInit {
       this.allPartsNames = response.parts.map((part: any) => part.partName);
       this.allPartNumbers = response.parts.map((part: any) => part.partNumber);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
     })
   }
 

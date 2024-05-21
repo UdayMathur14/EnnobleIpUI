@@ -152,7 +152,7 @@ export class AddEditDispatchNoteComponent {
         this.partsList = response.parts;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -164,7 +164,7 @@ export class AddEditDispatchNoteComponent {
         this.vehicleList = response.vehicles;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -179,7 +179,7 @@ export class AddEditDispatchNoteComponent {
         this.supplierList = response.vendors;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -193,7 +193,7 @@ export class AddEditDispatchNoteComponent {
         this.lookupList = response.lookUps;
       },
       (error: any) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -337,7 +337,7 @@ export class AddEditDispatchNoteComponent {
             this.router.navigate(['transaction/dispatchNote'])
           },
           (error) => {
-            this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+            this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
           }
         );
     } else {
@@ -372,7 +372,7 @@ export class AddEditDispatchNoteComponent {
             this.router.navigate(['transaction/dispatchNote']);
           },
           (error) => {
-            this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
+            this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
           }
         );
     }
