@@ -134,7 +134,7 @@ export class AddEditAdviceComponent implements OnInit {
       adviceType: this.adviceForm.controls['adviceType'].value.name,
       transactionTypeId: this.adviceForm.controls['adviceType'].value.id,
       batchName: this.adviceForm.controls['batchName']?.value,
-      maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
+      maxBiltiNumber: Number(this.adviceForm.controls['maxBiltiLimit']?.value),
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       actionBy: 1
     };
@@ -187,7 +187,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.router.navigate(['/master/advice']);
       },
       error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join(', '));
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('\n'));
         this.loadSpinner = false;
       }
     );
