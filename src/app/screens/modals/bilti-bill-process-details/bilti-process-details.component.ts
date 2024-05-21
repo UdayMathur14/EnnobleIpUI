@@ -507,7 +507,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         return;
       }
     }
-    if(this.fullPath.includes('transaction/approvalAccounts') || this.fullPath.includes('transaction/approvalMaterialHead')){
+    if(this.fullPath.includes('transaction/approvalMaterialHead')){
       const data = {
         approvalLevel: 'Material',
         status: status,
@@ -516,14 +516,34 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         transactionCode: 203,
       };
    
-    this.commonTransaction.updateStatus(this.biltiProcess.id, data).subscribe((response: any) => {
+    this.commonTransaction.updateStatus(this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Status Updated Successfully');
+      this.activeModal.close('save');
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }
+
+  else if(this.fullPath.includes('transaction/approvalAccounts') ){
+    const data = {
+      approvalLevel: 'Account',
+      status: status,
+      remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
+      actionBy: 1,
+      transactionCode: 203,
+    };
+ 
+  this.commonTransaction.updateStatus(this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+    this.loadSpinner = false;
+    this.toastr.success('Status Updated Successfully');
+    this.activeModal.close('save');
+  }, error => {
+    this.toastr.error(error.statusText, error.status);
+    this.loadSpinner = false;
+  });
+}
   else {
     const data = {
       approvalLevel: 'MaterialChecked',
@@ -533,7 +553,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       transactionCode: 203,
     };
  
-  this.commonTransaction.updateStatus(this.biltiProcess.id, data).subscribe((response: any) => {
+  this.commonTransaction.updateStatus(this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
     this.loadSpinner = false;
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');
