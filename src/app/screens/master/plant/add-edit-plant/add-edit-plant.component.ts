@@ -21,7 +21,7 @@ export class AddEditPlantComponent implements OnInit {
   plantsList: any = [];
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
-  selectedTransactionCodes: Set<string> = new Set();
+  selectedTransactionCodes: string[] = [];
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -159,38 +159,35 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping.push(obj);
   }
 
-
   onTransactionSelect(e: any, index: any) {
-    const prevCode = this.plantData.transactionTypeMapping[index].code;
-    if (prevCode) {
-      this.selectedTransactionCodes.delete(prevCode);
-    }
-
     this.plantData.transactionTypeMapping[index].name = e.name;
     this.plantData.transactionTypeMapping[index].status = e.status;
     this.plantData.transactionTypeMapping[index].code = e.code;
     this.plantData.transactionTypeMapping[index].transactionTypeId = e.id
 
-    if (e.code) {
-      this.selectedTransactionCodes.add(e.code);
-    }
-  }
+    this.updateSelectedTransactionCodes();
+}
 
-  getFilteredTransactionTypes(index: number): any[] {
-    return this.transactionTypesList.filter((transaction: any) => 
-      !this.selectedTransactionCodes.has(transaction.code) || 
-      this.plantData.transactionTypeMapping[index].code === transaction.code
+getFilteredTransactionTypes(index: number): any[] {
+    return this.transactionTypesList.filter((transaction: any) =>
+        !this.selectedTransactionCodes.includes(transaction.code) ||
+        this.plantData.transactionTypeMapping[index].code === transaction.code
     );
-  }
+}
 
-  initializeSelectedTransactionCodes() {
-    this.plantData.transactionTypeMapping.forEach(transaction => {
-      if (transaction.code) {
-        this.selectedTransactionCodes.add(transaction.code);
-      }
-    });
-  }
-  
+initializeSelectedTransactionCodes() {
+    this.selectedTransactionCodes = this.plantData.transactionTypeMapping
+        .filter(transaction => transaction.code)
+        .map(transaction => transaction.code);
+}
+
+updateSelectedTransactionCodes() {
+    this.selectedTransactionCodes = this.plantData.transactionTypeMapping
+        .filter(transaction => transaction.code)
+        .map(transaction => transaction.code);
+}
+
+
 
   onDeleteTransaction(transaction:any, index:number){
     this.plantData.transactionTypeMapping.splice(index, 1);
