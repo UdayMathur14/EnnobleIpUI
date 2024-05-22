@@ -47,7 +47,8 @@ export class AddEditVendorComponent implements OnInit {
   pointChargeName: any = [];
   selectedPointName: undefined;
   taxationCode: any;
-  paidbyDetailsList:any = []
+  paidbyDetailsList:any = [];
+  disableSubmit : boolean = false;
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
@@ -159,13 +160,18 @@ export class AddEditVendorComponent implements OnInit {
 
   }
 
-  // Custom keypress event handler for phone input field
-  // Allow only numeric characters and limit to 10 characters
-  onPhoneKeyPress(event: KeyboardEvent) {
-    const allowedCharacters = /^[0-9]$/;
+  validateNo(e:any){
+    const charCode = e.which ? e.which : e.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false
+    }
+    return true;
+  }
+
+  phoneNumberLength(e:any){
     const phoneControl = this.vendorForm.get('phone');
-    if (phoneControl?.value && phoneControl?.value.length >= 10 || !allowedCharacters.test(event.key)) {
-      event.preventDefault();
+    if (phoneControl?.value) {
+    this.disableSubmit = phoneControl.value.length < 10 ? true : false;
     }
   }
 
