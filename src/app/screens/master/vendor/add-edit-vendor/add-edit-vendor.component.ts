@@ -25,7 +25,7 @@ export class AddEditVendorComponent implements OnInit {
     vendorName: new FormControl(''),
     vendorAddress: new FormControl(''),
     phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/)]),
     city: new FormControl(''),
     state: new FormControl(''),
     pan: new FormControl(''),

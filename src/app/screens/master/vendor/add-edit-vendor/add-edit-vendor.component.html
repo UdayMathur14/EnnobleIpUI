@@ -36,6 +36,10 @@
       <div class="custom-form-input">
         <label for="">Email <span class="text-danger">*</span></label>
         <input type="text" class="input-field" formControlName="email" />
+        <div *ngIf="vendorForm.get('email')?.invalid && (vendorForm.get('email')?.dirty || 
+        vendorForm.get('email')?.touched)">
+          <div class="text-danger" *ngIf="vendorForm.get('email')?.errors?.['pattern']">Invalid email format</div>
+      </div>
       </div>
     </div>
   </div>
