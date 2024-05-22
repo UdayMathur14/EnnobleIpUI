@@ -21,6 +21,7 @@ export class AddEditPlantComponent implements OnInit {
   plantsList: any = [];
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
+  selectedTransactionCodes: Set<string> = new Set();
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -89,6 +90,7 @@ export class AddEditPlantComponent implements OnInit {
         status: response.status,
       });
       this.plantData = response;
+      this.initializeSelectedTransactionCodes();
       this.baseService.plantSpinner.next(false);
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -157,12 +159,38 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping.push(obj);
   }
 
+
   onTransactionSelect(e: any, index: any) {
+    const prevCode = this.plantData.transactionTypeMapping[index].code;
+    if (prevCode) {
+      this.selectedTransactionCodes.delete(prevCode);
+    }
+
     this.plantData.transactionTypeMapping[index].name = e.name;
     this.plantData.transactionTypeMapping[index].status = e.status;
     this.plantData.transactionTypeMapping[index].code = e.code;
     this.plantData.transactionTypeMapping[index].transactionTypeId = e.id
+
+    if (e.code) {
+      this.selectedTransactionCodes.add(e.code);
+    }
   }
+
+  getFilteredTransactionTypes(index: number): any[] {
+    return this.transactionTypesList.filter((transaction: any) => 
+      !this.selectedTransactionCodes.has(transaction.code) || 
+      this.plantData.transactionTypeMapping[index].code === transaction.code
+    );
+  }
+
+  initializeSelectedTransactionCodes() {
+    this.plantData.transactionTypeMapping.forEach(transaction => {
+      if (transaction.code) {
+        this.selectedTransactionCodes.add(transaction.code);
+      }
+    });
+  }
+  
 
   onDeleteTransaction(transaction:any, index:number){
     this.plantData.transactionTypeMapping.splice(index, 1);

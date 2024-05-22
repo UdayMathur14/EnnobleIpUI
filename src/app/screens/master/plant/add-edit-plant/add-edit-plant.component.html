@@ -167,8 +167,10 @@
                   />
                 </div> -->
                 <ng-select class="input-field" [(ngModel)]="transaction.code" (change)="onTransactionSelect($event, ind)">
-                  <ng-option *ngFor="let transaction of transactionTypesList" [value]="transaction">{{transaction.code}}</ng-option>
-              </ng-select>
+                  <ng-option *ngFor="let transaction of getFilteredTransactionTypes(ind)" [value]="transaction">
+                    {{transaction.code}}
+                  </ng-option>
+                </ng-select>
               </div>
             </div>
           </td>
