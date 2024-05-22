@@ -94,6 +94,7 @@ export class AddEditVendorComponent implements OnInit {
       "attribute6": this.vendorForm.get('sgst')?.value,
       "attribute7": this.vendorForm.get('igst')?.value,
       "attribute8": rcmNonRcmValue,
+      "paidByDetailId": this.vendorForm.get('paidByDetail')?.value
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
