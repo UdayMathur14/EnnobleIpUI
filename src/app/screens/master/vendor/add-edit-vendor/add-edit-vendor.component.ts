@@ -25,7 +25,7 @@ export class AddEditVendorComponent implements OnInit {
     vendorName: new FormControl(''),
     vendorAddress: new FormControl(''),
     phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/)]),
     city: new FormControl(''),
     state: new FormControl(''),
     pan: new FormControl(''),
@@ -47,7 +47,8 @@ export class AddEditVendorComponent implements OnInit {
   pointChargeName: any = [];
   selectedPointName: undefined;
   taxationCode: any;
-  paidbyDetailsList:any = []
+  paidbyDetailsList:any = [];
+  disableSubmit : boolean = false;
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
@@ -94,6 +95,7 @@ export class AddEditVendorComponent implements OnInit {
       "attribute6": this.vendorForm.get('sgst')?.value,
       "attribute7": this.vendorForm.get('igst')?.value,
       "attribute8": rcmNonRcmValue,
+      "paidByDetailId": this.vendorForm.get('paidByDetail')?.value
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
@@ -158,13 +160,18 @@ export class AddEditVendorComponent implements OnInit {
 
   }
 
-  // Custom keypress event handler for phone input field
-  // Allow only numeric characters and limit to 10 characters
-  onPhoneKeyPress(event: KeyboardEvent) {
-    const allowedCharacters = /^[0-9]$/;
+  validateNo(e:any){
+    const charCode = e.which ? e.which : e.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false
+    }
+    return true;
+  }
+
+  phoneNumberLength(e:any){
     const phoneControl = this.vendorForm.get('phone');
-    if (phoneControl?.value && phoneControl?.value.length >= 10 || !allowedCharacters.test(event.key)) {
-      event.preventDefault();
+    if (phoneControl?.value) {
+    this.disableSubmit = phoneControl.value.length < 10 ? true : false;
     }
   }
 

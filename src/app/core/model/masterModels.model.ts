@@ -309,6 +309,12 @@ export interface TransactionTypeListModel {
   lastUpdatedBy: string;
   lastUpdateOn: string;
   messageStatus: null;
+  transactionTypeInterface:{
+    id: number,
+    transactionTypeName: string,
+    transactionTypeCode: string,
+    status: string;
+}
 }
 
 export interface VehicleDataModel {

@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>Edit Vendor</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="vendorForm.get('email')?.hasError('pattern') || disableSubmit">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
   </div>
 </div>
@@ -29,7 +29,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Phone <span class="text-danger">*</span></label>
-        <input type="text" class="input-field" formControlName="phone" (keypress)="onPhoneKeyPress($event)"/>
+        <input type="text" class="input-field" formControlName="phone" minlength="10" maxlength="12" (keypress)="validateNo($event)" (input)="phoneNumberLength($event)"/>
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
