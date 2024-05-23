@@ -169,25 +169,24 @@ export class AddEditPlantComponent implements OnInit {
 }
 
 getFilteredTransactionTypes(index: number): any[] {
-    return this.transactionTypesList.filter((transaction: any) =>
-        !this.selectedTransactionCodes.includes(transaction.code) ||
-        this.plantData.transactionTypeMapping[index].code === transaction.code
-    );
+  return this.transactionTypesList.filter(
+    (transaction: any) =>
+      !this.selectedTransactionCodes.includes(transaction.code) ||
+      this.plantData.transactionTypeMapping[index].code === transaction.code
+  );
 }
 
 initializeSelectedTransactionCodes() {
-    this.selectedTransactionCodes = this.plantData.transactionTypeMapping
-        .filter(transaction => transaction.code)
-        .map(transaction => transaction.code);
+  this.selectedTransactionCodes = this.plantData.transactionTypeMapping
+    .filter((transaction) => transaction.code)
+    .map((transaction) => transaction.code);
 }
 
 updateSelectedTransactionCodes() {
-    this.selectedTransactionCodes = this.plantData.transactionTypeMapping
-        .filter(transaction => transaction.code)
-        .map(transaction => transaction.code);
+  this.selectedTransactionCodes = this.plantData.transactionTypeMapping
+    .filter((transaction) => transaction.code)
+    .map((transaction) => transaction.code);
 }
-
-
 
   onDeleteTransaction(transaction:any, index:number){
     this.plantData.transactionTypeMapping.splice(index, 1);
