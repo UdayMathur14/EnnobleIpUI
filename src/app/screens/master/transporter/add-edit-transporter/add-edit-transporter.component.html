@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>Edit Transporter</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onSavePress()" [disabled]="transporterForm.invalid">Save</button>
+    <button class="custom-button-regulr" (click)="onSavePress()" [disabled]="transporterForm.invalid || transporterForm.get('transporterMailId')?.hasError('pattern') || disableSubmit">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -45,17 +45,13 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Contact Number <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="contactNumber" />
+          <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12" (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Email</label>
           <input type="text" class="input-field" formControlName="transporterMailId" />
-          <div *ngIf="transporterForm.get('transporterMailId')?.invalid && (transporterForm.get('transporterMailId')?.dirty || 
-          transporterForm.get('transporterMailId')?.touched)">
-            <div class="text-danger" *ngIf="transporterForm.get('transporterMailId')?.errors?.['pattern']">Invalid email format</div>
-        </div>
         </div>
       </div>
       <div class="col-lg-4 col-md-4">

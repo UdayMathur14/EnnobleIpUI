@@ -15,6 +15,7 @@ export class AddEditTransporterComponent implements OnInit {
   loadSpinner: boolean = true;
   transportMode: any = [];
   taxationCode:any;
+  disableSubmit : boolean = false;
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -42,7 +43,8 @@ export class AddEditTransporterComponent implements OnInit {
       biltiHeaderComment: ['', [Validators.required]],
       note: ['', [Validators.required]],
       footer: ['', [Validators.required]],
-      transporterMailId: ['', Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
+      transporterMailId: ['', Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/
+    )],
       postalCode: [''],
       taxationCode: [],
       rcmNonRcm: [''],
@@ -193,5 +195,17 @@ export class AddEditTransporterComponent implements OnInit {
       rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
     });
 
+  }
+
+  validateNo(e:any){
+    const charCode = e.which ? e.which : e.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false
+    }
+    return true;
+  }
+
+  phoneNumberLength(e:any){
+    this.disableSubmit = this.transporterForm.get('contactNumber')?.value.length < 10 ? true : false;
   }
 }

@@ -21,6 +21,7 @@ export class AddEditFreightComponent implements OnInit {
   locationCode: string = '';
   vehcileSizes: any = [];
   destinations: any = [];
+  getData: any = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -61,6 +62,13 @@ export class AddEditFreightComponent implements OnInit {
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: number) {
     this.freightService.getFreightData(freightId).subscribe((response: any) => {
+      if (response.approvedByAccounts == null || response.approvedByMaterial == null ||  
+        response.approvedByMaterial.includes('Rejected By') || 
+      response.approvedByAccounts.includes('Rejected By')) {
+        this.freightForm.get('status')?.disable();
+      } else {
+        this.freightForm.get('status')?.enable();
+      }
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
