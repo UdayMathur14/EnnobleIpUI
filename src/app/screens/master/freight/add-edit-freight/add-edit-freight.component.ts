@@ -35,7 +35,7 @@ export class AddEditFreightComponent implements OnInit {
       destination: ['', [Validators.required]],
       vehicleSize: ['', [Validators.required]],
       freightAmount: ['', [Validators.required]],
-      status: ['Active', [Validators.required]],
+      status: [{ value: 'Inactive', disabled: true }, [Validators.required]],
       matApproval: [''],
       matApprovalOn: [''],
       accApproval: [''],
@@ -84,11 +84,22 @@ export class AddEditFreightComponent implements OnInit {
         accApprovalOn: response.approvedByAccountsOn,
         remarks: response.remarks,
       });
+      this.checkApprovalStatus(response.approvedByMaterial, response.approvedByAccounts);
+
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  //FUNCTION TO HANDLE STATUS FIELD ON UPDATE
+  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
+    if (approvedByMaterial === 'Approved By 1' && approvedByAccounts === 'Approved By 1') {
+      this.freightForm.controls['status'].enable();
+    } else {
+      this.freightForm.controls['status'].disable();
+    }
   }
 
   //FUNCTION EXECUTED ON SAVE BUTTON CLICK
@@ -103,11 +114,11 @@ export class AddEditFreightComponent implements OnInit {
       vehicleSizeId: parseInt(this.freightForm.controls['vehicleSize'].value),
       freightAmount: this.freightForm.controls['freightAmount'].value,
       status: this.freightForm.controls['status'].value,
-      matApproval: this.freightForm.controls['matApproval'].value,
-      matApprovalOn: this.freightForm.controls['matApprovalOn'].value,
-      accApproval: this.freightForm.controls['accApproval'].value,
-      accApprovalOn: this.freightForm.controls['accApprovalOn'].value,
-      remarks: this.freightForm.controls['remarks'].value,
+      matApproval: null,
+      matApprovalOn: null,
+      accApproval: null,
+      accApprovalOn: null,
+      remarks: null,
     }
     if (this.freightId>0) {
       this.updateFreight(data);
