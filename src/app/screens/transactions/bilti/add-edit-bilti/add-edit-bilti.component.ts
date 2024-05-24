@@ -302,8 +302,7 @@ export class AddEditBiltiComponent implements OnInit {
           vendorCode: vendorCode[index]?.suppliers?.vendorCode,
           vendorName: vendorCode[index]?.suppliers?.vendorName,
           pointName: vendorCode[index]?.suppliers?.city?.pointChargeDetails?.pointName,
-
-          paidByDetails: vendorCode[index]?.suppliers?.vendorName,
+          paidByDetails: vendorCode[index]?.suppliers?.paidByDetail,
         });
         if (index > 0) {
           vendorGroup.patchValue({
