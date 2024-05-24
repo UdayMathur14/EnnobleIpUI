@@ -49,6 +49,7 @@ export class AddEditVendorComponent implements OnInit {
   taxationCode: any;
   paidbyDetailsList:any = [];
   disableSubmit : boolean = false;
+  paidByDetailId: number | null = null;
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
@@ -56,11 +57,18 @@ export class AddEditVendorComponent implements OnInit {
     this.getAllPointChargesList();
     this.getTaxationCodeDropdownData();
     this.getAllPaidByDetails();
+    this.vendorForm.get('paidByDetail')?.valueChanges.subscribe(value => {
+      const selectedDetail = this.paidbyDetailsList.find((detail: any) => detail.value === value);
+      if (selectedDetail) {
+        this.paidByDetailId = selectedDetail.id;
+      }
+    });
   }
 
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
+      this.paidByDetailId = response.paidByDetail.id;
       this.patchVendorData(response)
       this.loadSpinner = false;
     }, error => {
@@ -95,7 +103,7 @@ export class AddEditVendorComponent implements OnInit {
       "attribute6": this.vendorForm.get('sgst')?.value,
       "attribute7": this.vendorForm.get('igst')?.value,
       "attribute8": rcmNonRcmValue,
-      "paidByDetailId": this.vendorForm.get('paidByDetail')?.value
+      "paidByDetailId": Number(this.paidByDetailId)
     }
     this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
       this.vendorData = response;
@@ -184,6 +192,7 @@ export class AddEditVendorComponent implements OnInit {
     const type = 'PaidByDetails'
     this.vendorService.getDropdownData(data,type).subscribe((response:any) => {
       this.paidbyDetailsList = response.lookUps;
+      
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
     })
