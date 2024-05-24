@@ -108,8 +108,9 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   createLineItem(item: any): FormGroup {
+    console.log(item)
     return this.formBuilder.group({
-      documentNumber: [item?.fRMTransactionDetails?.documentNumber || ''],
+      documentNumber: [item?.documentReferenceNo],
       vendorName: [item?.supplierDetail?.vendorName || ''],
       freightCharge: [item?.biltiBillProcessChargesByVendor?.freightCharge],
       pointCharge: [item?.biltiBillProcessChargesByVendor?.pointCharge],
