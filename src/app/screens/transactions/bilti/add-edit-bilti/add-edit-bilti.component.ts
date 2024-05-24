@@ -204,16 +204,6 @@ export class AddEditBiltiComponent implements OnInit {
           item.frlrNumber))].map(frlrNumber => response.frmTransactions.find((t: any) => 
             t.frlrNumber === frlrNumber));
         this.frlrList = response.transactionTypes;
-        if (this.biltiId > 0 && selectedTransactionType != 'RB') {
-          const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-          vendorsArray.controls.forEach((vendorGroup, index) => {
-            const frmId = this.biltiCreationLineItemsData[index]?.frmId;
-            const frmDocument = this.allFrmTransactionData.find((frmDoc: any) => frmDoc.id === frmId);
-            vendorGroup.patchValue({
-              documentrefNo: frmDocument?.documentNumber
-            });
-          });
-        }
         this.loadSpinner = false;
       },
       (error) => {
