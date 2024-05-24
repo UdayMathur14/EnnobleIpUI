@@ -492,9 +492,6 @@ onFrlrNoClear() {
     const dispatchNotes = this.dispatchNotes.filter(
       (item: any) => item?.frlrNumber === frlrNumber
     );
-    console.log(formData)
-    const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
-    this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
     if (this.biltiId == 0) {
       const data = {
         actionBy: 1,
