@@ -17,11 +17,12 @@ export class CheckedMaterialsTeamGridTableComponent implements OnInit{
   loadSpinner: boolean = true;
   @Input() biltiBillProcess: any = [];
   @Output() refreshList = new EventEmitter<void>();
+  isFilters: boolean = true;
   constructor(private router: Router,
     private modalService: NgbModal) {}
 
     ngOnInit(): void {
-      
+     
     }
 
     onPreviewBiltiDetails(biltiProcess:any) {

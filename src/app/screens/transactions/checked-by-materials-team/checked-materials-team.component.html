@@ -2,9 +2,19 @@
     <h1>Checked by Material's Team</h1>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-checked-materials-team-filter (filterSearchObj)="filteredData($event)"></app-checked-materials-team-filter>
+    <app-checked-materials-team-filter [filteredBiltibillList]="filteredBiltibillList" (filterSearchObj)="filteredData($event)"></app-checked-materials-team-filter>
   </div>
-  
-  <div class="content-section" [ngClass]="{'isFilters': isFilters}">
+
+  <div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}" *ngIf="searchedData?.batchNumber">
+    <button type="button" class="custom-button-secondary-small me-2">
+    Approve
+  </button>
+
+  <button type="button" class="custom-button-regulr-small">
+    Reject
+  </button>
+  </div>
+   
+  <div class="content-section" [ngClass]="{'isFilters': isFilters}"  *ngIf="searchedData?.batchNumber">
     <app-checked-materials-team-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-checked-materials-team-grid-table>
   </div>
