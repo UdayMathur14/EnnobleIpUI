@@ -42,6 +42,7 @@ export class AddEditBiltiComponent implements OnInit {
   biltiCreationLineItemsData: any = [];
   vehicleNumber: any;
   selectedTransactionTypeCode: string = '';
+  selectedTransactionTypePatchCode: string = ''
   loadingLocation: any = [];
   filteredTransactionTypesLists: any = [];
   filteredVehiclesLists: any = [];
@@ -295,27 +296,6 @@ export class AddEditBiltiComponent implements OnInit {
         });
     });
 
-      const vendorCode = this.dispatchNotes.filter((element: any) => element?.frlrNumber === selectedFrlr?.frlrNumber);
-      console.log(vendorCode)
-      vendorsArray.controls.forEach((vendorGroup, index) => {
-        vendorGroup.patchValue({
-          vendorCode: vendorCode[index]?.suppliers?.vendorCode,
-          vendorName: vendorCode[index]?.suppliers?.vendorName,
-          pointName: vendorCode[index]?.suppliers?.city?.pointChargeDetails?.pointName,
-          paidByDetails: vendorCode[index]?.suppliers?.paidByDetail,
-        });
-        if (index > 0) {
-          vendorGroup.patchValue({
-            pointCharge: vendorCode[index]?.suppliers?.city?.pointChargeDetails?.sameLocationCharge,
-          });
-      } else {
-          vendorGroup.patchValue({
-              pointCharge: vendorCode[index]?.suppliers?.city?.pointChargeDetails?.pointCharge,
-          });
-      }
-      })
-    
-
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
         (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
@@ -522,6 +502,7 @@ onFrlrNoClear() {
     const dispatchNotes = this.dispatchNotes.filter(
       (item: any) => item?.frlrNumber === frlrNumber
     );
+    console.log(formData)
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
     this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
     if (this.biltiId == 0) {
@@ -618,8 +599,8 @@ onFrlrNoClear() {
           attribute10: "2024-05-04T13:03:47.509Z",
           status: vendorControl?.biltiStatus,
           id: 0,
-          frmId: formData.transactionType.code === 'RB' ? 0 : this.frmId,
-          dispatchNoteId: formData.transactionType.code === 'RB' ? dispatchNotes[index].id : 0,
+          frmId: this.selectedTransactionTypePatchCode === 'RB' ? 0 : this.frmId,
+          dispatchNoteId: this.selectedTransactionTypePatchCode === 'RB' ? dispatchNotes[index].id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
         };
         if(data.lineItemsEntity[0].actionBy == 0){
@@ -679,6 +660,8 @@ onFrlrNoClear() {
         const transactionType = this.transactionTypesLists.find(
           (type: any) => type.id === transactionTypeId
         );
+        console.log(transactionType)
+        this.selectedTransactionTypeCode = transactionType.code
         const vehicleId = response.vehicleId;
         const vehicleNumber = this.vehiclesList.find(
           (vehicle: any) => vehicle.id === vehicleId
@@ -705,7 +688,7 @@ onFrlrNoClear() {
         this.pointChargeId = pointCharge?.id;
         this.frlrNumber = response?.frlrNumber;
         this.frmId = response?.biltiCreationLineItems[0]?.frmId
-        this.selectedTransactionTypeCode = transactionType?.code;
+        this.selectedTransactionTypePatchCode = transactionType?.code;
         this.displayRows = response.biltiCreationLineItems;
         const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
         this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
