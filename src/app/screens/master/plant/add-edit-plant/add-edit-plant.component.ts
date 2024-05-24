@@ -22,6 +22,7 @@ export class AddEditPlantComponent implements OnInit {
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
   selectedTransactionCodes: string[] = [];
+  deletedTransactions: any[] = [];
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -124,6 +125,12 @@ export class AddEditPlantComponent implements OnInit {
       }
       transactionData.push(transactionObj);
     })
+
+    this.deletedTransactions.forEach(transaction => {
+      transaction.status = 'Inactive';
+    });
+
+      transactionData = [...transactionData, ...this.deletedTransactions];
     let data = {
       status: this.plantForm.controls['status'].value,
       actionBy: 1,
@@ -189,6 +196,14 @@ updateSelectedTransactionCodes() {
 }
 
   onDeleteTransaction(transaction:any, index:number){
+    let deletedTransaction = {
+      id: transaction.id,
+      transactionTypeId: transaction.transactionTypeId,
+      status: 'Inactive' 
+    };
+    if(deletedTransaction.id !=0){
+      this.deletedTransactions.push(deletedTransaction);
+    }
     this.plantData.transactionTypeMapping.splice(index, 1);
   }
 }
