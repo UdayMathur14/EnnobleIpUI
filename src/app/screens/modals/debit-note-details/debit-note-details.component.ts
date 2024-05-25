@@ -164,6 +164,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       excessReason: this.biltiBillDetailsData?.biltiBillProcessModel?.excessReason,
       grandTotal: this.biltiBillDetailsData?.biltiBillProcessModel?.grandTotal,
       paidByAmount: this.biltiBillDetailsData?.biltiBillProcessModel?.grandTotal,
+      batchName: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.batchName 
     };
 
     this.loadSpinner = true;

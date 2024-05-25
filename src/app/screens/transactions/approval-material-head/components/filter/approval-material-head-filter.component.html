@@ -53,45 +53,25 @@
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Batch Number</label>
-        <div class="input-with-icon">
-          <input
-            #batchNameInput
-            type="text"
-            class="input-field"/>
-          <img
-            src="assets/images/icons/search.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
-          />
-        </div>
+         <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
+          <ng-option *ngFor="let source of filteredBiltibillList" [value]="source?.biltiBillProcessModel?.batchNumber">{{source?.biltiBillProcessModel?.batchNumber}}</ng-option>
+        </ng-select>
       </div>
     </div>
 
-    <div class="col-lg-2">
-      <div class="custom-form-input">
-        <label for="">Bilti Number</label>
-        <div class="input-with-icon">
-          <input
-            type="text"
-            class="input-field"
-            [(ngModel)]="biltiNumber"
-            [disabled]="batchName"
-          />
-          <img
-            src="assets/images/icons/search.svg"
-            width="12px"
-            class="search-icon"
-            alt="Search"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-2">
+    <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="handleSearch()">
+        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!batchNumber && !fromDate && !toDate">
           Search
+        </button>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="custom-form-input">
+        <label for="" class="d-block">&nbsp;</label>
+        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!batchNumber && !fromDate && !toDate">
+          Clear
         </button>
       </div>
     </div>

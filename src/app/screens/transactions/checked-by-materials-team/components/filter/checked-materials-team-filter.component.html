@@ -1,5 +1,55 @@
 <div class="filters-box">
   <div class="row">
+    <div class="col">
+      <div class="custom-form-input">
+        <label for="">From Date</label>
+        <div class="input-group datepicker">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="fromDt"
+            [autoClose]="true"
+            [(ngModel)]="fromDate"
+            [maxDate]="today"
+            (dateSelect)="onDateSelect('fromDate', $event)"
+            ngbDatepicker
+            #fromDt="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary bi bi-calendar3"
+            (click)="fromDt.toggle()"
+            type="button"
+          >
+            <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="custom-form-input">
+        <label for="">To Date</label>
+        <div class="input-group datepicker">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="toDt"
+            [autoClose]="true"
+            [(ngModel)]="toDate"
+            [maxDate]="today"
+            (dateSelect)="onDateSelect('toDate', $event)"
+            ngbDatepicker
+            #toDt="ngbDatepicker"
+          />
+          <button
+            class="btn btn-outline-secondary bi bi-calendar3"
+            (click)="toDt.toggle()"
+            type="button"
+          >
+            <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Batch Number</label>
@@ -12,7 +62,7 @@
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="handleSearch()">
+        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!batchNumber && !fromDate && !toDate">
           Search
         </button>
       </div>
@@ -20,7 +70,7 @@
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!batchNumber">
+        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!batchNumber && !fromDate && !toDate">
           Clear
         </button>
       </div>

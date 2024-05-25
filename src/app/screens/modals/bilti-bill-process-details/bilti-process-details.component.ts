@@ -402,6 +402,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       grandTotal: this.grandTotal,
       chargesByLGDetails: chargesByLGDetails,
       chargesByVendorDetails: chargesByVendorDetails,
+      batchName: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.batchName 
     };
   }
 

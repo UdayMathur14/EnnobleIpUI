@@ -2,6 +2,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import moment from 'moment';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
 
 @Component({
   selector: 'app-checked-by-materials-team',
@@ -14,13 +17,15 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   fromDate: any = '2000-01-01'; 
   batchNumber: any;
   biltiNumber: any;
-  biltiBillProcess = [];
+  biltiBillProcess:any = [];
   filteredBiltibillList: any = [];
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
 
 
   constructor(private router : Router,
     private biltiProcessService: BiltiBillProcessService,
+    private toastr: ToastrService,
+    private commonTransaction: CommonTransactionService
 ){}
 
   ngOnInit(): void {
@@ -58,4 +63,37 @@ export class CheckedMaterialsTeamComponent implements OnInit {
     this.biltiNumber = data.biltiNumber;
     this.getAllBiltiProcess();
   }
+
+  openPopover(popover: NgbPopover) {
+    popover.open();
+  }
+
+  closePopover(popover: NgbPopover) {
+    popover.close();
+  }
+
+  updateStatus(status: string, remarks: string, popover: any) {
+    if (status === 'Rejected' && !remarks.trim()) {
+      this.toastr.error('Remarks are required for rejection');
+      return;
+    }
+      const data = {
+        approvalLevel: 'MaterialChecked',
+        status: status,
+        remarks:  remarks,
+        actionBy: 1,
+        transactionCode: 203,
+      };
+   
+    this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
+      this.toastr.success('Status Updated Successfully');
+      if (popover) {
+        popover.close();
+      }
+      this.getAllBiltiProcess();
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+
 }

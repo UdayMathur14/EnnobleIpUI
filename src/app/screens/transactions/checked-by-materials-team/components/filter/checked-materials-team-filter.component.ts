@@ -8,8 +8,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './checked-materials-team-filter.component.scss'
 })
 export class CheckedMaterialsTeamFilterComponent {
-  fromDate!: NgbDateStruct;
-  toDate!: NgbDateStruct;
+  fromDate!: NgbDateStruct | null;
+  toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
   selectedFromDate: string = '';
   selectedToDate: string = '';
@@ -29,6 +29,15 @@ export class CheckedMaterialsTeamFilterComponent {
 
   }
 
+  onDateSelect(type: string, e: any) {
+    const month = Number(e.month) < 10 ? '0' + e.month : e.month;
+    const day = Number(e.day) < 10 ? '0' + e.day : e.day;
+    if (type === 'fromDate') {
+      this.selectedFromDate = e.year + '-' + month.toString() + '-' + day.toString();
+    } else {
+      this.selectedToDate = e.year + '-' + month.toString() + '-' + day.toString();
+    }
+  }
 
   handleSearch() {
     console.log(this.batchNumber)
@@ -43,6 +52,8 @@ export class CheckedMaterialsTeamFilterComponent {
 
   onClearFilter(){
     this.batchNumber = '';
+    this.fromDate = null,
+    this.toDate = null
     const filterObj = {
       batchNumber : '',
     }
