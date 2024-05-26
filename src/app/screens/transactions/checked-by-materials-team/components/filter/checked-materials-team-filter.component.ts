@@ -40,7 +40,6 @@ export class CheckedMaterialsTeamFilterComponent {
   }
 
   handleSearch() {
-    console.log(this.batchNumber)
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
       "batchNumber": this.batchNumber || "",

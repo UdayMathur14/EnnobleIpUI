@@ -20,7 +20,7 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    console.log(this.biltiData)
+
   }
 
   onUploadNoc(evt: any) {

@@ -13,6 +13,6 @@ export class DispatchNoteModelComponent {
   constructor(public activeModal: NgbActiveModal){}
 
   ngOnInit(){
-    console.log(this.dispatch);
+
   }
 }

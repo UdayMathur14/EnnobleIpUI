@@ -111,7 +111,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   createLineItem(item: any): FormGroup {
-    console.log(item)
     return this.formBuilder.group({
       documentNumber: [item?.documentReferenceNo],
       vendorName: [item?.supplierDetail?.vendorName || ''],
@@ -132,7 +131,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       .getBiltiBillProcessbyId(this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillProcessData = response;
-        console.log(response)
         this.transactionTypeId = this.biltiBillProcessData?.transactionTypeId;
         this.maxBiltiNumber =
           this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber;

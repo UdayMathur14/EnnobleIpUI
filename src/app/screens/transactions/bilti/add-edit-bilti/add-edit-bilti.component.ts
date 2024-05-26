@@ -265,7 +265,7 @@ export class AddEditBiltiComponent implements OnInit {
     });
     
     }
-    console.log(this.displayRows)
+
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
     this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
 
@@ -640,14 +640,12 @@ onFrlrNoClear() {
     this.loadSpinner = true;
     this.biltiService.getBiltiData(biltiId).subscribe(
       (response: any) => {
-        console.log(response)
         this.lineItem = response.biltiCreationLineItems
         this.loadSpinner=false
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
           (type: any) => type.id === transactionTypeId
         );
-        console.log(transactionType)
         this.selectedTransactionTypeCode = transactionType.code
         const vehicleId = response.vehicleId;
         const vehicleNumber = this.vehiclesList.find(
