@@ -12,6 +12,7 @@ export class ChangeBiltiStatusGridTableComponent implements OnInit {
   biltiBillProcessList: any = [];
   loadSpinner: boolean = true;
   @Input() biltiBillProcess: any = [];
+  @Output() refreshList = new EventEmitter<void>();
 
   constructor(private modalService: NgbModal,
     private changeBiltiStatusService: ChangeBiltiStatusService
@@ -31,7 +32,9 @@ export class ChangeBiltiStatusGridTableComponent implements OnInit {
     biltiModal.componentInstance.biltiData = bilti;
     biltiModal.result.then(
       (result) => {
-       
+       if(result=='save'){
+        this.refreshList.emit();
+       }
       },
       (reason) => {
       }

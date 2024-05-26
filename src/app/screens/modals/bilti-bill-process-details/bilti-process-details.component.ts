@@ -132,9 +132,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       .getBiltiBillProcessbyId(this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillProcessData = response;
-        this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
+        console.log(response)
+        this.transactionTypeId = this.biltiBillProcessData?.transactionTypeId;
         this.maxBiltiNumber =
-          this.biltiBillProcessData.transactionTypeDetails.adviceTypeDetails.maxBiltiNumber;
+          this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber;
         this.transacttionTypeCode =
           this.biltiBillProcessData.transactionTypeDetails.code;
         this.populateForm();
@@ -473,6 +474,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       grandTotal: this.grandTotal,
       chargesByLGDetails: chargesByLGDetails,
       chargesByVendorDetails: chargesByVendorDetails,
+      maxBiltiNumber: this?.maxBiltiNumber,
+      batchName: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.batchName 
     };
   }
 

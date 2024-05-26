@@ -46,9 +46,8 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
       "remarks": this.remarks
      }
      this.changeBiltiStatusService.changeBitltiStatus(obj).subscribe((response: any) => {
-      //  this.bilValidationTxns = response.billValidationUploadTxns;
-      this.activeModal.close('Save click');
-       this.toastr.success('Change Bilti Status Completed', 'Success');
+      this.activeModal.close('save');
+       this.toastr.success('Bilti Status Updated Succesfully', 'Success');
      }, error => {
  
      })
