@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -9,8 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ApprovalAccountsFiltersComponent {
   
-  fromDate!: NgbDateStruct;
-  toDate!: NgbDateStruct;
+  fromDate!: NgbDateStruct | null;
+  toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
   selectedFromDate: string = '';
   selectedToDate: string = '';
@@ -19,6 +19,8 @@ export class ApprovalAccountsFiltersComponent {
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
+  batchNumber: string = '';
+  @Input() filteredBiltibillList: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -42,12 +44,21 @@ export class ApprovalAccountsFiltersComponent {
 
 
   handleSearch() {
-    const batchNameValue = this.batchNameInput ? this.batchNameInput.nativeElement.value : '';
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
-      "batchNumber": batchNameValue || "",
+      "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
+    }
+    this.filterSearchObj.emit(filterObj)
+  }
+
+  onClearFilter(){
+    this.batchNumber = '';
+    this.fromDate = null,
+    this.toDate = null
+    const filterObj = {
+      batchNumber : '',
     }
     this.filterSearchObj.emit(filterObj)
   }
