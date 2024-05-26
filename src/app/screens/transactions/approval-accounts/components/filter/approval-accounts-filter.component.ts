@@ -56,9 +56,11 @@ export class ApprovalAccountsFiltersComponent {
   onClearFilter(){
     this.batchNumber = '';
     this.fromDate = null,
+    this.biltiNumber = ''
     this.toDate = null
     const filterObj = {
       batchNumber : '',
+      biltiNumber: ''
     }
     this.filterSearchObj.emit(filterObj)
   }
