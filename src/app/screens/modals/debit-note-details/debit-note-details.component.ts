@@ -23,6 +23,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
+
     this.initForm();
     this.getBiltiBillProcessbyId();
   }
@@ -64,7 +65,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       .getBiltiBillProcessbyId(this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillDetailsData = response;
-
         // this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
         // this.maxBiltiNumber = this.biltiBillProcessData.transactionTypeDetails.adviceTypeDetails.maxBiltiNumber;
         // this.transacttionTypeCode = this.biltiBillProcessData.transactionTypeDetails.code;
@@ -164,7 +164,8 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       excessReason: this.biltiBillDetailsData?.biltiBillProcessModel?.excessReason,
       grandTotal: this.biltiBillDetailsData?.biltiBillProcessModel?.grandTotal,
       paidByAmount: this.biltiBillDetailsData?.biltiBillProcessModel?.grandTotal,
-      batchName: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.batchName 
+      batchName: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.batchName,
+      maxBiltiNumber: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber 
     };
 
     this.loadSpinner = true;

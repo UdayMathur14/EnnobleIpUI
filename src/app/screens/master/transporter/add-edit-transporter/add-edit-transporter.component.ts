@@ -181,7 +181,6 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'taxationCode'
     this.transporterService.getDropdownData(data, type).subscribe((res:any)=>{
-      console.log(res)
       this.taxationCode = res.lookUps
     })
   }
