@@ -60,7 +60,7 @@
           <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails(biltiList)" class="pointer">
         </td>
         <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
-        <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
+        <td>{{biltiList?.biltiBillChangeStatusDetails?.remarks || "-"}}</td>
       </tr>
     </tbody>
   </table>

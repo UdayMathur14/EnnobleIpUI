@@ -3,9 +3,9 @@
   <table>
     <thead>
       <tr>
+        <th>Bilti No.</th>
         <th>Bilti Date</th>
         <th>Bill Bill Process Date</th>
-        <th>Bilti No.</th>
         <th>FRLR Number</th>
         <th>Transporter Name</th>
         <th>Vehicle No.</th>
@@ -23,7 +23,7 @@
               tooltipClass="table-datetime-popover"
               [ngbTooltip]="tipContent"
             >
-              <u>{{biltiProcess.creationDate}}</u>
+            <u>{{biltiProcess.biltiNumber}}</u>
             </span>
             <ng-template #tipContent>
               <div class="">
@@ -38,8 +38,8 @@
               </div>
             </ng-template>
           </td>
+          <td>{{biltiProcess.creationDate}}</td>
           <td>{{biltiProcess.biltiBillProcessModel?.biltiBillProcessDate}}</td>
-          <td>{{biltiProcess.biltiNumber}}</td>
           <td>{{biltiProcess.frlrNumber}}</td>
           <td>{{biltiProcess.transporterModel?.transporterName}}</td>
           <td>{{biltiProcess.vehicles?.vehicleNumber}}</td>
