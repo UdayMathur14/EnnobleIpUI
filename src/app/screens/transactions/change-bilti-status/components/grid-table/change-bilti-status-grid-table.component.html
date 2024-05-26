@@ -54,7 +54,7 @@
           <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
           <td class="text-center">
             <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer"
-                placement="top" ngbTooltip="Bilti Link" />
+                placement="top" ngbTooltip="Bilti Link" (click)="openPDF(biltiList.id)"/>
         </td>
         <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
         <td>

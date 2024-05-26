@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { BaseService } from './base.service';
-import { APIConstant, changeBiltiStatus } from '../constants';
+import { APIConstant, changeBiltiStatus, getNocPdf } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,10 @@ export class ChangeBiltiStatusService extends CRUDService<null> {
 
   changeBitltiStatus(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + changeBiltiStatus(localStorage.getItem('locationId')),data);
-}
+      APIConstant.basePath + changeBiltiStatus(localStorage.getItem('locationId')), data);
+  }
+
+  getNocPdf(biltiId: number) {
+    return this.get(getNocPdf(localStorage.getItem('locationId'), biltiId));
+  }
 }

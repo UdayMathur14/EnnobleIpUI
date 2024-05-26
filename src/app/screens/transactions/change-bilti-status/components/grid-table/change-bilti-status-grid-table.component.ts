@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChangeBiltiStatusModalComponent } from '../../../../modals/change-bilti-status/change-bilti-status.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeBiltiStatusService } from '../../../../../core/service/change-bilti-status.service';
 
 @Component({
   selector: 'app-change-bilti-status-grid-table',
@@ -12,7 +13,9 @@ export class ChangeBiltiStatusGridTableComponent implements OnInit {
   loadSpinner: boolean = true;
   @Input() biltiBillProcess: any = [];
 
-  constructor(private modalService: NgbModal){
+  constructor(private modalService: NgbModal,
+    private changeBiltiStatusService: ChangeBiltiStatusService
+  ){
 
   }
   
@@ -34,5 +37,31 @@ export class ChangeBiltiStatusGridTableComponent implements OnInit {
       }
     );
 
+  }
+
+  openPDF(biltiNumber: number) {
+    this.changeBiltiStatusService.getNocPdf(biltiNumber).subscribe((response: any) => {
+      const pdfBase64 = response.nocFileData;
+      const blob = this.base64ToBlob(pdfBase64, 'application/pdf');
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    });
+  }
+
+  base64ToBlob(base64: string, mime: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: mime });
   }
 }
