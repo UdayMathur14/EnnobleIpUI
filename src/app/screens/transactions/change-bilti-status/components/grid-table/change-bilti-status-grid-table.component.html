@@ -58,9 +58,8 @@
         
         <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
         <td>
-          <button class="icon-button" [disabled]="biltiList?.status == 'Removed Successfully'" ngbTooltip="Bilti Link" placement="top">
-            <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit"
-              (click)="changeBiltiStatus(biltiList)">
+          <button class="icon-button" (click)="changeBiltiStatus(biltiList)" ngbTooltip="Change Status" placement="top" [disabled]="biltiList?.status == 'Removed Successfully'">
+            <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit">
           </button>
         </td>
       </tr>
