@@ -2,8 +2,8 @@
     <table>
       <thead>
         <tr>
-          <th>Bilti Date</th>
           <th>Bilti Number</th>
+          <th>Bilti Date</th>
           <th>FRLR#</th>
           <th>Transporter Name</th>
           <th>Vehile Number</th>
@@ -11,43 +11,60 @@
           <th>Status</th>
           <th class="text-center">Attachment</th>
           <th>Remarks</th>
+          <th>Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngFor="let biltiList of biltiBillProcess">
         <tr>
-          <td class="pointer" container="body">
+          <td class="pointer">
             <span
+              container="body"
               placement="end"
               tooltipClass="table-datetime-popover"
               [ngbTooltip]="tipContent"
             >
-              <u>01/01/2024</u>
+              <u>{{biltiList?.biltiNumber}}</u>
             </span>
             <ng-template #tipContent>
               <div class="">
                 <div class="content-row">
-                  <span>Created On</span>
-                  <span>01/01/2024</span>
+                  <span>Creation Date</span>
+                  <span>{{biltiList.creationDate | date: 'yyyy-MM-dd'}}</span>
                 </div>
                 <div class="content-row">
                   <span>Created By</span>
-                  <span>IL0001</span>
+                  <span>{{biltiList.createdBy}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Update Date</span>
+                  <span>{{biltiList.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Updated By</span>
+                  <span>{{biltiList.lastUpdatedBy}}</span>
                 </div>
               </div>
             </ng-template>
           </td>
-          <td>BILNHA0001</td>
-          <td>FRLR1</td>
-          <td>Sunplast Transport</td>
-          <td>HR38AS8828</td>
-          <td>5000.00</td>
-          <td>Bilti Bill Process Pending</td>
+          <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td>
+          <td>{{biltiList?.frlrNumber}}</td>
+          <td>{{biltiList?.transporterModel?.transporterName}}</td>
+          <td>{{biltiList?.vehicles?.vehicleNumber}}</td>
+          <td>{{biltiList?.freights?.freightAmount}}</td>
+          <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
           <td class="text-center">
-            <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewChangeBilti()"
+            <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer"
                 placement="top" ngbTooltip="Bilti Link" />
         </td>
-          <td>-</td>
-          
+        <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
+        <td>
+        <img
+        src="assets/images/icons/editPencil.svg"
+        class="pointer"
+        alt="edit"
+        (click)="changeBiltiStatus(biltiList)"
+      />
+    </td>
         </tr>
       </tbody>
     </table>

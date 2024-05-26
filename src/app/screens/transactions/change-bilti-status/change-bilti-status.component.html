@@ -1,13 +1,10 @@
 <div class="page-title">
     <h1>Change Bilti Status Listing</h1>
-    <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onChangeBilti()">Change Bilti Status</button>
-    </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-change-bilti-status-filter></app-change-bilti-status-filter>
+    <app-change-bilti-status-filter [filteredBiltibillList]="filteredBiltibillList" (filterSearchObj)="filteredData($event)"></app-change-bilti-status-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-change-bilti-status-grid-table></app-change-bilti-status-grid-table>
+    <app-change-bilti-status-grid-table [biltiBillProcess]="biltiBillProcess"></app-change-bilti-status-grid-table>
   </div>
