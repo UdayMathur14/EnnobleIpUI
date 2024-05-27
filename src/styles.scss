@@ -43,7 +43,7 @@ body {
 .custom-button-regulr {
     @include buttonsPrimaryOutline(13px, 7px, 20px);
 
-    &:disabled{
+    &:disabled {
         opacity: 0.5;
         cursor: not-allowed
     }
@@ -52,7 +52,7 @@ body {
 .custom-button-regulr-small {
     @include buttonsPrimaryOutline(11px, 7px, 10px);
 
-    &:disabled{
+    &:disabled {
         opacity: 0.5;
         cursor: not-allowed
     }
@@ -61,7 +61,7 @@ body {
 .custom-button-filters {
     @include buttonsPrimaryOutline(13px, 4px, 20px);
 
-    &:disabled{
+    &:disabled {
         opacity: 0.5;
         cursor: not-allowed
     }
@@ -70,7 +70,7 @@ body {
 .custom-button-export {
     @include buttonsExportOutline(13px, 7px, 20px);
 
-    &:disabled{
+    &:disabled {
         opacity: 0.5;
         cursor: not-allowed
     }
@@ -79,7 +79,7 @@ body {
 .custom-button-secondary {
     @include buttonsSecondaryOutline(13px, 7px, 20px);
 
-    &:disabled{
+    &:disabled {
         opacity: 0.5;
         cursor: not-allowed
     }
@@ -88,7 +88,7 @@ body {
 .custom-button-secondary-small {
     @include buttonsSecondaryOutline(11px, 7px, 10px);
 
-    &:disabled{
+    &:disabled {
         opacity: 0.5;
         cursor: not-allowed
     }
@@ -119,8 +119,9 @@ body {
         }
     }
 
-    input,textarea{
-        &:read-only{
+    input,
+    textarea {
+        &:read-only {
             background-color: var(--gray2);
         }
     }
@@ -228,6 +229,12 @@ body {
                     @include gridTableBody;
                 }
 
+                &:nth-child(even) {
+                    td {
+                        background-color: var(--themeBg);
+                    }
+                }
+
                 &:last-child {
                     border: none;
                 }
@@ -260,7 +267,7 @@ body {
             justify-content: space-between;
             margin-bottom: 3px;
             column-gap: 20px;
-            padding:5px 0px;
+            padding: 5px 0px;
             border-bottom: 1px solid var(--gray2);
 
             span {
@@ -278,7 +285,7 @@ body {
                 padding-bottom: 0;
             }
 
-            &:first-child{
+            &:first-child {
                 padding-top: 0;
             }
         }
@@ -319,26 +326,26 @@ body {
     .search-icon {
         position: absolute;
         right: var(--spacer-10);
-        width:13px;
+        width: 13px;
     }
 }
 
 //NG SELECT GLOBAL CSS
-.ng-select{
-    .ng-select-container{
+.ng-select {
+    .ng-select-container {
         min-height: 30px;
         height: 30px !important;
-        border:1px solid var(--inputBorder);
+        border: 1px solid var(--inputBorder);
     }
 
-    &.ng-select-opened{
-        .ng-select-container{
+    &.ng-select-opened {
+        .ng-select-container {
             border-color: var(--inputBorder);
         }
     }
 
-    &.ng-select-disabled{
-        .ng-select-container{
+    &.ng-select-disabled {
+        .ng-select-container {
             background-color: var(--gray2);
         }
     }
@@ -346,14 +353,14 @@ body {
 
 
 //loader css
-.spinner{
+.spinner {
     position: fixed;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     background-color: #00000055;
     color: #fff;
-    top:0;
-    left : 0;
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
