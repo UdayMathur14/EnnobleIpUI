@@ -51,6 +51,7 @@ export class PointMasterMaterialGridTableComponent {
     }
 
   getFilteredPointList(){
+    this.loadSpinner = true;
     let data = {
       "screenCode": 102,
       "pointName": this.searchedPoint.pointName || "",

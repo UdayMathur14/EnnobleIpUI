@@ -53,6 +53,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
 
   //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH FREIGHT FROM FILTERS 
   getFilteredFreightsList() {
+    this.loadSpinner = true;
     let data = {
       "screenCode": 102,
       "freightCode": this.searchedFreight.freightCode || "",

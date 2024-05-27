@@ -34,6 +34,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   }
 
   getAllBiltiProcess() {
+    this.loadSpinner = true;
     const data = {
       screenCode: 303,
       fromDate: this.fromDate,
@@ -43,6 +44,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       biltiNumber: this.biltiNumber
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
+      this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
         if (element.biltiBillProcessModel) {
@@ -53,7 +55,12 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
       .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
 
-    })
+    },
+      (error) => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    }
+  )
   }
 
   filteredData(data: any) {

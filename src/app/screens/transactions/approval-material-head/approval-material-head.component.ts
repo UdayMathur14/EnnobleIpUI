@@ -33,6 +33,7 @@ export class ApprovalMaterialHeadComponent {
   }
 
   getAllBiltiProcess() {
+    this.loadSpinner = true;
     const data = {
       screenCode: 304,
       fromDate: this.fromDate,
@@ -44,6 +45,7 @@ export class ApprovalMaterialHeadComponent {
     this.biltiProcessService
       .getBiltiBillProcess(data)
       .subscribe((response: any) => {
+        this.loadSpinner = false;
         response.biltiBillProcess.forEach((element: any) => {
           element.creationDate = moment
             .utc(element.creationDate)
@@ -59,7 +61,12 @@ export class ApprovalMaterialHeadComponent {
         this.biltiBillProcess = response.biltiBillProcess;
         this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
         .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
-      });
+      },
+      (error) => {
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    );
   }
 
   filteredData(data: any) {

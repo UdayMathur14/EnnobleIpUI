@@ -15,7 +15,10 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="handleSearch()">Search</button>
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!dispatchNumber">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!dispatchNumber"> Clear</button>
+                </div>
             </div>
         </div>
     </div>

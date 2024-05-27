@@ -51,6 +51,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
     }
 
     getFilteredPointList(){
+      this.loadSpinner = true;
       let data = {
         "screenCode": 103,
         "pointName": this.searchedPoint.pointName || "",
