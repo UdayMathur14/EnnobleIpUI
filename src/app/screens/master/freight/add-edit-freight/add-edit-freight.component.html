@@ -21,8 +21,7 @@
                 <div class="custom-form-input">
                     <label for="">Location Code</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" *ngIf="freightId>0" [value]="locationCode"
-                            readonly />
+                        <input type="text" class="input-field" *ngIf="freightId>0" [value]="locationCode" readonly />
                         <input type="text" class="input-field" *ngIf="freightId == 0" value="HA" readonly />
                         <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                     </div>
@@ -32,9 +31,8 @@
                 <div class="custom-form-input">
                     <label for="">Source <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Source" formControlName="source">
-                    <ng-option *ngFor="let source of sources"
-                      [value]="source.id">{{source.value}}</ng-option>
-                  </ng-select>
+                        <ng-option *ngFor="let source of sources" [value]="source.id">{{source.value}}</ng-option>
+                    </ng-select>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -42,8 +40,8 @@
                     <label for="">Destination <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Destination" formControlName="destination">
                         <ng-option *ngFor="let destination of destinations"
-                          [value]="destination.id">{{destination.value}}</ng-option>
-                      </ng-select>
+                            [value]="destination.id">{{destination.value}}</ng-option>
+                    </ng-select>
                 </div>
             </div>
             <div class="col-lg-2 col-md-4">
@@ -51,9 +49,8 @@
                     <label for="">Vehicle Size <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Vehicle Size" formControlName="vehicleSize">
                         <ng-option *ngFor="let vehcileSize of vehcileSizes"
-                          [value]="vehcileSize.id">{{vehcileSize.value}}</ng-option>
-                      </ng-select>
-                    <!-- <input type="text" class="input-field" formControlName="vehicleSize"> -->
+                            [value]="vehcileSize.id">{{vehcileSize.value}}</ng-option>
+                    </ng-select>
                 </div>
             </div>
             <div class="col-lg-2 col-md-4">
@@ -62,12 +59,7 @@
                     <input type="text" class="input-field" formControlName="freightAmount" />
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Remarks <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="remarks" />
-                </div>
-            </div>
+
             <div class="col-lg-2 col-md-2" *ngIf="freightId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
@@ -75,6 +67,12 @@
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <div class="custom-form-input">
+                    <label for="">Remarks</label>
+                    <input type="text" class="input-field" formControlName="remarks" />
                 </div>
             </div>
         </div>

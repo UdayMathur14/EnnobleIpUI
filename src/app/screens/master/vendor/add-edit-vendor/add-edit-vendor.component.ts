@@ -98,7 +98,7 @@ export class AddEditVendorComponent implements OnInit {
       "contactNumber": this.vendorForm.get('phone')?.value,
       "email": this.vendorForm.get('email')?.value,
       "status": this.vendorForm.get('status')?.value,
-      "taxationTypeId": this.vendorForm.get('taxationCode')?.value,
+      "taxationTypeId": (this.vendorForm.get('taxationCode')?.value) || 0,
       "attribute5": this.vendorForm.get('cgst')?.value,
       "attribute6": this.vendorForm.get('sgst')?.value,
       "attribute7": this.vendorForm.get('igst')?.value,

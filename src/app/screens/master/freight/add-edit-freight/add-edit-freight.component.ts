@@ -108,10 +108,9 @@ export class AddEditFreightComponent implements OnInit {
     let data = {
       freightCode: this.freightForm.controls['freightCode'].value,
       locationCode: this.freightForm.controls['locationCode'].value,
-      // source:this.freightForm.controls['source'].value,
-      sourceId: parseInt( this.freightForm.controls['source'].value),
-      destinationId: parseInt(this.freightForm.controls['destination'].value),
-      vehicleSizeId: parseInt(this.freightForm.controls['vehicleSize'].value),
+      sourceId: (parseInt( this.freightForm.controls['source'].value)) || 0,
+      destinationId: parseInt(this.freightForm.controls['destination'].value) || 0,
+      vehicleSizeId: (parseInt(this.freightForm.controls['vehicleSize'].value)) || 0,
       freightAmount: this.freightForm.controls['freightAmount'].value,
       status: this.freightForm.controls['status'].value,
       matApproval: null,

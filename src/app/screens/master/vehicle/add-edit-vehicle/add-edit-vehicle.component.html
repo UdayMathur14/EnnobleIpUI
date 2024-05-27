@@ -1,5 +1,5 @@
 <div class="page-title">
-  <h1>{{ vehicleId === 'edit' ? 'Edit Vehicle' : 'Create Vehicle' }}</h1>
+  <h1>{{ vehicleId > 0 ? 'Edit Vehicle' : 'Create Vehicle' }}</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!vehicleForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">

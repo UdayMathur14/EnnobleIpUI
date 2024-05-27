@@ -127,7 +127,7 @@ export class AddEditPlantComponent implements OnInit {
     let data = {
       status: this.plantForm.controls['status'].value,
       actionBy: 1,
-      locationId: this.plantForm.controls['locationId'].value,
+      locationId: (this.plantForm.controls['locationId'].value) || 0,
       dsc: this.plantForm.controls['dsc'].value,
       dcp: this.plantForm.controls['dcp'].value,
       transactionTypeDetails : transactionData
