@@ -196,7 +196,7 @@ updateSelectedTransactionCodes() {
 }
 
   onDeleteTransaction(transaction:any, index:number){
-    let deletedTransaction = {
+    const deletedTransaction = {
       id: transaction.id,
       transactionTypeId: transaction.transactionTypeId,
       status: 'Inactive' 
