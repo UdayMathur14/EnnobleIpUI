@@ -79,10 +79,6 @@ import { LookupComponent } from "./master/lookup/lookup.component";
 import { LookupGridTableComponent } from "./master/lookup/components/grid-table/lookup-grid-table.component";
 import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit-lookup.component";
 import { LookupFilterComponent } from "./master/lookup/components/filter/lookup-filter.component";
-import { LookupTypeComponent } from "./master/lookup-type/lookup-type.component";
-import { LookupTypeFilterComponent } from "./master/lookup-type/components/filter/lookup-type-filter.component";
-import { LookupTypeGridTableComponent } from "./master/lookup-type/components/grid-table/lookup-type-grid-table.component";
-import { AddEditLookupTypeComponent } from "./master/lookup-type/add-edit-lookup-type/add-edit-lookup-type.component";
 import { AddEditVehicleComponent } from "./master/vehicle/add-edit-vehicle/add-edit-vehicle.component";
 import { ExportAsModule } from 'ngx-export-as';
 import { AddEditBiltiComponent } from "./transactions/bilti/add-edit-bilti/add-edit-bilti.component";
@@ -171,10 +167,6 @@ import { ChangeBiltiStatusModalComponent } from "./modals/change-bilti-status/ch
         LookupGridTableComponent,
         AddEditLookupComponent,
         LookupFilterComponent,
-        LookupTypeComponent,
-        LookupTypeFilterComponent,
-        LookupTypeGridTableComponent,
-        AddEditLookupTypeComponent,
         AddEditBiltiComponent,
         AddEditDispatchNoteComponent,
         BiltiPdfModalComponent,
