@@ -46,9 +46,11 @@ export class ChangeBiltiStatusFilterComponent {
   onClearFilter(){
     this.batchNumber = '';
     this.fromDate = null,
-    this.toDate = null
+    this.toDate = null,
+    this.biltiNumber = '';
     const filterObj = {
       batchNumber : '',
+      biltiNumber : ''
     }
     this.filterSearchObj.emit(filterObj)
   }
