@@ -61,8 +61,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
     const data = {
       code: this.transactionTypeForm.controls['code']?.value,
       name: this.transactionTypeForm.controls['name']?.value,
-      interfaceTxnTypeId: this.transactionTypeForm.controls['transactionTypeInterface']?.value,
-      glSubCategoryId:  this.transactionTypeForm.controls['glSubcategory']?.value ,
+      interfaceTxnTypeId: (this.transactionTypeForm.controls['transactionTypeInterface']?.value) || 0,
+      glSubCategoryId:  (this.transactionTypeForm.controls['glSubcategory']?.value) || 0 ,
       status: this.transactionTypeForm.controls['status']?.value,
       actionBy: 1
     }

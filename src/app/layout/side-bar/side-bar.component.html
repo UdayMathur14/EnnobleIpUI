@@ -14,14 +14,14 @@
             <div class="accordion-body">
               <ul>
                 <li (click)="onMasterChange('plant')" *ngIf="securityGroups('mfg-plant-master')">Plant Master</li>
-                <li (click)="onMasterChange('part')" *ngIf="securityGroups('mfg-part-master')">Part Master</li>
-                <li (click)="onMasterChange('vendor')" *ngIf="securityGroups('mfg-vendor-master')">Vendor Master</li>
-                <li (click)="onMasterChange('vehicle')" *ngIf="securityGroups('mfg-vehicle-master')">Vehicle Master</li>
                 <li (click)="onMasterChange('transactionType')" *ngIf="securityGroups('mfg-transaction-type-master')">Transaction Type Master</li>
-                <li (click)="onMasterChange('freight')" *ngIf="securityGroups('mfg-freight-master')">Freight Master</li>
-                <li (click)="onMasterChange('advice')" *ngIf="securityGroups('mfg-advice-master')">Advice Master</li>
+                <li (click)="onMasterChange('vendor')" *ngIf="securityGroups('mfg-vendor-master')">Vendor Master</li>
                 <li (click)="onMasterChange('transporter')" *ngIf="securityGroups('mfg-transporter-master')">Transporter Master</li>
+                <li (click)="onMasterChange('vehicle')" *ngIf="securityGroups('mfg-vehicle-master')">Vehicle Master</li>
+                <li (click)="onMasterChange('freight')" *ngIf="securityGroups('mfg-freight-master')">Freight Master</li>
                 <li (click)="onMasterChange('pointCharge')" *ngIf="securityGroups('mfg-point-charge-master')">Point Charge Master</li>
+                <li (click)="onMasterChange('part')" *ngIf="securityGroups('mfg-part-master')">Part Master</li>
+                <li (click)="onMasterChange('advice')" *ngIf="securityGroups('mfg-advice-master')">Advice Master</li>
                 <li (click)="onMasterChange('lookup')" *ngIf="securityGroups('mfg-lookup-master')">Lookup Master</li>
                 <li (click)="onMasterChange('lookupType')" *ngIf="securityGroups('mfg-lookup-master')">Lookup Type Master</li>
               </ul>
@@ -38,16 +38,15 @@
             <div class="accordion-body">
               <ul>
                 <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('mfg-dispatch-note')">Dispatch Note</li>
-                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('mfg-bilti')">Bilti</li>
-                <!-- <li (click)="onTransactionChange('biltiBillProcess')" *ngIf="securityGroups('mfg-bilti-bill-process')">Bilti Bill Process</li> -->
+                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('mfg-bilti')">Bilti Creation</li>
                 <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('mfg-bilti-bill-process-view')">Bilti Bill Process View</li>
-                <li (click)="onTransactionChange('checkedMaterialsTeam')" *ngIf="securityGroups('mfg-checked-materials')">Checked by Material's Team</li>
-                <li (click)="onTransactionChange('approvalMaterialHead')" *ngIf="securityGroups('mfg-approval-materials')">Approval by Material's Head</li>
-                <li (click)="onTransactionChange('approvalAccounts')" *ngIf="securityGroups('mfg-approval-accounts')">Approval by Accounts</li>
                 <li (click)="onTransactionChange('pointMasterMaterial')" *ngIf="securityGroups('mfg-point-master-material')">Point Master by Material</li>
                 <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('mfg-point-master-accounts')">Point Master by Accounts</li>
                 <li (click)="onTransactionChange('freightMasterMaterial')" *ngIf="securityGroups('mfg-freight-master-material')">Freight Master by Material</li>
                 <li (click)="onTransactionChange('freightMasterAccounts')" *ngIf="securityGroups('mfg-freight-master-accounts')">Freight Master by Accounts</li>
+                <li (click)="onTransactionChange('checkedMaterialsTeam')" *ngIf="securityGroups('mfg-checked-materials')">Checked by Material's Team</li>
+                <li (click)="onTransactionChange('approvalMaterialHead')" *ngIf="securityGroups('mfg-approval-materials')">Approval by Material's Head</li>
+                <li (click)="onTransactionChange('approvalAccounts')" *ngIf="securityGroups('mfg-approval-accounts')">Approval by Accounts</li>
                 <li (click)="onTransactionChange('changeBiltiStatus')" *ngIf="securityGroups('mfg-change-bilti-statu')">Change Bilti Status</li>
                 <!-- <li (click)="onTransactionChange('approvalMaterial')">Approval by Material</li> -->
               </ul>

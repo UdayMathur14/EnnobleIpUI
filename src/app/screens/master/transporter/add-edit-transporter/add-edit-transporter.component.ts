@@ -127,10 +127,10 @@ export class AddEditTransporterComponent implements OnInit {
         consignorContactInformation: this.transporterForm.controls['consignorContactInfo'].value,
         biltiHeaderComments: this.transporterForm.controls['biltiHeaderComment'].value,
         rcmFlag: this.transporterForm.controls['rcmNonRcm'].value,
-        transportationModeId: this.transporterForm.controls['modeOfTransport'].value,
+        transportationModeId: this.transporterForm.controls['modeOfTransport'].value || 0,
         note: this.transporterForm.controls['note'].value,
         footer: this.transporterForm.controls['footer'].value,
-        taxationTypeId: this.transporterForm.controls['taxationCode'].value,
+        taxationTypeId: this.transporterForm.controls['taxationCode'].value || 0,
       }
       if(this.queryData){
         this.updateTransporter(data);

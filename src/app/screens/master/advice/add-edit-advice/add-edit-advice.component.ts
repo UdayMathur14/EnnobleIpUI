@@ -130,25 +130,27 @@ export class AddEditAdviceComponent implements OnInit {
   // Function executed on save button click
   onPressSave() {
     this.loadSpinner = true;
+    const adviceTypeControl = this.adviceForm.controls['adviceType'];
+    const adviceTypeValue = adviceTypeControl.value;
     let data = {
-      adviceType: this.adviceForm.controls['adviceType'].value.name,
-      transactionTypeId: this.adviceForm.controls['adviceType'].value.id,
-      batchName: this.adviceForm.controls['batchName']?.value,
+      adviceType: adviceTypeValue && adviceTypeValue.name ? adviceTypeValue.name : '',
+      transactionTypeId: (adviceTypeValue && adviceTypeValue.id ? adviceTypeValue.id : null) || 0,
+      batchName: this.adviceForm.controls['batchName']?.value || '',
       maxBiltiNumber: Number(this.adviceForm.controls['maxBiltiLimit']?.value),
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       actionBy: 1
     };
-
+  
     let editData = {
-      adviceType: this.isAdviceTypeTouched() ? this.adviceForm.controls['adviceType'].value.name : this.adviceForm.value.adviceType,
-      transactionTypeId: this.isAdviceTypeTouched() ? this.adviceForm.controls['adviceType'].value.id : this.transactionTypeId,
-      maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value,
+      adviceType: this.isAdviceTypeTouched() && adviceTypeValue && adviceTypeValue.name ? adviceTypeValue.name : this.adviceForm.value.adviceType,
+      transactionTypeId: this.isAdviceTypeTouched() && adviceTypeValue && adviceTypeValue.id ? adviceTypeValue.id : this.transactionTypeId,
+      maxBiltiNumber: this.adviceForm.controls['maxBiltiLimit']?.value || 0,
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       status: this.adviceForm.controls['status']?.value,
       locationCode: this.locationCode || this.adviceForm.get('locationCode')!.value,
       actionBy: 1
     };
-
+  
     if (this.adviceId > 0) {
       this.updateAdviceType(editData);
     } else {
@@ -198,8 +200,8 @@ export class AddEditAdviceComponent implements OnInit {
     const locationCode = this.adviceId === 0
       ? this.adviceForm.get('locationCode')!.value
       : this.locationCodeInput.nativeElement.value;
-
-    if (adviceType && locationCode) {
+  
+    if (adviceType && adviceType.name && locationCode) {
       const selectedAdvice = this.transactionTypesList.find((advice: any) => advice.name === adviceType.name);
       if (selectedAdvice) {
         this.adviceForm.get('batchName')!.setValue(`${selectedAdvice.code}_${locationCode}`);
