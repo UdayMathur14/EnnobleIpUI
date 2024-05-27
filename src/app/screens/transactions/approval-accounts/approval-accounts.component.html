@@ -10,3 +10,6 @@
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
   <app-approval-accounts-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-approval-accounts-grid-table>
 </div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

@@ -35,6 +35,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
 
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit() {
+    this.loadSpinner= true;
     let data = {
       "screenCode": 102, //Freight Material Screen Code
       "freightCode": '',

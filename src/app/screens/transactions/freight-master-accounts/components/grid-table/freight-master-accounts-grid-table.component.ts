@@ -35,6 +35,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
 
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit() {
+    this.loadSpinner = true;
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": '',

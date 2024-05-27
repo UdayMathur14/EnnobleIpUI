@@ -35,6 +35,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
 
     // GET ALL POINT CHARGE
     getAllPointChargesList() {
+      this.loadSpinner = true;
       let data = {
         "screenCode": 103,
         "pointName": ''

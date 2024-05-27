@@ -8,3 +8,6 @@
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
     <app-change-bilti-status-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-change-bilti-status-grid-table>
   </div>
+  <div class="spinner" *ngIf="loadSpinner">
+    Loading...
+  </div>
