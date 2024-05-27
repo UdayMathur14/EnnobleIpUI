@@ -25,7 +25,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   biltiBillProcess!: FormGroup;
   biltiBillProcessData: any;
 
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   // Totals
   totalFreightCharge: number = 0;
   totalPointCharge: number = 0;
@@ -313,6 +313,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   onPressSave() {
+    this.loadSpinner = true;
     const data = this.constructPayload();
     const editData = this.constructPayloadEdit()
     if(this.biltiProcess.biltiBillProcessModel){
@@ -480,8 +481,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   createBiltiProcess(data: any) {
     this.biltiBillService.createBiltiBillProcess(data).subscribe(
       (response: any) => {
-        this.loadSpinner = false;
         this.toastr.success('Bilti Bill Process Created Successfully');
+        this.loadSpinner = false;
         this.activeModal.close('save');
       },
       (error) => {
@@ -494,8 +495,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   updateBiltiProcess(data: any) {
     this.biltiBillService.updateBiltiBillProcess(this.biltiBillProcessData?.biltiBillProcessModel?.id,data).subscribe(
       (response: any) => {
-        this.loadSpinner = false;
         this.toastr.success('Bilti Bill Process Updated Successfully');
+        this.loadSpinner = false;
         this.activeModal.close('save');
       },
       (error) => {

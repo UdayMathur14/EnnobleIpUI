@@ -16,7 +16,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
   @Input()
   searchedFreight!: any;
   freightList: any;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   freightData!: FreightDataModel;
   selectedFreightId: number = 0;
 
@@ -98,6 +98,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
   }
 
   updateStatus(payload: any, popover: NgbPopover) {
+    this.loadSpinner = true;
     this.commonTransactionService.updateStatus(this.selectedFreightId, payload).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;

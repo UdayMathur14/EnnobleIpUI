@@ -16,7 +16,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
   @Input()
   searchedPoint!: any;
   pointChargesList: any;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
 
@@ -96,6 +96,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
   }
 
   updateStatus(payload: any, popover: NgbPopover) {
+    this.loadSpinner = true;
     this.commonTransactionService.updateStatus(this.selectedPointId, payload).subscribe((response: any) => {
       this.pointData = response;
       this.loadSpinner = false;

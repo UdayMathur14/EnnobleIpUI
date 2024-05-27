@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class DebitNoteDetailsModalComponent implements OnInit {
   @Input() biltiProcess: any;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   biltiBillDetails!: FormGroup;
   biltiBillDetailsData: any;
   constructor(
@@ -118,6 +118,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
   //   );
   // }
   OnPressSave() {
+    this.loadSpinner = true;
     const formArray = this.biltiBillDetails.get(
       'biltiCreationLineItemDetails'
     ) as FormArray;
@@ -169,12 +170,12 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       maxBiltiNumber: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber 
     };
 
-    this.loadSpinner = true;
     this.biltiBillService
       .updateBiltiBillProcess(this.biltiBillDetailsData.biltiBillProcessModel?.id, payload)
       .subscribe(
         (response: any) => {
           this.toastr.success('Debit Note Updated Successfully');
+          this.loadSpinner = false;
           this.activeModal.close('save');
         },
         (error) => {

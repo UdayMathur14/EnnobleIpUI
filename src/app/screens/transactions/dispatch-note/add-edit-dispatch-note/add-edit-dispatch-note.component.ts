@@ -295,6 +295,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   async onSavePress() {
+    this.loadSpinner = true;
     this.dispatchNote.supplierId = this.supplierId;
     this.dispatchNote.vehicleId = this.vehicleId;
     this.dispatchNote.frlrNumber = this.addOrEditDispatchNoteFormGroup.controls[
@@ -334,9 +335,11 @@ export class AddEditDispatchNoteComponent {
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');
+            this.loadSpinner = false;
             this.router.navigate(['transaction/dispatchNote'])
           },
           (error) => {
+            this.loadSpinner = false;
             this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
           }
         );
@@ -369,9 +372,11 @@ export class AddEditDispatchNoteComponent {
           (response: any) => {
             this.dispatchNote = response;
             this.toastr.success('Dispatch Created Successfully');
+            this.loadSpinner = false;
             this.router.navigate(['transaction/dispatchNote']);
           },
           (error) => {
+            this.loadSpinner = false;
             this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
           }
         );

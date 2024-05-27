@@ -13,6 +13,7 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
   nocFileBase64 : any = '';
   remarks: string = '';
   nocFileName: string = '';
+  loadSpinner: boolean = false;
   @Input() biltiData: any;
   constructor(public activeModal: NgbActiveModal,
     private toastr: ToastrService,
@@ -36,6 +37,7 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
   }
 
   onSubmit(){
+    this.loadSpinner = true;
     const obj = {
       "id": 0,
       "actionBy": 1,
@@ -48,6 +50,7 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
      this.changeBiltiStatusService.changeBitltiStatus(obj).subscribe((response: any) => {
       this.activeModal.close('save');
        this.toastr.success('Bilti Status Updated Succesfully', 'Success');
+       this.loadSpinner = false;
      }, error => {
  
      })

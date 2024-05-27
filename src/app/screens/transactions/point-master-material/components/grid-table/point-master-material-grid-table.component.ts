@@ -16,7 +16,7 @@ export class PointMasterMaterialGridTableComponent {
   @Input()
   searchedPoint!: any;
   pointChargesList: any;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
 
@@ -35,6 +35,7 @@ export class PointMasterMaterialGridTableComponent {
 
     // GET ALL POINT CHARGE
     getAllPointChargesList() {
+      this.loadSpinner = true;
       let data = {
         "screenCode": 102,
         "pointName": ''
@@ -96,6 +97,7 @@ export class PointMasterMaterialGridTableComponent {
   }
 
   updateStatus(payload: any, popover: NgbPopover) {
+    this.loadSpinner = true;
     this.commonTransactionService.updateStatus(this.selectedPointId, payload).subscribe((response: any) => {
       this.pointData = response;
       this.loadSpinner = false;

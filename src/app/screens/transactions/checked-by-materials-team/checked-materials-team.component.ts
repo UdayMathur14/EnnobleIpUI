@@ -19,6 +19,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   biltiNumber: any;
   biltiBillProcess:any = [];
   filteredBiltibillList: any = [];
+  loadSpinner: boolean = false;
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
 
 
@@ -73,6 +74,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   }
 
   updateStatus(status: string, remarks: string, popover: any) {
+    this.loadSpinner = true;
     if (status === 'Rejected' && !remarks.trim()) {
       this.toastr.error('Remarks are required for rejection');
       return;
@@ -87,11 +89,13 @@ export class CheckedMaterialsTeamComponent implements OnInit {
    
     this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
+      this.loadSpinner = false;
       if (popover) {
         popover.close();
       }
       this.getAllBiltiProcess();
     }, error => {
+      this.loadSpinner = false;
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
     });
   }
