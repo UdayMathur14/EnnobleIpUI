@@ -54,15 +54,23 @@
       <div class="custom-form-input">
         <label for="">Bilti Number</label>
         <div class="input-with-icon">
-          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="batchName || adviceType"/>
+          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="isBiltiNumberDisabled"/>
           <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
         </div>
       </div>
     </div>
-    <div class="col-lg-2">
+    <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="handleSearch()">Search</button>
+        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!fromDate && !toDate && !adviceType">Search</button>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="custom-form-input">
+        <label for="" class="d-block">&nbsp;</label>
+        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!fromDate && !toDate && !adviceType">
+          Clear
+        </button>
       </div>
     </div>
   </div>

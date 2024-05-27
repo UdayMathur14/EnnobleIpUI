@@ -2,9 +2,44 @@
     <h1>Checked by Material's Team</h1>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-checked-materials-team-filter (filterSearchObj)="filteredData($event)"></app-checked-materials-team-filter>
+    <app-checked-materials-team-filter [filteredBiltibillList]="filteredBiltibillList" (filterSearchObj)="filteredData($event)"></app-checked-materials-team-filter>
   </div>
-  
-  <div class="content-section" [ngClass]="{'isFilters': isFilters}">
+
+  <div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}" *ngIf="(searchedData?.batchNumber && biltiBillProcess?.length > 0)
+  || searchedData?.toDate && biltiBillProcess?.length > 0">
+    <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
+            [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left"
+            #approvePopover="ngbPopover" (click)="openPopover(approvePopover)">
+            Approve
+          </button>
+          <button type="button" class="custom-button-regulr-small" [ngbPopover]="rejectPopContent"
+            [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left"
+            #rejectPopover="ngbPopover" (click)="openPopover(rejectPopover)">
+            Reject
+          </button>
+
+          <!-- Approve Popover Content -->
+          <ng-template #approvePopContent approveRemarks="ngbPopover">
+            <div class="custom-form-input">
+              <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
+            </div>
+            <button class="custom-button-secondary" (click)="updateStatus('Approved', approveRemarks.value, approvePopover)">
+              Confirm Approve
+            </button>
+          </ng-template>
+
+          <!-- Reject Popover Content -->
+          <ng-template #rejectPopContent rejectRemarks="ngbPopover">
+            <div class="custom-form-input">
+              <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
+            </div>
+            <button class="custom-button-regulr" (click)="updateStatus('Rejected', rejectRemarks.value,rejectPopover)">
+              Confirm Reject
+            </button>
+          </ng-template>
+          <ng-template #popTitle>Remarks</ng-template>
+  </div>
+   
+  <div class="content-section" [ngClass]="{'isFilters': isFilters}"  *ngIf="searchedData?.batchNumber || searchedData?.toDate">
     <app-checked-materials-team-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-checked-materials-team-grid-table>
   </div>

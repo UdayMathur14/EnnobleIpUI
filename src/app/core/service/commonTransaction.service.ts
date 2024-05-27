@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, createFreight, freight, freightData, updateFreight, getDropdownDatas, commonTransaction } from "../constants";
+import { APIConstant, createFreight, freight, freightData, updateFreight, getDropdownDatas, commonTransaction, updateBiltiStatus } from "../constants";
 import { PlantRequest } from "../models/plant";
 
 @Injectable({
@@ -14,5 +14,9 @@ export class CommonTransactionService extends CRUDService<PlantRequest> {
 
     updateStatus(id: number, data: object) {
         return this.put(commonTransaction(localStorage.getItem('locationId'), id), data);
+    }
+
+    updateBiltiApprovalStatus(id: number, data: object){
+        return this.put(updateBiltiStatus(localStorage.getItem('locationId'), id), data);
     }
 }

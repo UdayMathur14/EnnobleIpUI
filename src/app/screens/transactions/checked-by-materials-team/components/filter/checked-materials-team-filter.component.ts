@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,25 +8,25 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './checked-materials-team-filter.component.scss'
 })
 export class CheckedMaterialsTeamFilterComponent {
-  fromDate!: NgbDateStruct;
-  toDate!: NgbDateStruct;
+  fromDate!: NgbDateStruct | null;
+  toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
   selectedFromDate: string = '';
   selectedToDate: string = '';
   batchName: any = undefined;
   biltiNumber: any = undefined;
   batchNames: string[] = [];
+  batchNumber: string = '';
+  @Input() filteredBiltibillList: any = [];
+  @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
-
-  @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(
     private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   onDateSelect(type: string, e: any) {
@@ -39,14 +39,22 @@ export class CheckedMaterialsTeamFilterComponent {
     }
   }
 
-
   handleSearch() {
-    const batchNameValue = this.batchNameInput ? this.batchNameInput.nativeElement.value : '';
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
-      "batchNumber": batchNameValue || "",
+      "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
+    }
+    this.filterSearchObj.emit(filterObj)
+  }
+
+  onClearFilter(){
+    this.batchNumber = '';
+    this.fromDate = null,
+    this.toDate = null
+    const filterObj = {
+      batchNumber : '',
     }
     this.filterSearchObj.emit(filterObj)
   }

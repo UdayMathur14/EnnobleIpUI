@@ -23,6 +23,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
+
     this.initForm();
     this.getBiltiBillProcessbyId();
   }
@@ -64,7 +65,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       .getBiltiBillProcessbyId(this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillDetailsData = response;
-
         // this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
         // this.maxBiltiNumber = this.biltiBillProcessData.transactionTypeDetails.adviceTypeDetails.maxBiltiNumber;
         // this.transacttionTypeCode = this.biltiBillProcessData.transactionTypeDetails.code;
@@ -73,6 +73,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
   }
 
   populateForm(): void {
+    console.log(this.biltiBillDetailsData)
     if (this.biltiBillDetailsData) {
       // this.calculateTotals();
       this.biltiBillDetails.patchValue({
@@ -128,13 +129,13 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       creationLineItemId: control.get('id')?.value,
       actionBy: 1,
       status: 'Active',
-      freightCharge: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].freightCharge,
-      pointCharge: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].pointCharge,
-      detentionCharge: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].detentionCharge,
-      overloadCharge: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].overloadCharge,
-      tollTax: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].tollTax,
-      unloadingCharge: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].unloadingCharge,
-      otherCharges: this.biltiBillDetailsData.biltiCreationLineItemDetails[index].otherCharges,
+      freightCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.freightCharge,
+      pointCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.pointCharge,
+      detentionCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.detentionCharge,
+      overloadCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.overloadCharge,
+      tollTax: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.tollTax,
+      unloadingCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.unloadingCharge,
+      otherCharges: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.otherCharges,
     }));
 
     const chargesByLGDetails = {
@@ -164,6 +165,8 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       excessReason: this.biltiBillDetailsData?.biltiBillProcessModel?.excessReason,
       grandTotal: this.biltiBillDetailsData?.biltiBillProcessModel?.grandTotal,
       paidByAmount: this.biltiBillDetailsData?.biltiBillProcessModel?.grandTotal,
+      batchName: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.batchName,
+      maxBiltiNumber: this.biltiBillDetailsData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber 
     };
 
     this.loadSpinner = true;

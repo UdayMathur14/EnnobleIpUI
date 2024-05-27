@@ -11,11 +11,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToWords } from 'to-words';
 import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-bilti-process-details-modal',
   templateUrl: './bilti-process-details.component.html',
   styleUrl: './bilti-process-details.component.scss',
+  providers: [DatePipe]
 })
 export class BiltiProcessDetailsModalComponent implements OnInit {
   toWords = new ToWords();
@@ -62,7 +64,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private commonTransaction: CommonTransactionService
+    private commonTransaction: CommonTransactionService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +112,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
 
   createLineItem(item: any): FormGroup {
     return this.formBuilder.group({
-      documentNumber: [item?.fRMTransactionDetails?.documentNumber || ''],
+      documentNumber: [item?.documentReferenceNo],
       vendorName: [item?.supplierDetail?.vendorName || ''],
       freightCharge: [item?.biltiBillProcessChargesByVendor?.freightCharge],
       pointCharge: [item?.biltiBillProcessChargesByVendor?.pointCharge],
@@ -128,9 +131,9 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       .getBiltiBillProcessbyId(this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillProcessData = response;
-        this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
+        this.transactionTypeId = this.biltiBillProcessData?.transactionTypeId;
         this.maxBiltiNumber =
-          this.biltiBillProcessData.transactionTypeDetails.adviceTypeDetails.maxBiltiNumber;
+          this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber;
         this.transacttionTypeCode =
           this.biltiBillProcessData.transactionTypeDetails.code;
         this.populateForm();
@@ -152,9 +155,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     if (this.biltiBillProcessData) {
       // this.calculateTotals();
       this.calculateDifference()
+      const formattedCreationDate = this.datePipe.transform(this.biltiBillProcessData.creationDate, 'yyyy-MM-dd');
       this.biltiBillProcess.patchValue({
         biltiNumber: this.biltiBillProcessData.biltiNumber,
-        creationDate: this.biltiBillProcessData.creationDate,
+        creationDate: formattedCreationDate,
         adviceType: this.biltiBillProcessData.transactionTypeDetails?.name,
         freightAmount: this.biltiBillProcessData.freightDetails?.freightAmount,
         penaltyAmount: this.biltiBillProcessData.biltiBillProcessModel?.penaltyAmount,
@@ -401,6 +405,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       grandTotal: this.grandTotal,
       chargesByLGDetails: chargesByLGDetails,
       chargesByVendorDetails: chargesByVendorDetails,
+      batchName: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.batchName 
     };
   }
 
@@ -467,6 +472,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       grandTotal: this.grandTotal,
       chargesByLGDetails: chargesByLGDetails,
       chargesByVendorDetails: chargesByVendorDetails,
+      maxBiltiNumber: this?.maxBiltiNumber,
+      batchName: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.batchName 
     };
   }
 

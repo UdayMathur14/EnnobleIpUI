@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-approval-material-head',
@@ -9,12 +12,16 @@ import moment from 'moment';
 })
 export class ApprovalMaterialHeadComponent {
   isFilters: boolean = true;
-  constructor(private biltiProcessService: BiltiBillProcessService) {}
+  constructor(private biltiProcessService: BiltiBillProcessService,
+    private toastr: ToastrService,
+    private commonTransaction: CommonTransactionService
+  ) {}
   searchedData: any;
   fromDate: any = '2000-01-01';
   batchNumber: any;
   biltiNumber: any;
-  biltiBillProcess = [];
+  biltiBillProcess:any = [];
+  filteredBiltibillList: any = [];
   toDate: any = new Date().getFullYear() + '-' + 
   ('0' + (new Date().getMonth() + 1)).slice(-2) +
     '-' +
@@ -49,6 +56,8 @@ export class ApprovalMaterialHeadComponent {
           }
         });
         this.biltiBillProcess = response.biltiBillProcess;
+        this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
+        .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       });
   }
 
@@ -60,4 +69,37 @@ export class ApprovalMaterialHeadComponent {
     this.biltiNumber = data.biltiNumber;
     this.getAllBiltiProcess();
   }
+
+  openPopover(popover: NgbPopover) {
+    popover.open();
+  }
+
+  closePopover(popover: NgbPopover) {
+    popover.close();
+  }
+
+  updateStatus(status: string, remarks: string, popover: any) {
+    if (status === 'Rejected' && !remarks.trim()) {
+      this.toastr.error('Remarks are required for rejection');
+      return;
+    }
+      const data = {
+        approvalLevel: 'Material',
+        status: status,
+        remarks:  remarks,
+        actionBy: 1,
+        transactionCode: 203,
+      };
+   
+    this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
+      this.toastr.success('Status Updated Successfully');
+      if (popover) {
+        popover.close();
+      }
+      this.getAllBiltiProcess();
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+
 }

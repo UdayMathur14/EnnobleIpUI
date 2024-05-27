@@ -19,6 +19,7 @@ export class ApprovalAccountsComponent implements OnInit{
   batchNumber: any;
   biltiNumber: any;
   biltiBillProcess = [];
+  filteredBiltibillList: any = [];
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
 
   ngOnInit(): void {
@@ -44,7 +45,8 @@ export class ApprovalAccountsComponent implements OnInit{
         }
       });
       this.biltiBillProcess = response.biltiBillProcess;
-
+      this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
+      .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
     })
   }
 

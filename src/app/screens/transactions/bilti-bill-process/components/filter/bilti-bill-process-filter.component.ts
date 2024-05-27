@@ -9,8 +9,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './bilti-bill-process-filter.component.scss'
 })
 export class BiltiBillProcessFilterComponent {
-  fromDate!: NgbDateStruct;
-  toDate!: NgbDateStruct;
+  fromDate!: NgbDateStruct | null;
+  toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
   selectedFromDate: string = '';
   selectedToDate: string = '';
@@ -21,6 +21,7 @@ export class BiltiBillProcessFilterComponent {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   adviceTypeList: any = [];
+  isBiltiNumberDisabled: boolean = false;
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -54,6 +55,7 @@ export class BiltiBillProcessFilterComponent {
     if (matchedAdvice && this.batchNameInput && this.batchNameInput.nativeElement) {
       this.batchNameInput.nativeElement.value = matchedAdvice.batchName;
     }
+    this.updateBiltiNumberDisabledState();
   }
 
   onDateSelect(type: string, e: any) {
@@ -83,5 +85,29 @@ export class BiltiBillProcessFilterComponent {
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
     }
     this.filterSearchObj.emit(filterObj)
+  }
+
+  onClearFilter(){
+    this.biltiNumber = '';
+    this.fromDate = null,
+    this.toDate = null,
+    this.adviceType = '',
+    this.batchName = ''
+    this.batchName = '';
+
+  if (this.batchNameInput && this.batchNameInput.nativeElement) {
+    this.batchNameInput.nativeElement.value = '';
+  }
+  this.isBiltiNumberDisabled = false;
+    const filterObj = {
+      batchNumber : '',
+      adviceType: '',
+      biltiNumber: ''
+    }
+    this.filterSearchObj.emit(filterObj)
+  }
+
+  updateBiltiNumberDisabledState() {
+    this.isBiltiNumberDisabled = !!this.adviceType || !!this.batchName;
   }
 }

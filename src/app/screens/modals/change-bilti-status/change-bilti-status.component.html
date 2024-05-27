@@ -13,7 +13,7 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="custom-form-input">
                         <label for="">Bilti Number</label>
-                        <input type="text" class="input-field" />
+                        <input type="text" class="input-field" disabled [(ngModel)]="biltiData.biltiNumber" name="biltiNumber"/>
                     </div>
                 </div>
 
@@ -22,14 +22,15 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="custom-form-input">
                         <label for="">Remarks</label>
-                        <textarea name="" id="" cols="10" rows="3" placeholder="Faridabad"></textarea>
+                        <textarea name="" id="" cols="10" rows="3" placeholder="Enter Remarks" [(ngModel)]="remarks" name="remarks"></textarea>
                     </div>
                 </div>
             </div>
-            <button class="custom-button-regulr">Upload NOC</button>
+            <label for="debitNoteUpload" class="custom-file-upload custom-button-regulr mt-2 pointer text-center" >Debit Note</label>
+            <input type="file" accept=".pdf" id="debitNoteUpload" (change)="onUploadNoc($event)" />
         </div>
         <div class="ngmodal-footer text-center mt-5">
-            <button class="custom-button-regulr">Save</button>
+            <button class="custom-button-regulr" (click)="onSubmit()" [disabled]="!nocFileBase64">Save</button>
         </div>
     </form>
 </div>
