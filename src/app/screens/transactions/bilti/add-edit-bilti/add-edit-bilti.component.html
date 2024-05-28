@@ -20,7 +20,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">FRLR Number</label>
+        <label for="">FRLR Number <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="frlrNo" (change)="onFrlrNoSelectionChange($event)" (clear)="onFrlrNoClear()">
           <ng-option *ngFor="let frmTransactionData of frmTransactionData" [value]="frmTransactionData">{{frmTransactionData.frlrNumber}}</ng-option>
         </ng-select>
@@ -28,7 +28,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Vehicle Number</label>
+        <label for="">Vehicle Number <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="vehicleNumber" (change)="onVehicleChange($event)" (clear)="onVehicleClear()">
           <ng-option *ngFor="let vehicle of filteredVehiclesLists"  [value]="vehicle">{{vehicle.vehicleNumber}}</ng-option>
         </ng-select>
@@ -42,7 +42,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Transporter Code</label>
+        <label for="">Transporter Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="transporterCode" (change)="onTransporterChange($event)" (clear)="onTransporterClear()">
           <ng-option *ngFor="let transporter of filteredTransportersLists" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
         </ng-select>
@@ -56,7 +56,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Freight Code</label>
+        <label for="">Freight Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="freightCode" (change)="onFreightChange($event)" (clear)="onFreightClear()">
           <ng-option *ngFor="let freight of filteredFreightsLists" [value]="freight">{{freight.freightCode}}</ng-option>
         </ng-select>
@@ -82,7 +82,7 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
-        <label for="">Loading Location</label>
+        <label for="">Loading Location <span class="text-danger">*</span></label>
         <ng-select class="input-field" formControlName="loadingLocation">
           <ng-option *ngFor="let loadingLocation of filteredLoadinglocation"
             [value]="loadingLocation.id">{{loadingLocation.value}}</ng-option>

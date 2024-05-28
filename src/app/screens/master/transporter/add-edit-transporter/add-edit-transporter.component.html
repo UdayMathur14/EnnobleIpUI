@@ -50,7 +50,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Transporter Email</label>
+          <label for="">Transporter Email <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="transporterMailId" />
         </div>
       </div>
@@ -140,7 +140,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Auto Bilti Starting Char.</label>
+          <label for="">Auto Bilti Starting Char. <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="autoBiltiCharactor" />
         </div>
       </div>
@@ -158,7 +158,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Mode of Transport</label>
+          <label for="">Mode of Transport <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Mode of Transport" formControlName="modeOfTransport">
           <ng-option *ngFor="let mode of transportMode"
             [value]="mode.id">{{mode.value}}</ng-option>
