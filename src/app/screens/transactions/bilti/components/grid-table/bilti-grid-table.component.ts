@@ -15,7 +15,7 @@ import { BiltiPdfModalComponent } from '../../../../modals/bilti-pdf/bilti-pdf.c
 })
 export class BiltiGridTableComponent implements OnInit {
   biltisList: any = [];
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   @Input() searchedBilti: any;
   biltisListOrg:any;
 
@@ -71,6 +71,7 @@ export class BiltiGridTableComponent implements OnInit {
   }
 
   getAllBiltisList() {
+    this.loadSpinner = true;
     let data = {
       biltiNumber: '',
     };
@@ -87,6 +88,7 @@ export class BiltiGridTableComponent implements OnInit {
   }
 
   getFilteredBiltisList() {
+    this.loadSpinner = true;
     let data = {
       "biltiNumber": this.searchedBilti.biltiNumber,
     }

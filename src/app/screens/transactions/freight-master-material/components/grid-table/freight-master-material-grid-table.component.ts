@@ -16,7 +16,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
   @Input()
   searchedFreight!: any;
   freightList: any;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   freightData!: FreightDataModel;
   selectedFreightId: number = 0;
 
@@ -35,6 +35,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
 
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit() {
+    this.loadSpinner= true;
     let data = {
       "screenCode": 102, //Freight Material Screen Code
       "freightCode": '',
@@ -52,6 +53,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
 
   //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH FREIGHT FROM FILTERS 
   getFilteredFreightsList() {
+    this.loadSpinner = true;
     let data = {
       "screenCode": 102,
       "freightCode": this.searchedFreight.freightCode || "",
@@ -98,6 +100,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
   }
 
   updateStatus(payload: any, popover: NgbPopover) {
+    this.loadSpinner = true;
     this.commonTransactionService.updateStatus(this.selectedFreightId, payload).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;

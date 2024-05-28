@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bilti-bill-process-view',
@@ -9,7 +10,9 @@ import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.
   styleUrl: './bilti-bill-process-view.component.scss'
 })
 export class BiltiBillProcessViewComponent {
-  constructor(private router: Router,private biltiBIllProService: BiltiBillProcessService) { }
+  constructor(private router: Router,private biltiBIllProService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ) { }
 
   isFilters: boolean = true;
   searchedData: any;
@@ -19,6 +22,7 @@ export class BiltiBillProcessViewComponent {
   adviceType: any;
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
+  loadSpinner: boolean = false;
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
 
   ngOnInit(): void {
@@ -28,6 +32,7 @@ export class BiltiBillProcessViewComponent {
 
 
   getAllBiltiProcess() {
+    this.loadSpinner= true;
     const obj = {
       screenCode: 301,
       fromDate: this.fromDate,
@@ -37,6 +42,7 @@ export class BiltiBillProcessViewComponent {
       biltiNumber: this.biltiNumber
     }
     this.biltiBIllProService.getBiltiBillProcess(obj).subscribe((response: any) => {
+      this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
         if (element.biltiBillProcessModel) {
@@ -46,7 +52,13 @@ export class BiltiBillProcessViewComponent {
       this.biltiBillProcess = response.biltiBillProcess;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
       .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
-    })
+      this.loadSpinner = false;
+    },
+    (error) => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    }
+  )
   }
 
   filteredData(data: any) {

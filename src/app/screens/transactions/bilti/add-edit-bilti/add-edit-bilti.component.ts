@@ -25,7 +25,7 @@ export class AddEditBiltiComponent implements OnInit {
   frmTransactionData: any = [];
   vehiclesList: any = [];
   transportersList: any = [];
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   freightList: any = [];
   vendorList: any = [];
   pointChargesList: any = [];
@@ -610,8 +610,8 @@ onFrlrNoClear() {
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Updated Successfully');
-          this.router.navigate(['transaction/bilti'])
           this.loadSpinner = false;
+          this.router.navigate(['transaction/bilti'])
         },
         (error) => {
           this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -619,8 +619,6 @@ onFrlrNoClear() {
         }
       );
     }
-
-    this.loadSpinner = false;
   }
 
   getLoadingLocationData() {

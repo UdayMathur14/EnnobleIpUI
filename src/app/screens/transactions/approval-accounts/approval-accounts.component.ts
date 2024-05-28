@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-approval-accounts',
@@ -11,6 +12,7 @@ import moment from 'moment';
 export class ApprovalAccountsComponent implements OnInit{
   constructor(private router : Router,
               private biltiProcessService: BiltiBillProcessService,
+              private toastr: ToastrService
   ){}
 
   isFilters : boolean = true;
@@ -21,7 +23,7 @@ export class ApprovalAccountsComponent implements OnInit{
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
-
+  loadSpinner: boolean = false;
   ngOnInit(): void {
     this.getAllBiltiProcess();
   }
@@ -29,6 +31,7 @@ export class ApprovalAccountsComponent implements OnInit{
 
 
   getAllBiltiProcess() {
+    this.loadSpinner = true;
     const data = {
       screenCode: 305,
       fromDate: this.fromDate,
@@ -38,6 +41,7 @@ export class ApprovalAccountsComponent implements OnInit{
       biltiNumber: this.biltiNumber
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
+      this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
         if (element.biltiBillProcessModel) {
@@ -47,7 +51,12 @@ export class ApprovalAccountsComponent implements OnInit{
       this.biltiBillProcess = response.biltiBillProcess;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
       .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
-    })
+    },
+    (error) => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    }
+  )
   }
 
   filteredData(data: any) {

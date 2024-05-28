@@ -28,6 +28,7 @@ export class DispatchNoteComponent {
   }
 
   getData(dispatchNumber: string = "") {
+    this.loadSpinner = true;
     this.dispatchNoteService.getDispatchNote(dispatchNumber).subscribe((res: any) => {
       this.dispatchNotes = res.dispatchNotes;
       this.loadSpinner = false;
