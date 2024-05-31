@@ -31,7 +31,7 @@
     </div>
     <div class="col-lg-3 col-md-2">
       <div class="custom-form-input">
-        <label for="">Transaction Type Interface</label>
+        <label for="">Transaction Type Interface <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="transactionTypeInterface">
           <ng-option *ngFor="let transactionTypeInterface of transactionTypeInterfaceData"
             [value]="transactionTypeInterface.id">{{transactionTypeInterface.transactionTypeName}}</ng-option>
