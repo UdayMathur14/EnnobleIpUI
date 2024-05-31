@@ -1,6 +1,5 @@
-<div id="exportableTable">
   <div class="custom-table">
-    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+    <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
       <thead>
         <tr>
           <th (click)="sortData('plantCode')">Plant Code</th>
@@ -84,7 +83,6 @@
       </tbody>
     </table>
   </div>
-</div>
 
 <div class="spinner" *ngIf="loadSpinner">
   Loading...

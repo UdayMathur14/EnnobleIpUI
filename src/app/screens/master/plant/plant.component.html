@@ -35,5 +35,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-plant-grid-table [filterKeyword]="filterKeyword"></app-plant-grid-table>
+  <app-plant-grid-table [filterKeyword]="filterKeyword" (dataChange)="onPlantsListChange($event)" (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
 </div>
