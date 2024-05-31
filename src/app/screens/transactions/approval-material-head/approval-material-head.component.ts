@@ -23,10 +23,7 @@ export class ApprovalMaterialHeadComponent {
   biltiBillProcess:any = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
-  toDate: any = new Date().getFullYear() + '-' + 
-  ('0' + (new Date().getMonth() + 1)).slice(-2) +
-    '-' +
-    ('0' + (new Date().getDate() + 1)).slice(-2);
+  toDate: any = moment().format('YYYY-MM-DD');
 
   ngOnInit(): void {
     this.getAllBiltiProcess();

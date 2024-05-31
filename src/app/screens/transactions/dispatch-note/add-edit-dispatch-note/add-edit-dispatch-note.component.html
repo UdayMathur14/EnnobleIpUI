@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Supplier Code</label>
+          <label for="">Supplier Code <span class="text-danger">*</span></label>
           <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
             placeholder="Select Part Number" (clear)="onSupplierCodeClear()">
             <ng-option *ngFor="let supplier of supplierList"
@@ -37,7 +37,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Vehicle Number</label>
+          <label for="">Vehicle Number <span class="text-danger">*</span></label>
           <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
             placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
             <ng-option *ngFor="let vehicle of vehicleList"
@@ -58,7 +58,7 @@
 
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">FRLR#</label>
+          <label for="">FRLR# <span class="text-danger">*</span></label>
           <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
         </div>
       </div>
