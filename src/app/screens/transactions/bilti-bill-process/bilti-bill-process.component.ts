@@ -2,6 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bilti-bill-process',
@@ -9,7 +10,9 @@ import * as moment from 'moment';
   styleUrl: './bilti-bill-process.component.scss'
 })
 export class BiltiBillProcessComponent implements OnInit {
-  constructor(private router: Router, private biltiBIllProService: BiltiBillProcessService,) { }
+  constructor(private router: Router, private biltiBIllProService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ) { }
 
   isFilters: boolean = true;
   searchedData: any;
@@ -18,6 +21,7 @@ export class BiltiBillProcessComponent implements OnInit {
   biltiNumber: any;
   adviceType: any;
   biltiBillProcess = [];
+  loadSpinner: boolean = true;
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
 
   ngOnInit(): void {
@@ -27,6 +31,7 @@ export class BiltiBillProcessComponent implements OnInit {
 
 
   getAllBiltiProcess() {
+    this.loadSpinner = true;
     const obj = {
       screenCode: 302,
       fromDate: this.fromDate,
@@ -36,6 +41,7 @@ export class BiltiBillProcessComponent implements OnInit {
       biltiNumber: this.biltiNumber
     }
     this.biltiBIllProService.getBiltiBillProcess(obj).subscribe((response: any) => {
+      this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
         if (element.biltiBillProcessModel) {
@@ -43,8 +49,14 @@ export class BiltiBillProcessComponent implements OnInit {
         }
       });
       this.biltiBillProcess = response.biltiBillProcess;
-
-    })
+      this.loadSpinner = false
+    },
+    (error) => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    }
+  )
+    
   }
 
   filteredData(data: any) {

@@ -24,6 +24,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
   biltiNumber: any;
   biltiBillProcess: any = [];
   filteredBiltibillList: any = [];
+  loadSpinner: boolean = false;
   toDate: any = new Date().getFullYear() + '-' +
     ('0' + (new Date().getMonth() + 1)).slice(-2) +
     '-' +
@@ -34,6 +35,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
   }
 
   getAllBiltiProcess() {
+    this.loadSpinner = true;
     const data = {
       screenCode: 306,
       fromDate: this.fromDate,
@@ -45,6 +47,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
     this.biltiProcessService
       .getBiltiBillProcess(data)
       .subscribe((response: any) => {
+        this.loadSpinner =false;
         response.biltiBillProcess.forEach((element: any) => {
           element.creationDate = moment
             .utc(element.creationDate)
@@ -60,7 +63,12 @@ export class ChangeBiltiStatusComponent implements OnInit {
         this.biltiBillProcess = response.biltiBillProcess;
         this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
           .map(batchNumber => response?.biltiBillProcess.find((t: any) => t.biltiBillProcessModel?.batchNumber === batchNumber));
-      });
+      },
+      (error) => {
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    );
   }
 
   filteredData(data: any) {

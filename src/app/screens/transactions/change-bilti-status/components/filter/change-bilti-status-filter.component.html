@@ -58,11 +58,19 @@
         </ng-select>
       </div>
     </div>
-
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+        <label for="">Bilti Number</label>
+        <div class="input-with-icon">
+          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="batchName" />
+          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
+        </div>
+      </div>
+    </div>
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!batchNumber && !fromDate && !toDate">
+        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!batchNumber && !fromDate && !toDate && !biltiNumber">
           Search
         </button>
       </div>
@@ -70,7 +78,7 @@
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!batchNumber && !fromDate && !toDate">
+        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!batchNumber && !fromDate && !toDate && !biltiNumber">
           Clear
         </button>
       </div>

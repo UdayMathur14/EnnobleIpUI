@@ -43,3 +43,6 @@
   <div class="content-section" [ngClass]="{'isFilters': isFilters}" *ngIf="searchedData?.batchNumber || searchedData?.toDate">
     <app-approval-material-head-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-approval-material-head-grid-table>
   </div>
+  <div class="spinner" *ngIf="loadSpinner">
+    Loading...
+  </div>

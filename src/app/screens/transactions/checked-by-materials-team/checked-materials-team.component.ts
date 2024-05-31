@@ -19,6 +19,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   biltiNumber: any;
   biltiBillProcess:any = [];
   filteredBiltibillList: any = [];
+  loadSpinner: boolean = false;
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
 
 
@@ -33,6 +34,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   }
 
   getAllBiltiProcess() {
+    this.loadSpinner = true;
     const data = {
       screenCode: 303,
       fromDate: this.fromDate,
@@ -42,6 +44,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       biltiNumber: this.biltiNumber
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
+      this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
         if (element.biltiBillProcessModel) {
@@ -52,7 +55,12 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
       .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
 
-    })
+    },
+      (error) => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    }
+  )
   }
 
   filteredData(data: any) {
@@ -73,6 +81,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   }
 
   updateStatus(status: string, remarks: string, popover: any) {
+    this.loadSpinner = true;
     if (status === 'Rejected' && !remarks.trim()) {
       this.toastr.error('Remarks are required for rejection');
       return;
@@ -87,11 +96,13 @@ export class CheckedMaterialsTeamComponent implements OnInit {
    
     this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
+      this.loadSpinner = false;
       if (popover) {
         popover.close();
       }
       this.getAllBiltiProcess();
     }, error => {
+      this.loadSpinner = false;
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
     });
   }

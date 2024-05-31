@@ -16,4 +16,8 @@ export class DispatchNoteFiltersComponent {
     this.getData.emit({ dispatchNumber: this.dispatchNumber })
   }
 
+  onClearFilter() {
+    this.dispatchNumber = null;
+    this.getData.emit({ dispatchNumber: null })
+  }
 }
