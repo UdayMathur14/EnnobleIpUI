@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
@@ -22,9 +22,10 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     private lookupService: LookupService,
     private toastr: ToastrService
   ) { }
-
-  @Input()
-  filterKeyword!: string;
+  @ViewChild('table') table!: ElementRef;
+  @Input() filterKeyword!: string;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   plantsListOrg : any;
   plantsList : any;
   loadSpinner : boolean = true;
@@ -44,7 +45,9 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     }
     else if (this.plantsListOrg && this.plantsListOrg.length && !changes['filterKeyword'].currentValue) {
       this.plantsList = this.plantsListOrg;
-    }
+    }    
+    this.dataChange.emit(this.plantsList);
+    console.log(this.plantsList, "this.plantsList filtered Data"); 
   }
 
   getAllPlantsList() {
@@ -55,10 +58,24 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
       this.loadSpinner = false;
+      this.dataChange.emit(this.plantsList);
+      console.log(this.plantsList, "Plant List");
+
+      this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Actions') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   onGoToEditPlant(plantData: any) {
@@ -87,5 +104,6 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.plantsList);
+    this.dataChange.emit(this.plantsList);
   }
 }
