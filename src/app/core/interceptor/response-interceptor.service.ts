@@ -17,9 +17,9 @@ export class ResponseInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError((err: any) => {
                 if (err instanceof HttpErrorResponse) {console.log(err);
-                    if (err.status === 401) {
+                    if (err.status === 401 || err.status === 0) {
                         //this.router.navigate(['/login']);
-                        window.location.href  = `${APIConstant.Ums}/auth/login?return_url=${window.location.href}`;
+                        //window.location.href  = `${APIConstant.Ums}/auth/login?return_url=${window.location.href}`;
                     }
                 }
                 return throwError(err);

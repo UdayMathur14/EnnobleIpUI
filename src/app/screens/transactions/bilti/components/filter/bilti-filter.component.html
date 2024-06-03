@@ -3,7 +3,11 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Location Code</label>
-                <input type="text" class="input-field">
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations"
+                        [value]="location.value">{{location.value}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
@@ -11,11 +15,12 @@
                 <label for="">Bilti Number</label>
                 <div class="input-with-icon">
                     <input type="text" class="suggestion" class="input-field" [(ngModel)]="biltiNum"
-                        (input)="onBiltiNoInput(biltiNum)" placeholder="Bilti Number"/>
+                        (input)="onBiltiNoInput(biltiNum)" placeholder="Bilti Number" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestionsBilti && filteredBiltiNo.length > 0" class="suggestions">
-                    <div *ngFor="let biltiNo of filteredBiltiNo" (click)="selectSuggestionBiltiNo(biltiNo)" class="suggestion">
+                    <div *ngFor="let biltiNo of filteredBiltiNo" (click)="selectSuggestionBiltiNo(biltiNo)"
+                        class="suggestion">
                         {{biltiNo}}</div>
                 </div>
             </div>
@@ -24,10 +29,12 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                <button class="custom-button-filters" (click)="onBiltiSearch()" [disabled]="!biltiNum">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!biltiNum"> Clear</button>
+                    <button class="custom-button-filters" (click)="onBiltiSearch()"
+                        [disabled]="!biltiNum">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!biltiNum">
+                        Clear</button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

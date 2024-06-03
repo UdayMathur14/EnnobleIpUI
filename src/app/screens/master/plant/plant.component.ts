@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PlantService } from '../../../core/service';
 import { ExportService } from '../../../core/service/export.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-plant',
@@ -16,6 +17,7 @@ export class PlantComponent implements OnInit {
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
+
   constructor(private router: Router,
     private plantService: PlantService,
     private exportService: ExportService,
@@ -38,7 +40,7 @@ export class PlantComponent implements OnInit {
   }
 
   exportData(fileName: string = "Plants") {
-    console.log('Exporting Plants List:', this.plantsList);
+    //console.log('Exporting Plants List:', this.plantsList);
     // Map the data to include only the necessary fields
     const mappedPlantsList = this.plantsList.map(plant => ({
       plantCode: plant.plantCode,
@@ -54,7 +56,7 @@ export class PlantComponent implements OnInit {
       dcp: plant.dcp,
       status: plant.status
     }));
-    console.log(mappedPlantsList, "Mapped Data");
+    //console.log(mappedPlantsList, "Mapped Data");
     
     this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
   }

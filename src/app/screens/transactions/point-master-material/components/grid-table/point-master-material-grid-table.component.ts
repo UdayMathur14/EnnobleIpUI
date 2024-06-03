@@ -24,43 +24,45 @@ export class PointMasterMaterialGridTableComponent {
     this.getAllPointChargesList();
   }
 
-    //SORTING DATA FROM FILTER CHANGES
-    ngOnChanges(changes: SimpleChanges): void {
-      if(changes['searchedPoint'].currentValue){
-        this.getFilteredPointList();
-      } else if(changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined){
-        this.getAllPointChargesList();
-      }
+  //SORTING DATA FROM FILTER CHANGES
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchedPoint'].currentValue) {
+      this.getFilteredPointList();
+    } else if (changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined) {
+      this.getAllPointChargesList();
     }
+  }
 
-    // GET ALL POINT CHARGE
-    getAllPointChargesList() {
-      this.loadSpinner = true;
-      let data = {
-        "screenCode": 102,
-        "pointName": ''
-      }
-      this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-        this.pointChargesList = response.pointCharges;
-        this.selectPoint(this.selectedPointId);
-        this.loadSpinner = false;
-      }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      })
+  // GET ALL POINT CHARGE
+  getAllPointChargesList() {
+    this.loadSpinner = true;
+    let data = {
+      "screenCode": 102,
+      "pointName": '',
+      locationIds: []
     }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.selectPoint(this.selectedPointId);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
 
-  getFilteredPointList(){
+  getFilteredPointList() {
     this.loadSpinner = true;
     let data = {
       "screenCode": 102,
       "pointName": this.searchedPoint.pointName || "",
+      locationIds: []
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -106,7 +108,7 @@ export class PointMasterMaterialGridTableComponent {
       popover.close();
       this.getAllPointChargesList();
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }

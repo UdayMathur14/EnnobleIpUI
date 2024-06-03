@@ -10,45 +10,52 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './advice-grid-table.component.scss'
 })
 export class AdviceGridTableComponent implements OnInit, OnChanges {
+
+  @Input() filterKeyword!: string;
+  @Input() locationIds!: any[];
+
   adviceTypeList: any = [];
   adviceTypeListOrg: any = [];
-  loadSpinner: boolean = true;
-  @Input() filterKeyword!: string;
+  loadSpinner: boolean = false;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  constructor(private router: Router,
+
+  constructor(
+    private router: Router,
     private adviceService: AdviceTypeService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.getAllAdviceTypesListInit();
   }
 
-  
-  ngOnChanges(changes: SimpleChanges): void {
-    if(this.adviceTypeListOrg && this.adviceTypeListOrg.length && changes['filterKeyword'].currentValue){
-      this.adviceTypeList = this.adviceTypeListOrg.filter((e:any) =>e.adviceType.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+
+  ngOnChanges(changes: SimpleChanges|any): void {
+    if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && changes['filterKeyword'].currentValue) {
+      this.adviceTypeList = this.adviceTypeListOrg.filter((e: any) => e.adviceType.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
-    else if(this.adviceTypeListOrg && this.adviceTypeListOrg.length && !changes['filterKeyword'].currentValue){
+    else if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && !changes['filterKeyword'].currentValue) {
       this.adviceTypeList = this.adviceTypeListOrg;
+    }
+
+    if(changes.locationIds && changes.locationIds.currentValue){
+      this.getAllAdviceTypesListInit();
     }
   }
 
   getAllAdviceTypesListInit() {
-    let data = {
-      "adviceType": '',
-    }
-    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
+    this.adviceService.getAdviceTypes({ adviceType: '', locationIds: this.locationIds }).subscribe((response: any) => {
       this.adviceTypeList = response.advices;
-      this.adviceTypeListOrg =  response.advices;
+      this.adviceTypeListOrg = response.advices;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
 
-  onGoToEditAdvice(advice : any) {
+  onGoToEditAdvice(advice: any) {
     this.router.navigate(['master/addEditAdvice', advice.id]);
   }
 

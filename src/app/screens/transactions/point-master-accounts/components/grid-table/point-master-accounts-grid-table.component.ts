@@ -38,14 +38,15 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
       this.loadSpinner = true;
       let data = {
         "screenCode": 103,
-        "pointName": ''
+        "pointName": '',
+        locationIds:[]
       }
       this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
         this.pointChargesList = response.pointCharges;
         this.selectPoint(this.selectedPointId);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       })
     }
@@ -55,12 +56,13 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
       let data = {
         "screenCode": 103,
         "pointName": this.searchedPoint.pointName || "",
+        locationIds:[]
       }
       this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
         this.pointChargesList = response.pointCharges;
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       })
     }
@@ -106,7 +108,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
       popover.close();
       this.getAllPointChargesList();
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }

@@ -14,15 +14,15 @@ export class TransporterService extends CRUDService<PlantRequest> {
     }
 
     getTransporters(data : any){
-        return this.post(transporter(localStorage.getItem('locationId')), data);
+        return this.post(transporter(this.locationIds), data);
     }
 
     getTransporterData(transporterId : string){
-        return this.get(transporterData(localStorage.getItem('locationId'), transporterId));
+        return this.get(transporterData(this.locationIds, transporterId));
     }
 
     updateTransporter(transporterId : string, data : object){
-        return this.put(updateTransporter(localStorage.getItem('locationId'), transporterId), data);
+        return this.put(updateTransporter(this.locationIds, transporterId), data);
     }
 
     getDropdownData(data : object, type: string){

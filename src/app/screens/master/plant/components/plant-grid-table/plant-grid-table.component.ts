@@ -7,6 +7,7 @@ import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../../core/service/lookup.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-plant-grid-table',
@@ -24,6 +25,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   ) { }
   @ViewChild('table') table!: ElementRef;
   @Input() filterKeyword!: string;
+  @Input() locationSel!: string;
   @Output() dataChange = new EventEmitter<any[]>();
   @Output() headersChange = new EventEmitter<string[]>();
   plantsListOrg : any;
@@ -47,26 +49,21 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.plantsList = this.plantsListOrg;
     }    
     this.dataChange.emit(this.plantsList);
-    console.log(this.plantsList, "this.plantsList filtered Data"); 
   }
 
   getAllPlantsList() {
-    let data = {
-      "plantCode": ''
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
+    this.plantService.getPlants({plantCode:"",locationIds:[APIConstant.locationsListDropdown[0]?.id]}).subscribe((response: any) => {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
       this.loadSpinner = false;
       this.dataChange.emit(this.plantsList);
-      console.log(this.plantsList, "Plant List");
-
       this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
+
   emitHeaders() {
     const headers: string[] = [];
     const headerCells = this.table.nativeElement.querySelectorAll('thead th');

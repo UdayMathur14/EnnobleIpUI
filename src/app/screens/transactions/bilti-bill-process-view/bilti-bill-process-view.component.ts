@@ -10,9 +10,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './bilti-bill-process-view.component.scss'
 })
 export class BiltiBillProcessViewComponent {
-  constructor(private router: Router,private biltiBIllProService: BiltiBillProcessService,
-    private toastr: ToastrService
-  ) { }
 
   isFilters: boolean = true;
   searchedData: any;
@@ -23,23 +20,29 @@ export class BiltiBillProcessViewComponent {
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
+  locationIds: any[] = [];
   toDate: any = moment().format('YYYY-MM-DD');
+
+  constructor(
+    private router: Router,
+    private biltiBIllProService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.getAllBiltiProcess();
   }
 
-
-
   getAllBiltiProcess() {
-    this.loadSpinner= true;
+    this.loadSpinner = true;
     const obj = {
       screenCode: 301,
       fromDate: this.fromDate,
       toDate: this.toDate,
       adviceType: this.adviceType,
       batchNumber: this.batchNumber,
-      biltiNumber: this.biltiNumber
+      biltiNumber: this.biltiNumber,
+      locationIds: this.locationIds
     }
     this.biltiBIllProService.getBiltiBillProcess(obj).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -51,14 +54,14 @@ export class BiltiBillProcessViewComponent {
       });
       this.biltiBillProcess = response.biltiBillProcess;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
-      .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
+        .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       this.loadSpinner = false;
     },
-    (error) => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    }
-  )
+      (error) => {
+        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    )
   }
 
   filteredData(data: any) {
@@ -68,6 +71,7 @@ export class BiltiBillProcessViewComponent {
     this.batchNumber = data.batchNumber;
     this.biltiNumber = data.biltiNumber;
     this.adviceType = data.adviceType;
+    this.locationIds = data.locationIds;
 
     this.getAllBiltiProcess();
   }

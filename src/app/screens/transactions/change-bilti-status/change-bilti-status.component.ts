@@ -43,6 +43,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
       adviceType: '',
       batchNumber: this.batchNumber,
       biltiNumber: this.biltiNumber,
+      locationIds:[]
     };
     this.biltiProcessService
       .getBiltiBillProcess(data)
@@ -65,7 +66,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
           .map(batchNumber => response?.biltiBillProcess.find((t: any) => t.biltiBillProcessModel?.batchNumber === batchNumber));
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );

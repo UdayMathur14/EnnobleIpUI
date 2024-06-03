@@ -1,16 +1,18 @@
 <div class="page-title">
-    <h1>Bilti Bill Process View</h1>
-    <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onCreateBilti()">Create Bilti Bill</button>
-    </div>
+  <h1>Bilti Bill Process View</h1>
+  <div class="action-buttons">
+    <button class="custom-button-regulr" (click)="onCreateBilti()">Create Bilti Bill</button>
+  </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-bilti-bill-process-view-filter (filterSearchObj)="filteredData($event)" [filteredBiltibillList]="filteredBiltibillList"></app-bilti-bill-process-view-filter>
-  </div>
-  
-  <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-bilti-bill-process-view-grid-table [biltiBillProcess]="biltiBillProcess"></app-bilti-bill-process-view-grid-table>
-  </div>
-  <div class="spinner" *ngIf="loadSpinner">
-    Loading...
-  </div>
+  <app-bilti-bill-process-view-filter (filterSearchObj)="filteredData($event)"
+    [filteredBiltibillList]="filteredBiltibillList"></app-bilti-bill-process-view-filter>
+</div>
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-bilti-bill-process-view-grid-table
+    [biltiBillProcess]="biltiBillProcess"></app-bilti-bill-process-view-grid-table>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

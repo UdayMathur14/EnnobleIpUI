@@ -23,12 +23,13 @@ export class PointMasterMaterialFiltersComponent implements OnInit {
   getAllPointChargesList() {
     let data = {
       "screenCode": 102, //Lookup Material Screen Code
-      "pointName": ''
+      "pointName": '',
+      locationIds:[]
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargeList = response.pointCharges;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
     })
   }
 

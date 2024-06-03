@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExportService } from '../../../core/service/export.service';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-advice',
@@ -12,6 +13,9 @@ export class AdviceComponent {
   filterKeyword: string = '';
   isFilters: boolean = false;
   fullScreen : boolean = false;
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
+
   constructor(private router: Router,
     private exportService: ExportService
   ) { }

@@ -17,18 +17,17 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.post(APIConstant.lookups, data);
   }
 
-  //For Lookup module
   getLookupDatas(lookupId: number) {
     return this.get(APIConstant.lookupData + lookupId);
   }
 
-  //for Location Id
   getLookupData(key: any) {
     return this.post(APIConstant.getLookupData, key);
   }
 
   getLookupDataForLocation() {
     this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
+      APIConstant.locationsListDropdown = response.lookUps;
       this.baseService.lookupData.next(response);
       const locations = response.lookUps.filter((e: any) => e.code === 'HA');
       localStorage.setItem('locationId', locations[0]?.id)

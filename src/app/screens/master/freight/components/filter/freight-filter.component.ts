@@ -35,7 +35,7 @@ export class FreightFilterComponent implements OnInit {
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
     })
   }
 

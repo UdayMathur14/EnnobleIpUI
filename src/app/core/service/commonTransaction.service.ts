@@ -13,10 +13,10 @@ export class CommonTransactionService extends CRUDService<PlantRequest> {
     }
 
     updateStatus(id: number, data: object) {
-        return this.put(commonTransaction(localStorage.getItem('locationId'), id), data);
+        return this.put(commonTransaction(this.locationIds, id), data);
     }
 
     updateBiltiApprovalStatus(id: number, data: object){
-        return this.put(updateBiltiStatus(localStorage.getItem('locationId'), id), data);
+        return this.put(updateBiltiStatus(this.locationIds, id), data);
     }
 }

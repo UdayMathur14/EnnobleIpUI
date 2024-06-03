@@ -33,7 +33,7 @@ export class ValidateComponent implements OnInit {
             }
             const atobParam: any = atob(data);
             const userData = JSON.parse(atobParam);
-            const app = userData.apps.find((e:any)=>e.name===APIConstant.appSlug);
+            const app = userData.apps[0];
             this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe((res) => {
                 localStorage.setItem("logindata", atobParam);
                 localStorage.setItem("profile", JSON.stringify(res));

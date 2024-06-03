@@ -1,6 +1,13 @@
 <div class="page-title">
   <h1>Advice Master</h1>
   <div class="action-buttons">
+    <div>
+      <div class="">
+        <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
+          <ng-option *ngFor="let location of locations" [value]="location.value">{{location.value}}</ng-option>
+        </ng-select>
+      </div>
+    </div>
     <div class="search-field">
       <input type="text" placeholder="Search Advice Type" (input)="onSearch($event)" />
       <span><img src="assets/images/icons/search.svg" alt="search" /></span>
@@ -36,5 +43,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-advice-grid-table [filterKeyword]="filterKeyword"></app-advice-grid-table>
+  <app-advice-grid-table [filterKeyword]="filterKeyword" [locationIds]="locationIds"></app-advice-grid-table>
 </div>

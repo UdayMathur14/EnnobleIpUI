@@ -14,10 +14,10 @@ export class ChangeBiltiStatusService extends CRUDService<null> {
 
   changeBitltiStatus(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + changeBiltiStatus(localStorage.getItem('locationId')), data);
+      APIConstant.basePath + changeBiltiStatus(this.locationIds), data);
   }
 
   getNocPdf(biltiId: number) {
-    return this.get(getNocPdf(localStorage.getItem('locationId'), biltiId));
+    return this.get(getNocPdf(this.locationIds, biltiId));
   }
 }

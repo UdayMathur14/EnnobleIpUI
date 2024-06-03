@@ -7,18 +7,11 @@
     </div>
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
-      <div container="body">
-        <img
-          src="assets/images/icons/fullScreen.svg"
-          alt=""
-          class="pointer"
-          width="14px"
-          (click)="fullScreen = !fullScreen"
-          placement="start"
-          [ngbTooltip]="tipContent"
-        />
-        <ng-template #tipContent> Full Screen </ng-template>
-      </div>
+    <div container="body">
+      <img src="assets/images/icons/fullScreen.svg" alt="" class="pointer" width="14px"
+        (click)="fullScreen = !fullScreen" placement="start" [ngbTooltip]="tipContent" />
+      <ng-template #tipContent> Full Screen </ng-template>
+    </div>
   </div>
 </div>
 
@@ -27,13 +20,9 @@
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
-  <img
-      *ngIf="fullScreen"
-      src="assets/images/icons/fullScreenCollapse.svg"
-      alt=""
-      class="me-3 pointer float-end"
-      width="14px"
-      (click)="fullScreen = !fullScreen"
-    />
-  <app-plant-grid-table [filterKeyword]="filterKeyword" (dataChange)="onPlantsListChange($event)" (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
+  <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
+    width="14px" (click)="fullScreen = !fullScreen" />
+  <app-plant-grid-table [filterKeyword]="filterKeyword"
+    (dataChange)="onPlantsListChange($event)"
+    (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
 </div>

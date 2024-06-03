@@ -7,7 +7,7 @@ const svcURL = environment.svcURL;
 const gtmURL = environment.gtmURL;
 const commonURL = environment.commonAPI;
 
-export const APIConstant = {
+export const APIConstant:any = {
     basePath: apiPath,
     appSlug : `Mfg`,
     Ums: umsURL,
@@ -15,12 +15,13 @@ export const APIConstant = {
     Svc: svcURL,
     Gtm: gtmURL,
     commonURL:commonURL,
+    locationsListDropdown:[],
     generateToken:(appId:string)=> `api/v1/login/generate-token/${appId}`,
     lookup: `/lookup/`,
     plant: `v1/plant/search`,
     plantData: `v1/plant/`,
     updatePlant: `v1/plant/update/`,
-    pointCharge: `v1/2/point-charge/search`,
+    pointCharge: `v1/point-charge/search`,
     vendors: `v1/vendor/search/`,
     vendorData: `v1/vendor/`,
     updateVendor: `v1/vendor/update/`,
@@ -64,7 +65,7 @@ export const transporterData = (locationId: any, transporterId: any) => `v1/${lo
 export const updateTransporter = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/update/${transporterId}`;
 export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
 export const commonTransaction= (locationId:any, id: any) => `v1/${locationId}/commonTransaction/updateStatus/${id}`;   
-export const bilti = (locationId: any) => `v1/${locationId}/bilti-creation/search`;
+export const bilti = `v1/bilti-creation/search`;
 export const frlr = (locationId: any) => `v1/${locationId}/frm-transactions/search`;
 export const createBilti = (locationId: any) => `v1/${locationId}/bilti-creation/create`;
 export const biltiData = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/${biltiId}`;
@@ -73,7 +74,7 @@ export const createDispatchNote = (locationId: any) => `v1/${locationId}/dispatc
 export const getDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/search`;
 export const dispatchData = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/${dispatchId}`;
 export const updateDispatchNote = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/update/${dispatchId}`;
-export const biltiBillProcess = (locationId:any) => `v1/${locationId}/bilti-process/search`;
+export const biltiBillProcess = `v1/bilti-process/search`;
 export const biltiBillProcessbyId = (locationId:any, biltiProcessId:any) => `v1/${locationId}/bilti-process/${biltiProcessId}`;
 export const createBiltiBillProcess = (locationId: any) => `v1/${locationId}/bilti-process/create`;
 export const updateBiltiBillProcess = (locationId: any, biltiBillProcessId: any) => `v1/${locationId}/bilti-process/update/${biltiBillProcessId}`

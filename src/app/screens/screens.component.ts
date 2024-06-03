@@ -17,7 +17,7 @@ export class ScreensComponent implements OnInit {
 
     ngOnInit() {
 
-        this.lookupService.getLookupDataForLocation();
+        //this.lookupService.getLookupDataForLocation();
 
         this.baseService.plantSpinner.subscribe((res) => {
             this.loadSpinner = res;

@@ -13,18 +13,18 @@ export class AdviceTypeService extends CRUDService<PlantRequest> {
     }
 
     getAdviceTypes(data : any){
-        return this.post(adviceType(localStorage.getItem('locationId')), data);
+        return this.post(adviceType(this.locationIds), data);
     }
 
     getAdviceTypeData(adviceId : number){
-        return this.get(adviceTypeData(localStorage.getItem('locationId'), adviceId));
+        return this.get(adviceTypeData(this.locationIds, adviceId));
     }
 
     updateAdviceType(adviceId : number, data : object){
-        return this.put(updateAdviceType(localStorage.getItem('locationId'), adviceId), data);
+        return this.put(updateAdviceType(this.locationIds, adviceId), data);
     }
 
     createAdviceType(data : object){
-        return this.post(createAdviceType(localStorage.getItem('locationId')), data);
+        return this.post(createAdviceType(this.locationIds), data);
     }
 }

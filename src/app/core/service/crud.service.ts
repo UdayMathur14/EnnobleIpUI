@@ -5,7 +5,7 @@ import { CommonUtility } from "../utilities/common";
 
 export class CRUDService<T> {
     protected baseUrl = "";
-
+    locationIds = Number(localStorage.getItem('locationId'));
     plantSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     vendorSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     partSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);

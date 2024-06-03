@@ -10,11 +10,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './approval-accounts.component.scss'
 })
 export class ApprovalAccountsComponent implements OnInit{
-  constructor(private router : Router,
-              private biltiProcessService: BiltiBillProcessService,
-              private toastr: ToastrService
-  ){}
 
+  
   isFilters : boolean = true;
   searchedData: any;
   fromDate: any = '2000-01-01'; 
@@ -24,11 +21,18 @@ export class ApprovalAccountsComponent implements OnInit{
   filteredBiltibillList: any = [];
   toDate: any = moment().format('YYYY-MM-DD');
   loadSpinner: boolean = false;
+  
+  constructor(
+    private router : Router,
+    private biltiProcessService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ){
+
+  }
+
   ngOnInit(): void {
     this.getAllBiltiProcess();
   }
-
-
 
   getAllBiltiProcess() {
     this.loadSpinner = true;
@@ -38,7 +42,8 @@ export class ApprovalAccountsComponent implements OnInit{
       toDate: this.toDate,
       adviceType: "",
       batchNumber: this.batchNumber,
-      biltiNumber: this.biltiNumber
+      biltiNumber: this.biltiNumber,
+      locationIds:[]
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -53,7 +58,7 @@ export class ApprovalAccountsComponent implements OnInit{
       .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
     },
     (error) => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     }
   )
