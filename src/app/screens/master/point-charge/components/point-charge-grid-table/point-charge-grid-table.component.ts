@@ -22,18 +22,23 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
   pointChargesList: any;
   pointChargeListOrg: any;
   @Input() filterKeyword!: string;
+  @Input() locationIds!: any[];
   loadSpinner: boolean = true;
 
   ngOnInit(): void {
     this.getAllPointChargesList()
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.pointChargeListOrg && this.pointChargeListOrg.length && changes['filterKeyword'].currentValue) {
+  ngOnChanges(changes: SimpleChanges|any): void {
+    if (this.pointChargeListOrg && this.pointChargeListOrg.length && changes?.['filterKeyword'] && changes?.['filterKeyword'].currentValue) {
       this.pointChargesList = this.pointChargeListOrg.filter((e: any) => e.pointName.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
-    else if (this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword'].currentValue) {
+    else if (this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword']?.currentValue) {
       this.pointChargesList = this.pointChargeListOrg;
+    }
+
+    if(changes?.locationIds?.currentValue){
+      this.getAllPointChargesList();
     }
   }
 
@@ -47,7 +52,7 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     let data = {
       "screenCode": 101,
       "pointName": '',
-      locationIds:[]
+      locationIds: this.locationIds
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;

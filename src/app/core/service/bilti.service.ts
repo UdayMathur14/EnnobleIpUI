@@ -44,21 +44,21 @@ export class BiltiService extends CRUDService<BiltiRequest> {
 
   getVehicleNo(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + vehicle(this.locationIds),
+      APIConstant.basePath + vehicle,
       data
     );
   }
 
   getTransporters(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + transporter(this.locationIds),
+      APIConstant.basePath + transporter,
       data
     );
   }
 
   getFreightsList(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + freight(this.locationIds),
+      APIConstant.basePath + freight,
       data
     );
   }

@@ -11,18 +11,18 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './vehicle-grid-table.component.scss'
 })
 export class VehicleGridTableComponent implements OnInit {
-  vehiclesList:any;
+  vehiclesList: any;
   @Input() searchedVehicle: any;
   loadSpinner: boolean = true;
-  vehiclesListOrg:any;
+  vehiclesListOrg: any;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    private baseService : BaseService,) { }
+    private baseService: BaseService,) { }
 
-  ngOnInit() :void{
+  ngOnInit(): void {
     this.getAllVehiclesList();
   }
 
@@ -31,13 +31,14 @@ export class VehicleGridTableComponent implements OnInit {
     this.router.navigate(['master/editVehicle', vehicleData.id]);
   }
 
- // GET ALL VEHICLE DATA 
-  getAllVehiclesList(){
+  // GET ALL VEHICLE DATA 
+  getAllVehiclesList() {
     let data = {
-      "vehicleNumber" : '',
-      "transporterId": 0
+      "vehicleNumber": '',
+      "transporterId": 0,
+      locationIds: []
     }
-    this.vehicleService.getVehicles(data).subscribe((response:any) => {
+    this.vehicleService.getVehicles(data).subscribe((response: any) => {
       this.vehiclesList = response.vehicles;
       this.vehiclesListOrg = response.plants;
       this.loadSpinner = false;
@@ -51,7 +52,8 @@ export class VehicleGridTableComponent implements OnInit {
   getFilteredVehiclesList() {
     let data = {
       "vehicleNumber": this.searchedVehicle.vehicleNumber,
-      "transporterId": this.searchedVehicle.transporterId
+      "transporterId": this.searchedVehicle.transporterId,
+      locationIds: this.searchedVehicle.locationIds
     }
     this.vehicleService.getVehicles(data).subscribe((response: any) => {
       this.vehiclesList = response.vehicles;

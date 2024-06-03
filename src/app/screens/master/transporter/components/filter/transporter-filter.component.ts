@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { TransporterService } from '../../../../../core/service/transporter.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-transporter-filter',
@@ -11,6 +12,8 @@ export class TransporterFiltersComponent implements OnInit {
   transportersList: any = [];
   transCode: string | undefined;
   transName: string = '';
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
   @Output() transFilterObj : EventEmitter<object> = new EventEmitter();
 
   constructor(private transporterService: TransporterService,
@@ -25,7 +28,8 @@ export class TransporterFiltersComponent implements OnInit {
   getAllTransportersListInit() {
     let data = {
       "transporterCode": '',
-      "transporterName": ''
+      "transporterName": '',
+      locationIds:this.locationIds
     }
     this.transporterService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
@@ -37,7 +41,8 @@ export class TransporterFiltersComponent implements OnInit {
   onTransporterSearch(){
     let obj = {
       transName : this.transName,
-      transCode : this.transCode
+      transCode : this.transCode,
+      locationIds:this.locationIds
     }
     this.transFilterObj.emit(obj)
   }
@@ -47,7 +52,8 @@ export class TransporterFiltersComponent implements OnInit {
     this.transCode = undefined;
     let obj = {
       transName : '',
-      transCode : ''
+      transCode : '',
+      locationIds :[]
     }
     this.transFilterObj.emit(obj)
   }

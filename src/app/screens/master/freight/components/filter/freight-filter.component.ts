@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-freight-filter',
@@ -15,6 +16,8 @@ export class FreightFilterComponent implements OnInit {
   freightList : any = [];
   sources: any = [];
   vehcileSizes: any = [];
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
   
   constructor(private freightService : FreightService,
     private toastr : ToastrService){}
@@ -30,7 +33,8 @@ export class FreightFilterComponent implements OnInit {
     let data = {
       "freightCode": '',
       "source": '',
-      "vehicleSize": ''
+      "vehicleSize": '',
+      locationIds: []
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -43,7 +47,8 @@ export class FreightFilterComponent implements OnInit {
     let obj = {
       "freightCode" : this.freightCode || "",
       "source" : this.source || "",
-      "vehicleSize" : this.vehicleSize || ""
+      "vehicleSize" : this.vehicleSize || "",
+      locationIds:this.locationIds
     }
     this.freightFilterObj.emit(obj)
   }
@@ -55,7 +60,8 @@ export class FreightFilterComponent implements OnInit {
     let obj = {
       freightCode : '',
       source : '',
-      vehicleSize : ''
+      vehicleSize : '',
+      locationIds: []
     }
     this.freightFilterObj.emit(obj)
   }

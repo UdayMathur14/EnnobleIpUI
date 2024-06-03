@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PlantService } from '../../../core/service';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { ExportService } from '../../../core/service/export.service';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-point-charge',
@@ -13,6 +14,9 @@ export class PointChargeComponent implements OnInit {
   isFilters: boolean = false;
   filterKeyword: string = '';
   fullScreen : boolean = false;
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
+
   constructor(private router: Router,
     private exportService: ExportService
   ) { }

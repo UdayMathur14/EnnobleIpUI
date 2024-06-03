@@ -11,8 +11,8 @@ import { LookupService } from './lookup.service';
 export class BootService {
 
     constructor(
-        private lookupService:LookupService,
-        private baseService: BaseService, 
+        private lookupService: LookupService,
+        private baseService: BaseService,
         private router: Router
     ) { }
 

@@ -9,24 +9,25 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './approval-accounts.component.html',
   styleUrl: './approval-accounts.component.scss'
 })
-export class ApprovalAccountsComponent implements OnInit{
+export class ApprovalAccountsComponent implements OnInit {
 
-  
-  isFilters : boolean = true;
+
+  isFilters: boolean = true;
   searchedData: any;
-  fromDate: any = '2000-01-01'; 
+  fromDate: any = '2000-01-01';
   batchNumber: any;
   biltiNumber: any;
+  locationIds: any[] = [];
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   toDate: any = moment().format('YYYY-MM-DD');
   loadSpinner: boolean = false;
-  
+
   constructor(
-    private router : Router,
+    private router: Router,
     private biltiProcessService: BiltiBillProcessService,
     private toastr: ToastrService
-  ){
+  ) {
 
   }
 
@@ -43,7 +44,7 @@ export class ApprovalAccountsComponent implements OnInit{
       adviceType: "",
       batchNumber: this.batchNumber,
       biltiNumber: this.biltiNumber,
-      locationIds:[]
+      locationIds: this.locationIds
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -55,13 +56,13 @@ export class ApprovalAccountsComponent implements OnInit{
       });
       this.biltiBillProcess = response.biltiBillProcess;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
-      .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
+        .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
     },
-    (error) => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    }
-  )
+      (error) => {
+        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    )
   }
 
   filteredData(data: any) {
@@ -70,6 +71,7 @@ export class ApprovalAccountsComponent implements OnInit{
     this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
     this.biltiNumber = data.biltiNumber;
+    this.locationIds = data.locationIds
     this.getAllBiltiProcess();
   }
 }

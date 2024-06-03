@@ -1,6 +1,15 @@
 <div class="filters-box">
     <div class="row">
         <div class="col-lg-2">
+            <div class="">
+                <label for="">Location Code</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Freight Code</label>
                 <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight">
@@ -11,8 +20,8 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="!freightCode">Clear</button>
-                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!freightCode">Search</button>
+                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !freightCode">Clear</button>
+                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="locationIds.length==0 && !freightCode">Search</button>
             </div>
         </div>
     </div>

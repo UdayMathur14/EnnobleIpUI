@@ -14,8 +14,8 @@ export class DispatchNoteService extends CRUDService<DispatchNoteRequest>{
     }
 
 
-    getDispatchNote(dispatchNumber:string=""){
-        return this.baseService.post(APIConstant.basePath+getDispatchNote(this.locationIds),{dispatchNumber});
+    getDispatchNote(data:any){
+        return this.baseService.post(APIConstant.basePath+getDispatchNote,data);
     }
 
     createDispatchNote(data : object){

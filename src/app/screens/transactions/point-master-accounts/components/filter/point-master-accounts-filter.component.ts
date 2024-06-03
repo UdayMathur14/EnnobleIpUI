@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-point-master-accounts-filter',
@@ -11,6 +12,9 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
   @Output() pointFilterObj : EventEmitter<object> = new EventEmitter();
   pointName : any = undefined;
   pointChargeList : any = [];
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
+  
   
   constructor(private pointChargeService : PointChargeService,
     private toastr : ToastrService){}
@@ -36,6 +40,7 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
   onPointChargeSearch(){
     let obj = {
       "pointName" : this.pointName || "",
+      locationIds: this.locationIds
     }
     this.pointFilterObj.emit(obj)
   }
@@ -44,6 +49,7 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
     this.pointName = undefined;
     let obj = {
       pointName : '',
+      locationIds:[]
     }
     this.pointFilterObj.emit(obj)
   }

@@ -13,7 +13,7 @@ export class AdviceTypeService extends CRUDService<PlantRequest> {
     }
 
     getAdviceTypes(data : any){
-        return this.post(adviceType(this.locationIds), data);
+        return this.post(adviceType, data);
     }
 
     getAdviceTypeData(adviceId : number){

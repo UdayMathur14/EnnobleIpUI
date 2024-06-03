@@ -41,14 +41,14 @@ export const APIConstant:any = {
     transactionTypeInterfaces: `v1/transactiontypeinterface/search`,
 }
 
-export const freight = (locationId: any) => `v1/${locationId}/freight/search`;
+export const freight = `v1/freight/search`;
 export const freightData = (locationId: any, freightId: any) => `v1/${locationId}/freight/${freightId}`;
 export const createFreight = (locationId: any) => `v1/${locationId}/freight/create`;
 export const updateFreight = (locationId: any, freightId: any) => `v1/${locationId}/freight/update/${freightId}`;
 export const plantData = (locationId: any, plantId: any) => `v1/${locationId}/plant/${plantId}`;
 export const plant = (locationId: any) => `v1/${locationId}/plant/search`;
 export const updatePlant = (locationId: any, plantId: any) => `v1/${locationId}/plant/update/${plantId}`;
-export const vehicle = (locationId: any) => `v1/${locationId}/vehicle/search`;
+export const vehicle = `v1/vehicle/search`;
 export const vehicleData = (locationId: any, vehicleId: any) => `v1/${locationId}/vehicle/${vehicleId}`;
 export const createVehicle = (locationId: any) => `v1/${locationId}/vehicle/create`;
 export const updateVehicle = (locationId: any, vehicleId: any) => `v1/${locationId}/vehicle/update/${vehicleId}`;
@@ -57,10 +57,10 @@ export const pointChargeData = (locationId: any, pointChargeId: any) => `v1/${lo
 export const createPointCharge = (locationId: any) => `v1/${locationId}/point-charge/create`;
 export const updatePointCharge = (locationId: any, pointChargeId: any) => `v1/${locationId}/point-charge/update/${pointChargeId}`;
 export const adviceTypeData = (locationId: any, adviceId: any) => `v1/${locationId}/advice/${adviceId}`;
-export const adviceType = (locationId: any) => `v1/${locationId}/advice/search`;
+export const adviceType = `v1/advice/search`;
 export const updateAdviceType = (locationId: any, adviceId: any) => `v1/${locationId}/advice/update/${adviceId}`;
 export const createAdviceType = (locationId: any) => `v1/${locationId}/advice/create`;
-export const transporter = (locationId: any) => `v1/${locationId}/transporter/search`;
+export const transporter = `v1/transporter/search`;
 export const transporterData = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/${transporterId}`;
 export const updateTransporter = (locationId: any, transporterId: any) => `v1/${locationId}/transporter/update/${transporterId}`;
 export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
@@ -71,7 +71,7 @@ export const createBilti = (locationId: any) => `v1/${locationId}/bilti-creation
 export const biltiData = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/${biltiId}`;
 export const updateBitli = (locationId: any, biltiId: any) => `v1/${locationId}/bilti-creation/update/${biltiId}`;
 export const createDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/create`;
-export const getDispatchNote = (locationId: any) => `v1/${locationId}/dispatch-note/search`;
+export const getDispatchNote = `v1/dispatch-note/search`;
 export const dispatchData = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/${dispatchId}`;
 export const updateDispatchNote = (locationId: any, dispatchId: any) => `v1/${locationId}/dispatch-note/update/${dispatchId}`;
 export const biltiBillProcess = `v1/bilti-process/search`;

@@ -6,7 +6,7 @@
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
                     placeholder="Select location">
                     <ng-option *ngFor="let location of locations"
-                        [value]="location.value">{{location.value}}</ng-option>
+                        [value]="location.id">{{location.value}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -30,8 +30,8 @@
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="onBiltiSearch()"
-                        [disabled]="!biltiNum">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!biltiNum">
+                        [disabled]="locationIds.length==0 && !biltiNum">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !biltiNum">
                         Clear</button>
                 </div>
             </div>

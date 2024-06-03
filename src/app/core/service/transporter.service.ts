@@ -14,7 +14,7 @@ export class TransporterService extends CRUDService<PlantRequest> {
     }
 
     getTransporters(data : any){
-        return this.post(transporter(this.locationIds), data);
+        return this.post(transporter, data);
     }
 
     getTransporterData(transporterId : string){

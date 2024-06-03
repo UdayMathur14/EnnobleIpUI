@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-freight-master-accounts-filter',
@@ -11,6 +12,8 @@ export class FreightMasterAccountsFiltersComponent {
   @Output() freightFilterObj: EventEmitter<object> = new EventEmitter();
   freightCode: any = undefined;
   freightList: any = [];
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
 
   constructor(private freightService: FreightService,
     private toastr: ToastrService) { }
@@ -24,6 +27,7 @@ export class FreightMasterAccountsFiltersComponent {
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": '',
+      locationIds:[]
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -35,6 +39,7 @@ export class FreightMasterAccountsFiltersComponent {
   onFreightSearch() {
     let obj = {
       "freightCode": this.freightCode || "",
+      locationIds: this.locationIds
     }
     this.freightFilterObj.emit(obj)
   }
@@ -43,6 +48,7 @@ export class FreightMasterAccountsFiltersComponent {
     this.freightCode = undefined;
     let obj = {
       freightCode: '',
+      locationIds:[]
     }
     this.freightFilterObj.emit(obj)
   }

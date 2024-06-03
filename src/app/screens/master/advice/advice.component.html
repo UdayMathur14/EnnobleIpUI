@@ -4,7 +4,7 @@
     <div>
       <div class="">
         <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
-          <ng-option *ngFor="let location of locations" [value]="location.value">{{location.value}}</ng-option>
+          <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
         </ng-select>
       </div>
     </div>

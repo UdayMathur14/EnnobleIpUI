@@ -4,7 +4,7 @@
       <div class="custom-form-input">
         <label for="">Location Code</label>
         <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
-          <ng-option *ngFor="let location of locations" [value]="location.value">{{location.value}}</ng-option>
+          <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
         </ng-select>
       </div>
     </div>
@@ -55,7 +55,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="handleSearch()"
-          [disabled]="!batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
           Search
         </button>
       </div>
@@ -64,7 +64,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="!batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
           Clear
         </button>
       </div>

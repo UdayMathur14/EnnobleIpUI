@@ -56,7 +56,7 @@ export class PointMasterMaterialGridTableComponent {
     let data = {
       "screenCode": 102,
       "pointName": this.searchedPoint.pointName || "",
-      locationIds: []
+      locationIds: this.searchedPoint.locationIds
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;

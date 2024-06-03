@@ -15,12 +15,13 @@ export class ApprovalMaterialHeadComponent {
   constructor(private biltiProcessService: BiltiBillProcessService,
     private toastr: ToastrService,
     private commonTransaction: CommonTransactionService
-  ) {}
+  ) { }
   searchedData: any;
   fromDate: any = '2000-01-01';
   batchNumber: any;
   biltiNumber: any;
-  biltiBillProcess:any = [];
+  locationIds: any[] = [];
+  biltiBillProcess: any = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
   toDate: any = moment().format('YYYY-MM-DD');
@@ -38,7 +39,7 @@ export class ApprovalMaterialHeadComponent {
       adviceType: '',
       batchNumber: this.batchNumber,
       biltiNumber: this.biltiNumber,
-      locationIds:[]
+      locationIds: this.locationIds
     };
     this.biltiProcessService
       .getBiltiBillProcess(data)
@@ -58,13 +59,13 @@ export class ApprovalMaterialHeadComponent {
         });
         this.biltiBillProcess = response.biltiBillProcess;
         this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
-        .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
+          .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       },
-      (error) => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
+        (error) => {
+          this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+          this.loadSpinner = false;
+        }
+      );
   }
 
   filteredData(data: any) {
@@ -73,6 +74,7 @@ export class ApprovalMaterialHeadComponent {
     this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
     this.biltiNumber = data.biltiNumber;
+    this.locationIds = data.locationIds
     this.getAllBiltiProcess();
   }
 
@@ -90,14 +92,14 @@ export class ApprovalMaterialHeadComponent {
       this.toastr.error('Remarks are required for rejection');
       return;
     }
-      const data = {
-        approvalLevel: 'Material',
-        status: status,
-        remarks:  remarks,
-        actionBy: 1,
-        transactionCode: 203,
-      };
-   
+    const data = {
+      approvalLevel: 'Material',
+      status: status,
+      remarks: remarks,
+      actionBy: 1,
+      transactionCode: 203,
+    };
+
     this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
       this.loadSpinner = false;

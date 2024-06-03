@@ -14,7 +14,7 @@ export class VehicleService extends CRUDService<VehicleRequest> {
   }
 
   getVehicles(data: any) {
-    return this.post(vehicle(this.locationIds), data);
+    return this.post(vehicle, data);
   }
 
   getVehicleData(vehicleId: string) {
@@ -35,7 +35,7 @@ export class VehicleService extends CRUDService<VehicleRequest> {
   }
 
   getTransporters(data: any) {
-    return this.post(transporter(this.locationIds), data);
+    return this.post(transporter, data);
   }
 
   getTransporterData(transporterId: string) {

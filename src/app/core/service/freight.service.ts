@@ -14,7 +14,7 @@ export class FreightService extends CRUDService<PlantRequest> {
     }
 
     getFreightsList(data : any){
-        return this.post(freight(this.locationIds), data);
+        return this.post(freight, data);
     }
 
     getFreightData(freightId : number){

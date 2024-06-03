@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-vehicle-filters',
@@ -28,6 +29,8 @@ export class VehicleFiltersComponent implements OnInit {
   transporterId: number = 0;
   allVehicleNo: any = [];
   filteredVehicleNo: any = [];
+  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]=[];
 
   ngOnInit(): void {
     this.getAllTransportersList();
@@ -38,7 +41,8 @@ export class VehicleFiltersComponent implements OnInit {
   getAllVehiclesListInit() {
     let data = {
       "vehicleNumber": '',
-      "transporterId": 0
+      "transporterId": 0,
+      locationIds: []
     }
     this.vehicleService.getVehicles(data).subscribe((response: any) => {
       this.vehiclesList = response.vehicles;
@@ -51,7 +55,8 @@ export class VehicleFiltersComponent implements OnInit {
   onVehicleSearch() {
     let obj = {
       "vehicleNumber": this.vehicleNum || "",
-      "transporterId": this.transporterId
+      "transporterId": this.transporterId,
+      locationIds:this.locationIds
     }
     this.vehicleFilterData.emit(obj)
   }
@@ -61,7 +66,8 @@ export class VehicleFiltersComponent implements OnInit {
     this.transporterNam = null
     let obj = {
       vehicleNum: null,
-      transporterNam: null
+      transporterNam: null,
+      locationIds: []
     }
     this.vehicleFilterData.emit(obj)
   }
@@ -69,7 +75,8 @@ export class VehicleFiltersComponent implements OnInit {
   getAllTransportersList() {
     let data = {
       "transporterCode": '',
-      "transporterName": ''
+      "transporterName": '',
+      locationIds:this.locationIds
     }
     this.vehicleService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;

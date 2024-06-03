@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { VendorRequest } from '../models/vendor';
 import { BaseService } from './base.service';
-import { APIConstant,getDropdownDatas } from '../constants';
+import { APIConstant, getDropdownDatas } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class VendorService extends CRUDService<VendorRequest> {
     return this.put(APIConstant.updateVendor + vendorId, data);
   }
 
-  getDropdownData(data : object, type: string){
-    return this.post(getDropdownDatas(type) ,data);
-}
+  getDropdownData(data: object, type: string) {
+    return this.post(getDropdownDatas(type), data);
+  }
 }

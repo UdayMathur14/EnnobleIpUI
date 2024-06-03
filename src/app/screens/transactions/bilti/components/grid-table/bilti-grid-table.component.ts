@@ -74,7 +74,7 @@ export class BiltiGridTableComponent implements OnInit {
     this.loadSpinner = true;
     let data = {
       biltiNumber: '',
-      locationIds: this.searchedBilti.locationIds
+      locationIds: []
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {

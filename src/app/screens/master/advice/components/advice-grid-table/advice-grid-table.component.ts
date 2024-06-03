@@ -32,10 +32,10 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges|any): void {
-    if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && changes['filterKeyword'].currentValue) {
-      this.adviceTypeList = this.adviceTypeListOrg.filter((e: any) => e.adviceType.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && changes?.['filterKeyword']?.currentValue) {
+      this.adviceTypeList = this.adviceTypeListOrg.filter((e: any) => e.adviceType.toLowerCase().indexOf(changes?.['filterKeyword']?.currentValue.toLowerCase()) !== -1)
     }
-    else if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && !changes['filterKeyword'].currentValue) {
+    else if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && !changes?.['filterKeyword']?.currentValue) {
       this.adviceTypeList = this.adviceTypeListOrg;
     }
 

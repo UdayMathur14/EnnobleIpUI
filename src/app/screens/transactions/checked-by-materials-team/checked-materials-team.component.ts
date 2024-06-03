@@ -17,6 +17,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   fromDate: any = '2000-01-01'; 
   batchNumber: any;
   biltiNumber: any;
+  locationIds:any;
   biltiBillProcess:any = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
@@ -42,7 +43,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       adviceType: "",
       batchNumber: this.batchNumber,
       biltiNumber: this.biltiNumber,
-      locationIds:[]
+      locationIds: this.locationIds
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -70,6 +71,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
     this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
     this.biltiNumber = data.biltiNumber;
+    this.locationIds = data.locationIds;
     this.getAllBiltiProcess();
   }
 

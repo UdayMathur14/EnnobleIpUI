@@ -8,6 +8,7 @@ import { APIConstant, pointCharge, pointChargeData, updatePointCharge, createPoi
   providedIn: 'root',
 })
 export class PointChargeService extends CRUDService<PointChargeRequest> {
+  
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }

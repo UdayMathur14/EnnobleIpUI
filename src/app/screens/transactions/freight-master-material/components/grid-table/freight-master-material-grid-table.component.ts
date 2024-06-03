@@ -39,6 +39,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     let data = {
       "screenCode": 102, //Freight Material Screen Code
       "freightCode": '',
+      locationIds: []
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -57,6 +58,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     let data = {
       "screenCode": 102,
       "freightCode": this.searchedFreight.freightCode || "",
+      locationIds: this.searchedFreight.locationIds
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;

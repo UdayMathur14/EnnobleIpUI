@@ -39,6 +39,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": '',
+      locationIds: []
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -56,6 +57,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     let data = {
       "screenCode": 103,
       "freightCode": this.searchedFreight.freightCode || "",
+      locationIds: this.searchedFreight.locationIds
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;

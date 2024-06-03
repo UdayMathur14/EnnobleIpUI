@@ -1,11 +1,21 @@
 <div class="filters-box">
     <div class="row">
         <div class="col-lg-2">
+            <div class="">
+                <label for="">Location Code</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Transporter Code</label>
                 <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number"
-                [readonly]="transName ? true :false">
-                    <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
+                    [readonly]="transName ? true :false">
+                    <ng-option *ngFor="let transporter of transportersList"
+                        [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -13,8 +23,8 @@
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
                 <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="transName" 
-                    [readonly]="transCode ? true :false"/>
+                    <input type="text" class="input-field" [(ngModel)]="transName"
+                        [readonly]="transCode ? true :false" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
             </div>
@@ -22,8 +32,10 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="!transCode && !transName">Clear</button>
-                <button class="custom-button-filters" (click)="onTransporterSearch()" [disabled]="!transCode && !transName">Search</button>
+                <button class="custom-button-filters me-2" (click)="onClearFilter()"
+                    [disabled]="locationIds.length==0 && !transCode && !transName">Clear</button>
+                <button class="custom-button-filters" (click)="onTransporterSearch()"
+                    [disabled]="locationIds.length==0 && !transCode && !transName">Search</button>
             </div>
         </div>
     </div>

@@ -10,6 +10,8 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class BiltiFilterComponent implements OnInit {
 
+  @Output() biltiFilterData: EventEmitter<any> = new EventEmitter();
+
   biltiNum!: any | null;
   biltisList: any = [];
   loadSpinner: boolean = true;
@@ -18,7 +20,7 @@ export class BiltiFilterComponent implements OnInit {
   showSuggestionsBilti: boolean = false;
   locationIds:any[]=[];
   locations:any[] = APIConstant.locationsListDropdown;
-  @Output() biltiFilterData: EventEmitter<any> = new EventEmitter();
+  
 
   constructor(private biltiService: BiltiService,
     private toastr: ToastrService,

@@ -26,10 +26,18 @@ export class LookupService extends CRUDService<LookupRequest> {
   }
 
   getLookupDataForLocation() {
+    const p:any = localStorage.getItem("profile");
+    const profile:any = JSON.parse(p);
+    const appLocation:any = profile?.mfgUnit?.au[0]?.location;
     this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
-      APIConstant.locationsListDropdown = response.lookUps;
+      
       this.baseService.lookupData.next(response);
-      const locations = response.lookUps.filter((e: any) => e.code === 'HA');
+      const locations:any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
+      appLocation.forEach((el:any) => {
+        const obj = response.lookUps.find((f:any)=>f.code === el.name);
+        locations.push(obj);
+      });
+      APIConstant.locationsListDropdown = locations;
       localStorage.setItem('locationId', locations[0]?.id)
     }, error => {
 
