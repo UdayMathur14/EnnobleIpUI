@@ -38,7 +38,6 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     } else if (changes['searchedVendor'].firstChange === false && changes['searchedVendor'].currentValue === '') {
       this.getAllVendorList();
     }
-    this.dataChange.emit(this.vendorList);
   }
   
   //GETTINGS VENDOR LISTING ON PAGE LOAD
@@ -70,6 +69,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     this.vendorService.getVendors(data).subscribe((response: any) => {
       this.vendorList = response.vendors;
       this.loadSpinner = false;
+      this.dataChange.emit(this.vendorList);
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
