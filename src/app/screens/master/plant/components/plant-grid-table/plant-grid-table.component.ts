@@ -18,41 +18,46 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private modalService: NgbModal,
-    private plantService : PlantService,
-    private baseService : BaseService,
+    private plantService: PlantService,
+    private baseService: BaseService,
     private lookupService: LookupService,
     private toastr: ToastrService
   ) { }
   @ViewChild('table') table!: ElementRef;
   @Input() filterKeyword!: string;
   @Input() locationSel!: string;
+  @Input() locationIds!: any[];
   @Output() dataChange = new EventEmitter<any[]>();
   @Output() headersChange = new EventEmitter<string[]>();
-  plantsListOrg : any;
-  plantsList : any;
-  loadSpinner : boolean = true;
+  plantsListOrg: any;
+  plantsList: any;
+  loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  ngOnInit() :void{
+  ngOnInit(): void {
     this.baseService.plantSpinner.next(true);
     setTimeout(() => {
       this.getAllPlantsList();
     }, 2000);
-    
+
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.plantsListOrg && this.plantsListOrg.length && changes['filterKeyword'].currentValue) {
+  ngOnChanges(changes: SimpleChanges | any): void {
+    if (this.plantsListOrg && this.plantsListOrg.length && changes?.['filterKeyword']?.currentValue) {
       this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
-    else if (this.plantsListOrg && this.plantsListOrg.length && !changes['filterKeyword'].currentValue) {
+    else if (this.plantsListOrg && this.plantsListOrg.length && !changes?.['filterKeyword']?.currentValue) {
       this.plantsList = this.plantsListOrg;
-    }    
+    }
+
+    if (changes?.locationIds.currentValue) {
+      this.getAllPlantsList();
+    }
     this.dataChange.emit(this.plantsList);
   }
 
   getAllPlantsList() {
-    this.plantService.getPlants({plantCode:"",locationIds:[APIConstant.locationsListDropdown[0]?.id]}).subscribe((response: any) => {
+    this.plantService.getPlants({ plantCode: "", locationIds: this.locationIds }).subscribe((response: any) => {
       this.plantsList = response.plants;
       this.plantsListOrg = response.plants;
       this.loadSpinner = false;

@@ -1,6 +1,13 @@
 <div class="page-title">
   <h1>Plant Master</h1>
   <div class="action-buttons">
+    <div class="">
+      <div class="">
+        <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
+          <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+        </ng-select>
+      </div>
+    </div>
     <div class="search-field">
       <input type="text" placeholder="Search Plant" (input)="onSearch($event)" />
       <span><img src="assets/images/icons/search.svg" alt="search" /></span>
@@ -23,6 +30,7 @@
   <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
     width="14px" (click)="fullScreen = !fullScreen" />
   <app-plant-grid-table [filterKeyword]="filterKeyword"
+    [locationIds]="locationIds"
     (dataChange)="onPlantsListChange($event)"
     (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
 </div>

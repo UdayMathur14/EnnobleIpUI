@@ -17,6 +17,8 @@ export class PlantComponent implements OnInit {
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
+  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = [];
 
   constructor(private router: Router,
     private plantService: PlantService,
