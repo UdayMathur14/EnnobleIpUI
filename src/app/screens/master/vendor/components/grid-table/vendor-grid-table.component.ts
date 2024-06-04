@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { VendorService } from '../../../../../core/service/vendor.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,18 +10,23 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './vendor-grid-table.component.scss'
 })
 export class VendorGridTableComponent implements OnInit, OnChanges {
+
+  @Input() searchedVendor: any;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
+  @ViewChild('table') table!: ElementRef;
+  vendorListOrg: any;
+  vendorList!: any;
+  loadSpinner: boolean = true;
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
   constructor(
     private router: Router,
     private vendorService: VendorService,
     private toastr: ToastrService
   ) { }
 
-  @Input() searchedVendor: any;
-  vendorListOrg: any;
-  vendorList!: any;
-  loadSpinner: boolean = true;
-  sortField: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
   ngOnInit(): void {
     this.getAllVendorList();
   }
@@ -33,7 +38,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     } else if (changes['searchedVendor'].firstChange === false && changes['searchedVendor'].currentValue === '') {
       this.getAllVendorList();
     }
-
+    this.dataChange.emit(this.vendorList);
   }
   
   //GETTINGS VENDOR LISTING ON PAGE LOAD
@@ -46,6 +51,8 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
       this.vendorList = response.vendors;
       this.vendorListOrg = response.vendors;
       this.loadSpinner = false;
+      this.dataChange.emit(this.vendorList);
+      this.emitHeaders();  // Emit headers after the data is fetched and set
     },
       error => {
         this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -67,6 +74,17 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   //NAVIGATING TO VENDOR EDIT/UDATE COMPONENT

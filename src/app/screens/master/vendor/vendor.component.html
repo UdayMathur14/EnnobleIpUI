@@ -31,5 +31,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-vendor-grid-table [searchedVendor]="searchedVendor"></app-vendor-grid-table>
+  <app-vendor-grid-table [searchedVendor]="searchedVendor" (dataChange)="onVendorsListChange($event)" (headersChange)="onHeadersChange($event)"></app-vendor-grid-table>
 </div>

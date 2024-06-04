@@ -5,7 +5,6 @@ import { TransactionTypeModalComponent } from '../../../../modals/transaction-ty
 import { PlantService } from '../../../../../core/service';
 import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
-import { LookupService } from '../../../../../core/service/lookup.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -19,7 +18,6 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     private modalService: NgbModal,
     private plantService : PlantService,
     private baseService : BaseService,
-    private lookupService: LookupService,
     private toastr: ToastrService
   ) { }
   @ViewChild('table') table!: ElementRef;
@@ -67,6 +65,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.loadSpinner = false;
     })
   }
+  
   emitHeaders() {
     const headers: string[] = [];
     const headerCells = this.table.nativeElement.querySelectorAll('thead th');
