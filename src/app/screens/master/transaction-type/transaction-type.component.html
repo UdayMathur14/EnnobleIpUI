@@ -31,5 +31,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-transaction-grid-table [filterKeyword]="filterKeyword"></app-transaction-grid-table>
+  <app-transaction-grid-table [filterKeyword]="filterKeyword" (dataChange)="onTransactionListChange($event)" (headersChange)="onHeadersChange($event)"></app-transaction-grid-table>
 </div>
