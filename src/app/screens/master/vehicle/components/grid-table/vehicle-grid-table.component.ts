@@ -2,7 +2,6 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChang
 import { Router } from '@angular/router';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
-import { BaseService } from '../../../../../core/service/base.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -22,8 +21,8 @@ export class VehicleGridTableComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router,
     private vehicleService: VehicleService,
-    private toastr: ToastrService,
-    private baseService : BaseService,) { }
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() :void{
     this.getAllVehiclesList();

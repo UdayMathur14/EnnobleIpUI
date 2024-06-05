@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, Input, SimpleChanges, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FreightService } from '../../../../../core/service/freight.service';
@@ -11,16 +11,21 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 })
 
 export class FreightGridTableComponent implements OnInit, OnChanges {
-  constructor(private router: Router,
-    private toastr: ToastrService,
-    private freightService: FreightService) { }
-    
-  @Input()
-  searchedFreight!: any;  
+
+  @Input() searchedFreight!: any;  
+  @ViewChild('table') table!: ElementRef;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   freightList: any;
   loadSpinner : boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  constructor(private router: Router,
+    private toastr: ToastrService,
+    private freightService: FreightService) { }
+    
+ 
   ngOnInit(): void {
     this.getAllFreightListInit();
   }
@@ -49,10 +54,23 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
       this.loadSpinner = false;
+      this.dataChange.emit(this.freightList);
+      this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH FREIGHT FROM FILTERS 
@@ -65,6 +83,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
       this.loadSpinner = false;
+      this.dataChange.emit(this.freightList);
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
