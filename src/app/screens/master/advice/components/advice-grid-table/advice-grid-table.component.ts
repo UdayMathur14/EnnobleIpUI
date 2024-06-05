@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ElementRef, EventEmitter, ViewChild, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdviceTypeService } from '../../../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
@@ -14,8 +14,12 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
   adviceTypeListOrg: any = [];
   loadSpinner: boolean = true;
   @Input() filterKeyword!: string;
+  @ViewChild('table') table!: ElementRef;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
   constructor(private router: Router,
     private adviceService: AdviceTypeService,
     private toastr: ToastrService) { }
@@ -32,6 +36,7 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
     else if(this.adviceTypeListOrg && this.adviceTypeListOrg.length && !changes['filterKeyword'].currentValue){
       this.adviceTypeList = this.adviceTypeListOrg;
     }
+    this.dataChange.emit(this.adviceTypeList);
   }
 
   getAllAdviceTypesListInit() {
@@ -42,10 +47,23 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
       this.adviceTypeList = response.advices;
       this.adviceTypeListOrg =  response.advices;
       this.loadSpinner = false;
+      this.dataChange.emit(this.adviceTypeList);
+      this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   onGoToEditAdvice(advice : any) {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-advice',
@@ -12,8 +12,11 @@ export class AdviceComponent {
   filterKeyword: string = '';
   isFilters: boolean = false;
   fullScreen : boolean = false;
+  adviceList: any [] = [];
+  headers: any [] = [];
+
   constructor(private router: Router,
-    private exportService: ExportService
+    private xlsxService: XlsxService
   ) { }
 
   onCreateAdvice() {
@@ -24,7 +27,24 @@ export class AdviceComponent {
     this.filterKeyword = e.target.value;
   }
 
+  onAdviceListChange(adviceList: any[]) {
+    this.adviceList = adviceList;
+  }
+
+  onHeadersChange(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Advice") {
-    this.exportService.csvExport(fileName);
+    // Map the data to include only the necessary fields
+    const mappedAdviceList = this.adviceList.map(advice => ({
+      location: advice.location.value,
+      adviceType: advice.adviceType,
+      batchName: advice.batchName,
+      maxBiltiNumber: advice.maxBiltiNumber,
+      manualAllocationRequired: advice.manualAllocationRequired,
+      status: advice.status
+    }));
+    this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
   }
 }

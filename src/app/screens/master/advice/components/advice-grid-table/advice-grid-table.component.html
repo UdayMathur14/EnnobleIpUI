@@ -1,6 +1,5 @@
-<div id="exportableTable">
-  <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
         <th (click)="sortData('location.value')">Location Code</th>
@@ -16,11 +15,7 @@
       @for (advice of adviceTypeList; track advice.id) {
       <tr>
         <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{advice.location.value}}</u>
           </span>
           <ng-template #tipContent>
@@ -50,23 +45,17 @@
         <td>{{advice.manualAllocationRequired}}</td>
         <td>{{advice.status}}</td>
         <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            alt="edit" class="pointer"
-            (click)="onGoToEditAdvice(advice)"
-          />
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditAdvice(advice)" />
         </td>
       </tr>
-    }@empty {
+      }@empty {
       <tr>
         <td align="center" colspan="13">No Advice Type Found</td>
       </tr>
-    }
+      }
     </tbody>
   </table>
 </div>
-</div>
-
 
 <div class="spinner" *ngIf="loadSpinner">
   Loading...

@@ -36,5 +36,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-advice-grid-table [filterKeyword]="filterKeyword"></app-advice-grid-table>
+  <app-advice-grid-table [filterKeyword]="filterKeyword" (dataChange)="onAdviceListChange($event)" (headersChange)="onHeadersChange($event)"></app-advice-grid-table>
 </div>
