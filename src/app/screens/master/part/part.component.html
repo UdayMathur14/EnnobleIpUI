@@ -32,5 +32,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-part-grid-table [searchedPart]="searchedPart"></app-part-grid-table>
+  <app-part-grid-table [searchedPart]="searchedPart" (dataChange)="onPartsListChange($event)" (headersChange)="onHeadersChange($event)"></app-part-grid-table>
 </div>

@@ -33,5 +33,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-point-charge-grid-table [filterKeyword]="filterKeyword"></app-point-charge-grid-table>
+  <app-point-charge-grid-table [filterKeyword]="filterKeyword" (dataChange)="onPointChargeChange($event)" (headersChange)="onHeadersChange($event)"></app-point-charge-grid-table>
 </div>

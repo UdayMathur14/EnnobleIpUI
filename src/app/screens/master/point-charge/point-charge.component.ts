@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PlantService } from '../../../core/service';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { ExportService } from '../../../core/service/export.service';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-point-charge',
@@ -13,8 +14,11 @@ export class PointChargeComponent implements OnInit {
   isFilters: boolean = false;
   filterKeyword: string = '';
   fullScreen : boolean = false;
+  pointChargeList: any [] = [];
+  headers: any [] = [];
+  
   constructor(private router: Router,
-    private exportService: ExportService
+    private xlsxService: XlsxService
   ) { }
 
 
@@ -31,7 +35,25 @@ export class PointChargeComponent implements OnInit {
     this.filterKeyword = e.target.value;
   }
 
+  onPointChargeChange(pointChargeList: any[]) {
+    this.pointChargeList = pointChargeList;
+  }
+
+  onHeadersChange(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Point Charge") {
-    this.exportService.csvExport(fileName);
+    // Map the data to include only the necessary fields
+    const mappedPointChargeList = this.pointChargeList.map(pointcharge => ({
+      pointName: pointcharge?.pointName,
+      pointCharge: pointcharge?.pointCharge,
+      sameLocationCharge: pointcharge?.sameLocationCharge,
+      locations: pointcharge?.locations.value,
+      materialRemarks: pointcharge?.materialRemarks,
+      accountsRemarks: pointcharge?.accountsRemarks, 
+      status: pointcharge?.status
+    }));
+    this.xlsxService.xlsxExport(mappedPointChargeList, this.headers, fileName);
   }
 }

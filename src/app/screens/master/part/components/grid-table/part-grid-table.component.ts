@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ElementRef, EventEmitter, ViewChild, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PartService } from '../../../../../core/service/part.service';
@@ -10,17 +10,20 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './part-grid-table.component.scss'
 })
 export class PartGridTableComponent implements OnInit, OnChanges {
-  constructor(private router: Router,
-    private toastr: ToastrService,
-    private partService: PartService) { }
-    
-  @Input()
-  searchedPart!: any;  
+  @Input() searchedPart!: any;  
+  @ViewChild('table') table!: ElementRef;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   partsList: any;
   partsListOrg : any;
   loadSpinner : boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+  
+  constructor(private router: Router,
+    private toastr: ToastrService,
+    private partService: PartService) { }
+    
   ngOnInit(): void {
     this.getAllPartsListInit();
   }
@@ -49,6 +52,8 @@ export class PartGridTableComponent implements OnInit, OnChanges {
       this.partsList = response.parts;
       this.partsListOrg = response.parts;
       this.loadSpinner = false;
+      this.dataChange.emit(this.partsList);
+      this.emitHeaders(); // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
@@ -64,10 +69,22 @@ export class PartGridTableComponent implements OnInit, OnChanges {
     this.partService.getParts(data).subscribe((response: any) => {
       this.partsList = response.parts;
       this.loadSpinner = false;
+      this.dataChange.emit(this.partsList);
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   sortData(field: string) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,18 +11,23 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './point-charge-grid-table.component.scss'
 })
 export class PointChargeGridTableComponent implements OnInit, OnChanges {
-  constructor(
-    private router: Router,
-    private pointChargeService: PointChargeService,
-    private toastr: ToastrService,
-    private baseService: BaseService,
-  ) { }
+  @ViewChild('table') table!: ElementRef;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   pointChargesList: any;
   pointChargeListOrg: any;
   @Input() filterKeyword!: string;
   loadSpinner: boolean = true;
+
+  constructor(
+    private router: Router,
+    private pointChargeService: PointChargeService,
+    private toastr: ToastrService,
+    private baseService: BaseService,
+  ) { }
+
 
   ngOnInit(): void {
     this.getAllPointChargesList()
@@ -35,6 +40,7 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
     else if (this.pointChargeListOrg && this.pointChargeListOrg.length && !changes['filterKeyword'].currentValue) {
       this.pointChargesList = this.pointChargeListOrg;
     }
+    this.dataChange.emit(this.pointChargesList);
   }
 
   // NAVIGATING TO EDIT POINT MASTER PAGE
@@ -52,10 +58,23 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
       this.pointChargesList = response.pointCharges;
       this.pointChargeListOrg = response.pointCharges;
       this.loadSpinner = false;
+      this.dataChange.emit(this.pointChargesList);
+      this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   sortData(field: string) {
