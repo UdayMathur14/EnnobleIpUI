@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-transaction-type',
@@ -11,11 +10,10 @@ export class TransactionTypeComponent implements OnInit {
 
   isFilters: boolean = false;
   filterKeyword: string = '';
-  fullScreen : boolean = false;
-  constructor(private router: Router,
-    private exportService: ExportService
-  ) { }
-
+  fullScreen: boolean = false;
+  transactionTypesList: any[] = [];
+  headers: string[] = [];
+  constructor(private xlsxService: XlsxService) { }
 
   ngOnInit() { }
 
@@ -23,7 +21,23 @@ export class TransactionTypeComponent implements OnInit {
     this.filterKeyword = e.target.value;
   }
 
+  onTransactionListChange(transactionTypesList: any[]) {
+    this.transactionTypesList = transactionTypesList;
+  }
+
+  onHeadersChange(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Transaction Type") {
-    this.exportService.csvExport(fileName);
+    // Map the data to include only the necessary fields
+    const mappedTransactionsList = this.transactionTypesList.map(transaction => ({
+      code: transaction.code,
+      name: transaction.name,
+      glSubCategory: transaction.glSubCategory.value,
+      transactionTypeInterface: transaction?.transactionTypeInterface?.transactionTypeName,
+      status: transaction.status,
+    }));
+    this.xlsxService.xlsxExport(mappedTransactionsList, this.headers, fileName);
   }
 }

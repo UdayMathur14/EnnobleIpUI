@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExportService } from '../../../core/service/export.service';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-part',
@@ -9,13 +10,15 @@ import { ExportService } from '../../../core/service/export.service';
 })
 export class PartComponent {
 
-  constructor(private router: Router,
-    private exportService: ExportService
-  ) { }
-
   isFilters: boolean = true;
   searchedPart: string = '';
   fullScreen : boolean = false;
+  partsList: any [] = [];
+  headers: any [] = [];
+
+  constructor(private router: Router,
+    private xlsxService: XlsxService
+  ) { }
 
   onCreatePart() {
     this.router.navigate(['master/addEditPart', '0'])
@@ -25,8 +28,26 @@ export class PartComponent {
     this.searchedPart = event;
   }
 
+  onPartsListChange(plantsList: any[]) {
+    this.partsList = plantsList;
+  }
+
+  onHeadersChange(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Part") {
-    this.exportService.csvExport(fileName);
+    // Map the data to include only the necessary fields
+    const mappedPartsList = this.partsList.map(part => ({
+      partNumber: part.partNumber,
+      partName: part.partName,
+      description: part.description,
+      partSize: part.partSize,
+      partPrice: part.partPrice,
+      remarks: part.remarks,
+      status: part.status
+    }));
+    this.xlsxService.xlsxExport(mappedPartsList, this.headers, fileName);
   }
 
 }

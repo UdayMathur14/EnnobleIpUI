@@ -10,10 +10,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './bilti-bill-process.component.scss'
 })
 export class BiltiBillProcessComponent implements OnInit {
-  constructor(private router: Router, private biltiBIllProService: BiltiBillProcessService,
-    private toastr: ToastrService
-  ) { }
-
   isFilters: boolean = true;
   searchedData: any;
   fromDate: any = '2000-01-01';
@@ -23,6 +19,10 @@ export class BiltiBillProcessComponent implements OnInit {
   biltiBillProcess = [];
   loadSpinner: boolean = true;
   toDate: any = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate() + 1)).slice(-2);
+  
+  constructor(private router: Router, private biltiBIllProService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.getAllBiltiProcess();

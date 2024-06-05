@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
-import { BaseService } from '../../../../../core/service/base.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -12,6 +11,9 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 })
 export class VehicleGridTableComponent implements OnInit {
   vehiclesList:any;
+  @ViewChild('table') table!: ElementRef;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   @Input() searchedVehicle: any;
   loadSpinner: boolean = true;
   vehiclesListOrg:any;
@@ -19,8 +21,8 @@ export class VehicleGridTableComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router,
     private vehicleService: VehicleService,
-    private toastr: ToastrService,
-    private baseService : BaseService,) { }
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() :void{
     this.getAllVehiclesList();
@@ -41,6 +43,8 @@ export class VehicleGridTableComponent implements OnInit {
       this.vehiclesList = response.vehicles;
       this.vehiclesListOrg = response.plants;
       this.loadSpinner = false;
+      this.dataChange.emit(this.vehiclesList);
+      this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
@@ -56,10 +60,22 @@ export class VehicleGridTableComponent implements OnInit {
     this.vehicleService.getVehicles(data).subscribe((response: any) => {
       this.vehiclesList = response.vehicles;
       this.loadSpinner = false;
+      this.dataChange.emit(this.vehiclesList);
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

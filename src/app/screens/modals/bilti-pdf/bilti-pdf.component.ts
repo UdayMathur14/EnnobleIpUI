@@ -9,9 +9,9 @@ import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 export class BiltiPdfModalComponent implements OnInit {
 
   modalRef!: NgbModalRef;
+  @Input() biltiData: any;
 
   constructor(private activeModal: NgbActiveModal){}
-  @Input() biltiData: any;
 
   ngOnInit(): void {
 

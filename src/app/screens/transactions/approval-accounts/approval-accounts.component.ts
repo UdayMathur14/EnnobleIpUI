@@ -10,11 +10,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './approval-accounts.component.scss'
 })
 export class ApprovalAccountsComponent implements OnInit{
-  constructor(private router : Router,
-              private biltiProcessService: BiltiBillProcessService,
-              private toastr: ToastrService
-  ){}
-
   isFilters : boolean = true;
   searchedData: any;
   fromDate: any = '2000-01-01'; 
@@ -24,6 +19,12 @@ export class ApprovalAccountsComponent implements OnInit{
   filteredBiltibillList: any = [];
   toDate: any = moment().format('YYYY-MM-DD');
   loadSpinner: boolean = false;
+  
+  constructor(private router : Router,
+              private biltiProcessService: BiltiBillProcessService,
+              private toastr: ToastrService
+  ){}
+
   ngOnInit(): void {
     this.getAllBiltiProcess();
   }

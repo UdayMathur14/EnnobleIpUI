@@ -5,7 +5,6 @@ import { TransactionTypeModalComponent } from '../../../../modals/transaction-ty
 import { PlantService } from '../../../../../core/service';
 import { BaseService } from '../../../../../core/service/base.service';
 import { ToastrService } from 'ngx-toastr';
-import { LookupService } from '../../../../../core/service/lookup.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -14,14 +13,6 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './plant-grid-table.component.scss'
 })
 export class PlantGridTableComponent implements OnInit, OnChanges {
-  constructor(
-    private router: Router,
-    private modalService: NgbModal,
-    private plantService : PlantService,
-    private baseService : BaseService,
-    private lookupService: LookupService,
-    private toastr: ToastrService
-  ) { }
   @ViewChild('table') table!: ElementRef;
   @Input() filterKeyword!: string;
   @Output() dataChange = new EventEmitter<any[]>();
@@ -31,6 +22,15 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   loadSpinner : boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+  
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private plantService : PlantService,
+    private baseService : BaseService,
+    private toastr: ToastrService
+  ) { }
+
   ngOnInit() :void{
     this.baseService.plantSpinner.next(true);
     setTimeout(() => {
@@ -47,7 +47,6 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.plantsList = this.plantsListOrg;
     }    
     this.dataChange.emit(this.plantsList);
-    console.log(this.plantsList, "this.plantsList filtered Data"); 
   }
 
   getAllPlantsList() {
@@ -59,14 +58,13 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.plantsListOrg = response.plants;
       this.loadSpinner = false;
       this.dataChange.emit(this.plantsList);
-      console.log(this.plantsList, "Plant List");
-
       this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
+
   emitHeaders() {
     const headers: string[] = [];
     const headerCells = this.table.nativeElement.querySelectorAll('thead th');

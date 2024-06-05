@@ -11,12 +11,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add-edit-transaction-type.component.scss'
 })
 export class AddEditTransactionTypeComponent implements OnInit {
+  loadSpinner : boolean = true;
+  glSubcategoryCode: any = [];
+  transactionData: any = [];
+  transactionTypeInterfaceData: any = [];
+  queryData : any = '';
+
   constructor(private router: Router,
     private transactionTypesService : TransactionTypesService,
     private toastr : ToastrService,
     private activatedRoute : ActivatedRoute) {}
 
-  queryData : any = '';
   transactionTypeForm = new FormGroup({
     name: new FormControl(''),
     code: new FormControl(null),
@@ -24,10 +29,6 @@ export class AddEditTransactionTypeComponent implements OnInit {
     status: new FormControl('', [Validators.required]),
     transactionTypeInterface: new FormControl('', [Validators.required]),
   });
-  loadSpinner : boolean = true;
-  glSubcategoryCode: any = [];
-  transactionData: any = [];
-  transactionTypeInterfaceData: any = [];
 
   ngOnInit(): void {
     this.queryData = this.activatedRoute.snapshot.paramMap.get("transactionId");   
@@ -100,7 +101,6 @@ export class AddEditTransactionTypeComponent implements OnInit {
     }
     this.transactionTypesService.getTransactionTypeInterface(data).subscribe((res: any) => {
       this.transactionTypeInterfaceData = res.transactionTypeInterfaces
-
     })
   }
   

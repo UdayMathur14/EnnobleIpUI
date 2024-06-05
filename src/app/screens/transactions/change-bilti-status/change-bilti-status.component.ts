@@ -12,11 +12,6 @@ import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.
   styleUrl: './change-bilti-status.component.scss'
 })
 export class ChangeBiltiStatusComponent implements OnInit {
-  constructor(private router: Router,
-    private modalService: NgbModal,
-    private toastr: ToastrService,
-    private biltiProcessService: BiltiBillProcessService) { }
-
   isFilters: boolean = true;
   searchedData: any;
   fromDate: any = '2000-01-01';
@@ -29,6 +24,11 @@ export class ChangeBiltiStatusComponent implements OnInit {
     ('0' + (new Date().getMonth() + 1)).slice(-2) +
     '-' +
     ('0' + (new Date().getDate() + 1)).slice(-2);
+    
+  constructor(private router: Router,
+    private modalService: NgbModal,
+    private toastr: ToastrService,
+    private biltiProcessService: BiltiBillProcessService) { }
 
   ngOnInit(): void {
     this.getAllBiltiProcess()

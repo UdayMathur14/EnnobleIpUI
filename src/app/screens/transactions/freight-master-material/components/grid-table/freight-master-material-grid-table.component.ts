@@ -12,13 +12,14 @@ import { FreightDataModel } from '../../../../../core/model/masterModels.model';
   styleUrl: './freight-master-material-grid-table.component.scss'
 })
 export class FreightMasterMaterialGridTableComponent implements OnInit {
-  constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
   @Input()
   searchedFreight!: any;
   freightList: any;
   loadSpinner: boolean = false;
   freightData!: FreightDataModel;
   selectedFreightId: number = 0;
+
+  constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllFreightListInit();

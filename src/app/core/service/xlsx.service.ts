@@ -28,6 +28,6 @@ export class XlsxService {
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet');
 
         // Write the workbook to a file
-        XLSX.writeFile(wb, `${fileName}.xlsx`);
+        XLSX.writeFile(wb, `${fileName}.csv`);
     }
 }

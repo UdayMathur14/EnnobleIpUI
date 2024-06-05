@@ -12,13 +12,14 @@ import { PointChargeService } from '../../../../../core/service/point-charge.ser
   styleUrl: './point-master-material-grid-table.component.scss'
 })
 export class PointMasterMaterialGridTableComponent {
-  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
   @Input()
   searchedPoint!: any;
   pointChargesList: any;
   loadSpinner: boolean = false;
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
+  
+  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllPointChargesList();

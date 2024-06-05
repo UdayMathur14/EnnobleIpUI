@@ -37,5 +37,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-lookup-grid-table [filterKeyword]="filterKeyword"></app-lookup-grid-table>
+  <app-lookup-grid-table [filterKeyword]="filterKeyword" (dataChange)="onLookupListChange($event)" (headersChange)="onHeadersChange($event)"></app-lookup-grid-table>
 </div>

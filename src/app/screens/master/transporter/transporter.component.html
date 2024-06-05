@@ -31,5 +31,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-transporter-grid-table [searchedTransporter]="searchedTransporter"></app-transporter-grid-table>
+  <app-transporter-grid-table [searchedTransporter]="searchedTransporter" (dataChange)="onTransportersListChange($event)" (headersChange)="onHeadersChange($event)"></app-transporter-grid-table>
 </div>

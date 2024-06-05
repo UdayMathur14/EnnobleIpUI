@@ -30,5 +30,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-freight-grid-table [searchedFreight]="searchedFreight"></app-freight-grid-table>
+  <app-freight-grid-table [searchedFreight]="searchedFreight" (dataChange)="onFreightListChange($event)" (headersChange)="onHeadersChange($event)"></app-freight-grid-table>
 </div>

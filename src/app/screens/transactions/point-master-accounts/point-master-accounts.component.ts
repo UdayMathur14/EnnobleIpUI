@@ -6,10 +6,11 @@ import { Component } from '@angular/core';
   styleUrl: './point-master-accounts.component.scss'
 })
 export class PointMasterAccountsComponent {
-  constructor(){}
-
   isFilters : boolean = true;
   searchedPoint: any;
+  
+  constructor(){}
+
   searchPointName(event: any) {
     this.searchedPoint = event;
   }

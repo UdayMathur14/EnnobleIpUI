@@ -1,6 +1,5 @@
-<div id="exportableTable">
-  <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
         <th (click)="sortData('pointName')">Point Name</th>
@@ -17,11 +16,7 @@
       @for (pointcharge of pointChargesList; track pointcharge.id) {
       <tr>
         <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{pointcharge?.pointName}}</u>
           </span>
           <ng-template #tipContent>
@@ -68,21 +63,17 @@
         <td>{{pointcharge?.accountsRemarks || '-'}}</td>
         <td>{{pointcharge?.status}}</td>
         <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            alt="edit" class="pointer"
-            (click)="onEditPointCharge(pointcharge)"
-          />
+          <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"
+            (click)="onEditPointCharge(pointcharge)" />
         </td>
       </tr>
-    }@empty {
+      }@empty {
       <tr>
         <td align="center" colspan="13">No Point Charge Found</td>
       </tr>
-    }
+      }
     </tbody>
   </table>
-</div>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">
