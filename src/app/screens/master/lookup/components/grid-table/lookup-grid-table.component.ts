@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LookupService } from '../../../../../core/service/lookup.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,11 +12,15 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 export class LookupGridTableComponent implements OnInit, OnChanges {
 
   @Input() filterKeyword!: string;
+  @ViewChild('table') table!: ElementRef;
+  @Output() dataChange = new EventEmitter<any[]>();
+  @Output() headersChange = new EventEmitter<string[]>();
   lookupsListOrg: any;
   lookupsList: any;
   loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
   constructor(
     private router: Router,
     private lookupService: LookupService,
@@ -34,6 +38,7 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
     } else if (this.lookupsListOrg && this.lookupsListOrg.length && (!changes['filterKeyword'] || !changes['filterKeyword'].currentValue)) {
       this.lookupsList = this.lookupsListOrg;
     }
+    this.dataChange.emit(this.lookupsList);
   }
 
   onGoToEditLookup(lookupData: any) {
@@ -49,10 +54,23 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
       this.lookupsList = response.lookUps;
       this.lookupsListOrg = response.lookUps;
       this.loadSpinner = false;
+      this.emitHeaders();
+      this.dataChange.emit(this.lookupsList);
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.headersChange.emit(headers);
   }
 
   sortData(field: string) {
