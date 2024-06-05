@@ -8,11 +8,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './part-filter.component.scss'
 })
 export class PartFiltersComponent implements OnInit {
-  constructor(
-    private partService: PartService,
-    private toastr: ToastrService,
-    private elementRef: ElementRef,
-  ) { }
   @Output() partFilterObj: EventEmitter<object> = new EventEmitter();
   partNum: string | undefined;
   partName: string = '';
@@ -21,6 +16,12 @@ export class PartFiltersComponent implements OnInit {
   allPartNumbers: string[] = [];
   filteredItems: { partNum: string[], partName: string[] } = { partNum: [], partName: [] };
   showSuggestions: { partNum: boolean, partName: boolean } = { partNum: false, partName: false };
+  
+  constructor(
+    private partService: PartService,
+    private toastr: ToastrService,
+    private elementRef: ElementRef,
+  ) { }
 
   ngOnInit(): void {
     this.getAllPartsListInit();

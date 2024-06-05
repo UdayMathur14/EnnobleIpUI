@@ -7,9 +7,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './transaction-type.component.scss'
 })
 export class TransactionTypeModalComponent implements OnInit {
-  constructor(public activeModal: NgbActiveModal){}
-
   @Input() transactionTypes : any ;
+  
+  constructor(public activeModal: NgbActiveModal){}
 
   ngOnInit(): void {
   }

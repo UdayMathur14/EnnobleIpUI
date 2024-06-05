@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
   styleUrl: './bilti.component.scss'
 })
 export class BiltiComponent {
-  constructor(private router: Router) { }
-
   isFilters: boolean = true;
   searchedBilti: string = '';
+  
+  constructor(private router: Router) { }
 
   onCreateBilti() {
     this.router.navigate([`transaction/addEditBilti/0`])

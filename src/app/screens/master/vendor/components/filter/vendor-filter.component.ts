@@ -8,12 +8,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './vendor-filter.component.scss'
 })
 export class VendorFilterComponent implements OnInit {
-  constructor(
-    private vendorService: VendorService,
-    private elementRef: ElementRef,
-    private toastr: ToastrService
-  ) { }
-
   @Output() vendorFilterData: EventEmitter<any> = new EventEmitter();
   vendorCod!: string | undefined;
   vendorsList: any;
@@ -21,6 +15,12 @@ export class VendorFilterComponent implements OnInit {
   allVendorNames: string[] = [];
   filteredVendors: string[] = [];
   showSuggestions: boolean = false;
+  
+  constructor(
+    private vendorService: VendorService,
+    private elementRef: ElementRef,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.getAllVendorsListInit();

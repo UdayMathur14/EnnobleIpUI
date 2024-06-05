@@ -8,13 +8,6 @@ import { VehicleService } from '../../../../../core/service/vehicle.service';
   styleUrl: './vehicle-filter.component.scss'
 })
 export class VehicleFiltersComponent implements OnInit {
-
-  constructor(
-    private vehicleService: VehicleService,
-    private toastr: ToastrService,
-    private elementRef: ElementRef
-  ) { }
-
   @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();
   vehiclesList: any;
   vehicleNum!: any | null;
@@ -28,6 +21,12 @@ export class VehicleFiltersComponent implements OnInit {
   transporterId: number = 0;
   allVehicleNo: any = [];
   filteredVehicleNo: any = [];
+
+  constructor(
+    private vehicleService: VehicleService,
+    private toastr: ToastrService,
+    private elementRef: ElementRef
+  ) { }
 
   ngOnInit(): void {
     this.getAllTransportersList();
