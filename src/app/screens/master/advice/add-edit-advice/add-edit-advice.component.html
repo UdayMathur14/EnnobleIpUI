@@ -15,7 +15,7 @@
                     <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly
                         #locationCodeInput />
                     <ng-select *ngIf="adviceId == 0" formControlName="locationCode">
-                        <ng-option *ngFor="let location of locationsDropdownData"
+                        <ng-option *ngFor="let location of locations"
                             [value]="location.value">{{location.value}}</ng-option>
                     </ng-select>
                 </div>

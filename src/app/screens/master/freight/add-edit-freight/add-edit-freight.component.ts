@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FreightService } from '../../../../core/service/freight.service';
 import { BaseService } from '../../../../core/service/base.service';
 import { FreightDataModel } from '../../../../core/model/masterModels.model';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -17,12 +18,14 @@ export class AddEditFreightComponent implements OnInit {
   freightData!: FreightDataModel;
   loadSpinner: boolean = true;
   freightId: number = 0;
-  locations: any = [];
+  //locations: any = [];
   sources: any = [];
   locationCode: string = '';
   vehcileSizes: any = [];
   destinations: any = [];
   getData: any = [];
+  locationId:Number=0;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
     private router: Router,
@@ -50,9 +53,9 @@ export class AddEditFreightComponent implements OnInit {
   ngOnInit(): void {
     this.freightId = Number(this._Activatedroute.snapshot.paramMap.get("freightId"));
     this.freightId = this.freightId == 0 ? 0 : this.freightId;
-    this.baseService.lookupData.subscribe((res: any) => {
-      this.locations = res.lookUps.filter((e: any) => e.code === 'LOC');
-    })
+    // this.baseService.lookupData.subscribe((res: any) => {
+    //   this.locations = res.lookUps.filter((e: any) => e.code === 'LOC');
+    // })
     if (this.freightId != 0) {
       this.getFreightData(this.freightId);
     }
@@ -131,7 +134,7 @@ export class AddEditFreightComponent implements OnInit {
 
   //UPDATING FREIGHT DATA
   updateFreight(data: any) {
-    this.freightService.updateFreight(this.freightId, data).subscribe((response: any) => {
+    this.freightService.updateFreight(this.locationId,this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
@@ -144,7 +147,7 @@ export class AddEditFreightComponent implements OnInit {
 
   //CREATING NEW FREIGHT
   createNewFreight(data: any) {
-    this.freightService.createFreight(data).subscribe((response: any) => {
+    this.freightService.createFreight(this.locationId,data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Freight Created Successfully');
       this.router.navigate(['/master/freight'])

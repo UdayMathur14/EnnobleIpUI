@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AdviceTypeService } from '../../../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-bilti-bill-process-filter',
@@ -22,6 +23,8 @@ export class BiltiBillProcessFilterComponent {
   loadSpinner: boolean = true;
   adviceTypeList: any = [];
   isBiltiNumberDisabled: boolean = false;
+  locationId: Number = 0;
+  locations: any[] = APIConstant.locationsListDropdown;
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();

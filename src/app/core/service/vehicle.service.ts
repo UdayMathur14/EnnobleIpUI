@@ -22,8 +22,8 @@ export class VehicleService extends CRUDService<VehicleRequest> {
       vehicleData(this.locationIds, vehicleId));
   }
 
-  updateVehicle(vehicleId: string, data: object) {
-    return this.put(updateVehicle(this.locationIds, vehicleId), data);
+  updateVehicle(locationId:Number,vehicleId: string, data: object) {
+    return this.put(updateVehicle(locationId, vehicleId), data);
   }
 
   createVehicle(data: object) {

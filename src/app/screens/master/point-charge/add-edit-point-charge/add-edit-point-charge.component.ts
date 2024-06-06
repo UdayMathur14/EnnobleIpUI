@@ -7,6 +7,7 @@ import { PointChargeDataModel } from '../../../../core/model/masterModels.model'
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-point-charge',
@@ -14,7 +15,7 @@ import { LookupService } from '../../../../core/service/lookup.service';
   styleUrl: './add-edit-point-charge.component.scss'
 })
 export class AddEditPointChargeComponent implements OnInit {
-  
+
   pointChargeForm: FormGroup;
   pointChargeId: any;
   pointChargeData!: PointChargeDataModel
@@ -22,6 +23,8 @@ export class AddEditPointChargeComponent implements OnInit {
   loadSpinner: boolean = true;
   locationCode: string = '';
   pointNameData: any = [];
+  locationId: Number = 0;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(private router: Router,
     private _route: ActivatedRoute,
@@ -129,7 +132,7 @@ export class AddEditPointChargeComponent implements OnInit {
         status: this.pointChargeForm.get('status')?.value,
       }
 
-      this.pointChargeService.updatePointCharge(this.pointChargeId, data).subscribe((response: any) => {
+      this.pointChargeService.updatePointCharge(this.locationId, this.pointChargeId, data).subscribe((response: any) => {
         this.pointChargeData = response;
         this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
@@ -151,7 +154,7 @@ export class AddEditPointChargeComponent implements OnInit {
       }
       // }
 
-      this.pointChargeService.createPointCharge(data)
+      this.pointChargeService.createPointCharge(this.locationId, data)
         .subscribe((response: any) => {
           this.pointChargeData = response;
           this.toastr.success('Point Charge Created Successfully')

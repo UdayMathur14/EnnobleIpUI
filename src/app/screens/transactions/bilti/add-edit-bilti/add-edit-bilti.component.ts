@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BiltiListingModel } from '../../../../core/model/masterModels.model';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -63,6 +64,10 @@ export class AddEditBiltiComponent implements OnInit {
   vendorName: any;
   dispatchNotes: any = [];
   matchedDispatchNotes:any = [];
+
+  locationId: Number = 0;
+  locations: any[] = APIConstant.locationsListDropdown;
+
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -198,7 +203,7 @@ export class AddEditBiltiComponent implements OnInit {
     const data = {
       transactionType: selectedTransactionType,
     };
-    this.biltiService.getFrmTransactions(data).subscribe(
+    this.biltiService.getFrmTransactions(this.locationId,data).subscribe(
       (response: any) => {
         this.allFrmTransactionData = response.frmTransactions
         this.frmTransactionData = [...new Set(response.frmTransactions.map((item: any) => 
@@ -539,7 +544,7 @@ onFrlrNoClear() {
       })
   
       
-      this.biltiService.createBilti(data).subscribe(
+      this.biltiService.createBilti(this.locationId,data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Created Successfully');
@@ -607,7 +612,7 @@ onFrlrNoClear() {
           data.lineItemsEntity[0].id = this.lineItem[0].id;
         }
       })
-      this.biltiService.updateBilti(this.biltiId, data).subscribe(
+      this.biltiService.updateBilti(this.locationId,this.biltiId, data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Updated Successfully');
@@ -639,7 +644,7 @@ onFrlrNoClear() {
 
   getBiltiData(biltiId: number) {
     this.loadSpinner = true;
-    this.biltiService.getBiltiData(biltiId).subscribe(
+    this.biltiService.getBiltiData(this.locationId,biltiId).subscribe(
       (response: any) => {
         this.lineItem = response.biltiCreationLineItems
         this.loadSpinner=false

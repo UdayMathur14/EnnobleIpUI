@@ -8,6 +8,7 @@ import { VendorService } from '../../../../core/service/vendor.service';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { BaseService } from '../../../../core/service/base.service';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-dispatch-note',
@@ -33,6 +34,8 @@ export class AddEditDispatchNoteComponent {
   selectedQuantity!: number;
   dispatchId: number = 0;
   loadSpinner: boolean = false;
+  locationId: Number = 0;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
     private router: Router,
@@ -100,7 +103,7 @@ export class AddEditDispatchNoteComponent {
   async getDispatchData(dispatchId: number) {
     this.loadSpinner = true
     await this.dispatchNoteService
-      .getDispatchNoteById(dispatchId)
+      .getDispatchNoteById(this.locationId,dispatchId)
       .subscribe((response: any) => {
         this.loadSpinner = false;
         const vehicles = response.vehicles;
@@ -331,7 +334,7 @@ export class AddEditDispatchNoteComponent {
       }
 
       this.dispatchNoteService
-        .updateDispatchNote(this.dispatchId, this.dispatchNote)
+        .updateDispatchNote(this.locationId,this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');

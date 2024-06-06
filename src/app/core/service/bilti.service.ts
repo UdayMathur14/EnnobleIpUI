@@ -35,11 +35,8 @@ export class BiltiService extends CRUDService<BiltiRequest> {
     return this.post(APIConstant.transactionTypes, data);
   }
 
-  getFrmTransactions(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + frlr(this.locationIds),
-      data
-    );
+  getFrmTransactions(locationId: Number, data: any) {
+    return this.baseService.post(APIConstant.basePath + frlr(locationId), data);
   }
 
   getVehicleNo(data: any) {
@@ -68,24 +65,22 @@ export class BiltiService extends CRUDService<BiltiRequest> {
   }
 
   getPointCharges(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + APIConstant.pointCharge, data);
+    return this.baseService.post(APIConstant.basePath + APIConstant.pointCharge, data);
   }
 
-  createBilti(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + createBilti(this.locationIds), data);
+  createBilti(locationId: Number, data: any) {
+    return this.baseService.post(APIConstant.basePath + createBilti(locationId), data);
   }
 
   getLoadingLocation(data: object, type: string) {
     return this.post(getDropdownDatas(type), data);
   }
 
-  getBiltiData(biltiId: number) {
-    return this.get(biltiData(this.locationIds, biltiId));
+  getBiltiData(locationId: Number, biltiId: number) {
+    return this.get(biltiData(locationId, biltiId));
   }
 
-  updateBilti(biltiId: number, data: object) {
-    return this.put(updateBitli(this.locationIds, biltiId), data);
+  updateBilti(locationId: Number, biltiId: number, data: object) {
+    return this.put(updateBitli(locationId, biltiId), data);
   }
 }

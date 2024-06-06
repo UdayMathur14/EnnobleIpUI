@@ -5,6 +5,7 @@ import { BaseService } from '../../../../core/service/base.service';
 import { VehicleService } from '../../../../core/service/vehicle.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VehicleDataModel } from '../../../../core/model/masterModels.model';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-vehicle',
@@ -22,6 +23,8 @@ export class AddEditVehicleComponent implements OnInit {
   transporterId: number = 0;
   transporterData: any
   vehcileSizes: any = []
+  locationId:Number=0;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
     private router: Router,
@@ -110,7 +113,7 @@ export class AddEditVehicleComponent implements OnInit {
         actionBy: 1,
       }
 
-      this.vehicleService.updateVehicle(this.vehicleId, data)
+      this.vehicleService.updateVehicle(this.locationId,this.vehicleId, data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')

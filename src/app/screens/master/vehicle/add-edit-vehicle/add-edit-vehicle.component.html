@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>{{ vehicleId > 0 ? 'Edit Vehicle' : 'Create Vehicle' }}</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!vehicleForm.valid">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!locationId && !vehicleForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -11,6 +11,14 @@
 <div class="content-section p-3">
   <form [formGroup]="vehicleForm">
     <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Location Code<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" [(ngModel)]="locationId" placeholder="Select location">
+            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Vehicle Number <span class="text-danger" *ngIf="!vehicleId">*</span></label>
@@ -39,12 +47,6 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Owner Name</label>
-          <input type="text" class="input-field" formControlName="ownerName" readonly />
-        </div>
-      </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Address</label>
@@ -53,6 +55,12 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Owner Name</label>
+          <input type="text" class="input-field" formControlName="ownerName" readonly />
+        </div>
+      </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Mobile Number1</label>

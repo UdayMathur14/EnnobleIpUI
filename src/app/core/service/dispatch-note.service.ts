@@ -22,11 +22,11 @@ export class DispatchNoteService extends CRUDService<DispatchNoteRequest>{
         return this.baseService.post(APIConstant.basePath+createDispatchNote(this.locationIds), data);
     }
 
-    getDispatchNoteById(dispatchId: number){
-        return this.get(dispatchData(this.locationIds, dispatchId));
+    getDispatchNoteById(locationId:Number,dispatchId: number){
+        return this.get(dispatchData(locationId, dispatchId));
     }
 
-    updateDispatchNote(dispatchId: number, data: any){
-        return this.put(updateDispatchNote(this.locationIds, dispatchId), data);
+    updateDispatchNote(locationId:Number,dispatchId: number, data: any){
+        return this.put(updateDispatchNote(locationId, dispatchId), data);
     }
 }

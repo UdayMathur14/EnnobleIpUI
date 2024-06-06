@@ -5,6 +5,7 @@ import { AdviceTypeService } from '../../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-advice',
@@ -22,6 +23,8 @@ export class AddEditAdviceComponent implements OnInit {
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
   transactionTypeId: any;
+  locationId: Number = 0;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
     private router: Router,
@@ -48,7 +51,7 @@ export class AddEditAdviceComponent implements OnInit {
     if (this.adviceId != 0) {
       this.getAdviceTypeData(this.adviceId);
     } else {
-      this.getLocations();
+      //this.getLocations();
     }
     this.loadSpinner = false;
     this.getAllTransactionTypes();
@@ -106,23 +109,23 @@ export class AddEditAdviceComponent implements OnInit {
     );
   }
 
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe(
-      (res: any) => {
-        this.locationsDropdownData = res.lookUps;
-        console.log(this.locationsDropdownData, 'this.locationsDropdownData');
-      },
-      error => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      }
-    );
-  }
+  // getLocations() {
+  //   let data = {
+  //     CreationDate: '',
+  //     LastUpdatedBy: '',
+  //     LastUpdateDate: '',
+  //   };
+  //   const type = 'Locations';
+  //   this.lookupService.getLocationsLookup(data, type).subscribe(
+  //     (res: any) => {
+  //       this.locationsDropdownData = res.lookUps;
+  //       console.log(this.locationsDropdownData, 'this.locationsDropdownData');
+  //     },
+  //     error => {
+  //       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+  //     }
+  //   );
+  // }
 
   // Function to handle advice type field
   isAdviceTypeTouched(): boolean {

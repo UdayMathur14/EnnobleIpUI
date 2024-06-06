@@ -21,12 +21,12 @@ export class FreightService extends CRUDService<PlantRequest> {
         return this.get(freightData(this.locationIds, freightId));
     }
 
-    updateFreight(freightId : number, data : object){
-        return this.put(updateFreight(this.locationIds, freightId), data);
+    updateFreight(locationId:Number,freightId : number, data : object){
+        return this.put(updateFreight(locationId, freightId), data);
     }
 
-    createFreight(data : object){
-        return this.post(createFreight(this.locationIds), data);
+    createFreight(locationId:Number,data : object){
+        return this.post(createFreight(locationId), data);
     }
 
     getDropdownData(data : object, type: string){
