@@ -62,7 +62,7 @@ export class ApprovalMaterialHeadComponent {
           .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       },
         (error) => {
-          this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         }
       );
@@ -109,7 +109,7 @@ export class ApprovalMaterialHeadComponent {
       this.getAllBiltiProcess();
     }, error => {
       this.loadSpinner = false;
-      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 

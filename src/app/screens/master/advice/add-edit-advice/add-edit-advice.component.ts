@@ -78,7 +78,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.loadSpinner = false;
       },
       error => {
-        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -100,7 +100,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.loadSpinner = false;
       },
       error => {
-        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -119,7 +119,7 @@ export class AddEditAdviceComponent implements OnInit {
         console.log(this.locationsDropdownData, 'this.locationsDropdownData');
       },
       error => {
-        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -177,7 +177,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.router.navigate(['master/advice']);
       },
       error => {
-        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -192,7 +192,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.router.navigate(['/master/advice']);
       },
       error => {
-        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );

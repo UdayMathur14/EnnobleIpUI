@@ -59,7 +59,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
 
     },
       (error) => {
-      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     }
   )
@@ -106,7 +106,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       this.getAllBiltiProcess();
     }, error => {
       this.loadSpinner = false;
-      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 

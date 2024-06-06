@@ -67,8 +67,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.dataChange.emit(this.plantsList);
       this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
-      console.log(error?.error?.details);
-      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

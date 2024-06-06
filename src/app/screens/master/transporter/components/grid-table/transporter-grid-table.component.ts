@@ -44,7 +44,7 @@ export class TransporterGridTableComponent implements OnInit {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -60,7 +60,7 @@ export class TransporterGridTableComponent implements OnInit {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
