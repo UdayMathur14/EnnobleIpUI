@@ -32,7 +32,7 @@ export class PointMasterMaterialFiltersComponent implements OnInit {
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
       this.pointChargeList = response.pointCharges;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
 

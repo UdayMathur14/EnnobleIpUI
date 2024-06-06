@@ -1,88 +1,81 @@
 <div id="exportableTable">
   <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
-    <thead>
-      <tr>
-        <th (click)="sortData('pointName')">Point Name</th>
-        <th (click)="sortData('pointCharge')">Point Charge</th>
-        <th (click)="sortData('sameLocationCharge')">Same Location Charge</th>
-        <th (click)="sortData('locations')">Location Code</th>
-        <th (click)="sortData('materialRemarks')">Material Remarks</th>
-        <th (click)="sortData('accountsRemarks')">Account Remarks</th>
-        <th (click)="sortData('status')">Status</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (pointcharge of pointChargesList; track pointcharge.id) {
-      <tr>
-        <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
-            <u>{{pointcharge?.pointName}}</u>
-          </span>
-          <ng-template #tipContent>
-            <div class="">
-              <div class="content-row">
-                <span>Creation Date</span>
-                <span>{{pointcharge?.creationDate | date: 'yyyy-MM-dd'}}</span>
+    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+      <thead>
+        <tr>
+          <th (click)="sortData('pointName')">Point Name</th>
+          <th (click)="sortData('pointCharge')">Point Charge</th>
+          <th (click)="sortData('sameLocationCharge')">Same Location Charge</th>
+          <th (click)="sortData('locations')">Location Code</th>
+          <th (click)="sortData('materialRemarks')">Material Remarks</th>
+          <th (click)="sortData('accountsRemarks')">Account Remarks</th>
+          <th (click)="sortData('status')">Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (pointcharge of pointChargesList; track pointcharge.id) {
+        <tr>
+          <td class="pointer" container="body">
+            <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+              <u>{{pointcharge?.pointName}}</u>
+            </span>
+            <ng-template #tipContent>
+              <div class="">
+                <div class="content-row">
+                  <span>Creation Date</span>
+                  <span>{{pointcharge?.creationDate | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Created By</span>
+                  <span>{{pointcharge?.createdBy}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Updated By</span>
+                  <span>{{pointcharge?.lastUpdatedBy}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Update Date</span>
+                  <span>{{pointcharge?.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Approved by Material</span>
+                  <span>{{pointcharge?.approvedByMaterial}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Approved by Material On</span>
+                  <span>{{pointcharge?.approvedByMaterialOn}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Approved by Accounts</span>
+                  <span>{{pointcharge?.approvedByAccounts}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Approved by Accounts On</span>
+                  <span>{{pointcharge?.approvedByAccountsOn}}</span>
+                </div>
               </div>
-              <div class="content-row">
-                <span>Created By</span>
-                <span>{{pointcharge?.createdBy}}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Updated By</span>
-                <span>{{pointcharge?.lastUpdatedBy}}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Update Date</span>
-                <span>{{pointcharge?.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-              </div>
-              <div class="content-row">
-                <span>Approved by Material</span>
-                <span>{{pointcharge?.approvedByMaterial}}</span>
-              </div>
-              <div class="content-row">
-                <span>Approved by Material On</span>
-                <span>{{pointcharge?.approvedByMaterialOn}}</span>
-              </div>
-              <div class="content-row">
-                <span>Approved by Accounts</span>
-                <span>{{pointcharge?.approvedByAccounts}}</span>
-              </div>
-              <div class="content-row">
-                <span>Approved by Accounts On</span>
-                <span>{{pointcharge?.approvedByAccountsOn}}</span>
-              </div>
-            </div>
-          </ng-template>
-        </td>
-        <td>{{pointcharge?.pointCharge}}</td>
-        <td>{{pointcharge?.sameLocationCharge}}</td>
-        <td>{{pointcharge?.locations.value}}</td>
-        <td>{{pointcharge?.materialRemarks || '-'}}</td>
-        <td>{{pointcharge?.accountsRemarks || '-'}}</td>
-        <td>{{pointcharge?.status}}</td>
-        <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            alt="edit" class="pointer"
-            (click)="onEditPointCharge(pointcharge)"
-          />
-        </td>
-      </tr>
-    }@empty {
-      <tr>
-        <td align="center" colspan="13">No Point Charge Found</td>
-      </tr>
-    }
-    </tbody>
-  </table>
-</div>
+            </ng-template>
+          </td>
+          <td>{{pointcharge?.pointCharge}}</td>
+          <td>{{pointcharge?.sameLocationCharge}}</td>
+          <td>{{pointcharge?.locations.value}}</td>
+          <td>{{pointcharge?.materialRemarks || '-'}}</td>
+          <td>{{pointcharge?.accountsRemarks || '-'}}</td>
+          <td>{{pointcharge?.status}}</td>
+          <td class="text-center">
+            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"
+              (click)="onEditPointCharge(pointcharge)" />
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td align="center" colspan="13">No Point Charge Found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

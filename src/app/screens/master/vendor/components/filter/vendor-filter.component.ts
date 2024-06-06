@@ -8,11 +8,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './vendor-filter.component.scss'
 })
 export class VendorFilterComponent implements OnInit {
-  constructor(
-    private vendorService: VendorService,
-    private elementRef: ElementRef,
-    private toastr: ToastrService
-  ) { }
 
   @Output() vendorFilterData: EventEmitter<any> = new EventEmitter();
   vendorCod!: string | undefined;
@@ -21,6 +16,12 @@ export class VendorFilterComponent implements OnInit {
   allVendorNames: string[] = [];
   filteredVendors: string[] = [];
   showSuggestions: boolean = false;
+
+  constructor(
+    private vendorService: VendorService,
+    private elementRef: ElementRef,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.getAllVendorsListInit();
@@ -35,7 +36,7 @@ export class VendorFilterComponent implements OnInit {
       this.vendorsList = response.vendors;
       this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 
@@ -62,7 +63,7 @@ export class VendorFilterComponent implements OnInit {
     this.filteredVendors = this.allVendorNames.filter(name => name.toLowerCase().includes(inputText.toLowerCase()));
     this.filteredVendors.length ? this.showSuggestions = true : this.showSuggestions = false;
   }
- 
+
   // Sets the selected vendor name, clears the filtered vendors list, and hides the suggestion dropdown.
   selectSuggestion(vendor: string) {
     this.vendorNam = vendor;

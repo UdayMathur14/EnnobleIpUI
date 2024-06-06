@@ -1,73 +1,64 @@
 <div id="exportableTable">
   <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
-    <thead>
-      <tr>
-        <th (click)="sortData('partNumber')">Part#</th>
-        <th (click)="sortData('partName')">Part Name</th>
-        <th (click)="sortData('description')">Description</th>
-        <th (click)="sortData('partSize')">Part Size</th>
-        <th (click)="sortData('partPrice')">Part Price</th>
-        <th (click)="sortData('remarks')">Remarks</th>
-        <th (click)="sortData('status')">Status</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (part of partsList; track part.id) {
-      <tr>
-        <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
-            <u>{{part.partNumber}}</u>
-          </span>
-          <ng-template #tipContent>
-            <div class="">
-              <div class="content-row">
-                <span>Creation Date</span>
-                <span>{{part.creationDate | date: 'yyyy-MM-dd'}}</span>
+    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+      <thead>
+        <tr>
+          <th (click)="sortData('partNumber')">Part#</th>
+          <th (click)="sortData('partName')">Part Name</th>
+          <th (click)="sortData('description')">Description</th>
+          <th (click)="sortData('partSize')">Part Size</th>
+          <th (click)="sortData('partPrice')">Part Price</th>
+          <th (click)="sortData('remarks')">Remarks</th>
+          <th (click)="sortData('status')">Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (part of partsList; track part.id) {
+        <tr>
+          <td class="pointer" container="body">
+            <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+              <u>{{part.partNumber}}</u>
+            </span>
+            <ng-template #tipContent>
+              <div class="">
+                <div class="content-row">
+                  <span>Creation Date</span>
+                  <span>{{part.creationDate | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Created By</span>
+                  <span>{{part.createdBy}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Update Date</span>
+                  <span>{{part.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Updated By</span>
+                  <span>{{part.lastUpdatedBy}}</span>
+                </div>
               </div>
-              <div class="content-row">
-                <span>Created By</span>
-                <span>{{part.createdBy}}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Update Date</span>
-                <span>{{part.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Updated By</span>
-                <span>{{part.lastUpdatedBy}}</span>
-              </div>
-            </div>
-          </ng-template>
-        </td>
-        <td>{{part.partName}}</td>
-        <td>{{part.description}}</td>
-        <td>{{part.partSize}}</td>
-        <td>{{part.partPrice}}</td>
-        <td>{{part.remarks}}</td>
-        <td>{{part.status}}</td>
-        <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            class="pointer"
-            alt="edit"
-            (click)="onGoToEditPart(part)"
-          />
-        </td>
-      </tr>
-    }@empty {
-      <tr>
-        <td align="center" colspan="13">No Part Found</td>
-      </tr>
-    }
-    </tbody>
-  </table>
-</div>
+            </ng-template>
+          </td>
+          <td>{{part.partName}}</td>
+          <td>{{part.description}}</td>
+          <td>{{part.partSize}}</td>
+          <td>{{part.partPrice}}</td>
+          <td>{{part.remarks}}</td>
+          <td>{{part.status}}</td>
+          <td class="text-center">
+            <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPart(part)" />
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td align="center" colspan="13">No Part Found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
 
 

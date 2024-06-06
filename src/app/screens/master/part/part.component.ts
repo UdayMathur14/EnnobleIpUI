@@ -9,13 +9,15 @@ import { ExportService } from '../../../core/service/export.service';
 })
 export class PartComponent {
 
-  constructor(private router: Router,
-    private exportService: ExportService
-  ) { }
-
+  
   isFilters: boolean = true;
   searchedPart: string = '';
-  fullScreen : boolean = false;
+  fullScreen: boolean = false;
+
+  constructor(
+    private router: Router,
+    private exportService: ExportService
+  ) { }
 
   onCreatePart() {
     this.router.navigate(['master/addEditPart', '0'])

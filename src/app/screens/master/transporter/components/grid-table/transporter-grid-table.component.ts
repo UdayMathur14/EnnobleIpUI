@@ -10,13 +10,14 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './transporter-grid-table.component.scss'
 })
 export class TransporterGridTableComponent implements OnInit {
+
+  @Input() searchedTransporter!: any;
   transportersList: any = [];
   loadSpinner: boolean = true
-  @Input()
-  searchedTransporter!: any;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private toastr: ToastrService,
     private transporterService: TransporterService) { }
 
@@ -43,7 +44,7 @@ export class TransporterGridTableComponent implements OnInit {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -59,7 +60,7 @@ export class TransporterGridTableComponent implements OnInit {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

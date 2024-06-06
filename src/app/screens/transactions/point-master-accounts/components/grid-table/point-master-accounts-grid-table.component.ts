@@ -46,7 +46,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       this.selectPoint(this.selectedPointId);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -62,7 +62,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       this.pointChargesList = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -108,7 +108,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       popover.close();
       this.getAllPointChargesList();
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }

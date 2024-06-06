@@ -1,88 +1,74 @@
-  <div class="custom-table">
-    <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
-      <thead>
-        <tr>
-          <th (click)="sortData('plantCode')">Plant Code</th>
-          <th (click)="sortData('plantDesc')">Plant Name</th>
-          <th (click)="sortData('plantAddress')">Address</th>
-          <th (click)="sortData('state.value')">State</th>
-          <th (click)="sortData('city.value')">City</th>
-          <th (click)="sortData('panNo')">PAN</th>
-          <th (click)="sortData('gstnNo')">GSTIN</th>
-          <th (click)="sortData('siteCode')">Site Code</th>
-          <th (click)="sortData('locations.value')">Location Code</th>
-          <th (click)="sortData('dsc')">DSC</th>
-          <th (click)="sortData('dcp')">DCP</th>
-          <th (click)="sortData('status')">Status</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (plant of plantsList; track plant.id) {
-        <tr>
-          <td class="pointer" container="body">
-            <span
-              placement="end"
-              tooltipClass="table-datetime-popover"
-              [ngbTooltip]="tipContent"
-            >
-              <u>{{ plant.plantCode }}</u>
-            </span>
-            <ng-template #tipContent>
-              <div class="">
-                <div class="content-row">
-                  <span>Creation Date</span>
-                  <span>{{ plant.creationDate | date: 'yyyy-MM-dd' }}</span>
-                </div>
-                <div class="content-row">
-                  <span>Created By</span>
-                  <span>{{ plant.createdBy }}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Update Date</span>
-                  <span>{{ plant.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Updated By</span>
-                  <span>{{ plant.lastUpdatedBy }}</span>
-                </div>
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+    <thead>
+      <tr>
+        <th (click)="sortData('plantCode')">Plant Code</th>
+        <th (click)="sortData('plantDesc')">Plant Name</th>
+        <th (click)="sortData('plantAddress')">Address</th>
+        <th (click)="sortData('state.value')">State</th>
+        <th (click)="sortData('city.value')">City</th>
+        <th (click)="sortData('panNo')">PAN</th>
+        <th (click)="sortData('gstnNo')">GSTIN</th>
+        <th (click)="sortData('siteCode')">Site Code</th>
+        <th (click)="sortData('locations.value')">Location Code</th>
+        <th (click)="sortData('dsc')">DSC</th>
+        <th (click)="sortData('dcp')">DCP</th>
+        <th (click)="sortData('status')">Status</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (plant of plantsList; track plant.id) {
+      <tr>
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{ plant.plantCode }}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{ plant.creationDate | date: 'yyyy-MM-dd' }}</span>
               </div>
-            </ng-template>
-          </td>
-          <td>{{plant.plantDesc}}</td>
-          <td>{{ plant.plantAddress }}</td>
-          <td>{{ plant.state.value }}</td>
-          <td>{{ plant.city.value }}</td>
-          <td>{{ plant.panNo }}</td>
-          <td>{{ plant.gstnNo }}</td>
-          <td>{{ plant.siteCode }}</td>
-          <td>{{ plant.locations.value }}</td>
-          <td>{{ plant.dsc }}</td>
-          <td>{{ plant.dcp }}</td>
-          <td>{{ plant.status }}</td>
-          <td class="text-center">
-            <img
-              src="assets/images/icons/link.svg"
-              class="me-2 pointer"
-              alt="link"
-              (click)="onLinkClick(plant)"
-            />
-            <img
-              src="assets/images/icons/editPencil.svg"
-              class="pointer"
-              alt="edit"
-              (click)="onGoToEditPlant(plant)"
-            />
-          </td>
-        </tr>
-        }@empty {
-        <tr>
-          <td align="center" colspan="13">No Plant Found</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{ plant.createdBy }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{ plant.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{ plant.lastUpdatedBy }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{plant.plantDesc}}</td>
+        <td>{{ plant.plantAddress }}</td>
+        <td>{{ plant.state.value }}</td>
+        <td>{{ plant.city.value }}</td>
+        <td>{{ plant.panNo }}</td>
+        <td>{{ plant.gstnNo }}</td>
+        <td>{{ plant.siteCode }}</td>
+        <td>{{ plant.locations.value }}</td>
+        <td>{{ plant.dsc }}</td>
+        <td>{{ plant.dcp }}</td>
+        <td>{{ plant.status }}</td>
+        <td class="text-center">
+          <img src="assets/images/icons/link.svg" class="me-2 pointer" alt="link" (click)="onLinkClick(plant)" />
+          <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPlant(plant)" />
+        </td>
+      </tr>
+      }@empty {
+      <tr>
+        <td align="center" colspan="13">No Plant Found</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
 
 <div class="spinner" *ngIf="loadSpinner">
   Loading...

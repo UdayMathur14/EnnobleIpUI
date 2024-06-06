@@ -16,46 +16,31 @@
           <!-- <ng-select class="input-field" [(ngModel)]="plantData.plantCode">
           <ng-option *ngFor="let plant of plantsList" [value]="plant.plantCode">{{plant.plantCode}}</ng-option>
        </ng-select> -->
-          <input
-            type="text"
-            class="input-field" formControlName="plantCode" readonly
-          />
+          <input type="text" class="input-field" formControlName="plantCode" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Plant Name</label>
-          <input
-            type="text"
-            class="input-field" formControlName="plantDesc" readonly
-          />
+          <input type="text" class="input-field" formControlName="plantDesc" readonly />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Plant Address</label>
-          <input
-            type="text"
-            class="input-field" formControlName="plantAddress" readonly
-          />
+          <input type="text" class="input-field" formControlName="plantAddress" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">City</label>
-          <input
-            type="text"
-            class="input-field" formControlName="city" readonly
-          />
+          <input type="text" class="input-field" formControlName="city" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">State</label>
-          <input
-            type="text"
-            class="input-field" formControlName="stateCode" readonly
-          />
+          <input type="text" class="input-field" formControlName="stateCode" readonly />
         </div>
       </div>
     </div>
@@ -63,28 +48,19 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">PAN</label>
-          <input
-            type="text"
-            class="input-field" formControlName="panNo" readonly
-          />
+          <input type="text" class="input-field" formControlName="panNo" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">GSTIN</label>
-          <input
-            type="text"
-            class="input-field" formControlName="gstnNo" readonly
-          />
+          <input type="text" class="input-field" formControlName="gstnNo" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Plant Type</label>
-          <input
-            type="text"
-            class="input-field" formControlName="plantType" readonly
-          />
+          <input type="text" class="input-field" formControlName="plantType" readonly />
           <!-- <select name="" id="" disabled>
           <option value="active">Manufacturing</option>
           <option value="inactive">Service</option>
@@ -94,10 +70,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Site Code</label>
-          <input
-            type="text"
-            class="input-field" formControlName="siteCode" readonly
-          />
+          <input type="text" class="input-field" formControlName="siteCode" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -112,7 +85,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">DSC <span class="text-danger">*</span></label>
-          <input type="text" class="input-field capitalize" formControlName="dsc"/>
+          <input type="text" class="input-field capitalize" formControlName="dsc" />
         </div>
       </div>
     </div>
@@ -120,7 +93,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">DCP <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="dcp"/>
+          <input type="text" class="input-field" formControlName="dcp" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -138,7 +111,8 @@
   <div class="edit-screen-subTable">
     <h4 class="">
       Transaction Details
-      <button class="custom-button-regulr" (click)="onAddTransactionRow()" [disabled]="plantData && plantData.transactionTypeMapping.length >= transactionTypesList.length">Add</button>
+      <button class="custom-button-regulr" (click)="onAddTransactionRow()"
+        [disabled]="plantData && plantData.transactionTypeMapping.length >= transactionTypesList.length">Add</button>
     </h4>
   </div>
 
@@ -166,7 +140,8 @@
                     alt="Search"
                   />
                 </div> -->
-                <ng-select class="input-field" [(ngModel)]="transaction.code" (change)="onTransactionSelect($event, ind)">
+                <ng-select class="input-field" [(ngModel)]="transaction.code"
+                  (change)="onTransactionSelect($event, ind)">
                   <ng-option *ngFor="let transaction of getFilteredTransactionTypes(ind)" [value]="transaction">
                     {{transaction.code}}
                   </ng-option>
@@ -186,19 +161,15 @@
             </div>
           </td>
           <td class="text-center">
-            <img
-              src="assets/images/icons/trash.svg"
-              class="me-2 pointer"
-              alt="link"
-              (click)="onDeleteTransaction(transaction, ind)"
-            />
+            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
+              (click)="onDeleteTransaction(transaction, ind)" />
           </td>
         </tr>
-      }@empty {
+        }@empty {
         <tr>
           <td align="center" colspan="13">No Transaction Code Found</td>
         </tr>
-      }
+        }
       </tbody>
     </table>
   </div>

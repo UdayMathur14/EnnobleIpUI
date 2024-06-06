@@ -12,7 +12,9 @@ import { LookupService } from '../../../../core/service/lookup.service';
   styleUrls: ['./add-edit-advice.component.scss']
 })
 export class AddEditAdviceComponent implements OnInit {
+  
   @ViewChild('locationCodeInput', { static: false }) locationCodeInput!: ElementRef;
+  
   adviceForm: FormGroup;
   adviceId: number = 0;
   loadSpinner: boolean = true;
@@ -76,7 +78,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.loadSpinner = false;
       },
       error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -98,7 +100,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.loadSpinner = false;
       },
       error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -117,7 +119,7 @@ export class AddEditAdviceComponent implements OnInit {
         console.log(this.locationsDropdownData, 'this.locationsDropdownData');
       },
       error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -140,7 +142,7 @@ export class AddEditAdviceComponent implements OnInit {
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       actionBy: 1
     };
-  
+
     let editData = {
       adviceType: this.isAdviceTypeTouched() && adviceTypeValue && adviceTypeValue.name ? adviceTypeValue.name : this.adviceForm.value.adviceType,
       transactionTypeId: this.isAdviceTypeTouched() && adviceTypeValue && adviceTypeValue.id ? adviceTypeValue.id : this.transactionTypeId,
@@ -150,7 +152,7 @@ export class AddEditAdviceComponent implements OnInit {
       locationCode: this.locationCode || this.adviceForm.get('locationCode')!.value,
       actionBy: 1
     };
-  
+
     if (this.adviceId > 0) {
       this.updateAdviceType(editData);
     } else {
@@ -175,7 +177,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.router.navigate(['master/advice']);
       },
       error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -190,7 +192,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.router.navigate(['/master/advice']);
       },
       error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -201,7 +203,7 @@ export class AddEditAdviceComponent implements OnInit {
     const locationCode = this.adviceId === 0
       ? this.adviceForm.get('locationCode')!.value
       : this.locationCodeInput.nativeElement.value;
-  
+
     if (adviceType && adviceType.name && locationCode) {
       const selectedAdvice = this.transactionTypesList.find((advice: any) => advice.name === adviceType.name);
       if (selectedAdvice) {

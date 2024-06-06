@@ -11,25 +11,28 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './point-charge-grid-table.component.scss'
 })
 export class PointChargeGridTableComponent implements OnInit, OnChanges {
+
+  @Input() filterKeyword!: string;
+  @Input() locationIds!: any[];
+
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  pointChargesList: any;
+  pointChargeListOrg: any;
+  loadSpinner: boolean = true;
+
   constructor(
     private router: Router,
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
     private baseService: BaseService,
   ) { }
-  sortField: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
-  pointChargesList: any;
-  pointChargeListOrg: any;
-  @Input() filterKeyword!: string;
-  @Input() locationIds!: any[];
-  loadSpinner: boolean = true;
 
   ngOnInit(): void {
     this.getAllPointChargesList()
   }
 
-  ngOnChanges(changes: SimpleChanges|any): void {
+  ngOnChanges(changes: SimpleChanges | any): void {
     if (this.pointChargeListOrg && this.pointChargeListOrg.length && changes?.['filterKeyword'] && changes?.['filterKeyword'].currentValue) {
       this.pointChargesList = this.pointChargeListOrg.filter((e: any) => e.pointName.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
     }
@@ -37,7 +40,7 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
       this.pointChargesList = this.pointChargeListOrg;
     }
 
-    if(changes?.locationIds?.currentValue){
+    if (changes?.locationIds?.currentValue) {
       this.getAllPointChargesList();
     }
   }
@@ -59,7 +62,7 @@ export class PointChargeGridTableComponent implements OnInit, OnChanges {
       this.pointChargeListOrg = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

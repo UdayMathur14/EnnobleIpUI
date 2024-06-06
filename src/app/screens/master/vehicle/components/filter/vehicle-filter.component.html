@@ -15,11 +15,12 @@
                 <div class="input-with-icon">
                     <input type="text" class="suggestion" class="input-field" [(ngModel)]="vehicleNum"
                         (input)="onVehicleNoInput(vehicleNum)" placeholder="Vehicle Number"
-                         [readonly]="transporterNam ? true :false"/>
+                        [readonly]="transporterNam ? true :false" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestionsVehicle && filteredVehicleNo.length > 0" class="suggestions">
-                    <div *ngFor="let vehicleNo of filteredVehicleNo" (click)="selectSuggestionVehicleNo(vehicleNo)" class="suggestion">
+                    <div *ngFor="let vehicleNo of filteredVehicleNo" (click)="selectSuggestionVehicleNo(vehicleNo)"
+                        class="suggestion">
                         {{vehicleNo}}</div>
                 </div>
             </div>
@@ -29,11 +30,13 @@
                 <label for="">Transporter Name</label>
                 <div class="input-with-icon">
                     <input type="text" class="suggestion" class="input-field" [(ngModel)]="transporterNam"
-                        (input)="onTransporterNameInput()" placeholder="Transporter Name" [readonly]="vehicleNum ? true :false"/>
+                        (input)="onTransporterNameInput()" placeholder="Transporter Name"
+                        [readonly]="vehicleNum ? true :false" />
                     <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
                 </div>
                 <div *ngIf="showSuggestions && filteredVehicles.length > 0" class="suggestions">
-                    <div *ngFor="let vehicle of filteredVehicles" (click)="selectSuggestion(vehicle)" class="suggestion">
+                    <div *ngFor="let vehicle of filteredVehicles" (click)="selectSuggestion(vehicle)"
+                        class="suggestion">
                         {{vehicle.transporterName}}</div>
                 </div>
             </div>
@@ -42,8 +45,10 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="locationIds.length==0 && !vehicleNum && !transporterNam">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !vehicleNum && !transporterNam"> Clear</button>
+                    <button class="custom-button-filters" (click)="onVehicleSearch()"
+                        [disabled]="locationIds.length==0 && !vehicleNum && !transporterNam">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()"
+                        [disabled]="locationIds.length==0 && !vehicleNum && !transporterNam"> Clear</button>
                 </div>
             </div>
         </div>

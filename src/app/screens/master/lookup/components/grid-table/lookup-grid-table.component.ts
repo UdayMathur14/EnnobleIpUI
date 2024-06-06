@@ -17,6 +17,7 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
   loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+  
   constructor(
     private router: Router,
     private lookupService: LookupService,
@@ -38,14 +39,14 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
   onGoToEditLookup(lookupData: any) {
     this.router.navigate(['master/addEditLookup', lookupData.id]);
   }
- 
+
   getAllLookupsList() {
-    this.lookupService.getLookups({data:''}).subscribe((response: any) => {
+    this.lookupService.getLookups({ data: '' }).subscribe((response: any) => {
       this.lookupsList = response.lookUps;
       this.lookupsListOrg = response.lookUps;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

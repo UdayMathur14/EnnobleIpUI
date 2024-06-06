@@ -10,47 +10,52 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './part-grid-table.component.scss'
 })
 export class PartGridTableComponent implements OnInit, OnChanges {
-  constructor(private router: Router,
-    private toastr: ToastrService,
-    private partService: PartService) { }
-    
-  @Input()
-  searchedPart!: any;  
+
+  @Input() searchedPart!: any;
+  
   partsList: any;
-  partsListOrg : any;
-  loadSpinner : boolean = true;
+  partsListOrg: any;
+  loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private partService: PartService
+  ) { }
+
+
   ngOnInit(): void {
     this.getAllPartsListInit();
   }
 
   //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['searchedPart'].currentValue){
+    if (changes['searchedPart'].currentValue) {
       this.getFilteredPartsList();
-    } else if(changes['searchedPart'].firstChange === false && changes['searchedPart'].currentValue === ''){
+    } else if (changes['searchedPart'].firstChange === false && changes['searchedPart'].currentValue === '') {
       this.getAllPartsListInit();
     }
 
   }
 
-  onGoToEditPart(partData : any) {
-    this.router.navigate(['master/addEditPart',  partData.id]);
+  onGoToEditPart(partData: any) {
+    this.router.navigate(['master/addEditPart', partData.id]);
   }
 
   //GETTINGS PARTS LISTING ON PAGE LOAD
   getAllPartsListInit() {
     let data = {
       "partNumber": '',
-      "partName" : ''
+      "partName": ''
     }
     this.partService.getParts(data).subscribe((response: any) => {
       this.partsList = response.parts;
       this.partsListOrg = response.parts;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -59,13 +64,13 @@ export class PartGridTableComponent implements OnInit, OnChanges {
   getFilteredPartsList() {
     let data = {
       "partNumber": this.searchedPart.partCode || "",
-      "partName" : this.searchedPart.partName || ""
+      "partName": this.searchedPart.partName || ""
     }
     this.partService.getParts(data).subscribe((response: any) => {
       this.partsList = response.parts;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

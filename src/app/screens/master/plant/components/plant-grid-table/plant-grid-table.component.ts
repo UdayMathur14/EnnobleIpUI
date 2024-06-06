@@ -15,14 +15,7 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './plant-grid-table.component.scss'
 })
 export class PlantGridTableComponent implements OnInit, OnChanges {
-  constructor(
-    private router: Router,
-    private modalService: NgbModal,
-    private plantService: PlantService,
-    private baseService: BaseService,
-    private lookupService: LookupService,
-    private toastr: ToastrService
-  ) { }
+
   @ViewChild('table') table!: ElementRef;
   @Input() filterKeyword!: string;
   @Input() locationSel!: string;
@@ -34,6 +27,16 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private plantService: PlantService,
+    private baseService: BaseService,
+    private lookupService: LookupService,
+    private toastr: ToastrService
+  ) { }
+
   ngOnInit(): void {
     this.baseService.plantSpinner.next(true);
     setTimeout(() => {
@@ -64,7 +67,8 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
       this.dataChange.emit(this.plantsList);
       this.emitHeaders();  // Emit headers after the data is fetched and set
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      console.log(error?.error?.details);
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

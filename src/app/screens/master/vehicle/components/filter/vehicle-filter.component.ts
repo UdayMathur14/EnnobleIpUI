@@ -10,12 +10,7 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class VehicleFiltersComponent implements OnInit {
 
-  constructor(
-    private vehicleService: VehicleService,
-    private toastr: ToastrService,
-    private elementRef: ElementRef
-  ) { }
-
+  
   @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();
   vehiclesList: any;
   vehicleNum!: any | null;
@@ -29,8 +24,14 @@ export class VehicleFiltersComponent implements OnInit {
   transporterId: number = 0;
   allVehicleNo: any = [];
   filteredVehicleNo: any = [];
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = [];
+
+  constructor(
+    private vehicleService: VehicleService,
+    private toastr: ToastrService,
+    private elementRef: ElementRef
+  ) { }
 
   ngOnInit(): void {
     this.getAllTransportersList();
@@ -48,7 +49,7 @@ export class VehicleFiltersComponent implements OnInit {
       this.vehiclesList = response.vehicles;
       this.allVehicleNo = response.vehicles.map((vehicle: any) => vehicle.vehicleNumber);
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 
@@ -56,7 +57,7 @@ export class VehicleFiltersComponent implements OnInit {
     let obj = {
       "vehicleNumber": this.vehicleNum || "",
       "transporterId": this.transporterId,
-      locationIds:this.locationIds
+      locationIds: this.locationIds
     }
     this.vehicleFilterData.emit(obj)
   }
@@ -76,14 +77,14 @@ export class VehicleFiltersComponent implements OnInit {
     let data = {
       "transporterCode": '',
       "transporterName": '',
-      locationIds:this.locationIds
+      locationIds: this.locationIds
     }
     this.vehicleService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
       this.allVehicleNames = response.transporters.map((vehicles: any) => vehicles);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

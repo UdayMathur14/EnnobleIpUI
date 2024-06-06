@@ -11,16 +11,20 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './vehicle-grid-table.component.scss'
 })
 export class VehicleGridTableComponent implements OnInit {
-  vehiclesList: any;
+
   @Input() searchedVehicle: any;
+
+  vehiclesList: any;
   loadSpinner: boolean = true;
   vehiclesListOrg: any;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    private baseService: BaseService,) { }
+    private baseService: BaseService
+  ) { }
 
   ngOnInit(): void {
     this.getAllVehiclesList();
@@ -43,7 +47,7 @@ export class VehicleGridTableComponent implements OnInit {
       this.vehiclesListOrg = response.plants;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -59,7 +63,7 @@ export class VehicleGridTableComponent implements OnInit {
       this.vehiclesList = response.vehicles;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

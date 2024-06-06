@@ -1,4 +1,4 @@
-import { Component,OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BaseService } from '../../../../core/service/base.service';
@@ -12,23 +12,24 @@ import { VehicleDataModel } from '../../../../core/model/masterModels.model';
   styleUrl: './add-edit-vehicle.component.scss',
 })
 export class AddEditVehicleComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private _route: ActivatedRoute,
-    private vehicleService: VehicleService,
-    private toastr: ToastrService,  
-    private baseService: BaseService
-  ) {}
 
   vehicleId: any;
   vehicleData!: VehicleDataModel;
   vehiclesList: any = [];
   loadSpinner: boolean = true;
-  lookupsList:any;
+  lookupsList: any;
   transportersList: any;
   transporterId: number = 0;
-  transporterData:any
+  transporterData: any
   vehcileSizes: any = []
+
+  constructor(
+    private router: Router,
+    private _route: ActivatedRoute,
+    private vehicleService: VehicleService,
+    private toastr: ToastrService,
+    private baseService: BaseService
+  ) { }
 
   vehicleForm = new FormGroup({
     vehicleNumber: new FormControl('', [Validators.required]),
@@ -70,7 +71,7 @@ export class AddEditVehicleComponent implements OnInit {
         this.patchVehicleForm(response);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       })
     }
@@ -116,12 +117,12 @@ export class AddEditVehicleComponent implements OnInit {
           this.loadSpinner = false;
           this.router.navigate(['/master/vehicle'])
         }, error => {
-          this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+          this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
 
-    this.loadSpinner = false;
-  }
+      this.loadSpinner = false;
+    }
     if (!this.vehicleId) {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
@@ -140,54 +141,54 @@ export class AddEditVehicleComponent implements OnInit {
           this.loadSpinner = false;
           this.router.navigate(['/master/vehicle'])
         }, error => {
-          this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+          this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
-  
-    this.loadSpinner = false;
-  }
+
+      this.loadSpinner = false;
+    }
 
   }
 
   // GET VEHICLE SIZE
   getAllLookups() {
     let data = {
-      "code" : 'VehicleSize',
+      "code": 'VehicleSize',
     }
-    this.vehicleService.getLookups(data).subscribe((response:any) => {
+    this.vehicleService.getLookups(data).subscribe((response: any) => {
       this.lookupsList = response.lookUps;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
 
   getAllTransportersList() {
     let data = {
       "transporterCode": '',
-      "transporterName" : ''
+      "transporterName": ''
     }
     this.vehicleService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
 
-  getTransporterData(transporterId:any) {
-      this.loadSpinner = true;
-      this.vehicleService.getTransporterData(transporterId).subscribe((response: any) => {
-        this.patchTransporterField(response);
-        this.loadSpinner = false;
-      }, error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      })   
+  getTransporterData(transporterId: any) {
+    this.loadSpinner = true;
+    this.vehicleService.getTransporterData(transporterId).subscribe((response: any) => {
+      this.patchTransporterField(response);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
   }
 
-  patchTransporterField(data:any){
-      this.vehicleForm.patchValue({
+  patchTransporterField(data: any) {
+    this.vehicleForm.patchValue({
       ownerName: data.ownerName,
       address: data.transporterAddress1,
       mobileNumber1: data.transporterContactNo,
@@ -195,20 +196,20 @@ export class AddEditVehicleComponent implements OnInit {
     });
 
   }
-  
+
   // ROUTING TO MASTER PAGE
   onCancelPress() {
     this.router.navigate(['master/vehicle']);
   }
 
-  getVehicleSizeDropdownData(){
+  getVehicleSizeDropdownData() {
     let data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'VehicleSize'
-    this.vehicleService.getDropdownData(data, type).subscribe((res:any)=>{
+    this.vehicleService.getDropdownData(data, type).subscribe((res: any) => {
       this.vehcileSizes = res.lookUps
     })
   }

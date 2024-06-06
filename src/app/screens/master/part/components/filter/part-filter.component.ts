@@ -8,11 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './part-filter.component.scss'
 })
 export class PartFiltersComponent implements OnInit {
-  constructor(
-    private partService: PartService,
-    private toastr: ToastrService,
-    private elementRef: ElementRef,
-  ) { }
+
   @Output() partFilterObj: EventEmitter<object> = new EventEmitter();
   partNum: string | undefined;
   partName: string = '';
@@ -22,6 +18,12 @@ export class PartFiltersComponent implements OnInit {
   filteredItems: { partNum: string[], partName: string[] } = { partNum: [], partName: [] };
   showSuggestions: { partNum: boolean, partName: boolean } = { partNum: false, partName: false };
 
+  constructor(
+    private partService: PartService,
+    private toastr: ToastrService,
+    private elementRef: ElementRef,
+  ) { }
+  
   ngOnInit(): void {
     this.getAllPartsListInit();
   }
@@ -37,7 +39,7 @@ export class PartFiltersComponent implements OnInit {
       this.allPartsNames = response.parts.map((part: any) => part.partName);
       this.allPartNumbers = response.parts.map((part: any) => part.partNumber);
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
 

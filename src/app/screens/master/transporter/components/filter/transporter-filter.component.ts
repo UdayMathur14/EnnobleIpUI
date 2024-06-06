@@ -9,14 +9,17 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './transporter-filter.component.scss'
 })
 export class TransporterFiltersComponent implements OnInit {
+
+  @Output() transFilterObj: EventEmitter<object> = new EventEmitter();
   transportersList: any = [];
   transCode: string | undefined;
   transName: string = '';
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
-  @Output() transFilterObj : EventEmitter<object> = new EventEmitter();
+  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = [];
+  
 
-  constructor(private transporterService: TransporterService,
+  constructor(
+    private transporterService: TransporterService,
     private toastr: ToastrService
   ) { }
 
@@ -29,31 +32,31 @@ export class TransporterFiltersComponent implements OnInit {
     let data = {
       "transporterCode": '',
       "transporterName": '',
-      locationIds:this.locationIds
+      locationIds: this.locationIds
     }
     this.transporterService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
 
-  onTransporterSearch(){
+  onTransporterSearch() {
     let obj = {
-      transName : this.transName,
-      transCode : this.transCode,
-      locationIds:this.locationIds
+      transName: this.transName,
+      transCode: this.transCode,
+      locationIds: this.locationIds
     }
     this.transFilterObj.emit(obj)
   }
 
-  onClearFilter(){
+  onClearFilter() {
     this.transName = '';
     this.transCode = undefined;
     let obj = {
-      transName : '',
-      transCode : '',
-      locationIds :[]
+      transName: '',
+      transCode: '',
+      locationIds: []
     }
     this.transFilterObj.emit(obj)
   }

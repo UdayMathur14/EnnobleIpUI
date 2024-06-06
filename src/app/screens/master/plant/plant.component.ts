@@ -59,7 +59,7 @@ export class PlantComponent implements OnInit {
       status: plant.status
     }));
     //console.log(mappedPlantsList, "Mapped Data");
-    
+
     this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
   }
 

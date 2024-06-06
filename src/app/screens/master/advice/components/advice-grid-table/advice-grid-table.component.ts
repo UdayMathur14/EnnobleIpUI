@@ -24,14 +24,16 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
     private router: Router,
     private adviceService: AdviceTypeService,
     private toastr: ToastrService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.getAllAdviceTypesListInit();
   }
 
 
-  ngOnChanges(changes: SimpleChanges|any): void {
+  ngOnChanges(changes: SimpleChanges | any): void {
     if (this.adviceTypeListOrg && this.adviceTypeListOrg.length && changes?.['filterKeyword']?.currentValue) {
       this.adviceTypeList = this.adviceTypeListOrg.filter((e: any) => e.adviceType.toLowerCase().indexOf(changes?.['filterKeyword']?.currentValue.toLowerCase()) !== -1)
     }
@@ -39,7 +41,7 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
       this.adviceTypeList = this.adviceTypeListOrg;
     }
 
-    if(changes.locationIds && changes.locationIds.currentValue){
+    if (changes.locationIds && changes.locationIds.currentValue) {
       this.getAllAdviceTypesListInit();
     }
   }
@@ -50,7 +52,7 @@ export class AdviceGridTableComponent implements OnInit, OnChanges {
       this.adviceTypeListOrg = response.advices;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

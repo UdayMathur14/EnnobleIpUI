@@ -13,9 +13,9 @@ import { APIConstant } from '../../../core/constants';
 export class PointChargeComponent implements OnInit {
   isFilters: boolean = false;
   filterKeyword: string = '';
-  fullScreen : boolean = false;
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  fullScreen: boolean = false;
+  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = [];
 
   constructor(private router: Router,
     private exportService: ExportService

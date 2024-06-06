@@ -14,6 +14,7 @@ import { LookupService } from '../../../../core/service/lookup.service';
   styleUrl: './add-edit-point-charge.component.scss'
 })
 export class AddEditPointChargeComponent implements OnInit {
+  
   pointChargeForm: FormGroup;
   pointChargeId: any;
   pointChargeData!: PointChargeDataModel
@@ -65,7 +66,7 @@ export class AddEditPointChargeComponent implements OnInit {
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.pointNameData = res.lookUps;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
     });
   }
@@ -79,7 +80,7 @@ export class AddEditPointChargeComponent implements OnInit {
         this.patchPointChargeForm(response);
         this.loadSpinner = false;
       }, error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       })
     }
@@ -134,7 +135,7 @@ export class AddEditPointChargeComponent implements OnInit {
         this.loadSpinner = false;
         this.router.navigate(['/master/pointCharge']);
       }, error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       })
     }
@@ -157,7 +158,7 @@ export class AddEditPointChargeComponent implements OnInit {
           this.loadSpinner = false;
           this.router.navigate(['/master/pointCharge'])
         }, error => {
-          this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+          this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
     }

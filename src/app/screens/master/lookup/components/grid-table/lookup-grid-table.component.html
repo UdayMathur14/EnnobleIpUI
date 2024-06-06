@@ -28,14 +28,14 @@
           <td>{{lookup.attribute4 || '-'}}</td>
           <td>{{lookup.status}}</td>
           <td class="text-center">
-              <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditLookup(lookup)">
+            <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditLookup(lookup)">
           </td>
         </tr>
-      }@empty {
+        }@empty {
         <tr>
           <td align="center" colspan="13">No Lookup Found</td>
         </tr>
-      }
+        }
       </tbody>
     </table>
   </div>

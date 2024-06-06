@@ -10,11 +10,7 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './vendor-grid-table.component.scss'
 })
 export class VendorGridTableComponent implements OnInit, OnChanges {
-  constructor(
-    private router: Router,
-    private vendorService: VendorService,
-    private toastr: ToastrService
-  ) { }
+
 
   @Input() searchedVendor: any;
   vendorListOrg: any;
@@ -22,6 +18,13 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
   loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  constructor(
+    private router: Router,
+    private vendorService: VendorService,
+    private toastr: ToastrService
+  ) { }
+
   ngOnInit(): void {
     this.getAllVendorList();
   }
@@ -35,7 +38,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     }
 
   }
-  
+
   //GETTINGS VENDOR LISTING ON PAGE LOAD
   getAllVendorList() {
     let data = {
@@ -48,7 +51,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
       this.loadSpinner = false;
     },
       error => {
-        this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -64,7 +67,7 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
       this.vendorList = response.vendors;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

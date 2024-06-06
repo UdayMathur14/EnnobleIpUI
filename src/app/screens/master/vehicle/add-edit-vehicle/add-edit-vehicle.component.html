@@ -15,8 +15,7 @@
         <div class="custom-form-input">
           <label for="">Vehicle Number <span class="text-danger" *ngIf="!vehicleId">*</span></label>
           <div class="input-with-icon">
-            <input type="text" class="input-field" formControlName="vehicleNumber" [readonly]="vehicleId"
- />
+            <input type="text" class="input-field" formControlName="vehicleNumber" [readonly]="vehicleId" />
           </div>
         </div>
       </div>
@@ -34,7 +33,7 @@
         <div class="custom-form-input">
           <label for="">Vehicle Size <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Vehicle Size" formControlName="vehicleSize"
-          [readonly]="vehicleId">
+            [readonly]="vehicleId">
             <ng-option *ngFor="let vehcileSize of vehcileSizes"
               [value]="vehcileSize.id">{{vehcileSize.value}}</ng-option>
           </ng-select>
@@ -57,21 +56,19 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Mobile Number1</label>
-          <input type="text" class="input-field" formControlName="mobileNumber1" readonly
-             />
+          <input type="text" class="input-field" formControlName="mobileNumber1" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Email ID</label>
-          <input type="text" class="input-field" formControlName="emailId" readonly
-            />
+          <input type="text" class="input-field" formControlName="emailId" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Vehicle Condition <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="vehicleCondition"/>
+          <input type="text" class="input-field" formControlName="vehicleCondition" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

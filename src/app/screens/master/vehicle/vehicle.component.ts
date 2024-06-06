@@ -11,8 +11,10 @@ export class VehicleComponent {
 
   isFilters: boolean = true;
   searchedVehicle: string = '';
-  fullScreen : boolean = false;
-  constructor(private router: Router,
+  fullScreen: boolean = false;
+
+  constructor(
+    private router: Router,
     private exportService: ExportService
   ) { }
 

@@ -1,79 +1,70 @@
 <div id="exportableTable">
   <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
-    <thead>
-      <tr>
-        <th (click)="sortData('vehicleNumber')">Vehicle Number</th>
-        <th (click)="sortData('vehicleSize.value')">Vehicle Size</th>
-        <th (click)="sortData('transporterEntity.transporterName')">Transporter Name</th>
-        <th (click)="sortData('transporterEntity.ownerName')">Owner Name</th>
-        <th (click)="sortData('transporterEntity.transporterAddress1')">Address</th>
-        <th (click)="sortData('transporterEntity.transporterContactNo')">Contact</th>
-        <th (click)="sortData('transporterEntity.transporterMailId')">Email</th>
-        <th (click)="sortData('vehicleCondition')">Vehicle Condition</th>
-        <th (click)="sortData('remarks')">Remarks</th>
-        <th (click)="sortData('status')">Status</th>
-        <th class="text-center">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (vehicle of vehiclesList; track vehicle.id) {
-      <tr>
-        <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
-            <u>{{vehicle.vehicleNumber}}</u>
-          </span>
-          <ng-template #tipContent>
-            <div class="">
-              <div class="content-row">
-                <span>Creation Date</span>
-                <span>{{vehicle.creationDate | date: 'yyyy-MM-dd'}}</span>
+    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+      <thead>
+        <tr>
+          <th (click)="sortData('vehicleNumber')">Vehicle Number</th>
+          <th (click)="sortData('vehicleSize.value')">Vehicle Size</th>
+          <th (click)="sortData('transporterEntity.transporterName')">Transporter Name</th>
+          <th (click)="sortData('transporterEntity.ownerName')">Owner Name</th>
+          <th (click)="sortData('transporterEntity.transporterAddress1')">Address</th>
+          <th (click)="sortData('transporterEntity.transporterContactNo')">Contact</th>
+          <th (click)="sortData('transporterEntity.transporterMailId')">Email</th>
+          <th (click)="sortData('vehicleCondition')">Vehicle Condition</th>
+          <th (click)="sortData('remarks')">Remarks</th>
+          <th (click)="sortData('status')">Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (vehicle of vehiclesList; track vehicle.id) {
+        <tr>
+          <td class="pointer" container="body">
+            <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+              <u>{{vehicle.vehicleNumber}}</u>
+            </span>
+            <ng-template #tipContent>
+              <div class="">
+                <div class="content-row">
+                  <span>Creation Date</span>
+                  <span>{{vehicle.creationDate | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Created By</span>
+                  <span>{{vehicle.createdBy}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Update Date</span>
+                  <span>{{vehicle.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Updated By</span>
+                  <span>{{vehicle.lastUpdatedBy}}</span>
+                </div>
               </div>
-              <div class="content-row">
-                <span>Created By</span>
-                <span>{{vehicle.createdBy}}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Update Date</span>
-                <span>{{vehicle.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Updated By</span>
-                <span>{{vehicle.lastUpdatedBy}}</span>
-              </div>
-            </div>
-          </ng-template>
-        </td>
-        <td>{{vehicle.vehicleSize.value}}</td>
-        <td>{{vehicle.transporterEntity.transporterName}}</td>
-        <td>{{vehicle.transporterEntity.ownerName}}</td>
-        <td>{{vehicle.transporterEntity.transporterAddress1}}</td>
-        <td>{{vehicle.transporterEntity.transporterContactNo}}</td>
-        <td>{{vehicle.transporterEntity.transporterMailId}}</td>
-        <td>{{vehicle.vehicleCondition}}</td>
-        <td>{{vehicle.remarks}}</td>
-        <td>{{vehicle.status}}</td>
-        <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            class="pointer"
-            alt="edit"
-            (click)="onEditVehicle(vehicle)"
-          />
-        </td>
-      </tr>
-    }@empty {
-      <tr>
-        <td align="center" colspan="13">No Vehicle Found</td>
-      </tr>
-    }
-    </tbody>
-  </table>
-</div>
+            </ng-template>
+          </td>
+          <td>{{vehicle.vehicleSize.value}}</td>
+          <td>{{vehicle.transporterEntity.transporterName}}</td>
+          <td>{{vehicle.transporterEntity.ownerName}}</td>
+          <td>{{vehicle.transporterEntity.transporterAddress1}}</td>
+          <td>{{vehicle.transporterEntity.transporterContactNo}}</td>
+          <td>{{vehicle.transporterEntity.transporterMailId}}</td>
+          <td>{{vehicle.vehicleCondition}}</td>
+          <td>{{vehicle.remarks}}</td>
+          <td>{{vehicle.status}}</td>
+          <td class="text-center">
+            <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onEditVehicle(vehicle)" />
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td align="center" colspan="13">No Vehicle Found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

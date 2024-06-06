@@ -12,9 +12,9 @@ export class AdviceComponent {
 
   filterKeyword: string = '';
   isFilters: boolean = false;
-  fullScreen : boolean = false;
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  fullScreen: boolean = false;
+  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = [];
 
   constructor(private router: Router,
     private exportService: ExportService

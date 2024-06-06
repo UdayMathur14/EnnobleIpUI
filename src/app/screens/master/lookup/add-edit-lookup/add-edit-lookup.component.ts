@@ -79,7 +79,7 @@ export class AddEditLookupComponent implements OnInit {
       this.lookupTypes = [response.lookUpType];
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }
@@ -98,7 +98,7 @@ export class AddEditLookupComponent implements OnInit {
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
     }
-    if (this.lookupId>0) {
+    if (this.lookupId > 0) {
       this.updateLookup(data);
     } else {
       this.createNewLookup(data);
@@ -113,7 +113,7 @@ export class AddEditLookupComponent implements OnInit {
       this.toastr.success('Lookup Updated Successfully');
       this.router.navigate(['/master/lookup']);
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -126,7 +126,7 @@ export class AddEditLookupComponent implements OnInit {
       this.toastr.success('Lookup Created Successfully');
       this.router.navigate(['/master/lookup']);
     }, error => {
-      this.toastr.error(error?.error?.details.map((detail: any) => detail.description).join('<br>'));
+      this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

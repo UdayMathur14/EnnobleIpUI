@@ -17,22 +17,23 @@
                 <div class="custom-form-input">
                     <label for="">Part Number <span class="text-danger" *ngIf="partId == 0">*</span></label>
                     <ng-select class="input-field" formControlName="partNumber" *ngIf="partId>0" [readonly]="true">
-                        <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
+                        <ng-option *ngFor="let part of partsList"
+                            [value]="part.partNumber">{{part.partNumber}}</ng-option>
                     </ng-select>
-                    <input type="text" class="input-field" formControlName="partNumber" *ngIf="partId == 0"/>
+                    <input type="text" class="input-field" formControlName="partNumber" *ngIf="partId == 0" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Part Name <span class="text-danger">*</span></label>
-                        <input type="text" class="input-field" formControlName="partName"/>
-                    
+                    <input type="text" class="input-field" formControlName="partName" />
+
                 </div>
             </div>
             <div class="col-lg-4 col-md-4">
                 <div class="custom-form-input">
                     <label for="">Description <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="description"/>
+                    <input type="text" class="input-field" formControlName="description" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -44,7 +45,7 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Part Price <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partPrice"/>
+                    <input type="text" class="input-field" formControlName="partPrice" />
                 </div>
             </div>
         </div>
@@ -52,7 +53,7 @@
             <div class="col-lg-4 col-md-4">
                 <div class="custom-form-input">
                     <label for="">Remarks <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="remarks"/>
+                    <input type="text" class="input-field" formControlName="remarks" />
                 </div>
             </div>
             <div class="col-lg-2 col-md-2" *ngIf="partId>0">
@@ -70,4 +71,4 @@
 
 <div class="spinner" *ngIf="loadSpinner">
     Loading...
-  </div>
+</div>
