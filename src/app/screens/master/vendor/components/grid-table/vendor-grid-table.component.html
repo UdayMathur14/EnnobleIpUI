@@ -14,11 +14,11 @@
         <th (click)="sortData('payTermCode')">Payment Term Code</th>
         <th (click)="sortData('payTermStatus')">Payment Term Status</th>
         <th (click)="sortData('status')">Status</th>
-        <th class="text-center">Action</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
-      @for( vendor of vendorList; track vendor.id){
+      @for( vendor of vendorsList; track vendor.id){
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
@@ -79,8 +79,4 @@
 
     </tbody>
   </table>
-</div>
-
-<div class="spinner" *ngIf="loadSpinner">
-  Loading...
 </div>

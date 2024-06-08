@@ -1,7 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { LookupService } from '../../../../../core/service/lookup.service';
-import { ToastrService } from 'ngx-toastr';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -9,57 +7,25 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   templateUrl: './lookup-grid-table.component.html',
   styleUrl: './lookup-grid-table.component.scss'
 })
-export class LookupGridTableComponent implements OnInit, OnChanges {
-
-  @Input() filterKeyword!: string;
+export class LookupGridTableComponent implements OnInit {
   @ViewChild('table') table!: ElementRef;
-  @Output() dataChange = new EventEmitter<any[]>();
-  @Output() headersChange = new EventEmitter<string[]>();
-  lookupsListOrg: any;
-  lookupsList: any;
-  loadSpinner: boolean = true;
+  @Output() exportHeader = new EventEmitter<string[]>();
+  @Input() lookupsList : any[] = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-
-  constructor(
-    private router: Router,
-    private lookupService: LookupService,
-    private toastr: ToastrService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.getAllLookupsList();
   }
 
-  //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.lookupsListOrg && this.lookupsListOrg.length && changes['filterKeyword'] && changes['filterKeyword'].currentValue) {
-      this.lookupsList = this.lookupsListOrg.filter((e: any) =>
-        e.code && e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    } else if (this.lookupsListOrg && this.lookupsListOrg.length && (!changes['filterKeyword'] || !changes['filterKeyword'].currentValue)) {
-      this.lookupsList = this.lookupsListOrg;
+    if (changes['lookupsList']) {
+      this.emitHeaders();
     }
-    this.dataChange.emit(this.lookupsList);
   }
 
   onGoToEditLookup(lookupData: any) {
     this.router.navigate(['master/addEditLookup', lookupData.id]);
-  }
- 
-  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH LOOKUP FROM FILTERS 
-  getAllLookupsList() {
-    let data = {
-      "code": ''
-    }
-    this.lookupService.getLookups(data).subscribe((response: any) => {
-      this.lookupsList = response.lookUps;
-      this.lookupsListOrg = response.lookUps;
-      this.loadSpinner = false;
-      this.emitHeaders();
-      this.dataChange.emit(this.lookupsList);
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
   }
 
   emitHeaders() {
@@ -70,7 +36,7 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
         headers.push(cell.innerText.trim());
       }
     });
-    this.headersChange.emit(headers);
+    this.exportHeader.emit(headers);
   }
 
   sortData(field: string) {

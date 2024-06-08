@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdviceTypeService } from '../../../core/service/adviceType.service';
+import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
@@ -7,37 +9,65 @@ import { XlsxService } from '../../../core/service/xlsx.service';
   templateUrl: './advice.component.html',
   styleUrl: './advice.component.scss'
 })
-export class AdviceComponent {
-
-  filterKeyword: string = '';
-  isFilters: boolean = false;
+export class AdviceComponent implements OnInit{
+  advicesList: any[] = [];
+  isFilters: boolean = true;
   fullScreen : boolean = false;
-  adviceList: any [] = [];
-  headers: any [] = [];
-
+  loadSpinner : boolean = true;
+  headers: string[] = [];
   constructor(private router: Router,
-    private xlsxService: XlsxService
+    private adviceService : AdviceTypeService,
+    private toastr : ToastrService,
+    private xlsxService : XlsxService
   ) { }
+
+  ngOnInit(): void {
+    this.getAdviceTypesList();
+  }
+
+  getAdviceTypesList() {
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "adviceType": ""
+    }
+    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
+      this.advicesList = response.advices;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
+
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "adviceType": e.adviceType
+    }
+    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
+      this.advicesList = response.advices;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
 
   onCreateAdvice() {
     this.router.navigate(['master/addEditAdvice', '0'])
   }
 
-  onSearch(e: any) {
-    this.filterKeyword = e.target.value;
-  }
-
-  onAdviceListChange(adviceList: any[]) {
-    this.adviceList = adviceList;
-  }
-
-  onHeadersChange(headers: string[]) {
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
   exportData(fileName: string = "Advice") {
-    // Map the data to include only the necessary fields
-    const mappedAdviceList = this.adviceList.map(advice => ({
+    const mappedAdviceList = this.advicesList.map(advice => ({
       location: advice.location.value,
       adviceType: advice.adviceType,
       batchName: advice.batchName,

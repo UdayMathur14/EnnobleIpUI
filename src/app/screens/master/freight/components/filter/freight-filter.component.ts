@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,80 +8,43 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './freight-filter.component.scss'
 })
 export class FreightFilterComponent implements OnInit {
-  @Output() freightFilterObj : EventEmitter<object> = new EventEmitter();
+  @Output() getData : EventEmitter<object> = new EventEmitter();
+  @Input() vehcileSizes : any[] = [];
+  @Input() sources : any[] =[];
+  @Input() destinations : any[] =[];
+  @Input() freightList : any[] =[]
   freightCode : any = undefined;
   source : any = undefined;
+  destination : any = undefined;
   vehicleSize : any = undefined;
-  freightList : any = [];
-  sources: any = [];
-  vehcileSizes: any = [];
   
-  constructor(private freightService : FreightService,
-    private toastr : ToastrService){}
+  constructor(){}
 
   ngOnInit(): void {
-    this.getAllFreightsListInit();
-    this.getSourceDropdownData();
-    this.getVehicleSizeDropdownData();
-  }
-
-  //BINDING FREIGHT NUMBERS DROPDOWN
-  getAllFreightsListInit() {
-    let data = {
-      "freightCode": '',
-      "source": '',
-      "vehicleSize": ''
-    }
-    this.freightService.getFreightsList(data).subscribe((response: any) => {
-      this.freightList = response.freights;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-    })
   }
 
   onFreightSearch(){
     let obj = {
       "freightCode" : this.freightCode || "",
       "source" : this.source || "",
+      "destination" : this.destination || "",
       "vehicleSize" : this.vehicleSize || ""
     }
-    this.freightFilterObj.emit(obj)
+    this.getData.emit(obj)
   }
 
   onClearFilter(){
     this.freightCode = undefined;
-    this.source = '';
-    this.vehicleSize = '';
+    this.source = undefined;
+    this.vehicleSize = undefined;
+    this.destination = undefined
     let obj = {
-      freightCode : '',
-      source : '',
-      vehicleSize : ''
+      freightCode : undefined,
+      source : undefined,
+      vehicleSize : undefined,
+      destination : undefined
     }
-    this.freightFilterObj.emit(obj)
-  }
-
-  getSourceDropdownData(){
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'Source'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
-      this.sources = res.lookUps
-    })
-  }
-
-  getVehicleSizeDropdownData(){
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'VehicleSize'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
-      this.vehcileSizes = res.lookUps
-    })
+    this.getData.emit(obj)
   }
   
 }

@@ -2,13 +2,13 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-lookup-filter',
-  templateUrl: './lookup-filter.component.html',
-  styleUrl: './lookup-filter.component.scss'
+  selector: 'app-point-filter',
+  templateUrl: './point-filter.component.html',
+  styleUrl: './point-filter.component.scss'
 })
-export class LookupFilterComponent implements OnInit {
-  @Input() lookupsList : any[] = [];
-  lookupCode : any = undefined;
+export class PointFilterComponent implements OnInit {
+  @Input() pointChargesList : any[] = [];
+  pointName : any = undefined;
   @Output() getData : EventEmitter<object> = new EventEmitter();
   
   constructor(){}
@@ -16,17 +16,17 @@ export class LookupFilterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLookupSearch(){
+  onFreightSearch(){
     let obj = {
-      "code" : this.lookupCode || ""
+      "pointName" : this.pointName || ""
     }
     this.getData.emit(obj)
   }
 
   onClearFilter(){
-    this.lookupCode = undefined;
+    this.pointName = undefined;
     let obj = {
-      "code" : undefined
+      pointName : undefined
     }
     this.getData.emit(obj)
   }

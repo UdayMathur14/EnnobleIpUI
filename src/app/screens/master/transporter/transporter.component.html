@@ -19,7 +19,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-transporter-filter (transFilterObj)="searchTransporter($event)"></app-transporter-filter>
+  <app-transporter-filter [cities]="cities" [states]="states" [transportersList]="transportersList" (getData)="getData($event)"></app-transporter-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -31,5 +31,9 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-transporter-grid-table [searchedTransporter]="searchedTransporter" (dataChange)="onTransportersListChange($event)" (headersChange)="onHeadersChange($event)"></app-transporter-grid-table>
+  <app-transporter-grid-table  [transportersList]="transportersList" (exportHeader)="onExportHeader($event)"></app-transporter-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

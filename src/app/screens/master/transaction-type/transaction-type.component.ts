@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ExportService } from '../../../core/service/export.service';
+import { TransactionTypesService } from '../../../core/service/transactionTypes.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
@@ -8,29 +11,58 @@ import { XlsxService } from '../../../core/service/xlsx.service';
 })
 export class TransactionTypeComponent implements OnInit {
 
-  isFilters: boolean = false;
+  isFilters: boolean = true;
   filterKeyword: string = '';
-  fullScreen: boolean = false;
-  transactionTypesList: any[] = [];
-  headers: string[] = [];
-  constructor(private xlsxService: XlsxService) { }
+  fullScreen : boolean = false;
+  transactionTypesList : any[] = [];
+  transactionTypesListOrg : any = [];
+  loadSpinner : boolean = false;
+  headers: any [] = [];
+  constructor(private router: Router,
+    private transactionTypesService : TransactionTypesService,
+    private xlsxService : XlsxService
+  ) { }
 
-  ngOnInit() { }
-
-  onSearch(e: any) {
-    this.filterKeyword = e.target.value;
+  ngOnInit() {
+    this.getAllTransactionTypes()
   }
 
-  onTransactionListChange(transactionTypesList: any[]) {
-    this.transactionTypesList = transactionTypesList;
+  getAllTransactionTypes(){
+    let data = {
+      "transactionTypeCode": "",
+      "transactionTypeName": "",
+      "glSubCategory": ""
+    }
+    this.transactionTypesService.getTransactionTypes(data).subscribe((response:any) => {
+      this.transactionTypesList = response.transactionTypes;
+      this.transactionTypesListOrg = response.transactionTypes;
+      this.loadSpinner = false;
+    }, error => {
+      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
   }
 
-  onHeadersChange(headers: string[]) {
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "transactionTypeCode": e.transactionTypeCode || "",
+      "transactionTypeName": e.transactionTypeName || "",
+      "glSubCategory": e.glSubCategory || ""
+    }
+    this.transactionTypesService.getTransactionTypes(data).subscribe((response: any) => {
+      this.transactionTypesList = response.transactionTypes;
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false
+    })
+  }
+
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
   exportData(fileName: string = "Transaction Type") {
-    // Map the data to include only the necessary fields
     const mappedTransactionsList = this.transactionTypesList.map(transaction => ({
       code: transaction.code,
       name: transaction.name,

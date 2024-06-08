@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
+import { LookupService } from '../../../core/service/lookup.service';
+import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
@@ -8,31 +9,55 @@ import { XlsxService } from '../../../core/service/xlsx.service';
   templateUrl: './lookup.component.html',
   styleUrl: './lookup.component.scss'
 })
-export class LookupComponent {
+export class LookupComponent implements OnInit{
 
-  isFilters: boolean = false;
-  filterKeyword: string = '';
+  isFilters: boolean = true;
+  lookupsList: any[] = [];
   fullScreen : boolean = false;
-  lookupsList: any [] = [];
-  headers: any [] = [];
-
+  loadSpinner : boolean = true;
+  headers : string[] = [];
   constructor(private router: Router,
-    private xlsxService: XlsxService
+    private lookupService : LookupService,
+    private toastr: ToastrService,
+    private xlsxService : XlsxService
   ) { }
+
+  ngOnInit(): void {
+    this.getAllLookupsList()
+  }
+
+  getAllLookupsList() {
+    let data = {
+      "code": ''
+    }
+    this.lookupService.getLookups(data).subscribe((response: any) => {
+      this.lookupsList = response.lookUps;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
+
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "code": e.code || ""
+    }
+    this.lookupService.getLookups(data).subscribe((response: any) => {
+      this.lookupsList = response.lookUps;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
 
   onCreateLookup() {
     this.router.navigate(['master/addEditLookup', '0'])
   }
 
-  onSearch(e: any) {
-    this.filterKeyword = e.target.value;
-  }
-
-  onLookupListChange(lookupsList: any[]) {
-    this.lookupsList = lookupsList;
-  }
-
-  onHeadersChange(headers: string[]) {
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 

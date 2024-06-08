@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 
@@ -8,16 +8,12 @@ import { VehicleService } from '../../../../../core/service/vehicle.service';
   styleUrl: './vehicle-filter.component.scss'
 })
 export class VehicleFiltersComponent implements OnInit {
-  @Output() vehicleFilterData: EventEmitter<any> = new EventEmitter();
-  vehiclesList: any;
-  vehicleNum!: any | null;
-  transporterNam!: any | null;
-  transportersList = [];
+  @Output() getData: EventEmitter<any> = new EventEmitter();
+  @Input() vehiclesList: any[] = [];
+  @Input() transportersList : any[] = [];
+  vehicleNum : any = undefined;
+  transporterNam : any = undefined;
   loadSpinner: boolean = true;
-  filteredVehicles: any = [];
-  allVehicleNames = [];
-  showSuggestions: boolean = false;
-  showSuggestionsVehicle: boolean = false;
   transporterId: number = 0;
   allVehicleNo: any = [];
   filteredVehicleNo: any = [];
@@ -29,8 +25,6 @@ export class VehicleFiltersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllTransportersList();
-    this.getAllVehiclesListInit();
   }
 
   // GET ALL VEHICLES DATA
@@ -50,66 +44,18 @@ export class VehicleFiltersComponent implements OnInit {
   onVehicleSearch() {
     let obj = {
       "vehicleNumber": this.vehicleNum || "",
-      "transporterId": this.transporterId
+      "transporterId": this.transporterNam
     }
-    this.vehicleFilterData.emit(obj)
+    this.getData.emit(obj)
   }
 
   onClearFilter() {
-    this.vehicleNum = null;
-    this.transporterNam = null
+    this.vehicleNum = undefined;
+    this.transporterNam = undefined
     let obj = {
-      vehicleNum: null,
-      transporterNam: null
+      "vehicleNumber": undefined,
+      "transporterNam": undefined
     }
-    this.vehicleFilterData.emit(obj)
-  }
-
-  getAllTransportersList() {
-    let data = {
-      "transporterCode": '',
-      "transporterName": ''
-    }
-    this.vehicleService.getTransporters(data).subscribe((response: any) => {
-      this.transportersList = response.transporters;
-      this.allVehicleNames = response.transporters.map((vehicles: any) => vehicles);
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
-  onTransporterNameInput() {
-    this.filteredVehicles = this.allVehicleNames.filter((vehicle: any) =>
-      vehicle.transporterName.toLowerCase().includes(this.transporterNam.toLowerCase())
-    );
-    this.showSuggestions = this.filteredVehicles.length > 0;
-  }
-
-  selectSuggestion(vehicle: any) {
-    this.transporterNam = vehicle.transporterName;
-    this.transporterId = vehicle.id;
-    this.filteredVehicles = [];
-    this.showSuggestions = false;
-  }
-
-  onVehicleNoInput(inputText: string) {
-    this.filteredVehicleNo = this.allVehicleNo.filter((name: any) => name.toLowerCase().includes(inputText.toLowerCase()));
-    this.filteredVehicleNo.length ? this.showSuggestionsVehicle = true : this.showSuggestionsVehicle = false;
-  }
-
-  selectSuggestionVehicleNo(vehicle: string) {
-    this.vehicleNum = vehicle;
-    this.filteredVehicleNo = [];
-    this.showSuggestionsVehicle = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: any) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.showSuggestions = false;
-      this.showSuggestionsVehicle = false;
-    }
+    this.getData.emit(obj)
   }
 }

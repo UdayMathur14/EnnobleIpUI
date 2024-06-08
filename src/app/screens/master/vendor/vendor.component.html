@@ -19,7 +19,7 @@
 </div>
 
 <div class="filter-section">
-  <app-vendor-filter (vendorFilterData)="searchVendor($event)"></app-vendor-filter>
+  <app-vendor-filter [vendorsList]="vendorsList" [cities]="cities" [states]="states" (getData)="getData($event)"></app-vendor-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -31,5 +31,9 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-vendor-grid-table [searchedVendor]="searchedVendor" (dataChange)="onVendorsListChange($event)" (headersChange)="onHeadersChange($event)"></app-vendor-grid-table>
+  <app-vendor-grid-table [vendorsList]="vendorsList" (exportHeader)="onExportHeader($event)"></app-vendor-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

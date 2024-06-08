@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { XlsxService } from '../../../core/service/xlsx.service';
+import { LookupService } from '../../../core/service/lookup.service';
+import { PlantService } from '../../../core/service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plant',
@@ -8,31 +11,93 @@ import { XlsxService } from '../../../core/service/xlsx.service';
 })
 export class PlantComponent implements OnInit {
 
-  isFilters: boolean = false;
-  filterKeyword: string = '';
+  isFilters: boolean = true;
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
-
-  constructor(private xlsxService: XlsxService) { }
+  cities : any[] = [];
+  states : any[] = [];
+  loadSpinner : boolean = true;
+  constructor(private router: Router,
+    private plantService: PlantService,
+    private xlsxService: XlsxService,
+    private lookupService : LookupService
+  ) { }
 
   ngOnInit() {
+    this.getPlantsList();
+    this.getCityDropdownData();
+    this.getStateDropdownData();
   }
 
-  onSearch(e: any) {
-    this.filterKeyword = e.target.value;
+  getPlantsList(){
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "plantCode": "",
+      "city": "",
+      "state": "",
+      "auCode": "",
+      "siteCode": ""
+    }
+    this.plantService.getPlants(data).subscribe((response: any) => {
+      this.plantsList = response.plants;
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false;
+    })
   }
 
-  onPlantsListChange(plantsList: any[]) {
-    this.plantsList = plantsList;
+  getCityDropdownData(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'City'
+    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+      this.cities = res.lookUps;
+    })
   }
 
-  onHeadersChange(headers: string[]) {
+  getStateDropdownData(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'State'
+    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+      this.states = res.lookUps;
+    })
+  }
+
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "plantCode": e.plantCode || "",
+      "city": e.city || "",
+      "state": e.state || "",
+      "auCode": e.auCode || "",
+      "siteCode": e.siteCode || ""
+    }
+    this.plantService.getPlants(data).subscribe((response: any) => {
+      this.plantsList = response.plants;
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false
+    })
+  }
+
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
   exportData(fileName: string = "Plants") {
-    // Map the data to include only the necessary fields
     const mappedPlantsList = this.plantsList.map(plant => ({
       plantCode: plant.plantCode,
       plantDesc: plant.plantDesc,

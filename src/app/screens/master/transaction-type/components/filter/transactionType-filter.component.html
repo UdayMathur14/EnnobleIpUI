@@ -1,0 +1,38 @@
+<div class="filters-box">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Transaction Type Code</label>
+                <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
+                    placeholder="Select Transaction Code" [readonly]="transactionTypeName || glCategory">
+                    <ng-option *ngFor="let transaction of transactionTypesList"
+                        [value]="transaction.code">{{transaction.code}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Transaction Type Name</label>
+                <ng-select class="input-field" [(ngModel)]="transactionTypeName"
+                    placeholder="Select Transaction Name" [readonly]="transactionTypeCode || glCategory">
+                    <ng-option *ngFor="let transaction of transactionTypesList"
+                        [value]="transaction.name">{{transaction.name}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>GL Sub Category</label>
+                <input type="text" class="input-field" [(ngModel)]="glCategory" [disabled]="transactionTypeCode || transactionTypeName" />
+            </div>
+        </div>  
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <button class="custom-button-filters me-2" (click)="onTransactionTypeSearch()"
+                    [disabled]="!transactionTypeName && !transactionTypeCode && !glCategory">Search</button>
+                <button class="custom-button-filters" (click)="onClearFilter()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

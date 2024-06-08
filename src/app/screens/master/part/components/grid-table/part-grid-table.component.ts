@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ElementRef, EventEmitter, ViewChild, Output } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, EventEmitter, ElementRef, ViewChild, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { PartService } from '../../../../../core/service/part.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
@@ -9,71 +8,21 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   templateUrl: './part-grid-table.component.html',
   styleUrl: './part-grid-table.component.scss'
 })
-export class PartGridTableComponent implements OnInit, OnChanges {
-  @Input() searchedPart!: any;  
+export class PartGridTableComponent implements OnInit {
+  @Input() partsList : any[] = [];
   @ViewChild('table') table!: ElementRef;
-  @Output() dataChange = new EventEmitter<any[]>();
-  @Output() headersChange = new EventEmitter<string[]>();
-  partsList: any;
-  partsListOrg : any;
-  loadSpinner : boolean = true;
+  @Output() exportHeader = new EventEmitter<string[]>();
+  constructor(private router: Router) { }
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  
-  constructor(private router: Router,
-    private toastr: ToastrService,
-    private partService: PartService) { }
     
   ngOnInit(): void {
-    this.getAllPartsListInit();
   }
 
-  //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['searchedPart'].currentValue){
-      this.getFilteredPartsList();
-    } else if(changes['searchedPart'].firstChange === false && changes['searchedPart'].currentValue === ''){
-      this.getAllPartsListInit();
+    if (changes['partsList']) {
+      this.emitHeaders();
     }
-
-  }
-
-  onGoToEditPart(partData : any) {
-    this.router.navigate(['master/addEditPart',  partData.id]);
-  }
-
-  //GETTINGS PARTS LISTING ON PAGE LOAD
-  getAllPartsListInit() {
-    let data = {
-      "partNumber": '',
-      "partName" : ''
-    }
-    this.partService.getParts(data).subscribe((response: any) => {
-      this.partsList = response.parts;
-      this.partsListOrg = response.parts;
-      this.loadSpinner = false;
-      this.dataChange.emit(this.partsList);
-      this.emitHeaders(); // Emit headers after the data is fetched and set
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
-  //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH PART FROM FILTERS 
-  getFilteredPartsList() {
-    let data = {
-      "partNumber": this.searchedPart.partCode || "",
-      "partName" : this.searchedPart.partName || ""
-    }
-    this.partService.getParts(data).subscribe((response: any) => {
-      this.partsList = response.parts;
-      this.loadSpinner = false;
-      this.dataChange.emit(this.partsList);
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
   }
 
   emitHeaders() {
@@ -84,7 +33,11 @@ export class PartGridTableComponent implements OnInit, OnChanges {
         headers.push(cell.innerText.trim());
       }
     });
-    this.headersChange.emit(headers);
+    this.exportHeader.emit(headers);
+  }
+
+  onGoToEditPart(partData : any) {
+    this.router.navigate(['master/addEditPart',  partData.id]);
   }
 
   sortData(field: string) {
@@ -92,5 +45,4 @@ export class PartGridTableComponent implements OnInit, OnChanges {
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.partsList);
   }
-
 }

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ExportService } from '../../../core/service/export.service';
+import { TransporterService } from '../../../core/service/transporter.service';
+import { ToastrService } from 'ngx-toastr';
+import { LookupService } from '../../../core/service/lookup.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
@@ -6,31 +10,103 @@ import { XlsxService } from '../../../core/service/xlsx.service';
   templateUrl: './transporter.component.html',
   styleUrl: './transporter.component.scss'
 })
-export class TransporterComponent {
+export class TransporterComponent implements OnInit{
 
   searchedTransporter: any;
   isFilters: boolean = true;
   fullScreen : boolean = false;
-  transporterList: any [] = [];
-  headers: string[] = [];
+  loadSpinner : boolean = true;
+  transportersList : any[] = [];
+  cities : any[] = [];
+  states : any[] = [];
+  headers: any [] = [];
+  constructor(private exportService: ExportService,
+    private transporterService : TransporterService,
+    private lookupService : LookupService,
+    private toastr: ToastrService,
+    private xlsxService : XlsxService
+  ) { }
 
-  constructor(private xlsxService: XlsxService) { }
-
-  searchTransporter(event: any) {
-    this.searchedTransporter = event;
+  ngOnInit(): void {
+    this.getTransportersList();
+    this.getCityDropdownData();
+    this.getStateDropdownData();
   }
 
-  onTransportersListChange(transporterList: any[]) {
-    this.transporterList = transporterList;
+  getTransportersList() {
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "transporterCode": "",
+      "transporterName": "",
+      "city": "",
+      "state": "",
+      "taxationType": "",
+      "locations": ""
+    }
+    this.transporterService.getTransporters(data).subscribe((response: any) => {
+      this.transportersList = response.transporters;
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false;
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    })
   }
 
-  onHeadersChange(headers: string[]) {
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "transporterCode": e.transCode,
+      "transporterName": e.transName,
+      "city": e.cityCode,
+      "state": e.stateCode,
+      "taxationType": e.taxationType,
+      "locations": e.locations
+    }
+    this.transporterService.getTransporters(data).subscribe((response: any) => {
+      this.transportersList = response.transporters;
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false;
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    })
+  }
+
+  getCityDropdownData(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'City'
+    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+      this.cities = res.lookUps;
+    })
+  }
+
+  getStateDropdownData(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'State'
+    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+      this.states = res.lookUps;
+    })
+  }
+
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
   exportData(fileName: string = "Transporter") {
     // Map the data to include only the necessary fields
-    const mappedTransporterList = this.transporterList.map(transporter => ({
+    const mappedTransporterList = this.transportersList.map(transporter => ({
       transporterCode: transporter.transporterCode,
       transporterName: transporter.transporterName,
       locationId: transporter.locationId,

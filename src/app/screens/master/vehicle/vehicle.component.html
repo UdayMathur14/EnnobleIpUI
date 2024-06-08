@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-vehicle-filters (vehicleFilterData)="searchVehicle($event)"></app-vehicle-filters>
+  <app-vehicle-filters [vehiclesList]="vehiclesList" [transportersList]="transportersList" (getData)="getData($event)"></app-vehicle-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -32,5 +32,9 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-vehicle-grid-table [searchedVehicle]="searchedVehicle" (dataChange)="onVehicleChange($event)" (headersChange)="onHeadersChange($event)"></app-vehicle-grid-table>
+  <app-vehicle-grid-table [vehiclesList]="vehiclesList" (exportHeader)="onExportHeader($event)"></app-vehicle-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

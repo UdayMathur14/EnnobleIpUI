@@ -1,7 +1,5 @@
 import { Component, OnInit, SimpleChanges, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { TransactionTypesService } from '../../../../../core/service/transactionTypes.service';
-import { ToastrService } from 'ngx-toastr';
 import { TransactionTypeListModel } from '../../../../../core/model/masterModels.model';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
@@ -10,61 +8,35 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   templateUrl: './transaction-grid-table.component.html',
   styleUrl: './transaction-grid-table.component.scss'
 })
-export class TransactionGridTableComponent implements OnInit {
+export class TransactionGridTableComponent implements OnInit{
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
+  @Input() transactionTypesList : any[] = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  transactionTypesList: TransactionTypeListModel[] = [];
-  transactionTypesListOrg: TransactionTypeListModel[] = [];
-  loadSpinner: boolean = true;
-  @Input() filterKeyword!: string;
-  @Output() dataChange = new EventEmitter<any[]>();
-  @Output() headersChange = new EventEmitter<string[]>();
-  @ViewChild('table') table!: ElementRef;
-
-  constructor(private router: Router,
-    private transactionTypesService: TransactionTypesService,
-    private toastr: ToastrService
-  ) { }
+  loadSpinner : boolean = true;
+  constructor(private router : Router,
+    ){}
 
   ngOnInit(): void {
-    this.getAllTransactionTypes()
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.transactionTypesListOrg && this.transactionTypesListOrg.length && changes['filterKeyword'].currentValue) {
-      this.transactionTypesList = this.transactionTypesListOrg.filter((e: any) => e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    }
-    else if (this.transactionTypesListOrg && this.transactionTypesListOrg.length && !changes['filterKeyword'].currentValue) {
-      this.transactionTypesList = this.transactionTypesListOrg;
-    }
-    this.dataChange.emit(this.transactionTypesList);
-  }
-
-  getAllTransactionTypes() {
-    let data = {
-      "code": ''
-    }
-    this.transactionTypesService.getTransactionTypes(data).subscribe((response: any) => {
-      this.transactionTypesList = response.transactionTypes;
-      this.transactionTypesListOrg = response.transactionTypes;
-      this.loadSpinner = false;
-      this.dataChange.emit(this.transactionTypesList);
+    if (changes['transactionTypesList']) {
       this.emitHeaders();
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    }
   }
 
   emitHeaders() {
     const headers: string[] = [];
     const headerCells = this.table.nativeElement.querySelectorAll('thead th');
     headerCells.forEach((cell: any) => {
-      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+      if (cell.innerText.trim() !== 'Actions') { // Exclude "Actions" header
         headers.push(cell.innerText.trim());
       }
     });
-    this.headersChange.emit(headers);
+    this.exportHeader.emit(headers);
   }
 
   onGoToEditTransaction(transactionData: TransactionTypeListModel) {

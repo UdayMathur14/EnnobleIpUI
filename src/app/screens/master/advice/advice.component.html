@@ -1,13 +1,9 @@
 <div class="page-title">
   <h1>Advice Master</h1>
   <div class="action-buttons">
-    <div class="search-field">
-      <input type="text" placeholder="Search Advice Type" (input)="onSearch($event)" />
-      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
-    </div>
-    <button class="custom-button-regulr" (click)="onCreateAdvice()">Create Advice</button>
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+    <button class="custom-button-regulr" (click)="onCreateAdvice()">Create Advice</button>
       <div container="body">
         <img
           src="assets/images/icons/fullScreen.svg"
@@ -23,8 +19,8 @@
   </div>
 </div>
 
-<div class="filter-section" [ngClass]="{ 'd-none': !isFilters }">
-  <app-filter></app-filter>
+<div class="filter-section">
+  <app-advice-filter [advicesList]="advicesList" (getData)="getData($event)"></app-advice-filter>
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
@@ -36,5 +32,10 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-advice-grid-table [filterKeyword]="filterKeyword" (dataChange)="onAdviceListChange($event)" (headersChange)="onHeadersChange($event)"></app-advice-grid-table>
+  <app-advice-grid-table [advicesList]="advicesList" (exportHeader)="onExportHeader($event)"></app-advice-grid-table>
+</div>
+
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

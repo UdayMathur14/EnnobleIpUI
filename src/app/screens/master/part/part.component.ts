@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
+import { PartService } from '../../../core/service/part.service';
+import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
@@ -8,31 +9,57 @@ import { XlsxService } from '../../../core/service/xlsx.service';
   templateUrl: './part.component.html',
   styleUrl: './part.component.scss'
 })
-export class PartComponent {
-
+export class PartComponent implements OnInit{
+  partsList : any[] = [];
+  loadSpinner : boolean = true;
   isFilters: boolean = true;
   searchedPart: string = '';
   fullScreen : boolean = false;
-  partsList: any [] = [];
   headers: any [] = [];
-
   constructor(private router: Router,
+    private partService : PartService,
+    private toastr: ToastrService,
     private xlsxService: XlsxService
   ) { }
+
+  ngOnInit(): void {
+    this.getFilteredPartsList();
+  }
+
+  getFilteredPartsList() {
+    let data = {
+      "partNumber": "",
+      "partName" : ""
+    }
+    this.partService.getParts(data).subscribe((response: any) => {
+      this.partsList = response.parts;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
+
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "partNumber": e.partNumber || "",
+      "partName" : e.partName || ""
+    }
+    this.partService.getParts(data).subscribe((response: any) => {
+      this.partsList = response.parts;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
 
   onCreatePart() {
     this.router.navigate(['master/addEditPart', '0'])
   }
 
-  searchPart(event: any) {
-    this.searchedPart = event;
-  }
-
-  onPartsListChange(plantsList: any[]) {
-    this.partsList = plantsList;
-  }
-
-  onHeadersChange(headers: string[]) {
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 

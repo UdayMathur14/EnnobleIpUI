@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PlantService } from '../../../core/service';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { ExportService } from '../../../core/service/export.service';
+import { PointChargeService } from '../../../core/service/point-charge.service';
+import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
@@ -11,19 +11,55 @@ import { XlsxService } from '../../../core/service/xlsx.service';
   styleUrls: ['./point-charge.component.scss']
 })
 export class PointChargeComponent implements OnInit {
-  isFilters: boolean = false;
-  filterKeyword: string = '';
+  isFilters: boolean = true;
   fullScreen : boolean = false;
-  pointChargeList: any [] = [];
+  loadSpinner : boolean = true;
+  pointChargesList : any[] = [];
   headers: any [] = [];
-  
   constructor(private router: Router,
-    private xlsxService: XlsxService
+    private pointChargeService : PointChargeService,
+    private toastr : ToastrService,
+    private xlsxService : XlsxService
   ) { }
 
 
   ngOnInit() {
+    this.getPointChargesList();
+  }
 
+  getPointChargesList() {
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "screenCode": 101,
+      "pointName": ""
+    }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
+
+  getData(e:any) {
+    this.loadSpinner = true;
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "screenCode": 101,
+      "pointName": e.pointName || ""
+    }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
   }
 
   // NAVIGATING TO CREATE POINT CHARGE PAGE
@@ -31,21 +67,13 @@ export class PointChargeComponent implements OnInit {
     this.router.navigate(['master/addPointCharge'])
   }
 
-  onSearch(e: any) {
-    this.filterKeyword = e.target.value;
-  }
-
-  onPointChargeChange(pointChargeList: any[]) {
-    this.pointChargeList = pointChargeList;
-  }
-
-  onHeadersChange(headers: string[]) {
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
   exportData(fileName: string = "Point Charge") {
     // Map the data to include only the necessary fields
-    const mappedPointChargeList = this.pointChargeList.map(pointcharge => ({
+    const mappedPointChargeList = this.pointChargesList.map(pointcharge => ({
       pointName: pointcharge?.pointName,
       pointCharge: pointcharge?.pointCharge,
       sameLocationCharge: pointcharge?.sameLocationCharge,
