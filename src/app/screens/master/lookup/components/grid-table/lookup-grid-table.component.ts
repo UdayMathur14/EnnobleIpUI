@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
@@ -8,7 +8,8 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './lookup-grid-table.component.scss'
 })
 export class LookupGridTableComponent implements OnInit {
-
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
   @Input() lookupsList : any[] = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -17,8 +18,25 @@ export class LookupGridTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['lookupsList']) {
+      this.emitHeaders();
+    }
+  }
+
   onGoToEditLookup(lookupData: any) {
     this.router.navigate(['master/addEditLookup', lookupData.id]);
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
   }
 
   sortData(field: string) {

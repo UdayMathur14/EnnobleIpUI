@@ -1,6 +1,5 @@
-<div id="exportableTable">
-  <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
         <th (click)="sortData('freightCode')">Freight Code</th>
@@ -20,11 +19,7 @@
       @for (freight of freightList; track freight.id) {
       <tr>
         <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{freight?.freightCode || '-' }}</u>
           </span>
           <ng-template #tipContent>
@@ -74,20 +69,15 @@
         <td>{{freight?.accountsRemarks || '-'}}</td>
         <td>{{freight?.status}}</td>
         <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            class="pointer"
-            alt="edit" 
-            (click)="onGoToEditFreight(freight)"
-          />
+          <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit"
+            (click)="onGoToEditFreight(freight)" />
         </td>
       </tr>
-    }@empty {
+      }@empty {
       <tr>
         <td align="center" colspan="13">No Freight Code Found</td>
       </tr>
-    }
+      }
     </tbody>
   </table>
-</div>
 </div>

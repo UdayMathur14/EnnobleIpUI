@@ -32,7 +32,7 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-transaction-grid-table [transactionTypesList]="transactionTypesList"></app-transaction-grid-table>
+  <app-transaction-grid-table [transactionTypesList]="transactionTypesList" (exportHeader)="onExportHeader($event)"></app-transaction-grid-table>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

@@ -12,10 +12,6 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ApprovalMaterialHeadComponent {
   isFilters: boolean = true;
-  constructor(private biltiProcessService: BiltiBillProcessService,
-    private toastr: ToastrService,
-    private commonTransaction: CommonTransactionService
-  ) {}
   searchedData: any;
   fromDate: any = '2000-01-01';
   batchNumber: any;
@@ -24,6 +20,11 @@ export class ApprovalMaterialHeadComponent {
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
   toDate: any = moment().format('YYYY-MM-DD');
+
+  constructor(private biltiProcessService: BiltiBillProcessService,
+    private toastr: ToastrService,
+    private commonTransaction: CommonTransactionService
+  ) {}
 
   ngOnInit(): void {
     this.getAllBiltiProcess();

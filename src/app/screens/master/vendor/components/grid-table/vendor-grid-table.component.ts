@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
@@ -9,12 +9,31 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 })
 export class VendorGridTableComponent implements OnInit {
   @Input() vendorsList : any[] = [];
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
   constructor(
     private router: Router,
   ) { }
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['vendorsList']) {
+      this.emitHeaders();
+    }
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Actions') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
   }
   
   //NAVIGATING TO VENDOR EDIT/UDATE COMPONENT

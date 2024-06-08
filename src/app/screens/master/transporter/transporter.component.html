@@ -31,7 +31,7 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-transporter-grid-table  [transportersList]="transportersList"></app-transporter-grid-table>
+  <app-transporter-grid-table  [transportersList]="transportersList" (exportHeader)="onExportHeader($event)"></app-transporter-grid-table>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

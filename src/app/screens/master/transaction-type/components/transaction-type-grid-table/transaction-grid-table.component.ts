@@ -1,7 +1,5 @@
-import { Component, OnInit, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, SimpleChanges, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { TransactionTypesService } from '../../../../../core/service/transactionTypes.service';
-import { ToastrService } from 'ngx-toastr';
 import { TransactionTypeListModel } from '../../../../../core/model/masterModels.model';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
@@ -11,21 +9,38 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './transaction-grid-table.component.scss'
 })
 export class TransactionGridTableComponent implements OnInit{
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
   @Input() transactionTypesList : any[] = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   loadSpinner : boolean = true;
   constructor(private router : Router,
-    private transactionTypesService : TransactionTypesService,
-    private toastr : ToastrService
     ){}
 
   ngOnInit(): void {
 
   }
 
-  onGoToEditTransaction(transactionData:TransactionTypeListModel){
-    this.router.navigate(['master/addEditTransactionTypes',  transactionData.id]);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['transactionTypesList']) {
+      this.emitHeaders();
+    }
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Actions') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
+  }
+
+  onGoToEditTransaction(transactionData: TransactionTypeListModel) {
+    this.router.navigate(['master/addEditTransactionTypes', transactionData.id]);
   }
 
   sortData(field: string) {

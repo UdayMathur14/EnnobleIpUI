@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, EventEmitter, ElementRef, ViewChild, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { PartService } from '../../../../../core/service/part.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
@@ -10,10 +10,30 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 })
 export class PartGridTableComponent implements OnInit {
   @Input() partsList : any[] = [];
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
   constructor(private router: Router) { }
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+    
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['partsList']) {
+      this.emitHeaders();
+    }
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
   }
 
   onGoToEditPart(partData : any) {

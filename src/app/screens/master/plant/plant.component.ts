@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PlantService } from '../../../core/service';
-import { ExportService } from '../../../core/service/export.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { LookupService } from '../../../core/service/lookup.service';
+import { PlantService } from '../../../core/service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plant',
@@ -21,7 +20,6 @@ export class PlantComponent implements OnInit {
   loadSpinner : boolean = true;
   constructor(private router: Router,
     private plantService: PlantService,
-    private exportService: ExportService,
     private xlsxService: XlsxService,
     private lookupService : LookupService
   ) { }
@@ -95,7 +93,7 @@ export class PlantComponent implements OnInit {
     })
   }
 
-  onHeadersChange(headers: string[]) {
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
@@ -114,8 +112,6 @@ export class PlantComponent implements OnInit {
       dcp: plant.dcp,
       status: plant.status
     }));
-    console.log(mappedPlantsList, "Mapped Data");
-    
     this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
   }
 

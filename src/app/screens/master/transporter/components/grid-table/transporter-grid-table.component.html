@@ -1,6 +1,5 @@
-<div id="exportableTable">
-  <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
     <thead>
       <tr>
         <th (click)="sortData('transporterCode')">Transporter Code</th>
@@ -15,7 +14,7 @@
         <th (click)="sortData('regdDetails')">Regd. Details</th>
         <th (click)="sortData('status')">Status</th>
         <th (click)="sortData('autoBiltiRequiredFlag')">Auto Bilti Req.</th>
-        <th class="text-center">Action</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -27,40 +26,47 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{transporter.transporterCode}}</u>
+            <u>{{ transporter.transporterCode }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{transporter.creationDate | date: 'yyyy-MM-dd'}}</span>
+                <span>{{
+                  transporter.creationDate | date : "yyyy-MM-dd"
+                }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>{{transporter.createdBy}}</span>
+                <span>{{ transporter.createdBy }}</span>
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{transporter.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                <span>{{
+                  transporter.lastUpdateOn | date : "yyyy-MM-dd"
+                }}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
-                <span>{{transporter.lastUpdatedBy}}</span>
+                <span>{{ transporter.lastUpdatedBy }}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>{{transporter.transporterName}}</td>
-        <td>{{transporter.locationId}}</td>
-        <td>{{transporter.consignorName}}</td>
-        <td>{{transporter.ownerName}}</td>
-        <td>{{transporter.contactPerson}}</td>
-        <td>{{transporter.transporterAddress1}} {{transporter.transporterAddress2}}</td>
-        <td>{{transporter.transporterContactNo}}</td>
-        <td>{{transporter.transporterMailId}}</td>
-        <td>{{transporter.regdDetails}}</td>
-        <td>{{transporter.status}}</td>
-        <td>{{transporter.autoBiltiRequiredFlag}}</td>
+        <td>{{ transporter.transporterName }}</td>
+        <td>{{ transporter.locationId }}</td>
+        <td>{{ transporter.consignorName }}</td>
+        <td>{{ transporter.ownerName }}</td>
+        <td>{{ transporter.contactPerson }}</td>
+        <td>
+          {{ transporter.transporterAddress1 }}
+          {{ transporter.transporterAddress2 }}
+        </td>
+        <td>{{ transporter.transporterContactNo }}</td>
+        <td>{{ transporter.transporterMailId }}</td>
+        <td>{{ transporter.regdDetails }}</td>
+        <td>{{ transporter.status }}</td>
+        <td>{{ transporter.autoBiltiRequiredFlag }}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
@@ -70,12 +76,11 @@
           />
         </td>
       </tr>
-    }@empty {
+      }@empty {
       <tr>
         <td align="center" colspan="13">No Transporter Found</td>
       </tr>
-    }
+      }
     </tbody>
   </table>
-</div>
 </div>

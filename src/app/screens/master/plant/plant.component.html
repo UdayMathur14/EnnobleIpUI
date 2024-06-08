@@ -31,7 +31,7 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-plant-grid-table (headersChange)="onHeadersChange($event)" [plantsList]="plantsList"></app-plant-grid-table>
+  <app-plant-grid-table (exportHeader)="onExportHeader($event)" [plantsList]="plantsList"></app-plant-grid-table>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

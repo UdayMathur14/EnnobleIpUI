@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ExportService } from '../../../core/service/export.service';
 import { FreightService } from '../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-freight',
@@ -10,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './freight.component.scss'
 })
 export class FreightComponent implements OnInit {
-
   isFilters: boolean = true;
   searchedFreight: any;
   fullScreen: boolean = false;
@@ -18,12 +18,12 @@ export class FreightComponent implements OnInit {
   vehcileSizes : any[] = [];
   destinations : any[] = [];
   sources : any[] = [];
-  
   freightList: any[] = [];
+  headers: string[] = [];
 
   constructor(private router: Router,
     private freightService: FreightService,
-    private exportService: ExportService,
+    private xlsxService : XlsxService,
     private toastr: ToastrService
   ) { }
 
@@ -32,6 +32,10 @@ export class FreightComponent implements OnInit {
     this.getSourceDropdownData();
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();
+  }
+
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
   }
 
   getFreightList() {
@@ -81,7 +85,7 @@ export class FreightComponent implements OnInit {
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
-    const type = 'Source'
+    const type = 'Source';
     this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
       this.sources = res.lookUps
     })
@@ -116,7 +120,23 @@ export class FreightComponent implements OnInit {
     this.router.navigate(['master/addEditFreight', '0'])
   }
 
+  onFreightListChange(freightList: any[]) {
+    this.freightList = freightList;
+  }
+
   exportData(fileName: string = "Freight") {
-    this.exportService.csvExport(fileName);
+    const mappedPlantsList = this.freightList.map(freight => ({
+      freightCode: freight?.freightCode,
+      locations: freight?.locations?.value,
+      source: freight?.source?.value,
+      destination: freight?.destination?.value,
+      vehicleSize: freight?.vehicleSize?.value,
+      freightAmount: freight?.freightAmount,
+      remarks: freight?.remarks,
+      materialRemarks: freight?.materialRemarks,
+      accountsRemarks: freight?.accountsRemarks,
+      status: freight?.status
+    }));
+    this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
   }
 } 

@@ -30,7 +30,7 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-freight-grid-table [freightList]="freightList"></app-freight-grid-table>
+  <app-freight-grid-table [freightList]="freightList" (exportHeader)="onExportHeader($event)"></app-freight-grid-table>
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

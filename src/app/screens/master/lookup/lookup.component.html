@@ -33,5 +33,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-lookup-grid-table [lookupsList]="lookupsList"></app-lookup-grid-table>
+  <app-lookup-grid-table [lookupsList]="lookupsList" (exportHeader)="onExportHeader($event)"></app-lookup-grid-table>
 </div>

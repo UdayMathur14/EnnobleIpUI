@@ -32,5 +32,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-point-charge-grid-table [pointChargesList]="pointChargesList"></app-point-charge-grid-table>
+  <app-point-charge-grid-table [pointChargesList]="pointChargesList" (exportHeader)="onExportHeader($event)"></app-point-charge-grid-table>
 </div>

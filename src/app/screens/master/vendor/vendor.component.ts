@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
 import { VendorService } from '../../../core/service/vendor.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../core/service/lookup.service';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-vendor',
@@ -19,17 +18,22 @@ export class VendorComponent implements OnInit {
   vendorsList : any[] = [];
   cities : any[] = [];
   states : any[] = [];
-  constructor(private router: Router,
-    private exportService: ExportService,
+  headers: any [] = [];
+  constructor(
     private vendorService : VendorService,
     private toastr: ToastrService,
-    private lookupService : LookupService
+    private lookupService : LookupService,
+    private xlsxService : XlsxService
   ) { }
 
   ngOnInit(): void {
     this.getVendorsList();
     this.getCityDropdownData();
     this.getStateDropdownData()
+  }
+
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
   }
 
   getVendorsList() {
@@ -93,7 +97,26 @@ export class VendorComponent implements OnInit {
     })
   }
 
+  onHeadersChange(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Vendor") {
-    this.exportService.csvExport(fileName);
+    // Map the data to include only the necessary fields
+    const mappedVendorsList = this.vendorsList.map(vendor => ({
+      vendorCode: vendor.vendorCode,
+      vendorName: vendor.vendorName,
+      vendorAddress1: vendor.vendorAddress1,
+      contactNumber: vendor.contactNumber,
+      email: vendor.email,
+      state: vendor.state.value,
+      city: vendor.city.value,
+      gstnNo: vendor.gstnNo,
+      payTermCode: vendor.payTermCode,
+      payTermStatus: vendor.payTermStatus,
+      status: vendor.status,
+  
+    }));
+    this.xlsxService.xlsxExport(mappedVendorsList, this.headers, fileName);
   }
 }

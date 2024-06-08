@@ -12,6 +12,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add-edit-vendor.component.scss'
 })
 export class AddEditVendorComponent implements OnInit {
+  queryData: any;
+  vendorData: VendorDataModel = {};
+  vendorsList: any = [];
+  loadSpinner: boolean = true;
+  pointChargeName: any = [];
+  selectedPointName: undefined;
+  taxationCode: any;
+  paidbyDetailsList:any = [];
+  disableSubmit : boolean = false;
+  paidByDetailId: number | null = null;
+
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -40,16 +51,7 @@ export class AddEditVendorComponent implements OnInit {
     rcmNonRcm: new FormControl(''),
     status: new FormControl('')
   });
-  queryData: any;
-  vendorData: VendorDataModel = {};
-  vendorsList: any = [];
-  loadSpinner: boolean = true;
-  pointChargeName: any = [];
-  selectedPointName: undefined;
-  taxationCode: any;
-  paidbyDetailsList:any = [];
-  disableSubmit : boolean = false;
-  paidByDetailId: number | null = null;
+
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");

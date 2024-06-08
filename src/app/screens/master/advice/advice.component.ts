@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
 import { AdviceTypeService } from '../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-advice',
@@ -14,10 +14,11 @@ export class AdviceComponent implements OnInit{
   isFilters: boolean = true;
   fullScreen : boolean = false;
   loadSpinner : boolean = true;
+  headers: string[] = [];
   constructor(private router: Router,
-    private exportService: ExportService,
     private adviceService : AdviceTypeService,
-    private toastr : ToastrService
+    private toastr : ToastrService,
+    private xlsxService : XlsxService
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +62,19 @@ export class AdviceComponent implements OnInit{
     this.router.navigate(['master/addEditAdvice', '0'])
   }
 
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Advice") {
-    this.exportService.csvExport(fileName);
+    const mappedAdviceList = this.advicesList.map(advice => ({
+      location: advice.location.value,
+      adviceType: advice.adviceType,
+      batchName: advice.batchName,
+      maxBiltiNumber: advice.maxBiltiNumber,
+      manualAllocationRequired: advice.manualAllocationRequired,
+      status: advice.status
+    }));
+    this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
   }
 }

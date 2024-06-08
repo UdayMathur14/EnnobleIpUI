@@ -1,6 +1,5 @@
-<div id="exportableTable">
-  <div class="custom-table">
-  <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
         <th (click)="sortData('partNumber')">Part#</th>
@@ -17,11 +16,7 @@
       @for (part of partsList; track part.id) {
       <tr>
         <td class="pointer" container="body">
-          <span
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
-          >
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{part.partNumber}}</u>
           </span>
           <ng-template #tipContent>
@@ -52,20 +47,14 @@
         <td>{{part.remarks}}</td>
         <td>{{part.status}}</td>
         <td class="text-center">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            class="pointer"
-            alt="edit"
-            (click)="onGoToEditPart(part)"
-          />
+          <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPart(part)" />
         </td>
       </tr>
-    }@empty {
+      }@empty {
       <tr>
         <td align="center" colspan="13">No Part Found</td>
       </tr>
-    }
+      }
     </tbody>
   </table>
-</div>
 </div>

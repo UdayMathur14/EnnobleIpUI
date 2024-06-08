@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, EventEmitter, ElementRef, ViewChild, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { TransporterService } from '../../../../../core/service/transporter.service';
-import { ToastrService } from 'ngx-toastr';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -10,12 +8,31 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './transporter-grid-table.component.scss'
 })
 export class TransporterGridTableComponent implements OnInit {
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
   @Input() transportersList: any = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['transportersList']) {
+      this.emitHeaders();
+    }
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Actions') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
   }
 
   onGoToEditTransporter(transporterId: any) {

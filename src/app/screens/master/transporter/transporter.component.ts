@@ -3,6 +3,7 @@ import { ExportService } from '../../../core/service/export.service';
 import { TransporterService } from '../../../core/service/transporter.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../core/service/lookup.service';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-transporter',
@@ -18,10 +19,12 @@ export class TransporterComponent implements OnInit{
   transportersList : any[] = [];
   cities : any[] = [];
   states : any[] = [];
+  headers: any [] = [];
   constructor(private exportService: ExportService,
     private transporterService : TransporterService,
     private lookupService : LookupService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private xlsxService : XlsxService
   ) { }
 
   ngOnInit(): void {
@@ -97,7 +100,26 @@ export class TransporterComponent implements OnInit{
     })
   }
 
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
+  }
+
   exportData(fileName: string = "Transporter") {
-    this.exportService.csvExport(fileName);
+    // Map the data to include only the necessary fields
+    const mappedTransporterList = this.transportersList.map(transporter => ({
+      transporterCode: transporter.transporterCode,
+      transporterName: transporter.transporterName,
+      locationId: transporter.locationId,
+      consignorName: transporter.consignorName,
+      ownerName: transporter.ownerName,
+      contactPerson: transporter.contactPerson,
+      transporterAddress1: transporter.transporterAddress1 + ", " +transporter.transporterAddress2,
+      transporterContactNo: transporter.transporterContactNo,
+      transporterMailId: transporter.transporterMailId,
+      regdDetails: transporter.regdDetails,
+      status: transporter.status,
+      autoBiltiRequiredFlag: transporter.autoBiltiRequiredFlag
+    }));
+    this.xlsxService.xlsxExport(mappedTransporterList, this.headers, fileName);
   }
 }

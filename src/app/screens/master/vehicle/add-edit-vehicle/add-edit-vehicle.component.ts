@@ -12,14 +12,6 @@ import { VehicleDataModel } from '../../../../core/model/masterModels.model';
   styleUrl: './add-edit-vehicle.component.scss',
 })
 export class AddEditVehicleComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private _route: ActivatedRoute,
-    private vehicleService: VehicleService,
-    private toastr: ToastrService,  
-    private baseService: BaseService
-  ) {}
-
   vehicleId: any;
   vehicleData!: VehicleDataModel;
   vehiclesList: any = [];
@@ -29,6 +21,14 @@ export class AddEditVehicleComponent implements OnInit {
   transporterId: number = 0;
   transporterData:any
   vehcileSizes: any = []
+  
+  constructor(
+    private router: Router,
+    private _route: ActivatedRoute,
+    private vehicleService: VehicleService,
+    private toastr: ToastrService,  
+    private baseService: BaseService
+  ) {}
 
   vehicleForm = new FormGroup({
     vehicleNumber: new FormControl('', [Validators.required]),

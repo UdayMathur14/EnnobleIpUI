@@ -11,6 +11,10 @@ import { ValidateService } from "../core/service/validate.service";
     styleUrls: ["validate.component.scss"],
 })
 export class ValidateComponent implements OnInit {
+    loadSpinner: boolean = false;
+    locations: any;
+    validate = "Validating...";
+
     constructor(
         private lookupService: LookupService,
         public baseService: BaseService,
@@ -18,9 +22,6 @@ export class ValidateComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) { }
-    loadSpinner: boolean = false;
-    locations: any;
-    validate = "Validating...";
 
     ngOnInit() {
         localStorage.clear();
@@ -33,17 +34,17 @@ export class ValidateComponent implements OnInit {
             }
             const atobParam: any = atob(data);
             const userData = JSON.parse(atobParam);
-            const app = userData.apps.find((e:any)=>e.name===APIConstant.appSlug);
-            this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe((res) => {
+            const app = userData.apps.find((e: any) => e.name === APIConstant.appSlug);
+            this.validateService.generateToken({ appId: app.id }, userData.accessToken).subscribe((res) => {
                 localStorage.setItem("logindata", atobParam);
                 localStorage.setItem("profile", JSON.stringify(res));
 
-                if(return_url){
+                if (return_url) {
                     window.location.href = return_url;
-                }else{
+                } else {
                     this.router.navigateByUrl("/master");
                 }
-                
+
             })
         });
     }
