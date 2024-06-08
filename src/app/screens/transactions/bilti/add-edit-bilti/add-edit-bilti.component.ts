@@ -65,7 +65,7 @@ export class AddEditBiltiComponent implements OnInit {
   dispatchNotes: any = [];
   matchedDispatchNotes:any = [];
 
-  locationId: Number = 0;
+  locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
@@ -97,6 +97,7 @@ export class AddEditBiltiComponent implements OnInit {
 
   initForm() {
     this.biltiForm = this.fb.group({
+        locationId :new FormControl('', [Validators.required]),
         transactionType: new FormControl('', [Validators.required]),
         frlrNo: new FormControl('', [Validators.required]),
         vehicleNumber: new FormControl('', [Validators.required]),

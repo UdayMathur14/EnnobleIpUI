@@ -4,6 +4,7 @@ import { LookupService } from "../core/service/lookup.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { APIConstant } from "../core/constants";
 import { ValidateService } from "../core/service/validate.service";
+import { BootService } from "../core/service/boot.service";
 
 
 @Component({
@@ -12,6 +13,7 @@ import { ValidateService } from "../core/service/validate.service";
 })
 export class ValidateComponent implements OnInit {
     constructor(
+        private bootService:BootService,
         private lookupService: LookupService,
         public baseService: BaseService,
         public validateService: ValidateService,
@@ -34,16 +36,18 @@ export class ValidateComponent implements OnInit {
             const atobParam: any = atob(data);
             const userData = JSON.parse(atobParam);
             const app = userData.apps[0];
-            this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe((res) => {
+            this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe(async (res) => {
                 localStorage.setItem("logindata", atobParam);
                 localStorage.setItem("profile", JSON.stringify(res));
-
-                if(return_url){
-                    window.location.href = return_url;
-                }else{
-                    this.router.navigateByUrl("/master");
-                }
                 
+                await this.bootService.getLookupDataForLocation();
+                setTimeout(() => {
+                    if(return_url){
+                        window.location.href = return_url;
+                    }else{
+                        this.router.navigateByUrl("/master");
+                    }
+                }, 500);
             })
         });
     }

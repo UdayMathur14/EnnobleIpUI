@@ -24,7 +24,7 @@ export class AddEditFreightComponent implements OnInit {
   vehcileSizes: any = [];
   destinations: any = [];
   getData: any = [];
-  locationId:Number=0;
+  locationId!:Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(

@@ -23,7 +23,7 @@ export class AddEditPointChargeComponent implements OnInit {
   loadSpinner: boolean = true;
   locationCode: string = '';
   pointNameData: any = [];
-  locationId: Number = 0;
+  locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(private router: Router,
@@ -35,6 +35,7 @@ export class AddEditPointChargeComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {
     this.pointChargeForm = this.formBuilder.group({
+      locationCode: [undefined, [Validators.required]],
       pointName: ['', [Validators.required]],
       pointCharge: ['', [Validators.required]],
       sameLocationCharge: ['', [Validators.required]],

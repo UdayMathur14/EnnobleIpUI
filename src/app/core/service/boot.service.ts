@@ -23,6 +23,10 @@ export class BootService {
 
     }
 
+    getLookupDataForLocation(){
+        this.lookupService.getLookupDataForLocation();
+    }
+
     setEnvironment(res: any) {
         APIConstant.basePath = res.mfgAPIURL;
         APIConstant.commonURL = res.commonAPI;
@@ -31,6 +35,10 @@ export class BootService {
         APIConstant.Svc = res.svcURL;
         APIConstant.Gtm = res.gtmURL;
 
-        this.lookupService.getLookupDataForLocation();
+        const logindata = localStorage.getItem("logindata")
+
+        if(logindata){
+            this.getLookupDataForLocation();
+        }
     }
 }

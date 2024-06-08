@@ -23,7 +23,7 @@ export class BiltiBillProcessFilterComponent {
   loadSpinner: boolean = true;
   adviceTypeList: any = [];
   isBiltiNumberDisabled: boolean = false;
-  locationId: Number = 0;
+  locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 

@@ -23,7 +23,7 @@ export class AddEditAdviceComponent implements OnInit {
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
   transactionTypeId: any;
-  locationId: Number = 0;
+  locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(

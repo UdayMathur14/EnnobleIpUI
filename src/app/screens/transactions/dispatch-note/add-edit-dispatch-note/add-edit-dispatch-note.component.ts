@@ -34,7 +34,7 @@ export class AddEditDispatchNoteComponent {
   selectedQuantity!: number;
   dispatchId: number = 0;
   loadSpinner: boolean = false;
-  locationId: Number = 0;
+  locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
@@ -48,7 +48,7 @@ export class AddEditDispatchNoteComponent {
     private lookupService: LookupService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -70,6 +70,7 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
+      locationId: '',
       supplierCode: [''],
       supplierName: [''],
       supplierAddress: [''],
@@ -103,7 +104,7 @@ export class AddEditDispatchNoteComponent {
   async getDispatchData(dispatchId: number) {
     this.loadSpinner = true
     await this.dispatchNoteService
-      .getDispatchNoteById(this.locationId,dispatchId)
+      .getDispatchNoteById(this.locationId, dispatchId)
       .subscribe((response: any) => {
         this.loadSpinner = false;
         const vehicles = response.vehicles;
@@ -240,7 +241,7 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
-  onVehicleNumberClear(){
+  onVehicleNumberClear() {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       vehicleSize: null,
     });
@@ -261,7 +262,7 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
-  onSupplierCodeClear(){
+  onSupplierCodeClear() {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       supplierName: null,
       supplierAddress: null,
@@ -334,7 +335,7 @@ export class AddEditDispatchNoteComponent {
       }
 
       this.dispatchNoteService
-        .updateDispatchNote(this.locationId,this.dispatchId, this.dispatchNote)
+        .updateDispatchNote(this.locationId, this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');
