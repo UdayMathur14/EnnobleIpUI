@@ -3,42 +3,25 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Number</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="partNum" (input)="onInput('partNum', $event)"
-                        placeholder="Enter Part Number" [readonly]="partName ? true :false" />
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
-                <div *ngIf="showSuggestions.partNum && filteredItems.partNum.length > 0" class="suggestions" >
-                    <div *ngFor="let partNum of filteredItems.partNum" (click)="selectItem('partNum', partNum)"
-                        class="suggestion">
-                        {{partNum}}
-                    </div>
-                </div>
+                <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select part number" [readonly]="partName">
+                    <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Name</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="partName" (input)="onInput('partName', $event)"
-                        placeholder="Enter Part Name" [readonly]="partNum ? true :false"/>
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
-                <div *ngIf="showSuggestions.partName && filteredItems.partName.length > 0" class="suggestions">
-                    <div *ngFor="let partName of filteredItems.partName" (click)="selectItem('partName', partName)"
-                        class="suggestion">
-                        {{partName}}
-                    </div>
-                </div>
+                <ng-select class="input-field" [(ngModel)]="partName" placeholder="Select part name" [readonly]="partNum">
+                    <ng-option *ngFor="let part of partsList" [value]="part.partName">{{part.partName}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()"
-                    [disabled]="!partName && !partNum">Clear</button>
                 <button class="custom-button-filters" (click)="onPartSearch()"
-                    [disabled]="!partName && !partNum">Search</button>
+                [disabled]="!partName && !partNum">Search</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>
     </div>

@@ -14,58 +14,53 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './plant-grid-table.component.scss'
 })
 export class PlantGridTableComponent implements OnInit, OnChanges {
+  @Input() plantsList : any[] = [];
   constructor(
     private router: Router,
     private modalService: NgbModal,
-    private plantService : PlantService,
     private baseService : BaseService,
-    private lookupService: LookupService,
     private toastr: ToastrService
   ) { }
   @ViewChild('table') table!: ElementRef;
-  @Input() filterKeyword!: string;
   @Output() dataChange = new EventEmitter<any[]>();
   @Output() headersChange = new EventEmitter<string[]>();
-  plantsListOrg : any;
-  plantsList : any;
   loadSpinner : boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
   ngOnInit() :void{
     this.baseService.plantSpinner.next(true);
-    setTimeout(() => {
-      this.getAllPlantsList();
-    }, 2000);
-    
+    // setTimeout(() => {
+    //   this.getAllPlantsList();
+    // }, 2000);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.plantsListOrg && this.plantsListOrg.length && changes['filterKeyword'].currentValue) {
-      this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    }
-    else if (this.plantsListOrg && this.plantsListOrg.length && !changes['filterKeyword'].currentValue) {
-      this.plantsList = this.plantsListOrg;
-    }    
-    this.dataChange.emit(this.plantsList);
-    console.log(this.plantsList, "this.plantsList filtered Data"); 
+    // if (this.plantsListOrg && this.plantsListOrg.length && changes['filterKeyword'].currentValue) {
+    //   this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+    // }
+    // else if (this.plantsListOrg && this.plantsListOrg.length && !changes['filterKeyword'].currentValue) {
+    //   this.plantsList = this.plantsListOrg;
+    // }    
+    // this.dataChange.emit(this.plantsList);
   }
 
   getAllPlantsList() {
-    let data = {
-      "plantCode": ''
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.plantsListOrg = response.plants;
-      this.loadSpinner = false;
-      this.dataChange.emit(this.plantsList);
-      console.log(this.plantsList, "Plant List");
+    // let data = {
+    //   "plantCode": ''
+    // }
+    // this.plantService.getPlants(data).subscribe((response: any) => {
+    //   this.plantsList = response.plants;
+    //   this.plantsListOrg = response.plants;
+    //   this.loadSpinner = false;
+    //   this.dataChange.emit(this.plantsList);
+    //   console.log(this.plantsList, "Plant List");
 
-      this.emitHeaders();  // Emit headers after the data is fetched and set
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    //   this.emitHeaders();  // Emit headers after the data is fetched and set
+    // }, error => {
+    //   this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    //   this.loadSpinner = false;
+    // })
   }
   emitHeaders() {
     const headers: string[] = [];

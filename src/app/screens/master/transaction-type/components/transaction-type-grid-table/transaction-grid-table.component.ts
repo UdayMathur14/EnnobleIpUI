@@ -11,43 +11,17 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './transaction-grid-table.component.scss'
 })
 export class TransactionGridTableComponent implements OnInit{
+  @Input() transactionTypesList : any[] = [];
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  loadSpinner : boolean = true;
   constructor(private router : Router,
     private transactionTypesService : TransactionTypesService,
     private toastr : ToastrService
     ){}
-    sortField: string = '';
-    sortDirection: 'asc' | 'desc' = 'asc';
-    transactionTypesList : TransactionTypeListModel[] = [];
-    transactionTypesListOrg : TransactionTypeListModel[] = [];
-    loadSpinner : boolean = true;
-    @Input() filterKeyword!: string;
 
   ngOnInit(): void {
-    this.getAllTransactionTypes()
-  }
 
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if(this.transactionTypesListOrg && this.transactionTypesListOrg.length && changes['filterKeyword'].currentValue){
-      this.transactionTypesList = this.transactionTypesListOrg.filter((e:any) =>e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    }
-    else if(this.transactionTypesListOrg && this.transactionTypesListOrg.length && !changes['filterKeyword'].currentValue){
-      this.transactionTypesList = this.transactionTypesListOrg;
-    }
-  }
-
-  getAllTransactionTypes(){
-    let data = {
-      "code" : ''
-    }
-    this.transactionTypesService.getTransactionTypes(data).subscribe((response:any) => {
-      this.transactionTypesList = response.transactionTypes;
-      this.transactionTypesListOrg = response.transactionTypes;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
   }
 
   onGoToEditTransaction(transactionData:TransactionTypeListModel){

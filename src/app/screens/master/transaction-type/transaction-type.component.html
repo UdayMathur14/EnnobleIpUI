@@ -3,10 +3,7 @@
   <div class="action-buttons">
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
-    <div class="search-field">
-      <input type="text" placeholder="Search Transaction Code" (input)="onSearch($event)" />
-      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
-    </div>
+
     <div container="body">
       <img
         src="assets/images/icons/fullScreen.svg"
@@ -22,6 +19,10 @@
   </div>
 </div>
 
+<div class="filter-section">
+  <app-transactionType-filter [transactionTypesList]="transactionTypesListOrg" (getData)="getData($event)"></app-transactionType-filter>
+</div>
+
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
   <img
       *ngIf="fullScreen"
@@ -31,5 +32,9 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-transaction-grid-table [filterKeyword]="filterKeyword"></app-transaction-grid-table>
+  <app-transaction-grid-table [transactionTypesList]="transactionTypesList"></app-transaction-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

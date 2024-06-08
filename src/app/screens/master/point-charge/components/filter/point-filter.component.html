@@ -2,16 +2,16 @@
     <div class="row">
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Lookup Code</label>
-                <ng-select class="input-field" [(ngModel)]="lookupCode" placeholder="Select lookup code">
-                    <ng-option *ngFor="let lookup of lookupsList" [value]="lookup.code">{{lookup.code}}</ng-option>
+                <label for="">Point Name</label>
+                <ng-select class="input-field" [(ngModel)]="pointName" placeholder="Select point">
+                    <ng-option *ngFor="let point of pointChargesList" [value]="point.pointName">{{point.pointName}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onLookupSearch()" [disabled]="!lookupCode">Search</button>
+                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!pointName">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

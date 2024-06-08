@@ -19,7 +19,7 @@
   </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-freight-filter (freightFilterObj)="searchFreightCode($event)"></app-freight-filter>
+  <app-freight-filter [vehcileSizes]="vehcileSizes" [destinations]="destinations" [sources]="sources" [freightList]="freightList" (getData)="getData($event)"></app-freight-filter>
 </div>
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
   <img
@@ -30,5 +30,9 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-freight-grid-table [searchedFreight]="searchedFreight"></app-freight-grid-table>
+  <app-freight-grid-table [freightList]="freightList"></app-freight-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

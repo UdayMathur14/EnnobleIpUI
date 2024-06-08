@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (advice of adviceTypeList; track advice.id) {
+      @for (advice of advicesList; track advice.id) {
       <tr>
         <td class="pointer" container="body">
           <span
@@ -65,9 +65,4 @@
     </tbody>
   </table>
 </div>
-</div>
-
-
-<div class="spinner" *ngIf="loadSpinner">
-  Loading...
 </div>

@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section">
-  <app-part-filters (partFilterObj)="searchPart($event)"></app-part-filters>
+  <app-part-filters [partsList]="partsList" (getData)="getData($event)"></app-part-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -32,5 +32,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-part-grid-table [searchedPart]="searchedPart"></app-part-grid-table>
+  <app-part-grid-table [partsList]="partsList"></app-part-grid-table>
 </div>

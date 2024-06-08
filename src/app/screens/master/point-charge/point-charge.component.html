@@ -3,11 +3,6 @@
   <div class="action-buttons">
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
-    <div class="search-field">
-      <input type="text" placeholder="Search Point Name" (input)="onSearch($event)" />
-      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
-    </div>
-
     <button class="custom-button-regulr" (click)="onCreatePointCharge()">Create Point Charge</button>
     <div container="body">
       <img
@@ -24,6 +19,10 @@
   </div>
 </div>
 
+<div class="filter-section">
+  <app-point-filter [pointChargesList]="pointChargesList" (getData)="getData($event)"></app-point-filter>
+</div>
+
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
   <img
       *ngIf="fullScreen"
@@ -33,5 +32,5 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-point-charge-grid-table [filterKeyword]="filterKeyword"></app-point-charge-grid-table>
+  <app-point-charge-grid-table [pointChargesList]="pointChargesList"></app-point-charge-grid-table>
 </div>
