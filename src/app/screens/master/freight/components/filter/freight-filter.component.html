@@ -29,6 +29,15 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
+                <label for="">Destination</label>
+                <ng-select class="input-field" [(ngModel)]="destination" placeholder="Select Destination"
+                [readonly]="source || vehicleSize || freightCode">
+                    <ng-option *ngFor="let destination of destinations" [value]="destination.value">{{destination.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
                 <label for="">Vehicle Size</label>
                 <ng-select class="input-field" [(ngModel)]="vehicleSize" placeholder="Select Vehicle Size"
                 [readonly]="freightCode || source ? true :false">
@@ -39,8 +48,9 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !freightCode && !source && !vehicleSize">Clear</button>
-                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="locationIds.length==0 && !freightCode && !source && !vehicleSize">Search</button>
+                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!locationIds.length && !freightCode && !source && !destination && !vehicleSize">Search</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                
             </div>
         </div>
     </div>

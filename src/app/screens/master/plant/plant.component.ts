@@ -52,11 +52,6 @@ export class PlantComponent implements OnInit {
   }
 
   getCityDropdownData(){
-    const data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
     const type = 'City'
     this.lookupService.getDropdownData(type).subscribe((res:any)=>{
       this.cities = res.lookUps;
@@ -64,11 +59,6 @@ export class PlantComponent implements OnInit {
   }
 
   getStateDropdownData(){
-    const data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
     const type = 'State'
     this.lookupService.getDropdownData(type).subscribe((res:any)=>{
       this.states = res.lookUps;

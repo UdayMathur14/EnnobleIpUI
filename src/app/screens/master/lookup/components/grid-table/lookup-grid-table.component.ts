@@ -1,7 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { LookupService } from '../../../../../core/service/lookup.service';
-import { ToastrService } from 'ngx-toastr';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -9,30 +7,20 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   templateUrl: './lookup-grid-table.component.html',
   styleUrl: './lookup-grid-table.component.scss'
 })
-export class LookupGridTableComponent implements OnInit, OnChanges {
-
-  @Input() filterKeyword!: string;
-  lookupsListOrg: any;
-  lookupsList: any;
-  loadSpinner: boolean = true;
+export class LookupGridTableComponent implements OnInit {
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
+  @Input() lookupsList : any[] = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
-  
-  constructor(
-    private router: Router,
-    private lookupService: LookupService,
-    private toastr: ToastrService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.getAllLookupsList();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.lookupsListOrg && this.lookupsListOrg.length && changes['filterKeyword'] && changes['filterKeyword'].currentValue) {
-      this.lookupsList = this.lookupsListOrg.filter((e: any) =>
-        e.code && e.code.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
-    } else if (this.lookupsListOrg && this.lookupsListOrg.length && (!changes['filterKeyword'] || !changes['filterKeyword'].currentValue)) {
-      this.lookupsList = this.lookupsListOrg;
+    if (changes['lookupsList']) {
+      this.emitHeaders();
     }
   }
 
@@ -40,15 +28,15 @@ export class LookupGridTableComponent implements OnInit, OnChanges {
     this.router.navigate(['master/addEditLookup', lookupData.id]);
   }
 
-  getAllLookupsList() {
-    this.lookupService.getLookups({ data: '' }).subscribe((response: any) => {
-      this.lookupsList = response.lookUps;
-      this.lookupsListOrg = response.lookUps;
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
   }
 
   sortData(field: string) {

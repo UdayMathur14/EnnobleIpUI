@@ -10,7 +10,7 @@ export class PlantFilterComponent implements OnInit {
   @Input() plantsList : any[] = [];
   @Input() cities : any[] = [];
   @Input() states : any[] = [];
-  @Input() locationIds : any = [];
+  locationIds : any = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   plantCode:any = undefined;
   stateCode : any = undefined;

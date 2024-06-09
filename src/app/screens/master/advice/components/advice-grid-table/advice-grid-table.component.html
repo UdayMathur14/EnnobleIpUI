@@ -1,66 +1,69 @@
-<div id="exportableTable">
-  <div class="custom-table">
-    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
-      <thead>
-        <tr>
-          <th (click)="sortData('location.value')">Location Code</th>
-          <th (click)="sortData('adviceType')">Advice Type</th>
-          <th (click)="sortData('batchName')">Batch Name</th>
-          <th (click)="sortData('maxBiltiNumber')">Max Bilti No Limit</th>
-          <th (click)="sortData('manualAllocationRequired')">Manual Allocation Required</th>
-          <th (click)="sortData('status')">Status</th>
-          <th class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (advice of adviceTypeList; track advice.id) {
-        <tr>
-          <td class="pointer" container="body">
-            <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-              <u>{{advice.location.value}}</u>
-            </span>
-            <ng-template #tipContent>
-              <div class="">
-                <div class="content-row">
-                  <span>Creation Date</span>
-                  <span>{{advice.creationDate | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Created By</span>
-                  <span>{{advice.createdBy}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Update Date</span>
-                  <span>{{advice.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Updated By</span>
-                  <span>{{advice.lastUpdatedBy}}</span>
-                </div>
+<div class="custom-table">
+  <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
+    <thead>
+      <tr>
+        <th (click)="sortData('location.value')">Location Code</th>
+        <th (click)="sortData('adviceType')">Advice Type</th>
+        <th (click)="sortData('batchName')">Batch Name</th>
+        <th (click)="sortData('maxBiltiNumber')">Max Bilti No Limit</th>
+        <th (click)="sortData('manualAllocationRequired')">
+          Manual Allocation Required
+        </th>
+        <th (click)="sortData('status')">Status</th>
+        <th class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (advice of advicesList; track advice.id) {
+      <tr>
+        <td class="pointer" container="body">
+          <span
+            placement="end"
+            tooltipClass="table-datetime-popover"
+            [ngbTooltip]="tipContent"
+          >
+            <u>{{ advice.location.value }}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{ advice.creationDate | date : "yyyy-MM-dd" }}</span>
               </div>
-            </ng-template>
-          </td>
-          <td>{{advice.adviceType}}</td>
-          <td>{{advice.batchName}}</td>
-          <td>{{advice.maxBiltiNumber}}</td>
-          <td>{{advice.manualAllocationRequired}}</td>
-          <td>{{advice.status}}</td>
-          <td class="text-center">
-            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"
-              (click)="onGoToEditAdvice(advice)" />
-          </td>
-        </tr>
-        }@empty {
-        <tr>
-          <td align="center" colspan="13">No Advice Type Found</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<div class="spinner" *ngIf="loadSpinner">
-  Loading...
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{ advice.createdBy }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{ advice.lastUpdateOn | date : "yyyy-MM-dd" }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{ advice.lastUpdatedBy }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{ advice.adviceType }}</td>
+        <td>{{ advice.batchName }}</td>
+        <td>{{ advice.maxBiltiNumber }}</td>
+        <td>{{ advice.manualAllocationRequired }}</td>
+        <td>{{ advice.status }}</td>
+        <td class="text-center">
+          <img
+            src="assets/images/icons/editPencil.svg"
+            alt="edit"
+            class="pointer"
+            (click)="onGoToEditAdvice(advice)"
+          />
+        </td>
+      </tr>
+      }@empty {
+      <tr>
+        <td align="center" colspan="13">No Advice Type Found</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
