@@ -14,7 +14,7 @@
             <div class="custom-form-input">
                 <label for="">Transaction Type Name</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeName"
-                    placeholder="Select Transaction Name" [readonly]="transactionTypeCode || glCategory">
+                    placeholder="Select Transaction Name">
                     <ng-option *ngFor="let transaction of transactionTypesList"
                         [value]="transaction.name">{{transaction.name}}</ng-option>
                 </ng-select>
@@ -23,7 +23,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label>GL Sub Category</label>
-                <input type="text" class="input-field" [(ngModel)]="glCategory" [disabled]="transactionTypeCode || transactionTypeName" />
+                <input type="text" class="input-field" [(ngModel)]="glCategory" />
             </div>
         </div>  
         <div class="col">

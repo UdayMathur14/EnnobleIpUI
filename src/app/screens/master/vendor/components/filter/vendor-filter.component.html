@@ -4,7 +4,7 @@
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
                 <ng-select class="input-field" [(ngModel)]="vendorCod" typeToSearchText
-                    placeholder="Select Vendor Code" [readonly]="vendorNam || city || state || taxationType || paidByDetails">
+                    placeholder="Select Vendor Code">
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorCode">{{vendor.vendorCode}}</ng-option>
                 </ng-select>
@@ -14,7 +14,7 @@
             <div class="custom-form-input">
                 <label for="">Vendor Name</label>
                 <ng-select class="input-field" [(ngModel)]="vendorNam" typeToSearchText
-                    placeholder="Select Vendor Name" [readonly]="vendorCod || city || state || taxationType || paidByDetails">
+                    placeholder="Select Vendor Name">
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorName">{{vendor.vendorName}}</ng-option>
                 </ng-select>
@@ -24,7 +24,7 @@
             <div class="custom-form-input">
                 <label for="">City</label>
                 <ng-select class="input-field" [(ngModel)]="city"
-                    placeholder="Select City" [readonly]="vendorCod || vendorNam || state || taxationType || paidByDetails">
+                    placeholder="Select City">
                     <ng-option *ngFor="let city of cities"
                         [value]="city.code">{{city.value}}</ng-option>
                 </ng-select>
@@ -34,7 +34,7 @@
             <div class="custom-form-input">
                 <label for="">State</label>
                 <ng-select class="input-field" [(ngModel)]="state"
-                    placeholder="Select State Code" [readonly]="vendorCod || vendorNam || city || taxationType || paidByDetails">
+                    placeholder="Select State Code">
                     <ng-option *ngFor="let state of states"
                     [value]="state.code">{{state.value}}</ng-option>
                 </ng-select>
@@ -48,7 +48,7 @@
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorName">{{vendor.vendorName}}</ng-option>
                 </ng-select> -->
-                <input type="text" placeholder="Enter Taxation Type" class="input-field" [(ngModel)]="taxationType" [readonly]="vendorCod || vendorNam || city || state || paidByDetails"/>
+                <input type="text" placeholder="Enter Taxation Type" class="input-field" [(ngModel)]="taxationType"/>
             </div>
         </div>
         <div class="col">
@@ -59,7 +59,7 @@
                     <ng-option *ngFor="let vendor of vendorsList"
                         [value]="vendor.vendorName">{{vendor.vendorName}}</ng-option>
                 </ng-select> -->
-                <input type="text" placeholder="Enter Paid by Details" class="input-field" [(ngModel)]="paidByDetails" [readonly]="vendorCod || vendorNam || city || state || taxationType"/>
+                <input type="text" placeholder="Enter Paid by Details" class="input-field" [(ngModel)]="paidByDetails"/>
             </div>
         </div>
         <div class="col">
