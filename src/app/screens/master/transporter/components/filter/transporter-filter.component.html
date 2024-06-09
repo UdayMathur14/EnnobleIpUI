@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col">
             <div class="">
                 <label for="">Location Code</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
@@ -9,33 +9,53 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col">
             <div class="custom-form-input">
                 <label for="">Transporter Code</label>
-                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number"
-                    [readonly]="transName ? true :false">
-                    <ng-option *ngFor="let transporter of transportersList"
-                        [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
+                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number">
+                    <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col">
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
-                <div class="input-with-icon">
-                    <input type="text" class="input-field" [(ngModel)]="transName"
-                        [readonly]="transCode ? true :false" />
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
+                <ng-select class="input-field" [(ngModel)]="transName" placeholder="Select Transporter Name">
+                    <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterName">{{transporter.transporterName}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label>City</label>
+                <ng-select class="input-field" [(ngModel)]="cityCode" placeholder="Select City" >
+                    <ng-option *ngFor="let city of cities"
+                        [value]="city.code">{{city.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label>State</label>
+                <ng-select class="input-field" [(ngModel)]="stateCode"
+                    placeholder="Select State">
+                    <ng-option *ngFor="let state of states"
+                        [value]="state.code">{{state.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label>Taxation Type</label>
+                <input type="text" placeholder="Enter taxation Type" [(ngModel)]="taxationType" class="input-field">
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()"
-                    [disabled]="locationIds.length==0 && !transCode && !transName">Clear</button>
-                <button class="custom-button-filters" (click)="onTransporterSearch()"
-                    [disabled]="locationIds.length==0 && !transCode && !transName">Search</button>
+                <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
+                    [disabled]="!locationIds?.length && !transCode && !transName && !cityCode && !stateCode && !taxationType">Search</button>
+                <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
             </div>
         </div>
     </div>

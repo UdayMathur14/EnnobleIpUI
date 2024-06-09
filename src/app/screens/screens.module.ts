@@ -86,6 +86,7 @@ import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-e
 import { BiltiPdfModalComponent } from "./modals/bilti-pdf/bilti-pdf.component";
 import { DispatchNoteModelComponent } from "./modals/dispatch-note/dispatch-note.component";
 import { ChangeBiltiStatusModalComponent } from "./modals/change-bilti-status/change-bilti-status.component";
+import { TransactionTypeFilterComponent } from "./master/transaction-type/components/filter/transactionType-filter.component";
 
 
 @NgModule({
@@ -171,7 +172,8 @@ import { ChangeBiltiStatusModalComponent } from "./modals/change-bilti-status/ch
         AddEditDispatchNoteComponent,
         BiltiPdfModalComponent,
         DispatchNoteModelComponent,
-        ChangeBiltiStatusModalComponent
+        ChangeBiltiStatusModalComponent,
+        TransactionTypeFilterComponent
     ],
     imports: [
         LayoutModule,

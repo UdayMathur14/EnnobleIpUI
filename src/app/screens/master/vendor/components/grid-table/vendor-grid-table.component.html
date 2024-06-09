@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        @for( vendor of vendorList; track vendor.id){
+        @for( vendor of vendorsList; track vendor.id){
         <tr>
           <td class="pointer" container="body">
             <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
@@ -81,8 +81,4 @@
       </tbody>
     </table>
   </div>
-</div>
-
-<div class="spinner" *ngIf="loadSpinner">
-  Loading...
 </div>

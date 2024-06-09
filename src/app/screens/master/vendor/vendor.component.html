@@ -12,11 +12,15 @@
 </div>
 
 <div class="filter-section">
-  <app-vendor-filter (vendorFilterData)="searchVendor($event)"></app-vendor-filter>
+  <app-vendor-filter [vendorsList]="vendorsList" [cities]="cities" [states]="states" (getData)="getData($event)"></app-vendor-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
   <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
     width="14px" (click)="fullScreen = !fullScreen" />
-  <app-vendor-grid-table [searchedVendor]="searchedVendor"></app-vendor-grid-table>
+  <app-vendor-grid-table [vendorsList]="vendorsList" (exportHeader)="onExportHeader($event)"></app-vendor-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>
