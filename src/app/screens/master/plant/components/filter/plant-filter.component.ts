@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-filter',
@@ -6,8 +6,50 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plant-filter.component.scss']
 })
 export class PlantFilterComponent implements OnInit {
-
+  @Input() locations : any[] = [];
+  @Input() plantsList : any[] = [];
+  @Input() cities : any[] = [];
+  @Input() states : any[] = [];
+  locationIds : any = [];
+  @Output() getData: EventEmitter<any> = new EventEmitter();
+  plantCode:any = undefined;
+  stateCode : any = undefined;
+  cityCode : any = undefined;
+  auCode : any;
+  siteCode : any;
 
   ngOnInit() { }
+
+  onPlantSearch(){
+    debugger
+    const filterData = {
+      plantCode: this.plantCode, 
+      city: this.cityCode, 
+      state : this.stateCode, 
+      auCode : this.auCode, 
+      siteCode : this.siteCode,
+      locations : this.locationIds
+    }
+    this.getData.emit(filterData)
+  }
+
+  onClearFilter(){
+    this.plantCode = undefined;
+    this.cityCode = undefined
+    this.stateCode = undefined
+    this.auCode = undefined
+    this.siteCode = undefined;
+    this.locationIds = [];
+
+    const filterData = {
+      plantCode: undefined, 
+      city: undefined, 
+      state : undefined, 
+      auCode : undefined, 
+      siteCode : undefined,
+      locations : []
+    }
+    this.getData.emit(filterData)
+  }
 
 }

@@ -1,7 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { TransporterService } from '../../../../../core/service/transporter.service';
-import { ToastrService } from 'ngx-toastr';
-import { APIConstant } from '../../../../../core/constants';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-transporter-filter',
@@ -9,56 +6,52 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './transporter-filter.component.scss'
 })
 export class TransporterFiltersComponent implements OnInit {
+  @Input() states : any[] = [];
+  @Input() cities : any[] = [];
+  @Input() transportersList : any[] = [];
+  @Input() locationIds : any = undefined;
+  @Input() locations : any[] = [];
+  @Output() getData: EventEmitter<any> = new EventEmitter();
+  transCode: any = undefined;
+  transName: any = undefined;
+  cityCode : any = undefined;
+  stateCode : any = undefined;
+  taxationType : any = undefined;
 
-  @Output() transFilterObj: EventEmitter<object> = new EventEmitter();
-  transportersList: any = [];
-  transCode: string | undefined;
-  transName: string = '';
-  locations: any[] = APIConstant.locationsListDropdown;
-  locationIds: any[] = [];
-  
-
-  constructor(
-    private transporterService: TransporterService,
-    private toastr: ToastrService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getAllTransportersListInit();
   }
 
-  //BINDING TRANSPORTER CODE DROPDOWN
-  getAllTransportersListInit() {
-    let data = {
-      "transporterCode": '',
-      "transporterName": '',
-      locationIds: this.locationIds
-    }
-    this.transporterService.getTransporters(data).subscribe((response: any) => {
-      this.transportersList = response.transporters;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    })
-  }
-
-  onTransporterSearch() {
-    let obj = {
-      transName: this.transName,
-      transCode: this.transCode,
-      locationIds: this.locationIds
-    }
-    this.transFilterObj.emit(obj)
-  }
-
-  onClearFilter() {
-    this.transName = '';
+  onClearFilter(){
     this.transCode = undefined;
-    let obj = {
-      transName: '',
-      transCode: '',
-      locationIds: []
+    this.transName = undefined;
+    this.cityCode = undefined;
+    this.stateCode = undefined;
+    this.taxationType = undefined;
+    this.locationIds = [];
+
+    const filterData = {
+      "transCode" : "",
+      "transName" : "",
+      "cityCode" : "",
+      "stateCode" : "",
+      "taxationType" : "",
+      "locations" : []
     }
-    this.transFilterObj.emit(obj)
+    this.getData.emit(filterData)
+  }
+
+  onTransporterSearch(){
+    const filterData = {
+      "transCode" : this.transCode || "",
+      "transName" : this.transName || "",
+      "cityCode" : this.cityCode || "",
+      "stateCode" : this.stateCode || "",
+      "taxationType" : this.taxationType || "",
+      "locations" : this.locationIds || []
+    }
+    this.getData.emit(filterData)
   }
 
 }

@@ -15,62 +15,40 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './plant-grid-table.component.scss'
 })
 export class PlantGridTableComponent implements OnInit, OnChanges {
-
+  @Input() plantsList : any[] = [];
   @ViewChild('table') table!: ElementRef;
-  @Input() filterKeyword!: string;
-  @Input() locationSel!: string;
-  @Input() locationIds!: any[];
-  @Output() dataChange = new EventEmitter<any[]>();
+  // @Input() locationSel!: string;
   @Output() headersChange = new EventEmitter<string[]>();
-  plantsListOrg: any;
-  plantsList: any;
-  loadSpinner: boolean = true;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private router: Router,
-    private modalService: NgbModal,
-    private plantService: PlantService,
-    private baseService: BaseService,
-    private lookupService: LookupService,
-    private toastr: ToastrService
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
-    this.baseService.plantSpinner.next(true);
-    setTimeout(() => {
-      this.getAllPlantsList();
-    }, 2000);
-
   }
 
-  ngOnChanges(changes: SimpleChanges | any): void {
-    if (this.plantsListOrg && this.plantsListOrg.length && changes?.['filterKeyword']?.currentValue) {
-      this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['plantsList']) {
+      this.emitHeaders();
     }
-    else if (this.plantsListOrg && this.plantsListOrg.length && !changes?.['filterKeyword']?.currentValue) {
-      this.plantsList = this.plantsListOrg;
-    }
-
-    if (changes?.locationIds.currentValue) {
-      this.getAllPlantsList();
-    }
-    this.dataChange.emit(this.plantsList);
   }
 
-  getAllPlantsList() {
-    this.plantService.getPlants({ plantCode: "", locationIds: this.locationIds }).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.plantsListOrg = response.plants;
-      this.loadSpinner = false;
-      this.dataChange.emit(this.plantsList);
-      this.emitHeaders();  // Emit headers after the data is fetched and set
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
+  // ngOnChanges(changes: SimpleChanges | any): void {
+  //   if (this.plantsListOrg && this.plantsListOrg.length && changes?.['filterKeyword']?.currentValue) {
+  //     this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+  //   }
+  //   else if (this.plantsListOrg && this.plantsListOrg.length && !changes?.['filterKeyword']?.currentValue) {
+  //     this.plantsList = this.plantsListOrg;
+  //   }
+
+  //   if (changes?.locationIds.currentValue) {
+  //     this.getAllPlantsList();
+  //   }
+  //   this.dataChange.emit(this.plantsList);
+  // }
 
   emitHeaders() {
     const headers: string[] = [];
@@ -109,6 +87,5 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
     this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.plantsList);
-    this.dataChange.emit(this.plantsList);
   }
 }

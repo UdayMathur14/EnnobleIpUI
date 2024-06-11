@@ -88,12 +88,12 @@
     top: 0;
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
     position: sticky;
-    background-color: var(--white);
+    background-color: var(--gray4);
 }
 
 @mixin gridTableBody() {
     font-size: var(--spacer-12);
-    padding: var(--spacer-12) var(--spacer-10);
+    padding: var(--spacer-8) var(--spacer-10);
     white-space: nowrap;
 }
 

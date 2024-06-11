@@ -1,17 +1,6 @@
 <div class="page-title">
   <h1>Plant Master</h1>
   <div class="action-buttons">
-    <div class="">
-      <div class="">
-        <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
-          <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div class="search-field">
-      <input type="text" placeholder="Search Plant" (input)="onSearch($event)" />
-      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
-    </div>
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
     <div container="body">
@@ -23,12 +12,15 @@
 </div>
 
 <div class="filter-section" [ngClass]="{ 'd-none': !isFilters }">
-  <app-filter></app-filter>
+  <app-filter [plantsList]="plantsList" [cities]="cities" [states]="states" (getData)="getData($event)" [locations]="locations"></app-filter>
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
   <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
     width="14px" (click)="fullScreen = !fullScreen" />
-  <app-plant-grid-table [filterKeyword]="filterKeyword" [locationIds]="locationIds"
-    (dataChange)="onPlantsListChange($event)" (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
+  <app-plant-grid-table [plantsList]="plantsList" (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
+</div>
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

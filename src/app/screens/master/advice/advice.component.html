@@ -1,34 +1,41 @@
 <div class="page-title">
   <h1>Advice Master</h1>
   <div class="action-buttons">
-    <div>
-      <div class="">
-        <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
-          <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div class="search-field">
-      <input type="text" placeholder="Search Advice Type" (input)="onSearch($event)" />
-      <span><img src="assets/images/icons/search.svg" alt="search" /></span>
-    </div>
-    <button class="custom-button-regulr" (click)="onCreateAdvice()">Create Advice</button>
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
-    <div container="body">
-      <img src="assets/images/icons/fullScreen.svg" alt="" class="pointer" width="14px"
-        (click)="fullScreen = !fullScreen" placement="start" [ngbTooltip]="tipContent" />
-      <ng-template #tipContent> Full Screen </ng-template>
-    </div>
+    <button class="custom-button-regulr" (click)="onCreateAdvice()">Create Advice</button>
+      <div container="body">
+        <img
+          src="assets/images/icons/fullScreen.svg"
+          alt=""
+          class="pointer"
+          width="14px"
+          (click)="fullScreen = !fullScreen"
+          placement="start"
+          [ngbTooltip]="tipContent"
+        />
+        <ng-template #tipContent> Full Screen </ng-template>
+      </div>
   </div>
 </div>
 
-<div class="filter-section" [ngClass]="{ 'd-none': !isFilters }">
-  <app-filter></app-filter>
+<div class="filter-section">
+  <app-advice-filter [advicesList]="advicesList" (getData)="getData($event)" [locations]="locations"></app-advice-filter>
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
-  <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
-    width="14px" (click)="fullScreen = !fullScreen" />
-  <app-advice-grid-table [filterKeyword]="filterKeyword" [locationIds]="locationIds"></app-advice-grid-table>
+  <img
+      *ngIf="fullScreen"
+      src="assets/images/icons/fullScreenCollapse.svg"
+      alt=""
+      class="me-3 pointer float-end"
+      width="14px"
+      (click)="fullScreen = !fullScreen"
+    />
+  <app-advice-grid-table [advicesList]="advicesList" (exportHeader)="onExportHeader($event)"></app-advice-grid-table>
+</div>
+
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>
