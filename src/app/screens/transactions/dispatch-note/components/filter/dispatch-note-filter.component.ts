@@ -11,7 +11,7 @@ export class DispatchNoteFiltersComponent {
   @Output() getData: EventEmitter<any> = new EventEmitter();
   dispatchNumber:any = '';
   locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
 
   constructor() { }
 

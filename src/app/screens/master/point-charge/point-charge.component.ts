@@ -31,7 +31,7 @@ export class PointChargeComponent implements OnInit {
 
   getPointChargesList() {
     let data = {
-      "locationIds": [],
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "screenCode": 101,
       "pointName": ""
     }

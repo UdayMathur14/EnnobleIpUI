@@ -34,7 +34,7 @@ export class VehicleComponent implements OnInit{
 
   getVehicleList(){
     let data = {
-      "locationIds": [],
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "vehicleNumber": "",
       "transporterId": 0
     }

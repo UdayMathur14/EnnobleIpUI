@@ -13,7 +13,7 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
   pointName : any = undefined;
   pointChargeList : any = [];
   locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   
   
   constructor(private pointChargeService : PointChargeService,

@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad  {
     if(this.menu.find((e:any)=>e.key===permission)){
       return true;
     }
-    return true;
+    return false;
   }
 
   canActivate(): boolean {

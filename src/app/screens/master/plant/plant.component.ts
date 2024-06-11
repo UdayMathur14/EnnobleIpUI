@@ -26,7 +26,9 @@ export class PlantComponent implements OnInit {
     private exportService: ExportService,
     private lookupService : LookupService,
     private xlsxService: XlsxService
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit() {
     this.getPlantsList();
@@ -36,7 +38,7 @@ export class PlantComponent implements OnInit {
 
   getPlantsList(){
     let data = {
-      "locationIds": [],
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "plantCode": "",
       "city": "",
       "state": "",

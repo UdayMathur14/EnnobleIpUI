@@ -13,7 +13,7 @@ export class FreightMasterMaterialFiltersComponent implements OnInit {
   freightCode : any = undefined;
   freightList : any = [];
   locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  locationIds:any[]=APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   
   constructor(private freightService : FreightService,
     private toastr : ToastrService){}

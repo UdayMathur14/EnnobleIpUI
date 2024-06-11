@@ -18,7 +18,7 @@ export class BiltiFilterComponent implements OnInit {
   allBiltiNo: any = [];
   filteredBiltiNo: any = [];
   showSuggestionsBilti: boolean = false;
-  locationIds:any[]=[];
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   locations:any[] = APIConstant.locationsListDropdown;
   
 

@@ -37,7 +37,7 @@ export class TransporterComponent implements OnInit{
 
   getTransportersList() {
     let data = {
-      "locationIds": [],
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "transporterCode": "",
       "transporterName": "",
       "city": "",

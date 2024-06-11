@@ -23,7 +23,7 @@ export class CheckedMaterialsTeamFilterComponent {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   constructor(
     private toastr: ToastrService,
   ) { }

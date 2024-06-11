@@ -20,7 +20,7 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: string = '';
-  locationIds:any[]=[];
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   locations:any[] = APIConstant.locationsListDropdown;
 
   @Input() filteredBiltibillList: any = [];

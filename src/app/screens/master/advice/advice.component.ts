@@ -29,7 +29,7 @@ export class AdviceComponent implements OnInit{
 
   getAdviceTypesList() {
     let data = {
-      "locationIds": [],
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "adviceType": ""
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
