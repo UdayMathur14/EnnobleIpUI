@@ -21,20 +21,20 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.get(APIConstant.lookupData + lookupId);
   }
 
-  getLookupData(key: any) {
-    return this.post(APIConstant.getLookupData, key);
+  getLookupData(key: any, basePath: any = '') {
+    return this.post(basePath + APIConstant.getLookupData, key);
   }
 
-  getLookupDataForLocation() {
-    const p:any = localStorage.getItem("profile");
-    const profile:any = JSON.parse(p);
-    const appLocation:any = profile?.mfgUnit?.au[0]?.location;
-    this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
-      
+  getLookupDataForLocation(basePath: any = '') {
+    const p: any = localStorage.getItem("profile");
+    const profile: any = JSON.parse(p);
+    const appLocation: any = profile?.mfgUnit?.au[0]?.location;
+    this.getLookupData({ type: 'Locations' }, basePath).subscribe((response: any) => {
+
       this.baseService.lookupData.next(response);
-      const locations:any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
-      appLocation.forEach((el:any) => {
-        const obj = response.lookUps.find((f:any)=>f.code === el.name);
+      const locations: any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
+      appLocation.forEach((el: any) => {
+        const obj = response.lookUps.find((f: any) => f.code === el.name);
         locations.push(obj);
       });
       APIConstant.locationsListDropdown = locations;
@@ -56,7 +56,7 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.post(APIConstant.lookupstype, data);
   }
 
-  getDropdownData(data: string): any{
+  getDropdownData(data: string): any {
     return this.baseService.post(APIConstant.basePath + getDropdownDatas(data), {})
   }
 
@@ -64,7 +64,7 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.post(getDropdownDatas(type), data);
   }
 
-  getCityLookup(data: object, type: string){
+  getCityLookup(data: object, type: string) {
     return this.post(getDropdownDatas(type), data)
   }
 
