@@ -23,8 +23,8 @@ export class BootService {
 
     }
 
-    getLookupDataForLocation(){
-        this.lookupService.getLookupDataForLocation();
+    getLookupDataForLocation() {
+        this.lookupService.getLookupDataForLocation(APIConstant.basePath);
     }
 
     setEnvironment(res: any) {
@@ -37,7 +37,7 @@ export class BootService {
 
         const logindata = localStorage.getItem("logindata")
 
-        if(logindata){
+        if (logindata) {
             this.getLookupDataForLocation();
         }
     }
