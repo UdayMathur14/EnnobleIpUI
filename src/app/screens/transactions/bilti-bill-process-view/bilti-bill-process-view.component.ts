@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import moment from 'moment';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-bilti-bill-process-view',
@@ -19,7 +20,7 @@ export class BiltiBillProcessViewComponent {
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
-  locationIds: any[] = [];
+  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   toDate: any = moment().format('YYYY-MM-DD');
 
 

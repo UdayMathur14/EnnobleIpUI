@@ -18,14 +18,14 @@ export class BiltiFilterComponent implements OnInit {
   allBiltiNo: any = [];
   filteredBiltiNo: any = [];
   showSuggestionsBilti: boolean = false;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
-  locations:any[] = APIConstant.locationsListDropdown;
-  
+  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
+  locations: any[] = APIConstant.locationsListDropdown;
+
 
   constructor(private biltiService: BiltiService,
     private toastr: ToastrService,
     private elementRef: ElementRef
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.getAllBiltisList();
@@ -34,7 +34,7 @@ export class BiltiFilterComponent implements OnInit {
   getAllBiltisList() {
     let data = {
       biltiNumber: '',
-      locationIds:this.locationIds
+      locationIds: this.locationIds
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {
@@ -48,11 +48,11 @@ export class BiltiFilterComponent implements OnInit {
       }
     );
   }
-  
+
   onBiltiSearch() {
     let obj = {
       "biltiNumber": this.biltiNum || "",
-      locationIds:this.locationIds
+      locationIds: this.locationIds
     }
     this.biltiFilterData.emit(obj)
   }
@@ -67,18 +67,19 @@ export class BiltiFilterComponent implements OnInit {
     this.filteredBiltiNo = this.allBiltiNo.filter((name: any) => name.toLowerCase().includes(inputText.toLowerCase()));
     this.filteredBiltiNo.length ? this.showSuggestionsBilti = true : this.showSuggestionsBilti = false;
   }
-  
+
   @HostListener('document:click', ['$event'])
   clickOutside(event: any) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.showSuggestionsBilti = false;
     }
   }
-  
+
   onClearFilter() {
     this.biltiNum = null;
     let obj = {
       biltiNum: null,
+      locationIds: APIConstant.locationsListDropdown.map((e: any) => (e.id))
     }
     this.biltiFilterData.emit(obj)
   }

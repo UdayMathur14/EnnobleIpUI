@@ -65,7 +65,7 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
-      locationIds:[]
+      locationIds: APIConstant.locationsListDropdown.map((e:any)=>(e.id))
     }
     this.filterSearchObj.emit(filterObj)
   }

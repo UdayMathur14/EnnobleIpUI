@@ -6,6 +6,7 @@ import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/del
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
 import { BiltiPdfModalComponent } from '../../../../modals/bilti-pdf/bilti-pdf.component';
+import { APIConstant } from '../../../../../core/constants';
 
 
 @Component({
@@ -74,7 +75,7 @@ export class BiltiGridTableComponent implements OnInit {
     this.loadSpinner = true;
     let data = {
       biltiNumber: '',
-      locationIds: []
+      locationIds: APIConstant.locationsListDropdown.map((e: any) => (e.id))
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {

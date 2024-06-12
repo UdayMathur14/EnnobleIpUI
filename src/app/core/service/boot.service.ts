@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { delay, tap } from 'rxjs';
 import { APIConstant } from '../constants';
 import { LookupService } from './lookup.service';
 
@@ -18,8 +18,16 @@ export class BootService {
 
     load() {
         return this.baseService.get(`/assets/resource.json`).pipe(
-            tap((res) => (this.setEnvironment(res)))
+            tap((res) => (this.setEnvironment(res))),
+            delay(2000)
         );
+
+        // return this.baseService.get(`/assets/resource.json`).subscribe((resources)=>{
+        //     this.setEnvironment(resources);
+        //     return this.baseService.post(APIConstant.basePath + APIConstant.getLookupData,{ type: 'Locations' }).subscribe((res)=>{
+
+        //     })
+        // })
 
     }
 
