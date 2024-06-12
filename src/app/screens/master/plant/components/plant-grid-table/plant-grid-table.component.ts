@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ElementRef, ViewChild, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ElementRef, ViewChild, SimpleChanges, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
@@ -10,7 +10,6 @@ import { APIConstant } from '../../../../../core/constants';
   templateUrl: './plant-grid-table.component.html',
   styleUrl: './plant-grid-table.component.scss'
 })
-<<<<<<< HEAD
 export class PlantGridTableComponent implements OnInit, OnChanges {
   @Input() plantsList : any[] = [];
   @ViewChild('table') table!: ElementRef;
@@ -25,22 +24,6 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-=======
-export class PlantGridTableComponent implements OnInit {
-  @Input() plantsList : any[] = [];
-  constructor(
-    private router: Router,
-    private modalService: NgbModal
-  ) { }
-  @ViewChild('table') table!: ElementRef;
-  @Output() exportHeader = new EventEmitter<string[]>();
-
-  loadSpinner : boolean = true;
-  sortField: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
-
-  ngOnInit() :void{
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -49,7 +32,6 @@ export class PlantGridTableComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
   // ngOnChanges(changes: SimpleChanges | any): void {
   //   if (this.plantsListOrg && this.plantsListOrg.length && changes?.['filterKeyword']?.currentValue) {
   //     this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
@@ -64,8 +46,6 @@ export class PlantGridTableComponent implements OnInit {
   //   this.dataChange.emit(this.plantsList);
   // }
 
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   emitHeaders() {
     const headers: string[] = [];
     const headerCells = this.table.nativeElement.querySelectorAll('thead th');
@@ -74,7 +54,7 @@ export class PlantGridTableComponent implements OnInit {
         headers.push(cell.innerText.trim());
       }
     });
-    this.exportHeader.emit(headers);
+    //this.exportHeader.emit(headers);
   }
 
   onGoToEditPlant(plantData: any) {

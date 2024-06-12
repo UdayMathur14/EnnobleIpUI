@@ -3,10 +3,7 @@ import { Router } from '@angular/router';
 import { AdviceTypeService } from '../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
-<<<<<<< HEAD
 import { APIConstant } from '../../../core/constants';
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
 @Component({
   selector: 'app-advice',
@@ -19,10 +16,7 @@ export class AdviceComponent implements OnInit{
   fullScreen : boolean = false;
   loadSpinner : boolean = true;
   headers: string[] = [];
-<<<<<<< HEAD
   locations: any[] = APIConstant.locationsListDropdown;
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   constructor(private router: Router,
     private adviceService : AdviceTypeService,
     private toastr : ToastrService,
@@ -35,13 +29,7 @@ export class AdviceComponent implements OnInit{
 
   getAdviceTypesList() {
     let data = {
-<<<<<<< HEAD
       "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
-=======
-      "locationIds": [
-        0
-      ],
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "adviceType": ""
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
@@ -56,13 +44,7 @@ export class AdviceComponent implements OnInit{
   getData(e:any){
     this.loadSpinner = true;
     let data = {
-<<<<<<< HEAD
       "locationIds": e.locationIds,
-=======
-      "locationIds": [
-        0
-      ],
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "adviceType": e.adviceType
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {

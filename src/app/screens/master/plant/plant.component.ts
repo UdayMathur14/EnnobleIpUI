@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { XlsxService } from '../../../core/service/xlsx.service';
-<<<<<<< HEAD
 import { APIConstant } from '../../../core/constants';
 import { LookupService } from '../../../core/service/lookup.service';
-=======
-import { LookupService } from '../../../core/service/lookup.service';
-import { PlantService } from '../../../core/service';
 import { Router } from '@angular/router';
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
+import { PlantService } from '../../../core/service';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-plant',
@@ -15,27 +12,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./plant.component.scss']
 })
 export class PlantComponent implements OnInit {
-<<<<<<< HEAD
-  loadSpinner : boolean = true;
-=======
-
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
+  loadSpinner: boolean = true;
   isFilters: boolean = true;
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
-<<<<<<< HEAD
   locations: any[] = APIConstant.locationsListDropdown;
-  cities : any[] = [];
-  states : any[] = [];
+  cities: any[] = [];
+  states: any[] = [];
 
   constructor(private router: Router,
     private plantService: PlantService,
     private exportService: ExportService,
-    private lookupService : LookupService,
+    private lookupService: LookupService,
     private xlsxService: XlsxService
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -44,31 +36,9 @@ export class PlantComponent implements OnInit {
     this.getStateDropdownData();
   }
 
-  getPlantsList(){
+  getPlantsList() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
-=======
-  cities : any[] = [];
-  states : any[] = [];
-  loadSpinner : boolean = true;
-  constructor(private router: Router,
-    private plantService: PlantService,
-    private xlsxService: XlsxService,
-    private lookupService : LookupService
-  ) { }
-
-  ngOnInit() {
-    this.getPlantsList();
-    this.getCityDropdownData();
-    this.getStateDropdownData();
-  }
-
-  getPlantsList(){
-    let data = {
-      "locationIds": [
-        0
-      ],
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
+      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
       "plantCode": "",
       "city": "",
       "state": "",
@@ -81,24 +51,10 @@ export class PlantComponent implements OnInit {
     }, error => {
       this.loadSpinner = false;
     })
-<<<<<<< HEAD
   }
 
-  getCityDropdownData(){
-    const type = 'City'
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
-      this.cities = res.lookUps;
-    })
-  }
 
-  getStateDropdownData(){
-    const type = 'State'
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
-      this.states = res.lookUps;
-    })
-  }
-
-  getData(e:any){
+  getData(e: any) {
     this.loadSpinner = true;
     let data = {
       "locationIds": e.locations || [],
@@ -114,51 +70,29 @@ export class PlantComponent implements OnInit {
     }, error => {
       this.loadSpinner = false
     })
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   }
 
-  getCityDropdownData(){
+  getCityDropdownData() {
     const data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'City'
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+    this.lookupService.getDropdownData(type).subscribe((res: any) => {
       this.cities = res.lookUps;
     })
   }
 
-  getStateDropdownData(){
+  getStateDropdownData() {
     const data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'State'
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+    this.lookupService.getDropdownData(type).subscribe((res: any) => {
       this.states = res.lookUps;
-    })
-  }
-
-  getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": [
-        0
-      ],
-      "plantCode": e.plantCode || "",
-      "city": e.city || "",
-      "state": e.state || "",
-      "auCode": e.auCode || "",
-      "siteCode": e.siteCode || ""
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.loadSpinner = false;
-    }, error => {
-      this.loadSpinner = false
     })
   }
 
@@ -167,10 +101,7 @@ export class PlantComponent implements OnInit {
   }
 
   exportData(fileName: string = "Plants") {
-<<<<<<< HEAD
     // Map the data to include only the necessary fields
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     const mappedPlantsList = this.plantsList.map(plant => ({
       plantCode: plant.plantCode,
       plantDesc: plant.plantDesc,
