@@ -9,7 +9,11 @@ import { XlsxService } from '../../../core/service/xlsx.service';
   templateUrl: './vendor.component.html',
   styleUrl: './vendor.component.scss'
 })
+<<<<<<< HEAD
 export class VendorComponent implements OnInit{
+=======
+export class VendorComponent implements OnInit {
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
   isFilters: boolean = true;
   searchedVendor: string = '';
@@ -56,14 +60,32 @@ export class VendorComponent implements OnInit{
   }
 
   getCityDropdownData(){
+<<<<<<< HEAD
     const type = 'City';
+=======
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'City'
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     this.lookupService.getDropdownData(type).subscribe((res:any)=>{
       this.cities = res.lookUps;
     })
   }
 
   getStateDropdownData(){
+<<<<<<< HEAD
     const type = 'State';
+=======
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'State'
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     this.lookupService.getDropdownData(type).subscribe((res:any)=>{
       this.states = res.lookUps;
     })
@@ -85,6 +107,13 @@ export class VendorComponent implements OnInit{
     }, error => {
       this.loadSpinner = false
     })
+<<<<<<< HEAD
+=======
+  }
+
+  onHeadersChange(headers: string[]) {
+    this.headers = headers;
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   }
 
   exportData(fileName: string = "Vendor") {

@@ -10,7 +10,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './bilti-bill-process-view.component.scss'
 })
 export class BiltiBillProcessViewComponent {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   isFilters: boolean = true;
   searchedData: any;
   fromDate: any = '2000-01-01';
@@ -22,6 +25,10 @@ export class BiltiBillProcessViewComponent {
   loadSpinner: boolean = false;
   locationIds: any[] = [];
   toDate: any = moment().format('YYYY-MM-DD');
+  
+  constructor(private router: Router,private biltiBIllProService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ) { }
 
   constructor(
     private router: Router,

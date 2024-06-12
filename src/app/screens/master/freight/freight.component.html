@@ -13,12 +13,27 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+<<<<<<< HEAD
   <app-freight-filter [vehcileSizes]="vehcileSizes" [destinations]="destinations" [sources]="sources" [freightList]="freightList" [locations]="locations" (getData)="getData($event)"></app-freight-filter>
+=======
+  <app-freight-filter [vehcileSizes]="vehcileSizes" [destinations]="destinations" [sources]="sources" [freightList]="freightList" (getData)="getData($event)"></app-freight-filter>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
+<<<<<<< HEAD
   <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
     width="14px" (click)="fullScreen = !fullScreen" />
+=======
+  <img
+      *ngIf="fullScreen"
+      src="assets/images/icons/fullScreenCollapse.svg"
+      alt=""
+      class="me-3 pointer float-end"
+      width="14px"
+      (click)="fullScreen = !fullScreen"
+    />
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   <app-freight-grid-table [freightList]="freightList" (exportHeader)="onExportHeader($event)"></app-freight-grid-table>
 </div>
 

@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PlantService } from '../../../core/service';
-import { ExportService } from '../../../core/service/export.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
+<<<<<<< HEAD
 import { APIConstant } from '../../../core/constants';
 import { LookupService } from '../../../core/service/lookup.service';
+=======
+import { LookupService } from '../../../core/service/lookup.service';
+import { PlantService } from '../../../core/service';
+import { Router } from '@angular/router';
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
 @Component({
   selector: 'app-plant',
@@ -12,11 +15,16 @@ import { LookupService } from '../../../core/service/lookup.service';
   styleUrls: ['./plant.component.scss']
 })
 export class PlantComponent implements OnInit {
+<<<<<<< HEAD
   loadSpinner : boolean = true;
+=======
+
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   isFilters: boolean = true;
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
+<<<<<<< HEAD
   locations: any[] = APIConstant.locationsListDropdown;
   cities : any[] = [];
   states : any[] = [];
@@ -39,6 +47,28 @@ export class PlantComponent implements OnInit {
   getPlantsList(){
     let data = {
       "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+=======
+  cities : any[] = [];
+  states : any[] = [];
+  loadSpinner : boolean = true;
+  constructor(private router: Router,
+    private plantService: PlantService,
+    private xlsxService: XlsxService,
+    private lookupService : LookupService
+  ) { }
+
+  ngOnInit() {
+    this.getPlantsList();
+    this.getCityDropdownData();
+    this.getStateDropdownData();
+  }
+
+  getPlantsList(){
+    let data = {
+      "locationIds": [
+        0
+      ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "plantCode": "",
       "city": "",
       "state": "",
@@ -51,6 +81,7 @@ export class PlantComponent implements OnInit {
     }, error => {
       this.loadSpinner = false;
     })
+<<<<<<< HEAD
   }
 
   getCityDropdownData(){
@@ -83,18 +114,63 @@ export class PlantComponent implements OnInit {
     }, error => {
       this.loadSpinner = false
     })
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   }
 
-  onPlantsListChange(plantsList: any[]) {
-    this.plantsList = plantsList;
+  getCityDropdownData(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'City'
+    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+      this.cities = res.lookUps;
+    })
   }
 
-  onHeadersChange(headers: string[]) {
+  getStateDropdownData(){
+    const data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'State'
+    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
+      this.states = res.lookUps;
+    })
+  }
+
+  getData(e:any){
+    this.loadSpinner = true;
+    let data = {
+      "locationIds": [
+        0
+      ],
+      "plantCode": e.plantCode || "",
+      "city": e.city || "",
+      "state": e.state || "",
+      "auCode": e.auCode || "",
+      "siteCode": e.siteCode || ""
+    }
+    this.plantService.getPlants(data).subscribe((response: any) => {
+      this.plantsList = response.plants;
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false
+    })
+  }
+
+  onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
   exportData(fileName: string = "Plants") {
+<<<<<<< HEAD
     // Map the data to include only the necessary fields
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     const mappedPlantsList = this.plantsList.map(plant => ({
       plantCode: plant.plantCode,
       plantDesc: plant.plantDesc,

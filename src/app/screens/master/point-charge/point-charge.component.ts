@@ -4,7 +4,10 @@ import { ExportService } from '../../../core/service/export.service';
 import { PointChargeService } from '../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
+<<<<<<< HEAD
 import { APIConstant } from '../../../core/constants';
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
 @Component({
   selector: 'app-point-charge',
@@ -12,7 +15,10 @@ import { APIConstant } from '../../../core/constants';
   styleUrls: ['./point-charge.component.scss']
 })
 export class PointChargeComponent implements OnInit {
+<<<<<<< HEAD
   locations: any[] = APIConstant.locationsListDropdown;
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   isFilters: boolean = true;
   fullScreen : boolean = false;
   loadSpinner : boolean = true;
@@ -31,7 +37,13 @@ export class PointChargeComponent implements OnInit {
 
   getPointChargesList() {
     let data = {
+<<<<<<< HEAD
       "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+=======
+      "locationIds": [
+        0
+      ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "screenCode": 101,
       "pointName": ""
     }
@@ -47,7 +59,13 @@ export class PointChargeComponent implements OnInit {
   getData(e:any) {
     this.loadSpinner = true;
     let data = {
+<<<<<<< HEAD
       "locationIds": e.locationIds,
+=======
+      "locationIds": [
+        0
+      ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "screenCode": 101,
       "pointName": e.pointName || ""
     }

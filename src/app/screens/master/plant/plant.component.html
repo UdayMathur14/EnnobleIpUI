@@ -11,6 +11,7 @@
   </div>
 </div>
 
+<<<<<<< HEAD
 <div class="filter-section" [ngClass]="{ 'd-none': !isFilters }">
   <app-filter [plantsList]="plantsList" [cities]="cities" [states]="states" (getData)="getData($event)" [locations]="locations"></app-filter>
 </div>
@@ -19,6 +20,22 @@
   <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
     width="14px" (click)="fullScreen = !fullScreen" />
   <app-plant-grid-table [plantsList]="plantsList" (headersChange)="onHeadersChange($event)"></app-plant-grid-table>
+=======
+<div class="filter-section">
+  <app-filter [plantsList]="plantsList" [cities]="cities" [states]="states" (getData)="getData($event)"></app-filter>
+</div>
+
+<div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
+  <img
+      *ngIf="fullScreen"
+      src="assets/images/icons/fullScreenCollapse.svg"
+      alt=""
+      class="me-3 pointer float-end"
+      width="14px"
+      (click)="fullScreen = !fullScreen"
+    />
+  <app-plant-grid-table (exportHeader)="onExportHeader($event)" [plantsList]="plantsList"></app-plant-grid-table>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

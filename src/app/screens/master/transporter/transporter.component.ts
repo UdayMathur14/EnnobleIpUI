@@ -4,7 +4,10 @@ import { TransporterService } from '../../../core/service/transporter.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../core/service/lookup.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
+<<<<<<< HEAD
 import { APIConstant } from '../../../core/constants';
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
 @Component({
   selector: 'app-transporter',
@@ -21,7 +24,10 @@ export class TransporterComponent implements OnInit{
   cities : any[] = [];
   states : any[] = [];
   headers: any [] = [];
+<<<<<<< HEAD
   locations: any[] = APIConstant.locationsListDropdown;
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   constructor(private exportService: ExportService,
     private transporterService : TransporterService,
     private lookupService : LookupService,
@@ -37,12 +43,23 @@ export class TransporterComponent implements OnInit{
 
   getTransportersList() {
     let data = {
+<<<<<<< HEAD
       "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+=======
+      "locationIds": [
+        0
+      ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "transporterCode": "",
       "transporterName": "",
       "city": "",
       "state": "",
+<<<<<<< HEAD
       "taxationType": ""
+=======
+      "taxationType": "",
+      "locations": ""
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     }
     this.transporterService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;
@@ -56,12 +73,23 @@ export class TransporterComponent implements OnInit{
   getData(e:any){
     this.loadSpinner = true;
     let data = {
+<<<<<<< HEAD
       "locationIds": e.locations,
+=======
+      "locationIds": [
+        0
+      ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "transporterCode": e.transCode,
       "transporterName": e.transName,
       "city": e.cityCode,
       "state": e.stateCode,
+<<<<<<< HEAD
       "taxationType": e.taxationType
+=======
+      "taxationType": e.taxationType,
+      "locations": e.locations
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     }
     this.transporterService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;

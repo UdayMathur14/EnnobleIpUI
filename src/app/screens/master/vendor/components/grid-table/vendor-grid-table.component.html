@@ -1,5 +1,6 @@
-<div id="exportableTable">
+
   <div class="custom-table">
+<<<<<<< HEAD
     <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
       <thead>
         <tr>
@@ -41,6 +42,72 @@
                 <div class="content-row">
                   <span>Last Updated By</span>
                   <span>{{vendor.lastUpdatedBy || '-' }}</span>
+=======
+  <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+    <thead>
+      <tr>
+        <th (click)="sortData('vendorCode')">Vendor Code</th>
+        <th (click)="sortData('vendorName')">Vendor Name</th>
+        <th (click)="sortData('vendorAddress1')">Vendor Address</th>
+        <th (click)="sortData('contactNumber')">Contact</th>
+        <th (click)="sortData('email')">Email</th>
+        <th (click)="sortData('state.value')">State</th>
+        <th (click)="sortData('city.value')">City</th>
+        <th (click)="sortData('gstnNo')">GSTIN</th>
+        <th (click)="sortData('payTermCode')">Payment Term Code</th>
+        <th (click)="sortData('payTermStatus')">Payment Term Status</th>
+        <th (click)="sortData('status')">Status</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( vendor of vendorsList; track vendor.id){
+      <tr>
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{vendor.vendorCode || '-' }}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{vendor.creationDate | date: 'yyyy-MM-dd' || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{vendor.createdBy || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{vendor.lastUpdateOn | date: 'yyyy-MM-dd' || '-' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{vendor.lastUpdatedBy || '-' }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{vendor.vendorName || '-' }}</td>
+        <td>{{vendor.vendorAddress1 || '-' }}</td>
+        <td>{{vendor.contactNumber || '-' }}</td>
+        <td>{{ vendor.email || '-' }}</td>
+        <td>{{ vendor.state.value || '-' }}</td>
+        <td>{{ vendor.city.value || '-' }}</td>
+        <td>{{vendor.gstnNo || '-' }}</td>
+        <td>{{vendor.payTermCode || '-' }}</td>
+        <td>{{vendor.payTermStatus || '-' }}</td>
+        <td>{{vendor.status || '-'}}</td>
+        <td class="text-center">
+          <img src="assets/images/icons/more.svg" class="me-3 pointer" alt="link" [ngbPopover]="popContent"
+            [autoClose]="'outside'" triggers="manual" #p="ngbPopover" placement="left" (click)="p.open()" />
+          <ng-template #popContent>
+            <div class="row" (click)="p.close()">
+              <div class="col">
+                <div class="custom-form-input">
+                  <label for="">Paid By Details</label>
+                  <input type="text" class="input-field" [(ngModel)]="vendor.paidByDetail.value" disabled />
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                 </div>
               </div>
             </ng-template>
@@ -78,7 +145,12 @@
         </tr>
         }
 
+<<<<<<< HEAD
       </tbody>
     </table>
   </div>
+=======
+    </tbody>
+  </table>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 </div>

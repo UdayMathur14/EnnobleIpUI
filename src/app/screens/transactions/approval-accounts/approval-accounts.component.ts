@@ -9,10 +9,15 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './approval-accounts.component.html',
   styleUrl: './approval-accounts.component.scss'
 })
+<<<<<<< HEAD
 export class ApprovalAccountsComponent implements OnInit {
 
 
   isFilters: boolean = true;
+=======
+export class ApprovalAccountsComponent implements OnInit{
+  isFilters : boolean = true;
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   searchedData: any;
   fromDate: any = '2000-01-01';
   batchNumber: any;
@@ -22,6 +27,7 @@ export class ApprovalAccountsComponent implements OnInit {
   filteredBiltibillList: any = [];
   toDate: any = moment().format('YYYY-MM-DD');
   loadSpinner: boolean = false;
+<<<<<<< HEAD
 
   constructor(
     private router: Router,
@@ -30,6 +36,13 @@ export class ApprovalAccountsComponent implements OnInit {
   ) {
 
   }
+=======
+  
+  constructor(private router : Router,
+              private biltiProcessService: BiltiBillProcessService,
+              private toastr: ToastrService
+  ){}
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
   ngOnInit(): void {
     this.getAllBiltiProcess();

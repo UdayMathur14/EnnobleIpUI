@@ -1,5 +1,9 @@
 <div class="custom-table">
+<<<<<<< HEAD
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+=======
+  <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     <thead>
       <tr>
         <th (click)="sortData('plantCode')">Plant Code</th>
@@ -21,14 +25,26 @@
       @for (plant of plantsList; track plant.id) {
       <tr>
         <td class="pointer" container="body">
+<<<<<<< HEAD
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+=======
+          <span
+            placement="end"
+            tooltipClass="table-datetime-popover"
+            [ngbTooltip]="tipContent"
+          >
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
             <u>{{ plant.plantCode }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
+<<<<<<< HEAD
                 <span>{{ plant.creationDate | date: 'yyyy-MM-dd' }}</span>
+=======
+                <span>{{ plant.creationDate | date : "yyyy-MM-dd" }}</span>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -36,7 +52,11 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
+<<<<<<< HEAD
                 <span>{{ plant.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+=======
+                <span>{{ plant.lastUpdateOn | date : "yyyy-MM-dd" }}</span>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
@@ -45,7 +65,11 @@
             </div>
           </ng-template>
         </td>
+<<<<<<< HEAD
         <td>{{plant.plantDesc}}</td>
+=======
+        <td>{{ plant.plantDesc }}</td>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
         <td>{{ plant.plantAddress }}</td>
         <td>{{ plant.state.value }}</td>
         <td>{{ plant.city.value }}</td>
@@ -57,8 +81,23 @@
         <td>{{ plant.dcp }}</td>
         <td>{{ plant.status }}</td>
         <td class="text-center">
+<<<<<<< HEAD
           <img src="assets/images/icons/link.svg" class="me-2 pointer" alt="link" (click)="onLinkClick(plant)" />
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPlant(plant)" />
+=======
+          <img
+            src="assets/images/icons/link.svg"
+            class="me-2 pointer"
+            alt="link"
+            (click)="onLinkClick(plant)"
+          />
+          <img
+            src="assets/images/icons/editPencil.svg"
+            class="pointer"
+            alt="edit"
+            (click)="onGoToEditPlant(plant)"
+          />
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
         </td>
       </tr>
       }@empty {
@@ -68,4 +107,8 @@
       }
     </tbody>
   </table>
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298

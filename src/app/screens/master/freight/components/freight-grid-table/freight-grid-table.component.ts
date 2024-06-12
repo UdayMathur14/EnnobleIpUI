@@ -1,7 +1,9 @@
+<<<<<<< HEAD
 import { Component, OnChanges, OnInit, Input, SimpleChanges, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+=======
+import { Component, OnInit, Input, SimpleChanges, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { FreightService } from '../../../../../core/service/freight.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
@@ -10,6 +12,7 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   styleUrl: './freight-grid-table.component.scss'
 })
 
+<<<<<<< HEAD
 export class FreightGridTableComponent implements OnInit, OnChanges {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
@@ -22,6 +25,17 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     private freightService: FreightService) { }
     
   
+=======
+export class FreightGridTableComponent implements OnInit {
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
+  @Input() freightList : any[] = [];
+  constructor(private router: Router) { }
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+    
+ 
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   ngOnInit(): void {
   }
 
@@ -50,5 +64,16 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.freightList);
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
+    headerCells.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
   }
 }

@@ -16,8 +16,19 @@
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
+<<<<<<< HEAD
   <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
     width="14px" (click)="fullScreen = !fullScreen" />
+=======
+  <img
+      *ngIf="fullScreen"
+      src="assets/images/icons/fullScreenCollapse.svg"
+      alt=""
+      class="me-3 pointer float-end"
+      width="14px"
+      (click)="fullScreen = !fullScreen"
+    />
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   <app-vendor-grid-table [vendorsList]="vendorsList" (exportHeader)="onExportHeader($event)"></app-vendor-grid-table>
 </div>
 

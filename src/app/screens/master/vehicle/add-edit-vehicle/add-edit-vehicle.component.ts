@@ -13,7 +13,10 @@ import { APIConstant } from '../../../../core/constants';
   styleUrl: './add-edit-vehicle.component.scss',
 })
 export class AddEditVehicleComponent implements OnInit {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   vehicleId: any;
   vehicleData!: VehicleDataModel;
   vehiclesList: any = [];
@@ -23,16 +26,26 @@ export class AddEditVehicleComponent implements OnInit {
   transporterId: number = 0;
   transporterData: any
   vehcileSizes: any = []
+<<<<<<< HEAD
   locationId:Number=0;
   locations: any[] = APIConstant.locationsListDropdown;
 
+=======
+  
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
     private vehicleService: VehicleService,
+<<<<<<< HEAD
     private toastr: ToastrService,
     private baseService: BaseService
   ) { }
+=======
+    private toastr: ToastrService,  
+    private baseService: BaseService
+  ) {}
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
   vehicleForm = new FormGroup({
     locationId :new FormControl('', [Validators.required]),
