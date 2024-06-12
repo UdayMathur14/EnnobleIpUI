@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-2" *ngIf="locations && locations.length>1">
             <div class="">
                 <label for="">Location Code</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
