@@ -36,7 +36,6 @@ export class ValidateComponent implements OnInit {
             }
             const atobParam: any = atob(data);
             const userData = JSON.parse(atobParam);
-<<<<<<< HEAD
             const app = userData.apps[0];
             this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe(async (res) => {
                 localStorage.setItem("logindata", atobParam);
@@ -50,19 +49,6 @@ export class ValidateComponent implements OnInit {
                         this.router.navigateByUrl("/master");
                     }
                 }, 500);
-=======
-            const app = userData.apps.find((e: any) => e.name === APIConstant.appSlug);
-            this.validateService.generateToken({ appId: app.id }, userData.accessToken).subscribe((res) => {
-                localStorage.setItem("logindata", atobParam);
-                localStorage.setItem("profile", JSON.stringify(res));
-
-                if (return_url) {
-                    window.location.href = return_url;
-                } else {
-                    this.router.navigateByUrl("/master");
-                }
-
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
             })
         });
     }

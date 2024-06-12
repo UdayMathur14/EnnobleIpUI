@@ -12,10 +12,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add-edit-vendor.component.scss'
 })
 export class AddEditVendorComponent implements OnInit {
-<<<<<<< HEAD
-
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   queryData: any;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
@@ -23,23 +19,9 @@ export class AddEditVendorComponent implements OnInit {
   pointChargeName: any = [];
   selectedPointName: undefined;
   taxationCode: any;
-<<<<<<< HEAD
   paidbyDetailsList: any = [];
   disableSubmit: boolean = false;
   paidByDetailId: number | null = null;
-=======
-  paidbyDetailsList:any = [];
-  disableSubmit : boolean = false;
-  paidByDetailId: number | null = null;
-
-  constructor(
-    private _Activatedroute: ActivatedRoute,
-    private router: Router,
-    private vendorService: VendorService,
-    private pointChargeService: PointChargeService,
-    private toastr: ToastrService,
-  ) { }
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
@@ -62,7 +44,6 @@ export class AddEditVendorComponent implements OnInit {
     status: new FormControl('')
   });
 
-<<<<<<< HEAD
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -71,8 +52,6 @@ export class AddEditVendorComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
 
-=======
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");

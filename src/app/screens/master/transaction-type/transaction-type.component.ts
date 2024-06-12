@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
-=======
-import { Router } from '@angular/router';
-import { ExportService } from '../../../core/service/export.service';
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 import { TransactionTypesService } from '../../../core/service/transactionTypes.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 
@@ -19,15 +14,9 @@ export class TransactionTypeComponent implements OnInit {
   fullScreen : boolean = false;
   transactionTypesList : any[] = [];
   transactionTypesListOrg : any = [];
-<<<<<<< HEAD
   loadSpinner : boolean = true;
   headers: any [] = [];
   constructor(
-=======
-  loadSpinner : boolean = false;
-  headers: any [] = [];
-  constructor(private router: Router,
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     private transactionTypesService : TransactionTypesService,
     private xlsxService : XlsxService
   ) { }
@@ -36,11 +25,6 @@ export class TransactionTypeComponent implements OnInit {
     this.getAllTransactionTypes()
   }
 
-<<<<<<< HEAD
-  ngOnInit() {
-    this.getAllTransactionTypes()
-  }
-
   getAllTransactionTypes(){
     let data = {
       "transactionTypeCode": "",
@@ -57,24 +41,6 @@ export class TransactionTypeComponent implements OnInit {
     })
   }
 
-=======
-  getAllTransactionTypes(){
-    let data = {
-      "transactionTypeCode": "",
-      "transactionTypeName": "",
-      "glSubCategory": ""
-    }
-    this.transactionTypesService.getTransactionTypes(data).subscribe((response:any) => {
-      this.transactionTypesList = response.transactionTypes;
-      this.transactionTypesListOrg = response.transactionTypes;
-      this.loadSpinner = false;
-    }, error => {
-      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   getData(e:any){
     this.loadSpinner = true;
     let data = {

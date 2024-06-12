@@ -11,12 +11,9 @@ import { PointChargeService } from '../../../../../core/service/point-charge.ser
   templateUrl: './point-master-accounts-grid-table.component.html',
   styleUrl: './point-master-accounts-grid-table.component.scss'
 })
-<<<<<<< HEAD
 export class PointMasterAccountsGridTableComponent implements OnInit {
   constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
-=======
-export class PointMasterAccountsGridTableComponent implements OnInit{
->>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
+  
   @Input()
   searchedPoint!: any;
   pointChargesList: any;
@@ -24,8 +21,6 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
   
-  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
-
   ngOnInit(): void {
     this.getAllPointChargesList();
   }
