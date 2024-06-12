@@ -41,13 +41,14 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": '',
+      locationIds: []
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
       this.selectFreight(this.selectedFreightId);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -58,12 +59,13 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     let data = {
       "screenCode": 103,
       "freightCode": this.searchedFreight.freightCode || "",
+      locationIds: this.searchedFreight.locationIds
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
       this.freightList = response.freights;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -109,7 +111,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
       popover.close();
       this.getAllFreightListInit();
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }

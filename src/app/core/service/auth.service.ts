@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.authSecretKey);
+    localStorage.clear();
     this.isAuthenticated = false;
   }
 }

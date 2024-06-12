@@ -38,7 +38,8 @@ export class BiltiBillProcessComponent implements OnInit {
       toDate: this.toDate,
       adviceType: this.adviceType,
       batchNumber: this.batchNumber,
-      biltiNumber: this.biltiNumber
+      biltiNumber: this.biltiNumber,
+      locationIds:[]
     }
     this.biltiBIllProService.getBiltiBillProcess(obj).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -52,7 +53,7 @@ export class BiltiBillProcessComponent implements OnInit {
       this.loadSpinner = false
     },
     (error) => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     }
   )

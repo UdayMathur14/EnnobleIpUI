@@ -38,6 +38,7 @@ import { LookupComponent } from "./master/lookup/lookup.component";
 import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit-lookup.component";
 import { AuthGuard } from "../core/guards/auth.guard";
 import { NotFound404Component } from "./not-found-404/not-found-404.component";
+import { MasterComponent } from "./master/master.component";
 
 
 const routes: Routes = [
@@ -47,7 +48,7 @@ const routes: Routes = [
         children: [
             { path: "", redirectTo: "master", pathMatch: "full"},
             //{ path: '**', component: NotFound404Component },
-            { path: "master", component: PlantComponent, canActivate: [AuthGuard] },
+            { path: "master", component: MasterComponent, canActivate: [AuthGuard] },
             { path: "master/plant", component: PlantComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent, canActivate: [AuthGuard] },
             { path: "master/part", component: PartComponent, canActivate: [AuthGuard] },
@@ -99,6 +100,7 @@ const routes: Routes = [
 export class ScreensRoutingModule { }
 
 export const ScreensComponents = [
+    MasterComponent,
     ScreensComponent,
     AddEditPlantComponent,
     PlantComponent,

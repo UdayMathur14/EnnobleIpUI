@@ -23,6 +23,9 @@ import { ExportAsModule, ExportAsService } from 'ngx-export-as';
     ExportAsModule,
     ToastrModule.forRoot({
       enableHtml: true,
+      timeOut: 8000,
+      progressBar:true,
+      extendedTimeOut:4000
     })
   ],
   providers: [

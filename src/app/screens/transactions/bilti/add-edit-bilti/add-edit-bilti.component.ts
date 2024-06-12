@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BiltiListingModel } from '../../../../core/model/masterModels.model';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -63,6 +64,10 @@ export class AddEditBiltiComponent implements OnInit {
   vendorName: any;
   dispatchNotes: any = [];
   matchedDispatchNotes:any = [];
+
+  locationId!: Number;
+  locations: any[] = APIConstant.locationsListDropdown;
+
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -92,6 +97,7 @@ export class AddEditBiltiComponent implements OnInit {
 
   initForm() {
     this.biltiForm = this.fb.group({
+        locationId :new FormControl('', [Validators.required]),
         transactionType: new FormControl('', [Validators.required]),
         frlrNo: new FormControl('', [Validators.required]),
         vehicleNumber: new FormControl('', [Validators.required]),
@@ -187,7 +193,7 @@ export class AddEditBiltiComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -198,7 +204,7 @@ export class AddEditBiltiComponent implements OnInit {
     const data = {
       transactionType: selectedTransactionType,
     };
-    this.biltiService.getFrmTransactions(data).subscribe(
+    this.biltiService.getFrmTransactions(this.locationId,data).subscribe(
       (response: any) => {
         this.allFrmTransactionData = response.frmTransactions
         this.frmTransactionData = [...new Set(response.frmTransactions.map((item: any) => 
@@ -208,7 +214,7 @@ export class AddEditBiltiComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -332,7 +338,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -356,7 +362,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -407,7 +413,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -456,7 +462,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -465,6 +471,7 @@ onFrlrNoClear() {
   getAllPointChargesList() {
     let data = {
       pointName: '',
+      locationIds:[]
     };
     this.biltiService.getPointCharges(data).subscribe(
       (response: any) => {
@@ -475,7 +482,7 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -538,7 +545,7 @@ onFrlrNoClear() {
       })
   
       
-      this.biltiService.createBilti(data).subscribe(
+      this.biltiService.createBilti(this.locationId,data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Created Successfully');
@@ -546,7 +553,7 @@ onFrlrNoClear() {
           this.router.navigate(['transaction/bilti'])
         },
         (error) => {
-          this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         }
       );
@@ -606,7 +613,7 @@ onFrlrNoClear() {
           data.lineItemsEntity[0].id = this.lineItem[0].id;
         }
       })
-      this.biltiService.updateBilti(this.biltiId, data).subscribe(
+      this.biltiService.updateBilti(this.locationId,this.biltiId, data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Updated Successfully');
@@ -614,7 +621,7 @@ onFrlrNoClear() {
           this.router.navigate(['transaction/bilti'])
         },
         (error) => {
-          this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         }
       );
@@ -638,7 +645,7 @@ onFrlrNoClear() {
 
   getBiltiData(biltiId: number) {
     this.loadSpinner = true;
-    this.biltiService.getBiltiData(biltiId).subscribe(
+    this.biltiService.getBiltiData(this.locationId,biltiId).subscribe(
       (response: any) => {
         this.lineItem = response.biltiCreationLineItems
         this.loadSpinner=false
@@ -736,7 +743,7 @@ onFrlrNoClear() {
 
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );

@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-bilti-bill-process-view-filter',
@@ -19,6 +20,9 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: string = '';
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.locationsListDropdown;
+
   @Input() filteredBiltibillList: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
@@ -47,7 +51,8 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
       "biltiNumber": this.biltiNumber || "",
       "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
-      "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
+      "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2),
+      locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
   }
@@ -60,6 +65,7 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
+      locationIds:[]
     }
     this.filterSearchObj.emit(filterObj)
   }

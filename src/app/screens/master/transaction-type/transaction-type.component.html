@@ -3,17 +3,13 @@
   <div class="action-buttons">
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     <div container="body">
-      <img
-        src="assets/images/icons/fullScreen.svg"
-        alt=""
-        class="pointer"
-        width="14px"
-        (click)="fullScreen = !fullScreen"
-        placement="start"
-        [ngbTooltip]="tipContent"
-      />
+      <img src="assets/images/icons/fullScreen.svg" alt="" class="pointer" width="14px"
+        (click)="fullScreen = !fullScreen" placement="start" [ngbTooltip]="tipContent" />
       <ng-template #tipContent> Full Screen </ng-template>
     </div>
   </div>
@@ -24,6 +20,14 @@
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
+<<<<<<< HEAD
+  <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
+    width="14px" (click)="fullScreen = !fullScreen" />
+  <app-transaction-grid-table [transactionTypesList]="transactionTypesList" (exportHeader)="onExportHeader($event)"></app-transaction-grid-table>
+</div>
+
+
+=======
   <img
       *ngIf="fullScreen"
       src="assets/images/icons/fullScreenCollapse.svg"
@@ -35,6 +39,7 @@
   <app-transaction-grid-table [transactionTypesList]="transactionTypesList" (exportHeader)="onExportHeader($event)"></app-transaction-grid-table>
 </div>
 
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 <div class="spinner" *ngIf="loadSpinner">
   Loading...
 </div>

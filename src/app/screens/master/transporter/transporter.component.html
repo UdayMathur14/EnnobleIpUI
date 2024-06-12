@@ -19,7 +19,11 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+<<<<<<< HEAD
+  <app-transporter-filter [cities]="cities" [states]="states" [transportersList]="transportersList" (getData)="getData($event)"  [locations]="locations"></app-transporter-filter>
+=======
   <app-transporter-filter [cities]="cities" [states]="states" [transportersList]="transportersList" (getData)="getData($event)"></app-transporter-filter>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">

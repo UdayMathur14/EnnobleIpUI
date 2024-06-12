@@ -8,9 +8,17 @@ import { VehicleService } from '../../../../../core/service/vehicle.service';
   styleUrl: './vehicle-filter.component.scss'
 })
 export class VehicleFiltersComponent implements OnInit {
+<<<<<<< HEAD
+  @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   @Input() vehiclesList: any[] = [];
   @Input() transportersList : any[] = [];
+  @Input() locationIds : any = [];
+=======
+  @Output() getData: EventEmitter<any> = new EventEmitter();
+  @Input() vehiclesList: any[] = [];
+  @Input() transportersList : any[] = [];
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   vehicleNum : any = undefined;
   transporterNam : any = undefined;
   loadSpinner: boolean = true;
@@ -19,6 +27,9 @@ export class VehicleFiltersComponent implements OnInit {
   filteredVehicleNo: any = [];
 
   constructor(
+<<<<<<< HEAD
+  ) { }
+=======
     private vehicleService: VehicleService,
     private toastr: ToastrService,
     private elementRef: ElementRef
@@ -26,35 +37,39 @@ export class VehicleFiltersComponent implements OnInit {
 
   ngOnInit(): void {
   }
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
-  // GET ALL VEHICLES DATA
-  getAllVehiclesListInit() {
-    let data = {
-      "vehicleNumber": '',
-      "transporterId": 0
-    }
-    this.vehicleService.getVehicles(data).subscribe((response: any) => {
-      this.vehiclesList = response.vehicles;
-      this.allVehicleNo = response.vehicles.map((vehicle: any) => vehicle.vehicleNumber);
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-    });
+  ngOnInit(): void {
   }
 
   onVehicleSearch() {
     let obj = {
       "vehicleNumber": this.vehicleNum || "",
+<<<<<<< HEAD
+      "transporterId": this.transporterNam || "",
+      "locationIds" : this.locationIds || []
+=======
       "transporterId": this.transporterNam
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     }
     this.getData.emit(obj)
   }
 
   onClearFilter() {
     this.vehicleNum = undefined;
+<<<<<<< HEAD
+    this.transporterNam = undefined;
+    this.locationIds = [];
+    let obj = {
+      "vehicleNumber": undefined,
+      "transporterNam": undefined,
+      "locationIds" : []
+=======
     this.transporterNam = undefined
     let obj = {
       "vehicleNumber": undefined,
       "transporterNam": undefined
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     }
     this.getData.emit(obj)
   }

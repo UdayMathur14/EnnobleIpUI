@@ -1,3 +1,64 @@
+<<<<<<< HEAD
+<div id="exportableTable">
+  <div class="custom-table">
+    <table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
+      <thead>
+        <tr>
+          <th (click)="sortData('code')">Transaction Code</th>
+          <th (click)="sortData('name')">Transaction Type Name</th>
+          <th (click)="sortData('glSubCategory.value')">GL Sub Category Code</th>
+          <th (click)="sortData('transactionTypeInterface.transactionTypeName')">Transaction Type Interface</th>
+          <th (click)="sortData('status')">Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (transaction of transactionTypesList; track transaction.id) {
+        <tr>
+          <td class="pointer" container="body">
+            <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+              <u>{{transaction.code}}</u>
+            </span>
+            <ng-template #tipContent>
+              <div class="">
+                <div class="content-row">
+                  <span>Creation Date</span>
+                  <span>{{transaction.creationDate | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Created By</span>
+                  <span>{{transaction.createdBy}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Update Date</span>
+                  <span>{{transaction.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Updated By</span>
+                  <span>{{transaction.lastUpdatedBy}}</span>
+                </div>
+              </div>
+            </ng-template>
+          </td>
+          <td>{{transaction.name}}</td>
+          <td>{{transaction.glSubCategory.value}}</td>
+          <td>{{transaction?.transactionTypeInterface?.transactionTypeName}}</td>
+          <td>{{transaction.status}}</td>
+          <td class="text-center">
+            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"
+              (click)="onGoToEditTransaction(transaction)" />
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td align="center" colspan="13">No Transaction Code Found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+=======
 <div class="custom-table">
   <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
     <thead>
@@ -71,3 +132,4 @@
     </tbody>
   </table>
 </div>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298

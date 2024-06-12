@@ -11,7 +11,12 @@ import { PointChargeService } from '../../../../../core/service/point-charge.ser
   templateUrl: './point-master-accounts-grid-table.component.html',
   styleUrl: './point-master-accounts-grid-table.component.scss'
 })
+<<<<<<< HEAD
+export class PointMasterAccountsGridTableComponent implements OnInit {
+  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
+=======
 export class PointMasterAccountsGridTableComponent implements OnInit{
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   @Input()
   searchedPoint!: any;
   pointChargesList: any;
@@ -25,46 +30,48 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
     this.getAllPointChargesList();
   }
 
-    //SORTING DATA FROM FILTER CHANGES
-    ngOnChanges(changes: SimpleChanges): void {
-      if(changes['searchedPoint'].currentValue){
-        this.getFilteredPointList();
-      } else if(changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined){
-        this.getAllPointChargesList();
-      }
+  //SORTING DATA FROM FILTER CHANGES
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchedPoint'].currentValue) {
+      this.getFilteredPointList();
+    } else if (changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined) {
+      this.getAllPointChargesList();
     }
+  }
 
-    // GET ALL POINT CHARGE
-    getAllPointChargesList() {
-      this.loadSpinner = true;
-      let data = {
-        "screenCode": 103,
-        "pointName": ''
-      }
-      this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-        this.pointChargesList = response.pointCharges;
-        this.selectPoint(this.selectedPointId);
-        this.loadSpinner = false;
-      }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      })
+  // GET ALL POINT CHARGE
+  getAllPointChargesList() {
+    this.loadSpinner = true;
+    let data = {
+      "screenCode": 103,
+      "pointName": '',
+      locationIds: []
     }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.selectPoint(this.selectedPointId);
+      this.loadSpinner = false;
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
 
-    getFilteredPointList(){
-      this.loadSpinner = true;
-      let data = {
-        "screenCode": 103,
-        "pointName": this.searchedPoint.pointName || "",
-      }
-      this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-        this.pointChargesList = response.pointCharges;
-        this.loadSpinner = false;
-      }, error => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      })
+  getFilteredPointList() {
+    this.loadSpinner = true;
+    let data = {
+      "screenCode": 103,
+      "pointName": this.searchedPoint.pointName || "",
+      locationIds: this.searchedPoint.locationIds
     }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.loadSpinner = false;
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
 
   selectPoint(pointId: number) {
     this.selectedPointId = pointId;
@@ -90,11 +97,11 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
 
   approvalPayload(status: string, remarks: string): any {
     return {
-      "approvalLevel": "Account",
-      "status": status,
-      "remarks": remarks,
-      "actionBy": 1,
-      "transactionCode": 202 // for Account Point Charge
+      approvalLevel: "Account",
+      status: status,
+      remarks: remarks,
+      actionBy: 1,
+      transactionCode: 202 // for Account Point Charge
     };
   }
 
@@ -107,7 +114,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit{
       popover.close();
       this.getAllPointChargesList();
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }

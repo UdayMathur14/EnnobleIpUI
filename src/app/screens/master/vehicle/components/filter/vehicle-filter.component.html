@@ -1,5 +1,14 @@
 <div class="filters-box">
     <div class="row">
+        <div class="col-lg-2" *ngIf="locations && locations.length>1">
+            <div class="">
+                <label for="">Location Code</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vehicle Number</label>
@@ -24,8 +33,15 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
+<<<<<<< HEAD
+                    <button class="custom-button-filters" (click)="onVehicleSearch()"
+                        [disabled]="!locationIds.length && !vehicleNum && !transporterNam">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()"
+                       > Clear</button>
+=======
                     <button class="custom-button-filters" (click)="onVehicleSearch()" [disabled]="!vehicleNum && !transporterNam">Search</button>
                     <button class="custom-button-filters ms-2" (click)="onClearFilter()"> Clear</button>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                 </div>
             </div>
         </div>

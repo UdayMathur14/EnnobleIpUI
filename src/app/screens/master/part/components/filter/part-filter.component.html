@@ -3,7 +3,11 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Number</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select part number">
+=======
                 <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select part number" [readonly]="partName">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
                 </ng-select>
             </div>
@@ -11,7 +15,11 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Name</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="partName" placeholder="Select part name">
+=======
                 <ng-select class="input-field" [(ngModel)]="partName" placeholder="Select part name" [readonly]="partNum">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let part of partsList" [value]="part.partName">{{part.partName}}</ng-option>
                 </ng-select>
             </div>

@@ -8,27 +8,28 @@ import { APIConstant, pointCharge, pointChargeData, updatePointCharge, createPoi
   providedIn: 'root',
 })
 export class PointChargeService extends CRUDService<PointChargeRequest> {
+
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }
 
   getPointCharges(data: any) {
-    return this.post(pointCharge(localStorage.getItem('locationId')), data);
+    return this.post(APIConstant.pointCharge, data);
   }
 
   getPointChargeData(pointChargeId: string) {
-    return this.get(pointChargeData(localStorage.getItem('locationId'), pointChargeId));
+    return this.get(pointChargeData(this.locationIds, pointChargeId));
   }
 
-  updatePointCharge(pointChargeId: string, data: object) {
-    return this.put(updatePointCharge(localStorage.getItem('locationId'), pointChargeId), data);
+  updatePointCharge(locationId: Number, pointChargeId: string, data: object) {
+    return this.put(updatePointCharge(locationId, pointChargeId), data);
   }
 
-  createPointCharge(data: object) {
-    return this.post(createPointCharge(localStorage.getItem('locationId')), data);
+  createPointCharge(locationId: Number, data: object) {
+    return this.post(createPointCharge(locationId), data);
   }
 
-  getLookups(lookupId:any) {
+  getLookups(lookupId: any) {
     return this.get(
       APIConstant.lookupData + lookupId);
   }

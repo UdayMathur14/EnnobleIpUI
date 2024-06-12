@@ -1,10 +1,23 @@
 <div class="filters-box">
     <div class="row">
+        <div class="col-lg-2" *ngIf="locations && locations.length>1">
+            <div class="">
+                <label for="">Location Code</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Freight Code</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight">
+=======
                 <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight" 
                 [readonly]="source || destination || vehicleSize">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let freight of freightList" [value]="freight.freightCode">{{freight.freightCode}}</ng-option>
                 </ng-select>
             </div>
@@ -12,8 +25,12 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Source</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="source" placeholder="Select Source">
+=======
                 <ng-select class="input-field" [(ngModel)]="source" placeholder="Select Source"
                 [readonly]="destination || vehicleSize || freightCode">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let source of sources" [value]="source.value">{{source.value}}</ng-option>
                 </ng-select>
             </div>
@@ -21,8 +38,12 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Destination</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="destination" placeholder="Select Destination">
+=======
                 <ng-select class="input-field" [(ngModel)]="destination" placeholder="Select Destination"
                 [readonly]="source || vehicleSize || freightCode">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let destination of destinations" [value]="destination.value">{{destination.value}}</ng-option>
                 </ng-select>
             </div>
@@ -30,8 +51,12 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Vehicle Size</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="vehicleSize" placeholder="Select Vehicle Size">
+=======
                 <ng-select class="input-field" [(ngModel)]="vehicleSize" placeholder="Select Vehicle Size"
                 [readonly]="source || destination || freightCode">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let vehicleSize of vehcileSizes" [value]="vehicleSize?.value">{{vehicleSize?.value}}</ng-option>
                 </ng-select>
             </div>
@@ -39,8 +64,14 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
+<<<<<<< HEAD
+                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!locationIds.length && !freightCode && !source && !destination && !vehicleSize">Search</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                
+=======
                 <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!freightCode && !source && !destination && !vehicleSize">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
             </div>
         </div>
     </div>

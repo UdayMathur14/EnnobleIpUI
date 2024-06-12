@@ -1,10 +1,26 @@
 <div class="filters-box">
     <div class="row">
+<<<<<<< HEAD
+        <div class="col" *ngIf="locations && locations.length>1">
+            <div class="">
+                <label for="">Location Code</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="">Transporter Code</label>
+                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number">
+=======
         <div class="col">
             <div class="custom-form-input">
                 <label for="">Transporter Code</label>
                 <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number"
                 [readonly]="transName || cityCode || stateCode || taxationType || locations">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
                 </ng-select>
             </div>
@@ -12,8 +28,12 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="transName" placeholder="Select Transporter Name">
+=======
                 <ng-select class="input-field" [(ngModel)]="transName" placeholder="Select Transporter Name"
                 [readonly]="transCode || cityCode || stateCode || taxationType || locations">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterName">{{transporter.transporterName}}</ng-option>
                 </ng-select>
             </div>
@@ -21,8 +41,12 @@
         <div class="col">
             <div class="custom-form-input">
                 <label>City</label>
+<<<<<<< HEAD
+                <ng-select class="input-field" [(ngModel)]="cityCode" placeholder="Select City" >
+=======
                 <ng-select class="input-field" [(ngModel)]="cityCode"
                     placeholder="Select City" [readonly]="transCode || transName || stateCode || taxationType || locations">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let city of cities"
                         [value]="city.code">{{city.value}}</ng-option>
                 </ng-select>
@@ -32,7 +56,11 @@
             <div class="custom-form-input">
                 <label>State</label>
                 <ng-select class="input-field" [(ngModel)]="stateCode"
+<<<<<<< HEAD
+                    placeholder="Select State">
+=======
                     placeholder="Select State" [readonly]="transCode || transName || cityCode || taxationType || locations">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let state of states"
                         [value]="state.code">{{state.value}}</ng-option>
                 </ng-select>
@@ -41,6 +69,9 @@
         <div class="col">
             <div class="custom-form-input">
                 <label>Taxation Type</label>
+<<<<<<< HEAD
+                <input type="text" placeholder="Enter taxation Type" [(ngModel)]="taxationType" class="input-field">
+=======
                 <!-- <ng-select class="input-field" [(ngModel)]="taxationType"
                     placeholder="Select City" [readonly]="transCode || transName || cityCode || stateCode || locations">
                     <ng-option *ngFor="let city of cities"
@@ -60,12 +91,18 @@
                 </ng-select> -->
                 <input type="text" placeholder="Enter Location" [(ngModel)]="locations" class="input-field" 
                 [disabled]="transCode || transName || cityCode || stateCode || taxationType">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
+<<<<<<< HEAD
+                <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
+                    [disabled]="!locationIds?.length && !transCode && !transName && !cityCode && !stateCode && !taxationType">Search</button>
+=======
                 <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()" [disabled]="!transCode && !transName && !cityCode && !stateCode && !taxationType && !locations">Search</button>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                 <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

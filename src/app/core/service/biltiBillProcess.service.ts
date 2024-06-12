@@ -13,19 +13,19 @@ export class BiltiBillProcessService extends CRUDService<PlantRequest> {
     }
 
     getBiltiBillProcess(data: any) {
-        return this.post(biltiBillProcess(localStorage.getItem('locationId')), data);
+        return this.post(biltiBillProcess, data);
     }
 
     getBiltiBillProcessbyId(biltiProcessId: number) {
-        return this.get(biltiBillProcessbyId(localStorage.getItem('locationId'), biltiProcessId))
+        return this.get(biltiBillProcessbyId(this.locationIds, biltiProcessId))
     }
 
     createBiltiBillProcess(data: object) {
-        return this.post(createBiltiBillProcess(localStorage.getItem('locationId')), data);
+        return this.post(createBiltiBillProcess(this.locationIds), data);
     }
 
     updateBiltiBillProcess(BiltiBillProcessId: number, data: any){
-        return this.put(updateBiltiBillProcess(localStorage.getItem('locationId'), BiltiBillProcessId), data);
+        return this.put(updateBiltiBillProcess(this.locationIds, BiltiBillProcessId), data);
     }
 
 }

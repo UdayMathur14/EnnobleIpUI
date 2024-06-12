@@ -17,6 +17,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
   fromDate: any = '2000-01-01';
   batchNumber: any;
   biltiNumber: any;
+  locationIds: any[] = [];
   biltiBillProcess: any = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
@@ -43,11 +44,12 @@ export class ChangeBiltiStatusComponent implements OnInit {
       adviceType: '',
       batchNumber: this.batchNumber,
       biltiNumber: this.biltiNumber,
+      locationIds: this.locationIds
     };
     this.biltiProcessService
       .getBiltiBillProcess(data)
       .subscribe((response: any) => {
-        this.loadSpinner =false;
+        this.loadSpinner = false;
         response.biltiBillProcess.forEach((element: any) => {
           element.creationDate = moment
             .utc(element.creationDate)
@@ -64,11 +66,11 @@ export class ChangeBiltiStatusComponent implements OnInit {
         this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
           .map(batchNumber => response?.biltiBillProcess.find((t: any) => t.biltiBillProcessModel?.batchNumber === batchNumber));
       },
-      (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
+        (error) => {
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+          this.loadSpinner = false;
+        }
+      );
   }
 
   filteredData(data: any) {
@@ -77,6 +79,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
     this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
     this.biltiNumber = data.biltiNumber;
+    this.locationIds = data.locationIds;
     this.getAllBiltiProcess();
   }
 }

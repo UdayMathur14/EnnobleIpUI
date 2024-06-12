@@ -68,7 +68,7 @@ export class AddEditPlantComponent implements OnInit {
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.locationsDropdownData = res.lookUps;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
     });
   }
@@ -94,7 +94,7 @@ export class AddEditPlantComponent implements OnInit {
       this.initializeSelectedTransactionCodes();
       this.baseService.plantSpinner.next(false);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
     })
   }
@@ -119,9 +119,9 @@ export class AddEditPlantComponent implements OnInit {
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
       let transactionObj = {
-        id : e.id,
-        transactionTypeId : e.transactionTypeId,
-        status : e.status
+        id: e.id,
+        transactionTypeId: e.transactionTypeId,
+        status: e.status
       }
       transactionData.push(transactionObj);
     })
@@ -130,22 +130,22 @@ export class AddEditPlantComponent implements OnInit {
       transaction.status = 'Inactive';
     });
 
-      transactionData = [...transactionData, ...this.deletedTransactions];
+    transactionData = [...transactionData, ...this.deletedTransactions];
     let data = {
       status: this.plantForm.controls['status'].value,
       actionBy: 1,
       locationId: (this.plantForm.controls['locationId'].value) || 0,
       dsc: this.plantForm.controls['dsc'].value,
       dcp: this.plantForm.controls['dcp'].value,
-      transactionTypeDetails : transactionData
+      transactionTypeDetails: transactionData
     }
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
       this.toastr.success('Plant Update Successfully');
-      this.router.navigate(['master/plant']);
+        
       this.baseService.plantSpinner.next(false);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
     })
   }
@@ -161,7 +161,7 @@ export class AddEditPlantComponent implements OnInit {
       txnTypeId: null,
       name: '',
       code: null,
-      transactionTypeId : 0
+      transactionTypeId: 0
     }
     this.plantData.transactionTypeMapping.push(obj);
   }
@@ -173,35 +173,35 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping[index].transactionTypeId = e.id
 
     this.updateSelectedTransactionCodes();
-}
+  }
 
-getFilteredTransactionTypes(index: number): any[] {
-  return this.transactionTypesList.filter(
-    (transaction: any) =>
-      !this.selectedTransactionCodes.includes(transaction.code) ||
-      this.plantData.transactionTypeMapping[index].code === transaction.code
-  );
-}
+  getFilteredTransactionTypes(index: number): any[] {
+    return this.transactionTypesList.filter(
+      (transaction: any) =>
+        !this.selectedTransactionCodes.includes(transaction.code) ||
+        this.plantData.transactionTypeMapping[index].code === transaction.code
+    );
+  }
 
-initializeSelectedTransactionCodes() {
-  this.selectedTransactionCodes = this.plantData.transactionTypeMapping
-    .filter((transaction) => transaction.code)
-    .map((transaction) => transaction.code);
-}
+  initializeSelectedTransactionCodes() {
+    this.selectedTransactionCodes = this.plantData.transactionTypeMapping
+      .filter((transaction) => transaction.code)
+      .map((transaction) => transaction.code);
+  }
 
-updateSelectedTransactionCodes() {
-  this.selectedTransactionCodes = this.plantData.transactionTypeMapping
-    .filter((transaction) => transaction.code)
-    .map((transaction) => transaction.code);
-}
+  updateSelectedTransactionCodes() {
+    this.selectedTransactionCodes = this.plantData.transactionTypeMapping
+      .filter((transaction) => transaction.code)
+      .map((transaction) => transaction.code);
+  }
 
-  onDeleteTransaction(transaction:any, index:number){
+  onDeleteTransaction(transaction: any, index: number) {
     const deletedTransaction = {
       id: transaction.id,
       transactionTypeId: transaction.transactionTypeId,
-      status: 'Inactive' 
+      status: 'Inactive'
     };
-    if(deletedTransaction.id !=0){
+    if (deletedTransaction.id != 0) {
       this.deletedTransactions.push(deletedTransaction);
     }
     this.plantData.transactionTypeMapping.splice(index, 1);

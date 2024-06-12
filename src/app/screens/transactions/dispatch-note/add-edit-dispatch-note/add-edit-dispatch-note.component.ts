@@ -8,6 +8,7 @@ import { VendorService } from '../../../../core/service/vendor.service';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { BaseService } from '../../../../core/service/base.service';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-dispatch-note',
@@ -33,6 +34,8 @@ export class AddEditDispatchNoteComponent {
   selectedQuantity!: number;
   dispatchId: number = 0;
   loadSpinner: boolean = false;
+  locationId!: Number;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(
     private router: Router,
@@ -45,7 +48,7 @@ export class AddEditDispatchNoteComponent {
     private lookupService: LookupService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -67,6 +70,7 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
+      locationId: '',
       supplierCode: [''],
       supplierName: [''],
       supplierAddress: [''],
@@ -100,7 +104,7 @@ export class AddEditDispatchNoteComponent {
   async getDispatchData(dispatchId: number) {
     this.loadSpinner = true
     await this.dispatchNoteService
-      .getDispatchNoteById(dispatchId)
+      .getDispatchNoteById(this.locationId, dispatchId)
       .subscribe((response: any) => {
         this.loadSpinner = false;
         const vehicles = response.vehicles;
@@ -152,7 +156,7 @@ export class AddEditDispatchNoteComponent {
         this.partsList = response.parts;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -164,7 +168,7 @@ export class AddEditDispatchNoteComponent {
         this.vehicleList = response.vehicles;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -179,7 +183,7 @@ export class AddEditDispatchNoteComponent {
         this.supplierList = response.vendors;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -193,7 +197,7 @@ export class AddEditDispatchNoteComponent {
         this.lookupList = response.lookUps;
       },
       (error: any) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
@@ -237,7 +241,7 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
-  onVehicleNumberClear(){
+  onVehicleNumberClear() {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       vehicleSize: null,
     });
@@ -258,7 +262,7 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
-  onSupplierCodeClear(){
+  onSupplierCodeClear() {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       supplierName: null,
       supplierAddress: null,
@@ -331,7 +335,7 @@ export class AddEditDispatchNoteComponent {
       }
 
       this.dispatchNoteService
-        .updateDispatchNote(this.dispatchId, this.dispatchNote)
+        .updateDispatchNote(this.locationId, this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');
@@ -340,7 +344,7 @@ export class AddEditDispatchNoteComponent {
           },
           (error) => {
             this.loadSpinner = false;
-            this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           }
         );
     } else {
@@ -377,7 +381,7 @@ export class AddEditDispatchNoteComponent {
           },
           (error) => {
             this.loadSpinner = false;
-            this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           }
         );
     }

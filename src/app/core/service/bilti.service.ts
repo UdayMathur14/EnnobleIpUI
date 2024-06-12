@@ -26,7 +26,7 @@ export class BiltiService extends CRUDService<BiltiRequest> {
 
   getBiltis(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + bilti(localStorage.getItem('locationId')),
+      APIConstant.basePath + bilti,
       data
     );
   }
@@ -35,30 +35,27 @@ export class BiltiService extends CRUDService<BiltiRequest> {
     return this.post(APIConstant.transactionTypes, data);
   }
 
-  getFrmTransactions(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + frlr(localStorage.getItem('locationId')),
-      data
-    );
+  getFrmTransactions(locationId: Number, data: any) {
+    return this.baseService.post(APIConstant.basePath + frlr(locationId), data);
   }
 
   getVehicleNo(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + vehicle(localStorage.getItem('locationId')),
+      APIConstant.basePath + vehicle,
       data
     );
   }
 
   getTransporters(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + transporter(localStorage.getItem('locationId')),
+      APIConstant.basePath + transporter,
       data
     );
   }
 
   getFreightsList(data: any) {
     return this.baseService.post(
-      APIConstant.basePath + freight(localStorage.getItem('locationId')),
+      APIConstant.basePath + freight,
       data
     );
   }
@@ -68,24 +65,22 @@ export class BiltiService extends CRUDService<BiltiRequest> {
   }
 
   getPointCharges(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + pointCharge(localStorage.getItem('locationId')),data);
+    return this.baseService.post(APIConstant.basePath + APIConstant.pointCharge, data);
   }
 
-  createBilti(data: any){
-    return this.baseService.post(
-      APIConstant.basePath + createBilti(localStorage.getItem('locationId')),data);
+  createBilti(locationId: Number, data: any) {
+    return this.baseService.post(APIConstant.basePath + createBilti(locationId), data);
   }
 
-  getLoadingLocation(data : object, type: string){
-    return this.post( getDropdownDatas(type) ,data);
-}
+  getLoadingLocation(data: object, type: string) {
+    return this.post(getDropdownDatas(type), data);
+  }
 
-getBiltiData(biltiId : number){
-  return this.get(biltiData(localStorage.getItem('locationId'), biltiId));
-}
+  getBiltiData(locationId: Number, biltiId: number) {
+    return this.get(biltiData(locationId, biltiId));
+  }
 
-updateBilti(biltiId : number, data: object){
-  return this.put(updateBitli(localStorage.getItem('locationId'), biltiId), data);
-}
+  updateBilti(locationId: Number, biltiId: number, data: object) {
+    return this.put(updateBitli(locationId, biltiId), data);
+  }
 }

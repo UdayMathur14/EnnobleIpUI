@@ -14,33 +14,32 @@ export class VehicleService extends CRUDService<VehicleRequest> {
   }
 
   getVehicles(data: any) {
-    return this.post(vehicle(localStorage.getItem('locationId')), data);
+    return this.post(vehicle, data);
   }
 
   getVehicleData(vehicleId: string) {
     return this.get(
-      vehicleData(localStorage.getItem('locationId'), vehicleId));
+      vehicleData(this.locationIds, vehicleId));
   }
 
-  updateVehicle(vehicleId: string, data: object) {
-    return this.put(updateVehicle(localStorage.getItem('locationId'), vehicleId), data);
+  updateVehicle(locationId:Number,vehicleId: string, data: object) {
+    return this.put(updateVehicle(locationId, vehicleId), data);
   }
 
   createVehicle(data: object) {
-    return this.post(createVehicle(localStorage.getItem('locationId')), data);
+    return this.post(createVehicle(this.locationIds), data);
   }
 
   getLookups(data: any) {
-    return this.post(
-      APIConstant.getLookupData, data);
+    return this.post(APIConstant.getLookupData, data);
   }
 
   getTransporters(data: any) {
-    return this.post(transporter(localStorage.getItem('locationId')), data);
+    return this.post(transporter, data);
   }
 
   getTransporterData(transporterId: string) {
-    return this.get(transporterData(localStorage.getItem('locationId'), transporterId));
+    return this.get(transporterData(this.locationIds, transporterId));
   }
 
   getDropdownData(data : object, type: string){

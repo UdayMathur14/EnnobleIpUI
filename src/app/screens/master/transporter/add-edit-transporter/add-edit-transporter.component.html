@@ -1,7 +1,8 @@
 <div class="page-title">
   <h1>Edit Transporter</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onSavePress()" [disabled]="transporterForm.invalid || transporterForm.get('transporterMailId')?.hasError('pattern') || disableSubmit">Save</button>
+    <button class="custom-button-regulr" (click)="onSavePress()"
+      [disabled]="transporterForm.invalid || transporterForm.get('transporterMailId')?.hasError('pattern') || disableSubmit">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -45,7 +46,8 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Contact Number <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12" (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
+          <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
+            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -100,8 +102,7 @@
         <div class="custom-form-input">
           <label for="">Taxation Code <span class="text-danger">*</span></label>
           <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
-            <ng-option *ngFor="let code of taxationCode"
-              [value]="code.id">{{code.value}}</ng-option>
+            <ng-option *ngFor="let code of taxationCode" [value]="code.id">{{code.value}}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -160,9 +161,8 @@
         <div class="custom-form-input">
           <label for="">Mode of Transport <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Mode of Transport" formControlName="modeOfTransport">
-          <ng-option *ngFor="let mode of transportMode"
-            [value]="mode.id">{{mode.value}}</ng-option>
-        </ng-select>
+            <ng-option *ngFor="let mode of transportMode" [value]="mode.id">{{mode.value}}</ng-option>
+          </ng-select>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

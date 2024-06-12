@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+=======
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 import { Router } from '@angular/router';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
@@ -7,7 +11,11 @@ import { CommonUtility } from '../../../../../core/utilities/common';
   templateUrl: './vendor-grid-table.component.html',
   styleUrl: './vendor-grid-table.component.scss'
 })
+<<<<<<< HEAD
+export class VendorGridTableComponent implements OnInit, OnChanges {
+=======
 export class VendorGridTableComponent implements OnInit {
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   @Input() vendorsList : any[] = [];
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
@@ -33,6 +41,10 @@ export class VendorGridTableComponent implements OnInit {
         headers.push(cell.innerText.trim());
       }
     });
+<<<<<<< HEAD
+    debugger
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     this.exportHeader.emit(headers);
   }
   

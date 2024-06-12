@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-bilti-filter',
@@ -9,13 +10,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class BiltiFilterComponent implements OnInit {
 
+  @Output() biltiFilterData: EventEmitter<any> = new EventEmitter();
+
   biltiNum!: any | null;
   biltisList: any = [];
   loadSpinner: boolean = true;
   allBiltiNo: any = [];
   filteredBiltiNo: any = [];
   showSuggestionsBilti: boolean = false;
-  @Output() biltiFilterData: EventEmitter<any> = new EventEmitter();
+  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.locationsListDropdown;
+  
 
   constructor(private biltiService: BiltiService,
     private toastr: ToastrService,
@@ -29,6 +34,7 @@ export class BiltiFilterComponent implements OnInit {
   getAllBiltisList() {
     let data = {
       biltiNumber: '',
+      locationIds:this.locationIds
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {
@@ -37,7 +43,7 @@ export class BiltiFilterComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -46,6 +52,7 @@ export class BiltiFilterComponent implements OnInit {
   onBiltiSearch() {
     let obj = {
       "biltiNumber": this.biltiNum || "",
+      locationIds:this.locationIds
     }
     this.biltiFilterData.emit(obj)
   }

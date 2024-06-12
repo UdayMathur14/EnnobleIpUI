@@ -17,6 +17,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   fromDate: any = '2000-01-01'; 
   batchNumber: any;
   biltiNumber: any;
+  locationIds:any;
   biltiBillProcess:any = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
@@ -41,7 +42,8 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       toDate: this.toDate,
       adviceType: "",
       batchNumber: this.batchNumber,
-      biltiNumber: this.biltiNumber
+      biltiNumber: this.biltiNumber,
+      locationIds: this.locationIds
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -57,7 +59,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
 
     },
       (error) => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     }
   )
@@ -69,6 +71,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
     this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
     this.biltiNumber = data.biltiNumber;
+    this.locationIds = data.locationIds;
     this.getAllBiltiProcess();
   }
 
@@ -103,7 +106,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       this.getAllBiltiProcess();
     }, error => {
       this.loadSpinner = false;
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 

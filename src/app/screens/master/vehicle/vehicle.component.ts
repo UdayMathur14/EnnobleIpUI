@@ -4,6 +4,10 @@ import { ExportService } from '../../../core/service/export.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { VehicleService } from '../../../core/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
+<<<<<<< HEAD
+import { APIConstant } from '../../../core/constants';
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
 @Component({
   selector: 'app-vehicle',
@@ -19,6 +23,10 @@ export class VehicleComponent implements OnInit{
   transportersList : any[] = [];
   headers: any [] = [];
   loadSpinner : boolean = true;
+<<<<<<< HEAD
+  locations: any[] = APIConstant.locationsListDropdown;
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   constructor(private router: Router,
     private xlsxService: XlsxService,
     private vehicleService : VehicleService,
@@ -32,9 +40,13 @@ export class VehicleComponent implements OnInit{
 
   getVehicleList(){
     let data = {
+<<<<<<< HEAD
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+=======
       "locationIds": [
         0
       ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "vehicleNumber": "",
       "transporterId": 0
     }
@@ -50,9 +62,13 @@ export class VehicleComponent implements OnInit{
   getData(e:any){
     this.loadSpinner = true;
     let data = {
+<<<<<<< HEAD
+      "locationIds": e.locationIds || [],
+=======
       "locationIds": [
         0
       ],
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
       "vehicleNumber": e.vehicleNumber ||  "",
       "transporterId": e.transporterId ||  0
     }
@@ -67,6 +83,15 @@ export class VehicleComponent implements OnInit{
 
   getTransportersList() {
     let data = {
+<<<<<<< HEAD
+      "locationIds": [],
+      "transporterCode": "",
+      "transporterName": "",
+      "city": "",
+      "state": "",
+      "taxationType": "",
+      "locations": ""
+=======
       "locationIds": [
         0
       ],
@@ -76,6 +101,7 @@ export class VehicleComponent implements OnInit{
       "state": "string",
       "taxationType": "string",
       "locations": "string"
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
     }
     this.vehicleService.getTransporters(data).subscribe((response: any) => {
       this.transportersList = response.transporters;

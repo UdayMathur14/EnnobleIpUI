@@ -1,132 +1,132 @@
 <div class="page-title">
   <h1>Edit Vendor</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="vendorForm.get('email')?.hasError('pattern') || disableSubmit">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()"
+      [disabled]="vendorForm.get('email')?.hasError('pattern') || disableSubmit">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
   </div>
 </div>
 <div class="content-section p-3">
   <form [formGroup]="vendorForm">
-  <div class="row">
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Vendor Code</label>
-          <input type="text" class="input-field" formControlName="vendorCode" readonly/>
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vendor Code</label>
+          <input type="text" class="input-field" formControlName="vendorCode" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vendor Name</label>
+          <input type="text" class="input-field" formControlName="vendorName" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Vendor Address</label>
+          <input type="text" class="input-field" formControlName="vendorAddress" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Phone <span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="phone" minlength="10" maxlength="12"
+            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Email <span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="email" />
+        </div>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Vendor Name</label>
-        <input type="text" class="input-field" formControlName="vendorName" readonly />
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">City</label>
+          <input type="text" class="input-field" formControlName="city" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">State</label>
+          <input type="text" class="input-field" formControlName="state" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">PAN</label>
+          <input type="text" class="input-field" formControlName="pan" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">GSTIN</label>
+          <input type="text" class="input-field" formControlName="gstin" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Payment Term Code</label>
+          <input type="text" class="input-field" formControlName="paymentTermCode" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Payment Term Status</label>
+          <input type="text" class="input-field" formControlName="paymentStatus" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Paid By Details <span class="text-danger">*</span></label>
+          <ng-select name="" id="" formControlName="paidByDetail">
+            <ng-option *ngFor="let details of paidbyDetailsList" [value]="details.value">{{details.value}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Taxation Code <span class="text-danger">*</span></label>
+          <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
+            <ng-option *ngFor="let code of taxationCode" [value]="code.id">{{code.value}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">CGST</label>
+          <input type="text" class="input-field" formControlName="cgst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">SGST</label>
+          <input type="text" class="input-field" formControlName="sgst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">IGST</label>
+          <input type="text" class="input-field" formControlName="igst" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">RCM/Non RCM</label>
+          <input type="text" class="input-field" formControlName="rcmNonRcm" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Status <span class="text-danger">*</span></label>
+          <select name="" formControlName="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="col-lg-4 col-md-4">
-      <div class="custom-form-input">
-        <label for="">Vendor Address</label>
-        <input type="text" class="input-field" formControlName="vendorAddress" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Phone <span class="text-danger">*</span></label>
-        <input type="text" class="input-field" formControlName="phone" minlength="10" maxlength="12" (keypress)="validateNo($event)" (input)="phoneNumberLength($event)"/>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Email <span class="text-danger">*</span></label>
-        <input type="text" class="input-field" formControlName="email" />
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">City</label>
-        <input type="text" class="input-field" formControlName="city" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">State</label>
-        <input type="text" class="input-field" formControlName="state" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">PAN</label>
-        <input type="text" class="input-field" formControlName="pan" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">GSTIN</label>
-        <input type="text" class="input-field" formControlName="gstin" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Payment Term Code</label>
-        <input type="text" class="input-field" formControlName="paymentTermCode" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Payment Term Status</label>
-        <input type="text" class="input-field" formControlName="paymentStatus" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Paid By Details <span class="text-danger">*</span></label>
-        <ng-select name="" id="" formControlName="paidByDetail">
-          <ng-option *ngFor="let details of paidbyDetailsList"
-            [value]="details.value">{{details.value}}</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Taxation Code <span class="text-danger">*</span></label>
-        <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
-          <ng-option *ngFor="let code of taxationCode"
-            [value]="code.id">{{code.value}}</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">CGST</label>
-        <input type="text" class="input-field" formControlName="cgst" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">SGST</label>
-        <input type="text" class="input-field" formControlName="sgst" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">IGST</label>
-        <input type="text" class="input-field" formControlName="igst" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">RCM/Non RCM</label>
-        <input type="text" class="input-field" formControlName="rcmNonRcm" readonly />
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Status <span class="text-danger">*</span></label>
-        <select name="" formControlName="status">
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
-      </div>
-    </div>
-  </div>
-</form>
+  </form>
 </div>

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FreightService } from '../../../../core/service/freight.service';
 import { BaseService } from '../../../../core/service/base.service';
 import { FreightDataModel } from '../../../../core/model/masterModels.model';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -12,17 +13,22 @@ import { FreightDataModel } from '../../../../core/model/masterModels.model';
   styleUrl: './add-edit-freight.component.scss'
 })
 export class AddEditFreightComponent implements OnInit {
+
   freightForm: FormGroup;
   freightData!: FreightDataModel;
   loadSpinner: boolean = true;
   freightId: number = 0;
-  locations: any = [];
+  //locations: any = [];
   sources: any = [];
   locationCode: string = '';
   vehcileSizes: any = [];
   destinations: any = [];
   getData: any = [];
-  constructor(private router: Router,
+  locationId!:Number;
+  locations: any[] = APIConstant.locationsListDropdown;
+
+  constructor(
+    private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private baseService: BaseService,
@@ -40,16 +46,16 @@ export class AddEditFreightComponent implements OnInit {
       matApprovalOn: [''],
       accApproval: [''],
       accApprovalOn: [''],
-      remarks: ['',[Validators.required]],
+      remarks: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
     this.freightId = Number(this._Activatedroute.snapshot.paramMap.get("freightId"));
     this.freightId = this.freightId == 0 ? 0 : this.freightId;
-    this.baseService.lookupData.subscribe((res: any) => {
-      this.locations = res.lookUps.filter((e: any) => e.code === 'LOC');
-    })
+    // this.baseService.lookupData.subscribe((res: any) => {
+    //   this.locations = res.lookUps.filter((e: any) => e.code === 'LOC');
+    // })
     if (this.freightId != 0) {
       this.getFreightData(this.freightId);
     }
@@ -62,9 +68,9 @@ export class AddEditFreightComponent implements OnInit {
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: number) {
     this.freightService.getFreightData(freightId).subscribe((response: any) => {
-      if (response.approvedByAccounts == null || response.approvedByMaterial == null ||  
-        response.approvedByMaterial.includes('Rejected By') || 
-      response.approvedByAccounts.includes('Rejected By')) {
+      if (response.approvedByAccounts == null || response.approvedByMaterial == null ||
+        response.approvedByMaterial.includes('Rejected By') ||
+        response.approvedByAccounts.includes('Rejected By')) {
         this.freightForm.get('status')?.disable();
       } else {
         this.freightForm.get('status')?.enable();
@@ -88,7 +94,7 @@ export class AddEditFreightComponent implements OnInit {
 
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -108,7 +114,7 @@ export class AddEditFreightComponent implements OnInit {
     let data = {
       freightCode: this.freightForm.controls['freightCode'].value,
       locationCode: this.freightForm.controls['locationCode'].value,
-      sourceId: (parseInt( this.freightForm.controls['source'].value)) || 0,
+      sourceId: (parseInt(this.freightForm.controls['source'].value)) || 0,
       destinationId: parseInt(this.freightForm.controls['destination'].value) || 0,
       vehicleSizeId: (parseInt(this.freightForm.controls['vehicleSize'].value)) || 0,
       freightAmount: this.freightForm.controls['freightAmount'].value,
@@ -119,7 +125,7 @@ export class AddEditFreightComponent implements OnInit {
       accApprovalOn: null,
       remarks: null,
     }
-    if (this.freightId>0) {
+    if (this.freightId > 0) {
       this.updateFreight(data);
     } else {
       this.createNewFreight(data);
@@ -128,25 +134,25 @@ export class AddEditFreightComponent implements OnInit {
 
   //UPDATING FREIGHT DATA
   updateFreight(data: any) {
-    this.freightService.updateFreight(this.freightId, data).subscribe((response: any) => {
+    this.freightService.updateFreight(this.locationId,this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
       this.router.navigate(['/master/freight']);
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
 
   //CREATING NEW FREIGHT
   createNewFreight(data: any) {
-    this.freightService.createFreight(data).subscribe((response: any) => {
+    this.freightService.createFreight(this.locationId,data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Freight Created Successfully');
       this.router.navigate(['/master/freight'])
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -156,38 +162,38 @@ export class AddEditFreightComponent implements OnInit {
     this.router.navigate(['master/freight']);
   }
 
-  getSourceDropdownData(){
+  getSourceDropdownData() {
     let data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'Source'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+    this.freightService.getDropdownData(data, type).subscribe((res: any) => {
       this.sources = res.lookUps
     })
   }
 
-  getDestinationDropdownData(){
+  getDestinationDropdownData() {
     let data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'Destination'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+    this.freightService.getDropdownData(data, type).subscribe((res: any) => {
       this.destinations = res.lookUps
     })
   }
 
-  getVehicleSizeDropdownData(){
+  getVehicleSizeDropdownData() {
     let data = {
       "CreationDate": "",
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
     const type = 'VehicleSize'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
+    this.freightService.getDropdownData(data, type).subscribe((res: any) => {
       this.vehcileSizes = res.lookUps
     })
   }

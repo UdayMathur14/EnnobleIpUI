@@ -17,17 +17,17 @@ export class BiltiGridTableComponent implements OnInit {
   biltisList: any = [];
   loadSpinner: boolean = false;
   @Input() searchedBilti: any;
-  biltisListOrg:any;
+  biltisListOrg: any;
 
   constructor(private router: Router,
     private modalService: NgbModal,
     private biltiService: BiltiService,
     private toastr: ToastrService) { }
 
-    ngOnInit() :void{
-      this.getAllBiltisList();
-    }
-  
+  ngOnInit(): void {
+    this.getAllBiltisList();
+  }
+
   onPreviewBilti() {
     let documentModal = this.modalService.open(DeliveryNoteModalComponent, {
       size: "lg",
@@ -37,13 +37,13 @@ export class BiltiGridTableComponent implements OnInit {
 
     documentModal.result.then(
       (result) => {
-          if (result) {
+        if (result) {
 
-          }
+        }
       },
       (reason) => {
       }
-  );
+    );
   }
 
   onPreviewPdf(bilti: any) {
@@ -57,13 +57,13 @@ export class BiltiGridTableComponent implements OnInit {
 
     documentModal.result.then(
       (result) => {
-          if (result) {
+        if (result) {
 
-          }
+        }
       },
       (reason) => {
       }
-  );
+    );
   }
 
   onEditBilti(id: number) {
@@ -74,6 +74,7 @@ export class BiltiGridTableComponent implements OnInit {
     this.loadSpinner = true;
     let data = {
       biltiNumber: '',
+      locationIds: []
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {
@@ -81,7 +82,7 @@ export class BiltiGridTableComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
     );
@@ -91,16 +92,17 @@ export class BiltiGridTableComponent implements OnInit {
     this.loadSpinner = true;
     let data = {
       "biltiNumber": this.searchedBilti.biltiNumber,
+      locationIds: this.searchedBilti.locationIds
     }
     this.biltiService.getBiltis(data).subscribe((response: any) => {
       this.biltisList = response.biltiCreations;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
-  
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchedBilti'].currentValue) {
       this.getFilteredBiltisList();

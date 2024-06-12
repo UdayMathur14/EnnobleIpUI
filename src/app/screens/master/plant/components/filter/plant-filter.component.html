@@ -1,35 +1,79 @@
 <div class="filters-box">
     <div class="row">
+<<<<<<< HEAD
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="">Locations</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                  </ng-select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="">Plant Code</label>
+                <ng-select class="input-field" [(ngModel)]="plantCode"
+                    placeholder="Select Plant">
+=======
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Plant Code</label>
                 <ng-select class="input-field" [(ngModel)]="plantCode"
                     placeholder="Select Plant" [readonly]="cityCode || stateCode || auCode || siteCode">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let plant of plantsList"
                         [value]="plant.plantCode">{{plant.plantCode}}</ng-option>
                 </ng-select>
             </div>
         </div>
+<<<<<<< HEAD
+        <div class="col">
+            <div class="custom-form-input">
+                <label>City</label>
+                <ng-select class="input-field" [(ngModel)]="cityCode"
+                    placeholder="Select City">
+=======
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label>City</label>
                 <ng-select class="input-field" [(ngModel)]="cityCode"
                     placeholder="Select City" [readonly]="plantCode || stateCode || auCode || siteCode">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let city of cities"
                         [value]="city.code">{{city.value}}</ng-option>
                 </ng-select>
             </div>
         </div>
+<<<<<<< HEAD
+        <div class="col">
+            <div class="custom-form-input">
+                <label>State</label>
+                <ng-select class="input-field" [(ngModel)]="stateCode"
+                    placeholder="Select State">
+=======
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label>State</label>
                 <ng-select class="input-field" [(ngModel)]="stateCode"
                     placeholder="Select State" [readonly]="cityCode || plantCode || auCode || siteCode">
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
                     <ng-option *ngFor="let state of states"
                         [value]="state.code">{{state.value}}</ng-option>
                 </ng-select>
             </div>
         </div>
+<<<<<<< HEAD
+        <div class="col">
+            <div class="custom-form-input">
+                <label>AU Code</label>
+                <input type="text" class="input-field" [(ngModel)]="auCode" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label>Site Code</label>
+                <input type="text" class="input-field" [(ngModel)]="siteCode"/>
+=======
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label>AU Code</label>
@@ -40,14 +84,21 @@
             <div class="custom-form-input">
                 <label>Site Code</label>
                 <input type="text" class="input-field" [(ngModel)]="siteCode" [disabled]="cityCode || stateCode || auCode || plantCode" />
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
             </div>
         </div>  
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
+<<<<<<< HEAD
+                <button class="custom-button-filters me-2" style="padding:4px 10px" (click)="onPlantSearch()"
+                    [disabled]="!locationIds && !plantCode && !cityCode && !stateCode && !auCode && !siteCode ">Search</button>
+                <button class="custom-button-filters" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
+=======
                 <button class="custom-button-filters me-2" (click)="onPlantSearch()"
                     [disabled]="!plantCode && !cityCode && !stateCode && !auCode && !siteCode ">Search</button>
                 <button class="custom-button-filters" (click)="onClearFilter()">Clear</button>
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
             </div>
         </div>
     </div>

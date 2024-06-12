@@ -12,6 +12,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add-edit-vendor.component.scss'
 })
 export class AddEditVendorComponent implements OnInit {
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   queryData: any;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
@@ -19,6 +23,11 @@ export class AddEditVendorComponent implements OnInit {
   pointChargeName: any = [];
   selectedPointName: undefined;
   taxationCode: any;
+<<<<<<< HEAD
+  paidbyDetailsList: any = [];
+  disableSubmit: boolean = false;
+  paidByDetailId: number | null = null;
+=======
   paidbyDetailsList:any = [];
   disableSubmit : boolean = false;
   paidByDetailId: number | null = null;
@@ -30,6 +39,7 @@ export class AddEditVendorComponent implements OnInit {
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
   ) { }
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
 
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
@@ -52,6 +62,17 @@ export class AddEditVendorComponent implements OnInit {
     status: new FormControl('')
   });
 
+<<<<<<< HEAD
+  constructor(
+    private _Activatedroute: ActivatedRoute,
+    private router: Router,
+    private vendorService: VendorService,
+    private pointChargeService: PointChargeService,
+    private toastr: ToastrService,
+  ) { }
+
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
@@ -74,7 +95,7 @@ export class AddEditVendorComponent implements OnInit {
       this.patchVendorData(response)
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -86,7 +107,7 @@ export class AddEditVendorComponent implements OnInit {
       this.pointChargeName = response.pointCharges;
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -113,7 +134,7 @@ export class AddEditVendorComponent implements OnInit {
       this.router.navigate(['master/vendor']);
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -170,7 +191,7 @@ export class AddEditVendorComponent implements OnInit {
 
   }
 
-  validateNo(e:any){
+  validateNo(e: any) {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false
@@ -178,10 +199,10 @@ export class AddEditVendorComponent implements OnInit {
     return true;
   }
 
-  phoneNumberLength(e:any){
+  phoneNumberLength(e: any) {
     const phoneControl = this.vendorForm.get('phone');
     if (phoneControl?.value) {
-    this.disableSubmit = phoneControl.value.length < 10 ? true : false;
+      this.disableSubmit = phoneControl.value.length < 10 ? true : false;
     }
   }
 
@@ -192,11 +213,11 @@ export class AddEditVendorComponent implements OnInit {
       "LastUpdateDate": ""
     }
     const type = 'PaidByDetails'
-    this.vendorService.getDropdownData(data,type).subscribe((response:any) => {
+    this.vendorService.getDropdownData(data, type).subscribe((response: any) => {
       this.paidbyDetailsList = response.lookUps;
-      
+
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
 

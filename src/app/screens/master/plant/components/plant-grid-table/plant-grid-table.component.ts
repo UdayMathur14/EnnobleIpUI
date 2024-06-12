@@ -3,12 +3,29 @@ import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
 import { CommonUtility } from '../../../../../core/utilities/common';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-plant-grid-table',
   templateUrl: './plant-grid-table.component.html',
   styleUrl: './plant-grid-table.component.scss'
 })
+<<<<<<< HEAD
+export class PlantGridTableComponent implements OnInit, OnChanges {
+  @Input() plantsList : any[] = [];
+  @ViewChild('table') table!: ElementRef;
+  // @Input() locationSel!: string;
+  @Output() headersChange = new EventEmitter<string[]>();
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  constructor(
+    private router: Router,
+    private modalService: NgbModal
+  ) { }
+
+  ngOnInit(): void {
+=======
 export class PlantGridTableComponent implements OnInit {
   @Input() plantsList : any[] = [];
   constructor(
@@ -23,6 +40,7 @@ export class PlantGridTableComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
 
   ngOnInit() :void{
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -31,6 +49,23 @@ export class PlantGridTableComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
+  // ngOnChanges(changes: SimpleChanges | any): void {
+  //   if (this.plantsListOrg && this.plantsListOrg.length && changes?.['filterKeyword']?.currentValue) {
+  //     this.plantsList = this.plantsListOrg.filter((e: any) => e.plantCode.toLowerCase().indexOf(changes['filterKeyword'].currentValue.toLowerCase()) !== -1)
+  //   }
+  //   else if (this.plantsListOrg && this.plantsListOrg.length && !changes?.['filterKeyword']?.currentValue) {
+  //     this.plantsList = this.plantsListOrg;
+  //   }
+
+  //   if (changes?.locationIds.currentValue) {
+  //     this.getAllPlantsList();
+  //   }
+  //   this.dataChange.emit(this.plantsList);
+  // }
+
+=======
+>>>>>>> 2a3842c7cd6896a480eec9cf9af8e4020d87c298
   emitHeaders() {
     const headers: string[] = [];
     const headerCells = this.table.nativeElement.querySelectorAll('thead th');

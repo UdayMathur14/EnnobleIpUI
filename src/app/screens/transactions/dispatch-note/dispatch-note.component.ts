@@ -13,6 +13,7 @@ export class DispatchNoteComponent {
   isFilters : boolean = true;
   dispatchNumber:string="";
   dispatchNotes=[];
+  locationIds:any[]=[];
   loadSpinner : boolean = true;
   constructor(private router : Router,
     private dispatchNoteService: DispatchNoteService,
@@ -24,12 +25,12 @@ export class DispatchNoteComponent {
   }
 
   handleSearch() {
-    this.getData(this.dispatchNumber);
+    this.getData(this.dispatchNumber,this.locationIds);
   }
 
-  getData(dispatchNumber: string = "") {
+  getData(dispatchNumber: string = "",locationIds:any[]=[]) {
     this.loadSpinner = true;
-    this.dispatchNoteService.getDispatchNote(dispatchNumber).subscribe((res: any) => {
+    this.dispatchNoteService.getDispatchNote({dispatchNumber,locationIds}).subscribe((res: any) => {
       this.dispatchNotes = res.dispatchNotes;
       this.loadSpinner = false;
     })

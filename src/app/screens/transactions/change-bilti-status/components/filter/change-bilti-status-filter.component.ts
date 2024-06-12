@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-change-bilti-status-filter',
@@ -18,6 +19,8 @@ export class ChangeBiltiStatusFilterComponent {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: string = '';
+  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   @Input() filteredBiltibillList: any = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -38,7 +41,8 @@ export class ChangeBiltiStatusFilterComponent {
       "biltiNumber": this.biltiNumber || "",
       "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
-      "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
+      "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2),
+      locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
   }
@@ -50,7 +54,8 @@ export class ChangeBiltiStatusFilterComponent {
     this.biltiNumber = '';
     const filterObj = {
       batchNumber : '',
-      biltiNumber : ''
+      biltiNumber : '',
+      locationIds: []
     }
     this.filterSearchObj.emit(filterObj)
   }
