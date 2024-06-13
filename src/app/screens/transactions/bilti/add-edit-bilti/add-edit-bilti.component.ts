@@ -6,6 +6,12 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { BiltiListingModel } from '../../../../core/model/masterModels.model';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { APIConstant } from '../../../../core/constants';
+import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
+import { VehicleService } from '../../../../core/service/vehicle.service';
+import { TransporterService } from '../../../../core/service/transporter.service';
+import { FreightService } from '../../../../core/service/freight.service';
+import { VendorService } from '../../../../core/service/vendor.service';
+import { PointChargeService } from '../../../../core/service/point-charge.service';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -64,7 +70,7 @@ export class AddEditBiltiComponent implements OnInit {
   vendorName: any;
   dispatchNotes: any = [];
   matchedDispatchNotes:any = [];
-
+  rbVehicleNumber: string = ''
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
@@ -74,7 +80,13 @@ export class AddEditBiltiComponent implements OnInit {
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private dispatchNoteService: DispatchNoteService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private transactionTypesService: TransactionTypesService,
+    private vehicleService: VehicleService,
+    private transporterService: TransporterService,
+    private freightService: FreightService,
+    private vendorService: VendorService,
+    private pointChargeService: PointChargeService
   ) {}
 
   ngOnInit() {
@@ -190,7 +202,7 @@ export class AddEditBiltiComponent implements OnInit {
     const data = {
       code: '',
     };
-    this.biltiService.getTransactionTypes(data).subscribe(
+    this.transactionTypesService.getTransactionTypes(data).subscribe(
       (response: any) => {
         this.transactionTypesLists = response.transactionTypes;
         this.filteredTransactionTypesLists = this.transactionTypesLists.filter(
@@ -292,15 +304,29 @@ export class AddEditBiltiComponent implements OnInit {
         const vendorGroup = vendorsArray.at(index) as FormGroup;
         vendorGroup.patchValue({
             documentrefNo: row.documentrefNo,
-            vendorCode:selectedFrlr?.suppliers?.vendorCode
+            vendorCode:selectedFrlr?.suppliers?.vendorCode,
+            vendorName:selectedFrlr?.suppliers?.vendorName,
+            pointName: selectedFrlr?.suppliers?.city?.value,
+            pointCharge: selectedFrlr?.suppliers?.city?.pointChargeDetails?.pointCharge,
+            paidByDetails: selectedFrlr?.suppliers?.paidByDetail
         });
     });
-
+console.log(selectedFrlr)
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
         (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
     );
-    this.vehicleId = vehicleNumber?.id;
+    if(this.biltiTransactionType == 'RB'){
+      this.vehicleId = selectedFrlr?.vehicleId
+      this.vendorId = selectedFrlr?.suppliers?.id
+        this.biltiForm.patchValue({
+          vehicleNumber: selectedFrlr?.vehicles?.vehicleNumber,
+          vehicleSize: selectedFrlr?.vehicles?.vehicleSize?.value,
+        })
+     }else{
+      this.vehicleId = vehicleNumber?.id;
+     }
+
     if (selected) {
         this.vehicleNumber = selected?.vehicleNumber;
         this.frlrNumber = selected?.frlrNumber;
@@ -309,8 +335,6 @@ export class AddEditBiltiComponent implements OnInit {
         this.loadingLocationid = selected?.loadingLocationId;
         this.vehicleId = this.vehicleId;
         this.biltiForm.patchValue({
-            vehicleNumber: vehicleNumber?.vehicleNumber,
-            vehicleSize: vehicleNumber?.vehicleSize.value,
             transporterCode: this.transporterMapCode[selected.transporterId],
             transporterName: this.transporterMapName[selected.transporterId],
         });
@@ -337,7 +361,7 @@ onFrlrNoClear() {
       vehicleNumber: '',
       transporterId: 0,
     };
-     this.biltiService.getVehicleNo(data).subscribe(
+     this.vehicleService.getVehicles(data).subscribe(
       (response: any) => {
         this.vehiclesList = response.vehicles;
         this.filteredVehiclesLists = this.vehiclesList.filter(
@@ -357,7 +381,7 @@ onFrlrNoClear() {
       transporterCode: '',
       transporterName: '',
     };
-     this.biltiService.getTransporters(data).subscribe(
+     this.transporterService.getTransporters(data).subscribe(
       (response: any) => {
         this.transportersList = response.transporters;
         this.filteredTransportersLists = this.transportersList.filter(
@@ -412,7 +436,7 @@ onFrlrNoClear() {
       sourceId: 0,
       vehicleSizeId: 0,
     };
-    this.biltiService.getFreightsList(data).subscribe(
+    this.freightService.getFreightsList(data).subscribe(
       (response: any) => {
         this.freightList = response.freights;
         this.filteredFreightsLists = this.freightList.filter(
@@ -449,7 +473,7 @@ onFrlrNoClear() {
       vendorCode: '',
       vendorName: '',
     };
-    this.biltiService.getVendors(data).subscribe(
+    this.vendorService.getVendors(data).subscribe(
       (response: any) => {
         this.vendorList = response.vendors;
         this.filteredVendorcode = this.vendorList.filter(
@@ -481,7 +505,7 @@ onFrlrNoClear() {
       pointName: '',
       locationIds:[]
     };
-    this.biltiService.getPointCharges(data).subscribe(
+    this.pointChargeService.getPointCharges(data).subscribe(
       (response: any) => {
         this.pointChargesList = response.pointCharges;
         this.filteredPointname = this.pointChargesList.filter(
@@ -499,6 +523,7 @@ onFrlrNoClear() {
   onPressSave() {
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
+    console.log(formData)
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchNotes.filter(
@@ -523,7 +548,7 @@ onFrlrNoClear() {
         lineItemsEntity: [
           {
             actionBy: 0,
-            vendorId: '',
+            vendorId: 0,
             remarks: '',
             attribute9: '',
             attribute10: '',
@@ -537,7 +562,7 @@ onFrlrNoClear() {
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
           actionBy: 1,
-          vendorId: vendorControl?.vendorCode,
+          vendorId: formData.transactionType.code === 'RB' ? this.vendorId : vendorControl?.vendorCode,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
@@ -597,7 +622,7 @@ onFrlrNoClear() {
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
           actionBy: 1,
-          vendorId: vendorControl?.vendorCode,
+          vendorId: formData.transactionType.code === 'RB' ? this.vendorId : vendorControl?.vendorCode,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",

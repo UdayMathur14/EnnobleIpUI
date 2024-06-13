@@ -331,7 +331,7 @@ export class AddEditDispatchNoteComponent {
           attribute9: new Date(),
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
-          partQtyId: dg.controls['partQuantity'].value,
+          partQty: parseInt(dg.controls['partQuantity'].value),
           status: 'Active',
           id: dg.controls['id'].value || 0,
         };
@@ -368,7 +368,7 @@ export class AddEditDispatchNoteComponent {
           attribute9: new Date(),
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
-          partQtyId: dg.controls['partQuantity'].value,
+          partQty: parseInt(dg.controls['partQuantity'].value),
           status: "Active",
         };
         this.dispatchNote.partDetails.push(note);
