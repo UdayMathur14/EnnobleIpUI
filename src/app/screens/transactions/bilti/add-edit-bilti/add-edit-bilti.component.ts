@@ -291,7 +291,8 @@ export class AddEditBiltiComponent implements OnInit {
       this.displayRows.forEach((row: any, index: number) => {
         const vendorGroup = vendorsArray.at(index) as FormGroup;
         vendorGroup.patchValue({
-            documentrefNo: row.documentrefNo
+            documentrefNo: row.documentrefNo,
+            vendorCode:selectedFrlr?.suppliers?.vendorCode
         });
     });
 
