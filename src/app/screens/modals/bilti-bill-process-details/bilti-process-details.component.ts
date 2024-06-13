@@ -99,6 +99,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       unloadingChargeLg: [0],
       otherChargeLg: [0],
       rejectRemarks: [''],
+      pointCharges: [''],
+      maxBiltiNo: [''],
       biltiCreationLineItemDetails: this.formBuilder.array([]),
     });
   }
@@ -172,6 +174,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         unloadingChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.unloadingCharge,
         otherChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.otherCharges,
         lgRemarks: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.remarks,
+        pointCharges: this.biltiBillProcessData?.totalPointCharge,
+        maxBiltiNo: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber
       });
       const biltiCreationLineItemDetailsData =
         this.biltiBillProcessData.biltiCreationLineItemDetails;
