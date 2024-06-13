@@ -622,7 +622,7 @@ onFrlrNoClear() {
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
           actionBy: 1,
-          vendorId: formData.transactionType.code === 'RB' ? this.vendorId : vendorControl?.vendorCode,
+          vendorId: this.selectedTransactionTypePatchCode === 'RB' ? this.vendorId : vendorControl?.vendorCode,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
@@ -742,6 +742,20 @@ onFrlrNoClear() {
             pointCharge: pointCharge?.pointCharge,
         });
     }
+    if(this.selectedTransactionTypePatchCode =='RB'){
+      this.vendorId = vendor?.id;
+      vendorGroup.patchValue({
+        vendorCode: vendor?.vendorCode,
+        vendorName: vendor?.vendorName,
+        pointName: vendor?.city.value,
+        paidByDetails: vendor?.paidByDetail?.value,
+        remarks: remarks,
+        biltiStatus: biltiStatus,
+      });
+        vendorGroup.patchValue({
+          documentrefNo: this.lineItem[index]?.documentReferenceNo,
+        });
+    }else{
       vendorGroup.patchValue({
         vendorCode: vendor?.id,
         vendorName: vendor?.vendorName,
@@ -753,6 +767,7 @@ onFrlrNoClear() {
         vendorGroup.patchValue({
           documentrefNo: this.lineItem[index]?.documentReferenceNo,
         });
+    }
     });
         this.biltiForm.patchValue({
           transactionType: transactionType?.code,
