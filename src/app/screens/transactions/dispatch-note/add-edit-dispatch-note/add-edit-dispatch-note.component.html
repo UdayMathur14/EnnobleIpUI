@@ -113,10 +113,7 @@
               </td>
               <td>
                 <div class="custom-form-input">
-                  <ng-select formControlName="partQuantity" class="input-field" #qty placeholder="Select Quantity"
-                    (change)="onQuantitySelection($event, ind)">
-                    <ng-option *ngFor="let lookup of lookupList" [value]="lookup.id">{{lookup.value}}</ng-option>
-                  </ng-select>
+                  <input formControlName="partQuantity" class="input-field" type="text" placeholder="Select Quantity" (keypress)="validateNo($event)">
                 </div>
               </td>
               <td>
