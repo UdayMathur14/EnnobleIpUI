@@ -72,8 +72,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.route.url.subscribe(url => {
       this.fullPath = this.router.url;
       this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
-      this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts') ||
-      this.fullPath.includes('transaction/checkedMaterialsTeam') || this.fullPath.includes('transaction/approvalMaterialHead');
+      this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts')
     });
     this.initForm();
     this.getBiltiBillProcessbyId();
