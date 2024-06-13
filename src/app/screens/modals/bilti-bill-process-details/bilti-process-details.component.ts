@@ -56,6 +56,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   showSaveButton: boolean = false;
   showApproveRejectButtons: boolean = false;
   fullPath:any;
+  amountDisabled: boolean = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -73,6 +74,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.fullPath = this.router.url;
       this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
       this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts')
+      this.amountDisabled = this.fullPath.includes('approvalAccounts') ||
+      this.fullPath.includes('checkedMaterialsTeam') || this.fullPath.includes('approvalMaterialHead');
     });
     this.initForm();
     this.getBiltiBillProcessbyId();
