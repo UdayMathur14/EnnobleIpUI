@@ -81,3 +81,5 @@ export const updateBiltiBillProcess = (locationId: any, biltiBillProcessId: any)
 export const updateBiltiStatus= (locationId:any, BatchNumber: any) => `v1/commonTransaction/updateBatchStatus/${locationId}/${BatchNumber}`; 
 export const changeBiltiStatus = (locationId: any) => `v1/bilti-bill-change-status/update/${locationId}`; 
 export const getNocPdf = (locationId: any, id: number) => `v1/bilti-bill-change-status/${locationId}/${id}`;
+
+export const errorLoggingReport = `v1/errorLoggingReport/search`;

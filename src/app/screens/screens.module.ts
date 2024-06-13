@@ -95,6 +95,9 @@ import { ProcessedReportGridTableComponent } from "./reports/processed-report/co
 import { RejectionBiltiDetailReportComponent } from "./reports/rejection-bilti-detail-report/rejection-bilti-detail-report.component";
 import { RejectionBiltiDetailReportFilterComponent } from "./reports/rejection-bilti-detail-report/components/filter/rejection-bilti-detail-report-filter.component";
 import { RejectionBiltiDetailReportGridTableComponent } from "./reports/rejection-bilti-detail-report/components/grid-table/rejection-bilti-detail-report-grid-table.component";
+import { ErrorLoggingReportComponent } from "./reports/error-logging-report/error-logging-report.component";
+import { ErrorLoggingReportFilterComponent } from "./reports/error-logging-report/components/filter/error-logging-report-filter.component";
+import { ErrorLoggingReportGridTableComponent } from "./reports/error-logging-report/components/grid-table/error-logging-report-grid-table.component";
 
 
 @NgModule({
@@ -189,7 +192,10 @@ import { RejectionBiltiDetailReportGridTableComponent } from "./reports/rejectio
         ChangeBiltiStatusModalComponent,
         TransactionTypeFilterComponent,
         PointFilterComponent,
-        AdviceFilterComponent
+        AdviceFilterComponent,
+        ErrorLoggingReportComponent,
+        ErrorLoggingReportFilterComponent,
+        ErrorLoggingReportGridTableComponent
     ],
     imports: [
         LayoutModule,

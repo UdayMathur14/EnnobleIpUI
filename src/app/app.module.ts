@@ -9,6 +9,8 @@ import { AuthInterceptor, ResponseInterceptor } from './core/interceptor';
 import { BootService } from './core/service/boot.service';
 import { initializeAppFactory } from './core/initializer/app.initializer';
 import { ExportAsModule, ExportAsService } from 'ngx-export-as';
+import { NgbDateCustomParserFormatterService } from './core/service/NgbDateCustomParserFormatter.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,8 @@ import { ExportAsModule, ExportAsService } from 'ngx-export-as';
     ToastrModule.forRoot({
       enableHtml: true,
       timeOut: 8000,
-      progressBar:true,
-      extendedTimeOut:4000
+      progressBar: true,
+      extendedTimeOut: 4000
     })
   ],
   providers: [
@@ -46,6 +48,10 @@ import { ExportAsModule, ExportAsService } from 'ngx-export-as';
       useClass: ResponseInterceptor,
       multi: true,
     },
+    { 
+      provide: NgbDateParserFormatter, 
+      useClass: NgbDateCustomParserFormatterService 
+    }
   ],
   bootstrap: [AppComponent]
 })
