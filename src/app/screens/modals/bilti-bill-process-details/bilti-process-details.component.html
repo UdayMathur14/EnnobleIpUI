@@ -109,39 +109,39 @@
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="freightCharge" (input)="calculateTotals()" />
+                  <input type="text" class="input-field" formControlName="freightCharge" (input)="calculateTotals()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="pointCharge" (input)="calculateTotals()" />
+                  <input type="text" class="input-field" formControlName="pointCharge" (input)="calculateTotals()" (keypress)="validateNo($event)" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="detentionCharge"
-                    (input)="calculateTotals()" />
+                    (input)="calculateTotals()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="overloadCharge" (input)="calculateTotals()" />
+                  <input type="text" class="input-field" formControlName="overloadCharge" (input)="calculateTotals()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="tollTax" (input)="calculateTotals()" />
+                  <input type="text" class="input-field" formControlName="tollTax" (input)="calculateTotals()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="unloadingCharge"
-                    (input)="calculateTotals()" />
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="otherCharges" (input)="calculateTotals()" />
+                  <input type="text" class="input-field" formControlName="otherCharges" (input)="calculateTotals()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
@@ -194,37 +194,37 @@
               <td class="ps-0">
                 <div class="custom-form-input">
                   <!-- <input type="text" class="input-field" value="0.00" /> -->
-                  <input type="text" class="input-field" id="lgFreightCharge" formControlName="freightChargeLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgFreightCharge" formControlName="freightChargeLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgPointCharge" formControlName="pointChargeLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgPointCharge" formControlName="pointChargeLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgDetentionCharge" formControlName="detentionChargeLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgDetentionCharge" formControlName="detentionChargeLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgOverloadCharge" formControlName="overloadChargeLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgOverloadCharge" formControlName="overloadChargeLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgTollTax" formControlName="tollTaxLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgTollTax" formControlName="tollTaxLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgUnloadingCharge" formControlName="unloadingChargeLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgUnloadingCharge" formControlName="unloadingChargeLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" id="lgOtherCharges" formControlName="otherChargeLg" (input)="calculateTotalLGCharges()" />
+                  <input type="text" class="input-field" id="lgOtherCharges" formControlName="otherChargeLg" (input)="calculateTotalLGCharges()" (keypress)="validateNo($event)" />
                 </div>
               </td>
               <td>
