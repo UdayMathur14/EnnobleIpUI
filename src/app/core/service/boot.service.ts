@@ -32,7 +32,7 @@ export class BootService {
     }
 
     getLookupDataForLocation() {
-        this.lookupService.getLookupDataForLocation(APIConstant.basePath);
+        this.lookupService.getLookupDataForLocation();
     }
 
     setEnvironment(res: any) {

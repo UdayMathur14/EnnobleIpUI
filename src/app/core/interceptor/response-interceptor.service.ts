@@ -17,6 +17,8 @@ export class ResponseInterceptor implements HttpInterceptor {
     handleError(error:any){
         if(error?.error?.details){
             return error?.error?.details?.map((detail: any) => detail.description).join('<br>')
+        }else if(error.status === 403){
+            return "Permission Denied";
         }else{
             return "Something went wrong";
         }
@@ -29,7 +31,7 @@ export class ResponseInterceptor implements HttpInterceptor {
                 if (err instanceof HttpErrorResponse) {console.log(err);
                     if (err.status === 401) {
                         //this.router.navigate(['/login']);
-                        //window.location.href  = `${APIConstant.Ums}/auth/login?return_url=${window.location.href}`;
+                        window.location.href  = `${APIConstant.Ums}/auth/login?return_url=${window.location.href}`;
                     }else{
                         this.toastr.error(this.handleError(err));
                     }

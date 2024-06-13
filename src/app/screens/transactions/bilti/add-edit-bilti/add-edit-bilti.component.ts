@@ -79,6 +79,12 @@ export class AddEditBiltiComponent implements OnInit {
 
   ngOnInit() {
     this.biltiId = Number(this.activatedRoute.snapshot.paramMap.get('biltiId'));
+    
+    const locationId = this.activatedRoute.snapshot.paramMap.get('locationId');
+    if(locationId){
+      this.locationId = Number(locationId);
+    }
+
     this.getAllTransportersList();
     this.getAllTransactionTypes();
     this.getAllFreightList();
@@ -221,7 +227,8 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   getDispatchData(dispatchNumber: string = "") {
-    this.dispatchNoteService.getDispatchNote(dispatchNumber).subscribe((res: any) => {
+    const locationIds = this.locationId?[this.locationId]:[];
+    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
       this.frmTransactionData = [...new Set(res.dispatchNotes.map((item: any) => 
         item.frlrNumber))].map(frlrNumber => res.dispatchNotes.find((t: any) => 
           t.frlrNumber === frlrNumber));

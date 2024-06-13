@@ -52,18 +52,21 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item" *ngIf="securityGroups('mfg-reports')">
-          <h2 class="accordion-header" id="transactionsHeading">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTransactions" aria-expanded="false" aria-controls="collapseTransactions">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="reportsHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsereports" aria-expanded="false" aria-controls="collapsereports">
               Reports
             </button>
           </h2>
-          <div id="collapseTransactions" class="accordion-collapse collapse" [ngClass]="{ 'show': !isMasterModule }" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
+          <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': !isMasterModule }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('mfg-dispatch-note')">Dispatch Note</li>
-                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('mfg-bilti-creation')">Bilti Creation</li>
-                <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('mfg-bilti-bill-process-view')">Bilti Bill Process View</li>
+                <li (click)="onreportChange('provision-report')">Provision Report</li>
+                <li (click)="onreportChange('processed-report')">Processed Report</li>
+                <li (click)="onreportChange('error-logging-report')">Error Logging Report</li>
+                <li (click)="onreportChange('rejection-bilti-detail-report')">Rejection Bilti Detail Report</li>
+                <li (click)="onreportChange('advice-report')">Advice Report</li>
+                <li (click)="onreportChange('debit-note-report')">Debit Note Report</li>
               </ul>
             </div>
           </div>

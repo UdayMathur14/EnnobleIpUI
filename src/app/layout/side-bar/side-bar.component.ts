@@ -70,4 +70,12 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/changeBiltiStatus'])
         }
     }
+
+    onreportChange(report: string){
+        if (report === 'rejection-bilti-detail-report') {
+            this.router.navigate(['/report/rejection-bilti-detail'])
+        } else if (report === 'processed-report') {
+            this.router.navigate(['/report/processed'])
+        }
+    }
 }

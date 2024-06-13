@@ -17,14 +17,14 @@ export class DispatchNoteComponent {
   locations: any[] = APIConstant.locationsListDropdown;
   locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
   loadSpinner: boolean = true;
-  
+
   constructor(private router: Router,
     private dispatchNoteService: DispatchNoteService,
     private exportService: ExportService
   ) { }
 
   ngOnInit() {
-    this.getData();
+    this.getData(this.dispatchNumber, this.locationIds);
   }
 
   handleSearch() {

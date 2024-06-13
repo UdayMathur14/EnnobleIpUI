@@ -55,6 +55,10 @@ export class AddEditDispatchNoteComponent {
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
+    const locationId = this.activatedRoute.snapshot.paramMap.get('locationId');
+    if(locationId){
+      this.locationId = Number(locationId);
+    }
     this.getAllPartsListInit();
     this.getAllVehicles();
     this.getAllVendors();

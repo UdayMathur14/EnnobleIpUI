@@ -21,21 +21,23 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.get(APIConstant.lookupData + lookupId);
   }
 
-  getLookupData(key: any, basePath: any = '') {
-    return this.post(basePath + APIConstant.getLookupData, key);
+  getLookupData(key: any) {
+    return this.post(APIConstant.getLookupData, key);
   }
 
-  getLookupDataForLocation(basePath: any = '') {
+  getLookupDataForLocation() {
     const p: any = localStorage.getItem("profile");
     const profile: any = JSON.parse(p);
     const appLocation: any = profile?.mfgUnit?.au[0]?.location;
-    this.getLookupData({ type: 'Locations' }, basePath).subscribe((response: any) => {
+    this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
 
       this.baseService.lookupData.next(response);
       const locations: any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
       appLocation.forEach((el: any) => {
         const obj = response.lookUps.find((f: any) => f.code === el.name);
-        locations.push(obj);
+        if(obj){
+          locations.push(obj);
+        }
       });
       APIConstant.locationsListDropdown = locations;
       localStorage.setItem('locationId', locations[0]?.id)

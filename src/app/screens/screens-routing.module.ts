@@ -39,6 +39,8 @@ import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit
 import { AuthGuard } from "../core/guards/auth.guard";
 import { NotFound404Component } from "./not-found-404/not-found-404.component";
 import { MasterComponent } from "./master/master.component";
+import { ProcessedReportComponent } from "./reports/processed-report/processed-report.component";
+import { RejectionBiltiDetailReportComponent } from "./reports/rejection-bilti-detail-report/rejection-bilti-detail-report.component";
 
 
 const routes: Routes = [
@@ -75,8 +77,10 @@ const routes: Routes = [
             { path: "transaction/dispatchNote", component: DispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/addEditDispatchNote/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [AuthGuard] },
+            { path: "transaction/addEditDispatchNote/:locationId/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/bilti", component: BiltiComponent, canActivate: [AuthGuard] },
             { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [AuthGuard] },
+            { path: "transaction/addEditBilti/:locationId/:biltiId", component: AddEditBiltiComponent, canActivate: [AuthGuard] },
             { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent, canActivate: [AuthGuard] },
             { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent, canActivate: [AuthGuard] },
             { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent, canActivate: [AuthGuard] },
@@ -89,6 +93,9 @@ const routes: Routes = [
             { path: "transaction/checkedMaterialsTeam", component: CheckedMaterialsTeamComponent, canActivate: [AuthGuard] },
             { path: "transaction/approvalMaterialHead", component: ApprovalMaterialHeadComponent, canActivate: [AuthGuard] },
             { path: "transaction/changeBiltiStatus", component: ChangeBiltiStatusComponent, canActivate: [AuthGuard] },
+
+            { path: "report/processed", component: ProcessedReportComponent, canActivate: [AuthGuard] },
+            { path: "report/rejection-bilti-detail", component: RejectionBiltiDetailReportComponent, canActivate: [AuthGuard] },
         ],
     },
 ];

@@ -16,8 +16,8 @@ export class DispatchNoteGridTableComponent {
   constructor(private router: Router,
     private modalService: NgbModal) { }
 
-  onEditDispatchNote(id:Number) {
-    this.router.navigate([`transaction/addEditDispatchNote/${id}`]);
+  onEditDispatchNote(dispatchNote:any) {
+    this.router.navigate([`transaction/addEditDispatchNote/${dispatchNote.locationId}/${dispatchNote.id}`]);
   }
 
   onPreviewDispatchNote(dispatch: any){

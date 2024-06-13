@@ -66,7 +66,7 @@ export const updateTransporter = (locationId: any, transporterId: any) => `v1/tr
 export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
 export const commonTransaction= (locationId:any, id: any) => `v1/commonTransaction/updateStatus/${locationId}/${id}`;   
 export const bilti = `v1/bilti-creation/search`;
-export const frlr = (locationId: any) => `v1/frm-transactions/search/${locationId}`;
+export const frlr = (locationId: any) => `v1/frm-transactions/${locationId}/search`;
 export const createBilti = (locationId: any) => `v1/bilti-creation/create/${locationId}`;
 export const biltiData = (locationId: any, biltiId: any) => `v1/bilti-creation/${locationId}/${biltiId}`;
 export const updateBitli = (locationId: any, biltiId: any) => `v1/bilti-creation/update/${locationId}/${biltiId}`;

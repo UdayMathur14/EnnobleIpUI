@@ -1,0 +1,18 @@
+<div class="page-title">
+  <h1>Rejection Bilti Detail Report</h1>
+  <!-- <div class="action-buttons">
+    <button class="custom-button-regulr" (click)="onCreateBilti()">Create Bilti Bill</button>
+  </div> -->
+</div>
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+  <app-rejection-bilti-detail-report-filter (filterSearchObj)="filteredData($event)"
+    [filteredBiltibillList]="filteredBiltibillList"></app-rejection-bilti-detail-report-filter>
+</div>
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <app-rejection-bilti-detail-report-grid-table
+    [biltiBillProcess]="biltiBillProcess"></app-rejection-bilti-detail-report-grid-table>
+</div>
+<!-- <div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div> -->

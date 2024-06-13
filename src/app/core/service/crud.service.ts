@@ -2,6 +2,7 @@ import { Optional } from "@angular/core";
 import { BaseService } from "./base.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { CommonUtility } from "../utilities/common";
+import { APIConstant } from "../constants";
 
 export class CRUDService<T> {
     
@@ -18,6 +19,7 @@ export class CRUDService<T> {
     }
 
     get(path: string, params?: { [key: string]: any }): Observable<T[]> {
+        this.baseUrl = this.baseUrl || APIConstant.basePath;
         let url: string = this.baseUrl + path;
         const query = CommonUtility.convertObjectToParams(params);
         if (query) {
@@ -38,19 +40,23 @@ export class CRUDService<T> {
     }
 
     add(path: string, data: any): Observable<T> {
+        this.baseUrl = this.baseUrl || APIConstant.basePath;
         return this.baseService.post<T>(this.baseUrl + path, data);
     }
 
     update(path: string, data: T): Observable<T> {
+        this.baseUrl = this.baseUrl || APIConstant.basePath;
         let url: string = this.baseUrl + path;
         return this.baseService.put<T>(url, data);
     }
 
     remove(id: number): Observable<any> {
+        this.baseUrl = this.baseUrl || APIConstant.basePath;
         return this.baseService.delete<any>(`${this.baseUrl}${id}`);
     }
 
     removeByParams(params?: { [key: string]: any }): Observable<T[]> {
+        this.baseUrl = this.baseUrl || APIConstant.basePath;
         let url: string = this.baseUrl;
         const query = CommonUtility.convertObjectToParams(params);
         if (query) {
