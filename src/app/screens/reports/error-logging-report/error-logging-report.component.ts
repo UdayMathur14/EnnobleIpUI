@@ -24,8 +24,15 @@ export class ErrorLoggingReportComponent {
   }
 
   getData(fromDate: string = '', toDate: string = '') {
-    this.reportService.getErrorLogging({ fromDate, toDate }).subscribe((res: any) => {
-      this.errorLoggings = res;
+
+    const body: any = {};
+    if (fromDate && toDate) {
+      body.fromDate = fromDate;
+      body.toDate = toDate;
+    }
+
+    this.reportService.getErrorLogging({ ...body }).subscribe((res: any) => {
+      this.errorLoggings = res.errorLoggings.map((e: any) => ({ ...e, detailDescriptions: e.detailDescriptions.join(',') }));
     }, error => {
 
     })
