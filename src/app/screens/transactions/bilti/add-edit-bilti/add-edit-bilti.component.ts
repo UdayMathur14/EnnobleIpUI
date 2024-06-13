@@ -271,25 +271,25 @@ export class AddEditBiltiComponent implements OnInit {
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
     this.displayRows = [];
-      this.dispatchNotes.forEach((element: any) => {
-        const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
-        if (commonData) {
-            this.displayRows.push({
-                documentrefNo: element?.dispatchNumber,
-            });
-        }
+    this.dispatchNotes.forEach((element: any) => {
+      const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
+      if (commonData) {
+        this.displayRows.push({
+          documentrefNo: element?.dispatchNumber,
+        });
+      }
     });
 
-    if(this.biltiTransactionType != 'RB'){
+    if (this.biltiTransactionType != 'RB') {
       this.allFrmTransactionData.forEach((element: any) => {
         const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
         if (commonData) {
-            this.displayRows.push({
-                documentrefNo: element.documentNumber,
-            });
+          this.displayRows.push({
+            documentrefNo: element.documentNumber,
+          });
         }
-    });
-    
+      });
+
     }
 
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
@@ -297,55 +297,55 @@ export class AddEditBiltiComponent implements OnInit {
 
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
-  );
+    );
 
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-      this.displayRows.forEach((row: any, index: number) => {
-        const vendorGroup = vendorsArray.at(index) as FormGroup;
-        vendorGroup.patchValue({
-            documentrefNo: row.documentrefNo,
-            vendorCode:selectedFrlr?.suppliers?.vendorCode,
-            vendorName:selectedFrlr?.suppliers?.vendorName,
-            pointName: selectedFrlr?.suppliers?.city?.value,
-            pointCharge: selectedFrlr?.suppliers?.city?.pointChargeDetails?.pointCharge,
-            paidByDetails: selectedFrlr?.suppliers?.paidByDetail
-        });
+    this.displayRows.forEach((row: any, index: number) => {
+      const vendorGroup = vendorsArray.at(index) as FormGroup;
+      vendorGroup.patchValue({
+        documentrefNo: row.documentrefNo,
+        vendorCode: selectedFrlr?.suppliers?.vendorCode,
+        vendorName: selectedFrlr?.suppliers?.vendorName,
+        pointName: selectedFrlr?.suppliers?.city?.value,
+        pointCharge: selectedFrlr?.suppliers?.city?.pointChargeDetails?.pointCharge,
+        paidByDetails: selectedFrlr?.suppliers?.paidByDetail
+      });
     });
-console.log(selectedFrlr)
+    console.log(selectedFrlr)
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
-        (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
+      (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
     );
-    if(this.biltiTransactionType == 'RB'){
+    if (this.biltiTransactionType == 'RB') {
       this.vehicleId = selectedFrlr?.vehicleId
       this.vendorId = selectedFrlr?.suppliers?.id
-        this.biltiForm.patchValue({
-          vehicleNumber: selectedFrlr?.vehicles?.vehicleNumber,
-          vehicleSize: selectedFrlr?.vehicles?.vehicleSize?.value,
-        })
-     }else{
+      this.biltiForm.patchValue({
+        vehicleNumber: selectedFrlr?.vehicles?.vehicleNumber,
+        vehicleSize: selectedFrlr?.vehicles?.vehicleSize?.value,
+      })
+    } else {
       this.vehicleId = vehicleNumber?.id;
-     }
+    }
 
     if (selected) {
-        this.vehicleNumber = selected?.vehicleNumber;
-        this.frlrNumber = selected?.frlrNumber;
-        this.transporterId = selected?.transporterId;
-        this.frmId = selected?.id;
-        this.loadingLocationid = selected?.loadingLocationId;
-        this.vehicleId = this.vehicleId;
-        this.biltiForm.patchValue({
-            transporterCode: this.transporterMapCode[selected.transporterId],
-            transporterName: this.transporterMapName[selected.transporterId],
-        });
+      this.vehicleNumber = selected?.vehicleNumber;
+      this.frlrNumber = selected?.frlrNumber;
+      this.transporterId = selected?.transporterId;
+      this.frmId = selected?.id;
+      this.loadingLocationid = selected?.loadingLocationId;
+      this.vehicleId = this.vehicleId;
+      this.biltiForm.patchValue({
+        transporterCode: this.transporterMapCode[selected.transporterId],
+        transporterName: this.transporterMapName[selected.transporterId],
+      });
     }
-    if(this.biltiId == 0){
+    if (this.biltiId == 0) {
       this.patchTransactionType(this.biltiTransactionType)
-    } else{
+    } else {
       this.patchTransactionType(this.selectedTransactionTypeCode)
     }
-  
-}
+
+  }
 
 onFrlrNoClear() {
   this.biltiForm.patchValue({
@@ -569,6 +569,7 @@ onFrlrNoClear() {
           frmId: formData.transactionType.code === 'RB' ? 0 : this.frmId,
           dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
+          pointCharge: vendorControl?.pointCharge
         };
         if(data.lineItemsEntity[0].actionBy == 0){
           data.lineItemsEntity[0] = lineItem
@@ -631,6 +632,7 @@ onFrlrNoClear() {
           frmId: this.selectedTransactionTypePatchCode === 'RB' ? 0 : this.frmId,
           dispatchNoteId: this.selectedTransactionTypePatchCode === 'RB' ? this.matchedDispatchNotes[index]?.id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
+          pointCharge: vendorControl?.pointCharge
         };
         if(data.lineItemsEntity[0].actionBy == 0){
           data.lineItemsEntity[0] = lineItem
