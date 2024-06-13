@@ -76,6 +76,8 @@ export class SideBarComponent {
             this.router.navigate(['/report/rejection-bilti-detail'])
         } else if (report === 'processed-report') {
             this.router.navigate(['/report/processed'])
+        } else if (report === 'error-logging-report') {
+            this.router.navigate(['/report/error-logging'])
         }
     }
 }
