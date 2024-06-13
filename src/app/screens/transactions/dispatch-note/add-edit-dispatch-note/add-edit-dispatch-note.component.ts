@@ -136,7 +136,7 @@ export class AddEditDispatchNoteComponent {
               partId: partItem.parts.id,
               partSize: partItem.parts.partSize,
               remarks: partItem.parts.remarks,
-              partQuantity: this.mapQuantities(partItem.partsQty.id),
+              partQuantity: partItem.partsQty,
               status: partItem.status,
               id: partItem.id
             });
