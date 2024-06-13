@@ -93,6 +93,10 @@
 table.acknowledgement-details {
     width: 100%;
     border-collapse: collapse;
+    
+    .lgeil-column {
+        width: 175px;
+    }
 }
 
 table.acknowledgement-details th, table.acknowledgement-details td {
