@@ -1,0 +1,39 @@
+<div class="filters-box">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">From Date</label>
+                <div class="input-with-icon">
+                    <input type="date" class="input-field" [(ngModel)]="fromDate"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">To Date</label>
+                <div class="input-with-icon">
+                    <input type="date" class="input-field" [(ngModel)]="toDate"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex gap-3 align-items-center">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!fromDate || !toDate">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()"
+                    [disabled]="!fromDate && !toDate">Clear</button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-lg-auto ms-auto d-flex align-items-center">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <button class="custom-button-export specific-padding-export" (click)="handleExportData()">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

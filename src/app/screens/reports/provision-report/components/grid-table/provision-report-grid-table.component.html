@@ -1,0 +1,52 @@
+<div id="exportableTable" class="custom-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Corporation Code</th>
+                <th>System Code</th>
+                <th>Source Name</th>
+                <th>Sub Group Code</th>
+                <th>Branch</th>
+                <th>Invoice No</th>
+                <th>Accounting Type</th>
+                <th>Accounting Date</th>
+                <th>Invoice Date</th>
+                <th>Invoice Currency Code</th>
+                <th>Exchange Rate</th>
+                <th>Exchange Date</th>
+                <th>Desc Text</th>
+                <th>Invoice No Supplier Code</th>
+                <th>Employee No</th>
+                <th>Segment2</th>
+                <th>Approval Employee No</th>
+                <th>Advance Apply Invoice No</th>
+                <th>Document No</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let provisionReport of provisionReports">
+                <td>{{provisionReport?.corporationCode}}</td>
+                <td>{{provisionReport?.systemCode}}</td>
+                <td>{{provisionReport?.sourceName}}</td>
+                <td>{{provisionReport?.subGroupCode}}</td>
+                <td>{{provisionReport?.branch}}</td>
+                <td>{{provisionReport?.invoiceNo}}</td>
+                <td>{{provisionReport?.accountingType}}</td>
+                <td>{{provisionReport?.accountingDate | date: 'yyyy-mm-dd'}}</td>
+                <td>{{provisionReport?.invoiceDate | date: 'yyyy-mm-dd'}}</td>
+                <td>{{provisionReport?.invoiceCurrencyCode}}</td>
+                <td>{{provisionReport?.exchangeRate}}</td>
+                <td>{{provisionReport?.exchangeDate | date: 'yyyy-mm-dd'}}</td>
+                <td>{{provisionReport?.descText}}</td>
+                <td>{{provisionReport?.invoiceNoSupplierCode}}</td>
+                <td>{{provisionReport?.employeeNo}}</td>
+                <td>{{provisionReport?.segment2}}</td>
+                <td>{{provisionReport?.approvalEmployeeNo}}</td>
+                <td>{{provisionReport?.advanceApplyInvoiceNo}}</td>
+                <td>{{provisionReport?.documentNo}}</td>
+            </tr>
+            <tr *ngIf="!provisionReports || provisionReports.length==0">
+                <td align="center" colspan="13">No Result Found</td>
+            </tr>
+    </table>
+</div>
