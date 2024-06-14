@@ -83,5 +83,3 @@ export const changeBiltiStatus = (locationId: any) => `v1/bilti-bill-change-stat
 export const getNocPdf = (locationId: any, id: number) => `v1/bilti-bill-change-status/${locationId}/${id}`;
 
 export const errorLoggingReport = `v1/errorLoggingReport/search`;
-export const provisionReport = `v1/provisionalReport/search`;
-
