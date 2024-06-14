@@ -136,7 +136,7 @@ export class AddEditDispatchNoteComponent {
               partId: partItem.parts.id,
               partSize: partItem.parts.partSize,
               remarks: partItem.parts.remarks,
-              partQuantity: this.mapQuantities(partItem.partsQty.id),
+              partQuantity: partItem.partsQty,
               status: partItem.status,
               id: partItem.id
             });
@@ -331,7 +331,7 @@ export class AddEditDispatchNoteComponent {
           attribute9: new Date(),
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
-          partQtyId: dg.controls['partQuantity'].value,
+          partQty: parseInt(dg.controls['partQuantity'].value),
           status: 'Active',
           id: dg.controls['id'].value || 0,
         };
@@ -368,7 +368,7 @@ export class AddEditDispatchNoteComponent {
           attribute9: new Date(),
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
-          partQtyId: dg.controls['partQuantity'].value,
+          partQty: parseInt(dg.controls['partQuantity'].value),
           status: "Active",
         };
         this.dispatchNote.partDetails.push(note);
@@ -389,5 +389,13 @@ export class AddEditDispatchNoteComponent {
           }
         );
     }
+  }
+
+  validateNo(e: any) {
+    const charCode = e.which ? e.which : e.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false
+    }
+    return true;
   }
 }

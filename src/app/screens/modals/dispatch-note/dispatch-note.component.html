@@ -28,16 +28,8 @@
                     <div class="value">{{dispatch.suppliers.vendorAddress2}}</div>
                 </div>
                 <div class="info">
-                    <div class="key">LG TIN Number: </div>
+                    <div class="key">GSTIN Number: </div>
                     <div class="value">{{dispatch.suppliers.gstnNo}}</div>
-                </div>
-                <div class="info">
-                    <div class="key">C.S.T. Number: </div>
-                    <div class="value"></div>
-                </div>
-                <div class="info">
-                    <div class="key">L.S.T. Number: </div>
-                    <div class="value"></div>
                 </div>
             </div>
 
@@ -45,7 +37,7 @@
                 <p class="mb-0 dispatch-mode">Mode Of Dispatch: <span>Road</span></p>
                 <div class="dispatch-details">
                     <p>Gate Pass: <span>{{dispatch.dispatchNumber}}</span></p>
-                    <p>Disptch Date: <span>{{dispatch.creationDate | date}}</span></p>
+                    <p>Dispatch Date: <span>{{dispatch.creationDate | date}}</span></p>
                 </div>
                 @if (dispatch.dispatchNotePartItems) {
 
@@ -84,7 +76,7 @@
                 <table class="acknowledgement-details">
                     <thead>
                         <tr>
-                            <th>LGEIL</th>
+                            <th class="lgeil-column">LGEIL</th>
                             <th>{{dispatch.suppliers.vendorName}}</th>
                             <th>At LG Gate</th>
                         </tr>
@@ -119,8 +111,14 @@
                         </tr>
                         <tr>
                             <td class="time-cell">
-                                <p>Created By: <span></span></p>
-                                <p>Auth By: <span></span></p>
+                                <div class="d-flex flex-column">
+                                    <div>
+                                        <p>Created By: <span></span></p>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <p>Auth By: <span></span></p>
+                                    </div>
+                                </div>
                             </td>
                             <td class="time-cell">
                                 <p>Recieved By: <span></span></p>

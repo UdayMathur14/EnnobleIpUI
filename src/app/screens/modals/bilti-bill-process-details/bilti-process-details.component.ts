@@ -56,6 +56,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   showSaveButton: boolean = false;
   showApproveRejectButtons: boolean = false;
   fullPath:any;
+  amountDisabled: boolean = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -72,8 +73,9 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.route.url.subscribe(url => {
       this.fullPath = this.router.url;
       this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
-      this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts') ||
-      this.fullPath.includes('transaction/checkedMaterialsTeam') || this.fullPath.includes('transaction/approvalMaterialHead');
+      this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts')
+      this.amountDisabled = this.fullPath.includes('approvalAccounts') ||
+      this.fullPath.includes('checkedMaterialsTeam') || this.fullPath.includes('approvalMaterialHead');
     });
     this.initForm();
     this.getBiltiBillProcessbyId();
@@ -100,6 +102,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       unloadingChargeLg: [0],
       otherChargeLg: [0],
       rejectRemarks: [''],
+      pointCharges: [''],
+      maxBiltiNo: [''],
       biltiCreationLineItemDetails: this.formBuilder.array([]),
     });
   }
@@ -173,6 +177,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         unloadingChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.unloadingCharge,
         otherChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.otherCharges,
         lgRemarks: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.remarks,
+        pointCharges: this.biltiBillProcessData?.totalPointCharge,
+        maxBiltiNo: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber
       });
       const biltiCreationLineItemDetailsData =
         this.biltiBillProcessData.biltiCreationLineItemDetails;
@@ -572,5 +578,13 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     this.loadSpinner = false;
   });
 }
+}
+
+validateNo(e: any) {
+  const charCode = e.which ? e.which : e.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    return false
+  }
+  return true;
 }
 }

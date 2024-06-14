@@ -6,6 +6,7 @@
           <th (click)="sortData('code')">Transaction Code</th>
           <th (click)="sortData('name')">Transaction Type Name</th>
           <th (click)="sortData('glSubCategory.value')">GL Sub Category Code</th>
+          <th (click)="sortData('transactionTypeInterface.transactionTypeCode')">Transaction Type Interface Code</th>
           <th (click)="sortData('transactionTypeInterface.transactionTypeName')">Transaction Type Interface</th>
           <th (click)="sortData('status')">Status</th>
           <th class="text-center">Action</th>
@@ -41,6 +42,7 @@
           </td>
           <td>{{transaction.name}}</td>
           <td>{{transaction.glSubCategory.value}}</td>
+          <td>{{transaction?.transactionTypeInterface?.transactionTypeCode}}</td>
           <td>{{transaction?.transactionTypeInterface?.transactionTypeName}}</td>
           <td>{{transaction.status}}</td>
           <td class="text-center">

@@ -31,41 +31,8 @@ export class BiltiService extends CRUDService<BiltiRequest> {
     );
   }
 
-  getTransactionTypes(data: any) {
-    return this.post(APIConstant.transactionTypes, data);
-  }
-
   getFrmTransactions(locationId: Number, data: any) {
     return this.baseService.post(APIConstant.basePath + frlr(locationId), data);
-  }
-
-  getVehicleNo(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + vehicle,
-      data
-    );
-  }
-
-  getTransporters(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + transporter,
-      data
-    );
-  }
-
-  getFreightsList(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + freight,
-      data
-    );
-  }
-
-  getVendors(data: any) {
-    return this.post(APIConstant.vendors, data);
-  }
-
-  getPointCharges(data: any) {
-    return this.baseService.post(APIConstant.basePath + APIConstant.pointCharge, data);
   }
 
   createBilti(locationId: Number, data: any) {
