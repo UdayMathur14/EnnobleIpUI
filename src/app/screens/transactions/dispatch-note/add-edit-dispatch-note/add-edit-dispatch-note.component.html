@@ -99,7 +99,7 @@
                 <div class="custom-form-input">
                   <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
                     (change)="onPartSelect($event, ind)">
-                    <ng-option *ngFor="let part of partsList" [value]="part">{{part.partNumber}}</ng-option>
+                    <ng-option *ngFor="let part of getFilteredPartNumbers(ind)" [value]="part">{{part.partNumber}}</ng-option>
                   </ng-select>
 
                 </div>

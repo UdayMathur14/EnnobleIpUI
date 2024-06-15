@@ -36,6 +36,7 @@ export class AddEditDispatchNoteComponent {
   loadSpinner: boolean = false;
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  selectedParts: any = [];
 
   constructor(
     private router: Router,
@@ -140,6 +141,8 @@ export class AddEditDispatchNoteComponent {
               status: partItem.status,
               id: partItem.id
             });
+            const selectedPartNumbers = this.partDetails.controls.map(control => control.value.partNumber);
+            this.initializeSelectedParts(selectedPartNumbers)
           }
         );
       });
@@ -278,9 +281,8 @@ export class AddEditDispatchNoteComponent {
   }
 
   onPartSelect(data: any, i: number) {
-    const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
-      'partdetails'
-    ) as FormArray;
+    console.log(data);
+    const detailsArray = this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
     const detailsGroup = detailsArray.at(i) as FormGroup;
 
     detailsGroup.patchValue({
@@ -288,8 +290,26 @@ export class AddEditDispatchNoteComponent {
       partNumber: data?.partNumber,
       partName: data?.partName,
       partSize: data?.partSize,
-      remarks: data?.remarks,
+      remarks: data?.remarks
     });
+    const selectedPartNumbers = detailsArray.controls.map(control => control.value.partNumber);
+    this.updateSelectedParts(selectedPartNumbers);
+  }
+
+  getFilteredPartNumbers(index: number) {
+    return this.partsList.filter(
+      (parts: any) =>
+        !this.selectedParts.includes(parts.partNumber)
+    );
+  }
+
+  updateSelectedParts(selectedPartNumbers: string[]) {
+    this.selectedParts = selectedPartNumbers;
+  }
+
+
+  initializeSelectedParts(selectedPartNumbers: string[]) {
+    this.selectedParts = selectedPartNumbers;
   }
 
   onQuantitySelection(quantity: any, i: number) {
