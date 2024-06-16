@@ -23,6 +23,8 @@
     "@ng-select/ng-select": "^12.0.7",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "moment": "^2.30.1",
     "ngx-export-as": "^1.16.0",
     "ngx-toastr": "^18.0.0",

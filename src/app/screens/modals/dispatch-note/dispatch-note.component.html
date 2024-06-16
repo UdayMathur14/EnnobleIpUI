@@ -1,14 +1,16 @@
-<div class="common-modal main-content">
+<div id="dispatch-note-content" class="common-modal main-content">
     <div class="ngmodal-header">
+        <div class="justify-content-end d-flex">
+            <img id="download-button" class="me-3 pointer" src="assets/images/icons/download.svg" 
+            alt="Download PDF" (click)="downloadPDF()">
+            <img id="icon-button" class="pointer" src="assets/images/icons/close.svg" 
+            alt="Close" (click)="onClose()">
+        </div>
         <h3>
           Dispatch Note
-          <span class="float-right pointer" (click)="activeModal.dismiss('Cross click')">
-              <img src="assets/images/icons/close.svg" alt="">
-          </span>
-          <div class="clearfix"></div>
         </h3>
       </div>
-        <div class="ngmodal-body">
+        <div class="ngmodal-body mt-4">
             <!-- <img src="assets/images/test-delivery-note.jpg" alt=""> -->
             <p>Recycling Person Contact Number: <span class="fw-bold fs-6 phone">{{dispatch.suppliers.contactNumber}}</span></p>
             <div class="address">
