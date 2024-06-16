@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { PdfService } from '../../../core/service/pdf.service';
 
 @Component({
   selector: 'app-dispatch-note',
@@ -12,46 +11,16 @@ export class DispatchNoteModelComponent {
 
   @Input() dispatch: any;
 
-  constructor(public activeModal: NgbActiveModal){}
+  constructor(public activeModal: NgbActiveModal, private pdfService: PdfService){}
 
   ngOnInit(){
 
   }
 
   downloadPDF() {
-    const downloadButton = document.getElementById('download-button');
-    const closeButton = document.getElementById('icon-button');
     const data = document.getElementById('dispatch-note-content') as HTMLElement;
-  
-    if (downloadButton) {
-      downloadButton.style.display = 'none';
-    }
-    if (closeButton) {
-      closeButton.style.display = 'none';
-    }
-  
-    const scale = 3;
-    html2canvas(data, { scale: scale }).then(canvas => {
-      const imgWidth = 208;
-      const pageHeight = 295;
-  
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-  
-      const contentDataURL = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const position = 0;
-  
-      if (imgHeight > pageHeight) {
-        const scale = pageHeight / imgHeight;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight * scale);
-      } else {
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      }
-  
-      pdf.save('dispatch-note.pdf');
-
-      this.onClose();
-    });
+    this.pdfService.generatePdf(data, 'dispatch-note');
+    this.onClose();
   }
 
   onClose(){
