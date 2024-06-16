@@ -1,0 +1,30 @@
+<div class="filters-box">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Batch Number</label>
+                <div class="input-group datepicker">
+                    <input type="text" class="form-control" name="batchNumber"
+                        [(ngModel)]="batchNumber" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="handleSearch()">Search</button>
+                    <button class="custom-button-filters ms-4" (click)="onClearFilter()">Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-auto ms-auto d-flex align-items-center">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <button class="custom-button-export specific-padding-export">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

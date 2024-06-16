@@ -33,7 +33,6 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
         headers.push(cell.innerText.trim());
       }
     });
-    debugger
     this.exportHeader.emit(headers);
   }
   

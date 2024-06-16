@@ -1,0 +1,56 @@
+<div id="exportableTable" class="custom-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Accounting Type</th>
+                <th>Accounting Date</th>
+                <th>Branch</th>
+                <th>Document No</th>
+                <th>Invoice Currency Code</th>
+                <th>Invoice No</th>
+                <th>Invoice Date</th>
+                <th>Source Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let report of provisionalReport">
+                <td class="pointer" container="body">
+                    <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+                        <u>{{report.accountingType}}</u>
+                    </span>
+                    <ng-template #tipContent>
+                        <div class="">
+                            <div class="content-row">
+                                <span>Creation Date</span>
+                                <span>{{report.creationDate | date: 'yyyy-MM-dd'}}</span>
+                            </div>
+                            <div class="content-row">
+                                <span>Created By</span>
+                                <span>{{report.createdBy}}</span>
+                            </div>
+                            <div class="content-row">
+                                <span>Last Update Date</span>
+                                <span>{{report.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                            </div>
+                            <div class="content-row">
+                                <span>Last Updated By</span>
+                                <span>{{report.lastUpdatedBy}}</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </td>
+                <td>{{report.accountingDate | date: 'yyyy-MM-dd'}}</td>
+                <td>{{report.branch}}</td>
+                <td>{{report.documentNo}}</td>
+                <td>{{report.invoiceCurrencyCode}}</td>
+                <td>{{report.invoiceNo}}</td>
+                <td>{{report.invoiceDate | date: 'yyyy-MM-dd'}}</td>
+                <td>{{report.sourceName}}</td>
+                <td>{{report.status}}</td>
+            </tr>
+            <!-- <tr>
+                <td align="center" colspan="13">No Result Found</td>
+            </tr> -->
+    </table>
+</div>

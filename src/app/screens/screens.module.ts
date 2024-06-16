@@ -98,6 +98,12 @@ import { RejectionBiltiDetailReportGridTableComponent } from "./reports/rejectio
 import { ErrorLoggingReportComponent } from "./reports/error-logging-report/error-logging-report.component";
 import { ErrorLoggingReportFilterComponent } from "./reports/error-logging-report/components/filter/error-logging-report-filter.component";
 import { ErrorLoggingReportGridTableComponent } from "./reports/error-logging-report/components/grid-table/error-logging-report-grid-table.component";
+import { DebitNoteReportFilterComponent } from "./reports/debit-note-report/components/filter/debit-note-report-filter.component";
+import { DebitNoteReportGridTableComponent } from "./reports/debit-note-report/components/grid-table/debit-note-report-grid-table.component";
+import { DebitNoteReportComponent } from "./reports/debit-note-report/debit-note-report.component";
+import { ProvisionReportComponent } from "./reports/provision-report/provision-report.component";
+import { ProvisionReportFilterComponent } from "./reports/provision-report/components/filter/provision-report-filter.component";
+import { ProvisionReportGridTableComponent } from "./reports/provision-report/components/grid-table/provision-report-grid-table.component";
 
 
 @NgModule({
@@ -195,7 +201,13 @@ import { ErrorLoggingReportGridTableComponent } from "./reports/error-logging-re
         AdviceFilterComponent,
         ErrorLoggingReportComponent,
         ErrorLoggingReportFilterComponent,
-        ErrorLoggingReportGridTableComponent
+        ErrorLoggingReportGridTableComponent,
+        DebitNoteReportComponent,
+        DebitNoteReportFilterComponent,
+        DebitNoteReportGridTableComponent,
+        ProvisionReportComponent,
+        ProvisionReportFilterComponent,
+        ProvisionReportGridTableComponent
     ],
     imports: [
         LayoutModule,
