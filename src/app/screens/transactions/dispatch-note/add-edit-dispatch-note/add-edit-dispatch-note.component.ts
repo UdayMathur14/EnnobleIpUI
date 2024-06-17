@@ -37,6 +37,7 @@ export class AddEditDispatchNoteComponent {
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
   selectedParts: any = [];
+  deletedParts: any[] = [];
 
   constructor(
     private router: Router,
@@ -95,7 +96,7 @@ export class AddEditDispatchNoteComponent {
       partSize: [''],
       partQuantity: [''],
       remarks: [''],
-      status: [''],
+      status: ['Active'],
       id: [0]
     });
 
@@ -277,8 +278,21 @@ export class AddEditDispatchNoteComponent {
   }
 
   onDeletePartDetail(part: any, i: number) {
+    const deletedPart = {
+        actionBy: 1,
+        attribute9: new Date(),
+        attribute10: new Date(),
+        partId: part.value.partId,
+        partQty: part.value.partQuantity,
+        status: 'Inactive',
+        id: part.value.id,
+    };
+    if (this.dispatchId > 0 && deletedPart.id != 0) {
+        this.deletedParts.push(deletedPart);
+    }
     this.partDetails.controls.splice(i, 1);
-  }
+}
+
 
   onPartSelect(data: any, i: number) {
     console.log(data);
@@ -352,11 +366,12 @@ export class AddEditDispatchNoteComponent {
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
           partQty: parseInt(dg.controls['partQuantity'].value),
-          status: 'Active',
+          status: dg.controls['status'].value,
           id: dg.controls['id'].value || 0,
         };
         this.dispatchNote.partDetails.push(note);
       }
+      this.dispatchNote.partDetails = [...this.dispatchNote.partDetails, ...this.deletedParts];
 
       this.dispatchNoteService
         .updateDispatchNote(this.locationId, this.dispatchId, this.dispatchNote)
