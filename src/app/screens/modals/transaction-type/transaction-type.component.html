@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (transaction of transactionTypes; track transaction.id) {
+                        @for (transaction of activeTransactionTypes; track transaction.id) {
                         <tr>
                             <td>{{transaction.code}}</td>
                             <td>{{transaction.name}}</td>
