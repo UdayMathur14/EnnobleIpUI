@@ -155,9 +155,9 @@
       <tbody *ngFor="let biltiData of biltiData.lineItemDetail">
         <tr>
           <td>{{biltiData?.vendor?.vendorName}}</td>
-          <td>{{biltiData?.frmTransactionDetail?.documentNumber}}</td>
+          <td>{{biltiData?.documentReferenceNo}}</td>
           <td>{{biltiData?.vendor?.cityDetail?.code}}</td>
-          <td></td>
+          <td>{{biltiData?.pointCharge}}</td>
         </tr>
       </tbody>
     </table>
