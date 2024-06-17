@@ -8,10 +8,18 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TransactionTypeModalComponent implements OnInit {
   @Input() transactionTypes : any ;
+  activeTransactionTypes:any = []
   
   constructor(public activeModal: NgbActiveModal){}
 
   ngOnInit(): void {
+    this.filterActiveTransactions()
+  }
+
+  filterActiveTransactions(): void {
+    this.activeTransactionTypes = this.transactionTypes.filter((transaction: any) =>
+      transaction?.status === 'Active'
+    );
   }
 
 }
