@@ -75,7 +75,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
       this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts')
       this.amountDisabled = this.fullPath.includes('approvalAccounts') ||
-      this.fullPath.includes('checkedMaterialsTeam') || this.fullPath.includes('approvalMaterialHead');
+      this.fullPath.includes('checkedMaterialsTeam') || this.fullPath.includes('approvalMaterialHead') ||
+      this.fullPath.includes('biltiBillProcessView')
     });
     this.initForm();
     this.getBiltiBillProcessbyId();
