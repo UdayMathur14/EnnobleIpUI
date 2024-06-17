@@ -72,7 +72,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   ngOnInit(): void {
     this.route.url.subscribe(url => {
       this.fullPath = this.router.url;
-      this.showSaveButton = this.fullPath.includes('transaction/biltiBillProcess');
+      this.showSaveButton = (window.location.pathname === '/transaction/biltiBillProcess');
+      console.log(this.showSaveButton)
       this.showApproveRejectButtons = this.fullPath.includes('transaction/approvalAccounts')
       this.amountDisabled = this.fullPath.includes('approvalAccounts') ||
       this.fullPath.includes('checkedMaterialsTeam') || this.fullPath.includes('approvalMaterialHead') ||
