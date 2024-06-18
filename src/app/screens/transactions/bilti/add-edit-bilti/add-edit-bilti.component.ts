@@ -125,7 +125,7 @@ export class AddEditBiltiComponent implements OnInit {
         freightAmount: new FormControl(null),
         transporterCode: new FormControl('', [Validators.required]),
         transporterName: new FormControl(''),
-        loadingLocation: new FormControl(),
+        loadingLocation: new FormControl(null, [Validators.required]),
         status: new FormControl('Active'),
         vendors: this.fb.array([])
     });
