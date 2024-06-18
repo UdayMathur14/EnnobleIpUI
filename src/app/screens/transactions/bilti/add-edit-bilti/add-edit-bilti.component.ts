@@ -797,8 +797,4 @@ onFrlrNoClear() {
       }
     );
   }
-  isFormInvalid() {
-    return this.biltiForm.invalid;
-  }
-  
 }

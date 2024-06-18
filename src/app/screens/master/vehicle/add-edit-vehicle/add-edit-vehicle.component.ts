@@ -22,7 +22,7 @@ export class AddEditVehicleComponent implements OnInit {
   transporterId: number = 0;
   transporterData: any
   vehcileSizes: any = []
-  locationId:Number=0;
+  locationId!:Number;
   locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(

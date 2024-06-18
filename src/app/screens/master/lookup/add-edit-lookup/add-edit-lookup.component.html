@@ -1,8 +1,8 @@
 <div class="page-title">
     <h1>{{lookupId>0 ? 'Edit' : 'Create' }} Lookup</h1>
     <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onSaveButtonClick()">Save</button>
-        <button class="custom-button-regulr" (click)="onPressSubmit()">Submit</button>
+        <button class="custom-button-regulr" (click)="onSaveButtonClick()" [disabled]="!lookupForm.valid">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSubmit()" [disabled]="!lookupForm.valid">Submit</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
     </div>
 </div>

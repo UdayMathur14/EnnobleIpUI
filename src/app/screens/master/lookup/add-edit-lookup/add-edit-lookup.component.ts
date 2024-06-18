@@ -33,10 +33,10 @@ export class AddEditLookupComponent implements OnInit {
       value: ['', Validators.required],
       description: ['', Validators.required],
       status: ['Active', Validators.required],
-      attribute1: ['', Validators.required],
-      attribute2: ['', Validators.required],
-      attribute3: ['', Validators.required],
-      attribute4: ['', Validators.required],
+      attribute1: [''],
+      attribute2: [''],
+      attribute3: [''],
+      attribute4: [''],
     })
   }
 
