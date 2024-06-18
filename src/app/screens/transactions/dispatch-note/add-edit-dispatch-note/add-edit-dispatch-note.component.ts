@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartService } from '../../../../core/service/part.service';
 import { ToastrService } from 'ngx-toastr';
@@ -80,12 +80,12 @@ export class AddEditDispatchNoteComponent {
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
       locationId: '',
-      supplierCode: [''],
+      supplierCode: ['', [Validators.required]],
       supplierName: [''],
       supplierAddress: [''],
-      vehicleNumber: [''],
+      vehicleNumber: ['', [Validators.required]],
       vehicleSize: [''],
-      frlrNumber: [''],
+      frlrNumber: ['', [Validators.required]],
       status: ['Active'],
       partdetails: this.fb.array([]),
     });
@@ -94,10 +94,10 @@ export class AddEditDispatchNoteComponent {
   createPartDetailsGroup() {
     const detail = this.fb.group({
       partId: [''],
-      partNumber: [''],
+      partNumber: ['', [Validators.required]],
       partName: [''],
       partSize: [''],
-      partQuantity: [''],
+      partQuantity: ['', [Validators.required]],
       remarks: [''],
       status: ['Active'],
       id: [0]
@@ -444,5 +444,9 @@ export class AddEditDispatchNoteComponent {
       return false
     }
     return true;
+  }
+
+  isFormInvalid() {
+    return this.addOrEditDispatchNoteFormGroup.invalid || !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
   }
 }
