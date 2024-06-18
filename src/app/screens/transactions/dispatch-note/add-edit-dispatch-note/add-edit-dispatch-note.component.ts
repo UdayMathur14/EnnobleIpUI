@@ -38,6 +38,9 @@ export class AddEditDispatchNoteComponent {
   locations: any[] = APIConstant.locationsListDropdown;
   selectedParts: any = [];
   deletedParts: any[] = [];
+  activeSuppliersLists: any[] = [];
+  activeVehiclesLists: any[] = [];
+  activePartsLists: any[] = [];
 
   constructor(
     private router: Router,
@@ -162,6 +165,9 @@ export class AddEditDispatchNoteComponent {
     await this.partService.getParts(data).subscribe(
       (response: any) => {
         this.partsList = response.parts;
+        this.activePartsLists = this.partsList.filter(
+          (parts: any) => parts.status === 'Active'
+        );
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -174,6 +180,9 @@ export class AddEditDispatchNoteComponent {
     await this.vehicleService.getVehicles(data).subscribe(
       (response: any) => {
         this.vehicleList = response.vehicles;
+        this.activeVehiclesLists = this.vehicleList.filter(
+          (vehicle: any) => vehicle.status === 'Active'
+        );
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -189,6 +198,9 @@ export class AddEditDispatchNoteComponent {
     await this.vendorService.getVendors(data).subscribe(
       (response: any) => {
         this.supplierList = response.vendors;
+        this.activeSuppliersLists = this.supplierList.filter(
+          (supplier: any) => supplier.status === 'Active' || supplier.status === 'ACTIVE'
+        );
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -311,7 +323,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   getFilteredPartNumbers(index: number) {
-    return this.partsList.filter(
+    return this.activePartsLists.filter(
       (parts: any) =>
         !this.selectedParts.includes(parts.partNumber)
     );

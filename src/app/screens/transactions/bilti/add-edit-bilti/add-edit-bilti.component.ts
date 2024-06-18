@@ -104,7 +104,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.getAllPointChargesList();
     this.getLoadingLocationData();
     this.getVehicleNumber();
-    this.getDispatchData();
     setTimeout(() => {
       if (this.biltiId > 0) {
         this.getBiltiData(this.biltiId);
@@ -477,7 +476,7 @@ onFrlrNoClear() {
       (response: any) => {
         this.vendorList = response.vendors;
         this.filteredVendorcode = this.vendorList.filter(
-          (vendors: any) => vendors.status === 'Active'
+          (vendors: any) => vendors.status === 'Active' || vendors.status === 'ACTIVE'
         );
         this.pointChargesList.forEach((pointCharge: any) => {
           this.pointMapCharge[pointCharge.cityId] = pointCharge.pointCharge;
