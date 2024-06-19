@@ -1,7 +1,7 @@
 <div class="page-title">
     <h1>{{adviceId > 0 ? 'Edit Advice' : 'Create Advice'}} Master</h1>
     <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!adviceForm.valid">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
     </div>
 </div>

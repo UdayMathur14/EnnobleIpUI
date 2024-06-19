@@ -43,10 +43,10 @@ export class AddEditPlantComponent implements OnInit {
       panNo: [''],
       plantType: [''],
       siteCode: [''],
-      locationId: [''],
-      dsc: [''],
-      dcp: [''],
-      status: ['Active']
+      locationId: ['', Validators.required],
+      dsc: ['', Validators.required],
+      dcp: ['', Validators.required],
+      status: ['Active', Validators.required]
     });
   }
 

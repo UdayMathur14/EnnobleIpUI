@@ -35,7 +35,7 @@ export class AddEditFreightComponent implements OnInit {
     private freightService: FreightService,
     private _Activatedroute: ActivatedRoute) {
     this.freightForm = this.formBuilder.group({
-      freightCode: ['', Validators.required],
+      freightCode: [''],
       locationCode: [undefined, [Validators.required]],
       source: ['', [Validators.required]],
       destination: ['', [Validators.required]],
@@ -46,7 +46,7 @@ export class AddEditFreightComponent implements OnInit {
       matApprovalOn: [''],
       accApproval: [''],
       accApprovalOn: [''],
-      remarks: ['', [Validators.required]],
+      remarks: [''],
     });
   }
 

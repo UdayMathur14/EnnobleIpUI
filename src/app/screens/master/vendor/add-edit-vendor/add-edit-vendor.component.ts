@@ -35,13 +35,13 @@ export class AddEditVendorComponent implements OnInit {
     gstin: new FormControl(''),
     paymentTermCode: new FormControl(''),
     paymentStatus: new FormControl(''),
-    paidByDetail: new FormControl(''),
+    paidByDetail: new FormControl('', [Validators.required]),
     taxationCode: new FormControl('', [Validators.required]),
     cgst: new FormControl(''),
     sgst: new FormControl(''),
     igst: new FormControl(''),
     rcmNonRcm: new FormControl(''),
-    status: new FormControl('')
+    status: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -199,5 +199,4 @@ export class AddEditVendorComponent implements OnInit {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
-
 }
