@@ -59,7 +59,9 @@
                   placement="top" ngbTooltip="Bilti PDF" />
                 </td>
                 <td class="text-center">
-                    <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditBilti(bilti)" />
+                  <button class="icon-button" ngbTooltip="Edit" (click)="onEditBilti(bilti)" placement="top" [disabled]="disableEdit(bilti)">
+                    <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" />
+                  </button>
                 </td>
             </tr>
           }@empty {

@@ -7,6 +7,7 @@ import { BaseService } from '../../../../core/service/base.service';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-plant',
@@ -23,6 +24,7 @@ export class AddEditPlantComponent implements OnInit {
   locationsDropdownData: any = [];
   selectedTransactionCodes: string[] = [];
   deletedTransactions: any[] = [];
+  locations: any[] = APIConstant.locationsListDropdown;
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
