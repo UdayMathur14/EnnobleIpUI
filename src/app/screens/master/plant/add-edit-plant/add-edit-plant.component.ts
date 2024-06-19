@@ -167,10 +167,10 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   onTransactionSelect(e: any, index: any) {
-    this.plantData.transactionTypeMapping[index].name = e.name;
-    this.plantData.transactionTypeMapping[index].status = e.status;
-    this.plantData.transactionTypeMapping[index].code = e.code;
-    this.plantData.transactionTypeMapping[index].transactionTypeId = e.id
+    this.plantData.transactionTypeMapping[index].name = e?.name;
+    this.plantData.transactionTypeMapping[index].status = e?.status;
+    this.plantData.transactionTypeMapping[index].code = e?.code;
+    this.plantData.transactionTypeMapping[index].transactionTypeId = e?.id
 
     this.updateSelectedTransactionCodes();
   }
@@ -201,9 +201,19 @@ export class AddEditPlantComponent implements OnInit {
       transactionTypeId: transaction.transactionTypeId,
       status: 'Inactive'
     };
-    if (deletedTransaction.id != 0) {
+    if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
       this.deletedTransactions.push(deletedTransaction);
     }
     this.plantData.transactionTypeMapping.splice(index, 1);
+  }
+
+  onTransactionClear(ind: number) {
+    this.plantData.transactionTypeMapping[ind].code = null;
+  }
+
+  nullTransactionCode(): boolean {
+    return this.plantData.transactionTypeMapping.some(
+      (mapping) => mapping.code === null
+    );
   }
 }

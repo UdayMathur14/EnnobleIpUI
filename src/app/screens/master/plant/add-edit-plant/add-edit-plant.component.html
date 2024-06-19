@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>Edit Plant</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!plantForm.valid">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!plantForm.valid || nullTransactionCode()">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -141,7 +141,7 @@
                   />
                 </div> -->
                 <ng-select class="input-field" [(ngModel)]="transaction.code"
-                  (change)="onTransactionSelect($event, ind)">
+                  (change)="onTransactionSelect($event, ind)" (clear)="onTransactionClear(ind)">
                   <ng-option *ngFor="let transaction of getFilteredTransactionTypes(ind)" [value]="transaction">
                     {{transaction.code}}
                   </ng-option>
