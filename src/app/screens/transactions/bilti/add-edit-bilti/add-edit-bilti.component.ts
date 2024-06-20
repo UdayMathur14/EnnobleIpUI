@@ -512,8 +512,8 @@ onFrlrNoClear() {
         "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity: [
           {
-            actionBy: localStorage.getItem("userId"),
             vendorId: 0,
+            actionBy: '',
             remarks: '',
             attribute9: '',
             attribute10: '',
@@ -526,8 +526,8 @@ onFrlrNoClear() {
 
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
-          actionBy: localStorage.getItem("userId"),
           vendorId: this.vendorId,
+          actionBy: localStorage.getItem("userId") || '',
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
@@ -536,7 +536,7 @@ onFrlrNoClear() {
           documentReferenceNo: vendorControl.documentrefNo,
           pointCharge: vendorControl?.pointCharge
         };
-        if(data.lineItemsEntity[0].actionBy == "0"){
+        if(data.lineItemsEntity[0].vendorId == 0){
           data.lineItemsEntity[0] = lineItem
         }else{
           data.lineItemsEntity.push(lineItem);
@@ -571,8 +571,8 @@ onFrlrNoClear() {
         "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity:  [
           {
-          actionBy: localStorage.getItem("userId"),
-          vendorId: '',
+          vendorId: 0,
+          actionBy: '',
           remarks: '',
           attribute9: '',
           attribute10: '',
@@ -587,8 +587,8 @@ onFrlrNoClear() {
       };
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
-          actionBy: localStorage.getItem("userId"),
           vendorId: this.vendorId,
+          actionBy: localStorage.getItem("userId") || '',
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
@@ -599,7 +599,7 @@ onFrlrNoClear() {
           documentReferenceNo: vendorControl.documentrefNo,
           pointCharge: vendorControl?.pointCharge
         };
-        if(data.lineItemsEntity[0].actionBy == "0"){
+        if(data.lineItemsEntity[0].vendorId == 0){
           data.lineItemsEntity[0] = lineItem
         }else{
           data.lineItemsEntity.push(lineItem);
