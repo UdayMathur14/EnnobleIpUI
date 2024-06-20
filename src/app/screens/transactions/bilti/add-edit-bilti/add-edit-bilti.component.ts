@@ -264,7 +264,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArray.at(index) as FormGroup;
       this.vendorId = this.vendorIdMap[selected?.toDestination]
-      console.log(this.vendorId)
       vendorGroup.patchValue({
         documentrefNo: row.documentrefNo,
         vendorCode: this.biltiTransactionType == 'RB'? selectedFrlr?.suppliers?.vendorCode: this.vendorMapCode[selected?.toDestination],

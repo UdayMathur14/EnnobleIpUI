@@ -65,6 +65,40 @@
           <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
         </div>
       </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for=""> Transporter Code <span class="text-danger">*</span></label>
+          <ng-select (change)="onTransporterSelection($event)" formControlName="transporterCode" class="input-field"
+            placeholder="Select Transporter Code">
+            <ng-option *ngFor="let transporter of activeTransportersList"
+              [value]="transporter.id">{{transporter.transporterCode}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Transporter Name <span class="text-danger">*</span></label>
+          <input formControlName="transporterName" type="text" class="input-field" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Transporter Mode <span class="text-danger">*</span></label>
+          <input formControlName="transporterMode" type="text" class="input-field" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">FRLR Date <span class="text-danger">*</span></label>
+          <div class="input-group datepicker">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
+              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" />
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="edit-screen-subTable">

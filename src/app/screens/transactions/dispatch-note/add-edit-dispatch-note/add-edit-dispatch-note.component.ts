@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PartService } from '../../../../core/service/part.service';
@@ -9,6 +9,8 @@ import { DispatchNoteService } from '../../../../core/service/dispatch-note.serv
 import { BaseService } from '../../../../core/service/base.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
+import { TransporterService } from '../../../../core/service/transporter.service';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-edit-dispatch-note',
@@ -43,6 +45,11 @@ export class AddEditDispatchNoteComponent {
   activePartsLists: any[] = [];
   dispatchNotes: any = [];
   dispatchLocationId: number = 0;
+  transportersList: any = [];
+  activeTransportersList: any = [];
+  // frlrDate!: NgbDateStruct | null;
+  today = inject(NgbCalendar).getToday();
+  frlrDate: string = '';
 
   constructor(
     private router: Router,
@@ -55,6 +62,7 @@ export class AddEditDispatchNoteComponent {
     private lookupService: LookupService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private transporterService: TransporterService
   ) { }
 
   ngOnInit() {
@@ -71,6 +79,7 @@ export class AddEditDispatchNoteComponent {
     this.getAllVendors();
     this.dispatchNoteInit();
     this.getAllLookups();
+    this.getTransportersList();
     this.setLocation();
 
     setTimeout(() => {
@@ -90,6 +99,10 @@ export class AddEditDispatchNoteComponent {
       vehicleSize: [''],
       frlrNumber: ['', [Validators.required]],
       status: ['Active'],
+      transporterCode: ['', [Validators.required]],
+      transporterName: [''],
+      transporterMode: [''],
+      frlrDate: ['', [Validators.required]],
       partdetails: this.fb.array([]),
     });
   }
@@ -123,6 +136,7 @@ export class AddEditDispatchNoteComponent {
         const suppliers = response.suppliers;
         this.supplierId = suppliers.id;
         this.vehicleId = vehicles.id;
+        const frlrDate = this.convertToNgbDate(response.frlrDate);
         this.dispatchNote.status = response.status;
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
@@ -132,7 +146,11 @@ export class AddEditDispatchNoteComponent {
           frlrNumber: response.frlrNumber,
           supplierAddress: suppliers.vendorAddress1,
           status: response.status,
-          locationId: response.locations.id
+          locationId: response.locations.id,
+          transporterCode: response.transporter.transporterCode,
+          transporterName: response.transporter.transporterName,
+          transporterMode: response.transporter.modeOfTransport.value,
+          frlrDate: frlrDate
         });
 
         response?.dispatchNotePartItems?.forEach(
@@ -247,7 +265,9 @@ export class AddEditDispatchNoteComponent {
       supplierId: 0,
       vehicleId: 0,
       partDetails: [],
-      id: this.dispatchId
+      id: this.dispatchId,
+      transporterId: 0,
+      frlrDate: ''
     };
   }
 
@@ -311,7 +331,6 @@ export class AddEditDispatchNoteComponent {
 
 
   onPartSelect(data: any, i: number) {
-    console.log(data);
     const detailsArray = this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
     const detailsGroup = detailsArray.at(i) as FormGroup;
 
@@ -360,6 +379,8 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNote.frlrNumber = this.addOrEditDispatchNoteFormGroup.controls[
       'frlrNumber'
     ].value as string;
+    this.dispatchNote.transporterId = this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value,
+    this.dispatchNote.frlrDate = this.frlrDate
 
     const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
       'partdetails'
@@ -483,5 +504,49 @@ export class AddEditDispatchNoteComponent {
         reject('No matching dispatch note found');
       }
     });
+  }
+
+  getTransportersList() {
+    let data = {
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "transporterCode": "",
+      "transporterName": "",
+      "city": "",
+      "state": "",
+      "taxationType": ""
+    }
+    this.transporterService.getTransporters(data).subscribe((response: any) => {
+      this.transportersList = response.transporters;
+      this.activeTransportersList = this.transportersList.filter(
+        (items: any) => items.status === 'Active'
+      );
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    })
+  }
+
+  onTransporterSelection(data: any){
+    const transporters = this.transportersList.find((item: any) => {
+     return item.id == data;
+    })
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      transporterName: transporters?.transporterName,
+      transporterMode: transporters?.transporterMode.value
+    })
+  }
+
+  onDateSelect(type: string, e: any) {
+    const month = Number(e.month) < 10 ? '0' + e.month : e.month;
+    const day = Number(e.day) < 10 ? '0' + e.day : e.day;
+      this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
+  }
+
+  convertToNgbDate(dateString: string): NgbDate {
+    const dateParts = dateString.split('-');
+    return new NgbDate(
+      parseInt(dateParts[0], 10),
+      parseInt(dateParts[1], 10),
+      parseInt(dateParts[2], 10)
+    );
   }
 }
