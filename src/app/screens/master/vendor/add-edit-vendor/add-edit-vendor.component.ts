@@ -96,7 +96,7 @@ export class AddEditVendorComponent implements OnInit {
     this.loadSpinner = true;
     const rcmNonRcmValue = this.vendorForm.get('rcmNonRcm')?.value === 'RCM' ? 1 : 0;
     let data = {
-      "actionBy": 1,
+      "actionBy": localStorage.getItem("userId"),
       "contactNumber": this.vendorForm.get('phone')?.value,
       "email": this.vendorForm.get('email')?.value,
       "status": this.vendorForm.get('status')?.value,

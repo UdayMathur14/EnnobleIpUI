@@ -78,6 +78,10 @@ export class SideBarComponent {
             this.router.navigate(['/report/processed'])
         } else if (report === 'error-logging-report') {
             this.router.navigate(['/report/error-logging'])
+        } else if (report === 'debit-note-report') {
+            this.router.navigate(['/report/debit-note'])
+        } else if (report === 'provision-report') {
+            this.router.navigate(['/report/provision'])
         }
     }
 }

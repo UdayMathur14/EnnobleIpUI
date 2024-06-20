@@ -97,7 +97,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
       "approvalLevel": "Material",
       "status": status,
       "remarks": remarks,
-      "actionBy": 1,
+      "actionBy": localStorage.getItem("userId"),
       "transactionCode": 201 // for Material freight
     };
   }

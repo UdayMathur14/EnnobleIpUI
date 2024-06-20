@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, errorLoggingReport } from "../constants";
+import { APIConstant, debitNoteReport, errorLoggingReport, provisionalReport } from "../constants";
 import { ReportRequest } from "../models/report";
 
 @Injectable({
@@ -14,5 +14,13 @@ export class ReportService extends CRUDService<ReportRequest> {
 
     getErrorLogging(data: any = {}) {
         return this.post(errorLoggingReport, data);
+    }
+
+    getDebitNote(data: any = {}) {
+        return this.post(debitNoteReport, data);
+    }
+
+    getProvisionReport(data: any = {}) {
+        return this.post(provisionalReport, data);
     }
 }

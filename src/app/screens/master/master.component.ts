@@ -14,7 +14,6 @@ export class MasterComponent implements OnInit{
   constructor(){}
 
   ngOnInit(): void {
-    debugger
     this.userName = JSON.parse(this.userData).username;
   }
 }

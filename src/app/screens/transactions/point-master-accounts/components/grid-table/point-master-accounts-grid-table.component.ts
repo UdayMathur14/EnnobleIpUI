@@ -95,7 +95,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       approvalLevel: "Account",
       status: status,
       remarks: remarks,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       transactionCode: 202 // for Account Point Charge
     };
   }

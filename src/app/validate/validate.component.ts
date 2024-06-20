@@ -40,6 +40,8 @@ export class ValidateComponent implements OnInit {
             this.validateService.generateToken({ appId: app.id },userData.accessToken).subscribe(async (res) => {
                 localStorage.setItem("logindata", atobParam);
                 localStorage.setItem("profile", JSON.stringify(res));
+
+                this.lookupService.profile = res;
                 
                 await this.bootService.getLookupDataForLocation();
                 setTimeout(() => {
