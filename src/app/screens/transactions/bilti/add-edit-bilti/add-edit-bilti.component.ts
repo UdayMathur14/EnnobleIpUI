@@ -27,6 +27,7 @@ export class AddEditBiltiComponent implements OnInit {
   pointMapName: { [key: string]: string } = {};
   pointMapCharge: { [key: string]: string } = {};
   paidByDetailsMap: { [key: string]: string } = {};
+  vendorIdMap: { [key: string]: string } = {};
   frlrList: any = [];
   transactionTypesLists: any = [];
   selectedTransactionType: string = '';
@@ -150,51 +151,51 @@ export class AddEditBiltiComponent implements OnInit {
     });
   }
 
-  onVendorCodeChange(event: any, index: number) {
-    const vendorData = this.vendorList.find(
-      (vendor: any) => 
-      vendor?.id == event
-    );
-    const selectedVendorCode = vendorData;
-    const cityId = vendorData.cityId;
-    const pointCharges = this.pointChargesList.find(
-      (pointCharge: any) => 
-      pointCharge?.cityId === cityId
-    );
-    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-    const vendorGroup = vendorsArray.at(index) as FormGroup;
-    if (index > 0) {
-      vendorGroup.patchValue({
-        pointCharge: pointCharges?.sameLocationCharge,
-      });
-  } else {
-      vendorGroup.patchValue({
-          pointCharge: pointCharges?.pointCharge,
-      });
-  }
-    vendorGroup.patchValue({
-      vendorName: selectedVendorCode?.vendorName,
-      pointName: pointCharges?.pointName,
-      paidByDetails: selectedVendorCode?.paidByDetail?.value,
-    });
-  }
+  // onVendorCodeChange(event: any, index: number) {
+  //   const vendorData = this.vendorList.find(
+  //     (vendor: any) => 
+  //     vendor?.id == event
+  //   );
+  //   const selectedVendorCode = vendorData;
+  //   const cityId = vendorData.cityId;
+  //   const pointCharges = this.pointChargesList.find(
+  //     (pointCharge: any) => 
+  //     pointCharge?.cityId === cityId
+  //   );
+  //   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+  //   const vendorGroup = vendorsArray.at(index) as FormGroup;
+  //   if (index > 0) {
+  //     vendorGroup.patchValue({
+  //       pointCharge: pointCharges?.sameLocationCharge,
+  //     });
+  // } else {
+  //     vendorGroup.patchValue({
+  //         pointCharge: pointCharges?.pointCharge,
+  //     });
+  // }
+  //   vendorGroup.patchValue({
+  //     vendorName: selectedVendorCode?.vendorName,
+  //     pointName: pointCharges?.pointName,
+  //     paidByDetails: selectedVendorCode?.paidByDetail?.value,
+  //   });
+  // }
   
   getVendorControls() {
     return (this.biltiForm.get('vendors') as FormArray).controls;
   }
 
-  onVendorCodeClear(index: number) {
-    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-    const vendorGroup = vendorsArray.at(index) as FormGroup;
+  // onVendorCodeClear(index: number) {
+  //   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+  //   const vendorGroup = vendorsArray.at(index) as FormGroup;
   
-    vendorGroup.patchValue({
-      vendorCode: null,
-      vendorName: null,
-      pointCharge: null,
-      pointName: null,
-      paidByDetails: null
-    });
-  }
+  //   vendorGroup.patchValue({
+  //     vendorCode: null,
+  //     vendorName: null,
+  //     pointCharge: null,
+  //     pointName: null,
+  //     paidByDetails: null
+  //   });
+  // }
 
 
   onCancelPress() {
@@ -305,16 +306,17 @@ export class AddEditBiltiComponent implements OnInit {
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArray.at(index) as FormGroup;
+      this.vendorId = this.vendorIdMap[selected?.toDestination]
+      console.log(this.vendorId)
       vendorGroup.patchValue({
         documentrefNo: row.documentrefNo,
-        vendorCode: selectedFrlr?.suppliers?.vendorCode,
-        vendorName: selectedFrlr?.suppliers?.vendorName,
-        pointName: selectedFrlr?.suppliers?.city?.value,
-        pointCharge: selectedFrlr?.suppliers?.city?.pointChargeDetails?.pointCharge,
-        paidByDetails: selectedFrlr?.suppliers?.paidByDetail
+        vendorCode: this.biltiTransactionType == 'RB'? selectedFrlr?.suppliers?.vendorCode: this.vendorMapCode[selected?.toDestination],
+        vendorName: this.biltiTransactionType == 'RB'? selectedFrlr?.suppliers?.vendorName: this.vendorMapName[selected?.toDestination],
+        pointName: this.biltiTransactionType == 'RB'? selectedFrlr?.suppliers?.city?.value: this.pointMapName[selected?.toDestination],
+        pointCharge: this.biltiTransactionType == 'RB'? selectedFrlr?.suppliers?.city?.pointChargeDetails?.pointCharge: this.pointMapCharge[selected?.toDestination],
+        paidByDetails: this.biltiTransactionType == 'RB'? selectedFrlr?.suppliers?.paidByDetail: this.paidByDetailsMap[selected?.toDestination] 
       });
     });
-    console.log(selectedFrlr)
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
       (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
@@ -493,6 +495,7 @@ onFrlrNoClear() {
           this.pointMapName[vendor.vendorCode] = vendor.city.value;
           this.pointMapCharge[vendor.vendorCode] = this.pointMapCharge[cityId]
           this.paidByDetailsMap[vendor.vendorCode] = vendor.paidByDetail.value;
+          this.vendorIdMap[vendor.vendorCode] = vendor.id;
         });
         this.loadSpinner = false;
       },
@@ -566,7 +569,7 @@ onFrlrNoClear() {
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
           actionBy: 1,
-          vendorId: formData.transactionType.code === 'RB' ? this.vendorId : vendorControl?.vendorCode,
+          vendorId: this.vendorId,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
@@ -627,7 +630,7 @@ onFrlrNoClear() {
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
           actionBy: 1,
-          vendorId: this.selectedTransactionTypePatchCode === 'RB' ? this.vendorId : vendorControl?.vendorCode,
+          vendorId: this.vendorId,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
