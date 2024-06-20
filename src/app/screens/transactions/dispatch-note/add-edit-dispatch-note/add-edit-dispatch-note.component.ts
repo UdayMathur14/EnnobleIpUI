@@ -41,6 +41,8 @@ export class AddEditDispatchNoteComponent {
   activeSuppliersLists: any[] = [];
   activeVehiclesLists: any[] = [];
   activePartsLists: any[] = [];
+  dispatchNotes: any = [];
+  dispatchLocationId: number = 0;
 
   constructor(
     private router: Router,
@@ -52,7 +54,7 @@ export class AddEditDispatchNoteComponent {
     private baseService: BaseService,
     private lookupService: LookupService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
@@ -69,10 +71,11 @@ export class AddEditDispatchNoteComponent {
     this.getAllVendors();
     this.dispatchNoteInit();
     this.getAllLookups();
+    this.setLocation();
 
     setTimeout(() => {
       if (this.dispatchId > 0) {
-        this.getDispatchData(this.dispatchId);
+        this.getEditData();
       }
     }, 1000);
   }
@@ -113,7 +116,7 @@ export class AddEditDispatchNoteComponent {
   async getDispatchData(dispatchId: number) {
     this.loadSpinner = true
     await this.dispatchNoteService
-      .getDispatchNoteById(this.locationId, dispatchId)
+      .getDispatchNoteById(this.dispatchLocationId, dispatchId)
       .subscribe((response: any) => {
         this.loadSpinner = false;
         const vehicles = response.vehicles;
@@ -129,6 +132,7 @@ export class AddEditDispatchNoteComponent {
           frlrNumber: response.frlrNumber,
           supplierAddress: suppliers.vendorAddress1,
           status: response.status,
+          locationId: response.locations.id
         });
 
         response?.dispatchNotePartItems?.forEach(
@@ -349,6 +353,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   async onSavePress() {
+    const locationCode = this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value
     this.loadSpinner = true;
     this.dispatchNote.supplierId = this.supplierId;
     this.dispatchNote.vehicleId = this.vehicleId;
@@ -386,7 +391,7 @@ export class AddEditDispatchNoteComponent {
       this.dispatchNote.partDetails = [...this.dispatchNote.partDetails, ...this.deletedParts];
 
       this.dispatchNoteService
-        .updateDispatchNote(this.locationId, this.dispatchId, this.dispatchNote)
+        .updateDispatchNote(locationCode, this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');
@@ -422,7 +427,7 @@ export class AddEditDispatchNoteComponent {
       }
 
       await this.dispatchNoteService
-        .createDispatchNote(this.dispatchNote)
+        .createDispatchNote(locationCode,this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.dispatchNote = response;
@@ -448,5 +453,35 @@ export class AddEditDispatchNoteComponent {
 
   isFormInvalid() {
     return this.addOrEditDispatchNoteFormGroup.invalid || !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
+  }
+
+  setLocation(){
+    if(!this.vehicleId){
+      this.lookupService.setLocationId(this.addOrEditDispatchNoteFormGroup, this.locations, 'locationId');
+    }
+  }
+
+  getEditData(dispatchNumber: string = "", locationIds: any[] = []) {
+    this.loadSpinner = true;
+    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
+      this.dispatchNotes = res.dispatchNotes;
+      this.getLocationId().then(() => {
+        this.getDispatchData(this.dispatchId);
+      });
+    })
+  }
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const dispatchNote = this.dispatchNotes.filter((item: any) => {
+        return item.id == this.dispatchId
+      });
+      if (dispatchNote.length > 0) {
+        this.dispatchLocationId = dispatchNote[0].locations.id;
+        resolve();
+      } else {
+        reject('No matching dispatch note found');
+      }
+    });
   }
 }

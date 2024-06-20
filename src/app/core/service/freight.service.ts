@@ -17,15 +17,15 @@ export class FreightService extends CRUDService<PlantRequest> {
         return this.post(freight, data);
     }
 
-    getFreightData(freightId : number){
-        return this.get(freightData(this.locationIds, freightId));
+    getFreightData(locationId: number = 0, freightId : number){
+        return this.get(freightData(locationId, freightId));
     }
 
-    updateFreight(locationId:Number,freightId : number, data : object){
+    updateFreight(locationId:number = 0,freightId : number, data : object){
         return this.put(updateFreight(locationId, freightId), data);
     }
 
-    createFreight(locationId:Number,data : object){
+    createFreight(locationId:number = 0,data : object){
         return this.post(createFreight(locationId), data);
     }
 

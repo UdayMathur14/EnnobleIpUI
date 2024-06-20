@@ -6,6 +6,7 @@ import { VehicleService } from '../../../../core/service/vehicle.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VehicleDataModel } from '../../../../core/model/masterModels.model';
 import { APIConstant } from '../../../../core/constants';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-vehicle',
@@ -24,13 +25,16 @@ export class AddEditVehicleComponent implements OnInit {
   vehcileSizes: any = []
   locationId!:Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  locationCode: any
+  vehicleLocationId: number = 0;
 
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    private baseService: BaseService
+    private baseService: BaseService,
+    private lookUpService: LookupService
   ) { }
 
   vehicleForm = new FormGroup({
@@ -60,16 +64,19 @@ export class AddEditVehicleComponent implements OnInit {
         this.vehicleId = null;
       }
     })
-    this.getVehicleData(this.vehicleId);
+    if(this.vehicleId > 0){
+      this.getEditVehicleData();
+    }
     this.getAllLookups();
     this.getVehicleSizeDropdownData();
+    this.setLocation();
   }
 
   // GET THE DATA OF SPECIFIC VEHICLE
   getVehicleData(vehicleId: string) {
     if (this.vehicleId) {
       this.loadSpinner = true;
-      this.vehicleService.getVehicleData(vehicleId).subscribe((response: any) => {
+      this.vehicleService.getVehicleData(this.vehicleLocationId,vehicleId).subscribe((response: any) => {
         this.vehicleData = response;
         this.patchVehicleForm(response);
         this.loadSpinner = false;
@@ -93,6 +100,7 @@ export class AddEditVehicleComponent implements OnInit {
       address: data.transporterEntity.transporterAddress1,
       mobileNumber1: data.transporterEntity.transporterContactNo,
       emailId: data.transporterEntity.transporterMailId,
+      locationId:  data.locations.id
     });
   }
 
@@ -103,6 +111,8 @@ export class AddEditVehicleComponent implements OnInit {
 
   // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
+    this.locationCode = this.vehicleForm.controls['locationId']?.value
+    console.log(this.locationCode)
     this.loadSpinner = true;
     if (this.vehicleId) {
       let data = {
@@ -113,7 +123,7 @@ export class AddEditVehicleComponent implements OnInit {
         actionBy: 1,
       }
 
-      this.vehicleService.updateVehicle(this.locationId,this.vehicleId, data)
+      this.vehicleService.updateVehicle(this.locationCode,this.vehicleId, data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')
@@ -137,7 +147,7 @@ export class AddEditVehicleComponent implements OnInit {
         status: this.vehicleForm.get('vehicleStatus')?.value,
       }
 
-      this.vehicleService.createVehicle(data)
+      this.vehicleService.createVehicle(this.locationCode,data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Created Successfully')
@@ -215,5 +225,41 @@ export class AddEditVehicleComponent implements OnInit {
     this.vehicleService.getDropdownData(data, type).subscribe((res: any) => {
       this.vehcileSizes = res.lookUps
     })
+  }
+
+  setLocation(){
+    if(!this.vehicleId){
+      this.lookUpService.setLocationId(this.vehicleForm, this.locations, 'locationId');
+    }
+  }
+
+  getEditVehicleData(){
+    let data = {
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "vehicleNumber": "",
+      "transporterId": 0
+    }
+    this.vehicleService.getVehicles(data).subscribe((response:any) => {
+      this.vehiclesList = response.vehicles;
+      this.getLocationId().then(() => {
+        this.getVehicleData(this.vehicleId);
+      });
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    })
+  }
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const vehicle = this.vehiclesList.filter((item: any) => {
+        return item.id == this.vehicleId
+      });
+      if (vehicle.length > 0) {
+        this.vehicleLocationId = vehicle[0].locations.id;
+        resolve();
+      } else {
+        reject('No matching vehicle found');
+      }
+    });
   }
 }

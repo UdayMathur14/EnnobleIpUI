@@ -12,6 +12,7 @@ import { TransporterService } from '../../../../core/service/transporter.service
 import { FreightService } from '../../../../core/service/freight.service';
 import { VendorService } from '../../../../core/service/vendor.service';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -73,6 +74,8 @@ export class AddEditBiltiComponent implements OnInit {
   rbVehicleNumber: string = ''
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  biltisList: any = [];
+  biltiLocationId: number = 0;
 
   constructor(
     private router: Router,
@@ -86,7 +89,8 @@ export class AddEditBiltiComponent implements OnInit {
     private transporterService: TransporterService,
     private freightService: FreightService,
     private vendorService: VendorService,
-    private pointChargeService: PointChargeService
+    private pointChargeService: PointChargeService,
+    private lookUpService: LookupService
   ) {}
 
   ngOnInit() {
@@ -96,7 +100,7 @@ export class AddEditBiltiComponent implements OnInit {
     if(locationId){
       this.locationId = Number(locationId);
     }
-
+    this.initForm();
     this.getAllTransportersList();
     this.getAllTransactionTypes();
     this.getAllFreightList();
@@ -106,10 +110,10 @@ export class AddEditBiltiComponent implements OnInit {
     this.getVehicleNumber();
     setTimeout(() => {
       if (this.biltiId > 0) {
-        this.getBiltiData(this.biltiId);
+        this.getEditBiltiData();
       }
     },1000)
-    this.initForm();
+    this.setLocation();
   }
 
   initForm() {
@@ -221,7 +225,7 @@ export class AddEditBiltiComponent implements OnInit {
     const data = {
       transactionType: selectedTransactionType,
     };
-    this.biltiService.getFrmTransactions(this.locationId,data).subscribe(
+    this.biltiService.getFrmTransactions(data).subscribe(
       (response: any) => {
         this.allFrmTransactionData = response.frmTransactions
         this.frmTransactionData = [...new Set(response.frmTransactions.map((item: any) => 
@@ -520,6 +524,7 @@ onFrlrNoClear() {
   }
 
   onPressSave() {
+    const locationCode = this.biltiForm.controls['locationId']?.value
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
     console.log(formData)
@@ -578,7 +583,7 @@ onFrlrNoClear() {
       })
   
       
-      this.biltiService.createBilti(this.locationId,data).subscribe(
+      this.biltiService.createBilti(locationCode,data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Created Successfully');
@@ -647,7 +652,7 @@ onFrlrNoClear() {
           data.lineItemsEntity[0].id = this.lineItem[0].id;
         }
       })
-      this.biltiService.updateBilti(this.locationId,this.biltiId, data).subscribe(
+      this.biltiService.updateBilti(locationCode,this.biltiId, data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Updated Successfully');
@@ -679,7 +684,7 @@ onFrlrNoClear() {
 
   getBiltiData(biltiId: number) {
     this.loadSpinner = true;
-    this.biltiService.getBiltiData(this.locationId,biltiId).subscribe(
+    this.biltiService.getBiltiData(this.biltiLocationId,biltiId).subscribe(
       (response: any) => {
         this.lineItem = response.biltiCreationLineItems
         this.loadSpinner=false
@@ -782,6 +787,7 @@ onFrlrNoClear() {
           source: freight?.source?.value,
           destination: freight?.destination?.value,
           loadingLocation: location?.id,
+          locationId: response.locationId
         });
         if(this.selectedTransactionTypeCode == "RB"){
           this.getDispatchData();
@@ -796,5 +802,43 @@ onFrlrNoClear() {
         this.loadSpinner = false;
       }
     );
+  }
+
+  setLocation(){
+    if(!this.biltiId){
+      this.lookUpService.setLocationId(this.biltiForm, this.locations, 'locationId');
+    }
+  }
+
+  getEditBiltiData() {
+    this.loadSpinner = true;
+    let data = {
+      biltiNumber: '',
+      locationIds: APIConstant.locationsListDropdown.map((e: any) => e.id),
+    };
+    this.biltiService.getBiltis(data).subscribe(
+      (response: any) => {
+        this.biltisList = response.biltiCreations;
+        this.getLocationId().then(() => {
+          this.getBiltiData(this.biltiId);
+        });
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const bilti = this.biltisList.filter((item: any) => {
+        return item.id == this.biltiId
+      });
+      if (bilti.length > 0) {
+        this.biltiLocationId = bilti[0].locationId;
+        resolve();
+      } else {
+        reject('No matching bilti found');
+      }
+    });
   }
 }

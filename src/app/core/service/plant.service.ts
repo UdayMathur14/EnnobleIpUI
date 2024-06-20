@@ -18,12 +18,12 @@ export class PlantService extends CRUDService<PlantRequest> {
         return this.post(APIConstant.plant, data);
     }
 
-    getPlantData(plantId : string){
-        return this.get(plantData(this.locationIds, plantId));
+    getPlantData(location: number = 0, plantId : string){
+        return this.get(plantData(location, plantId));
     }
 
-    updatePlant(plantId : string, data : object){
-        return this.put(updatePlant(this.locationIds, plantId), data);
+    updatePlant(locationId: number = 0, plantId : string, data : object,){
+        return this.put(updatePlant(locationId, plantId), data);
     }
 
     getLocationsLookup(data: object, type: string) {

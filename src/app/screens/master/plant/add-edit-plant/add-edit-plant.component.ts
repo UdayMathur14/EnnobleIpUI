@@ -24,6 +24,7 @@ export class AddEditPlantComponent implements OnInit {
   locationsDropdownData: any = [];
   selectedTransactionCodes: string[] = [];
   deletedTransactions: any[] = [];
+  plantLocationId: number = 0;
   locations: any[] = APIConstant.locationsListDropdown;
   constructor(
     private _Activatedroute: ActivatedRoute,
@@ -55,9 +56,9 @@ export class AddEditPlantComponent implements OnInit {
   ngOnInit(): void {
     this.baseService.plantSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
-    this.getPlantData(this.queryData);
-    this.getTransactionTypes();
+    this.getEditPlantData();
     this.getLocations();
+    this.getTransactionTypes();
   }
 
   getLocations() {
@@ -76,7 +77,7 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   getPlantData(plantId: string) {
-    this.plantService.getPlantData(plantId).subscribe((response: any) => {
+    this.plantService.getPlantData(this.plantLocationId,plantId).subscribe((response: any) => {
       this.plantForm.setValue({
         plantCode: response.plantCode,
         plantDesc: response.plantDesc,
@@ -87,7 +88,7 @@ export class AddEditPlantComponent implements OnInit {
         panNo: response.panNo,
         plantType: response.plantType,
         siteCode: response.siteCode,
-        locationId: response.locations.value,
+        locationId: response.locations.id,
         dsc: response.dsc,
         dcp: response.dcp,
         status: response.status,
@@ -117,6 +118,8 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   onPressSave() {
+    const locationCode = this.plantForm.controls['locationId']?.value
+    console.log(locationCode)
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
@@ -141,7 +144,7 @@ export class AddEditPlantComponent implements OnInit {
       dcp: this.plantForm.controls['dcp'].value,
       transactionTypeDetails: transactionData
     }
-    this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
+    this.plantService.updatePlant(locationCode,this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
       this.toastr.success('Plant Update Successfully');
       this.baseService.plantSpinner.next(false);
@@ -207,6 +210,37 @@ export class AddEditPlantComponent implements OnInit {
       this.deletedTransactions.push(deletedTransaction);
     }
     this.plantData.transactionTypeMapping.splice(index, 1);
+  }
+
+  getEditPlantData() {
+    let data = {
+      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
+      "plantCode": "",
+      "city": "",
+      "state": "",
+      "auCode": "",
+      "siteCode": ""
+    }
+    this.plantService.getPlants(data).subscribe((response: any) => {
+      this.plantsList = response.plants;
+      this.getLocationId().then(() => {
+        this.getPlantData(this.queryData);
+      });
+    });
+  }
+  
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const plant = this.plantsList.filter((plant: any) => {
+        return plant.id == this.queryData
+      });
+      if (plant.length > 0) {
+        this.plantLocationId = plant[0].locations.id;
+        resolve();
+      } else {
+        reject('No matching plant found');
+      }
+    });
   }
 
   onTransactionClear(ind: number) {
