@@ -151,52 +151,9 @@ export class AddEditBiltiComponent implements OnInit {
     });
   }
 
-  // onVendorCodeChange(event: any, index: number) {
-  //   const vendorData = this.vendorList.find(
-  //     (vendor: any) => 
-  //     vendor?.id == event
-  //   );
-  //   const selectedVendorCode = vendorData;
-  //   const cityId = vendorData.cityId;
-  //   const pointCharges = this.pointChargesList.find(
-  //     (pointCharge: any) => 
-  //     pointCharge?.cityId === cityId
-  //   );
-  //   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-  //   const vendorGroup = vendorsArray.at(index) as FormGroup;
-  //   if (index > 0) {
-  //     vendorGroup.patchValue({
-  //       pointCharge: pointCharges?.sameLocationCharge,
-  //     });
-  // } else {
-  //     vendorGroup.patchValue({
-  //         pointCharge: pointCharges?.pointCharge,
-  //     });
-  // }
-  //   vendorGroup.patchValue({
-  //     vendorName: selectedVendorCode?.vendorName,
-  //     pointName: pointCharges?.pointName,
-  //     paidByDetails: selectedVendorCode?.paidByDetail?.value,
-  //   });
-  // }
-  
   getVendorControls() {
     return (this.biltiForm.get('vendors') as FormArray).controls;
   }
-
-  // onVendorCodeClear(index: number) {
-  //   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-  //   const vendorGroup = vendorsArray.at(index) as FormGroup;
-  
-  //   vendorGroup.patchValue({
-  //     vendorCode: null,
-  //     vendorName: null,
-  //     pointCharge: null,
-  //     pointName: null,
-  //     paidByDetails: null
-  //   });
-  // }
-
 
   onCancelPress() {
     this.router.navigate(['transaction/bilti']);
