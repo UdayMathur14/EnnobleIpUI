@@ -116,17 +116,4 @@ export class BiltiGridTableComponent implements OnInit {
       this.getAllBiltisList();
     }
   }
-
-  disableEdit(bilti: any) {
-    if (
-      bilti.status == 'Bilti Bill Process Done' ||
-      bilti.status == 'Bilti Bill Process Approved by Material Head' ||
-      bilti.status == 'Bilti Bill Process Approved by Accounts Head' ||
-      bilti.status == 'Bilti Bill Process Checked by Material Team'
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

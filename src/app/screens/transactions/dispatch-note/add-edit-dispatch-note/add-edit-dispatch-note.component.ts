@@ -542,7 +542,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   convertToNgbDate(dateString: string): NgbDate {
-    const dateParts = dateString.split('-');
+    const dateParts = dateString?.split('-');
     return new NgbDate(
       parseInt(dateParts[0], 10),
       parseInt(dateParts[1], 10),

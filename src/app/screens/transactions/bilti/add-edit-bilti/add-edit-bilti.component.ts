@@ -185,11 +185,12 @@ export class AddEditBiltiComponent implements OnInit {
     };
     this.biltiService.getFrmTransactions(data).subscribe(
       (response: any) => {
-        this.allFrmTransactionData = response.frmTransactions
-        this.frmTransactionData = [...new Set(response.frmTransactions.map((item: any) => 
-          item.frlrNumber))].map(frlrNumber => response.frmTransactions.find((t: any) => 
-            t.frlrNumber === frlrNumber));
-        this.frlrList = response.transactionTypes;
+        const filteredFrmTransactions = response.frmTransactions.filter((item: any) => item.openFlag !== 'Close');
+      this.allFrmTransactionData = response.frmTransactions;
+      this.frmTransactionData = [...new Set(filteredFrmTransactions.map((item: any) => 
+        item.frlrNumber))].map(frlrNumber => filteredFrmTransactions.find((t: any) => 
+          t.frlrNumber === frlrNumber));
+      this.frlrList = response.transactionTypes;
         this.loadSpinner = false;
       },
       (error) => {
@@ -202,10 +203,11 @@ export class AddEditBiltiComponent implements OnInit {
   getDispatchData(dispatchNumber: string = "") {
     const locationIds = this.locationId?[this.locationId]:[];
     this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
-      this.frmTransactionData = [...new Set(res.dispatchNotes.map((item: any) => 
-        item.frlrNumber))].map(frlrNumber => res.dispatchNotes.find((t: any) => 
-          t.frlrNumber === frlrNumber));
-      this.dispatchNotes = res.dispatchNotes
+      const filteredDispatchNotes = res.dispatchNotes.filter((item: any) => item.openFlag !== 'Close');
+    this.frmTransactionData = [...new Set(filteredDispatchNotes.map((item: any) => 
+      item.frlrNumber))].map(frlrNumber => filteredDispatchNotes.find((t: any) => 
+        t.frlrNumber === frlrNumber));
+    this.dispatchNotes = filteredDispatchNotes;
       this.loadSpinner = false;
     })
   }

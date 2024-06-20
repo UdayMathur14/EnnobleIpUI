@@ -59,11 +59,13 @@
             placement="top"
             ngbTooltip="Dispatch Note"
           />
+          <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)" ngbTooltip="Edit" 
+          placement="top" [disabled]="dispatchNote?.openFlag == 'Close'">
           <img
             src="assets/images/icons/editPencil.svg"
-            alt="edit" class="pointer"
-            (click)="onEditDispatchNote(dispatchNote)"
+            alt="edit"
           />
+        </button>
         </td>
       </tr>
       <tr *ngIf="dispatchNotes.length==0">
