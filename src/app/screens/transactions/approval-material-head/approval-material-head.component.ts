@@ -97,7 +97,7 @@ export class ApprovalMaterialHeadComponent {
       approvalLevel: 'Material',
       status: status,
       remarks: remarks,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       transactionCode: 203,
     };
 

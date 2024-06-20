@@ -216,7 +216,7 @@ export class AddEditDispatchNoteComponent {
 
   private dispatchNoteInit() {
     this.dispatchNote = {
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       attribute1: '',
       attribute2: '',
       attribute3: '',
@@ -279,7 +279,7 @@ export class AddEditDispatchNoteComponent {
 
   onDeletePartDetail(part: any, i: number) {
     const deletedPart = {
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         attribute9: new Date(),
         attribute10: new Date(),
         partId: part.value.partId,
@@ -353,7 +353,7 @@ export class AddEditDispatchNoteComponent {
       for (let i = 0; i < detailsArray.length; i++) {
         const dg = detailsArray.at(i) as FormGroup;
         let note = {
-          actionBy: 1,
+          actionBy: localStorage.getItem("userId"),
           attribute1: '',
           attribute2: '',
           attribute3: '',
@@ -391,7 +391,7 @@ export class AddEditDispatchNoteComponent {
       for (let i = 0; i < detailsArray.length; i++) {
         const dg = detailsArray.at(i) as FormGroup;
         let note = {
-          actionBy: 1,
+          actionBy: localStorage.getItem("userId"),
           attribute1: '',
           attribute2: '',
           attribute3: '',

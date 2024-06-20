@@ -143,7 +143,7 @@ export class AddEditAdviceComponent implements OnInit {
       batchName: this.adviceForm.controls['batchName']?.value || '',
       maxBiltiNumber: Number(this.adviceForm.controls['maxBiltiLimit']?.value),
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
-      actionBy: 1
+      actionBy: localStorage.getItem("userId")
     };
 
     let editData = {
@@ -153,7 +153,7 @@ export class AddEditAdviceComponent implements OnInit {
       manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
       status: this.adviceForm.controls['status']?.value,
       locationCode: this.locationCode || this.adviceForm.get('locationCode')!.value,
-      actionBy: 1
+      actionBy: localStorage.getItem("userId")
     };
 
     if (this.adviceId > 0) {

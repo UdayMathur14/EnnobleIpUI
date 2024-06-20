@@ -129,7 +129,7 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         status: this.pointChargeForm.get('status')?.value,
       }
 
@@ -149,7 +149,7 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value.name,
         cityId: this.pointChargeForm.get('pointName')?.value.id,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         status: this.pointChargeForm.get('status')?.value,
 
       }

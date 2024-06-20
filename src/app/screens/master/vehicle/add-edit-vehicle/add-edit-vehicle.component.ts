@@ -110,7 +110,7 @@ export class AddEditVehicleComponent implements OnInit {
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
       }
 
       this.vehicleService.updateVehicle(this.locationId,this.vehicleId, data)
@@ -126,12 +126,13 @@ export class AddEditVehicleComponent implements OnInit {
 
       this.loadSpinner = false;
     }
+    console.log(localStorage.getItem("userId"));
     if (!this.vehicleId) {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
         vehicleSizeId: this.vehicleForm.get('vehicleSize')?.value,
         transporterId: this.transporterId,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,

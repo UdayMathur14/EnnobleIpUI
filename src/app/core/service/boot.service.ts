@@ -45,6 +45,9 @@ export class BootService {
 
         const logindata = localStorage.getItem("logindata")
 
+        this.lookupService.profile = JSON.parse(localStorage.getItem("profile")||"");
+        localStorage.setItem("userId",this.lookupService.profile.userId);
+
         if (logindata) {
             this.getLookupDataForLocation();
         }

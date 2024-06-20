@@ -536,7 +536,7 @@ onFrlrNoClear() {
     }
     if (this.biltiId == 0) {
       const data = {
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         transactionTypeId: this.transactionTypeId,
         frlrNumber: this.frlrNumber ?? '',
         transporterId: this.transporterId,
@@ -547,7 +547,7 @@ onFrlrNoClear() {
         "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity: [
           {
-            actionBy: 0,
+            actionBy: localStorage.getItem("userId"),
             vendorId: 0,
             remarks: '',
             attribute9: '',
@@ -561,7 +561,7 @@ onFrlrNoClear() {
 
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
-          actionBy: 1,
+          actionBy: localStorage.getItem("userId"),
           vendorId: formData.transactionType.code === 'RB' ? this.vendorId : vendorControl?.vendorCode,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
@@ -571,7 +571,7 @@ onFrlrNoClear() {
           documentReferenceNo: vendorControl.documentrefNo,
           pointCharge: vendorControl?.pointCharge
         };
-        if(data.lineItemsEntity[0].actionBy == 0){
+        if(data.lineItemsEntity[0].actionBy == "0"){
           data.lineItemsEntity[0] = lineItem
         }else{
           data.lineItemsEntity.push(lineItem);
@@ -596,7 +596,7 @@ onFrlrNoClear() {
     else {
       const data = {
         id: this.biltiId,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         frlrNumber: this.frlrNumber,
         transporterId: this.transporterId,
         freightId: this.freightId,
@@ -606,7 +606,7 @@ onFrlrNoClear() {
         "attribute10": "2024-05-04T13:03:47.509Z",
         lineItemsEntity:  [
           {
-          actionBy: 0,
+          actionBy: localStorage.getItem("userId"),
           vendorId: '',
           remarks: '',
           attribute9: '',
@@ -622,7 +622,7 @@ onFrlrNoClear() {
       };
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
-          actionBy: 1,
+          actionBy: localStorage.getItem("userId"),
           vendorId: this.selectedTransactionTypePatchCode === 'RB' ? this.vendorId : vendorControl?.vendorCode,
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
@@ -634,7 +634,7 @@ onFrlrNoClear() {
           documentReferenceNo: vendorControl.documentrefNo,
           pointCharge: vendorControl?.pointCharge
         };
-        if(data.lineItemsEntity[0].actionBy == 0){
+        if(data.lineItemsEntity[0].actionBy == "0"){
           data.lineItemsEntity[0] = lineItem
         }else{
           data.lineItemsEntity.push(lineItem);

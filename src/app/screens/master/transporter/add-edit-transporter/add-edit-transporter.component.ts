@@ -110,7 +110,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.loadSpinner = true;
     const data = {
       status: this.transporterForm.controls['status'].value,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       transporterName: this.transporterForm.controls['transporterName'].value,
       ownerName: this.transporterForm.controls['ownerName'].value,
       contactPerson: this.transporterForm.controls['contactPerson'].value,
