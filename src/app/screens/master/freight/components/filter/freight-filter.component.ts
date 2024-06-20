@@ -19,7 +19,7 @@ export class FreightFilterComponent implements OnInit {
   source : any = undefined;
   destination : any = undefined;
   vehicleSize : any = undefined;
-  locationIds:any[]=[];
+  locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   
   constructor(){}
 

@@ -54,7 +54,7 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
-                    [disabled]="!locationIds?.length && !transCode && !transName && !cityCode && !stateCode && !taxationType">Search</button>
+                    [disabled]="!locationIds && !transCode && !transName && !cityCode && !stateCode && !taxationType">Search</button>
                 <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
             </div>
         </div>
