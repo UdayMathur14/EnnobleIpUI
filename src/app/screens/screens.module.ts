@@ -98,6 +98,7 @@ import { RejectionBiltiDetailReportGridTableComponent } from "./reports/rejectio
 import { ErrorLoggingReportComponent } from "./reports/error-logging-report/error-logging-report.component";
 import { ErrorLoggingReportFilterComponent } from "./reports/error-logging-report/components/filter/error-logging-report-filter.component";
 import { ErrorLoggingReportGridTableComponent } from "./reports/error-logging-report/components/grid-table/error-logging-report-grid-table.component";
+import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
 
 
 @NgModule({
@@ -195,7 +196,8 @@ import { ErrorLoggingReportGridTableComponent } from "./reports/error-logging-re
         AdviceFilterComponent,
         ErrorLoggingReportComponent,
         ErrorLoggingReportFilterComponent,
-        ErrorLoggingReportGridTableComponent
+        ErrorLoggingReportGridTableComponent,
+        AdhocReportComponent
     ],
     imports: [
         LayoutModule,

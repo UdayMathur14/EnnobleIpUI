@@ -42,6 +42,7 @@ import { MasterComponent } from "./master/master.component";
 import { ProcessedReportComponent } from "./reports/processed-report/processed-report.component";
 import { RejectionBiltiDetailReportComponent } from "./reports/rejection-bilti-detail-report/rejection-bilti-detail-report.component";
 import { ErrorLoggingReportComponent } from "./reports/error-logging-report/error-logging-report.component";
+import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
 
 
 const routes: Routes = [
@@ -98,6 +99,7 @@ const routes: Routes = [
             { path: "report/processed", component: ProcessedReportComponent, canActivate: [AuthGuard] },
             { path: "report/rejection-bilti-detail", component: RejectionBiltiDetailReportComponent, canActivate: [AuthGuard] },
             { path: "report/error-logging", component: ErrorLoggingReportComponent, canActivate: [AuthGuard] },
+            { path: "report/adhoc-report", component: AdhocReportComponent, canActivate: [AuthGuard] },
         ],
     },
 ];
