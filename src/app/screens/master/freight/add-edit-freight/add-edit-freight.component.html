@@ -1,7 +1,7 @@
 <div class="page-title">
     <h1>{{freightId>0 ? 'Edit Freight' : 'Create Freight'}}</h1>
     <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onPressSave()">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">
             Cancel
         </button>

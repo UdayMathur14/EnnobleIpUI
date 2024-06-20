@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Dispatch Note</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
+    <button class="custom-button-regulr" (click)="onSavePress()" [disabled]="isFormInvalid()">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -24,7 +24,7 @@
           <label for="">Supplier Code <span class="text-danger">*</span></label>
           <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
             placeholder="Select Part Number" (clear)="onSupplierCodeClear()">
-            <ng-option *ngFor="let supplier of supplierList"
+            <ng-option *ngFor="let supplier of activeSuppliersLists"
               [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
           </ng-select>
         </div>
@@ -48,7 +48,7 @@
           <label for="">Vehicle Number <span class="text-danger">*</span></label>
           <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
             placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
-            <ng-option *ngFor="let vehicle of vehicleList"
+            <ng-option *ngFor="let vehicle of activeVehiclesLists"
               [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
           </ng-select>
         </div>

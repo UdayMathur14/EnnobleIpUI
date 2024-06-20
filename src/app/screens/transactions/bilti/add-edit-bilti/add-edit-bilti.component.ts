@@ -104,7 +104,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.getAllPointChargesList();
     this.getLoadingLocationData();
     this.getVehicleNumber();
-    this.getDispatchData();
     setTimeout(() => {
       if (this.biltiId > 0) {
         this.getBiltiData(this.biltiId);
@@ -119,14 +118,14 @@ export class AddEditBiltiComponent implements OnInit {
         transactionType: new FormControl('', [Validators.required]),
         frlrNo: new FormControl('', [Validators.required]),
         vehicleNumber: new FormControl('', [Validators.required]),
-        vehicleSize: new FormControl(null, [Validators.required]),
+        vehicleSize: new FormControl(null),
         source: new FormControl(''),
         destination: new FormControl(''),
-        freightCode: new FormControl(''),
+        freightCode: new FormControl('', [Validators.required]),
         freightAmount: new FormControl(null),
-        transporterCode: new FormControl(''),
+        transporterCode: new FormControl('', [Validators.required]),
         transporterName: new FormControl(''),
-        loadingLocation: new FormControl(),
+        loadingLocation: new FormControl(null, [Validators.required]),
         status: new FormControl('Active'),
         vendors: this.fb.array([])
     });
@@ -134,7 +133,7 @@ export class AddEditBiltiComponent implements OnInit {
 
   createVendorGroup(vendor: any): FormGroup {
     return this.fb.group({
-      vendorCode: [''],
+      vendorCode: ['', [Validators.required]],
       vendorName: [''],
       pointName: [''],
       pointCharge: [''],
@@ -477,7 +476,7 @@ onFrlrNoClear() {
       (response: any) => {
         this.vendorList = response.vendors;
         this.filteredVendorcode = this.vendorList.filter(
-          (vendors: any) => vendors.status === 'Active'
+          (vendors: any) => vendors.status === 'Active' || vendors.status === 'ACTIVE'
         );
         this.pointChargesList.forEach((pointCharge: any) => {
           this.pointMapCharge[pointCharge.cityId] = pointCharge.pointCharge;
