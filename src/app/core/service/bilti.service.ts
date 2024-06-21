@@ -31,8 +31,8 @@ export class BiltiService extends CRUDService<BiltiRequest> {
     );
   }
 
-  getFrmTransactions(locationId: Number, data: any) {
-    return this.baseService.post(APIConstant.basePath + frlr(locationId), data);
+  getFrmTransactions(data: any) {
+    return this.baseService.post(APIConstant.basePath + frlr(this.locationIds), data);
   }
 
   createBilti(locationId: Number, data: any) {

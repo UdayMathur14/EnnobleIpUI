@@ -22,7 +22,7 @@ export class ApprovalAccountsFiltersComponent {
   loadSpinner: boolean = true;
   batchNumber: string = '';
   locations: any[] = APIConstant.locationsListDropdown;
-  locationIds: any[] = [];
+  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   @Input() filteredBiltibillList: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 

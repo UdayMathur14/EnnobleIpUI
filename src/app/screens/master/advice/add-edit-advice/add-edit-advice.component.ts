@@ -25,6 +25,8 @@ export class AddEditAdviceComponent implements OnInit {
   transactionTypeId: any;
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  advicesList: any = [];
+  adviceLocationId: number = 0;
 
   constructor(
     private router: Router,
@@ -49,7 +51,7 @@ export class AddEditAdviceComponent implements OnInit {
     this.adviceId = Number(this._Activatedroute.snapshot.paramMap.get('adviceId'));
     this.adviceId = this.adviceId === 0 ? 0 : this.adviceId;
     if (this.adviceId != 0) {
-      this.getAdviceTypeData(this.adviceId);
+      this.getAdviceEditData();
     } else {
       //this.getLocations();
     }
@@ -67,6 +69,7 @@ export class AddEditAdviceComponent implements OnInit {
         this.updateBatchName();
       }
     });
+    this.setLocation();
   }
 
   // Function to get the values for advice type dropdown
@@ -77,7 +80,6 @@ export class AddEditAdviceComponent implements OnInit {
     this.transactionTypesService.getTransactionTypes(data).subscribe(
       (response: any) => {
         this.transactionTypesList = response.transactionTypes;
-        console.log(this.transactionTypesList);
         this.loadSpinner = false;
       },
       error => {
@@ -88,7 +90,7 @@ export class AddEditAdviceComponent implements OnInit {
   }
 
   getAdviceTypeData(adviceId: number) {
-    this.adviceService.getAdviceTypeData(adviceId).subscribe(
+    this.adviceService.getAdviceTypeData(this.adviceLocationId,adviceId).subscribe(
       (response: any) => {
         this.locationCode = response.location.value;
         this.transactionTypeId = response.transactionTypeId;
@@ -96,7 +98,7 @@ export class AddEditAdviceComponent implements OnInit {
           adviceType: response.adviceType,
           batchName: response.batchName,
           maxBiltiLimit: response.maxBiltiNumber,
-          locationCode: this.locationCode,
+          locationCode: response.location.id,
           manualAllocReq: response.manualAllocationRequired,
           status: response.status
         });
@@ -165,7 +167,8 @@ export class AddEditAdviceComponent implements OnInit {
 
   // Updating advice data
   updateAdviceType(data: any) {
-    this.adviceService.updateAdviceType(this.adviceId, data).subscribe(
+    const locationCode = this.adviceForm.controls['locationCode']?.value
+    this.adviceService.updateAdviceType(locationCode,this.adviceId, data).subscribe(
       (response: any) => {
         this.adviceForm.patchValue({
           adviceType: response.adviceType,
@@ -188,7 +191,8 @@ export class AddEditAdviceComponent implements OnInit {
 
   // Creating new advice
   createNewAdvice(data: any) {
-    this.adviceService.createAdviceType(data).subscribe(
+    const locationCode = this.adviceForm.controls['locationCode']?.value
+    this.adviceService.createAdviceType(locationCode,data).subscribe(
       (response: any) => {
         this.loadSpinner = false;
         this.toastr.success('Advice Type Created Successfully');
@@ -217,5 +221,40 @@ export class AddEditAdviceComponent implements OnInit {
 
   onCancelPress() {
     this.router.navigate(['/master/advice']);
+  }
+
+  setLocation(){
+    if(!this.adviceId){
+      this.lookupService.setLocationId(this.adviceForm, this.locations, 'locationCode');
+    }
+  }
+
+  getAdviceEditData() {
+    let data = {
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "adviceType": ""
+    }
+    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
+      this.advicesList = response.advices;
+      this.getLocationId().then(() => {
+        this.getAdviceTypeData(this.adviceId);
+      });
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    })
+  }
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const advice = this.advicesList.filter((item: any) => {
+        return item.id == this.adviceId
+      });
+      if (advice.length > 0) {
+        this.adviceLocationId = advice[0].location.id;
+        resolve();
+      } else {
+        reject('No matching advice found');
+      }
+    });
   }
 }

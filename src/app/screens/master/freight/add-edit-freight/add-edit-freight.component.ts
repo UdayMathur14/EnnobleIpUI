@@ -6,6 +6,7 @@ import { FreightService } from '../../../../core/service/freight.service';
 import { BaseService } from '../../../../core/service/base.service';
 import { FreightDataModel } from '../../../../core/model/masterModels.model';
 import { APIConstant } from '../../../../core/constants';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -26,6 +27,8 @@ export class AddEditFreightComponent implements OnInit {
   getData: any = [];
   locationId!:Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  freightList: any = [];
+  freightLocationId: number = 0;
 
   constructor(
     private router: Router,
@@ -33,6 +36,7 @@ export class AddEditFreightComponent implements OnInit {
     private formBuilder: FormBuilder,
     private baseService: BaseService,
     private freightService: FreightService,
+    private lookUpService: LookupService,
     private _Activatedroute: ActivatedRoute) {
     this.freightForm = this.formBuilder.group({
       freightCode: [''],
@@ -57,17 +61,18 @@ export class AddEditFreightComponent implements OnInit {
     //   this.locations = res.lookUps.filter((e: any) => e.code === 'LOC');
     // })
     if (this.freightId != 0) {
-      this.getFreightData(this.freightId);
+      this.getEditFreightData();
     }
     this.loadSpinner = false;
     this.getSourceDropdownData();
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();
+    this.setLocation();
   }
 
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: number) {
-    this.freightService.getFreightData(freightId).subscribe((response: any) => {
+    this.freightService.getFreightData(this.freightLocationId,freightId).subscribe((response: any) => {
       if (response.approvedByAccounts == null || response.approvedByMaterial == null ||
         response.approvedByMaterial.includes('Rejected By') ||
         response.approvedByAccounts.includes('Rejected By')) {
@@ -78,7 +83,7 @@ export class AddEditFreightComponent implements OnInit {
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
-        locationCode: response.locations.value,
+        locationCode: response.locations.id,
         source: response.sourceId,
         destination: response.destinationId,
         vehicleSize: response.vehicleSizeId,
@@ -134,7 +139,8 @@ export class AddEditFreightComponent implements OnInit {
 
   //UPDATING FREIGHT DATA
   updateFreight(data: any) {
-    this.freightService.updateFreight(this.locationId,this.freightId, data).subscribe((response: any) => {
+    const locationCode = this.freightForm.controls['locationCode']?.value
+    this.freightService.updateFreight(locationCode,this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
@@ -147,7 +153,8 @@ export class AddEditFreightComponent implements OnInit {
 
   //CREATING NEW FREIGHT
   createNewFreight(data: any) {
-    this.freightService.createFreight(this.locationId,data).subscribe((response: any) => {
+    const locationCode = this.freightForm.controls['locationCode']?.value
+    this.freightService.createFreight(locationCode,data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Freight Created Successfully');
       this.router.navigate(['/master/freight'])
@@ -196,5 +203,44 @@ export class AddEditFreightComponent implements OnInit {
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
       this.vehcileSizes = res.lookUps
     })
+  }
+
+  setLocation(){
+    if(!this.freightId){
+      this.lookUpService.setLocationId(this.freightForm, this.locations, 'locationCode');
+    }
+  }
+
+  getEditFreightData() {
+    let data = {
+      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "screenCode": 101,
+      "freightCode": "",
+      "source": "",
+      "destination": "",
+      "vehicleSize": ""
+    }
+    this.freightService.getFreightsList(data).subscribe((response: any) => {
+      this.freightList = response.freights;
+      this.getLocationId().then(() => {
+        this.getFreightData(this.freightId);
+      });
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    })
+  }
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const freight = this.freightList.filter((freight: any) => {
+        return freight.id == this.freightId
+      });
+      if (freight.length > 0) {
+        this.freightLocationId = freight[0].locations.id;
+        resolve();
+      } else {
+        reject('No matching freight found');
+      }
+    });
   }
 }

@@ -12,9 +12,9 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Freight Code</label>
-                <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight">
-                    <ng-option *ngFor="let freight of freightList" [value]="freight.freightCode">{{freight.freightCode}}</ng-option>
-                </ng-select>
+                    <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight">
+                        <ng-option *ngFor="let freight of freightList" [value]="freight.freightCode">{{freight.freightCode}}</ng-option>
+                    </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
@@ -41,12 +41,13 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!locationIds.length && !freightCode && !source && !destination && !vehicleSize">Search</button>
-                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
-                
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!locationIds.length && !freightCode && !source && !destination && !vehicleSize">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>    
+                </div>
             </div>
         </div>
     </div>
