@@ -14,6 +14,8 @@ export class CRUDService<T> {
     lookupSpinner: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
     lookupData = new Subject;
 
+    profile:any = {};
+
     constructor(protected baseService: BaseService, @Optional() name: string = "master") {
         this.baseUrl = name;
     }

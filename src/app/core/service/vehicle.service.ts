@@ -17,17 +17,17 @@ export class VehicleService extends CRUDService<VehicleRequest> {
     return this.post(vehicle, data);
   }
 
-  getVehicleData(vehicleId: string) {
+  getVehicleData(locationId: number = 0, vehicleId: string) {
     return this.get(
-      vehicleData(this.locationIds, vehicleId));
+      vehicleData(locationId, vehicleId));
   }
 
-  updateVehicle(locationId:Number,vehicleId: string, data: object) {
+  updateVehicle(locationId: number = 0,vehicleId: string, data: object) {
     return this.put(updateVehicle(locationId, vehicleId), data);
   }
 
-  createVehicle(data: object) {
-    return this.post(createVehicle(this.locationIds), data);
+  createVehicle(locationId: number = 0, data: object) {
+    return this.post(createVehicle(locationId), data);
   }
 
   getLookups(data: any) {

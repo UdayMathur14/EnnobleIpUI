@@ -348,7 +348,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   constructPayload(): any {
     const chargesByLGDetails = {
       id: 0,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       status: 'Active',
       freightCharge: this.biltiBillProcess.controls['freightChargeLg'].value,
       pointCharge: this.biltiBillProcess.controls['pointChargeLg'].value,
@@ -369,7 +369,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
             0;
           return {
             id: 0,
-            actionBy: 1,
+            actionBy: localStorage.getItem("userId"),
             status: formGroup.get('status')?.value || 'Active',
             creationLineItemId: lineItemId,
             freightCharge: Number(formGroup.get('freightCharge')?.value) || 0,
@@ -389,7 +389,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       );
 
     return {
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       attribute1: 'string',
       attribute2: 'string',
       attribute3: 'string',
@@ -420,7 +420,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   constructPayloadEdit(): any {
     const chargesByLGDetails = {
       id: this.biltiBillProcessData?.biltiBillProcessModel?.biltiBillProcessChargesByLG?.id,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       status: 'Active',
       freightCharge: this.biltiBillProcess.controls['freightChargeLg'].value,
       pointCharge: this.biltiBillProcess.controls['pointChargeLg'].value,
@@ -443,7 +443,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
             const vendorId = this.biltiBillProcessData.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.id
           return {
             id: vendorId,
-            actionBy: 1,
+            actionBy: localStorage.getItem("userId"),
             status: formGroup.get('status')?.value || 'Active',
             creationLineItemId: lineItemId,
             freightCharge: Number(formGroup.get('freightCharge')?.value) || 0,
@@ -464,7 +464,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
 
     return {
       id: this.biltiBillProcessData?.biltiBillProcessModel?.id,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       status: this.biltiBillProcessData?.biltiBillProcessModel?.status,
 
       // biltiCreationId: this.biltiProcess.id,
@@ -529,7 +529,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         approvalLevel: 'Material',
         status: status,
         remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         transactionCode: 203,
       };
    
@@ -548,7 +548,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       approvalLevel: 'Account',
       status: status,
       remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       transactionCode: 203,
     };
  
@@ -566,7 +566,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       approvalLevel: 'MaterialChecked',
       status: status,
       remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       transactionCode: 203,
     };
  

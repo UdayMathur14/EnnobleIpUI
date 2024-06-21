@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col">
+        <div class="col" *ngIf="locations && locations.length>1">
             <div class="custom-form-input">
                 <label for="">Locations</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">

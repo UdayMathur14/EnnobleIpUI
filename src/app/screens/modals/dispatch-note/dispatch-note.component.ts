@@ -9,18 +9,25 @@ import { PdfService } from '../../../core/service/pdf.service';
 })
 export class DispatchNoteModelComponent {
 
-  @Input() dispatch: any;
+  @Input() dispatch: any = [];
+  parts: any = []
 
   constructor(public activeModal: NgbActiveModal, private pdfService: PdfService){}
 
   ngOnInit(){
-
+    this.getActiveParts();
   }
 
   downloadPDF() {
     const data = document.getElementById('dispatch-note-content') as HTMLElement;
     this.pdfService.generatePdf(data, 'dispatch-note');
     this.onClose();
+  }
+
+  getActiveParts(){
+    this.parts = this.dispatch.dispatchNotePartItems.filter((item: any)=>{
+      return item?.status === "Active"
+  })
   }
 
   onClose(){

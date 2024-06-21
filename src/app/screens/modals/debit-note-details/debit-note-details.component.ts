@@ -128,7 +128,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       debitAmount: control.get('debitAmount')?.value || 0,
       debitRemarks: control.get('debitRemarks')?.value || '',
       creationLineItemId: control.get('id')?.value,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       status: 'Active',
       freightCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.freightCharge,
       pointCharge: this.biltiBillDetailsData?.biltiCreationLineItemDetails[index]?.biltiBillProcessChargesByVendor?.pointCharge,
@@ -141,7 +141,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
 
     const chargesByLGDetails = {
       id: this.biltiBillDetailsData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.id,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       status: 'Active',
       freightCharge: this.biltiBillDetailsData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.freightCharge,
       pointCharge: this.biltiBillDetailsData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.pointCharge,
@@ -155,7 +155,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
 
     const payload = {
       id: this.biltiBillDetailsData.biltiBillProcessModel?.id,
-      actionBy: 1,
+      actionBy: localStorage.getItem("userId"),
       status: this.biltiBillDetailsData.biltiBillProcessModel?.status,
       chargesByVendorDetails: chargesByVendorDetails,
       chargesByLGDetails:chargesByLGDetails,

@@ -3,6 +3,7 @@ import { CRUDService } from './crud.service';
 import { LookupRequest } from '../models/lookup';
 import { BaseService } from './base.service';
 import { APIConstant, getDropdownDatas } from '../constants';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +69,12 @@ export class LookupService extends CRUDService<LookupRequest> {
 
   getCityLookup(data: object, type: string) {
     return this.post(getDropdownDatas(type), data)
+  }
+
+  setLocationId(form: FormGroup, locations: any[], formControlName: string) {
+    if (locations.length === 1) {
+      form.controls[formControlName]?.patchValue(locations[0].id);
+    }
   }
 
 }

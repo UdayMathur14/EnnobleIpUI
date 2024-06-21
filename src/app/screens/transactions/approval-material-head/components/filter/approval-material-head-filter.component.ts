@@ -21,7 +21,7 @@ export class ApprovalMaterialHeadFilterComponent {
   loadSpinner: boolean = true;
   batchNumber: string = '';
   locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]=[];
+  locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   @Input() filteredBiltibillList: any = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();

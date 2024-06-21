@@ -93,7 +93,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
         approvalLevel: 'MaterialChecked',
         status: status,
         remarks:  remarks,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         transactionCode: 203,
       };
    

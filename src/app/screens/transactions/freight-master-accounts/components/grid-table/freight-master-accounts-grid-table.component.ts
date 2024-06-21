@@ -97,7 +97,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
       "approvalLevel": "Accounts",
       "status": status,
       "remarks": remarks,
-      "actionBy": 1,
+      "actionBy": localStorage.getItem("userId"),
       "transactionCode": 201 // for Account freight
     };
   }

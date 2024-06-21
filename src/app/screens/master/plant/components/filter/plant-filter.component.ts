@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-filter',
@@ -10,7 +11,7 @@ export class PlantFilterComponent {
   @Input() plantsList: any[] = [];
   @Input() cities: any[] = [];
   @Input() states: any[] = [];
-  locationIds: any = [];
+  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   @Output() getData: EventEmitter<any> = new EventEmitter();
   plantCode: any = undefined;
   stateCode: any = undefined;

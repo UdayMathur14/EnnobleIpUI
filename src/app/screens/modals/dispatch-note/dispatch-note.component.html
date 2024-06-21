@@ -51,13 +51,12 @@
                             <th>Dispatch(Qty/Kg)</th>
                             <th>Remarks</th>
                         </thead>
-                        @for (part of dispatch.dispatchNotePartItems; track i; let i = $index) {
-                            
-                            <tbody >
+                        @for (part of parts; track i; let i = $index) {
+                            <tbody>
                                 <td>{{i+1}}</td>
                                 <td>{{part.parts.partNumber}}</td>
                                 <td>{{part.parts.partName}}</td>
-                                <td>{{part.partsQty.value}}</td>
+                                <td>{{part.partsQty}}</td>
                                 <td>{{part.parts.remarks}}</td>
                             </tbody>
                         }

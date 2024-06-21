@@ -40,7 +40,7 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
     this.loadSpinner = true;
     const obj = {
       "id": 0,
-      "actionBy": 1,
+      "actionBy": localStorage.getItem("userId"),
       "status": 'Active',
       "biltiCreationId": this.biltiData?.id,
       "nocFileName": this.nocFileName,

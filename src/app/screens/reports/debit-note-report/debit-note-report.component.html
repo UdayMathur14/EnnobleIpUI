@@ -1,0 +1,11 @@
+<div class="page-title">
+    <h1>Debit Note Report</h1>
+  </div>
+  <div class="filter-section" >
+    <app-debit-note-report-filter
+    (getData)="getData($event.batchNumber)"></app-debit-note-report-filter>
+  </div>
+  
+  <div class="content-section" [ngClass]="{'isFilters': isFilters}">
+    <app-debit-note-report-grid-table [billTiBillReport]="billTiBillReport"></app-debit-note-report-grid-table>
+  </div>

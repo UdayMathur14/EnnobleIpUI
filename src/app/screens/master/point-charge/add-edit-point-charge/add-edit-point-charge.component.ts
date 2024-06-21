@@ -25,6 +25,7 @@ export class AddEditPointChargeComponent implements OnInit {
   pointNameData: any = [];
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  pointChargeLocationId: number = 0;
 
   constructor(private router: Router,
     private _route: ActivatedRoute,
@@ -56,8 +57,11 @@ export class AddEditPointChargeComponent implements OnInit {
         this.pointChargeId = null;
       }
     })
-    this.getPointChargeData(this.pointChargeId)
+    if(this.pointChargeId > 0){
+      this.getEditPointChargeData()
+    }
     this.getCityLookup();
+    this.setLocation();
   }
 
   getCityLookup() {
@@ -79,7 +83,7 @@ export class AddEditPointChargeComponent implements OnInit {
   getPointChargeData(pointChargeId: string) {
     if (this.pointChargeId) {
       this.loadSpinner = true;
-      this.pointChargeService.getPointChargeData(pointChargeId).subscribe((response: any) => {
+      this.pointChargeService.getPointChargeData(this.pointChargeLocationId,pointChargeId).subscribe((response: any) => {
         this.pointChargeData = response;
         this.patchPointChargeForm(response);
         this.loadSpinner = false;
@@ -99,6 +103,7 @@ export class AddEditPointChargeComponent implements OnInit {
       pointCharge: data.pointCharge,
       sameLocationCharge: data.sameLocationCharge,
       status: data.status,
+      locationCode: data.locations.id
     });
   }
 
@@ -123,17 +128,18 @@ export class AddEditPointChargeComponent implements OnInit {
 
   // CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
+    const locationCode = this.pointChargeForm.controls['locationCode']?.value
     this.loadSpinner = true;
     if (this.pointChargeForm.valid && this.pointChargeId) {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         status: this.pointChargeForm.get('status')?.value,
       }
 
-      this.pointChargeService.updatePointCharge(this.locationId, this.pointChargeId, data).subscribe((response: any) => {
+      this.pointChargeService.updatePointCharge(locationCode, this.pointChargeId, data).subscribe((response: any) => {
         this.pointChargeData = response;
         this.toastr.success('Point Charge Updated Successfully')
         this.loadSpinner = false;
@@ -149,13 +155,13 @@ export class AddEditPointChargeComponent implements OnInit {
         pointName: this.pointChargeForm.get('pointName')?.value.name,
         cityId: this.pointChargeForm.get('pointName')?.value.id,
         sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        actionBy: 1,
+        actionBy: localStorage.getItem("userId"),
         status: this.pointChargeForm.get('status')?.value,
 
       }
       // }
 
-      this.pointChargeService.createPointCharge(this.locationId, data)
+      this.pointChargeService.createPointCharge(locationCode, data)
         .subscribe((response: any) => {
           this.pointChargeData = response;
           this.toastr.success('Point Charge Created Successfully')
@@ -167,6 +173,45 @@ export class AddEditPointChargeComponent implements OnInit {
         })
     }
     this.loadSpinner = false;
+  }
+
+  setLocation(){
+    if(!this.pointChargeId){
+      this.lookupService.setLocationId(this.pointChargeForm, this.locations, 'locationCode');
+    }
+  }
+
+  getEditPointChargeData() {
+    this.loadSpinner = true;
+    let data = {
+      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
+      "screenCode": 101,
+      "pointName": ""
+    }
+    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+      this.pointChargesList = response.pointCharges;
+      this.getLocationId().then(() => {
+        this.getPointChargeData(this.pointChargeId);
+      });
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+  }
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const pointCharge = this.pointChargesList.filter((item: any) => {
+        return item.id == this.pointChargeId
+      });
+      if (pointCharge.length > 0) {
+        this.pointChargeLocationId = pointCharge[0].locations.id;
+        resolve();
+      } else {
+        reject('No matching vehicle found');
+      }
+    });
   }
 }
 

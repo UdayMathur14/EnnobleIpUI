@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>Edit Plant</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!plantForm.valid">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!plantForm.valid || nullTransactionCode()">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -75,10 +75,9 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Location Code <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="locationId">
-            <ng-option *ngFor="let location of locationsDropdownData"
-              [value]="location.id">{{location.value}}</ng-option>
+          <label for="">Location Code<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location">
+            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -141,7 +140,7 @@
                   />
                 </div> -->
                 <ng-select class="input-field" [(ngModel)]="transaction.code"
-                  (change)="onTransactionSelect($event, ind)">
+                  (change)="onTransactionSelect($event, ind)" (clear)="onTransactionClear(ind)">
                   <ng-option *ngFor="let transaction of getFilteredTransactionTypes(ind)" [value]="transaction">
                     {{transaction.code}}
                   </ng-option>

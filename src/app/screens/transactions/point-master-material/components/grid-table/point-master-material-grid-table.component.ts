@@ -95,7 +95,7 @@ export class PointMasterMaterialGridTableComponent {
       "approvalLevel": "Material",
       "status": status,
       "remarks": remarks,
-      "actionBy": 1,
+      "actionBy": localStorage.getItem("userId"),
       "transactionCode": 202 // for Material Point Charge
     };
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-advice-filter',
@@ -10,7 +11,7 @@ export class AdviceFilterComponent implements OnInit {
   @Input() advicesList : any[] = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
   adviceType : any = undefined;
-  locationIds : any = [];
+  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
 
   constructor(){}
 

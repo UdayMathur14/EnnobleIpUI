@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-vehicle-filters',
@@ -12,7 +13,7 @@ export class VehicleFiltersComponent implements OnInit {
   @Output() getData: EventEmitter<any> = new EventEmitter();
   @Input() vehiclesList: any[] = [];
   @Input() transportersList : any[] = [];
-  @Input() locationIds : any = [];
+  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   vehicleNum : any = undefined;
   transporterNam : any = undefined;
   loadSpinner: boolean = true;

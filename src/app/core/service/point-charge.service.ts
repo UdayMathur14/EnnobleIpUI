@@ -17,15 +17,15 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
     return this.post(APIConstant.pointCharge, data);
   }
 
-  getPointChargeData(pointChargeId: string) {
-    return this.get(pointChargeData(this.locationIds, pointChargeId));
+  getPointChargeData(locationId: number = 0, pointChargeId: string) {
+    return this.get(pointChargeData(locationId, pointChargeId));
   }
 
-  updatePointCharge(locationId: Number, pointChargeId: string, data: object) {
+  updatePointCharge(locationId: number = 0, pointChargeId: string, data: object) {
     return this.put(updatePointCharge(locationId, pointChargeId), data);
   }
 
-  createPointCharge(locationId: Number, data: object) {
+  createPointCharge(locationId: number = 0, data: object) {
     return this.post(createPointCharge(locationId), data);
   }
 

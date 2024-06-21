@@ -68,7 +68,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
       interfaceTxnTypeId: (this.transactionTypeForm.controls['transactionTypeInterface']?.value) || 0,
       glSubCategoryId: (this.transactionTypeForm.controls['glSubcategory']?.value) || 0,
       status: this.transactionTypeForm.controls['status']?.value,
-      actionBy: 1
+      actionBy: localStorage.getItem("userId")
     }
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
       this.transactionData = response;

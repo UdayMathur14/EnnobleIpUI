@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-transporter-filter',
@@ -9,7 +10,7 @@ export class TransporterFiltersComponent implements OnInit {
   @Input() states : any[] = [];
   @Input() cities : any[] = [];
   @Input() transportersList : any[] = [];
-  @Input() locationIds : any = undefined;
+  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
   @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   transCode: any = undefined;

@@ -40,7 +40,20 @@ export class BiltiBillProcessViewGridTableComponent {
         },
       );
     }
-  onEditBilti() {
-    this.router.navigate(['transaction/addEditBilti']);
+  onEditBilti(bilti: any) {
+    this.router.navigate(['transaction/addEditBilti', bilti.id]);
+  }
+
+  disableEdit(data: any){
+    if (
+      data.status == 'Bilti Bill Process Done' ||
+      data.status == 'Bilti Bill Process Approved by Material Head' ||
+      data.status == 'Bilti Bill Process Approved by Accounts Head' ||
+      data.status == 'Bilti Bill Process Checked by Material Team'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
