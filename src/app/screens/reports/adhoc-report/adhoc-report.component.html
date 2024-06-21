@@ -6,25 +6,65 @@
   <div class="filters-box">
     <div class="twoSide-filter">
       <div class="selection-box">
-        @for (columns of columnsList; track columns; let  i = $index) {
-          <li (click)="highlightedLeftColumn = columns; highlightedLeftIndex = i" 
-            [ngClass]="{'active' : highlightedLeftColumn.columnName == columns.columnName}"
+          <li *ngFor="let columns of columnsList; let i = index" (click)="selectLeftList(columns, i)" 
+            [ngClass]="{'active' :getLeftHighlights(columns) == 'active'}"
           >{{columns.displayName}}</li>
-        }
       </div>
       <div class="buttons-selection">
-        <button class="custom-button-filters" [disabled]="!highlightedLeftColumn.columnName || !columnsList.length" (click)="onSingleSelect()">Select ></button>
+        <button class="custom-button-filters" [disabled]="!leftSelections.length" (click)="onSingleSelect()">Select ></button>
         <button class="custom-button-filters" [disabled]="!columnsList.length" (click)="onSelectAll()">Select All >></button>
-        <button class="custom-button-filters" [disabled]="!selectedColumns.length || !highlightedRightColumn.columnName" (click)="onSingleDeselect()">&lt; Deselect</button>
-        <button class="custom-button-filters" [disabled]="!selectedColumns.length" (click)="onDeselectAll()"><< Deselect All</button>
+        <button class="custom-button-filters" [disabled]="!rightSelections.length" (click)="onSingleDeselect()">&lt; Deselect</button>
+        <button class="custom-button-filters" [disabled]="!selectedColumnsList.length" (click)="onDeselectAll()"><< Deselect All</button>
       </div>
-      <div class="selection-box">
-        @for (data of selectedColumns; track data; let  i = $index) {
-          <li (click)="highlightedRightColumn = data; highlightedRightIndex = i" 
-            [ngClass]="{'active' : highlightedRightColumn.columnName == data.columnName}"
+      <div class="selection-box" cdkDropList (cdkDropListDropped)="drop($event)">
+          <li *ngFor="let data of selectedColumnsList; let i = index" (click)="selectRightList(data, i)" 
+          [ngClass]="{'active' :getRightHighlights(data) == 'active'}" cdkDrag
           >{{data.displayName}}</li>
-        }
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="filter-section">
+  <div class="filters-box">
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="custom-form-input">
+            <label for="">Master Filters</label>
+            <ng-select class="input-field" [multiple]="true" (change)="masterSelectedFilters = $event" placeholder="Select filter name">
+                <ng-option *ngFor="let filter of filtersList" [value]="filter">{{filter.displayName}}</ng-option>
+            </ng-select>
+        </div>
+      </div>
+      <div class="ms-auto col-lg-2 text-end">
+        <button class="custom-button-filters" (click)="onGenerateReport()">Generate Report</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2" *ngFor="let data of masterSelectedFilters">
+        <div class="custom-form-input">
+          <label for="">{{data.displayName}}</label>
+
+          <ng-select class="input-field" (change)="onMasterValueSelection($event, data)" *ngIf="data.filterFormat == 'DropDown'">
+              <ng-option *ngFor="let dropValue of reportFilters[data.columnName]" [value]="dropValue">{{dropValue}}</ng-option>
+          </ng-select>
+
+          <div class="input-group datepicker" *ngIf="data.filterFormat=='FromToTextField'">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true"
+              [maxDate]="today" (dateSelect)="onDateSelect(data, $event)" ngbDatepicker #fromDt="ngbDatepicker" />
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+            </button>
+          </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

@@ -99,6 +99,7 @@ import { ErrorLoggingReportComponent } from "./reports/error-logging-report/erro
 import { ErrorLoggingReportFilterComponent } from "./reports/error-logging-report/components/filter/error-logging-report-filter.component";
 import { ErrorLoggingReportGridTableComponent } from "./reports/error-logging-report/components/grid-table/error-logging-report-grid-table.component";
 import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -211,7 +212,8 @@ import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.compon
         ExportAsModule,
         NgbPopoverModule,
         NgbDatepicker,
-        NgbDatepickerModule
+        NgbDatepickerModule,
+        DragDropModule 
     ],
     providers: [],
 })

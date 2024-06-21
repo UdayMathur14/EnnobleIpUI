@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, getAdhocData } from "../constants";
+import { APIConstant, generateAdhocData, getAdhocDropdownsData } from "../constants";
 import { PlantRequest } from "../models/plant";
 
 @Injectable({
@@ -13,19 +13,11 @@ export class AdhocReportService extends CRUDService<PlantRequest> {
     }
 
     getReportColumnDropdown(data: any) {
-        return this.get(getAdhocData);
+        return this.get(getAdhocDropdownsData);
     }
 
-    // getBiltiBillProcessbyId(biltiProcessId: number) {
-    //     return this.get(biltiBillProcessbyId(this.locationIds, biltiProcessId))
-    // }
-
-    // createBiltiBillProcess(data: object) {
-    //     return this.post(createBiltiBillProcess(this.locationIds), data);
-    // }
-
-    // updateBiltiBillProcess(BiltiBillProcessId: number, data: any){
-    //     return this.put(updateBiltiBillProcess(this.locationIds, BiltiBillProcessId), data);
-    // }
+    getReportData(data: object) {
+        return this.post(generateAdhocData, data);
+    }
 
 }

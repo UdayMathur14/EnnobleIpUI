@@ -6,8 +6,8 @@
         max-width: 240px;
         min-width: 240px;
         background-color: var(--themeBg);
-        max-height: 300px;
-        min-height: 300px;
+        max-height: 250px;
+        min-height: 250px;
         overflow: auto;
 
         li{
@@ -37,3 +37,21 @@
         }
     }
 }
+
+[cdkDropList] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f9f9f9;
+  }
+  
+  [cdkDrag] {
+    padding: 10px;
+    margin: 0 0 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: move;
+    display: block;
+    text-align: center;
+  }
