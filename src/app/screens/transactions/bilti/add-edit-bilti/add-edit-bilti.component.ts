@@ -277,7 +277,7 @@ export class AddEditBiltiComponent implements OnInit {
       this.vendorId = this.vendorIdMap[selected?.toDestination];
       vendorGroup.patchValue({
         documentrefNo: row.documentrefNo,
-        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorMapCode[selected?.toDestination],
+        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorId,
         vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[selected?.toDestination],
         pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[selected?.toDestination],
         pointCharge: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointCharge: this.pointMapCharge[selected?.toDestination],
@@ -496,6 +496,7 @@ onFrlrNoClear() {
     const locationCode = this.biltiForm.controls['locationId']?.value
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
+    console.log(formData)
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchData.filter((item: any) => {
@@ -535,7 +536,7 @@ onFrlrNoClear() {
 
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
-          vendorId: formData.transactionType.code === 'RB'? vendorControl.vendorCode: this.vendorId,
+          vendorId: formData.transactionType.code === 'RB'? vendorControl.vendorCode: formData?.vendors[index].vendorCode,
           actionBy: localStorage.getItem("userId") || '',
           remarks: vendorControl?.remarks,
           attribute9: "2024-05-04T13:03:47.509Z",
@@ -594,9 +595,10 @@ onFrlrNoClear() {
       ],
         status: this.biltiForm.controls['status'].value,
       };
+
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const lineItem = {
-          vendorId: this.selectedTransactionTypePatchCode === 'RB'? this.matchedDispatchNotes[index]?.suppliers?.id: this.vendorId,
+          vendorId: this.selectedTransactionTypePatchCode === 'RB'? this.matchedDispatchNotes[index]?.suppliers?.id: formData?.vendors[index].vendorCode,
           actionBy: localStorage.getItem("userId") || '',
           remarks: vendorControl?.remarks,
           attribute9: new Date().toISOString(),
@@ -703,7 +705,6 @@ onFrlrNoClear() {
     this.biltiCreationLineItemsData = response?.biltiCreationLineItems
     vendorsArray.controls.forEach((vendorGroup, index) => {
       const vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
-      this.vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
       const remarks = this.biltiCreationLineItemsData[index]?.remarks;
       const biltiStatus = this.biltiCreationLineItemsData[index]?.status;
       const cityId = this.biltiCreationLineItemsData[index]?.vendor.cityDetail.id;
