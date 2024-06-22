@@ -129,6 +129,7 @@ export class AddEditFreightComponent implements OnInit {
       accApproval: null,
       accApprovalOn: null,
       remarks: null,
+      actionBy: localStorage.getItem("userId")
     }
     if (this.freightId > 0) {
       this.updateFreight(data);
