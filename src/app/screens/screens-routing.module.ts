@@ -44,7 +44,7 @@ import { RejectionBiltiDetailReportComponent } from "./reports/rejection-bilti-d
 import { ErrorLoggingReportComponent } from "./reports/error-logging-report/error-logging-report.component";
 import { ProvisionReportComponent } from "./reports/provision-report/provision-report.component";
 import { DebitNoteReportComponent } from "./reports/debit-note-report/debit-note-report.component";
-
+import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
 
 const routes: Routes = [
     {
@@ -102,6 +102,7 @@ const routes: Routes = [
             { path: "report/error-logging", component: ErrorLoggingReportComponent, canActivate: [AuthGuard] },
             { path: "report/debit-note", component: DebitNoteReportComponent, canActivate: [AuthGuard] },
             { path: "report/provision", component: ProvisionReportComponent, canActivate: [AuthGuard] },
+            { path: "report/adhoc-report", component: AdhocReportComponent, canActivate: [AuthGuard] },
         ],
     },
 ];

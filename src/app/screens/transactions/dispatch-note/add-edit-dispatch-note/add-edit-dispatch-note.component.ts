@@ -137,6 +137,7 @@ export class AddEditDispatchNoteComponent {
         this.supplierId = suppliers.id;
         this.vehicleId = vehicles.id;
         const frlrDate = this.convertToNgbDate(response.frlrDate);
+        this.frlrDate = response.frlrDate
         this.dispatchNote.status = response.status;
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
@@ -147,7 +148,7 @@ export class AddEditDispatchNoteComponent {
           supplierAddress: suppliers.vendorAddress1,
           status: response.status,
           locationId: response.locations.id,
-          transporterCode: response.transporter.transporterCode,
+          transporterCode: response.transporterId,
           transporterName: response.transporter.transporterName,
           transporterMode: response.transporter.modeOfTransport.value,
           frlrDate: frlrDate

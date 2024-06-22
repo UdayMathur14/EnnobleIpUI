@@ -9,10 +9,10 @@ import { AuthGuard } from '../../core/guards/auth.guard';
 })
 export class SideBarComponent {
     constructor(private router: Router, private authGuard: AuthGuard) { };
-    isMasterModule: boolean = true;
+    selectedAccordion: string = 'master';
 
     ngOnInit() {
-        this.isMasterModule = window.location.pathname.includes('/master/');
+        this.selectedAccordion = window.location.pathname.includes('/master/') ? 'master' : window.location.pathname.includes('/transaction/') ? 'transactions' : 'report';
     }
 
     securityGroups(permission: String) {
@@ -82,6 +82,8 @@ export class SideBarComponent {
             this.router.navigate(['/report/debit-note'])
         } else if (report === 'provision-report') {
             this.router.navigate(['/report/provision'])
+        }else if (report === 'adhoc-report') {
+            this.router.navigate(['/report/adhoc-report'])
         }
     }
 }

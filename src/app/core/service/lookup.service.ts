@@ -42,6 +42,7 @@ export class LookupService extends CRUDService<LookupRequest> {
       });
       APIConstant.locationsListDropdown = locations;
       localStorage.setItem('locationId', locations[0]?.id)
+      localStorage.setItem("userId",profile.userId);
     }, error => {
 
     })

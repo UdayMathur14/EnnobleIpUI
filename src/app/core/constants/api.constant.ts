@@ -85,3 +85,5 @@ export const getNocPdf = (locationId: any, id: number) => `v1/bilti-bill-change-
 export const errorLoggingReport = `v1/errorLoggingReport/search`;
 export const debitNoteReport = `v1/biltiDebitNoteReport/search`;
 export const provisionalReport = `v1/provisionalReport/search`;
+export const getAdhocDropdownsData = `v1/adHocReport/get`;
+export const generateAdhocData = `v1/adHocReport/search`;

@@ -10,7 +10,7 @@
               Masters
             </button>
           </h2>
-          <div id="collapseMasters" class="accordion-collapse collapse" [ngClass]="{ 'show': isMasterModule }" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
+          <div id="collapseMasters" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'master' }" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
                 <li (click)="onMasterChange('plant')" *ngIf="securityGroups('mfg-plant-master')">Plant Master</li>
@@ -33,7 +33,7 @@
               Transactions
             </button>
           </h2>
-          <div id="collapseTransactions" class="accordion-collapse collapse" [ngClass]="{ 'show': !isMasterModule }" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
+          <div id="collapseTransactions" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'transactions' }" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
                 <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('mfg-dispatch-note')">Dispatch Note</li>
@@ -58,7 +58,7 @@
               Reports
             </button>
           </h2>
-          <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': !isMasterModule }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
+          <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
                 <li (click)="onreportChange('provision-report')">Provision Report</li>
@@ -67,6 +67,7 @@
                 <li (click)="onreportChange('rejection-bilti-detail-report')">Rejection Bilti Detail Report</li>
                 <li (click)="onreportChange('advice-report')">Advice Report</li>
                 <li (click)="onreportChange('debit-note-report')">Debit Note Report</li>
+                <li (click)="onreportChange('adhoc-report')">Adhoc Report</li>
               </ul>
             </div>
           </div>

@@ -104,7 +104,8 @@ import { DebitNoteReportComponent } from "./reports/debit-note-report/debit-note
 import { ProvisionReportComponent } from "./reports/provision-report/provision-report.component";
 import { ProvisionReportFilterComponent } from "./reports/provision-report/components/filter/provision-report-filter.component";
 import { ProvisionReportGridTableComponent } from "./reports/provision-report/components/grid-table/provision-report-grid-table.component";
-
+import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     declarations: [
@@ -207,7 +208,8 @@ import { ProvisionReportGridTableComponent } from "./reports/provision-report/co
         DebitNoteReportGridTableComponent,
         ProvisionReportComponent,
         ProvisionReportFilterComponent,
-        ProvisionReportGridTableComponent
+        ProvisionReportGridTableComponent,
+        AdhocReportComponent
     ],
     imports: [
         LayoutModule,
@@ -221,7 +223,8 @@ import { ProvisionReportGridTableComponent } from "./reports/provision-report/co
         ExportAsModule,
         NgbPopoverModule,
         NgbDatepicker,
-        NgbDatepickerModule
+        NgbDatepickerModule,
+        DragDropModule 
     ],
     providers: [],
 })

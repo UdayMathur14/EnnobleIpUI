@@ -97,6 +97,7 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: this.lookupForm.controls['attribute2'].value,
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
+      actionBy: localStorage.getItem("userId")
     }
     if (this.lookupId > 0) {
       this.updateLookup(data);

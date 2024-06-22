@@ -85,7 +85,8 @@ export class AddEditPartComponent implements OnInit {
       remarks: this.partForm.controls['remarks'].value,
       partPrice: Number(this.partForm.controls['partPrice'].value),
       status: this.partForm.controls['status'].value,
-      modifiedBy: ""
+      modifiedBy: "",
+      actionBy: localStorage.getItem("userId")
     }
     if (this.partId > 0) {
       this.updatePart(data);
