@@ -236,7 +236,6 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
-
     this.displayRows = [];
     this.dispatchNotes.forEach((element: any) => {
       const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
