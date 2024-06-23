@@ -3,6 +3,7 @@ import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { AdhocReportService } from '../../../core/service/adhocReport.service';
 import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-adhoc-report',
@@ -10,6 +11,10 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrl: './adhoc-report.component.scss'
 })
 export class AdhocReportComponent implements OnInit {
+  exportAsConfig: ExportAsConfig = {
+    type: 'xlsx', 
+    elementIdOrContent: 'excelFormat',
+  }
   loadSpinner: boolean = true;
   colFiltersData: any[] = [];
   columnsList: any[] = [];
@@ -22,8 +27,11 @@ export class AdhocReportComponent implements OnInit {
   masterSelectedFiltersValue : any[] = [];
   today = inject(NgbCalendar).getToday();
   selectedFromDate: string = '';
+  reportListing : any[] = [];
+  
   constructor(private adhocReportService: AdhocReportService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private exportAsService: ExportAsService,
   ) { }
 
   ngOnInit(): void {
@@ -135,37 +143,56 @@ export class AdhocReportComponent implements OnInit {
   }
 
   onGenerateReport(){
+    this.loadSpinner = true;
     const data = {
-      "supplierName": this.masterSelectedFiltersValue.find(e => e.columnName == "SupplierName")?.value || "",
-      "supplierCode": this.masterSelectedFiltersValue.find(e => e.columnName == "SupplierCode")?.value || "",
-      "paymentAdviceNo": this.masterSelectedFiltersValue.find(e => e.columnName == "PaymentAdviceNo")?.value || "",
-      "location": this.masterSelectedFiltersValue.find(e => e.columnName == "Location")?.value || "",
-      "biltiNumber": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiNumber")?.value || "",
-      "frlrNumber": this.masterSelectedFiltersValue.find(e => e.columnName == "FRLRNumber")?.value || "",
-      "vehicleNumber": this.masterSelectedFiltersValue.find(e => e.columnName == "VehicleNumber")?.value || "",
-      "vehicleSize": this.masterSelectedFiltersValue.find(e => e.columnName == "VehicleSize")?.value || "",
-      "freightCode": this.masterSelectedFiltersValue.find(e => e.columnName == "FreightCode")?.value || "",
-      "source": this.masterSelectedFiltersValue.find(e => e.columnName == "Source")?.value || "",
-      "destination": this.masterSelectedFiltersValue.find(e => e.columnName == "Destination")?.value || "",
-      "status": this.masterSelectedFiltersValue.find(e => e.columnName == "Status")?.value || "",
-      "biltiCreationFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiCreationDate")?.value || "2000-01-01T15:13:57.562Z",
-      "biltiCreationToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiCreationDate")?.value || "2000-01-01T15:13:57.562Z",
-      "biltiBillProcessFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiBillProcessFromDate")?.value || "2000-01-01T15:13:57.562Z",
-      "biltiBillProcessToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiBillProcessFromDate")?.value || "2000-01-01T15:13:57.562Z",
-      "actionByMaterialTeamFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialTeamDate")?.value || "2000-01-01T15:13:57.562Z",
-      "actionByMaterialTeamToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialTeamDate")?.value || "2000-01-01T15:13:57.562Z",
-      "actionByMaterialHeadFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialHeadDate")?.value || "2000-01-01T15:13:57.562Z",
-      "actionByMaterialHeadToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialHeadDate")?.value || "2000-01-01T15:13:57.562Z",
-      "actionByAccountHeadFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByAccountHeadDate")?.value || "2000-01-01T15:13:57.562Z",
-      "actionByAccountHeadToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByAccountHeadDate")?.value || "2000-01-01T15:13:57.562Z",
+      "filters" : [
+        {
+          "supplierName": this.masterSelectedFiltersValue.find(e => e.columnName == "SupplierName")?.value || "",
+          "supplierCode": this.masterSelectedFiltersValue.find(e => e.columnName == "SupplierCode")?.value || "",
+          "paymentAdviceNo": this.masterSelectedFiltersValue.find(e => e.columnName == "PaymentAdviceNo")?.value || "",
+          "location": this.masterSelectedFiltersValue.find(e => e.columnName == "Location")?.value || "",
+          "biltiNumber": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiNumber")?.value || "",
+          "frlrNumber": this.masterSelectedFiltersValue.find(e => e.columnName == "FRLRNumber")?.value || "",
+          "vehicleNumber": this.masterSelectedFiltersValue.find(e => e.columnName == "VehicleNumber")?.value || "",
+          "vehicleSize": this.masterSelectedFiltersValue.find(e => e.columnName == "VehicleSize")?.value || "",
+          "freightCode": this.masterSelectedFiltersValue.find(e => e.columnName == "FreightCode")?.value || "",
+          "source": this.masterSelectedFiltersValue.find(e => e.columnName == "Source")?.value || "",
+          "destination": this.masterSelectedFiltersValue.find(e => e.columnName == "Destination")?.value || "",
+          "status": this.masterSelectedFiltersValue.find(e => e.columnName == "Status")?.value || "",
+          "biltiCreationFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiCreationDate")?.value || "2000-01-01T15:13:57.562Z",
+          "biltiCreationToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiCreationDate")?.value || "2000-01-01T15:13:57.562Z",
+          "biltiBillProcessFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiBillProcessFromDate")?.value || "2000-01-01T15:13:57.562Z",
+          "biltiBillProcessToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "BiltiBillProcessFromDate")?.value || "2000-01-01T15:13:57.562Z",
+          "actionByMaterialTeamFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialTeamDate")?.value || "2000-01-01T15:13:57.562Z",
+          "actionByMaterialTeamToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialTeamDate")?.value || "2000-01-01T15:13:57.562Z",
+          "actionByMaterialHeadFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialHeadDate")?.value || "2000-01-01T15:13:57.562Z",
+          "actionByMaterialHeadToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByMaterialHeadDate")?.value || "2000-01-01T15:13:57.562Z",
+          "actionByAccountHeadFromDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByAccountHeadDate")?.value || "2000-01-01T15:13:57.562Z",
+          "actionByAccountHeadToDate": this.masterSelectedFiltersValue.find(e => e.columnName == "ActionByAccountHeadDate")?.value || "2000-01-01T15:13:57.562Z",
+        }
+      ],
+      "columns": this.selectedColumnsList.map(e => e.columnName)
+        
     }
 
     this.adhocReportService.getReportData(data).subscribe((response: any) => {
-      // this.partsList = response.parts;
-      // this.loadSpinner = false;
+      if(response.length){
+       const data =  response.filter((e:any, index:number) => index > 1);
+       this.reportListing = data;
+      }
+      this.loadSpinner = false;
     }, error => {
-      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      // this.loadSpinner = false;
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
+  }
+
+  getKeys(){
+    return this.reportListing.length ? Object.keys(this.reportListing[2]) : [];
+  }
+
+  exportData() {
+    this.exportAsService.save(this.exportAsConfig, 'adhocReport').subscribe(() => {
+    });
   }
 }

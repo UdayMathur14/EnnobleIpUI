@@ -1,5 +1,11 @@
 <div class="page-title">
   <h1>Adhoc Report</h1>
+
+  <div class="action-buttons">
+    <button class="custom-button-export" (click)="exportData()" [disabled]="!reportListing.length">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+      <button class="custom-button-regulr" (click)="onGenerateReport()" [disabled]="!selectedColumnsList.length">Generate Report</button>
+    </div>
 </div>
 
 <div class="filter-section">
@@ -37,9 +43,6 @@
             </ng-select>
         </div>
       </div>
-      <div class="ms-auto col-lg-2 text-end">
-        <button class="custom-button-filters" (click)="onGenerateReport()">Generate Report</button>
-      </div>
     </div>
     <div class="row">
       <div class="col-lg-2" *ngFor="let data of masterSelectedFilters">
@@ -60,6 +63,25 @@
 
       </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-section" style="max-height: 400px; overflow: auto;">
+  <div class="filters-box">
+    <div class="custom-table" id="exportTable">
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let key of getKeys()">{{ key | titlecase }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of reportListing">
+            <td *ngFor="let key of getKeys()">{{ data[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
