@@ -30,18 +30,18 @@
                       <div class="">
                         <div class="content-row">
                           <span>Creation Date</span>
-                          <span>{{bilti.creationDate}}</span>
+                          <span>{{bilti.creationDate | date: 'yyyy-MM-dd'}}</span>
                         </div>
                         <div class="content-row">
                           <span>Created By</span>
-                          <span>{{bilti.createdBy}}</span> </div>
+                          <span>{{bilti?.createdByDetails?.name}}</span> </div>
                           <div class="content-row">
                             <span>Last Update Date</span>
-                            <span>{{bilti.lastUpdateOn}}</span>
+                            <span>{{bilti.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
                           </div>
                           <div class="content-row">
                             <span>Last Updated By</span>
-                            <span>{{bilti.lastUpdatedBy}}</span>
+                            <span>{{bilti?.lastUpdatedByDetails?.name}}</span>
                         </div>
                       </div>
                     </ng-template>
