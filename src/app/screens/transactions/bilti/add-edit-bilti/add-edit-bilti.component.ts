@@ -110,7 +110,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.getAllPointChargesList();
     this.getLoadingLocationData();
     this.getVehicleNumber();
-    this.getDispatchData()
     setTimeout(() => {
       if (this.biltiId > 0) {
         this.getEditBiltiData();

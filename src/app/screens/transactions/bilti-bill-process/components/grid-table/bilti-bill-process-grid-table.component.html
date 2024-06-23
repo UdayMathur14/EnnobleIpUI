@@ -29,11 +29,19 @@
               <div class="">
                 <div class="content-row">
                   <span>Created On</span>
-                  <span>01/01/2024</span>
+                  <span>{{biltiProcess.creationDate | date: 'yyyy-MM-dd'}}</span>
                 </div>
                 <div class="content-row">
                   <span>Created By</span>
-                  <span>IL0001</span>
+                  <span>{{biltiProcess?.createdByDetails?.name}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Update Date</span>
+                  <span>{{biltiProcess.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                </div>
+                <div class="content-row">
+                  <span>Last Updated By</span>
+                  <span>{{biltiProcess?.lastUpdatedByDetails?.name}}</span>
                 </div>
               </div>
             </ng-template>

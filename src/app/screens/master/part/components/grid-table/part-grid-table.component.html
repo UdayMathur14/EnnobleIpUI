@@ -27,7 +27,7 @@
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>{{part.createdBy}}</span>
+                <span>{{part?.createdByDetails?.name}}</span>
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
@@ -35,7 +35,7 @@
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
-                <span>{{part.lastUpdatedBy}}</span>
+                <span>{{part?.lastUpdatedByDetails?.name}}</span>
               </div>
             </div>
           </ng-template>

@@ -17,7 +17,31 @@
     <tbody>
       @for (lookup of lookupsList; track lookup.id) {
       <tr>
-        <td>{{lookup.lookUpType?.value}}</td>
+        <td class="pointer">
+          <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{lookup.lookUpType?.value}}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{lookup.creationDate | date: 'yyyy-MM-dd'}}</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{lookup?.createdByDetails?.name}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{lookup.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{lookup?.lastUpdatedByDetails?.name}}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
         <td>{{lookup.code}}</td>
         <td>{{lookup.value}}</td>
         <td>{{lookup.description}}</td>
