@@ -84,7 +84,7 @@
       </div>
     </div>
     <div class="ngmodal-footer text-center mt-5">
-      <button class="custom-button-regulr" (click)="OnPressSave()">Save</button>
+      <button class="custom-button-regulr" (click)="OnPressSave()" [disabled]="biltiBillDetails.invalid">Save</button>
     </div>
   </form>
 </div>
