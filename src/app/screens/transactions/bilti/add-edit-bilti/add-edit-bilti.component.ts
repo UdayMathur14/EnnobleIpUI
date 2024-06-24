@@ -77,7 +77,8 @@ export class AddEditBiltiComponent implements OnInit {
   locations: any[] = APIConstant.locationsListDropdown;
   biltisList: any = [];
   biltiLocationId: number = 0;
-  dispatchData: any = []
+  dispatchData: any = [];
+  patchedPointName: any = [];
 
   constructor(
     private router: Router,
@@ -271,6 +272,7 @@ export class AddEditBiltiComponent implements OnInit {
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
     );
+    this.patchedPointName = this.biltiTransactionType == 'RB' ? this.displayRows[0].pointName : this.pointMapName[selected?.toDestination];
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArray.at(index) as FormGroup;
@@ -423,6 +425,42 @@ onFrlrNoClear() {
   }
 
   onFreightChange(data: any) {
+    console.log(this.patchedPointName)
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    const sameLocationChargeData = this.patchedPointName == data?.source?.value
+      const vendorData = this.vendorList.find((element: any) => {
+        return element?.city?.value == this.patchedPointName
+      })
+      const commonData = this.pointChargesList.find((item: any) => {
+        return item?.pointName == vendorData?.city?.value
+      })
+      const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
+      vendorAtIndexZero.patchValue({
+        pointCharge: sameLocationChargeData ? commonData?.sameLocationCharge :
+          commonData?.pointCharge
+      });
+    for (let i = 1; i < vendorsArray.length; i++) {
+      const currentVendor = vendorsArray.at(i) as FormGroup;
+      const prevVendor = vendorsArray.at(i - 1) as FormGroup;
+
+      const currentPointName = currentVendor.value.pointName;
+      const prevPointName = prevVendor.value.pointName;
+      if (currentPointName === prevPointName) {
+        const samePointName = currentPointName === prevPointName
+        const lineItemsVendorData = this.vendorList.find((element: any) => {
+          return element?.city?.value == currentPointName
+        })
+
+        const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
+          return item.pointName == lineItemsVendorData?.city?.value
+        })
+        currentVendor.patchValue({
+          pointCharge: samePointName ? lineItemsSameLocationCharge?.sameLocationCharge :
+            lineItemsSameLocationCharge?.pointCharge
+        });
+      }
+    }
+
     this.freightId = data.id;
     this.biltiForm.patchValue({
       freightAmount: data?.freightAmount,
@@ -687,7 +725,6 @@ onFrlrNoClear() {
         const pointCharge = this.pointChargesList.find(
           (pointCharge: any) => pointCharge?.id === pointChargeId
         );
-
         this.pointChargeId = pointCharge?.id;
         this.frlrNumber = response?.frlrNumber;
         this.frmId = response?.biltiCreationLineItems[0]?.frmId
@@ -706,18 +743,11 @@ onFrlrNoClear() {
       const vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
       const remarks = this.biltiCreationLineItemsData[index]?.remarks;
       const biltiStatus = this.biltiCreationLineItemsData[index]?.status;
-      const cityId = this.biltiCreationLineItemsData[index]?.vendor.cityDetail.id;
       const vendor = this.vendorList.find((vendor: any) => vendor.id === vendorId);
-      const pointCharge = this.pointChargesList.find((pointCharge: any) => pointCharge.cityId === cityId);
-      if (index > 0) {
         vendorGroup.patchValue({
-          pointCharge: pointCharge?.sameLocationCharge,
+          pointCharge: this.biltiCreationLineItemsData[index]?.pointCharge,
         });
-    } else {
-        vendorGroup.patchValue({
-            pointCharge: pointCharge?.pointCharge,
-        });
-    }
+        this.patchedPointName = this.biltiCreationLineItemsData[0]?.vendor?.cityDetail?.value
     if(this.selectedTransactionTypePatchCode =='RB'){
       vendorGroup.patchValue({
         vendorCode: vendor?.vendorCode,
