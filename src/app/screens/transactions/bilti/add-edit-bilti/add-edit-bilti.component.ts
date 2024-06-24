@@ -235,12 +235,13 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
-    const paidByDetails = this.vendorList.filter((item: any) => {
-      return item?.vendorCode == selectedFrlr?.suppliers?.vendorCode;
-    })
     this.displayRows = [];
     this.dispatchNotes.forEach((element: any) => {
       const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
+      const paidByDetails = this.vendorList.filter((item: any) => {
+        return item?.vendorCode == element?.suppliers?.vendorCode;
+      })
+      console.log(paidByDetails)
       if (commonData) {
         this.displayRows.push({
           documentrefNo: element?.dispatchNumber,
@@ -248,8 +249,8 @@ export class AddEditBiltiComponent implements OnInit {
           vendorName: element?.suppliers?.vendorName,
           pointName:element?.suppliers?.city?.value,
           pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
-          paidByDetails: paidByDetails[0].paidByDetail.value,
           vendorId: element?.suppliers?.id,
+          paidByDetails: paidByDetails[0].paidByDetail.value
         });
       }
     });
