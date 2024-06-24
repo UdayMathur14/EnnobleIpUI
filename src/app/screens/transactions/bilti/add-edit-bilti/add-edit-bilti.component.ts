@@ -236,24 +236,6 @@ export class AddEditBiltiComponent implements OnInit {
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
     this.displayRows = [];
-    this.dispatchNotes.forEach((element: any) => {
-      const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
-      const paidByDetails = this.vendorList.filter((item: any) => {
-        return item?.vendorCode == element?.suppliers?.vendorCode;
-      })
-      if (commonData) {
-        this.displayRows.push({
-          documentrefNo: element?.dispatchNumber,
-          vendorCode: element?.suppliers?.vendorCode,
-          vendorName: element?.suppliers?.vendorName,
-          pointName:element?.suppliers?.city?.value,
-          pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
-          vendorId: element?.suppliers?.id,
-          paidByDetails: paidByDetails[0].paidByDetail.value
-        });
-      }
-    });
-
     if (this.biltiTransactionType != 'RB') {
       this.allFrmTransactionData.forEach((element: any) => {
         const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
@@ -263,7 +245,24 @@ export class AddEditBiltiComponent implements OnInit {
           });
         }
       });
-
+    } else{
+      this.dispatchNotes.forEach((element: any) => {
+        const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
+        const paidByDetails = this.vendorList.filter((item: any) => {
+          return item?.vendorCode == element?.suppliers?.vendorCode;
+        })
+        if (commonData) {
+          this.displayRows.push({
+            documentrefNo: element?.dispatchNumber,
+            vendorCode: element?.suppliers?.vendorCode,
+            vendorName: element?.suppliers?.vendorName,
+            pointName:element?.suppliers?.city?.value,
+            pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
+            vendorId: element?.suppliers?.id,
+            paidByDetails: paidByDetails[0].paidByDetail.value
+          });
+        }
+      });
     }
 
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
