@@ -241,7 +241,6 @@ export class AddEditBiltiComponent implements OnInit {
       const paidByDetails = this.vendorList.filter((item: any) => {
         return item?.vendorCode == element?.suppliers?.vendorCode;
       })
-      console.log(paidByDetails)
       if (commonData) {
         this.displayRows.push({
           documentrefNo: element?.dispatchNumber,
