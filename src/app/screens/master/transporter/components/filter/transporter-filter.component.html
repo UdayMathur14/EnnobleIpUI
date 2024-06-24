@@ -12,7 +12,7 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="">Transporter Code</label>
-                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Number">
+                <ng-select class="input-field" [(ngModel)]="transCode" placeholder="Select Transporter Code">
                     <ng-option *ngFor="let transporter of transportersList" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
                 </ng-select>
             </div>
@@ -53,9 +53,11 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
+                <div class="d-flex">
+                    <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
                     [disabled]="!locationIds && !transCode && !transName && !cityCode && !stateCode && !taxationType">Search</button>
                 <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
+                </div> 
             </div>
         </div>
     </div>

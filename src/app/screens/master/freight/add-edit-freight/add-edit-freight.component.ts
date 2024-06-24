@@ -45,7 +45,7 @@ export class AddEditFreightComponent implements OnInit {
       destination: ['', [Validators.required]],
       vehicleSize: ['', [Validators.required]],
       freightAmount: ['', [Validators.required]],
-      status: [{ value: 'Inactive', disabled: true }, [Validators.required]],
+      status: [{ value: 'Inactive'}, [Validators.required]],
       matApproval: [''],
       matApprovalOn: [''],
       accApproval: [''],
@@ -73,13 +73,6 @@ export class AddEditFreightComponent implements OnInit {
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: number) {
     this.freightService.getFreightData(this.freightLocationId,freightId).subscribe((response: any) => {
-      if (response.approvedByAccounts == null || response.approvedByMaterial == null ||
-        response.approvedByMaterial.includes('Rejected By') ||
-        response.approvedByAccounts.includes('Rejected By')) {
-        this.freightForm.get('status')?.disable();
-      } else {
-        this.freightForm.get('status')?.enable();
-      }
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
@@ -106,10 +99,12 @@ export class AddEditFreightComponent implements OnInit {
 
   //FUNCTION TO HANDLE STATUS FIELD ON UPDATE
   checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
-    if (approvedByMaterial === 'Approved By 1' && approvedByAccounts === 'Approved By 1') {
-      this.freightForm.controls['status'].enable();
+    if (approvedByAccounts == null || approvedByMaterial == null ||
+      approvedByMaterial.includes('Rejected By') ||
+      approvedByAccounts.includes('Rejected By')) {
+      this.freightForm.get('status')?.disable();
     } else {
-      this.freightForm.controls['status'].disable();
+      this.freightForm.get('status')?.enable();
     }
   }
 

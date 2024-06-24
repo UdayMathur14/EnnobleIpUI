@@ -105,6 +105,7 @@ export class AddEditPointChargeComponent implements OnInit {
       status: data.status,
       locationCode: data.locations.id
     });
+    this.checkApprovalStatus(data.approvedByMaterial, data.approvedByAccounts);
   }
 
 
@@ -212,6 +213,16 @@ export class AddEditPointChargeComponent implements OnInit {
         reject('No matching vehicle found');
       }
     });
+  }
+
+  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
+    if (approvedByAccounts == null || approvedByMaterial == null ||
+      approvedByMaterial.includes('Rejected By') ||
+      approvedByAccounts.includes('Rejected By')) {
+      this.pointChargeForm.get('status')?.disable();
+    } else {
+      this.pointChargeForm.get('status')?.enable();
+    }
   }
 }
 
