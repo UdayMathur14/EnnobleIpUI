@@ -425,7 +425,6 @@ onFrlrNoClear() {
   }
 
   onFreightChange(data: any) {
-    console.log(this.patchedPointName)
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     const sameLocationChargeData = this.patchedPointName == data?.source?.value
       const vendorData = this.vendorList.find((element: any) => {
@@ -581,8 +580,8 @@ onFrlrNoClear() {
           frmId: formData.transactionType.code === 'RB' ? 0 : this.frmId,
           dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
-          pointCharge: parseInt(vendorControl?.pointCharge
-)        };
+          pointCharge: parseInt(vendorControl?.pointCharge) || 0     
+        };
         if(data.lineItemsEntity[0].vendorId == 0){
           data.lineItemsEntity[0] = lineItem
         }else{
@@ -645,7 +644,7 @@ onFrlrNoClear() {
           frmId: this.selectedTransactionTypePatchCode === 'RB' ? 0 : this.frmId,
           dispatchNoteId: this.selectedTransactionTypePatchCode === 'RB' ? this.matchedDispatchNotes[index]?.id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
-          pointCharge: parseInt(vendorControl?.pointCharge)
+          pointCharge: parseInt(vendorControl?.pointCharge) || 0
         };
         if(data.lineItemsEntity[0].vendorId == 0){
           data.lineItemsEntity[0] = lineItem
