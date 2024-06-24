@@ -29,8 +29,8 @@ export class TransactionGridTableComponent implements OnInit, OnChanges {
 
   emitHeaders() {
     const headers: string[] = [];
-    const headerCells = this.table.nativeElement.querySelectorAll('thead th');
-    headerCells.forEach((cell: any) => {
+    const headerCells = this.table?.nativeElement?.querySelectorAll('thead th');
+    headerCells?.forEach((cell: any) => {
       if (cell.innerText.trim() !== 'Actions') { // Exclude "Actions" header
         headers.push(cell.innerText.trim());
       }
