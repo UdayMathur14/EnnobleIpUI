@@ -235,7 +235,6 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
-    console.log(selectedFrlr)
     const paidByDetails = this.vendorList.filter((item: any) => {
       return item?.vendorCode == selectedFrlr?.suppliers?.vendorCode;
     })
