@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import { ToastrService } from 'ngx-toastr';
@@ -56,7 +56,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       id: [item.id],
       debitAmount: [item?.biltiBillProcessChargesByVendor?.debitAmount || 0,
       ],
-      debitRemarks: [],
+      debitRemarks: [item?.biltiBillProcessChargesByVendor?.debitRemarks, Validators.required],
     });
   }
 

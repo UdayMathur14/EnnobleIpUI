@@ -77,7 +77,8 @@ export class AddEditBiltiComponent implements OnInit {
   locations: any[] = APIConstant.locationsListDropdown;
   biltisList: any = [];
   biltiLocationId: number = 0;
-  dispatchData: any = []
+  dispatchData: any = [];
+  patchedPointName: any = [];
 
   constructor(
     private router: Router,
@@ -222,6 +223,29 @@ export class AddEditBiltiComponent implements OnInit {
       this.getFrlr(selectedTransactionType.code);
     }
     this.patchTransactionType(selectedTransactionType.code);
+   this.onTransactionClear();
+  }
+
+  onTransactionClear(){
+    this.biltiForm.get('frlrNo')?.setValue(null);
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    vendorsArray.controls.forEach((vendorGroup) => {
+      vendorGroup.patchValue({
+        vendorCode: null,
+        vendorName: null,
+        pointName: null,
+        pointCharge: null,
+        remarks: null,
+        paidByDetails: null,
+        documentrefNo: null
+      });
+    });
+    this.biltiForm.patchValue({
+      vehicleNumber: null,
+      vehicleSize: null,
+      transporterCode: null,
+      transporterName: null,
+    })
   }
   
   patchTransactionType(value: any) {
@@ -236,6 +260,23 @@ export class AddEditBiltiComponent implements OnInit {
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
     this.displayRows = [];
+    this.dispatchNotes.forEach((element: any) => {
+      const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
+      const paidByDetails = this.vendorList.filter((item: any) => {
+        return item?.vendorCode == element?.suppliers?.vendorCode;
+      })
+      if (commonData) {
+        this.displayRows.push({
+          documentrefNo: element?.dispatchNumber,
+          vendorCode: element?.suppliers?.vendorCode,
+          vendorName: element?.suppliers?.vendorName,
+          pointName:element?.suppliers?.city?.value,
+          pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
+          vendorId: element?.suppliers?.id,
+          paidByDetails: paidByDetails[0].paidByDetail.value
+        });
+      }
+    });
     if (this.biltiTransactionType != 'RB') {
       this.allFrmTransactionData.forEach((element: any) => {
         const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
@@ -245,25 +286,7 @@ export class AddEditBiltiComponent implements OnInit {
           });
         }
       });
-    } else{
-      this.dispatchNotes.forEach((element: any) => {
-        const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
-        const paidByDetails = this.vendorList.filter((item: any) => {
-          return item?.vendorCode == element?.suppliers?.vendorCode;
-        })
-        if (commonData) {
-          this.displayRows.push({
-            documentrefNo: element?.dispatchNumber,
-            vendorCode: element?.suppliers?.vendorCode,
-            vendorName: element?.suppliers?.vendorName,
-            pointName:element?.suppliers?.city?.value,
-            pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
-            vendorId: element?.suppliers?.id,
-            paidByDetails: paidByDetails[0].paidByDetail.value
-          });
-        }
-      });
-    }
+    } 
 
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
     this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
@@ -271,6 +294,7 @@ export class AddEditBiltiComponent implements OnInit {
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
     );
+    this.patchedPointName = this.biltiTransactionType == 'RB' ? this.displayRows[0].pointName : this.pointMapName[selected?.toDestination];
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArray.at(index) as FormGroup;
@@ -423,6 +447,41 @@ onFrlrNoClear() {
   }
 
   onFreightChange(data: any) {
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    const sameLocationChargeData = this.patchedPointName == data?.source?.value
+      const vendorData = this.vendorList.find((element: any) => {
+        return element?.city?.value == this.patchedPointName
+      })
+      const commonData = this.pointChargesList.find((item: any) => {
+        return item?.pointName == vendorData?.city?.value
+      })
+      const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
+      vendorAtIndexZero.patchValue({
+        pointCharge: sameLocationChargeData ? commonData?.sameLocationCharge :
+          commonData?.pointCharge
+      });
+    for (let i = 1; i < vendorsArray.length; i++) {
+      const currentVendor = vendorsArray.at(i) as FormGroup;
+      const prevVendor = vendorsArray.at(i - 1) as FormGroup;
+
+      const currentPointName = currentVendor.value.pointName;
+      const prevPointName = prevVendor.value.pointName;
+      if (currentPointName === prevPointName) {
+        const samePointName = currentPointName === prevPointName
+        const lineItemsVendorData = this.vendorList.find((element: any) => {
+          return element?.city?.value == currentPointName
+        })
+
+        const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
+          return item.pointName == lineItemsVendorData?.city?.value
+        })
+        currentVendor.patchValue({
+          pointCharge: samePointName ? lineItemsSameLocationCharge?.sameLocationCharge :
+            lineItemsSameLocationCharge?.pointCharge
+        });
+      }
+    }
+
     this.freightId = data.id;
     this.biltiForm.patchValue({
       freightAmount: data?.freightAmount,
@@ -543,8 +602,8 @@ onFrlrNoClear() {
           frmId: formData.transactionType.code === 'RB' ? 0 : this.frmId,
           dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
-          pointCharge: parseInt(vendorControl?.pointCharge
-)        };
+          pointCharge: parseInt(vendorControl?.pointCharge) || 0     
+        };
         if(data.lineItemsEntity[0].vendorId == 0){
           data.lineItemsEntity[0] = lineItem
         }else{
@@ -607,7 +666,7 @@ onFrlrNoClear() {
           frmId: this.selectedTransactionTypePatchCode === 'RB' ? 0 : this.frmId,
           dispatchNoteId: this.selectedTransactionTypePatchCode === 'RB' ? this.matchedDispatchNotes[index]?.id : 0,
           documentReferenceNo: vendorControl.documentrefNo,
-          pointCharge: parseInt(vendorControl?.pointCharge)
+          pointCharge: parseInt(vendorControl?.pointCharge) || 0
         };
         if(data.lineItemsEntity[0].vendorId == 0){
           data.lineItemsEntity[0] = lineItem
@@ -687,7 +746,6 @@ onFrlrNoClear() {
         const pointCharge = this.pointChargesList.find(
           (pointCharge: any) => pointCharge?.id === pointChargeId
         );
-
         this.pointChargeId = pointCharge?.id;
         this.frlrNumber = response?.frlrNumber;
         this.frmId = response?.biltiCreationLineItems[0]?.frmId
@@ -706,18 +764,11 @@ onFrlrNoClear() {
       const vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
       const remarks = this.biltiCreationLineItemsData[index]?.remarks;
       const biltiStatus = this.biltiCreationLineItemsData[index]?.status;
-      const cityId = this.biltiCreationLineItemsData[index]?.vendor.cityDetail.id;
       const vendor = this.vendorList.find((vendor: any) => vendor.id === vendorId);
-      const pointCharge = this.pointChargesList.find((pointCharge: any) => pointCharge.cityId === cityId);
-      if (index > 0) {
         vendorGroup.patchValue({
-          pointCharge: pointCharge?.sameLocationCharge,
+          pointCharge: this.biltiCreationLineItemsData[index]?.pointCharge,
         });
-    } else {
-        vendorGroup.patchValue({
-            pointCharge: pointCharge?.pointCharge,
-        });
-    }
+        this.patchedPointName = this.biltiCreationLineItemsData[0]?.vendor?.cityDetail?.value
     if(this.selectedTransactionTypePatchCode =='RB'){
       vendorGroup.patchValue({
         vendorCode: vendor?.vendorCode,

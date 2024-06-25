@@ -327,7 +327,7 @@ export class AddEditDispatchNoteComponent {
     if (this.dispatchId > 0 && deletedPart.id != 0) {
         this.deletedParts.push(deletedPart);
     }
-    this.partDetails.controls.splice(i, 1);
+    this.partDetails.removeAt(i);
 }
 
 
