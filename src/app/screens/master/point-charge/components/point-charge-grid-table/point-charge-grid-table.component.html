@@ -51,7 +51,7 @@
               </div>
               <div class="content-row">
                 <span>Approved by Material On</span>
-                <span>{{ pointcharge?.approvedByMaterialOn }}</span>
+                <span>{{ pointcharge?.approvedByMaterialOn | date: 'yyyy-MM-dd' }}</span>
               </div>
               <div class="content-row">
                 <span>Approved by Accounts</span>
@@ -59,7 +59,7 @@
               </div>
               <div class="content-row">
                 <span>Approved by Accounts On</span>
-                <span>{{ pointcharge?.approvedByAccountsOn }}</span>
+                <span>{{ pointcharge?.approvedByAccountsOn | date: 'yyyy-MM-dd' }}</span>
               </div>
             </div>
           </ng-template>
