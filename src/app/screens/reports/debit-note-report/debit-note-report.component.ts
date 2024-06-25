@@ -13,6 +13,21 @@ export class DebitNoteReportComponent {
   billTiBillReport = [];
   isFilters: boolean = true;
 
+  columns = [
+    { header: 'Supplier Code', field: 'supplierCode', visible: true },
+    { header: 'Supplier Name', field: 'supplierName', visible: true },
+    { header: 'Total Basic Freight Charges', field: 'totalBasicFreightCharges', visible: true },
+    { header: 'Total Cgst Amount', field: 'totalCgstAmount', visible: true },
+    { header: 'Total Debit Note Amount', field: 'totalDebitNoteAmount', visible: true },
+    { header: 'Total Detention Charges', field: 'totalDetentionCharges', visible: true },
+    { header: 'Total Grand Total Amount', field: 'totalGrandTotalAmount', visible: false },
+    { header: 'Total Igst Amount', field: 'totalIgstAmount', visible: false },
+    { header: 'Total Net Amount', field: 'totalNetAmount', visible: false },
+    { header: 'Total OverLoad Charges', field: 'totalOverLoadCharges', visible: false },
+    { header: 'Total Point Charges', field: 'totalPointCharges', visible: false },
+    { header: 'Total Sgst Amount', field: 'totalSgstAmount', visible: false },
+  ];
+
   constructor(
     private router: Router,
     private reportService: ReportService,
@@ -30,5 +45,9 @@ export class DebitNoteReportComponent {
     }, error => {
 
     })
+  }
+
+  onColumnVisibilityChange(column: any) {
+    this.columns = this.columns.map(col => col.field === column.field ? column : col);
   }
 }

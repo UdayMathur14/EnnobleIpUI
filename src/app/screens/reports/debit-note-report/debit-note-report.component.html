@@ -1,5 +1,12 @@
 <div class="page-title">
     <h1>Debit Note Report</h1>
+    <button class="icon-button me-4" ngbTooltip="Add Columns" placement="bottom-right" [ngbPopover]="popContent" 
+    triggers="manual" #p="ngbPopover" [autoClose]="'outside'">
+      <img src="assets/images/icons/settings.svg" alt="settings" (click)="p.toggle()">
+    </button>
+    <ng-template #popContent>
+      <app-table-columns-settings [columns]="columns" (columnVisibilityChange)="onColumnVisibilityChange($event)"></app-table-columns-settings>
+    </ng-template>
   </div>
   <div class="filter-section" >
     <app-debit-note-report-filter
@@ -7,5 +14,5 @@
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <app-debit-note-report-grid-table [billTiBillReport]="billTiBillReport"></app-debit-note-report-grid-table>
+    <app-debit-note-report-grid-table [billTiBillReport]="billTiBillReport" [columns]="columns"></app-debit-note-report-grid-table>
   </div>

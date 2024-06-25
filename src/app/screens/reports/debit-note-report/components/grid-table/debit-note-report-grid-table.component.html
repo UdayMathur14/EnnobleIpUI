@@ -1,48 +1,14 @@
 <div class="custom-table">
     <table>
         <thead>
-            <tr>
-                <th>Response Code</th>
-                <th>Message Source</th>
-                <th>Method Name</th>
-                <th>Description</th>
-                <th>Detailed Description</th>
-            </tr>
+          <tr>
+            <th *ngFor="let column of columns" [hidden]="!column.visible">{{ column.header }}</th>
+          </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let errorLogging of billTiBillReport">
-                <td class="pointer" container="body">
-                    <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-                        <u>{{errorLogging.responseCode}}</u>
-                    </span>
-                    <ng-template #tipContent>
-                        <div class="">
-                            <div class="content-row">
-                                <span>Creation Date</span>
-                                <span>{{errorLogging.creationDate | date: 'yyyy-MM-dd'}}</span>
-                            </div>
-                            <div class="content-row">
-                                <span>Created By</span>
-                                <span>{{errorLogging.createdBy}}</span>
-                            </div>
-                            <div class="content-row">
-                                <span>Last Update Date</span>
-                                <span>{{errorLogging.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-                            </div>
-                            <div class="content-row">
-                                <span>Last Updated By</span>
-                                <span>{{errorLogging.lastUpdatedBy}}</span>
-                            </div>
-                        </div>
-                    </ng-template>
-                </td>
-                <td>{{errorLogging.messageSource}}</td>
-                <td>{{errorLogging.methodName}}</td>
-                <td>{{errorLogging.description}}</td>
-                <td>{{errorLogging.detailDescriptions}}</td>
-            </tr>
-            <!-- <tr>
-                <td align="center" colspan="13">No Result Found</td>
-            </tr> -->
-    </table>
+          <tr *ngFor="let debitNote of billTiBillReport">
+            <td *ngFor="let column of columns" [hidden]="!column.visible">{{ debitNote[column.field] }}</td>
+          </tr>
+        </tbody>
+      </table>
 </div>

@@ -106,6 +106,7 @@ import { ProvisionReportFilterComponent } from "./reports/provision-report/compo
 import { ProvisionReportGridTableComponent } from "./reports/provision-report/components/grid-table/provision-report-grid-table.component";
 import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TableColumnsSettingsComponent } from "./reports/debit-note-report/components/table-columns-settings/table-columns-settings.component";
 
 @NgModule({
     declarations: [
@@ -209,7 +210,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         ProvisionReportComponent,
         ProvisionReportFilterComponent,
         ProvisionReportGridTableComponent,
-        AdhocReportComponent
+        AdhocReportComponent,
+        TableColumnsSettingsComponent
     ],
     imports: [
         LayoutModule,
