@@ -10,7 +10,8 @@
   </div>
   <div class="filter-section" >
     <app-debit-note-report-filter
-    (getData)="getData($event.batchNumber)"></app-debit-note-report-filter>
+    (getData)="getData($event.batchNumber)" [reportFilter] = "reportFilter" 
+    (exportData)="exportData()"></app-debit-note-report-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">

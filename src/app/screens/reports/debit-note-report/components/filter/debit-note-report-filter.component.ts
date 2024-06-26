@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -9,8 +9,10 @@ import { ToastrService } from 'ngx-toastr';
 export class DebitNoteReportFilterComponent {
 
   @Output() getData: EventEmitter<any> = new EventEmitter();
+  @Output() exportData: EventEmitter<any> = new EventEmitter();
 
   batchNumber!: string;
+  @Input() reportFilter: any = [];
 
   constructor(private toastr: ToastrService) { }
 
@@ -19,6 +21,7 @@ export class DebitNoteReportFilterComponent {
   }
 
   onClearFilter() {
+    this.batchNumber = '';
     this.getData.emit({ batchNumber: '' })
   }
 }

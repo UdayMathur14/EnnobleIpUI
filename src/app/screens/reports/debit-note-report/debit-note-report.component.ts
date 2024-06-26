@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { ReportService } from '../../../core/service/report.service';
+import { ExportService } from '../../../core/service/export.service';
 
 @Component({
   selector: 'app-debit-note-report',
@@ -12,6 +13,7 @@ export class DebitNoteReportComponent {
 
   billTiBillReport = [];
   isFilters: boolean = true;
+  reportFilter: any = [];
 
   columns = [
     { header: 'Supplier Code', field: 'supplierCode', visible: true },
@@ -29,19 +31,20 @@ export class DebitNoteReportComponent {
   ];
 
   constructor(
-    private router: Router,
     private reportService: ReportService,
-    private xlsxService: XlsxService
+    private exportService: ExportService,
   ) { }
 
   ngOnInit(): void {
-    //this.getData();
+    this.getData();
   }
 
   getData(batchNumber: string = '') {
 
     this.reportService.getDebitNote({ batchNumber }).subscribe((res: any) => {
       this.billTiBillReport = res.billTiBillReport;
+      this.reportFilter = res.filters.BatchNumber;
+      console.log(this.reportFilter)
     }, error => {
 
     })
@@ -49,5 +52,9 @@ export class DebitNoteReportComponent {
 
   onColumnVisibilityChange(column: any) {
     this.columns = this.columns.map(col => col.field === column.field ? column : col);
+  }
+
+  exportData(fileName: string = "Debit Note Report") {
+    this.exportService.csvExport(fileName);
   }
 }
