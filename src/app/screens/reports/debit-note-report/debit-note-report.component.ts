@@ -28,6 +28,8 @@ export class DebitNoteReportComponent {
     { header: 'Total OverLoad Charges', field: 'totalOverLoadCharges', visible: false },
     { header: 'Total Point Charges', field: 'totalPointCharges', visible: false },
     { header: 'Total Sgst Amount', field: 'totalSgstAmount', visible: false },
+    { header: 'Payment Advice No', field: 'paymentAdviceNo', visible: false },
+    { header: 'Payment TTL', field: 'paymentTTL', visible: false },
   ];
 
   constructor(
