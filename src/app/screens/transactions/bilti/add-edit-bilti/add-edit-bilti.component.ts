@@ -103,21 +103,22 @@ export class AddEditBiltiComponent implements OnInit {
     if(locationId){
       this.locationId = Number(locationId);
     }
-    this.initForm();
-    this.getAllTransportersList();
-    this.getAllTransactionTypes();
-    this.getAllFreightList();
-    this.getAllVendorList();
-    this.getAllPointChargesList();
-    this.getLoadingLocationData();
-    this.getVehicleNumber();
-    setTimeout(() => {
-      if (this.biltiId > 0) {
-        this.getEditBiltiData();
-      }
-    },1000)
-    this.setLocation();
+    this.fetchData()
+    .then(() => this.getEditBiltiData())
   }
+
+
+async fetchData() {
+  await this.initForm();
+  await this.getAllTransportersList();
+  await this.getAllTransactionTypes();
+  await this.getAllFreightList();
+  await this.getAllVendorList();
+  await this.getAllPointChargesList();
+  await this.getLoadingLocationData();
+  await this.getVehicleNumber();
+  await this.setLocation();
+}
 
   initForm() {
     this.biltiForm = this.fb.group({
