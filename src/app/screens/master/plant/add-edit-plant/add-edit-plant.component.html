@@ -76,7 +76,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Location Code<span class="text-danger">*</span></label>
-          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location">
+          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" (change)="getLocationData($event)">
             <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
           </ng-select>
         </div>
@@ -84,7 +84,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">DSC <span class="text-danger">*</span></label>
-          <input type="text" class="input-field capitalize" formControlName="dsc" />
+          <input type="text" class="input-field capitalize" formControlName="dsc" readonly/>
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">DCP <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="dcp" />
+          <input type="text" class="input-field" formControlName="dcp" readonly/>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
