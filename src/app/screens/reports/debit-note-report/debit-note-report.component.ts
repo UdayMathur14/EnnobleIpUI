@@ -46,7 +46,6 @@ export class DebitNoteReportComponent {
     this.reportService.getDebitNote({ batchNumber }).subscribe((res: any) => {
       this.billTiBillReport = res.billTiBillReport;
       this.reportFilter = res.filters.BatchNumber;
-      console.log(this.reportFilter)
     }, error => {
 
     })
