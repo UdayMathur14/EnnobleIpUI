@@ -13,7 +13,7 @@ import { APIConstant } from '../../../core/constants';
 export class BiltiBillProcessViewComponent {
   isFilters: boolean = true;
   searchedData: any;
-  fromDate: any = '2000-01-01';
+  fromDate: any = null;
   batchNumber: any;
   biltiNumber: any;
   adviceType: any;

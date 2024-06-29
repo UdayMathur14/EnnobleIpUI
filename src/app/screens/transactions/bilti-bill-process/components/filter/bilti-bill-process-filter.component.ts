@@ -13,8 +13,8 @@ export class BiltiBillProcessFilterComponent {
   fromDate!: NgbDateStruct | null;
   toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
-  selectedFromDate: string = '';
-  selectedToDate: string = '';
+  selectedFromDate: any;
+  selectedToDate: any;
   adviceType: any = undefined;
   batchName: any = undefined;
   biltiNumber: any = undefined;
@@ -84,18 +84,20 @@ export class BiltiBillProcessFilterComponent {
       "biltiNumber": this.biltiNumber || "",
       "batchNumber": batchNameValue || "",
       "adviceType": selectedAdviceType || "",
-      "fromDate": this.selectedFromDate || "2000-01-01",
-      "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2)
+      "fromDate": this.selectedFromDate,
+      "toDate": this.selectedToDate
     }
     this.filterSearchObj.emit(filterObj)
   }
 
   onClearFilter(){
     this.biltiNumber = '';
-    this.fromDate = null,
-    this.toDate = null,
-    this.adviceType = '',
-    this.batchName = ''
+    this.fromDate = null;
+    this.toDate = null;
+    this.selectedFromDate = null;
+    this.selectedToDate = null;
+    this.adviceType = '';
+    this.batchName = '';
     this.batchName = '';
 
   if (this.batchNameInput && this.batchNameInput.nativeElement) {
