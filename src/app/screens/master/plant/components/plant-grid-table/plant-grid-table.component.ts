@@ -15,6 +15,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
   @ViewChild('table') table!: ElementRef;
   // @Input() locationSel!: string;
   @Output() headersChange = new EventEmitter<string[]>();
+  @Output() exportHeader = new EventEmitter<string[]>();
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
@@ -54,7 +55,7 @@ export class PlantGridTableComponent implements OnInit, OnChanges {
         headers.push(cell.innerText.trim());
       }
     });
-    //this.exportHeader.emit(headers);
+    this.exportHeader.emit(headers);
   }
 
   onGoToEditPlant(plantData: any) {
