@@ -245,6 +245,35 @@ export class AddEditBiltiComponent implements OnInit {
       vehicleSize: null,
       transporterCode: null,
       transporterName: null,
+      freightCode: null,
+      source: null,
+      destination: null,
+      freightAmount: null
+    })
+  }
+
+  onChangeFrlrNoClear(){
+    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+    vendorsArray.controls.forEach((vendorGroup) => {
+      vendorGroup.patchValue({
+        vendorCode: null,
+        vendorName: null,
+        pointName: null,
+        pointCharge: null,
+        remarks: null,
+        paidByDetails: null,
+        documentrefNo: null
+      });
+    });
+    this.biltiForm.patchValue({
+      vehicleNumber: null,
+      vehicleSize: null,
+      transporterCode: null,
+      transporterName: null,
+      freightCode: null,
+      source: null,
+      destination: null,
+      freightAmount: null
     })
   }
   
@@ -259,6 +288,7 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
+    this.onChangeFrlrNoClear()
     this.displayRows = [];
     this.dispatchNotes.forEach((element: any) => {
       const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
@@ -304,7 +334,6 @@ export class AddEditBiltiComponent implements OnInit {
         vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorId,
         vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[selected?.toDestination],
         pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[selected?.toDestination],
-        pointCharge: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointCharge: this.pointMapCharge[selected?.toDestination],
         paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[selected?.toDestination] 
       });
     });
@@ -448,7 +477,6 @@ onFrlrNoClear() {
 
   onFreightChange(data: any) {
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-    const sameLocationChargeData = this.patchedPointName == data?.source?.value
       const vendorData = this.vendorList.find((element: any) => {
         return element?.city?.value == this.patchedPointName
       })
@@ -457,8 +485,7 @@ onFrlrNoClear() {
       })
       const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
       vendorAtIndexZero.patchValue({
-        pointCharge: sameLocationChargeData ? commonData?.sameLocationCharge :
-          commonData?.pointCharge
+        pointCharge: 0
       });
     for (let i = 1; i < vendorsArray.length; i++) {
       const currentVendor = vendorsArray.at(i) as FormGroup;
@@ -466,7 +493,6 @@ onFrlrNoClear() {
 
       const currentPointName = currentVendor.value.pointName;
       const prevPointName = prevVendor.value.pointName;
-      if (currentPointName === prevPointName) {
         const samePointName = currentPointName === prevPointName
         const lineItemsVendorData = this.vendorList.find((element: any) => {
           return element?.city?.value == currentPointName
@@ -475,11 +501,11 @@ onFrlrNoClear() {
         const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
           return item.pointName == lineItemsVendorData?.city?.value
         })
+        console.log(lineItemsSameLocationCharge)
         currentVendor.patchValue({
           pointCharge: samePointName ? lineItemsSameLocationCharge?.sameLocationCharge :
             lineItemsSameLocationCharge?.pointCharge
         });
-      }
     }
 
     this.freightId = data.id;
