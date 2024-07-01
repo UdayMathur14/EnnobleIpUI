@@ -12,8 +12,8 @@ export class CheckedMaterialsTeamFilterComponent {
   fromDate!: NgbDateStruct | null;
   toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
-  selectedFromDate: string = '';
-  selectedToDate: string = '';
+  selectedFromDate: any;
+  selectedToDate: any;
   batchName: any = undefined;
   biltiNumber: any = undefined;
   batchNames: string[] = [];
@@ -46,8 +46,8 @@ export class CheckedMaterialsTeamFilterComponent {
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
       "batchNumber": this.batchNumber || "",
-      "fromDate": this.selectedFromDate || "2000-01-01",
-      "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2),
+      "fromDate": this.selectedFromDate,
+      "toDate": this.selectedToDate,
       locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
@@ -56,7 +56,9 @@ export class CheckedMaterialsTeamFilterComponent {
   onClearFilter(){
     this.batchNumber = '';
     this.fromDate = null,
-    this.toDate = null
+    this.toDate = null,
+    this.selectedFromDate = null,
+    this.selectedToDate = null
     const filterObj = {
       batchNumber : '',
       locationIds: []

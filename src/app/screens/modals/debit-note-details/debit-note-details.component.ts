@@ -73,7 +73,6 @@ export class DebitNoteDetailsModalComponent implements OnInit {
   }
 
   populateForm(): void {
-    console.log(this.biltiBillDetailsData)
     if (this.biltiBillDetailsData) {
       // this.calculateTotals();
       this.biltiBillDetails.patchValue({

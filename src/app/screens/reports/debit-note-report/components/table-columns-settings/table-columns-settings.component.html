@@ -1,0 +1,7 @@
+<div class="column-settings">
+    <p><b>Select Columns to Add</b></p>
+    <div *ngFor="let column of columns">
+      <input type="checkbox" [(ngModel)]="column.visible" (change)="onColumnVisibilityChange(column)" /> 
+      {{ column.header }}
+    </div>
+  </div>

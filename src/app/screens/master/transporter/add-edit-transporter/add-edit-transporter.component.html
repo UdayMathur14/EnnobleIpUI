@@ -14,11 +14,10 @@
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Location Code <span class="text-danger">*</span></label>
-          <div class="input-with-icon">
-            <input type="text" class="input-field" formControlName="locationCode" readonly />
-            <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-          </div>
+          <label for="">Location Code<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" formControlName="locationCode" placeholder="Select location" (change)="getLocationData($event)">
+            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+          </ng-select>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -95,7 +94,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Regd. Details</label>
-          <input type="text" class="input-field" formControlName="regdDetails" readonly />
+          <input type="text" class="input-field" formControlName="regdDetails" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -142,19 +141,19 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Auto Bilti Starting Char. <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="autoBiltiCharactor" />
+          <input type="text" class="input-field" formControlName="autoBiltiCharactor" readonly/>
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Consigner Name</label>
-          <input type="text" class="input-field" formControlName="consignorName" readonly />
+          <input type="text" class="input-field" formControlName="consignorName" />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Consigner Contact</label>
-          <input type="text" class="input-field" formControlName="consignorContactInfo" readonly />
+          <input type="text" class="input-field" formControlName="consignorContactInfo" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

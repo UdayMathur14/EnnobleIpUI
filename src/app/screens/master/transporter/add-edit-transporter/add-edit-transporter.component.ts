@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransporterService } from '../../../../core/service/transporter.service';
+import { APIConstant } from '../../../../core/constants';
 
 @Component({
   selector: 'app-add-edit-transporter',
@@ -17,6 +18,7 @@ export class AddEditTransporterComponent implements OnInit {
   transportMode: any = [];
   taxationCode: any;
   disableSubmit: boolean = false;
+  locations: any[] = APIConstant.locationsListDropdown;
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -207,5 +209,14 @@ export class AddEditTransporterComponent implements OnInit {
 
   phoneNumberLength(e: any) {
     this.disableSubmit = this.transporterForm.get('contactNumber')?.value.length < 10 ? true : false;
+  }
+
+  getLocationData(data: any){
+    const locationData = this.locations.find((item: any) => {
+    return item.id == data;
+    })
+    this.transporterForm.patchValue({
+      autoBiltiCharactor: locationData.attribute3,
+    })
   }
 }

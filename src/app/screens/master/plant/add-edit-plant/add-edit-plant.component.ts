@@ -252,4 +252,14 @@ export class AddEditPlantComponent implements OnInit {
       (mapping) => mapping.code === null
     );
   }
+
+  getLocationData(data: any){
+    const locationData = this.locations.find((item: any) => {
+    return item.id == data;
+    })
+    this.plantForm.patchValue({
+      dsc: locationData.attribute1,
+      dcp: locationData.attribute2
+    })
+  }
 }

@@ -65,6 +65,7 @@ export class TransactionTypeComponent implements OnInit {
       code: transaction.code,
       name: transaction.name,
       glSubCategory: transaction.glSubCategory.value,
+      transactionTypeInterfaceCode: transaction?.transactionTypeInterface?.transactionTypeCode,
       transactionTypeInterface: transaction?.transactionTypeInterface?.transactionTypeName,
       status: transaction.status,
     }));

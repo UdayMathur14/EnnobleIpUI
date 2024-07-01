@@ -13,7 +13,7 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 export class ApprovalMaterialHeadComponent {
   isFilters: boolean = true;
   searchedData: any;
-  fromDate: any = '2000-01-01';
+  fromDate: any = null;
   batchNumber: any;
   biltiNumber: any;
   locationIds: any[] = [];

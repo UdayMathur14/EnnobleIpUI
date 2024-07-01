@@ -14,7 +14,7 @@ import { CommonTransactionService } from '../../../core/service/commonTransactio
 export class CheckedMaterialsTeamComponent implements OnInit {
   isFilters: boolean = true;
   searchedData: any;
-  fromDate: any = '2000-01-01'; 
+  fromDate: any = null; 
   batchNumber: any;
   biltiNumber: any;
   locationIds:any;

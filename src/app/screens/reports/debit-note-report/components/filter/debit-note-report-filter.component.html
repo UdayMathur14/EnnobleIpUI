@@ -3,25 +3,25 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Batch Number</label>
-                <div class="input-group datepicker">
-                    <input type="text" class="form-control" name="batchNumber"
-                        [(ngModel)]="batchNumber" />
-                </div>
+                <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
+                    <ng-option *ngFor="let filter of reportFilter"
+                      [value]="filter">{{filter}}</ng-option>
+                  </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="handleSearch()">Search</button>
-                    <button class="custom-button-filters ms-4" (click)="onClearFilter()">Clear</button>
+                    <button class="custom-button-filters" [disabled]="!batchNumber" (click)="handleSearch()">Search</button>
+                    <button class="custom-button-filters ms-4" [disabled]="!batchNumber" (click)="onClearFilter()">Clear</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-auto ms-auto d-flex align-items-center">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-export specific-padding-export">
+                <button class="custom-button-export specific-padding-export" (click)="exportData.emit()">
                     Export
                 </button>
             </div>

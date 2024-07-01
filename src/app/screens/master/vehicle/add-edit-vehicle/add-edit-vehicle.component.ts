@@ -112,7 +112,6 @@ export class AddEditVehicleComponent implements OnInit {
   // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
     this.locationCode = this.vehicleForm.controls['locationId']?.value
-    console.log(this.locationCode)
     this.loadSpinner = true;
     if (this.vehicleId) {
       let data = {

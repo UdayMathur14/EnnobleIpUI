@@ -9,5 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 export class DebitNoteReportGridTableComponent {
 
   @Input() billTiBillReport: any[] = [];
+  @Input() columns: any = [];
 
 }
