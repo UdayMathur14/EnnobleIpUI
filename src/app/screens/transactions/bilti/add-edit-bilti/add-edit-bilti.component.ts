@@ -501,7 +501,6 @@ onFrlrNoClear() {
         const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
           return item.pointName == lineItemsVendorData?.city?.value
         })
-        console.log(lineItemsSameLocationCharge)
         currentVendor.patchValue({
           pointCharge: samePointName ? lineItemsSameLocationCharge?.sameLocationCharge :
             lineItemsSameLocationCharge?.pointCharge

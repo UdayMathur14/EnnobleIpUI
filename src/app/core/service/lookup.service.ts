@@ -35,7 +35,7 @@ export class LookupService extends CRUDService<LookupRequest> {
       this.baseService.lookupData.next(response);
       const locations: any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
       appLocation.forEach((el: any) => {
-        const obj = response.lookUps.find((f: any) => f.code === el.name);
+        const obj = response.lookUps.find((f: any) => f.typeId === 6 && f.code === el.name);
         if(obj){
           locations.push(obj);
         }
