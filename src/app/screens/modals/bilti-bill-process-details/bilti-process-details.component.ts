@@ -57,6 +57,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   showApproveRejectButtons: boolean = false;
   fullPath:any;
   amountDisabled: boolean = false;
+  locationId: any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -80,6 +81,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     });
     this.initForm();
     this.getBiltiBillProcessbyId();
+    this.locationId = localStorage.getItem('locationId')
   }
 
   initForm(): void {
@@ -533,7 +535,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         transactionCode: 203,
       };
    
-    this.commonTransaction.updateStatus(this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+    this.commonTransaction.updateStatus(this.locationId, this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Status Updated Successfully');
       this.activeModal.close('save');
@@ -552,7 +554,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       transactionCode: 203,
     };
  
-  this.commonTransaction.updateStatus(this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+  this.commonTransaction.updateStatus(this.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
     this.loadSpinner = false;
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');
@@ -570,7 +572,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       transactionCode: 203,
     };
  
-  this.commonTransaction.updateStatus(this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+  this.commonTransaction.updateStatus(this.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
     this.loadSpinner = false;
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');

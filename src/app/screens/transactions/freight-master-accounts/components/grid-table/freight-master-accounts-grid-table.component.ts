@@ -82,14 +82,14 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     popover.close();
   }
 
-  approveFreight(remarks: string, approvePopover: NgbPopover) {
+  approveFreight(remarks: string, approvePopover: NgbPopover, data: any) {
     const payload = this.approvalPayload('Approved', remarks);
-    this.updateStatus(payload, approvePopover);
+    this.updateStatus(payload, approvePopover, data);
   }
 
-  rejectFreight(remarks: string, rejectPopover: NgbPopover) {
+  rejectFreight(remarks: string, rejectPopover: NgbPopover, data: any) {
     const payload = this.approvalPayload('Rejected', remarks);
-    this.updateStatus(payload, rejectPopover);
+    this.updateStatus(payload, rejectPopover, data);
   }
 
   approvalPayload(status: string, remarks: string): any {
@@ -102,9 +102,9 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     };
   }
 
-  updateStatus(payload: any, popover: NgbPopover) {
+  updateStatus(payload: any, popover: NgbPopover, data: any) {
     this.loadSpinner = true;
-    this.commonTransactionService.updateStatus(this.selectedFreightId, payload).subscribe((response: any) => {
+    this.commonTransactionService.updateStatus(data.locationId, this.selectedFreightId, payload).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Approval Updated Successfully');

@@ -63,7 +63,7 @@
             <div class="custom-form-input">
               <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
             </div>
-            <button class="custom-button-secondary" (click)="approveFreight(approveRemarks.value, approvePopover)">
+            <button class="custom-button-secondary" (click)="approveFreight(approveRemarks.value, approvePopover, freight)">
               Confirm Approve
             </button>
           </ng-template>
@@ -73,7 +73,7 @@
             <div class="custom-form-input">
               <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
             </div>
-            <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''" (click)="rejectFreight(rejectRemarks.value, rejectPopover)">
+            <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''" (click)="rejectFreight(rejectRemarks.value, rejectPopover, freight)">
               Confirm Reject
             </button>
           </ng-template>

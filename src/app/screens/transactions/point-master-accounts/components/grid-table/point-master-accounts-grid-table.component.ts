@@ -80,14 +80,14 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
     popover.close();
   }
 
-  approvePoint(remarks: string, approvePopover: NgbPopover) {
+  approvePoint(remarks: string, approvePopover: NgbPopover, data: any) {
     const payload = this.approvalPayload('Approved', remarks);
-    this.updateStatus(payload, approvePopover);
+    this.updateStatus(payload, approvePopover, data);
   }
 
-  rejectPoint(remarks: string, rejectPopover: NgbPopover) {
+  rejectPoint(remarks: string, rejectPopover: NgbPopover, data: any) {
     const payload = this.approvalPayload('Rejected', remarks);
-    this.updateStatus(payload, rejectPopover);
+    this.updateStatus(payload, rejectPopover, data);
   }
 
   approvalPayload(status: string, remarks: string): any {
@@ -100,9 +100,9 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
     };
   }
 
-  updateStatus(payload: any, popover: NgbPopover) {
+  updateStatus(payload: any, popover: NgbPopover, data: any) {
     this.loadSpinner = true;
-    this.commonTransactionService.updateStatus(this.selectedPointId, payload).subscribe((response: any) => {
+    this.commonTransactionService.updateStatus(data.locationId,this.selectedPointId, payload).subscribe((response: any) => {
       this.pointData = response;
       this.loadSpinner = false;
       this.toastr.success('Point Approval Updated Successfully');

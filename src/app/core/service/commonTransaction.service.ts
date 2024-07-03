@@ -12,8 +12,8 @@ export class CommonTransactionService extends CRUDService<PlantRequest> {
         super(baseService, APIConstant.basePath);
     }
 
-    updateStatus(id: number, data: object) {
-        return this.put(commonTransaction(this.locationIds, id), data);
+    updateStatus(locationId: number, id: number, data: object) {
+        return this.put(commonTransaction(locationId, id), data);
     }
 
     updateBiltiApprovalStatus(id: number, data: object){

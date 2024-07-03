@@ -119,7 +119,6 @@ export class AddEditPlantComponent implements OnInit {
 
   onPressSave() {
     const locationCode = this.plantForm.controls['locationId']?.value
-    console.log(locationCode)
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
