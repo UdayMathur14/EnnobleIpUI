@@ -103,7 +103,7 @@ export class AddEditDispatchNoteComponent {
       transporterName: [''],
       transporterMode: [''],
       frlrDate: ['', [Validators.required]],
-      partdetails: this.fb.array([]),
+      partdetails: this.fb.array([], Validators.required),
     });
   }
 
