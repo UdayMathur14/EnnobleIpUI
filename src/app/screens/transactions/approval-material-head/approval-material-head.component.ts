@@ -4,6 +4,7 @@ import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-approval-material-head',
@@ -21,6 +22,11 @@ export class ApprovalMaterialHeadComponent {
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
   toDate: any = moment().format('YYYY-MM-DD');
+  currentPage: number = 1;
+  count: number = 10;
+  totalBiltis: number = 0;
+  filters: any = [];
+  maxCount: number = Number.MAX_VALUE;
 
   constructor(private biltiProcessService: BiltiBillProcessService,
     private toastr: ToastrService,
@@ -31,19 +37,19 @@ export class ApprovalMaterialHeadComponent {
     this.getAllBiltiProcess();
   }
 
-  getAllBiltiProcess() {
+  getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     this.loadSpinner = true;
     const data = {
       screenCode: 304,
-      fromDate: this.fromDate,
-      toDate: this.toDate,
+      fromDate: filters?.fromDate || null,
+      toDate: filters?.toDate || null,
       adviceType: '',
-      batchNumber: this.batchNumber,
-      biltiNumber: this.biltiNumber,
-      locationIds: this.locationIds
+      batchNumber: filters?.batchNumber,
+      biltiNumber: '',
+      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
     };
     this.biltiProcessService
-      .getBiltiBillProcess(data)
+      .getBiltiBillProcess(data, offset, count)
       .subscribe((response: any) => {
         this.loadSpinner = false;
         response.biltiBillProcess.forEach((element: any) => {
@@ -59,6 +65,8 @@ export class ApprovalMaterialHeadComponent {
           }
         });
         this.biltiBillProcess = response.biltiBillProcess;
+        this.totalBiltis = response.paging.total;
+        this.filters = response.filters;
         this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
           .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       },
@@ -71,12 +79,9 @@ export class ApprovalMaterialHeadComponent {
 
   filteredData(data: any) {
     this.searchedData = data;
-    this.fromDate = data.fromDate;
-    this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
-    this.biltiNumber = data.biltiNumber;
-    this.locationIds = data.locationIds
-    this.getAllBiltiProcess();
+    this.currentPage = 1;
+    this.getAllBiltiProcess(0, this.count, this.searchedData);
   }
 
   openPopover(popover: NgbPopover) {
@@ -113,5 +118,17 @@ export class ApprovalMaterialHeadComponent {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllBiltiProcess(offset, this.count, this.searchedData);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAllBiltiProcess(0, this.count, this.searchedData);
+    }
 
 }

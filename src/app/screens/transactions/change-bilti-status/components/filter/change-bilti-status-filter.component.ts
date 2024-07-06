@@ -18,10 +18,11 @@ export class ChangeBiltiStatusFilterComponent {
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  batchNumber: string = '';
+  batchNumber: any = undefined;
+  status: any  = undefined;
   locations: any[] = APIConstant.locationsListDropdown;
   locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
-  @Input() filteredBiltibillList: any = [];
+  @Input() filters: any = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
 
@@ -42,22 +43,26 @@ export class ChangeBiltiStatusFilterComponent {
       "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate,
       "toDate": this.selectedToDate,
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      "status": this.status
     }
     this.filterSearchObj.emit(filterObj)
   }
 
   onClearFilter(){
-    this.batchNumber = '';
+    this.batchNumber = undefined;
     this.fromDate = null,
     this.toDate = null,
-    this.biltiNumber = '';
+    this.biltiNumber = undefined;
     this.selectedFromDate = null;
     this.selectedToDate = null;
+    this.status = undefined;
+    this.locationIds = [];
     const filterObj = {
       batchNumber : '',
       biltiNumber : '',
-      locationIds: []
+      locationIds: [],
+      status: ''
     }
     this.filterSearchObj.emit(filterObj)
   }

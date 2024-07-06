@@ -12,14 +12,22 @@
             <div class="custom-form-input">
                 <label for="">Point Name</label>
                 <ng-select class="input-field" [(ngModel)]="pointName" placeholder="Select point">
-                    <ng-option *ngFor="let point of pointChargesList" [value]="point.pointName">{{point.pointName}}</ng-option>
+                    <ng-option *ngFor="let point of filters?.PointName" [value]="point">{{point}}</ng-option>
                 </ng-select>
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>  
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!pointName && !locationIds.length">Search</button>
+                <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!pointName && !locationIds.length && !status">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

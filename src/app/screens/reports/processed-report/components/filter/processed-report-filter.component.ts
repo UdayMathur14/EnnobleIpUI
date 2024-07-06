@@ -19,11 +19,12 @@ export class ProcessedReportFilterComponent implements OnInit {
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  batchNumber: string = '';
+  batchNumber: any = undefined;
   locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   locations:any[] = APIConstant.locationsListDropdown;
+  status: any = undefined;
 
-  @Input() filteredBiltibillList: any = [];
+  @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -52,20 +53,23 @@ export class ProcessedReportFilterComponent implements OnInit {
       "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2),
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      "status": this.status || ""
     }
     this.filterSearchObj.emit(filterObj)
   }
 
   onClearFilter(){
-    this.batchNumber = '';
+    this.batchNumber = undefined;
     this.fromDate = null,
     this.toDate = null,
-    this.biltiNumber = ''
+    this.biltiNumber = undefined
+    this.status = undefined;
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
-      locationIds: APIConstant.locationsListDropdown.map((e:any)=>(e.id))
+      locationIds: APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      status: ''
     }
     this.filterSearchObj.emit(filterObj)
   }

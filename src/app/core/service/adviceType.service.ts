@@ -8,12 +8,15 @@ import { PlantRequest } from "../models/plant";
     providedIn: "root",
 })
 export class AdviceTypeService extends CRUDService<PlantRequest> {
+
+    maxCount: number = Number.MAX_VALUE;
+
     constructor(protected override baseService: BaseService) {
         super(baseService, APIConstant.basePath);
     }
 
-    getAdviceTypes(data : any){
-        return this.post(adviceType, data);
+    getAdviceTypes(data : any, offset: number = 0, count: number = this.maxCount){
+        return this.post(adviceType(offset, count), data);
     }
 
     getAdviceTypeData(locationId: number = 0, adviceId : number){

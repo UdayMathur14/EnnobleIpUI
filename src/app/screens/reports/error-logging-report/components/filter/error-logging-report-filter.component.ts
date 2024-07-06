@@ -10,7 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ErrorLoggingReportFilterComponent {
 
   @Output() getData: EventEmitter<any> = new EventEmitter();
-
+  @Output() exportData: EventEmitter<any> = new EventEmitter();
+  
   today = inject(NgbCalendar).getToday();
   fromDate!: NgbDateStruct | null;
   toDate!: NgbDateStruct | null;

@@ -7,8 +7,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './lookup-filter.component.scss'
 })
 export class LookupFilterComponent implements OnInit {
-  @Input() lookupsList : any[] = [];
+  @Input() filters : any = [];
   lookupCode : any = undefined;
+  lookupType: any = undefined;
+  lookupValue: any = undefined;
+  status: any = undefined;
   @Output() getData : EventEmitter<object> = new EventEmitter();
   
   constructor(){}
@@ -18,15 +21,24 @@ export class LookupFilterComponent implements OnInit {
 
   onLookupSearch(){
     let obj = {
-      "code" : this.lookupCode || ""
+      "code" : this.lookupCode || "",
+      "lookUpType":this.lookupType || "",
+      "value": this.lookupValue || "",
+      "status": this.status || ""
     }
     this.getData.emit(obj)
   }
 
   onClearFilter(){
     this.lookupCode = undefined;
+    this.lookupType = undefined;
+    this.lookupValue = undefined;
+    this.status = undefined
     let obj = {
-      "code" : undefined
+      "code" : undefined,
+      "lookupType": undefined,
+      "lookupValue": undefined,
+      "status": undefined
     }
     this.getData.emit(obj)
   }

@@ -16,6 +16,12 @@ export class PartComponent implements OnInit{
   searchedPart: string = '';
   fullScreen : boolean = false;
   headers: any [] = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalParts: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(private router: Router,
     private partService : PartService,
     private toastr: ToastrService,
@@ -26,13 +32,16 @@ export class PartComponent implements OnInit{
     this.getFilteredPartsList();
   }
 
-  getFilteredPartsList() {
+  getFilteredPartsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "partNumber": "",
-      "partName" : ""
+      "partNumber": filters?.partNumber || "",
+      "partName" : filters?.partName || "",
+      "status": filters?.status || ""
     }
-    this.partService.getParts(data).subscribe((response: any) => {
+    this.partService.getParts(data, offset, count).subscribe((response: any) => {
       this.partsList = response.parts;
+      this.totalParts = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -41,18 +50,9 @@ export class PartComponent implements OnInit{
   }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "partNumber": e.partNumber || "",
-      "partName" : e.partName || ""
-    }
-    this.partService.getParts(data).subscribe((response: any) => {
-      this.partsList = response.parts;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getFilteredPartsList(0, this.count, this.appliedFilters);
   }
 
   onCreatePart() {
@@ -76,5 +76,17 @@ export class PartComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedPartsList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getFilteredPartsList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getFilteredPartsList(0, this.count, this.appliedFilters);
+    }
 
 }

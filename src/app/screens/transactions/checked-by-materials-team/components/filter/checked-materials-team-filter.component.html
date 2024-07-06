@@ -36,8 +36,8 @@
       <div class="custom-form-input">
         <label for="">Batch Number</label>
         <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
-          <ng-option *ngFor="let source of filteredBiltibillList"
-            [value]="source?.biltiBillProcessModel?.batchNumber">{{source?.biltiBillProcessModel?.batchNumber}}</ng-option>
+          <ng-option *ngFor="let source of filters?.BatchNumber"
+            [value]="source">{{source}}</ng-option>
         </ng-select>
       </div>
     </div>

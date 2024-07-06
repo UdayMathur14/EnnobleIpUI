@@ -7,9 +7,7 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './transporter-filter.component.scss'
 })
 export class TransporterFiltersComponent implements OnInit {
-  @Input() states : any[] = [];
-  @Input() cities : any[] = [];
-  @Input() transportersList : any[] = [];
+  @Input() filters : any = [];
   locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
   @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
@@ -18,6 +16,7 @@ export class TransporterFiltersComponent implements OnInit {
   cityCode : any = undefined;
   stateCode : any = undefined;
   taxationType : any = undefined;
+  status: any = undefined;
 
   constructor() { }
 
@@ -30,6 +29,7 @@ export class TransporterFiltersComponent implements OnInit {
     this.cityCode = undefined;
     this.stateCode = undefined;
     this.taxationType = undefined;
+    this.status = undefined;
     this.locationIds = [];
 
     const filterData = {
@@ -38,6 +38,7 @@ export class TransporterFiltersComponent implements OnInit {
       "cityCode" : "",
       "stateCode" : "",
       "taxationType" : "",
+      "status": "",
       "locations" : []
     }
     this.getData.emit(filterData)
@@ -50,6 +51,7 @@ export class TransporterFiltersComponent implements OnInit {
       "cityCode" : this.cityCode || "",
       "stateCode" : this.stateCode || "",
       "taxationType" : this.taxationType || "",
+      "status": this.status || "",
       "locations" : this.locationIds || []
     }
     this.getData.emit(filterData)

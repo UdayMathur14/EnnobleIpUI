@@ -9,18 +9,22 @@ import { APIConstant } from '../../../../../core/constants';
 export class DispatchNoteFiltersComponent {
   
   @Output() getData: EventEmitter<any> = new EventEmitter();
-  dispatchNumber:any = '';
+  dispatchNumber:any = undefined;
+  status: any = undefined;
+  @Input() filters : any = [];
   locations:any[] = APIConstant.locationsListDropdown;
   locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
 
   constructor() { }
 
   handleSearch() {
-    this.getData.emit({ dispatchNumber: this.dispatchNumber,locationIds:this.locationIds })
+    this.getData.emit({ dispatchNumber: this.dispatchNumber,locationIds:this.locationIds, status: this.status })
   }
 
   onClearFilter() {
     this.dispatchNumber = null;
-    this.getData.emit({ dispatchNumber: null,locationIds:[] })
+    this.status = undefined
+    this.locationIds = [];
+    this.getData.emit({ dispatchNumber: null,locationIds:[], status: '' })
   }
 }

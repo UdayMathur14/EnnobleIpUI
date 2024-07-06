@@ -23,6 +23,12 @@ export class FreightComponent implements OnInit{
   freightList: any[] = [];
   headers: string[] = [];
   locations: any[] = APIConstant.locationsListDropdown;
+  currentPage: number = 1;
+  count: number = 10;
+  totalFreights: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(
     private router: Router,
     private xlsxService : XlsxService,
@@ -32,22 +38,22 @@ export class FreightComponent implements OnInit{
 
   ngOnInit(): void {
     this.getFreightList()
-    this.getSourceDropdownData();
-    this.getDestinationDropdownData();
-    this.getVehicleSizeDropdownData();
   }
 
-  getFreightList() {
+  getFreightList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds ||  APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "screenCode": 101,
-      "freightCode": "",
-      "source": "",
-      "destination": "",
-      "vehicleSize": ""
+      "freightCode": filters?.freightCode,
+      "source": filters?.source,
+      "destination": filters?.destination,
+      "vehicleSize": filters?.vehicleSize,
+      "status": filters?.status
     }
-    this.freightService.getFreightsList(data).subscribe((response: any) => {
+    this.freightService.getFreightsList(data, offset, count).subscribe((response: any) => {
       this.freightList = response.freights;
+      this.totalFreights = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -56,59 +62,11 @@ export class FreightComponent implements OnInit{
   }
 
   getData(e: any) {
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": e.locationIds,
-      "screenCode": 101,
-      "freightCode": e.freightCode,
-      "source": e.source,
-      "destination": e.destination,
-      "vehicleSize": e.vehicleSize
-    }
-    this.freightService.getFreightsList(data).subscribe((response: any) => {
-      this.freightList = response.freights;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getFreightList(0, this.count, this.appliedFilters);
   }
 
-  getSourceDropdownData(){
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'Source';
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
-      this.sources = res.lookUps
-    })
-  }
-
-  getDestinationDropdownData(){
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'Destination'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
-      this.destinations = res.lookUps
-    })
-  }
-
-  getVehicleSizeDropdownData(){
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'VehicleSize'
-    this.freightService.getDropdownData(data, type).subscribe((res:any)=>{
-      this.vehcileSizes = res.lookUps
-    })
-  }
 
   //FUNCTION TO REDIRECT USER ON FREIGHT CREATION SCREEN
   onCreateFreight() {
@@ -134,4 +92,16 @@ export class FreightComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getFreightList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getFreightList(0, this.count, this.appliedFilters);
+    }
 } 

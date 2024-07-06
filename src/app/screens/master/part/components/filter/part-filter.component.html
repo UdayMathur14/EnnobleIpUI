@@ -4,7 +4,7 @@
             <div class="custom-form-input">
                 <label for="">Part Number</label>
                 <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select part number">
-                    <ng-option *ngFor="let part of partsList" [value]="part.partNumber">{{part.partNumber}}</ng-option>
+                    <ng-option *ngFor="let part of filters?.PartNumber" [value]="part">{{part}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -12,15 +12,23 @@
             <div class="custom-form-input">
                 <label for="">Part Name</label>
                 <ng-select class="input-field" [(ngModel)]="partName" placeholder="Select part name">
-                    <ng-option *ngFor="let part of partsList" [value]="part.partName">{{part.partName}}</ng-option>
+                    <ng-option *ngFor="let part of filters?.PartName" [value]="part">{{part}}</ng-option>
                 </ng-select>
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>  
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters" (click)="onPartSearch()"
-                [disabled]="!partName && !partNum">Search</button>
+                [disabled]="!partName && !partNum && !status">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

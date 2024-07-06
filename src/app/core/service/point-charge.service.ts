@@ -9,12 +9,14 @@ import { APIConstant, pointCharge, pointChargeData, updatePointCharge, createPoi
 })
 export class PointChargeService extends CRUDService<PointChargeRequest> {
 
+  maxCount: number = Number.MAX_VALUE;
+
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }
 
-  getPointCharges(data: any) {
-    return this.post(APIConstant.pointCharge, data);
+  getPointCharges(data: any, offset: number = 0, count: number = this.maxCount) {
+    return this.post(pointCharge(offset, count), data);
   }
 
   getPointChargeData(locationId: number = 0, pointChargeId: string) {

@@ -9,12 +9,14 @@ import { APIConstant, vehicle, vehicleData, updateVehicle, createVehicle,transpo
 })
 export class VehicleService extends CRUDService<VehicleRequest> {
 
+  maxCount: number = Number.MAX_VALUE;
+
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }
 
-  getVehicles(data: any) {
-    return this.post(vehicle, data);
+  getVehicles(data: any, offset: number = 0, count: number = this.maxCount) {
+    return this.post(vehicle(offset, count), data);
   }
 
   getVehicleData(locationId: number = 0, vehicleId: string) {
@@ -32,10 +34,6 @@ export class VehicleService extends CRUDService<VehicleRequest> {
 
   getLookups(data: any) {
     return this.post(APIConstant.getLookupData, data);
-  }
-
-  getTransporters(data: any) {
-    return this.post(transporter, data);
   }
 
   getTransporterData(transporterId: string) {

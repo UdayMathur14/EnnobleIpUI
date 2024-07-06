@@ -8,14 +8,16 @@ import { APIConstant, createDispatchNote, dispatchData, getDispatchNote, updateD
     providedIn: 'root'
 })
 export class DispatchNoteService extends CRUDService<DispatchNoteRequest>{
+
+    maxCount: number = Number.MAX_VALUE;
     
     constructor(protected override baseService: BaseService) {
         super(baseService, APIConstant.basePath);
     }
 
 
-    getDispatchNote(data:any){
-        return this.baseService.post(APIConstant.basePath+getDispatchNote,data);
+    getDispatchNote(data:any, offset: number = 0, count: number = this.maxCount){
+        return this.post(getDispatchNote(offset, count),data);
     }
 
     createDispatchNote(locationId: number = 0, data : object){

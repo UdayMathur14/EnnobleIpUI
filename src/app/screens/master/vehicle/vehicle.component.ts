@@ -5,6 +5,7 @@ import { XlsxService } from '../../../core/service/xlsx.service';
 import { VehicleService } from '../../../core/service/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../core/constants';
+import { TransporterService } from '../../../core/service/transporter.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -21,6 +22,14 @@ export class VehicleComponent implements OnInit{
   headers: any [] = [];
   loadSpinner : boolean = true;
   locations: any[] = APIConstant.locationsListDropdown;
+  transporterOffset: number = 0;
+  transporterCount: number = Number.MAX_VALUE;
+  currentPage: number = 1;
+  count: number = 10;
+  totalVehicles: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(private router: Router,
     private xlsxService: XlsxService,
     private vehicleService : VehicleService,
@@ -29,17 +38,20 @@ export class VehicleComponent implements OnInit{
 
   ngOnInit(): void {
     this.getVehicleList();
-    this.getTransportersList();
   }
 
-  getVehicleList(){
+  getVehicleList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
-      "vehicleNumber": "",
-      "transporterId": 0
+      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "vehicleNumber": filters?.vehicleNumber ||  "",
+      "transporter": filters?.transporterId ||  "",
+      "vehicleSizeCode": filters?.vehcileSize ||  "",
+      "status": filters?.status || ""
     }
-    this.vehicleService.getVehicles(data).subscribe((response:any) => {
+    this.vehicleService.getVehicles(data, offset, count).subscribe((response:any) => {
       this.vehiclesList = response.vehicles;
+      this.totalVehicles = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -48,38 +60,9 @@ export class VehicleComponent implements OnInit{
   }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": e.locationIds || [],
-      "vehicleNumber": e.vehicleNumber ||  "",
-      "transporterId": e.transporterId ||  0
-    }
-    this.vehicleService.getVehicles(data).subscribe((response:any) => {
-      this.vehiclesList = response.vehicles;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
-  getTransportersList() {
-    let data = {
-      "locationIds": [],
-      "transporterCode": "",
-      "transporterName": "",
-      "city": "",
-      "state": "",
-      "taxationType": "",
-      "locations": ""
-    }
-    this.vehicleService.getTransporters(data).subscribe((response: any) => {
-      this.transportersList = response.transporters;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getVehicleList(0, this.count, this.appliedFilters);
   }
 
   //ROUTING TO CREATE VEHICLE PAGE
@@ -107,4 +90,16 @@ export class VehicleComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedVehiclesList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getVehicleList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getVehicleList(0, this.count, this.appliedFilters);
+    }
 }

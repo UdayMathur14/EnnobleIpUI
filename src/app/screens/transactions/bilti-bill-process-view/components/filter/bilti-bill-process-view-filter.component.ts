@@ -16,16 +16,14 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
   selectedToDate: any;
   batchName: any = undefined;
   biltiNumber: any = undefined;
-  batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  batchNumber: string = '';
+  batchNumber: any = undefined;
   locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   locations:any[] = APIConstant.locationsListDropdown;
-
-  @Input() filteredBiltibillList: any = [];
-  @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
-
+  adviceType: any = undefined;
+  status: any = undefined;
+  @Input() filters: any = [];
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(
     private toastr: ToastrService,
@@ -50,24 +48,34 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
       "batchNumber": this.batchNumber || "",
+      "batchName": this.batchName || "",
       "fromDate": this.selectedFromDate,
       "toDate": this.selectedToDate,
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      "adviceType": this.adviceType || "",
+      "status": this.status || ""
     }
     this.filterSearchObj.emit(filterObj)
   }
 
   onClearFilter(){
-    this.batchNumber = '';
+    this.batchNumber = undefined;
     this.selectedFromDate = null;
     this.selectedToDate = null;
     this.fromDate = null;
     this.toDate = null;
-    this.biltiNumber = '';
+    this.biltiNumber = undefined;
+    this.batchName = undefined;
+    this.adviceType = undefined;
+    this.status = undefined;
+    this.locationIds = [];
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
-      locationIds: APIConstant.locationsListDropdown.map((e:any)=>(e.id))
+      batchaname: '',
+      adviceType: '',
+      status: '',
+      locationIds: []
     }
     this.filterSearchObj.emit(filterObj)
   }

@@ -11,8 +11,7 @@ import { APIConstant } from '../../../../../core/constants';
 export class VehicleFiltersComponent implements OnInit {
   @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
-  @Input() vehiclesList: any[] = [];
-  @Input() transportersList : any[] = [];
+  @Input() filters: any = [];
   locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   vehicleNum : any = undefined;
   transporterNam : any = undefined;
@@ -20,6 +19,8 @@ export class VehicleFiltersComponent implements OnInit {
   transporterId: number = 0;
   allVehicleNo: any = [];
   filteredVehicleNo: any = [];
+  vehicleSize: any;
+  status: any;
 
   constructor(
   ) { }
@@ -31,7 +32,9 @@ export class VehicleFiltersComponent implements OnInit {
     let obj = {
       "vehicleNumber": this.vehicleNum || "",
       "transporterId": this.transporterNam || "",
-      "locationIds" : this.locationIds || []
+      "locationIds" : this.locationIds || [],
+      "vehcileSize": this.vehicleSize || "",
+      "status": this.status || ""
     }
     this.getData.emit(obj)
   }
@@ -39,10 +42,14 @@ export class VehicleFiltersComponent implements OnInit {
   onClearFilter() {
     this.vehicleNum = undefined;
     this.transporterNam = undefined;
+    this.vehicleSize = undefined;
+    this.status = undefined;
     this.locationIds = [];
     let obj = {
       "vehicleNumber": undefined,
       "transporterNam": undefined,
+      "status": undefined,
+      "vehicleSize": undefined,
       "locationIds" : []
     }
     this.getData.emit(obj)

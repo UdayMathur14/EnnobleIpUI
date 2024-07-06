@@ -18,6 +18,11 @@ export class PointMasterMaterialGridTableComponent {
   loadSpinner: boolean = false;
   pointData!: PointChargeDataModel;
   selectedPointId: number = 0;
+  currentPage: number = 1;
+  count: number = 10;
+  totalPointCharge: number = 0;
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   
   constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
 
@@ -25,25 +30,24 @@ export class PointMasterMaterialGridTableComponent {
     this.getAllPointChargesList();
   }
 
-  //SORTING DATA FROM FILTER CHANGES
+  // SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchedPoint'].currentValue) {
-      this.getFilteredPointList();
-    } else if (changes['searchedPoint'].firstChange === false && changes['searchedPoint'].currentValue === undefined) {
       this.getAllPointChargesList();
     }
   }
 
   // GET ALL POINT CHARGE
-  getAllPointChargesList() {
+  getAllPointChargesList(offset: number = 0, count: number = this.count, filters: any = this.searchedPoint) {
     this.loadSpinner = true;
     let data = {
       "screenCode": 102,
-      "pointName": '',
-      locationIds: []
+      "pointName": filters?.pointName || "",
+      locationIds: filters?.locationIds || []
     }
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+    this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
+      this.totalPointCharge = response.paging.total;
       this.selectPoint(this.selectedPointId);
       this.loadSpinner = false;
     }, error => {
@@ -52,21 +56,17 @@ export class PointMasterMaterialGridTableComponent {
     })
   }
 
-  getFilteredPointList() {
-    this.loadSpinner = true;
-    let data = {
-      "screenCode": 102,
-      "pointName": this.searchedPoint.pointName || "",
-      locationIds: this.searchedPoint.locationIds
-    }
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-      this.pointChargesList = response.pointCharges;
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllPointChargesList(offset, this.count, this.searchedPoint);
   }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAllPointChargesList(0, this.count, this.searchedPoint);
+    }
 
   selectPoint(pointId: number) {
     this.selectedPointId = pointId;

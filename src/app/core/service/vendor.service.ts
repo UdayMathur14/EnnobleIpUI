@@ -2,19 +2,21 @@ import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { VendorRequest } from '../models/vendor';
 import { BaseService } from './base.service';
-import { APIConstant, getDropdownDatas } from '../constants';
+import { APIConstant, getDropdownDatas, vendors } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VendorService extends CRUDService<VendorRequest> {
 
+  maxCount: number = Number.MAX_VALUE;
+
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }
 
-  getVendors(data: any) {
-    return this.post(APIConstant.vendors, data);
+  getVendors(data: any, offset: number = 0, count: number = this.maxCount) {
+    return this.post(vendors(offset, count), data);
   }
 
   getVendorData(vendorId: string) {

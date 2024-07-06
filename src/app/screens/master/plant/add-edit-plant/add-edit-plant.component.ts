@@ -26,6 +26,8 @@ export class AddEditPlantComponent implements OnInit {
   deletedTransactions: any[] = [];
   plantLocationId: number = 0;
   locations: any[] = APIConstant.locationsListDropdown;
+  offset: number = 0;
+  count: number = Number.MAX_VALUE;
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -106,7 +108,7 @@ export class AddEditPlantComponent implements OnInit {
     let data = {
       "code": ''
     }
-    this.transactionService.getTransactionTypes(data).subscribe((response: any) => {
+    this.transactionService.getTransactionTypes(data, this.offset, this.count).subscribe((response: any) => {
       this.transactionTypesList = response.transactionTypes
     }, error => {
 

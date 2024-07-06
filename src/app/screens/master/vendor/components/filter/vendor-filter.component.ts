@@ -7,15 +7,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class VendorFilterComponent implements OnInit {
   @Output() getData: EventEmitter<any> = new EventEmitter();
-  @Input() cities : any[] = [];
-  @Input() states : any[] = [];
-  @Input() vendorsList: any = [];
+  @Input() filters: any = [];
   vendorCod : any = undefined;
   vendorNam : any = undefined;
   city : any = undefined;
   state : any = undefined;
   taxationType : any = undefined;
   paidByDetails : any = undefined;
+  status : any = undefined;
   constructor(
   ) { }
 
@@ -31,7 +30,8 @@ export class VendorFilterComponent implements OnInit {
       "taxationType": this.taxationType || "",
       "paidByDetail": this.paidByDetails || "",
       "vendorCode": this.vendorCod || "",
-      "vendorName": this.vendorNam || ""
+      "vendorName": this.vendorNam || "",
+      "status": this.status || ""
     }
     this.getData.emit(filterData)
   }
@@ -43,13 +43,15 @@ export class VendorFilterComponent implements OnInit {
     this.paidByDetails = undefined;
     this.vendorCod = undefined;
     this.vendorNam = undefined;
+    this.status = undefined;
     const filterData = {
       "city": undefined,
       "state": undefined,
       "taxationType": undefined,
       "paidByDetail": undefined,
       "vendorCode": undefined,
-      "vendorName": undefined
+      "vendorName": undefined,
+      "status": undefined
     }
     this.getData.emit(filterData)
   }

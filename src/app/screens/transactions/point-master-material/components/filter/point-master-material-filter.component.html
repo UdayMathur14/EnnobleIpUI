@@ -12,8 +12,8 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Point Name</label>
-                <ng-select class="input-field" [(ngModel)]="pointName" placeholder="Select Freight">
-                    <ng-option *ngFor="let point of pointChargeList" [value]="point.pointName">{{point.pointName}}</ng-option>
+                <ng-select class="input-field" [(ngModel)]="pointName" placeholder="Select Point Name">
+                    <ng-option *ngFor="let point of filters?.PointName" [value]="point">{{point}}</ng-option>
                 </ng-select>
             </div>
         </div>

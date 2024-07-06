@@ -18,7 +18,7 @@ export class CheckedMaterialsTeamFilterComponent {
   biltiNumber: any = undefined;
   batchNames: string[] = [];
   batchNumber: string = '';
-  @Input() filteredBiltibillList: any = [];
+  @Input() filters: any = [];
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;

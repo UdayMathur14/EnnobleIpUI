@@ -9,10 +9,11 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class PointFilterComponent implements OnInit {
   @Input() locations : any[] = [];
-  @Input() pointChargesList : any[] = [];
+  @Input() filters : any = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
   locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   pointName : any = undefined;
+  status: any = undefined;
   
   constructor(){}
 
@@ -22,7 +23,8 @@ export class PointFilterComponent implements OnInit {
   onFreightSearch(){
     let obj = {
       "pointName" : this.pointName || "",
-      "locationIds" : this.locationIds || []
+      "locationIds" : this.locationIds || [],
+      "status": this.status || ""
     }
     this.getData.emit(obj)
   }
@@ -30,9 +32,11 @@ export class PointFilterComponent implements OnInit {
   onClearFilter(){
     this.pointName = undefined;
     this.locationIds = [];
+    this.status = undefined;
     let obj = {
       "pointName" : undefined,
-      "locationIds" : []
+      "locationIds" : [],
+      "status": undefined
     }
     this.getData.emit(obj)
   }

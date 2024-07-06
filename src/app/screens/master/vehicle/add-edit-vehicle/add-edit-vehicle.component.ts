@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VehicleDataModel } from '../../../../core/model/masterModels.model';
 import { APIConstant } from '../../../../core/constants';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { TransporterService } from '../../../../core/service/transporter.service';
 
 @Component({
   selector: 'app-add-edit-vehicle',
@@ -27,6 +28,8 @@ export class AddEditVehicleComponent implements OnInit {
   locations: any[] = APIConstant.locationsListDropdown;
   locationCode: any
   vehicleLocationId: number = 0;
+  transporterOffset: number = 0;
+  transporterCount: number = Number.MAX_VALUE;
 
   constructor(
     private router: Router,
@@ -34,7 +37,8 @@ export class AddEditVehicleComponent implements OnInit {
     private vehicleService: VehicleService,
     private toastr: ToastrService,
     private baseService: BaseService,
-    private lookUpService: LookupService
+    private lookUpService: LookupService,
+    private transporterService: TransporterService
   ) { }
 
   vehicleForm = new FormGroup({
@@ -180,7 +184,7 @@ export class AddEditVehicleComponent implements OnInit {
       "transporterCode": '',
       "transporterName": ''
     }
-    this.vehicleService.getTransporters(data).subscribe((response: any) => {
+    this.transporterService.getTransporters(data, this.transporterOffset, this.transporterCount).subscribe((response: any) => {
       this.transportersList = response.transporters;
       this.loadSpinner = false;
     }, error => {

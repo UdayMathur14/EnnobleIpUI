@@ -12,14 +12,22 @@
             <div class="custom-form-input">
                 <label for="">Advice Name</label>
                 <ng-select class="input-field" [(ngModel)]="adviceType" placeholder="Select advice">
-                    <ng-option *ngFor="let advice of advicesList" [value]="advice.adviceType">{{advice.adviceType}}</ng-option>
+                    <ng-option *ngFor="let advice of filters?.AdviceType" [value]="advice">{{advice}}</ng-option>
                 </ng-select>
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>  
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onAdviceSearch()" [disabled]="!adviceType && !locationIds.length">Search</button>
+                <button class="custom-button-filters" (click)="onAdviceSearch()" [disabled]="!adviceType && !locationIds.length && !status">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

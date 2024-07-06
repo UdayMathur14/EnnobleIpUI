@@ -4,14 +4,38 @@
             <div class="custom-form-input">
                 <label for="">Lookup Code</label>
                 <ng-select class="input-field" [(ngModel)]="lookupCode" placeholder="Select lookup code">
-                    <ng-option *ngFor="let lookup of lookupsList" [value]="lookup.code">{{lookup.code}}</ng-option>
+                    <ng-option *ngFor="let lookup of filters?.Code" [value]="lookup">{{lookup}}</ng-option>
                 </ng-select>
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Lookup Type</label>
+                <ng-select class="input-field" [(ngModel)]="lookupType" placeholder="Select lookup type">
+                    <ng-option *ngFor="let lookupType of filters?.LookUpType" [value]="lookupType">{{lookupType}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Value</label>
+                <ng-select class="input-field" [(ngModel)]="lookupValue" placeholder="Select Value">
+                    <ng-option *ngFor="let lookupValue of filters?.Value" [value]="lookupValue">{{lookupValue}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>  
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onLookupSearch()" [disabled]="!lookupCode">Search</button>
+                <button class="custom-button-filters" (click)="onLookupSearch()" [disabled]="!lookupCode && !lookupValue && !lookupType && !status">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

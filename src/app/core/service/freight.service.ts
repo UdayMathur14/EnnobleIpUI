@@ -9,12 +9,15 @@ import { map, BehaviorSubject } from 'rxjs';
     providedIn: "root",
 })
 export class FreightService extends CRUDService<PlantRequest> {
+
+    maxCount: number = Number.MAX_VALUE;
+
     constructor(protected override baseService: BaseService) {
         super(baseService, APIConstant.basePath);
     }
 
-    getFreightsList(data : any){
-        return this.post(freight, data);
+    getFreightsList(data : any, offset: number = 0, count: number = this.maxCount){
+        return this.post(freight(offset, count), data);
     }
 
     getFreightData(locationId: number = 0, freightId : number){

@@ -8,10 +8,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './part-filter.component.scss'
 })
 export class PartFiltersComponent implements OnInit {
-  @Input() partsList : any[] = [];
+  @Input() filters : any = [];
   @Output() getData: EventEmitter<object> = new EventEmitter();
   partNum: any = undefined;
   partName:any = undefined;
+  status: any = undefined;
 
   constructor(
     private partService: PartService,
@@ -20,26 +21,16 @@ export class PartFiltersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllPartsListInit();
+
   }
 
   // BINDING PART NUMBERS AND PART NAMES DROPDOWNS
-  getAllPartsListInit() {
-    let data = {
-      "partNumber": '',
-      "partName": ''
-    }
-    this.partService.getParts(data).subscribe((response: any) => {
-      this.partsList = response.parts;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-    })
-  }
 
   onPartSearch(){
     const obj = {
       "partName": this.partName,
-      "partNumber": this.partNum
+      "partNumber": this.partNum,
+      "status": this.status
     }
     this.getData.emit(obj)
   }
@@ -47,9 +38,11 @@ export class PartFiltersComponent implements OnInit {
   onClearFilter() {
     this.partNum = undefined;
     this.partName = undefined;
+    this.status = undefined
     let obj = {
       "partName": undefined,
-      "partNumber": undefined
+      "partNumber": undefined,
+      "status": undefined
     }
     this.getData.emit(obj)
   }

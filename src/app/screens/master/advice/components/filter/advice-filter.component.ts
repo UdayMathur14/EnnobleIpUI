@@ -8,10 +8,11 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class AdviceFilterComponent implements OnInit {
   @Input() locations : any[] = [];
-  @Input() advicesList : any[] = [];
+  @Input() filters : any = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
   adviceType : any = undefined;
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
+  status: any = undefined;
 
   constructor(){}
 
@@ -21,7 +22,8 @@ export class AdviceFilterComponent implements OnInit {
   onAdviceSearch(){
     let obj = {
       "locationIds": this.locationIds || [],
-      "adviceType" : this.adviceType || ""
+      "adviceType" : this.adviceType || "",
+      "status": this.status || ""
     }
     this.getData.emit(obj)
   }
@@ -29,9 +31,11 @@ export class AdviceFilterComponent implements OnInit {
   onClearFilter(){
     this.adviceType = undefined;
     this.locationIds = [];
+    this.status = undefined;
     let obj = {
       "adviceType" : "",
       "locationIds": [],
+      "status": ""
     }
     this.getData.emit(obj)
   }

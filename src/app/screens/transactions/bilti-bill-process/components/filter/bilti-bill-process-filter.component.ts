@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AdviceTypeService } from '../../../../../core/service/adviceType.service';
 import { ToastrService } from 'ngx-toastr';
@@ -15,17 +15,14 @@ export class BiltiBillProcessFilterComponent {
   model!: NgbDateStruct;
   selectedFromDate: any;
   selectedToDate: any;
-  adviceType: any = undefined;
-  batchName: any = undefined;
   biltiNumber: any = undefined;
-  batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  adviceTypeList: any = [];
   isBiltiNumberDisabled: boolean = false;
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
-  @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
+  @Input() filters: any = [];
+  // @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(
@@ -34,32 +31,32 @@ export class BiltiBillProcessFilterComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getAllAdviceTypesListInit();
+
   }
 
-  getAllAdviceTypesListInit() {
-    let data = {
-      "adviceType": '',
-    }
-    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
-      this.adviceTypeList = response.advices;
-      // Populate batch names related to advice types
-      this.batchNames = this.adviceTypeList.map((advice: any) => advice.batchName);
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
+  // getAllAdviceTypesListInit() {
+  //   let data = {
+  //     "adviceType": '',
+  //   }
+  //   this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
+  //     this.adviceTypeList = response.advices;
+  //     // Populate batch names related to advice types
+  //     this.batchNames = this.adviceTypeList.map((advice: any) => advice.batchName);
+  //     this.loadSpinner = false;
+  //   }, error => {
+  //     //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+  //     this.loadSpinner = false;
+  //   })
+  // }
 
-  onAdviceTypeSelect(selectedAdvice: any) {
-    const adviceType = selectedAdvice.$ngOptionLabel;
-    const matchedAdvice = this.adviceTypeList.find((advice: any) => advice.adviceType.trim() === adviceType.trim());
-    if (matchedAdvice && this.batchNameInput && this.batchNameInput.nativeElement) {
-      this.batchNameInput.nativeElement.value = matchedAdvice.batchName;
-    }
-    this.updateBiltiNumberDisabledState();
-  }
+  // onAdviceTypeSelect(selectedAdvice: any) {
+  //   const adviceType = selectedAdvice.$ngOptionLabel;
+  //   const matchedAdvice = this.adviceTypeList.find((advice: any) => advice.adviceType.trim() === adviceType.trim());
+  //   if (matchedAdvice && this.batchNameInput && this.batchNameInput.nativeElement) {
+  //     this.batchNameInput.nativeElement.value = matchedAdvice.batchName;
+  //   }
+  //   this.updateBiltiNumberDisabledState();
+  // }
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
@@ -73,46 +70,46 @@ export class BiltiBillProcessFilterComponent {
 
 
   handleSearch() {
-    let selectedAdviceType: string = '';
-    if (this.adviceType && this.adviceType.$ngOptionLabel) {
-      selectedAdviceType = this.adviceType.$ngOptionLabel;
-    } else if (typeof this.adviceType === 'string') {
-      selectedAdviceType = this.adviceType;
-    }
-    const batchNameValue = this.batchNameInput ? this.batchNameInput.nativeElement.value : '';
+    // let selectedAdviceType: string = '';
+    // if (this.adviceType && this.adviceType.$ngOptionLabel) {
+    //   selectedAdviceType = this.adviceType.$ngOptionLabel;
+    // } else if (typeof this.adviceType === 'string') {
+    //   selectedAdviceType = this.adviceType;
+    // }
+    // const batchNameValue = this.batchNameInput ? this.batchNameInput.nativeElement.value : '';
     const filterObj = {
       "biltiNumber": this.biltiNumber || "",
-      "batchNumber": batchNameValue || "",
-      "adviceType": selectedAdviceType || "",
+      // "batchNumber": batchNameValue || "",
+      // "adviceType": selectedAdviceType || "",
       "fromDate": this.selectedFromDate,
-      "toDate": this.selectedToDate
+      "toDate": this.selectedToDate,
     }
     this.filterSearchObj.emit(filterObj)
   }
 
   onClearFilter(){
-    this.biltiNumber = '';
+    this.biltiNumber = undefined;
     this.fromDate = null;
     this.toDate = null;
     this.selectedFromDate = null;
     this.selectedToDate = null;
-    this.adviceType = '';
-    this.batchName = '';
-    this.batchName = '';
+    // this.adviceType = '';
+    // this.batchName = '';
+    // this.batchName = '';
 
-  if (this.batchNameInput && this.batchNameInput.nativeElement) {
-    this.batchNameInput.nativeElement.value = '';
-  }
-  this.isBiltiNumberDisabled = false;
+  // if (this.batchNameInput && this.batchNameInput.nativeElement) {
+  //   this.batchNameInput.nativeElement.value = '';
+  // }
+  // this.isBiltiNumberDisabled = false;
     const filterObj = {
-      batchNumber : '',
-      adviceType: '',
-      biltiNumber: ''
+      // batchNumber : '',
+      // adviceType: '',
+      biltiNumber: '',
     }
     this.filterSearchObj.emit(filterObj)
   }
 
-  updateBiltiNumberDisabledState() {
-    this.isBiltiNumberDisabled = !!this.adviceType || !!this.batchName;
-  }
+  // updateBiltiNumberDisabledState() {
+  //   this.isBiltiNumberDisabled = !!this.adviceType || !!this.batchName;
+  // }
 }

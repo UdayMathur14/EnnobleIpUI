@@ -8,7 +8,7 @@
         </ng-select>
       </div>
     </div> -->
-    <div class="col">
+    <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">From Date</label>
         <div class="input-group datepicker">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">To Date</label>
         <div class="input-group datepicker">
@@ -41,43 +41,25 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-2">
-      <div class="custom-form-input">
-        <label for="">Advice Type</label>
-        <ng-select class="input-field" [(ngModel)]="adviceType" [readonly]=" biltiNumber || biltiNumber " (change)="onAdviceTypeSelect(adviceType)">
-          <ng-option *ngFor="let advice of adviceTypeList" >{{advice.adviceType}}</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="custom-form-input">
-        <label for="">Batch Name</label>
-        <div class="input-with-icon">
-          <input #batchNameInput type="text" [readonly]="adviceType || biltiNumber" class="input-field" />
-          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
-        </div>
-      </div>
-    </div>
     
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Bilti Number</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="isBiltiNumberDisabled"/>
-          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
-        </div>
+          <ng-select class="input-field" [(ngModel)]="biltiNumber" placeholder="Select Bilti Number" [disabled]="isBiltiNumberDisabled">
+            <ng-option *ngFor="let biltiNumber of filters?.BiltiNumber" [value]="biltiNumber">{{biltiNumber}}</ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!fromDate && !toDate && !adviceType">Search</button>
+        <button class="custom-button-filters" (click)="handleSearch()" [disabled]="!fromDate && !toDate && !biltiNumber">Search</button>
       </div>
     </div>
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
-        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!fromDate && !toDate && !adviceType">
+        <button class="custom-button-filters" (click)="onClearFilter()" [disabled]="!fromDate && !toDate && !biltiNumber">
           Clear
         </button>
       </div>

@@ -12,17 +12,10 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Bilti Number</label>
-                <div class="input-with-icon">
-                    <input type="text" class="suggestion" class="input-field" [(ngModel)]="biltiNum"
-                        (input)="onBiltiNoInput(biltiNum)" placeholder="Bilti Number" />
-                    <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-                </div>
-                <div *ngIf="showSuggestionsBilti && filteredBiltiNo.length > 0" class="suggestions">
-                    <div *ngFor="let biltiNo of filteredBiltiNo" (click)="selectSuggestionBiltiNo(biltiNo)"
-                        class="suggestion">
-                        {{biltiNo}}</div>
-                </div>
+                <label>Bilti Number</label>
+                <ng-select class="input-field" [(ngModel)]="biltiNum" placeholder="Select Bilti Number">
+                    <ng-option *ngFor="let biltiNo of filters?.BiltiNumber" [value]="biltiNo">{{biltiNo}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
