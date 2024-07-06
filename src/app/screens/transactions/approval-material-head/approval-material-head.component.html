@@ -40,7 +40,7 @@
           <ng-template #popTitle>Remarks</ng-template>
   </div>
   
-  <div class="content-section" [ngClass]="{'isFilters': isFilters}" *ngIf="searchedData?.batchNumber || searchedData?.toDate">
+  <div class="content-section" [ngClass]="{'isFilters': biltiBillProcess?.length > 0}" *ngIf="searchedData?.batchNumber || searchedData?.toDate">
     <div class="grid-table">
       <div class="table-container">
     <app-approval-material-head-grid-table [biltiBillProcess]="biltiBillProcess" (refreshList)="getAllBiltiProcess()"></app-approval-material-head-grid-table>
