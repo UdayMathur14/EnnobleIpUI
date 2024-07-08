@@ -14,6 +14,12 @@ export class DebitNoteReportComponent {
   billTiBillReport = [];
   isFilters: boolean = true;
   reportFilter: any = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalReports: number = 0;
+  filters: any = [];
+  maxCount: number = Number.MAX_VALUE;
+  searchedData:any = [];
 
   columns = [
     { header: 'Supplier Code', field: 'supplierCode', visible: true },
@@ -38,18 +44,39 @@ export class DebitNoteReportComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getData();
+    this.getReports();
   }
 
-  getData(batchNumber: string = '') {
-
-    this.reportService.getDebitNote({ batchNumber }).subscribe((res: any) => {
+  getReports(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
+    const data = {
+      batchNumber: filters?.batchNumber
+    }
+    this.reportService.getDebitNote(data, offset, count).subscribe((res: any) => {
       this.billTiBillReport = res.billTiBillReport;
       this.reportFilter = res.filters.BatchNumber;
+      this.totalReports = res.paging.total;
     }, error => {
 
     })
   }
+
+  getData(data: any){
+    this.searchedData = data;
+    this.currentPage = 1;
+    this.getReports(0, this.count, this.searchedData);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getReports(offset, this.count, this.searchedData);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getReports(0, this.count, this.searchedData);
+    }
 
   onColumnVisibilityChange(column: any) {
     this.columns = this.columns.map(col => col.field === column.field ? column : col);

@@ -11,7 +11,7 @@ import { APIConstant } from '../../../../../core/constants';
 export class FreightMasterMaterialFiltersComponent implements OnInit {
   @Output() freightFilterObj : EventEmitter<object> = new EventEmitter();
   freightCode : any = undefined;
-  freightList : any = [];
+  filters : any = [];
   locations:any[] = APIConstant.locationsListDropdown;
   locationIds:any[]=APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   
@@ -30,7 +30,7 @@ export class FreightMasterMaterialFiltersComponent implements OnInit {
       locationIds:[]
     }
     this.freightService.getFreightsList(data).subscribe((response: any) => {
-      this.freightList = response.freights;
+      this.filters = response.filters;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
@@ -46,6 +46,7 @@ export class FreightMasterMaterialFiltersComponent implements OnInit {
 
   onClearFilter(){
     this.freightCode = undefined;
+    this.locationIds = [];
     let obj = {
       freightCode : '',
       locationIds:[]

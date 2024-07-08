@@ -1,6 +1,6 @@
 <div class="filters-box">
   <div class="row">
-    <div class="col" *ngIf="locations && locations.length>1">
+    <div class="col-lg-2" *ngIf="locations && locations.length>1">
       <div class="custom-form-input">
         <label for="">Location Code</label>
         <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
@@ -8,24 +8,24 @@
         </ng-select>
       </div>
     </div>
-    <div class="col">
+    <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">From Date</label>
         <div class="input-group datepicker">
           <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" [(ngModel)]="fromDate"
-            [maxDate]="today" (dateSelect)="onDateSelect('fromDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" />
+            [maxDate]="today" (dateSelect)="onDateSelect('fromDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
             <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
           </button>
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">To Date</label>
         <div class="input-group datepicker">
           <input class="form-control" placeholder="yyyy-mm-dd" name="toDt" [autoClose]="true" [(ngModel)]="toDate"
-            [maxDate]="today" (dateSelect)="onDateSelect('toDate', $event)" ngbDatepicker #toDt="ngbDatepicker" />
+            [maxDate]="today" (dateSelect)="onDateSelect('toDate', $event)" ngbDatepicker #toDt="ngbDatepicker" readonly/>
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="toDt.toggle()" type="button">
             <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
           </button>
@@ -36,26 +36,49 @@
       <div class="custom-form-input">
         <label for="">Batch Number</label>
         <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
-          <ng-option *ngFor="let source of filteredBiltibillList"
-            [value]="source?.biltiBillProcessModel?.batchNumber">{{source?.biltiBillProcessModel?.batchNumber}}</ng-option>
+          <ng-option *ngFor="let batchNo of filters?.BatchNumber"
+            [value]="batchNo">{{batchNo}}</ng-option>
         </ng-select>
       </div>
     </div>
-
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+        <label for="">Batch Name</label>
+        <ng-select class="input-field" placeholder="Select Batch Name" [(ngModel)]="batchName">
+          <ng-option *ngFor="let batchName of filters?.BatchName"
+            [value]="batchName">{{batchName}}</ng-option>
+        </ng-select>
+      </div>
+    </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">Bilti Number</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="batchName" />
-          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
-        </div>
+              <ng-select class="input-field" [(ngModel)]="biltiNumber" placeholder="Select Bilti Number">
+                <ng-option *ngFor="let biltiNumber of filters?.BiltiNumber" [value]="biltiNumber">{{biltiNumber}}</ng-option>
+            </ng-select>
       </div>
     </div>
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+        <label for="">Advice Type</label>
+              <ng-select class="input-field" [(ngModel)]="adviceType" placeholder="Select Advice Type">
+                <ng-option *ngFor="let advice of filters?.AdviceType" [value]="advice">{{advice}}</ng-option>
+            </ng-select>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+          <label>Status</label>
+          <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+              <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+          </ng-select>
+      </div>
+  </div>  
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="handleSearch()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status">
           Search
         </button>
       </div>
@@ -64,7 +87,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status">
           Clear
         </button>
       </div>

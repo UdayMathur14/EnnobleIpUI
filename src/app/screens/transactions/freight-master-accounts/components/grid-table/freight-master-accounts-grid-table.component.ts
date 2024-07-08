@@ -18,6 +18,11 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
   loadSpinner: boolean = false;
   freightData!: FreightDataModel;
   selectedFreightId: number = 0;
+  currentPage: number = 1;
+  count: number = 10;
+  totalFreight: number = 0;
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   
   constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
 
@@ -29,22 +34,21 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
   //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchedFreight'].currentValue) {
-      this.getFilteredFreightsList();
-    } else if (changes['searchedFreight'].firstChange === false && changes['searchedFreight'].currentValue === undefined) {
       this.getAllFreightListInit();
     }
   }
 
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
-  getAllFreightListInit() {
+  getAllFreightListInit(offset: number = 0, count: number = this.count, filters: any = this.searchedFreight) {
     this.loadSpinner = true;
     let data = {
       "screenCode": 103, //Freight Account Screen Code
-      "freightCode": '',
-      locationIds: []
+      "freightCode": filters?.freightCode || '',
+      locationIds: filters?.locationIds || []
     }
-    this.freightService.getFreightsList(data).subscribe((response: any) => {
+    this.freightService.getFreightsList(data, offset, count).subscribe((response: any) => {
       this.freightList = response.freights;
+      this.totalFreight = response.paging.total;
       this.selectFreight(this.selectedFreightId);
       this.loadSpinner = false;
     }, error => {
@@ -53,22 +57,17 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     })
   }
 
-   //THIS IS EVENT EMITTED FN. WHICH CALLS WHEN WE SEARCH FREIGHT FROM FILTERS 
-   getFilteredFreightsList() {
-    this.loadSpinner = true;
-    let data = {
-      "screenCode": 103,
-      "freightCode": this.searchedFreight.freightCode || "",
-      locationIds: this.searchedFreight.locationIds
-    }
-    this.freightService.getFreightsList(data).subscribe((response: any) => {
-      this.freightList = response.freights;
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllFreightListInit(offset, this.count, this.searchedFreight);
   }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAllFreightListInit(0, this.count, this.searchedFreight);
+    }
 
   selectFreight(freightId: number) {
     this.selectedFreightId = freightId;
@@ -82,14 +81,14 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     popover.close();
   }
 
-  approveFreight(remarks: string, approvePopover: NgbPopover) {
+  approveFreight(remarks: string, approvePopover: NgbPopover, data: any) {
     const payload = this.approvalPayload('Approved', remarks);
-    this.updateStatus(payload, approvePopover);
+    this.updateStatus(payload, approvePopover, data);
   }
 
-  rejectFreight(remarks: string, rejectPopover: NgbPopover) {
+  rejectFreight(remarks: string, rejectPopover: NgbPopover, data: any) {
     const payload = this.approvalPayload('Rejected', remarks);
-    this.updateStatus(payload, rejectPopover);
+    this.updateStatus(payload, rejectPopover, data);
   }
 
   approvalPayload(status: string, remarks: string): any {
@@ -102,9 +101,9 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     };
   }
 
-  updateStatus(payload: any, popover: NgbPopover) {
+  updateStatus(payload: any, popover: NgbPopover, data: any) {
     this.loadSpinner = true;
-    this.commonTransactionService.updateStatus(this.selectedFreightId, payload).subscribe((response: any) => {
+    this.commonTransactionService.updateStatus(data.locationId, this.selectedFreightId, payload).subscribe((response: any) => {
       this.freightData = response;
       this.loadSpinner = false;
       this.toastr.success('Freight Approval Updated Successfully');

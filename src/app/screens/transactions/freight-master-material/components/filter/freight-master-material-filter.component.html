@@ -13,7 +13,7 @@
             <div class="custom-form-input">
                 <label for="">Freight Code</label>
                 <ng-select class="input-field" [(ngModel)]="freightCode" placeholder="Select Freight">
-                    <ng-option *ngFor="let freight of freightList" [value]="freight.freightCode">{{freight.freightCode}}</ng-option>
+                    <ng-option *ngFor="let freight of filters?.FreightCode" [value]="freight">{{freight}}</ng-option>
                 </ng-select>
             </div>
         </div>

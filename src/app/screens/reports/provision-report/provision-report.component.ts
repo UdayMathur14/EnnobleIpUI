@@ -13,6 +13,11 @@ export class ProvisionReportComponent {
 
   provisionalReport = [];
   isFilters: boolean = true;
+  currentPage: number = 1;
+  count: number = 10;
+  totalReports: number = 0;
+  filters: any = [];
+  maxCount: number = Number.MAX_VALUE;
 
   constructor(
     private router: Router,
@@ -22,19 +27,18 @@ export class ProvisionReportComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getData();
+    this.getReports();
   }
 
-  getData(fromDate: string = '', toDate: string = '') {
+  getReports(offset: number = 0, count: number = this.count, filters: any = this.filters) {
 
-    const body: any = {};
-    if (fromDate && toDate) {
-      body.fromDate = fromDate;
-      body.toDate = toDate;
-    }
-
-    this.reportService.getProvisionReport({ ...body }).subscribe((res: any) => {
+    const data = {
+      fromDate: filters?.fromDate || null,
+      toDate: filters?.toDate || null,
+    };
+    this.reportService.getProvisionReport(data, offset, count).subscribe((res: any) => {
       this.provisionalReport = res.provisionalReport;
+      this.totalReports = res.paging.total;
     }, error => {
 
     })
@@ -43,4 +47,23 @@ export class ProvisionReportComponent {
   exportData(fileName: string = "Error Logging") {
     this.exportService.csvExport(fileName);
   }
+
+  getData(data: any) {
+    this.filters = data;
+    this.currentPage = 1;
+    this.getReports(0, this.count, this.filters);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getReports(offset, this.count, this.filters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getReports(0, this.count, this.filters);
+    }
+
 }

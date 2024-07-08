@@ -20,15 +20,15 @@ import {
   providedIn: 'root',
 })
 export class BiltiService extends CRUDService<BiltiRequest> {
+
+  maxCount: number = Number.MAX_VALUE;
+  
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }
 
-  getBiltis(data: any) {
-    return this.baseService.post(
-      APIConstant.basePath + bilti,
-      data
-    );
+  getBiltis(data: any, offset: number = 0, count: number = this.maxCount) {
+    return this.post(bilti(offset, count),data);
   }
 
   getFrmTransactions(data: any) {

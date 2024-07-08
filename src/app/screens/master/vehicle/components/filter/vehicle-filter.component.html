@@ -14,8 +14,18 @@
                 <label for="">Vehicle Number</label>
                 <ng-select class="input-field" [(ngModel)]="vehicleNum"
                     placeholder="Select vehicle number" [readonly]="transporterNam">
-                    <ng-option *ngFor="let vehicle of vehiclesList"
-                        [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
+                    <ng-option *ngFor="let vehicle of filters?.VehicleNumber"
+                        [value]="vehicle">{{vehicle}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Vehicle Size</label>
+                <ng-select class="input-field" [(ngModel)]="vehicleSize"
+                    placeholder="Select vehicle size">
+                    <ng-option *ngFor="let vehicleSize of filters?.VehicleSize"
+                        [value]="vehicleSize">{{vehicleSize}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -24,17 +34,25 @@
                 <label for="">Transporter Name</label>
                 <ng-select class="input-field" [(ngModel)]="transporterNam"
                     placeholder="Select transporters" [readonly]="vehicleNum">
-                    <ng-option *ngFor="let transporter of transportersList"
-                        [value]="transporter.id">{{transporter.transporterName}}</ng-option>
+                    <ng-option *ngFor="let transporter of filters?.Transporter"
+                        [value]="transporter">{{transporter}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>  
+        <div class="col-lg-2">
+            <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="onVehicleSearch()"
-                        [disabled]="!locationIds.length && !vehicleNum && !transporterNam">Search</button>
+                        [disabled]="!locationIds.length && !vehicleNum && !transporterNam && !vehicleSize && !status">Search</button>
                     <button class="custom-button-filters ms-2" (click)="onClearFilter()"
                        > Clear</button>
                 </div>

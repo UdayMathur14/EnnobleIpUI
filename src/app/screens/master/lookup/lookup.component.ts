@@ -16,6 +16,12 @@ export class LookupComponent implements OnInit{
   fullScreen : boolean = false;
   loadSpinner : boolean = true;
   headers : string[] = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalLookups: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(private router: Router,
     private lookupService : LookupService,
     private toastr: ToastrService,
@@ -26,12 +32,17 @@ export class LookupComponent implements OnInit{
     this.getAllLookupsList()
   }
 
-  getAllLookupsList() {
+  getAllLookupsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "code": ''
+      "code": filters?.code || "",
+      "lookUpType": filters?.lookUpType || "",
+      "value": filters?.value || "",
+      "status": filters?.status || ""
     }
-    this.lookupService.getLookups(data).subscribe((response: any) => {
+    this.lookupService.getLookups(data, offset, count).subscribe((response: any) => {
       this.lookupsList = response.lookUps;
+      this.totalLookups = response.paging.total;
+      this.filters = response.filters;
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -40,17 +51,9 @@ export class LookupComponent implements OnInit{
   }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "code": e.code || ""
-    }
-    this.lookupService.getLookups(data).subscribe((response: any) => {
-      this.lookupsList = response.lookUps;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getAllLookupsList(0, this.count, this.appliedFilters);
   }
 
   onCreateLookup() {
@@ -76,5 +79,17 @@ export class LookupComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedLookupsList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllLookupsList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAllLookupsList(0, this.count, this.appliedFilters);
+    }
 
 }

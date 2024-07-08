@@ -6,11 +6,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./transactionType-filter.component.scss']
 })
 export class TransactionTypeFilterComponent implements OnInit {
-  @Input() transactionTypesList : any[] = [];
+  @Input() filters : any = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   transactionTypeCode:any = undefined;
   transactionTypeName : any = undefined;
   glCategory : any = undefined;
+  status: any = undefined;
 
   constructor(){}
   ngOnInit() {
@@ -21,7 +22,8 @@ export class TransactionTypeFilterComponent implements OnInit {
     const filterData = {
       transactionTypeCode: this.transactionTypeCode, 
       transactionTypeName: this.transactionTypeName, 
-      glSubCategory : this.glCategory
+      glSubCategory : this.glCategory,
+      status: this.status
     }
     this.getData.emit(filterData)
   }
@@ -30,10 +32,12 @@ export class TransactionTypeFilterComponent implements OnInit {
     this.transactionTypeCode = undefined;
     this.transactionTypeName = undefined;
     this.glCategory = undefined;
+    this.status = undefined;
     const filterData = {
       transactionTypeName: undefined, 
       transactionTypeCode: undefined, 
-      glSubCategory : undefined
+      glSubCategory : undefined,
+      status: undefined
     }
     this.getData.emit(filterData)
   }

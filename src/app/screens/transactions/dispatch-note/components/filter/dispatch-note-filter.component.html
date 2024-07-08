@@ -12,14 +12,24 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Dispatch Number</label>
-                <input type="text" class="input-field" value="NFHA89398" [(ngModel)]="dispatchNumber">
+                <ng-select class="input-field" [(ngModel)]="dispatchNumber" placeholder="Select Dispatch No">
+                    <ng-option *ngFor="let dispatch of filters?.DispatchNumber" [value]="dispatch">{{dispatch}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.status" [value]="status">{{status}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber">Search</button>
+                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber && !status">Search</button>
                     <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !dispatchNumber"> Clear</button>
                 </div>
             </div>

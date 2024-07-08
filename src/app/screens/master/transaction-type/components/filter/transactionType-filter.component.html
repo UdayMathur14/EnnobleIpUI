@@ -5,8 +5,8 @@
                 <label for="">Transaction Type Code</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
                     placeholder="Select Transaction Code" [readonly]="transactionTypeName || glCategory">
-                    <ng-option *ngFor="let transaction of transactionTypesList"
-                        [value]="transaction.code">{{transaction.code}}</ng-option>
+                    <ng-option *ngFor="let transaction of filters?.TransactionTypeCode"
+                        [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -15,22 +15,34 @@
                 <label for="">Transaction Type Name</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeName"
                     placeholder="Select Transaction Name">
-                    <ng-option *ngFor="let transaction of transactionTypesList"
-                        [value]="transaction.name">{{transaction.name}}</ng-option>
+                    <ng-option *ngFor="let transaction of filters?.TransactionTypeName"
+                        [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label>GL Sub Category</label>
-                <input type="text" class="input-field" [(ngModel)]="glCategory" />
+                <ng-select class="input-field" [(ngModel)]="glCategory"
+                    placeholder="Select GL Category">
+                    <ng-option *ngFor="let transaction of filters?.GlSubCategory"
+                        [value]="transaction">{{transaction}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
             </div>
         </div>  
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters me-2" (click)="onTransactionTypeSearch()"
-                    [disabled]="!transactionTypeName && !transactionTypeCode && !glCategory">Search</button>
+                    [disabled]="!transactionTypeName && !transactionTypeCode && !glCategory && !status">Search</button>
                 <button class="custom-button-filters" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

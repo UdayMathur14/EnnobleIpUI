@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-vehicle-filters [vehiclesList]="vehiclesList" [transportersList]="transportersList" (getData)="getData($event)" [locations]="locations"></app-vehicle-filters>
+  <app-vehicle-filters [filters]="filters" (getData)="getData($event)" [locations]="locations"></app-vehicle-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -32,7 +32,24 @@
       width="14px"
       (click)="fullScreen = !fullScreen"
     />
-  <app-vehicle-grid-table [vehiclesList]="vehiclesList" (exportHeader)="onExportHeader($event)"></app-vehicle-grid-table>
+    <div class="grid-table">
+      <div class="table-container">
+        <app-vehicle-grid-table [vehiclesList]="vehiclesList"
+          (exportHeader)="onExportHeader($event)"></app-vehicle-grid-table>
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <ngb-pagination [collectionSize]="totalVehicles" [(page)]="currentPage" [pageSize]="count"
+          (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
+        <p class="mt-2 ms-3"> Items per page:</p>
+        <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="15">15</option>
+          <option [value]="20">20</option>
+          <option [value]="maxCount">All Data</option>
+        </select>
+      </div>
+    </div>
 </div>
 
 <!-- <div class="spinner" *ngIf="loadSpinner">

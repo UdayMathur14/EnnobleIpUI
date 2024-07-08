@@ -14,10 +14,8 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './bilti-grid-table.component.scss',
 })
 export class BiltiGridTableComponent implements OnInit {
-  biltisList: any = [];
+  @Input() biltisList: any = [];
   loadSpinner: boolean = false;
-  @Input() searchedBilti: any;
-  biltisListOrg: any;
 
   constructor(
     private router: Router,
@@ -27,7 +25,7 @@ export class BiltiGridTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllBiltisList();
+
   }
 
   onPreviewBilti() {
@@ -68,52 +66,5 @@ export class BiltiGridTableComponent implements OnInit {
     this.router.navigate([
       `transaction/addEditBilti/${bilti.locationId}/${bilti.id}`,
     ]);
-  }
-
-  getAllBiltisList() {
-    this.loadSpinner = true;
-    let data = {
-      biltiNumber: '',
-      locationIds: APIConstant.locationsListDropdown.map((e: any) => e.id),
-    };
-    this.biltiService.getBiltis(data).subscribe(
-      (response: any) => {
-        this.biltisList = response.biltiCreations;
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
-  }
-
-  getFilteredBiltisList() {
-    this.loadSpinner = true;
-    let data = {
-      biltiNumber: this.searchedBilti.biltiNumber,
-      locationIds: this.searchedBilti.locationIds,
-    };
-    this.biltiService.getBiltis(data).subscribe(
-      (response: any) => {
-        this.biltisList = response.biltiCreations;
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['searchedBilti'].currentValue) {
-      this.getFilteredBiltisList();
-    } else if (
-      changes['searchedBilti'].firstChange === false &&
-      changes['searchedBilti'].currentValue === ''
-    ) {
-      this.getAllBiltisList();
-    }
   }
 }

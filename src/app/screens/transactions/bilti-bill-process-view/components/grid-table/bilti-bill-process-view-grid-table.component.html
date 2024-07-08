@@ -2,6 +2,7 @@
   <table>
     <thead>
       <tr>
+        <th>Batch No</th>
         <th>Bilti#</th>
         <th>Bilti Date</th>
         <th>Bilti Bill Process Date</th>
@@ -26,7 +27,7 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{biltiList?.biltiNumber}}</u>
+            <u>{{biltiList?.biltiBillProcessModel?.batchNumber}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -49,6 +50,7 @@
             </div>
           </ng-template>
         </td>
+        <td>{{biltiList?.biltiNumber}}</td>
         <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td>
         <td>{{biltiList?.biltiBillProcessModel?.biltiBillProcessDate}}</td>
         <td>{{biltiList?.frlrNumber}}</td>

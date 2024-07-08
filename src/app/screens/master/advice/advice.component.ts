@@ -17,6 +17,12 @@ export class AdviceComponent implements OnInit{
   loadSpinner : boolean = true;
   headers: string[] = [];
   locations: any[] = APIConstant.locationsListDropdown;
+  currentPage: number = 1;
+  count: number = 10;
+  totalAdvices: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(private router: Router,
     private adviceService : AdviceTypeService,
     private toastr : ToastrService,
@@ -27,13 +33,16 @@ export class AdviceComponent implements OnInit{
     this.getAdviceTypesList();
   }
 
-  getAdviceTypesList() {
-    let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
-      "adviceType": ""
+  getAdviceTypesList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
+    const data = {
+      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "adviceType": filters?.adviceType,
+      "status": filters?.status
     }
-    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
+    this.adviceService.getAdviceTypes(data, offset, count).subscribe((response: any) => {
       this.advicesList = response.advices;
+      this.totalAdvices = response.paging.total;
+      this.filters = response.filters;
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -42,18 +51,9 @@ export class AdviceComponent implements OnInit{
   }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": e.locationIds,
-      "adviceType": e.adviceType
-    }
-    this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
-      this.advicesList = response.advices;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getAdviceTypesList(0, this.count, this.appliedFilters);
   }
 
   onCreateAdvice() {
@@ -75,4 +75,16 @@ export class AdviceComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAdviceTypesList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAdviceTypesList(0, this.count, this.appliedFilters);
+    }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { LookupRequest } from '../models/lookup';
 import { BaseService } from './base.service';
-import { APIConstant, getDropdownDatas } from '../constants';
+import { APIConstant, getDropdownDatas, lookups } from '../constants';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({
@@ -10,12 +10,14 @@ import { FormGroup } from '@angular/forms';
 })
 export class LookupService extends CRUDService<LookupRequest> {
 
+  maxCount: number = Number.MAX_VALUE;
+
   constructor(protected override baseService: BaseService) {
     super(baseService, APIConstant.basePath);
   }
 
-  getLookups(data: any) {
-    return this.post(APIConstant.lookups, data);
+  getLookups(data: any, offset: number = 0, count: number = this.maxCount) {
+    return this.post(lookups(offset, count), data);
   }
 
   getLookupDatas(lookupId: number) {
@@ -35,7 +37,7 @@ export class LookupService extends CRUDService<LookupRequest> {
       this.baseService.lookupData.next(response);
       const locations: any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
       appLocation.forEach((el: any) => {
-        const obj = response.lookUps.find((f: any) => f.code === el.name);
+        const obj = response.lookUps.find((f: any) => f.typeId === 6 && f.code === el.name);
         if(obj){
           locations.push(obj);
         }

@@ -13,7 +13,7 @@
         <label for="">From Date</label>
         <div class="input-group datepicker">
           <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" [(ngModel)]="fromDate"
-            [maxDate]="today" (dateSelect)="onDateSelect('fromDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" />
+            [maxDate]="today" (dateSelect)="onDateSelect('fromDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly />
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
             <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
           </button>
@@ -25,7 +25,7 @@
         <label for="">To Date</label>
         <div class="input-group datepicker">
           <input class="form-control" placeholder="yyyy-mm-dd" name="toDt" [autoClose]="true" [(ngModel)]="toDate"
-            [maxDate]="today" (dateSelect)="onDateSelect('toDate', $event)" ngbDatepicker #toDt="ngbDatepicker" />
+            [maxDate]="today" (dateSelect)="onDateSelect('toDate', $event)" ngbDatepicker #toDt="ngbDatepicker" readonly />
           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="toDt.toggle()" type="button">
             <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
           </button>
@@ -36,21 +36,19 @@
       <div class="custom-form-input">
         <label for="">Batch Number</label>
         <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
-          <ng-option *ngFor="let source of filteredBiltibillList"
-            [value]="source?.biltiBillProcessModel?.batchNumber">{{source?.biltiBillProcessModel?.batchNumber}}</ng-option>
+          <ng-option *ngFor="let source of filters?.BatchNumber"
+            [value]="source">{{source}}</ng-option>
         </ng-select>
       </div>
     </div>
-
     <div class="col-lg-2">
       <div class="custom-form-input">
-        <label for="">Bilti Number</label>
-        <div class="input-with-icon">
-          <input type="text" class="input-field" [(ngModel)]="biltiNumber" [disabled]="batchName" />
-          <img src="assets/images/icons/search.svg" width="12px" class="search-icon" alt="Search" />
-        </div>
+          <label>Bilti Number</label>
+          <ng-select class="input-field" [(ngModel)]="biltiNumber" placeholder="Select Bilti Number" [disabled]="batchName">
+              <ng-option *ngFor="let biltiNo of filters?.BiltiNumber" [value]="biltiNo">{{biltiNo}}</ng-option>
+          </ng-select>
       </div>
-    </div>
+  </div>
     <div class="col-auto">
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>

@@ -13,9 +13,14 @@ export class TransactionTypeComponent implements OnInit {
   filterKeyword: string = '';
   fullScreen : boolean = false;
   transactionTypesList : any[] = [];
-  transactionTypesListOrg : any = [];
   loadSpinner : boolean = true;
   headers: any [] = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalTransactions: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(
     private transactionTypesService : TransactionTypesService,
     private xlsxService : XlsxService
@@ -25,15 +30,17 @@ export class TransactionTypeComponent implements OnInit {
     this.getAllTransactionTypes()
   }
 
-  getAllTransactionTypes(){
+  getAllTransactionTypes(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "transactionTypeCode": "",
-      "transactionTypeName": "",
-      "glSubCategory": ""
+      "transactionTypeCode": filters?.transactionTypeCode || "",
+      "transactionTypeName": filters?.transactionTypeName || "",
+      "glSubCategory": filters?.glSubCategory || "",
+      "status": filters?.status || ""
     }
-    this.transactionTypesService.getTransactionTypes(data).subscribe((response:any) => {
+    this.transactionTypesService.getTransactionTypes(data, offset, count).subscribe((response:any) => {
       this.transactionTypesList = response.transactionTypes;
-      this.transactionTypesListOrg = response.transactionTypes;
+      this.totalTransactions = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -42,18 +49,9 @@ export class TransactionTypeComponent implements OnInit {
   }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "transactionTypeCode": e.transactionTypeCode || "",
-      "transactionTypeName": e.transactionTypeName || "",
-      "glSubCategory": e.glSubCategory || ""
-    }
-    this.transactionTypesService.getTransactionTypes(data).subscribe((response: any) => {
-      this.transactionTypesList = response.transactionTypes;
-      this.loadSpinner = false;
-    }, error => {
-      this.loadSpinner = false
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getAllTransactionTypes(0, this.count, this.appliedFilters);
   }
 
   onExportHeader(headers: string[]) {
@@ -71,4 +69,16 @@ export class TransactionTypeComponent implements OnInit {
     }));
     this.xlsxService.xlsxExport(mappedTransactionsList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllTransactionTypes(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAllTransactionTypes(0, this.count, this.appliedFilters);
+    }
 }

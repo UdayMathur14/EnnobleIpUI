@@ -11,7 +11,7 @@ import { APIConstant } from '../../../../../core/constants';
 export class PointMasterMaterialFiltersComponent implements OnInit {
   @Output() pointFilterObj : EventEmitter<object> = new EventEmitter();
   pointName : any = undefined;
-  pointChargeList : any = [];
+  filters : any = [];
   locations:any[] = APIConstant.locationsListDropdown;
   locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   
@@ -30,7 +30,7 @@ export class PointMasterMaterialFiltersComponent implements OnInit {
       locationIds:[]
     }
     this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-      this.pointChargeList = response.pointCharges;
+      this.filters = response.filters;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
@@ -46,6 +46,7 @@ export class PointMasterMaterialFiltersComponent implements OnInit {
 
   onClearFilter(){
     this.pointName = undefined;
+    this.locationIds = [];
     let obj = {
       pointName : '',
       locationIds:[]

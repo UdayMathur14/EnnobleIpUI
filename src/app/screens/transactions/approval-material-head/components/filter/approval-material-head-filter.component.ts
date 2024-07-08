@@ -22,7 +22,7 @@ export class ApprovalMaterialHeadFilterComponent {
   batchNumber: string = '';
   locations:any[] = APIConstant.locationsListDropdown;
   locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
-  @Input() filteredBiltibillList: any = [];
+  @Input() filters: any = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(

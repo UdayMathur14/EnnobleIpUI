@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-approval-accounts',
@@ -22,6 +23,11 @@ export class ApprovalAccountsComponent implements OnInit {
   filteredBiltibillList: any = [];
   toDate: any = moment().format('YYYY-MM-DD');
   loadSpinner: boolean = false;
+  currentPage: number = 1;
+  count: number = 10;
+  totalBiltis: number = 0;
+  filters: any = [];
+  maxCount: number = Number.MAX_VALUE;
 
   constructor(
     private router: Router,
@@ -35,16 +41,16 @@ export class ApprovalAccountsComponent implements OnInit {
     this.getAllBiltiProcess();
   }
 
-  getAllBiltiProcess() {
+  getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     this.loadSpinner = true;
     const data = {
       screenCode: 305,
-      fromDate: this.fromDate,
-      toDate: this.toDate,
+      fromDate: filters?.fromDate || null,
+      toDate: filters?.toDate || null,
       adviceType: "",
-      batchNumber: this.batchNumber,
-      biltiNumber: this.biltiNumber,
-      locationIds: this.locationIds
+      batchNumber: filters?.batchNumber || "",
+      biltiNumber: filters?.biltiNumber || "",
+      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -55,6 +61,8 @@ export class ApprovalAccountsComponent implements OnInit {
         }
       });
       this.biltiBillProcess = response.biltiBillProcess;
+      this.totalBiltis = response.paging.total;
+        this.filters = response.filters;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
         .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
     },
@@ -67,11 +75,20 @@ export class ApprovalAccountsComponent implements OnInit {
 
   filteredData(data: any) {
     this.searchedData = data;
-    this.fromDate = data.fromDate;
-    this.toDate = data.toDate;
     this.batchNumber = data.batchNumber;
-    this.biltiNumber = data.biltiNumber;
-    this.locationIds = data.locationIds
-    this.getAllBiltiProcess();
+    this.currentPage = 1;
+    this.getAllBiltiProcess(0, this.count, this.searchedData);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllBiltiProcess(offset, this.count, this.searchedData);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getAllBiltiProcess(0, this.count, this.searchedData);
+    }
 }

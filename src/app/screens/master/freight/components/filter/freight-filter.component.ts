@@ -10,15 +10,13 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class FreightFilterComponent implements OnInit {
   @Output() getData : EventEmitter<object> = new EventEmitter();
-  @Input() vehcileSizes : any[] = [];
-  @Input() sources : any[] =[];
-  @Input() destinations : any[] =[];
-  @Input() freightList : any[] =[];
+  @Input() filters : any =[];
   @Input() locations : any[] = [];
   freightCode : any = undefined;
   source : any = undefined;
   destination : any = undefined;
   vehicleSize : any = undefined;
+  status: any = undefined;
   locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   
   constructor(){}
@@ -32,7 +30,8 @@ export class FreightFilterComponent implements OnInit {
       "source" : this.source || "",
       "vehicleSize" : this.vehicleSize || "",
       "destination" : this.destination || "",
-      "locationIds":this.locationIds || []
+      "locationIds":this.locationIds || [],
+      "status": this.status || ""
       
     }
     this.getData.emit(obj)
@@ -44,12 +43,14 @@ export class FreightFilterComponent implements OnInit {
     this.vehicleSize = undefined;
     this.destination = undefined;
     this.locationIds = [];
+    this.status = undefined;
     let obj = {
       "freightCode" : "",
       "source" : "",
       "vehicleSize" : "",
       "destination" : "",
-      "locationIds" : []
+      "locationIds" : [],
+      "status": ""
     }
     this.getData.emit(obj)
   }

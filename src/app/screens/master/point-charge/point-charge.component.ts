@@ -18,6 +18,12 @@ export class PointChargeComponent implements OnInit {
   loadSpinner : boolean = true;
   pointChargesList : any[] = [];
   headers: any [] = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalPointCharges: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(private router: Router,
     private pointChargeService : PointChargeService,
     private toastr : ToastrService,
@@ -29,14 +35,17 @@ export class PointChargeComponent implements OnInit {
     this.getPointChargesList();
   }
 
-  getPointChargesList() {
+  getPointChargesList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "screenCode": 101,
-      "pointName": ""
+      "pointName": filters?.pointName || "",
+      "status": filters?.status || ""
     }
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
+    this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
+      this.totalPointCharges = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -45,19 +54,9 @@ export class PointChargeComponent implements OnInit {
   }
 
   getData(e:any) {
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": e.locationIds,
-      "screenCode": 101,
-      "pointName": e.pointName || ""
-    }
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-      this.pointChargesList = response.pointCharges;
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getPointChargesList(0, this.count, this.appliedFilters);
   }
 
   // NAVIGATING TO CREATE POINT CHARGE PAGE
@@ -82,4 +81,16 @@ export class PointChargeComponent implements OnInit {
     }));
     this.xlsxService.xlsxExport(mappedPointChargeList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getPointChargesList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getPointChargesList(0, this.count, this.appliedFilters);
+    }
 }

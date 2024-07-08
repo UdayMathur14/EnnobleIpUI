@@ -6,12 +6,28 @@
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
   <app-rejection-bilti-detail-report-filter (filterSearchObj)="filteredData($event)"
-    [filteredBiltibillList]="filteredBiltibillList"></app-rejection-bilti-detail-report-filter>
+    [filters]="filters"></app-rejection-bilti-detail-report-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-  <app-rejection-bilti-detail-report-grid-table
-    [biltiBillProcess]="biltiBillProcess"></app-rejection-bilti-detail-report-grid-table>
+  <div class="grid-table">
+    <div class="table-container">
+      <app-rejection-bilti-detail-report-grid-table
+        [biltiBillProcess]="biltiBillProcess"></app-rejection-bilti-detail-report-grid-table>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <ngb-pagination [collectionSize]="totalBiltiBills" [(page)]="currentPage" [pageSize]="count"
+        (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
+      <p class="mt-2 ms-3"> Items per page:</p>
+      <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="15">15</option>
+        <option [value]="20">20</option>
+        <option [value]="maxCount">All Data</option>
+      </select>
+    </div>
+  </div>
 </div>
 <!-- <div class="spinner" *ngIf="loadSpinner">
   Loading...

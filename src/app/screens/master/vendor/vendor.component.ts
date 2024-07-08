@@ -19,6 +19,12 @@ export class VendorComponent implements OnInit{
   cities : any[] = [];
   states : any[] = [];
   headers: any [] = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalVendors: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
   constructor(
     private vendorService : VendorService,
     private toastr: ToastrService,
@@ -28,25 +34,26 @@ export class VendorComponent implements OnInit{
 
   ngOnInit(): void {
     this.getVendorsList();
-    this.getCityDropdownData();
-    this.getStateDropdownData()
   }
 
   onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
-  getVendorsList() {
+  getVendorsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "vendorCode": "",
-      "vendorName": "",
-      "city": "",
-      "state": "",
-      "taxationType": "",
-      "paidByDetail": ""
+      "vendorCode": filters?.vendorCode || "",
+      "vendorName": filters?.vendorName || "",
+      "city": filters?.city || "",
+      "state": filters?.state || "",
+      "taxationType": filters?.taxationType || "",
+      "paidByDetail": filters?.paidByDetail || "",
+      "status": filters?.status || ""
     }
-    this.vendorService.getVendors(data).subscribe((response: any) => {
+    this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {
       this.vendorsList = response.vendors;
+      this.totalVendors = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
       // this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
     }, error => {
@@ -55,36 +62,11 @@ export class VendorComponent implements OnInit{
     });
   }
 
-  getCityDropdownData(){
-    const type = 'City';
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
-      this.cities = res.lookUps;
-    })
-  }
-
-  getStateDropdownData(){
-    const type = 'State';
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
-      this.states = res.lookUps;
-    })
-  }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "vendorCode": e.vendorCode || "",
-      "vendorName": e.vendorName || "",
-      "city": e.city || "",
-      "state": e.state || "",
-      "taxationType": e.taxationType || "",
-      "paidByDetail": e.paidByDetail || ""
-    }
-    this.vendorService.getVendors(data).subscribe((response: any) => {
-      this.vendorsList = response.vendors;
-      this.loadSpinner = false;
-    }, error => {
-      this.loadSpinner = false
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getVendorsList(0, this.count, this.appliedFilters);
   }
 
   exportData(fileName: string = "Vendor") {
@@ -105,4 +87,16 @@ export class VendorComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedVendorsList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getVendorsList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getVendorsList(0, this.count, this.appliedFilters);
+    }
 }

@@ -20,19 +20,38 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
+                <label for="">Message Source</label>
+                <ng-select class="input-field" [(ngModel)]="messageSource" placeholder="Select Message Source">
+                    <ng-option *ngFor="let source of filters?.MessageSource" [value]="source">{{source}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Method Name</label>
+                <ng-select class="input-field" [(ngModel)]="messageName" placeholder="Select Method Name">
+                    <ng-option *ngFor="let name of filters?.MethodName" [value]="name">{{name}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Response Code</label>
+                <ng-select class="input-field" [(ngModel)]="responseCode" placeholder="Select Response Code">
+                    <ng-option *ngFor="let code of filters?.ResponseCode" [value]="code">{{code}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="handleSearch()">Search</button>
                     <button class="custom-button-filters ms-4" (click)="onClearFilter()">Clear</button>
+                    <button class="custom-button-export ms-3 specific-padding-export" (click)="exportData.emit()">
+                        Export
+                    </button>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-auto ms-auto d-flex align-items-center">
-            <div class="custom-form-input">
-                <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-export specific-padding-export">
-                    Export
-                </button>
             </div>
         </div>
     </div>

@@ -20,10 +20,10 @@ export class ApprovalAccountsFiltersComponent {
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  batchNumber: string = '';
+  batchNumber: any = undefined;
   locations: any[] = APIConstant.locationsListDropdown;
   locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
-  @Input() filteredBiltibillList: any = [];
+  @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -58,9 +58,9 @@ export class ApprovalAccountsFiltersComponent {
   }
 
   onClearFilter() {
-    this.batchNumber = '';
+    this.batchNumber = undefined;
     this.fromDate = null;
-    this.biltiNumber = '';
+    this.biltiNumber = undefined;
     this.toDate = null;
     this.selectedFromDate = null;
     this.selectedToDate = null;

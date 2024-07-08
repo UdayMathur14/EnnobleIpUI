@@ -1,72 +1,74 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col">
+        <div class="col-2">
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
                 <ng-select class="input-field" [(ngModel)]="vendorCod" typeToSearchText
                     placeholder="Select Vendor Code">
-                    <ng-option *ngFor="let vendor of vendorsList"
-                        [value]="vendor.vendorCode">{{vendor.vendorCode}}</ng-option>
+                    <ng-option *ngFor="let vendor of filters?.VendorCode"
+                        [value]="vendor">{{vendor}}</ng-option>
                 </ng-select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-2">
             <div class="custom-form-input">
                 <label for="">Vendor Name</label>
                 <ng-select class="input-field" [(ngModel)]="vendorNam" typeToSearchText
                     placeholder="Select Vendor Name">
-                    <ng-option *ngFor="let vendor of vendorsList"
-                        [value]="vendor.vendorName">{{vendor.vendorName}}</ng-option>
+                    <ng-option *ngFor="let vendor of filters?.VendorName"
+                        [value]="vendor">{{vendor}}</ng-option>
                 </ng-select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-2">
             <div class="custom-form-input">
                 <label for="">City</label>
                 <ng-select class="input-field" [(ngModel)]="city"
                     placeholder="Select City">
-                    <ng-option *ngFor="let city of cities"
-                        [value]="city.code">{{city.value}}</ng-option>
+                    <ng-option *ngFor="let city of filters?.City"
+                        [value]="city">{{city}}</ng-option>
                 </ng-select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-2">
             <div class="custom-form-input">
                 <label for="">State</label>
                 <ng-select class="input-field" [(ngModel)]="state"
-                    placeholder="Select State Code">
-                    <ng-option *ngFor="let state of states"
-                    [value]="state.code">{{state.value}}</ng-option>
+                    placeholder="Select State">
+                    <ng-option *ngFor="let state of filters?.State"
+                    [value]="state">{{state}}</ng-option>
                 </ng-select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-2">
             <div class="custom-form-input">
                 <label for="">Taxation Type</label>
-                <!-- <ng-select class="input-field" [(ngModel)]="taxationType"
-                    placeholder="Select Taxation Type" [readonly]="vendorCod || vendorNam || city || state || paidByDetails">
-                    <ng-option *ngFor="let vendor of vendorsList"
-                        [value]="vendor.vendorName">{{vendor.vendorName}}</ng-option>
-                </ng-select> -->
-                <input type="text" placeholder="Enter Taxation Type" class="input-field" [(ngModel)]="taxationType"/>
+                <ng-select class="input-field" [(ngModel)]="taxationType" placeholder="Select Taxation">
+                    <ng-option *ngFor="let taxation of filters?.TaxationType" [value]="taxation">{{taxation}}</ng-option>
+                </ng-select>
             </div>
         </div>
-        <div class="col">
+        <div class="col-2">
             <div class="custom-form-input">
                 <label for="">Paid By Details</label>
-                <!-- <ng-select class="input-field" [(ngModel)]="paidByDetails"
-                    placeholder="Select Paid by Details" [readonly]="vendorCod || vendorNam || city || state || taxationType">
-                    <ng-option *ngFor="let vendor of vendorsList"
-                        [value]="vendor.vendorName">{{vendor.vendorName}}</ng-option>
-                </ng-select> -->
-                <input type="text" placeholder="Enter Paid by Details" class="input-field" [(ngModel)]="paidByDetails"/>
+                <ng-select class="input-field" [(ngModel)]="paidByDetails" placeholder="Select">
+                    <ng-option *ngFor="let paidBy of filters?.PaidByDetail" [value]="paidBy">{{paidBy}}</ng-option>
+                </ng-select>
             </div>
         </div>
+        <div class="col-2">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div> 
         <div class="col">
             <div class="d-flex mt-4">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters me-2" (click)="onVendorSearch()"
-                    [disabled]="!vendorCod && !vendorNam && !city && !state && !paidByDetails && !taxationType" style="padding:4px 10px;">Search</button>
+                    [disabled]="!vendorCod && !vendorNam && !city && !state && !paidByDetails && !taxationType && !status" style="padding:4px 10px;">Search</button>
                 <button class="custom-button-filters" (click)="onClearFilter()" style="padding:4px 10px;">Clear</button>
             </div>
         </div>

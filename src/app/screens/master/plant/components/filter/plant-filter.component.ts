@@ -8,18 +8,15 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class PlantFilterComponent {
   @Input() locations: any[] = [];
-  @Input() plantsList: any[] = [];
-  @Input() cities: any[] = [];
-  @Input() states: any[] = [];
+  @Input() filters: any = [];
   locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   @Output() getData: EventEmitter<any> = new EventEmitter();
   plantCode: any = undefined;
   stateCode: any = undefined;
   cityCode: any = undefined;
-  auCode: any;
-  siteCode: any;
-
-
+  status: any = undefined;
+  auCode: any= undefined;
+  siteCode: any= undefined;
 
   onPlantSearch() {
     const filterData = {
@@ -28,7 +25,8 @@ export class PlantFilterComponent {
       state: this.stateCode,
       auCode: this.auCode,
       siteCode: this.siteCode,
-      locations: this.locationIds
+      locations: this.locationIds,
+      status: this.status
     }
     this.getData.emit(filterData)
   }
@@ -40,6 +38,7 @@ export class PlantFilterComponent {
     this.auCode = undefined
     this.siteCode = undefined;
     this.locationIds = [];
+    this.status = undefined;
 
     const filterData = {
       plantCode: undefined,
@@ -47,9 +46,9 @@ export class PlantFilterComponent {
       state: undefined,
       auCode: undefined,
       siteCode: undefined,
-      locations: []
+      locations: [],
+      status: undefined
     }
     this.getData.emit(filterData)
   }
-
 }

@@ -22,6 +22,13 @@ export class TransporterComponent implements OnInit{
   states : any[] = [];
   headers: any [] = [];
   locations: any[] = APIConstant.locationsListDropdown;
+  currentPage: number = 1;
+  count: number = 10;
+  totalTransporters: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
+
   constructor(private exportService: ExportService,
     private transporterService : TransporterService,
     private lookupService : LookupService,
@@ -31,21 +38,22 @@ export class TransporterComponent implements OnInit{
 
   ngOnInit(): void {
     this.getTransportersList();
-    this.getCityDropdownData();
-    this.getStateDropdownData();
   }
 
-  getTransportersList() {
+  getTransportersList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
-      "transporterCode": "",
-      "transporterName": "",
-      "city": "",
-      "state": "",
-      "taxationType": ""
+      "locationIds": filters?.locations || APIConstant.locationsListDropdown.map((e: any) => (e.id)),
+      "transporterCode": filters?.transCode,
+      "transporterName": filters?.transName,
+      "city": filters?.cityCode,
+      "state": filters?.stateCode,
+      "taxationType": filters?.taxationType,
+      "status": filters?.status
     }
-    this.transporterService.getTransporters(data).subscribe((response: any) => {
+    this.transporterService.getTransporters(data, offset, count).subscribe((response: any) => {
       this.transportersList = response.transporters;
+      this.totalTransporters = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       this.loadSpinner = false;
@@ -54,46 +62,9 @@ export class TransporterComponent implements OnInit{
   }
 
   getData(e:any){
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": e.locations,
-      "transporterCode": e.transCode,
-      "transporterName": e.transName,
-      "city": e.cityCode,
-      "state": e.stateCode,
-      "taxationType": e.taxationType
-    }
-    this.transporterService.getTransporters(data).subscribe((response: any) => {
-      this.transportersList = response.transporters;
-      this.loadSpinner = false;
-    }, error => {
-      this.loadSpinner = false;
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-    })
-  }
-
-  getCityDropdownData(){
-    const data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'City'
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
-      this.cities = res.lookUps;
-    })
-  }
-
-  getStateDropdownData(){
-    const data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'State'
-    this.lookupService.getDropdownData(type).subscribe((res:any)=>{
-      this.states = res.lookUps;
-    })
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getTransportersList(0, this.count, this.appliedFilters);
   }
 
   onExportHeader(headers: string[]) {
@@ -118,4 +89,16 @@ export class TransporterComponent implements OnInit{
     }));
     this.xlsxService.xlsxExport(mappedTransporterList, this.headers, fileName);
   }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getTransportersList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getTransportersList(0, this.count, this.appliedFilters);
+    }
 }

@@ -18,8 +18,12 @@ export class PlantComponent implements OnInit {
   plantsList: any[] = [];
   headers: string[] = [];
   locations: any[] = APIConstant.locationsListDropdown;
-  cities: any[] = [];
-  states: any[] = [];
+  currentPage: number = 1;
+  count: number = 10;
+  totalPlants: number = 0;
+  filters: any = [];
+  appliedFilters: any = [];
+  maxCount: number = Number.MAX_VALUE;
 
   constructor(private router: Router,
     private plantService: PlantService,
@@ -32,68 +36,33 @@ export class PlantComponent implements OnInit {
 
   ngOnInit() {
     this.getPlantsList();
-    this.getCityDropdownData();
-    this.getStateDropdownData();
   }
 
-  getPlantsList() {
+  getPlantsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
-      "plantCode": "",
-      "city": "",
-      "state": "",
-      "auCode": "",
-      "siteCode": ""
+      "locationIds": filters?.locations || APIConstant.locationsListDropdown.map((e: any) => (e.id)),
+      "plantCode": filters?.plantCode || "",
+      "city": filters?.city || "",
+      "state": filters?.state || "",
+      "auCode": filters?.auCode || "",
+      "siteCode": filters?.siteCode || "",
+      "status": filters?.status || ""
     }
-    this.plantService.getPlants(data).subscribe((response: any) => {
+    this.plantService.getPlants(data, offset, count).subscribe((response: any) => {
       this.plantsList = response.plants;
+      this.totalPlants = response.paging.total;
+      this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
       this.loadSpinner = false;
     })
   }
-
 
   getData(e: any) {
-    this.loadSpinner = true;
-    let data = {
-      "locationIds": e.locations || [],
-      "plantCode": e.plantCode || "",
-      "city": e.city || "",
-      "state": e.state || "",
-      "auCode": e.auCode || "",
-      "siteCode": e.siteCode || ""
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.loadSpinner = false;
-    }, error => {
-      this.loadSpinner = false
-    })
-  }
-
-  getCityDropdownData() {
-    const data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'City'
-    this.lookupService.getDropdownData(type).subscribe((res: any) => {
-      this.cities = res.lookUps;
-    })
-  }
-
-  getStateDropdownData() {
-    const data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'State'
-    this.lookupService.getDropdownData(type).subscribe((res: any) => {
-      this.states = res.lookUps;
-    })
+    console.log(e)
+    this.appliedFilters = e;
+    this.currentPage = 1;
+    this.getPlantsList(0, this.count, this.appliedFilters);
   }
 
   onExportHeader(headers: string[]) {
@@ -119,4 +88,15 @@ export class PlantComponent implements OnInit {
     this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
   }
 
+  onPageChange(page: number) {
+    this.currentPage = page;
+    const offset = (this.currentPage - 1) * this.count;
+    this.getPlantsList(offset, this.count, this.appliedFilters);
+  }
+
+  onPageSizeChange(data: any) {
+      this.count = data;
+      this.currentPage = 1;
+      this.getPlantsList(0, this.count, this.appliedFilters);
+    }
 }
