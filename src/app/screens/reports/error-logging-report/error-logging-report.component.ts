@@ -39,6 +39,7 @@ export class ErrorLoggingReportComponent {
     this.reportService.getErrorLogging(data, offset, count).subscribe((res: any) => {
       this.errorLoggings = res.errorLoggings.map((e: any) => ({ ...e, detailDescriptions: e.detailDescriptions.join(',') }));
       this.totalReports = res.paging.total;
+      this.filters = res.filters;
     }, error => {
 
     })

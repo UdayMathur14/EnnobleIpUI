@@ -3,6 +3,7 @@
   </div>
   <div class="filter-section" >
     <app-error-logging-report-filter
+    [filters]="filters"
     (getData)="getData($event)"
     (exportData)="exportData()"></app-error-logging-report-filter>
   </div>
