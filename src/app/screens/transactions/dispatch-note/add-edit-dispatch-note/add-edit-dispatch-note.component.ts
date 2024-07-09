@@ -328,6 +328,12 @@ export class AddEditDispatchNoteComponent {
         this.deletedParts.push(deletedPart);
     }
     this.partDetails.removeAt(i);
+    const partNumber = part.value.partNumber;
+    const index = this.selectedParts.indexOf(partNumber);
+    if (index > -1) {
+        this.selectedParts.splice(index, 1);
+    }
+    this.updateSelectedParts(this.selectedParts);
 }
 
 
