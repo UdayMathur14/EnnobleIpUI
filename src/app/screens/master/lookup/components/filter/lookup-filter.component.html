@@ -18,14 +18,6 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Value</label>
-                <ng-select class="input-field" [(ngModel)]="lookupValue" placeholder="Select Value">
-                    <ng-option *ngFor="let lookupValue of filters?.Value" [value]="lookupValue">{{lookupValue}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
                 <label>Status</label>
                 <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
                     <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
@@ -35,7 +27,7 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onLookupSearch()" [disabled]="!lookupCode && !lookupValue && !lookupType && !status">Search</button>
+                <button class="custom-button-filters" (click)="onLookupSearch()" [disabled]="!lookupCode && !lookupType && !status">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

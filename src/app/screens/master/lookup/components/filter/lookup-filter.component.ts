@@ -10,7 +10,6 @@ export class LookupFilterComponent implements OnInit {
   @Input() filters : any = [];
   lookupCode : any = undefined;
   lookupType: any = undefined;
-  lookupValue: any = undefined;
   status: any = undefined;
   @Output() getData : EventEmitter<object> = new EventEmitter();
   
@@ -23,7 +22,6 @@ export class LookupFilterComponent implements OnInit {
     let obj = {
       "code" : this.lookupCode || "",
       "lookUpType":this.lookupType || "",
-      "value": this.lookupValue || "",
       "status": this.status || ""
     }
     this.getData.emit(obj)
@@ -32,12 +30,10 @@ export class LookupFilterComponent implements OnInit {
   onClearFilter(){
     this.lookupCode = undefined;
     this.lookupType = undefined;
-    this.lookupValue = undefined;
     this.status = undefined
     let obj = {
       "code" : undefined,
       "lookupType": undefined,
-      "lookupValue": undefined,
       "status": undefined
     }
     this.getData.emit(obj)
