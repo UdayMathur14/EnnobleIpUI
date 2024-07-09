@@ -45,9 +45,9 @@ export class TransporterComponent implements OnInit{
       "locationIds": filters?.locations || APIConstant.locationsListDropdown.map((e: any) => (e.id)),
       "transporterCode": filters?.transCode,
       "transporterName": filters?.transName,
-      "city": filters?.cityCode,
-      "state": filters?.stateCode,
-      "taxationType": filters?.taxationType,
+      "city": "",
+      "state": "",
+      "taxationType": "",
       "status": filters?.status
     }
     this.transporterService.getTransporters(data, offset, count).subscribe((response: any) => {

@@ -27,33 +27,6 @@
         </div>
         <div class="col-2">
             <div class="custom-form-input">
-                <label>City</label>
-                <ng-select class="input-field" [(ngModel)]="cityCode" placeholder="Select City" >
-                    <ng-option *ngFor="let city of filters?.City"
-                        [value]="city">{{city}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
-                <label>State</label>
-                <ng-select class="input-field" [(ngModel)]="stateCode"
-                    placeholder="Select State">
-                    <ng-option *ngFor="let state of filters?.State"
-                        [value]="state">{{state}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
-                <label>Taxation Type</label>
-                <ng-select class="input-field" [(ngModel)]="taxationType" placeholder="Select">
-                    <ng-option *ngFor="let taxation of filters?.TaxationType" [value]="taxation">{{taxation}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
                 <label>Status</label>
                 <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
                     <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
@@ -65,7 +38,7 @@
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
-                    [disabled]="!locationIds && !transCode && !transName && !cityCode && !stateCode && !taxationType && !status">Search</button>
+                    [disabled]="!locationIds && !transCode && !transName && !status">Search</button>
                 <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
                 </div> 
             </div>

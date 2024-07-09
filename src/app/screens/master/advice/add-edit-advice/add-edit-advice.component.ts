@@ -210,11 +210,13 @@ export class AddEditAdviceComponent implements OnInit {
     const locationCode = this.adviceId === 0
       ? this.adviceForm.get('locationCode')!.value
       : this.locationCodeInput.nativeElement.value;
-
+      const locationName = this.locations.find((item: any) => {
+        return item?.id == locationCode
+      })
     if (adviceType && adviceType.name && locationCode) {
       const selectedAdvice = this.transactionTypesList.find((advice: any) => advice.name === adviceType.name);
       if (selectedAdvice) {
-        this.adviceForm.get('batchName')!.setValue(`${selectedAdvice.code}_${locationCode}`);
+        this.adviceForm.get('batchName')!.setValue(`${selectedAdvice.code}_${locationName?.code}`);
       }
     }
   }
