@@ -11,6 +11,7 @@ export class DispatchNoteFiltersComponent {
   @Output() getData: EventEmitter<any> = new EventEmitter();
   dispatchNumber:any = undefined;
   status: any = undefined;
+  frlrNo: any = undefined;
   @Input() filters : any = [];
   locations:any[] = APIConstant.locationsListDropdown;
   locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
@@ -18,13 +19,14 @@ export class DispatchNoteFiltersComponent {
   constructor() { }
 
   handleSearch() {
-    this.getData.emit({ dispatchNumber: this.dispatchNumber,locationIds:this.locationIds, status: this.status })
+    this.getData.emit({ dispatchNumber: this.dispatchNumber,locationIds:this.locationIds, status: this.status, frlrNo: this.frlrNo })
   }
 
   onClearFilter() {
     this.dispatchNumber = null;
-    this.status = undefined
+    this.status = undefined;
+    this.frlrNo = undefined;
     this.locationIds = [];
-    this.getData.emit({ dispatchNumber: null,locationIds:[], status: '' })
+    this.getData.emit({ dispatchNumber: null,locationIds:[], status: '', frlrNo: ''})
   }
 }

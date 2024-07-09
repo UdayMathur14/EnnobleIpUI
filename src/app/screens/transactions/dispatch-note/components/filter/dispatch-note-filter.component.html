@@ -19,6 +19,14 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
+                <label for="">FRLR#</label>
+                <ng-select class="input-field" [(ngModel)]="frlrNo" placeholder="Select FRLR No">
+                    <ng-option *ngFor="let frlr of filters?.FrlrNumber" [value]="frlr">{{frlr}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
                 <label>Status</label>
                 <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
                     <ng-option *ngFor="let status of filters?.status" [value]="status">{{status}}</ng-option>
@@ -29,8 +37,8 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber && !status">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !dispatchNumber"> Clear</button>
+                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber && !status && !frlrNo">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !dispatchNumber && !frlrNo"> Clear</button>
                 </div>
             </div>
         </div>
