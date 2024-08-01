@@ -21,7 +21,7 @@ export class AdviceComponent implements OnInit{
   count: number = 10;
   totalAdvices: number = 0;
   filters: any = [];
-  appliedFilters: any = [];
+  appliedFilters: any = {};
   maxCount: number = Number.MAX_VALUE;
   constructor(private router: Router,
     private adviceService : AdviceTypeService,
@@ -36,8 +36,8 @@ export class AdviceComponent implements OnInit{
   getAdviceTypesList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
       "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
-      "adviceType": filters?.adviceType,
-      "status": filters?.status
+      "adviceType": filters?.adviceType || '',
+      "status": filters?.status || ''
     }
     this.adviceService.getAdviceTypes(data, offset, count).subscribe((response: any) => {
       this.advicesList = response.advices;
@@ -64,16 +64,31 @@ export class AdviceComponent implements OnInit{
     this.headers = headers;
   }
 
+
+
   exportData(fileName: string = "Advice") {
-    const mappedAdviceList = this.advicesList.map(advice => ({
-      location: advice.location.value,
-      adviceType: advice.adviceType,
-      batchName: advice.batchName,
-      maxBiltiNumber: advice.maxBiltiNumber,
-      manualAllocationRequired: advice.manualAllocationRequired,
-      status: advice.status
-    }));
-    this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+    const data = {
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "adviceType": this.appliedFilters?.adviceType || '',
+      "status": this.appliedFilters?.status || ''
+    }
+    
+    this.adviceService.getAdviceTypes(data, 0, this.totalAdvices).subscribe((response: any) => {
+      const adviceListToExport = response.advices
+      const mappedAdviceList = adviceListToExport.map((advice:any) => ({
+        location: advice.location.value,
+        adviceType: advice.adviceType,
+        batchName: advice.batchName,
+        maxBiltiNumber: advice.maxBiltiNumber,
+        manualAllocationRequired: advice.manualAllocationRequired,
+        status: advice.status
+      }));
+      this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
   }
 
   onPageChange(page: number) {

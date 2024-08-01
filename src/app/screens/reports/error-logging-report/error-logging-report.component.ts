@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { ReportService } from '../../../core/service/report.service';
 import { ExportService } from '../../../core/service/export.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-error-logging-report',
   templateUrl: './error-logging-report.component.html',
-  styleUrl: './error-logging-report.component.scss'
+  styleUrl: './error-logging-report.component.scss',
 })
 export class ErrorLoggingReportComponent {
-
   errorLoggings = [];
   isFilters: boolean = true;
   currentPage: number = 1;
@@ -18,35 +18,47 @@ export class ErrorLoggingReportComponent {
   totalReports: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  appliedFilters: any = {};
+  headers: string[] = [];
 
   constructor(
     private router: Router,
     private reportService: ReportService,
     private exportService: ExportService,
-  ) { }
+    private xlsxService: XlsxService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getReports();
   }
 
-  getReports(offset: number = 0, count: number = this.count, filters: any = this.filters) {
-
+  getReports(
+    offset: number = 0,
+    count: number = this.count,
+    filters: any = this.filters
+  ) {
     const data = {
       fromDate: filters?.fromDate || null,
       toDate: filters?.toDate || null,
     };
 
-    this.reportService.getErrorLogging(data, offset, count).subscribe((res: any) => {
-      this.errorLoggings = res.errorLoggings.map((e: any) => ({ ...e, detailDescriptions: e.detailDescriptions.join(',') }));
-      this.totalReports = res.paging.total;
-      this.filters = res.filters;
-    }, error => {
-
-    })
+    this.reportService.getErrorLogging(data, offset, count).subscribe(
+      (res: any) => {
+        this.errorLoggings = res.errorLoggings.map((e: any) => ({
+          ...e,
+          detailDescriptions: e.detailDescriptions.join(','),
+        }));
+        this.totalReports = res.paging.total;
+        this.filters = res.filters;
+      },
+      (error) => {}
+    );
   }
 
   getData(data: any) {
     this.filters = data;
+    this.appliedFilters = data;
     this.currentPage = 1;
     this.getReports(0, this.count, this.filters);
   }
@@ -58,12 +70,41 @@ export class ErrorLoggingReportComponent {
   }
 
   onPageSizeChange(data: any) {
-      this.count = data;
-      this.currentPage = 1;
-      this.getReports(0, this.count, this.filters);
+    this.count = data;
+    this.currentPage = 1;
+    this.getReports(0, this.count, this.filters);
+  }
+
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
+  }
+
+  exportData(fileName: string = 'Error Loggings') {
+    const data = {
+      fromDate: this.appliedFilters?.fromDate || null,
+      toDate: this.appliedFilters?.toDate || null,
+    };
+
+    if (this.totalReports === 0) {
+      this.toastr.error('Can not export with 0 rows!');
     }
 
-  exportData(fileName: string = "Error Logging") {
-    this.exportService.csvExport(fileName);
+    this.reportService.getErrorLogging(data, 0, this.totalReports).subscribe(
+      (res: any) => {
+        const errorLoggingsToExport = res.errorLoggings;
+        const mappedAdviceList = errorLoggingsToExport.map((row: any) => ({
+          responseCode: row?.responseCode,
+          messageSource: row?.messageSource,
+          methodName: row?.methodName,
+          description: row?.description,
+          detailDescriptions: row?.detailDescriptions || [],
+        }));
+        // console.log(mappedAdviceList);
+        // console.log(this.headers);
+        
+        this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+      },
+      (error) => {}
+    );
   }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { ReportService } from '../../../core/service/report.service';
 import { ExportService } from '../../../core/service/export.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-debit-note-report',
@@ -20,6 +21,8 @@ export class DebitNoteReportComponent {
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
   searchedData:any = [];
+  appliedFilters: any = {};
+  headers: string[] = [];
 
   columns = [
     { header: 'Supplier Code', field: 'supplierCode', visible: true },
@@ -41,6 +44,8 @@ export class DebitNoteReportComponent {
   constructor(
     private reportService: ReportService,
     private exportService: ExportService,
+    private xlsxService: XlsxService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -62,6 +67,7 @@ export class DebitNoteReportComponent {
 
   getData(data: any){
     this.searchedData = data;
+    this.appliedFilters = data;
     this.currentPage = 1;
     this.getReports(0, this.count, this.searchedData);
   }
@@ -82,7 +88,41 @@ export class DebitNoteReportComponent {
     this.columns = this.columns.map(col => col.field === column.field ? column : col);
   }
 
-  exportData(fileName: string = "Debit Note Report") {
-    this.exportService.csvExport(fileName);
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
+  }
+
+  exportData(fileName: string = 'Debit Report') {
+    const data = {
+      batchNumber: this.appliedFilters?.batchNumber || null,
+    };
+
+    if (this.totalReports === 0) {
+      this.toastr.error('Can not export with 0 rows!');
+    }
+
+    this.reportService.getDebitNote(data, 0, this.totalReports).subscribe(
+      (res: any) => {
+        const debitReportToExport = res.billTiBillReport;
+        const mappedAdviceList = debitReportToExport.map((row: any) => ({
+          supplierCode: row?.supplierCode,
+          supplierName: row?.supplierName,
+          totalBasicFreightCharges: row?.totalBasicFreightCharges,
+          totalCgstAmount: row?.totalCgstAmount,
+          totalDebitNoteAmount: row?.totalDebitNoteAmount,
+          totalDetentionCharges: row?.totalDetentionCharges,
+          totalGrandTotalAmount: row?.totalGrandTotalAmount,
+          totalIgstAmount: row?.totalIgstAmount,
+          totalNetAmount: row?.totalNetAmount,
+          totalOverLoadCharges: row?.totalOverLoadCharges,
+          totalPointCharges: row?.totalPointCharges,
+          totalSgstAmount: row?.totalSgstAmount,
+          paymentAdviceNo: row?.paymentAdviceNo,
+          paymentTTL: row?.paymentTTL,
+        }));
+        this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+      },
+      (error) => {}
+    );
   }
 }

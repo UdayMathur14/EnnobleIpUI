@@ -1,5 +1,5 @@
 <div id="exportableTable" class="custom-table">
-    <table>
+    <table #table>
         <thead>
           <tr>
             <th *ngFor="let column of columns" [hidden]="!column.visible">{{ column.header }}</th>
