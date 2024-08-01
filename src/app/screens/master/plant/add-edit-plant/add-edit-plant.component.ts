@@ -210,10 +210,14 @@ export class AddEditPlantComponent implements OnInit {
     if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
       this.deletedTransactions.push(deletedTransaction);
     }
-    this.plantData.transactionTypeMapping.splice(index, 1);
+    this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
+      code => code !== transaction.code
+  );
+  this.plantData.transactionTypeMapping.splice(index, 1);
+  this.updateSelectedTransactionCodes();
   }
 
-  getEditPlantData() {
+  getEditPlantData() { 
     let data = {
       "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
       "plantCode": "",
