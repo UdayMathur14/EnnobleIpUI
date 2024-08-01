@@ -1,35 +1,36 @@
 <div class="page-title">
-    <h1>Debit Note Report</h1>
-    <button class="icon-button me-4" placement="bottom-right" [ngbPopover]="popContent" 
-    triggers="manual" #p="ngbPopover" [autoClose]="'outside'">
-      <img src="assets/images/icons/settings.svg" alt="settings" (click)="p.toggle()">
-    </button>
-    <ng-template #popContent>
-      <app-table-columns-settings [columns]="columns" (columnVisibilityChange)="onColumnVisibilityChange($event)"></app-table-columns-settings>
-    </ng-template>
-  </div>
-  <div class="filter-section" >
-    <app-debit-note-report-filter
-    (getData)="getData($event)" [reportFilter] = "reportFilter" 
+  <h1>Debit Note Report</h1>
+  <button class="icon-button me-4" placement="bottom-right" [ngbPopover]="popContent" triggers="manual" #p="ngbPopover"
+    [autoClose]="'outside'">
+    <img src="assets/images/icons/settings.svg" alt="settings" (click)="p.toggle()">
+  </button>
+  <ng-template #popContent>
+    <app-table-columns-settings [columns]="columns"
+      (columnVisibilityChange)="onColumnVisibilityChange($event)"></app-table-columns-settings>
+  </ng-template>
+</div>
+<div class="filter-section">
+  <app-debit-note-report-filter (getData)="getData($event)" [reportFilter]="reportFilter"
     (exportData)="exportData()"></app-debit-note-report-filter>
-  </div>
-  
-  <div class="content-section" [ngClass]="{'isFilters': isFilters}">
-    <div class="grid-table">
-      <div class="table-container">
-    <app-debit-note-report-grid-table [billTiBillReport]="billTiBillReport" [columns]="columns"></app-debit-note-report-grid-table>
+</div>
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters}">
+  <div class="grid-table">
+    <div class="table-container">
+      <app-debit-note-report-grid-table [billTiBillReport]="billTiBillReport"  (exportHeader)="onExportHeader($event)"
+        [columns]="columns"></app-debit-note-report-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <ngb-pagination [collectionSize]="totalReports" [(page)]="currentPage" [pageSize]="count"
         (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
       <p class="mt-2 ms-3"> Items per page:</p>
       <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">
-        <option [value]="5">5</option>
         <option [value]="10">10</option>
-        <option [value]="15">15</option>
         <option [value]="20">20</option>
-        <option [value]="maxCount">All Data</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+        <option [value]="500">500</option>
       </select>
     </div>
-    </div>
   </div>
+</div>

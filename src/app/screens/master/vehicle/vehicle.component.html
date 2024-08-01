@@ -42,11 +42,11 @@
           (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
         <p class="mt-2 ms-3"> Items per page:</p>
         <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">
-          <option [value]="5">5</option>
           <option [value]="10">10</option>
-          <option [value]="15">15</option>
           <option [value]="20">20</option>
-          <option [value]="maxCount">All Data</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+          <option [value]="500">500</option>
         </select>
       </div>
     </div>

@@ -70,8 +70,19 @@ export class VendorComponent implements OnInit{
   }
 
   exportData(fileName: string = "Vendor") {
-    // Map the data to include only the necessary fields
-    const mappedVendorsList = this.vendorsList.map(vendor => ({
+    let data = {
+      "vendorCode": this.appliedFilters?.vendorCode || "",
+      "vendorName": this.appliedFilters?.vendorName || "",
+      "city": this.appliedFilters?.city || "",
+      "state": this.appliedFilters?.state || "",
+      "taxationType": this.appliedFilters?.taxationType || "",
+      "paidByDetail": this.appliedFilters?.paidByDetail || "",
+      "status": this.appliedFilters?.status || ""
+    }
+    this.vendorService.getVendors(data, 0, this.totalVendors).subscribe((response: any) => {
+      const vendorListToExport = response.vendors;
+      // Map the data to include only the necessary fields
+    const mappedVendorsList = vendorListToExport.map((vendor: any) => ({
       vendorCode: vendor.vendorCode,
       vendorName: vendor.vendorName,
       vendorAddress1: vendor.vendorAddress1,
@@ -86,6 +97,11 @@ export class VendorComponent implements OnInit{
   
     }));
     this.xlsxService.xlsxExport(mappedVendorsList, this.headers, fileName);
+      this.loadSpinner = false;
+    }, error => {
+      this.loadSpinner = false;
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   onPageChange(page: number) {

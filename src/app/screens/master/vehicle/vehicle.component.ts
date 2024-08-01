@@ -75,8 +75,18 @@ export class VehicleComponent implements OnInit{
   }
 
   exportData(fileName: string = "Vehicle") {
-    // Map the data to include only the necessary fields
-    const mappedVehiclesList = this.vehiclesList.map(vehicle => ({
+    let data = {
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "vehicleNumber": this.appliedFilters?.vehicleNumber ||  "",
+      "transporter": this.appliedFilters?.transporterId ||  "",
+      "vehicleSizeCode": this.appliedFilters?.vehcileSize ||  "",
+      "status": this.appliedFilters?.status || ""
+    }
+    this.vehicleService.getVehicles(data, 0, this.totalVehicles).subscribe((response:any) => {
+      const vehicleListToExport = response.vehicles;
+
+      // Map the data to include only the necessary fields
+    const mappedVehiclesList = vehicleListToExport.map((vehicle: any) => ({
       vehicleNumber: vehicle.vehicleNumber,
       vehicleSize: vehicle.vehicleSize.value,
       transporterName: vehicle.transporterEntity.transporterName,
@@ -89,6 +99,12 @@ export class VehicleComponent implements OnInit{
       status: vehicle.status
     }));
     this.xlsxService.xlsxExport(mappedVehiclesList, this.headers, fileName);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+    
   }
 
   onPageChange(page: number) {

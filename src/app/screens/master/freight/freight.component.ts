@@ -78,19 +78,36 @@ export class FreightComponent implements OnInit{
   }
 
   exportData(fileName: string = "Freight") {
-    const mappedPlantsList = this.freightList.map(freight => ({
-      freightCode: freight?.freightCode,
-      locations: freight?.locations?.value,
-      source: freight?.source?.value,
-      destination: freight?.destination?.value,
-      vehicleSize: freight?.vehicleSize?.value,
-      freightAmount: freight?.freightAmount,
-      remarks: freight?.remarks,
-      materialRemarks: freight?.materialRemarks,
-      accountsRemarks: freight?.accountsRemarks,
-      status: freight?.status
-    }));
-    this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
+    let data = {
+      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "screenCode": 101,
+      "freightCode": this.appliedFilters?.freightCode,
+      "source": this.appliedFilters?.source,
+      "destination": this.appliedFilters?.destination,
+      "vehicleSize": this.appliedFilters?.vehicleSize,
+      "status": this.appliedFilters?.status
+    }
+    this.freightService.getFreightsList(data, 0, this.totalFreights).subscribe((response: any) => {
+      const freightListToExport = response.freights;
+      const mappedPlantsList = freightListToExport.map((freight: any) => ({
+        freightCode: freight?.freightCode,
+        locations: freight?.locations?.value,
+        source: freight?.source?.value,
+        destination: freight?.destination?.value,
+        vehicleSize: freight?.vehicleSize?.value,
+        freightAmount: freight?.freightAmount,
+        remarks: freight?.remarks,
+        materialRemarks: freight?.materialRemarks,
+        accountsRemarks: freight?.accountsRemarks,
+        status: freight?.status
+      }));
+      this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
+      this.loadSpinner = false;
+    }, error => {
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+    
   }
 
   onPageChange(page: number) {

@@ -9,7 +9,7 @@ import { ExportService } from '../../../core/service/export.service';
 @Component({
   selector: 'app-plant',
   templateUrl: './plant.component.html',
-  styleUrls: ['./plant.component.scss']
+  styleUrls: ['./plant.component.scss'],
 })
 export class PlantComponent implements OnInit {
   loadSpinner: boolean = true;
@@ -25,41 +25,49 @@ export class PlantComponent implements OnInit {
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private plantService: PlantService,
     private exportService: ExportService,
     private lookupService: LookupService,
     private xlsxService: XlsxService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this.getPlantsList();
   }
 
-  getPlantsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
+  getPlantsList(
+    offset: number = 0,
+    count: number = this.count,
+    filters: any = this.appliedFilters
+  ) {
     let data = {
-      "locationIds": filters?.locations || APIConstant.locationsListDropdown.map((e: any) => (e.id)),
-      "plantCode": filters?.plantCode || "",
-      "city": filters?.city || "",
-      "state": filters?.state || "",
-      "auCode": filters?.auCode || "",
-      "siteCode": filters?.siteCode || "",
-      "status": filters?.status || ""
-    }
-    this.plantService.getPlants(data, offset, count).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.totalPlants = response.paging.total;
-      this.filters = response.filters
-      this.loadSpinner = false;
-    }, error => {
-      this.loadSpinner = false;
-    })
+      locationIds:
+        filters?.locations ||
+        APIConstant.locationsListDropdown.map((e: any) => e.id),
+      plantCode: filters?.plantCode || '',
+      city: filters?.city || '',
+      state: filters?.state || '',
+      auCode: filters?.auCode || '',
+      siteCode: filters?.siteCode || '',
+      status: filters?.status || '',
+    };
+    this.plantService.getPlants(data, offset, count).subscribe(
+      (response: any) => {
+        this.plantsList = response.plants;
+        this.totalPlants = response.paging.total;
+        this.filters = response.filters;
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
+      }
+    );
   }
 
   getData(e: any) {
-    console.log(e)
+    console.log(e);
     this.appliedFilters = e;
     this.currentPage = 1;
     this.getPlantsList(0, this.count, this.appliedFilters);
@@ -69,23 +77,44 @@ export class PlantComponent implements OnInit {
     this.headers = headers;
   }
 
-  exportData(fileName: string = "Plants") {
-    // Map the data to include only the necessary fields
-    const mappedPlantsList = this.plantsList.map(plant => ({
-      plantCode: plant.plantCode,
-      plantDesc: plant.plantDesc,
-      plantAddress: plant.plantAddress,
-      state: plant.state.value,
-      city: plant.city.value,
-      panNo: plant.panNo,
-      gstnNo: plant.gstnNo,
-      siteCode: plant.siteCode,
-      locationCode: plant.locations.value,
-      dsc: plant.dsc,
-      dcp: plant.dcp,
-      status: plant.status
-    }));
-    this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
+  exportData(fileName: string = 'Plants') {
+    let data = {
+      locationIds:
+        this.appliedFilters?.locations ||
+        APIConstant.locationsListDropdown.map((e: any) => e.id),
+      plantCode: this.appliedFilters?.plantCode || '',
+      city: this.appliedFilters?.city || '',
+      state: this.appliedFilters?.state || '',
+      auCode: this.appliedFilters?.auCode || '',
+      siteCode: this.appliedFilters?.siteCode || '',
+      status: this.appliedFilters?.status || '',
+    };
+    this.plantService.getPlants(data, 0, this.totalPlants).subscribe(
+      (response: any) => {
+        const plantListToExport = response.plants;
+
+        // Map the data to include only the necessary fields
+        const mappedPlantsList = plantListToExport.map((plant: any) => ({
+          plantCode: plant.plantCode,
+          plantDesc: plant.plantDesc,
+          plantAddress: plant.plantAddress,
+          state: plant.state.value,
+          city: plant.city.value,
+          panNo: plant.panNo,
+          gstnNo: plant.gstnNo,
+          siteCode: plant.siteCode,
+          locationCode: plant.locations.value,
+          dsc: plant.dsc,
+          dcp: plant.dcp,
+          status: plant.status,
+        }));
+        this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
+      }
+    );
   }
 
   onPageChange(page: number) {
@@ -95,8 +124,8 @@ export class PlantComponent implements OnInit {
   }
 
   onPageSizeChange(data: any) {
-      this.count = data;
-      this.currentPage = 1;
-      this.getPlantsList(0, this.count, this.appliedFilters);
-    }
+    this.count = data;
+    this.currentPage = 1;
+    this.getPlantsList(0, this.count, this.appliedFilters);
+  }
 }

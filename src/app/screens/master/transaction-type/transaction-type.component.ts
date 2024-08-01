@@ -59,15 +59,29 @@ export class TransactionTypeComponent implements OnInit {
   }
 
   exportData(fileName: string = "Transaction Type") {
-    const mappedTransactionsList = this.transactionTypesList.map(transaction => ({
-      code: transaction.code,
-      name: transaction.name,
-      glSubCategory: transaction.glSubCategory.value,
-      transactionTypeInterfaceCode: transaction?.transactionTypeInterface?.transactionTypeCode,
-      transactionTypeInterface: transaction?.transactionTypeInterface?.transactionTypeName,
-      status: transaction.status,
-    }));
-    this.xlsxService.xlsxExport(mappedTransactionsList, this.headers, fileName);
+    let data = {
+      "transactionTypeCode": this.appliedFilters?.transactionTypeCode || "",
+      "transactionTypeName": this.appliedFilters?.transactionTypeName || "",
+      "glSubCategory": this.appliedFilters?.glSubCategory || "",
+      "status": this.appliedFilters?.status || ""
+    }
+    this.transactionTypesService.getTransactionTypes(data, 0, this.totalTransactions).subscribe((response:any) => {
+      const transactionTypeListToExport = response?.transactionTypes;
+      const mappedTransactionsList = transactionTypeListToExport.map((transaction: any) => ({
+        code: transaction.code,
+        name: transaction.name,
+        glSubCategory: transaction.glSubCategory.value,
+        transactionTypeInterfaceCode: transaction?.transactionTypeInterface?.transactionTypeCode,
+        transactionTypeInterface: transaction?.transactionTypeInterface?.transactionTypeName,
+        status: transaction.status,
+      }));
+      this.xlsxService.xlsxExport(mappedTransactionsList, this.headers, fileName);
+      this.loadSpinner = false;
+    }, error => {
+      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
+    
   }
 
   onPageChange(page: number) {
