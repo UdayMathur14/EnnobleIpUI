@@ -309,12 +309,12 @@ export interface TransactionTypeListModel {
   lastUpdatedBy: string;
   lastUpdateOn: string;
   messageStatus: null;
-  transactionTypeInterface:{
-    id: number,
-    transactionTypeName: string,
-    transactionTypeCode: string,
+  transactionTypeInterface: {
+    id: number;
+    transactionTypeName: string;
+    transactionTypeCode: string;
     status: string;
-}
+  };
 }
 
 export interface VehicleDataModel {
@@ -443,6 +443,10 @@ export interface VendorDataModel {
   };
 }
 
+export interface VendorModel{
+  
+}
+
 export interface LookupDataModel {
   id: number;
   typeId: number;
@@ -477,41 +481,75 @@ export interface LookupDataModel {
 }
 
 export interface TransporterListingModel {
-    locationId: number,
-    transporterCode: string,
-    transporterName: string,
-    ownerName: string,
-    contactPerson: string,
-    transporterAddress1: string,
-    transporterAddress2: string,
-    city: null,
-    stateCode: null,
-    countryCode: null,
-    postalCode: string,
-    panNo: string,
-    gstnNo: string,
-    transporterPayterm: string,
-    transporterPaytermStatus: string,
-    transporterContactNo: string,
-    transporterMailId: string,
-    gstType: string,
-    regdDetails: string,
-    autoBiltiRequiredFlag: string,
-    autoBiltiStartingCharacter: string,
-    consignorName: string,
-    consignorContactInformation: string,
-    biltiHeaderComments: string,
-    note: string,
-    footer: string,
-    inactiveDate: string,
-    transporterStatus: null,
-    createdBy: string,
-    creationDate: string,
-    lastUpdatedBy: string,
-    lastUpdateOn: string,
-    messageStatus: null,
-    id: number
+  locationId: number;
+  transporterCode: string;
+  transporterName: string;
+  ownerName: string;
+  contactPerson: string;
+  transporterAddress1: string;
+  transporterAddress2: string;
+  city: null;
+  stateCode: null;
+  countryCode: null;
+  postalCode: string;
+  panNo: string;
+  gstnNo: string;
+  transporterPayterm: string;
+  transporterPaytermStatus: string;
+  transporterContactNo: string;
+  transporterMailId: string;
+  gstType: string;
+  regdDetails: string;
+  autoBiltiRequiredFlag: string;
+  autoBiltiStartingCharacter: string;
+  consignorName: string;
+  consignorContactInformation: string;
+  biltiHeaderComments: string;
+  note: string;
+  footer: string;
+  inactiveDate: string;
+  transporterStatus: null;
+  createdBy: string;
+  creationDate: string;
+  lastUpdatedBy: string;
+  lastUpdateOn: string;
+  messageStatus: null;
+  id: number;
 }
+
+export interface TransporterDataModel {
+  actionBy: string;
+  attribute1: string;
+  attribute2: string;
+  attribute3: string;
+  attribute4: string;
+  attribute5: number;
+  attribute6: number;
+  attribute7: number;
+  attribute8: number;
+  attribute9: '';
+  attribute10: '';
+  transporterContactNo: string;
+  transporterMailId: string;
+  ownerName: string;
+  contactPerson: string;
+  regdDetails: string;
+  autoBiltiRequiredFlag: string;
+  autoBiltiStartingCharacter: string;
+  biltiHeaderComments: string;
+  note: string;
+  footer: string;
+  status: string;
+  transporterMappings: [
+    {
+      transportationModeId: number | undefined;
+      taxationTypeId: number | undefined;
+      taxaCodesId: number | undefined;
+      tdsCodesId: number | undefined;
+    }
+  ];
+}
+
 export interface BiltiListingModel {
   biltiNumber: string;
   frlrNumber: number;
@@ -555,7 +593,7 @@ export interface BiltiListingModel {
   lastUpdateOn: string;
   status: string;
 }
-  
+
 export interface DispatchNoteModel {
   actionBy: number;
   attribute1: string;
@@ -571,21 +609,23 @@ export interface DispatchNoteModel {
   supplierId: number;
   vehicleId: number;
   frlrNumber: string;
-  partDetails: [
-    {
-      actionBy?: number;
-      attribute1?: string;
-      attribute2?: string;
-      attribute3?: string;
-      attribute4?: string;
-      attribute5?: number;
-      attribute6?: number;
-      attribute7?: number;
-      attribute8?: number;
-      attribute9?: Date;
-      attribute10?: Date;
-      partId?: number;
-      partQtyId?: number;
-    }
-  ] | undefined;
+  partDetails:
+    | [
+        {
+          actionBy?: number;
+          attribute1?: string;
+          attribute2?: string;
+          attribute3?: string;
+          attribute4?: string;
+          attribute5?: number;
+          attribute6?: number;
+          attribute7?: number;
+          attribute8?: number;
+          attribute9?: Date;
+          attribute10?: Date;
+          partId?: number;
+          partQtyId?: number;
+        }
+      ]
+    | undefined;
 }

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../core/service/lookup.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { APIConstant } from '../../../core/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transporter',
@@ -33,7 +34,8 @@ export class TransporterComponent implements OnInit {
     private transporterService: TransporterService,
     private lookupService: LookupService,
     private toastr: ToastrService,
-    private xlsxService: XlsxService
+    private xlsxService: XlsxService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -149,5 +151,9 @@ export class TransporterComponent implements OnInit {
     this.count = data;
     this.currentPage = 1;
     this.getTransportersList(0, this.count, this.appliedFilters);
+  }
+
+  onCreateTransporter(){
+    this.router.navigate(['master/addEditTransporter/0'])
   }
 }

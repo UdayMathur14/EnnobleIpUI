@@ -19,6 +19,7 @@ export class AddEditLookupComponent implements OnInit {
   loadSpinner: boolean = true;
   lookupTypes: any;
   showFilledDetails: boolean = false;
+  selectedLookupType: any;
 
   constructor(
     private router: Router,
@@ -37,6 +38,11 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: [''],
       attribute3: [''],
       attribute4: [''],
+      attribute5: [''],
+      attribute6: [''],
+      attribute7: [''],
+      attribute8: [''],
+      attribute9: [''],
     })
   }
 
@@ -158,6 +164,10 @@ export class AddEditLookupComponent implements OnInit {
 
   onCancelPress() {
     this.router.navigate(['/master/lookup'])
+  }
+
+  selecetLookupType(e: any){
+    this.selectedLookupType = e?.target?.innerText
   }
 
 }

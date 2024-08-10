@@ -22,6 +22,10 @@ export class AddEditPlantComponent implements OnInit {
   plantsList: any = [];
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
+  profitCenterDropdownData: any = [];
+  businessPlaceDropdownData: any = [];
+  sectionCodeDropdownData: any = [];
+  costCenterDropdownData: any = [];
   selectedTransactionCodes: string[] = [];
   deletedTransactions: any[] = [];
   plantLocationId: number = 0;
@@ -48,6 +52,10 @@ export class AddEditPlantComponent implements OnInit {
       panNo: [''],
       plantType: [''],
       siteCode: [''],
+      profitCenter: [''],
+      businessPlace: [''],
+      sectionCode: [''],
+      costCenter: [''],
       locationId: ['', Validators.required],
       dsc: ['', Validators.required],
       dcp: ['', Validators.required],
@@ -58,9 +66,13 @@ export class AddEditPlantComponent implements OnInit {
   ngOnInit(): void {
     this.baseService.plantSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
-    this.getEditPlantData();
     this.getLocations();
+    this.getProfitCenters();
+    this.getBusinessPlaces();
+    this.getCostCenters();
+    this.getSectionCodes();
     this.getTransactionTypes();
+    this.getEditPlantData();
   }
 
   getLocations() {
@@ -72,6 +84,71 @@ export class AddEditPlantComponent implements OnInit {
     const type = 'Locations';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.locationsDropdownData = res.lookUps;
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+  getProfitCenters() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'ProfitCenter';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.profitCenterDropdownData = res.lookUps;
+      console.log(res.lookUps);
+      
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+
+  getBusinessPlaces() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'BusinessPlace';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.businessPlaceDropdownData = res.lookUps;
+      console.log(res.lookUps);
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+
+  getSectionCodes() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'SectionCode';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.sectionCodeDropdownData = res.lookUps;
+      console.log(res.lookUps);
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+
+  getCostCenters() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'CostCenter';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.costCenterDropdownData = res.lookUps;
+      console.log(res.lookUps);
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
@@ -79,20 +156,26 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   getPlantData(plantId: string) {
+    const location = this.locationsDropdownData.find((loc: any) => loc.id === this.plantLocationId)
+    
     this.plantService.getPlantData(this.plantLocationId,plantId).subscribe((response: any) => {
       this.plantForm.setValue({
         plantCode: response.plantCode,
         plantDesc: response.plantDesc,
         plantAddress: response.plantAddress,
-        city: response.city.value,
-        stateCode: response.state.value,
-        gstnNo: response.gstnNo,
+        city: response.city,
+        stateCode: response.state,
+        gstnNo: response.gstInNo,
         panNo: response.panNo,
         plantType: response.plantType,
         siteCode: response.siteCode,
+        profitCenter: response?.profitCenter,
+        businessPlace: response?.businessPlace,
+        sectionCode: response?.sectionCode,
+        costCenter: response?.costCenter,
         locationId: response.locations.id,
-        dsc: response.dsc,
-        dcp: response.dcp,
+        dsc: location?.attribute3,
+        dcp: location?.attribute4,
         status: response.status,
       });
       this.plantData = response;
@@ -140,11 +223,17 @@ export class AddEditPlantComponent implements OnInit {
     let data = {
       status: this.plantForm.controls['status'].value,
       actionBy: localStorage.getItem("userId"),
-      locationId: (this.plantForm.controls['locationId'].value) || 0,
       dsc: this.plantForm.controls['dsc'].value,
       dcp: this.plantForm.controls['dcp'].value,
+      profitCenter: this.plantForm.controls['profitCenter'].value,
+      businessPlace: this.plantForm.controls['businessPlace'].value,
+      sectionCode: this.plantForm.controls['sectionCode'].value,
+      costCenter: this.plantForm.controls['costCenter'].value,
       transactionTypeDetails: transactionData
     }
+
+    console.log(data);
+    
     this.plantService.updatePlant(locationCode,this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
       this.toastr.success('Plant Update Successfully');

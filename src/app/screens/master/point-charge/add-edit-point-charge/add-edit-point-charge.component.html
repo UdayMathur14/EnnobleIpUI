@@ -1,6 +1,10 @@
 <div class="page-title">
   <h1>{{ pointChargeId ? 'Edit Point Charge' : 'Create Point Charge' }}</h1>
-  <div class="action-buttons">
+  <div class="action-buttons d-flex align-items-start">
+    <div class="action-buttons">
+      <label for="file-upload" class="custom-file-upload custom-button-export pointer">Upload</label>
+      <input type="file" id="file-upload" (change)="onUploadPdf($event)" />
+    </div>
     <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!pointChargeForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel

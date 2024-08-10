@@ -13,11 +13,11 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Type <span class="text-danger" *ngIf="lookupId==0">*</span></label>
-                    <ng-select class="input-field" formControlName="typeId" *ngIf="lookupId>0" [readonly]="true">
+                    <ng-select (click)="selecetLookupType($event)" class="input-field" formControlName="typeId" *ngIf="lookupId>0" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
                             [value]="lookupType.id">{{lookupType.value}}</ng-option>
                     </ng-select>
-                    <ng-select class="input-field" formControlName="typeId" *ngIf="lookupId == 0">
+                    <ng-select (click)="selecetLookupType($event)" class="input-field" formControlName="typeId" *ngIf="lookupId == 0">
                         <ng-option *ngFor="let lookupType of lookupTypes"
                             [value]="lookupType.id">{{lookupType.type}}</ng-option>
                     </ng-select>
@@ -51,66 +51,138 @@
                     </select>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 1 </label>
-                    <input type="text" class="input-field" formControlName="attribute1" />
+
+            <ng-container *ngIf="selectedLookupType === 'TaxCodesRCM'">
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">CGST IOA </label>
+                        <input type="text" class="input-field" formControlName="attribute1" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 2 </label>
-                    <input type="text" class="input-field" formControlName="attribute2" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">SGST IOA </label>
+                        <input type="text" class="input-field" formControlName="attribute2" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 3 </label>
-                    <input type="text" class="input-field" formControlName="attribute3" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">IGST IOA </label>
+                        <input type="text" class="input-field" formControlName="attribute3" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 4 </label>
-                    <input type="text" class="input-field" formControlName="attribute4" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">REVERSE CGST COA </label>
+                        <input type="text" class="input-field" formControlName="attribute4" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 5 </label>
-                    <input type="text" class="input-field" formControlName="attribute1" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">REVERSE SGST COA </label>
+                        <input type="text" class="input-field" formControlName="attribute5" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 6 </label>
-                    <input type="text" class="input-field" formControlName="attribute2" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">REVERSE IGST COA </label>
+                        <input type="text" class="input-field" formControlName="attribute6" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 7 </label>
-                    <input type="text" class="input-field" formControlName="attribute3" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">CGST % </label>
+                        <input type="text" class="input-field" formControlName="attribute7" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 8 </label>
-                    <input type="text" class="input-field" formControlName="attribute4" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">SGST % </label>
+                        <input type="text" class="input-field" formControlName="attribute8" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 9</label>
-                    <input type="text" class="input-field" formControlName="attribute4" />
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">IGST %</label>
+                        <input type="text" class="input-field" formControlName="attribute9" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2 col-md-2">
-                <div class="custom-form-input">
-                    <label for="">Attribute 10</label>
-                    <input type="text" class="input-field" formControlName="attribute4" />
+            </ng-container>
+
+            <ng-container *ngIf="selectedLookupType === 'TaxCodesNonRCM'">
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">SGST IOA </label>
+                        <input type="text" class="input-field" formControlName="attribute2" />
+                    </div>
                 </div>
-            </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">IGST IOA </label>
+                        <input type="text" class="input-field" formControlName="attribute3" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">CGST % </label>
+                        <input type="text" class="input-field" formControlName="attribute7" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">SGST % </label>
+                        <input type="text" class="input-field" formControlName="attribute8" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">IGST %</label>
+                        <input type="text" class="input-field" formControlName="attribute9" />
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="selectedLookupType === 'TdsCodes'">
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">TDS % </label>
+                        <input type="text" class="input-field" formControlName="attribute7" />
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="selectedLookupType === 'Locations'">
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">Consignor Name </label>
+                        <input type="text" class="input-field" formControlName="attribute1" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">Consignor Contact Information </label>
+                        <input type="text" class="input-field" formControlName="attribute2" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">DSC </label>
+                        <input type="text" class="input-field" formControlName="attribute3" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">DCP </label>
+                        <input type="text" class="input-field" formControlName="attribute4" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <div class="custom-form-input">
+                        <label for="">BILTI STARTING CHARACTER </label>
+                        <input type="text" class="input-field" formControlName="attribute5" />
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </form>
 

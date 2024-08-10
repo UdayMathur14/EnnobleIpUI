@@ -53,4 +53,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     CommonUtility.sortTableData(field, this.sortDirection, this.freightList);
   }
 
+  openPDF(freightId: number) {
+    console.log();
+  }
+
 }

@@ -7,6 +7,8 @@
         <th (click)="sortData('source.value')">Source</th>
         <th (click)="sortData('destination.value')">Destination</th>
         <th (click)="sortData('vehicleSize.value')">Vehicle Size</th>
+        <th (click)="sortData('freightAmount')">Previous Freight Amount</th>
+        <th (click)="sortData('freightAmount')">Previous Freight Time</th>
         <th (click)="sortData('freightAmount')">Freight Amount</th>
         <th (click)="sortData('remarks')">Remarks</th>
         <th (click)="sortData('materialRemarks')">Material Remarks</th>
@@ -63,11 +65,25 @@
         <td>{{freight?.source?.value || '-' }}</td>
         <td>{{freight?.destination?.value || '-' }}</td>
         <td>{{freight?.vehicleSize?.value || '-' }}</td>
+        <td class="pointer">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{freight?.historyFreightAmount || '-' }}</u>
+          </span>
+        </td>
+        <td>{{freight?.historyFreightTime || '-' }}</td>
         <td>{{freight?.freightAmount || '-' }}</td>
         <td>{{freight?.remarks || '-' }}</td>
         <td>{{freight?.materialRemarks || '-'}}</td>
         <td>{{freight?.accountsRemarks || '-'}}</td>
         <td>{{freight?.status}}</td>
+        <div class="d-flex justify-content-center">
+          <button class="icon-button mt-4"
+          (click)="openPDF(freight.id)" ngbTooltip="Bilti Link" placement="top">
+          <div class="img-container">
+            <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" />
+          </div>
+        </button>
+        </div>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit"
             (click)="onGoToEditFreight(freight)" />

@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BaseService } from '../../../../core/service/base.service';
 import { PointChargeDataModel } from '../../../../core/model/masterModels.model';
@@ -12,13 +18,12 @@ import { APIConstant } from '../../../../core/constants';
 @Component({
   selector: 'app-add-edit-point-charge',
   templateUrl: './add-edit-point-charge.component.html',
-  styleUrl: './add-edit-point-charge.component.scss'
+  styleUrl: './add-edit-point-charge.component.scss',
 })
 export class AddEditPointChargeComponent implements OnInit {
-
   pointChargeForm: FormGroup;
   pointChargeId: any;
-  pointChargeData!: PointChargeDataModel
+  pointChargeData!: PointChargeDataModel;
   pointChargesList: any = [];
   loadSpinner: boolean = true;
   locationCode: string = '';
@@ -26,14 +31,17 @@ export class AddEditPointChargeComponent implements OnInit {
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
   pointChargeLocationId: number = 0;
+  nocFileBase64: any = '';
+  nocFileName: string = '';
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private _route: ActivatedRoute,
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
     private baseService: BaseService,
     private lookupService: LookupService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {
     this.pointChargeForm = this.formBuilder.group({
       locationCode: [undefined, [Validators.required]],
@@ -41,9 +49,8 @@ export class AddEditPointChargeComponent implements OnInit {
       pointCharge: ['', [Validators.required]],
       sameLocationCharge: ['', [Validators.required]],
       status: ['Active', [Validators.required]],
-    })
+    });
   }
-
 
   ngOnInit(): void {
     if (!this.pointChargeId) {
@@ -52,13 +59,13 @@ export class AddEditPointChargeComponent implements OnInit {
 
     this._route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('pointChargeId')) {
-        this.pointChargeId = paramMap.get('pointChargeId')
+        this.pointChargeId = paramMap.get('pointChargeId');
       } else {
         this.pointChargeId = null;
       }
-    })
-    if(this.pointChargeId > 0){
-      this.getEditPointChargeData()
+    });
+    if (this.pointChargeId > 0) {
+      this.getEditPointChargeData();
     }
     this.getCityLookup();
     this.setLocation();
@@ -71,140 +78,170 @@ export class AddEditPointChargeComponent implements OnInit {
       LastUpdateDate: '',
     };
     const type = 'City';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.pointNameData = res.lookUps;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.baseService.plantSpinner.next(false);
-    });
+    this.lookupService.getLocationsLookup(data, type).subscribe(
+      (res: any) => {
+        this.pointNameData = res.lookUps;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.baseService.plantSpinner.next(false);
+      }
+    );
   }
 
   // GET SPECIFIC POINT CHARGE DATA
   getPointChargeData(pointChargeId: string) {
     if (this.pointChargeId) {
       this.loadSpinner = true;
-      this.pointChargeService.getPointChargeData(this.pointChargeLocationId,pointChargeId).subscribe((response: any) => {
-        this.pointChargeData = response;
-        this.patchPointChargeForm(response);
-        this.loadSpinner = false;
-      }, error => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      })
+      this.pointChargeService
+        .getPointChargeData(this.pointChargeLocationId, pointChargeId)
+        .subscribe(
+          (response: any) => {
+            this.pointChargeData = response;
+            this.patchPointChargeForm(response);
+            this.loadSpinner = false;
+          },
+          (error) => {
+            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+            this.loadSpinner = false;
+          }
+        );
     }
-
   }
 
   //PATCHING VALUE ON EDIT FORM
   patchPointChargeForm(data: any) {
-    this.locationCode = data.locations.value
+    this.locationCode = data.locations.value;
     this.pointChargeForm.patchValue({
       pointName: data.pointName,
       pointCharge: data.pointCharge,
       sameLocationCharge: data.sameLocationCharge,
       status: data.status,
-      locationCode: data.locations.id
+      locationCode: data.locations.id,
     });
     this.checkApprovalStatus(data.approvedByMaterial, data.approvedByAccounts);
   }
 
-
   data = [
-    { name: "United States", code: "USA" },
-    { name: "United States", code: "USA" },
-    { name: "United States", code: "USA" },
-    { name: "United States", code: "USA" }
+    { name: 'United States', code: 'USA' },
+    { name: 'United States', code: 'USA' },
+    { name: 'United States', code: 'USA' },
+    { name: 'United States', code: 'USA' },
   ];
 
   results: any = [];
 
   // NAVIGATING TO MASTER PAGE
   onCancelPress() {
-    this.router.navigate(['/master/pointCharge'])
+    this.router.navigate(['/master/pointCharge']);
   }
 
   filterCountry(e: any) {
-    this.results = this.data.filter((element) => element.name.toLowerCase().indexOf(e.query.toLowerCase()) !== -1)
+    this.results = this.data.filter(
+      (element) =>
+        element.name.toLowerCase().indexOf(e.query.toLowerCase()) !== -1
+    );
   }
 
   // CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
-    const locationCode = this.pointChargeForm.controls['locationCode']?.value
+    const locationCode = this.pointChargeForm.controls['locationCode']?.value;
     this.loadSpinner = true;
     if (this.pointChargeForm.valid && this.pointChargeId) {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
-        sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        actionBy: localStorage.getItem("userId"),
+        sameLocationCharge:
+          this.pointChargeForm.get('sameLocationCharge')?.value,
+        actionBy: localStorage.getItem('userId'),
         status: this.pointChargeForm.get('status')?.value,
-      }
+        fileName: this.nocFileName,
+        fileData: this.nocFileBase64,
+      };
 
-      this.pointChargeService.updatePointCharge(locationCode, this.pointChargeId, data).subscribe((response: any) => {
-        this.pointChargeData = response;
-        this.toastr.success('Point Charge Updated Successfully')
-        this.loadSpinner = false;
-        this.router.navigate(['/master/pointCharge']);
-      }, error => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      })
+      this.pointChargeService
+        .updatePointCharge(locationCode, this.pointChargeId, data)
+        .subscribe(
+          (response: any) => {
+            this.pointChargeData = response;
+            this.toastr.success('Point Charge Updated Successfully');
+            this.loadSpinner = false;
+            this.router.navigate(['/master/pointCharge']);
+          },
+          (error) => {
+            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+            this.loadSpinner = false;
+          }
+        );
     }
     if (this.pointChargeForm.valid && !this.pointChargeId) {
       let data = {
         pointCharge: this.pointChargeForm.get('pointCharge')?.value,
         pointName: this.pointChargeForm.get('pointName')?.value.name,
         cityId: this.pointChargeForm.get('pointName')?.value.id,
-        sameLocationCharge: this.pointChargeForm.get('sameLocationCharge')?.value,
-        actionBy: localStorage.getItem("userId"),
+        sameLocationCharge:
+          this.pointChargeForm.get('sameLocationCharge')?.value,
+        actionBy: localStorage.getItem('userId'),
         status: this.pointChargeForm.get('status')?.value,
-
-      }
+      };
       // }
 
-      this.pointChargeService.createPointCharge(locationCode, data)
-        .subscribe((response: any) => {
+      this.pointChargeService.createPointCharge(locationCode, data).subscribe(
+        (response: any) => {
           this.pointChargeData = response;
-          this.toastr.success('Point Charge Created Successfully')
+          this.toastr.success('Point Charge Created Successfully');
           this.loadSpinner = false;
-          this.router.navigate(['/master/pointCharge'])
-        }, error => {
+          this.router.navigate(['/master/pointCharge']);
+        },
+        (error) => {
           //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
-        })
+        }
+      );
     }
     this.loadSpinner = false;
   }
 
-  setLocation(){
-    if(!this.pointChargeId){
-      this.lookupService.setLocationId(this.pointChargeForm, this.locations, 'locationCode');
+  setLocation() {
+    if (!this.pointChargeId) {
+      this.lookupService.setLocationId(
+        this.pointChargeForm,
+        this.locations,
+        'locationCode'
+      );
     }
   }
 
   getEditPointChargeData() {
     this.loadSpinner = true;
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
-      "screenCode": 101,
-      "pointName": ""
-    }
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-      this.pointChargesList = response.pointCharges;
-      this.getLocationId().then(() => {
-        this.getPointChargeData(this.pointChargeId);
-      });
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+      locationIds: APIConstant.locationsListDropdown.map((e: any) => e.id),
+      screenCode: 101,
+      pointName: '',
+    };
+    this.pointChargeService.getPointCharges(data).subscribe(
+      (response: any) => {
+        this.pointChargesList = response.pointCharges;
+        this.getLocationId().then(() => {
+          this.getPointChargeData(this.pointChargeId);
+        });
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.toastr.error(
+          error.error.details
+            .map((detail: any) => detail.description)
+            .join('<br>')
+        );
+        this.loadSpinner = false;
+      }
+    );
   }
 
   getLocationId(): Promise<void> {
     return new Promise((resolve, reject) => {
       const pointCharge = this.pointChargesList.filter((item: any) => {
-        return item.id == this.pointChargeId
+        return item.id == this.pointChargeId;
       });
       if (pointCharge.length > 0) {
         this.pointChargeLocationId = pointCharge[0].locations.id;
@@ -216,14 +253,27 @@ export class AddEditPointChargeComponent implements OnInit {
   }
 
   checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
-    if (approvedByAccounts == null || approvedByMaterial == null ||
+    if (
+      approvedByAccounts == null ||
+      approvedByMaterial == null ||
       approvedByMaterial.includes('Rejected By') ||
-      approvedByAccounts.includes('Rejected By')) {
+      approvedByAccounts.includes('Rejected By')
+    ) {
       this.pointChargeForm.get('status')?.disable();
     } else {
       this.pointChargeForm.get('status')?.enable();
     }
   }
+
+  onUploadPdf(evt: any) {
+    const file = evt.target.files[0];
+    this.nocFileName = file.name;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = reader.result;
+      this.nocFileBase64 = base64String;
+      this.toastr.success('PDF Added', 'Success');
+    };
+  }
 }
-
-

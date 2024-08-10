@@ -29,6 +29,8 @@ export class AddEditFreightComponent implements OnInit {
   locations: any[] = APIConstant.locationsListDropdown;
   freightList: any = [];
   freightLocationId: number = 0;
+  nocFileBase64 : any = '';
+  nocFileName: string = '';
 
   constructor(
     private router: Router,
@@ -50,7 +52,7 @@ export class AddEditFreightComponent implements OnInit {
       matApprovalOn: [''],
       accApproval: [''],
       accApprovalOn: [''],
-      remarks: [''],
+      remarks: ['']
     });
   }
 
@@ -87,6 +89,7 @@ export class AddEditFreightComponent implements OnInit {
         accApproval: response.approvedByAccounts,
         accApprovalOn: response.approvedByAccountsOn,
         remarks: response.remarks,
+        
       });
       this.checkApprovalStatus(response.approvedByMaterial, response.approvedByAccounts);
 
@@ -124,7 +127,9 @@ export class AddEditFreightComponent implements OnInit {
       accApproval: null,
       accApprovalOn: null,
       remarks: null,
-      actionBy: localStorage.getItem("userId")
+      actionBy: localStorage.getItem("userId"),
+      fileName: this.nocFileName,
+      fileData: this.nocFileBase64
     }
     if (this.freightId > 0) {
       this.updateFreight(data);
@@ -238,5 +243,18 @@ export class AddEditFreightComponent implements OnInit {
         reject('No matching freight found');
       }
     });
+  }
+
+  
+  onUploadPdf(evt: any) {
+    const file = evt.target.files[0];
+    this.nocFileName = file.name;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = reader.result;
+      this.nocFileBase64 = base64String;
+      this.toastr.success('PDF Added', 'Success');
+    };
   }
 }
