@@ -26,10 +26,9 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Point Name <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="pointName" *ngIf="pointChargeId" readonly />
-          <ng-select name="" id="" formControlName="pointName" *ngIf="!pointChargeId">
-            <ng-option *ngFor="let pointName of pointNameData"
-              [value]="{name: pointName.value, id: pointName.id}">{{pointName.value}}</ng-option>
+          <ng-select name="" id="" formControlName="pointName" [readonly]="pointChargeId">
+            <ng-option *ngFor="let destination of destinations"
+            [value]="{name: destination.value, id: destination.id}">{{destination.value}}</ng-option>
           </ng-select>
         </div>
       </div>

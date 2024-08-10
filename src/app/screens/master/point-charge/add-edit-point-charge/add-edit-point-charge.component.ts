@@ -13,7 +13,8 @@ import { PointChargeDataModel } from '../../../../core/model/masterModels.model'
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../core/service/lookup.service';
-import { APIConstant } from '../../../../core/constants';
+import { APIConstant, getDropdownDatas } from '../../../../core/constants';
+import { FreightService } from '../../../../core/service/freight.service';
 
 @Component({
   selector: 'app-add-edit-point-charge',
@@ -33,6 +34,7 @@ export class AddEditPointChargeComponent implements OnInit {
   pointChargeLocationId: number = 0;
   nocFileBase64: any = '';
   nocFileName: string = '';
+  destinations: any = [];
 
   constructor(
     private router: Router,
@@ -41,7 +43,8 @@ export class AddEditPointChargeComponent implements OnInit {
     private toastr: ToastrService,
     private baseService: BaseService,
     private lookupService: LookupService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private freightService: FreightService
   ) {
     this.pointChargeForm = this.formBuilder.group({
       locationCode: [undefined, [Validators.required]],
@@ -69,6 +72,7 @@ export class AddEditPointChargeComponent implements OnInit {
     }
     this.getCityLookup();
     this.setLocation();
+    this.getDestinationDropdownData();
   }
 
   getCityLookup() {
@@ -145,6 +149,9 @@ export class AddEditPointChargeComponent implements OnInit {
 
   // CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
+    const cityData = this.destinations.find((item: any) => item.value == this.pointChargeForm.value.pointName);
+    const cityId = cityData?.id
+    
     const locationCode = this.pointChargeForm.controls['locationCode']?.value;
     this.loadSpinner = true;
     if (this.pointChargeForm.valid && this.pointChargeId) {
@@ -155,6 +162,7 @@ export class AddEditPointChargeComponent implements OnInit {
           this.pointChargeForm.get('sameLocationCharge')?.value,
         actionBy: localStorage.getItem('userId'),
         status: this.pointChargeForm.get('status')?.value,
+         cityId: cityId,
         fileName: this.nocFileName,
         fileData: this.nocFileBase64,
       };
@@ -183,6 +191,8 @@ export class AddEditPointChargeComponent implements OnInit {
           this.pointChargeForm.get('sameLocationCharge')?.value,
         actionBy: localStorage.getItem('userId'),
         status: this.pointChargeForm.get('status')?.value,
+        fileName: this.nocFileName,
+        fileData: this.nocFileBase64
       };
       // }
 
@@ -264,6 +274,19 @@ export class AddEditPointChargeComponent implements OnInit {
       this.pointChargeForm.get('status')?.enable();
     }
   }
+
+  getDestinationDropdownData() {
+    let data = {
+      "CreationDate": "",
+      "LastUpdatedBy": "",
+      "LastUpdateDate": ""
+    }
+    const type = 'Destination'
+    this.freightService.getDropdownData(data, type).subscribe((res: any) => {
+      this.destinations = res.lookUps
+    })
+  }
+
 
   onUploadPdf(evt: any) {
     const file = evt.target.files[0];
