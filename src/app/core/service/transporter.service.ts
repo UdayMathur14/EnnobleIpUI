@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, transporter, transporterData, updateTransporter, getDropdownDatas } from "../constants";
+import { APIConstant, transporter, transporterData, updateTransporter, getDropdownDatas, createTransporter } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -26,6 +26,10 @@ export class TransporterService extends CRUDService<PlantRequest> {
 
     updateTransporter(transporterId : string, data : object){
         return this.put(updateTransporter(this.locationIds, transporterId), data);
+    }
+
+    createTransporter(data : object){
+        return this.post(createTransporter(this.locationIds), data);
     }
 
     getDropdownData(data : object, type: string){

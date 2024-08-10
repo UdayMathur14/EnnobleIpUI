@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransporterService } from '../../../../core/service/transporter.service';
 import { APIConstant } from '../../../../core/constants';
 import { TransporterDataModel, TransporterListingModel } from '../../../../core/model/masterModels.model';
+import { VendorService } from '../../../../core/service/vendor.service';
 
 @Component({
   selector: 'app-add-edit-transporter',
@@ -27,12 +28,15 @@ export class AddEditTransporterComponent implements OnInit {
   transporterData!: TransporterDataModel;
   transporterMappings: any[] = [];
   transporters: any[] = [];
-
+  vendorsList: any = [];
+  count: number = Number.MAX_VALUE;
+  selectedVendor: any = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private _Activatedroute: ActivatedRoute,
-    private transporterService: TransporterService) {
+    private transporterService: TransporterService,
+    private vendorService: VendorService) {
     this.transporterForm = this.formBuilder.group({
       transporterCode: [''],
       transporterName: [''],
@@ -75,7 +79,7 @@ export class AddEditTransporterComponent implements OnInit {
     // Enable or disable status control based on queryData for Create and Update
     this.getTransporterModeDropdownData();
     this.getTaxationcode();
-
+    this.getVendorsList();
     this.getTransporterModeDropdownData();
     this.getRCMNonRCMTypeDropdownData();
     this.getTdsCodesDropdownData();
@@ -113,8 +117,18 @@ export class AddEditTransporterComponent implements OnInit {
         igst: response.taxationType?.attribute7,
         taxationCode: response.taxationType?.id
       });
-
+      this.getLocationData(response.locationId)
       this.transporterData = response
+      this.transporterMappings = response.transporterMappings.map((mapping: any) => {
+        console.log(mapping);
+        
+        return {
+          transactionType: mapping.transactionType.code || {},
+          paidByDetails: mapping.paidByDetails.code || {},
+          iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
+          id: mapping.paidByDetails.id || {},
+        };
+      });
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -129,27 +143,37 @@ export class AddEditTransporterComponent implements OnInit {
 
     const data = {
       status: this.transporterForm.controls['status'].value,
-      actionBy: localStorage.getItem("userId"),
+      actionBy: localStorage.getItem('userId'),
       ownerName: this.transporterForm.controls['ownerName'].value,
       contactPerson: this.transporterForm.controls['contactPerson'].value,
-      transporterAddress1: this.transporterForm.controls['address1'].value,
-      transporterAddress2: this.transporterForm.controls['address2'].value,
-      transporterContactNo: this.transporterForm.controls['contactNumber'].value,
-      transporterMailId: this.transporterForm.controls['transporterMailId'].value,
+      transporterContactNo:
+        this.transporterForm.controls['contactNumber'].value,
+      transporterMailId:
+        this.transporterForm.controls['transporterMailId'].value,
       regdDetails: this.transporterForm.controls['regdDetails'].value,
-      autoBiltiRequiredFlag: this.transporterForm.controls['autoBiltiReq'].value,
-      autoBiltiStartingCharacter: this.transporterForm.controls['autoBiltiCharactor'].value,
-      biltiHeaderComments: this.transporterForm.controls['biltiHeaderComment'].value,
+      autoBiltiRequiredFlag:
+        this.transporterForm.controls['autoBiltiReq'].value,
+      autoBiltiStartingCharacter:
+        this.transporterForm.controls['autoBiltiCharactor'].value,
+      biltiHeaderComments:
+        this.transporterForm.controls['biltiHeaderComment'].value,
       note: this.transporterForm.controls['note'].value,
       footer: this.transporterForm.controls['footer'].value,
-      transporterMappings: this.transporterData.transporterMappings
-    }
+      transporterMappings: this.transporterMappings.map((mapping: any) => {
+        console.log(mapping);
+        return {
+          transportationModeId: mapping?.transportationMode?.id,
+          taxationTypeId: mapping?.taxationType?.id,
+          taxaCodesId: mapping?.taxaCode?.id,
+          tdsCodesId: mapping?.tdsCode.id,
+        };
+      }),
+    };
 
     if (this.queryData) {
       this.updateTransporter(data);
-    }
-    else {
-      this.createNewTransporter(data);
+    } else {
+      this.createNewTransporter()
     }
   }
 
@@ -166,8 +190,60 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   //CREATING NEW TRANSPORTER
-  createNewTransporter(data: any) {
-
+  createNewTransporter() {
+    const data = {
+      status: this.transporterForm.controls['status'].value,
+      actionBy: localStorage.getItem('userId'),
+      ownerName: this.transporterForm.controls['ownerName'].value,
+      contactPerson: this.transporterForm.controls['contactPerson'].value,
+      transporterAddress1: this.transporterForm.controls['address1'].value,
+      transporterAddress2: this.transporterForm.controls['address2'].value,
+      transporterContactNo:
+        this.transporterForm.controls['contactNumber'].value,
+      transporterMailId:
+        this.transporterForm.controls['transporterMailId'].value,
+      regdDetails: this.transporterForm.controls['regdDetails'].value,
+      autoBiltiRequiredFlag:
+        this.transporterForm.controls['autoBiltiReq'].value,
+      autoBiltiStartingCharacter:
+        this.transporterForm.controls['autoBiltiCharactor'].value,
+      biltiHeaderComments:
+        this.transporterForm.controls['biltiHeaderComment'].value,
+      note: this.transporterForm.controls['note'].value,
+      footer: this.transporterForm.controls['footer'].value,
+      transporterName: this.transporterForm.controls['transporterName'].value,
+      transporterPaymentGroup: this.selectedVendor?.vendorPaymentGroup || '',
+      transporterPaymentTermsName:
+        this.selectedVendor?.vendorPaymentTermsName || '',
+      transporterPaytermDays: this.selectedVendor?.vendorPaytermDays || 0,
+      transporterPaytermMethodCode:
+        this.selectedVendor?.vendorPaytermMethodCode || '',
+      transporterPaytermStatus: this.selectedVendor?.vendorPaytermStatus || '',
+      country: this.selectedVendor?.country || '',
+      city: this.selectedVendor?.city || '',
+      state: this.selectedVendor?.state || '',
+      gstInNo: this.transporterForm.controls['gst'].value,
+      panNo: this.transporterForm.controls['pan'].value,
+      postalCode: this.transporterForm.controls['postalCode'].value,
+      transporterCode: this.selectedVendor?.vendorCode || '',
+      transporterMappings: this.transporterMappings.map((mapping: any) => {
+        console.log(mapping);
+        return {
+          transportationModeId: mapping?.transportationMode?.id,
+          taxationTypeId: mapping?.taxationType?.id,
+          taxaCodesId: mapping?.taxaCode?.id,
+          tdsCodesId: mapping?.tdsCode.id,
+        };
+      }),
+    };
+    this.transporterService.createTransporter(data).subscribe((response: any) => {
+      this.loadSpinner = false;
+      this.toastr.success('Transporter Updated Successfully');
+      this.router.navigate(['/master/transporter']);
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
+    })
   }
 
   onCancelPress() {
@@ -286,8 +362,26 @@ export class AddEditTransporterComponent implements OnInit {
     return item.id == data;
     })
     this.transporterForm.patchValue({
-      autoBiltiCharactor: locationData.attribute3,
+      autoBiltiCharactor: locationData?.attribute11,
+      consignorName: locationData?.attribute1,
+      consignorContactInfo: locationData?.attribute2,
+
     })
+  }
+
+  onTransporterChange(event: any){
+    this.selectedVendor = this.vendorsList.find((item: any) => item.id == event)
+    this.transporterForm.patchValue({
+      transporterName: this.selectedVendor?.vendorName,
+      address1: this.selectedVendor?.vendorAddress1,
+      address2: this.selectedVendor?.vendorAddress2,
+      postalCode: this.selectedVendor?.postalCode,
+      pan: this.selectedVendor?.panNo,
+      gst: this.selectedVendor?.gstInNo,
+      contactNumber: this.selectedVendor?.contactNumber,
+      transporterMailId: this.selectedVendor?.email
+    })
+    
   }
 
 
@@ -316,17 +410,17 @@ export class AddEditTransporterComponent implements OnInit {
   onTransporterModeSelect(e: any, index: any) {
     console.log(e);
     
-    this.transporterData.transporterMappings[index].transportationModeId = e?.typeId;
+    this.transporterMappings[index].transportationModeId = e?.typeId;
   }
 
   onTransporterModeClear(ind: number) {
-    this.transporterData.transporterMappings[ind].transportationModeId = undefined;
+    this.transporterMappings[ind].transportationModeId = undefined;
   }
 
   onRcmNonRcmSelect(e: any, index: any) {
     console.log(e);
     
-    this.transporterData.transporterMappings[index].taxationTypeId = e?.typeId;
+    this.transporterMappings[index].taxationTypeId = e?.typeId;
     if (e?.value === "RCM") {
       this.getTaxCodesRcmDropdownData();
     }else{
@@ -335,27 +429,27 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   onRcmNonRcmClear(ind: number) {
-    this.transporterData.transporterMappings[ind].taxationTypeId = 0;
+    this.transporterMappings[ind].taxationTypeId = 0;
   }
 
   onTaxCodeSelect(e: any, index: any) {
     console.log(e);
     
-    this.transporterData.transporterMappings[index].taxaCodesId = e?.typeId;
+    this.transporterMappings[index].taxaCodesId = e?.typeId;
   }
 
   onTaxCodeClear(ind: number) {
-    this.transporterData.transporterMappings[ind].taxaCodesId = undefined;
+    this.transporterMappings[ind].taxaCodesId = undefined;
   }
 
   onTdsCodeSelect(e: any, index: any) {
     console.log(e);
     
-    this.transporterData.transporterMappings[index].tdsCodesId = e?.typeId;
+    this.transporterMappings[index].tdsCodesId = e?.typeId;
   }
 
   onTdsCodeClear(ind: number) {
-    this.transporterData.transporterMappings[ind].tdsCodesId = undefined;
+    this.transporterMappings[ind].tdsCodesId = undefined;
   }
 
   onDeleteTransaction(transaction: any, index: number) {
@@ -370,9 +464,28 @@ export class AddEditTransporterComponent implements OnInit {
   //   this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
   //     code => code !== transaction.code
   // );
-  this.transporterData.transporterMappings.splice(index, 1);
+  this.transporterMappings.splice(index, 1);
   // this.updateSelectedTransactionCodes();
   }
 
-
+  getVendorsList(offset: number = 0, count: number = this.count) {
+    let data = {
+      "vendorCode": "",
+      "vendorName": "",
+      "city": "",
+      "state":  "",
+      "taxationType":  "",
+      "paidByDetail":  "",
+      "status": ""
+    }
+    this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {
+      this.vendorsList = response.vendors;
+      console.log(this.vendorsList);
+      this.loadSpinner = false;
+      // this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
+    }, error => {
+      this.loadSpinner = false;
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
 }

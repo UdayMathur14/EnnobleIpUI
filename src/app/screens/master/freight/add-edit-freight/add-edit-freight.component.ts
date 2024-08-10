@@ -113,6 +113,8 @@ export class AddEditFreightComponent implements OnInit {
 
   //FUNCTION EXECUTED ON SAVE BUTTON CLICK
   onPressSave() {
+    console.log(this.freightForm.value);
+    
     this.loadSpinner = true;
     let data = {
       freightCode: this.freightForm.controls['freightCode'].value,
@@ -248,6 +250,13 @@ export class AddEditFreightComponent implements OnInit {
   
   onUploadPdf(evt: any) {
     const file = evt.target.files[0];
+    const maxSizeInBytes = 2 * 1024 * 1024;
+  
+    if (file.size > maxSizeInBytes) {
+      this.toastr.error('File size should be less than 2MB', 'Error');
+      return;
+    }
+  
     this.nocFileName = file.name;
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -257,4 +266,5 @@ export class AddEditFreightComponent implements OnInit {
       this.toastr.success('PDF Added', 'Success');
     };
   }
+  
 }

@@ -61,6 +61,7 @@ export const createAdviceType = (locationId: any) => `v1/advice/create/${locatio
 export const transporter = (offset: any, count: number) => `v1/transporter/search?offset=${offset}&count=${count}`;
 export const transporterData = (locationId: any, transporterId: any) => `v1/transporter/${locationId}/${transporterId}`;
 export const updateTransporter = (locationId: any, transporterId: any) => `v1/transporter/update/${locationId}/${transporterId}`;
+export const createTransporter = (locationId: any) => `v1/transporter/create/${locationId}`;
 export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
 export const commonTransaction= (locationId:any, id: any) => `v1/commonTransaction/updateStatus/${locationId}/${id}`;   
 export const bilti = (offset: any, count: number) => `v1/bilti-creation/search?offset=${offset}&count=${count}`;

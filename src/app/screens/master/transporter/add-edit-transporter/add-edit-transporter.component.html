@@ -22,15 +22,15 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
           <label for="">Transporter Code</label>
-          <ng-select [searchable]="true" formControlName="transporterCod" placeholder="Select transporter" (change)="getLocationData($event)">
-            <ng-option *ngFor="let transporter of transporters" [value]="transporter.id">{{transporter.value}}</ng-option>
+          <ng-select [searchable]="true" formControlName="transporterCode" placeholder="Select transporter" (change)="onTransporterChange($event)">
+            <ng-option *ngFor="let transporter of vendorsList" [value]="transporter.id">{{transporter.vendorCode}} ({{transporter.vendorName}})</ng-option>
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
           <label for="">Transporter Name</label>
           <input type="text" class="input-field" formControlName="transporterName" readonly />
@@ -70,25 +70,25 @@
         <div class="custom-form-input">
           <label for="">Contact Number <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
-            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
+            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Email <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="transporterMailId" />
+          <input type="text" class="input-field" formControlName="transporterMailId" readonly />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Consigner Name</label>
-          <input type="text" class="input-field" formControlName="consignorName" />
+          <input type="text" class="input-field" formControlName="consignorName" readonly />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Consigner Contact</label>
-          <input type="text" class="input-field" formControlName="consignorContactInfo" />
+          <input type="text" class="input-field" formControlName="consignorContactInfo" readonly />
         </div>
       </div>
 
@@ -181,7 +181,7 @@
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input mb-0">
-                <ng-select class="input-field" [(ngModel)]="transaction.transportationMode.value"
+                <ng-select class="input-field" [(ngModel)]="transaction.transportationMode"
                   (change)="onTransporterModeSelect($event, ind)" (clear)="onTransporterModeClear(ind)">
                   <ng-option *ngFor="let mode of transporterMode" [value]="mode">
                     {{mode.value}}
