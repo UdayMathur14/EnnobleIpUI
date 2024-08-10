@@ -30,7 +30,7 @@ export class AddEditVendorComponent implements OnInit {
   transactionMappings: any[] = [];
   transporterMode: any[] = [];
   rcmNonRcmType: any[] = [];
-  taxCodes: any[] = [];
+  taxCodes: any = [];
   tdsCodes: any[] = [];
   paidByDetails: any[] = [];
   transactionTypes: any[] = [];
@@ -139,10 +139,10 @@ export class AddEditVendorComponent implements OnInit {
       taxCodeId: this.vendorForm.get('taxCodeId')?.value || 0,
       tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
       status: this.vendorForm.get('status')?.value,
-      vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => {         // to change
-        return {                                                                          // undefined values
-          transactionTypeId: mapping?.transactionType?.iTransactionTypeId | 0,                        // to 0
-          paidByDetailsId: mapping?.paidByDetails?.typeId | 0
+      vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
+        return {                                                                          
+          transactionTypeId: mapping?.transactionType?.iTransactionTypeId || mapping?.iTransactionTypeId,                        
+          paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id
         }
       })
     };
@@ -209,6 +209,12 @@ export class AddEditVendorComponent implements OnInit {
     }else{
       this.getTaxCodesNonRcmDropdownData();
     }
+    setTimeout(() => {
+      this.onSelectTdsCode(data?.tdsCodes?.id)
+      this.onChangeTaxationCode(data?.taxCodeId)
+    },1000)
+
+    this.onSelectTdsCode(data?.tdsCodes?.id)
     this.vendorForm.patchValue({
       vendorCode: data?.vendorCode,
       vendorName: data.vendorName,
@@ -236,24 +242,39 @@ export class AddEditVendorComponent implements OnInit {
       // rcmNonRcm: data.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
     });
 
-    this.transactionMappings = data?.vendorMappingModels
-    
+    if (data?.vendorMappingModels) {
+      this.transactionMappings = data.vendorMappingModels.map((mapping: any) => {
+        return {
+          transactionType: mapping.transactionType.code || {},
+          paidByDetails: mapping.paidByDetails.code || {},
+          iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
+          id: mapping.paidByDetails.id || {},
+        };
+      });
+    }
+     
   }
 
   onOptionSelected(event: any) {
+    this.vendorForm.patchValue({
+      taxCodeId: null
+    })
     const selectedLookup = this.rcmNonRcmType.find(
       (lookup: any) => lookup.id === event
     );
-
     if (selectedLookup?.code === 'RCM') {
-      this.getTaxCodesRcmDropdownData();
+     this.getTaxCodesRcmDropdownData();
     } else {
       this.getTaxCodesNonRcmDropdownData();
     }
-    this.vendorForm.patchValue({
-      cgst: selectedLookup.attribute7,
-      sgst: selectedLookup.attribute8,
-      igst: selectedLookup.attribute9,
+  }
+
+  onChangeTaxationCode(event: any){
+    const selectedTaxCode = this.taxCodes.find((item: any) => item.id == event)
+      this.vendorForm.patchValue({
+      cgst: selectedTaxCode?.attribute5 || 0,
+      sgst: selectedTaxCode?.attribute6 || 0,
+      igst: selectedTaxCode?.attribute7 || 0,
     });
   }
 
@@ -263,7 +284,7 @@ export class AddEditVendorComponent implements OnInit {
     );
 
     this.vendorForm.patchValue({
-      tds: selectedLookup?.attribute7
+      tds: selectedLookup?.attribute5
     })
   }
 
@@ -321,6 +342,7 @@ export class AddEditVendorComponent implements OnInit {
       this.rcmNonRcmType = res.lookUps;
     });
   }
+
   getTaxCodesRcmDropdownData() {
     const data = {
       CreationDate: '',
@@ -363,11 +385,10 @@ export class AddEditVendorComponent implements OnInit {
       paidByDetails: undefined,
     };
     this.transactionMappings.push(obj);
+    
   }
 
   onTransactionTypeSelect(e: any, index: any) {
-    console.log(e);
-    
     this.transactionMappings[index].transactionType = e;
   }
 
@@ -395,7 +416,7 @@ export class AddEditVendorComponent implements OnInit {
     //   this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
     //     code => code !== transaction.code
     // );
-    this.transporterData.transporterMappings.splice(index, 1);
+    this.transactionMappings.splice(index, 1);
     // this.updateSelectedTransactionCodes();
   }
 }

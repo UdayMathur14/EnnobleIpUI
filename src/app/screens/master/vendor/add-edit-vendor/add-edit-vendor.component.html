@@ -115,7 +115,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Taxation Code <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="taxCodeId">
+          <ng-select name="" id="" formControlName="taxCodeId" (change)="onChangeTaxationCode($event)">
             <ng-option *ngFor="let code of taxCodes" [value]="code.id">{{code.code}}</ng-option>
           </ng-select>
         </div>
@@ -186,7 +186,7 @@
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input mb-0">
-                <ng-select class="input-field" [(ngModel)]="transaction.transactionType.code"
+                <ng-select class="input-field" [(ngModel)]="transaction.transactionType"
                   (change)="onTransactionTypeSelect($event, ind)" (clear)="onTransactionTypeClear(ind)">
                   <ng-option *ngFor="let mode of transactionTypes" [value]="mode">
                     {{mode.code}}
@@ -198,7 +198,7 @@
           <td>
             <div class="col-lg-6 col-md-6">
               <div class="custom-form-input mb-0">
-                <ng-select class="input-field" [(ngModel)]="transaction.paidByDetails.code"
+                <ng-select class="input-field" [(ngModel)]="transaction.paidByDetails"
                   (change)="onPaidByDetailsSelect($event, ind)" (clear)="onPaidByDetailsClear(ind)">
                   <ng-option *ngFor="let detail of paidByDetails" [value]="detail">
                     {{detail.code}}
