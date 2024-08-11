@@ -50,6 +50,8 @@ export class AddEditDispatchNoteComponent {
   // frlrDate!: NgbDateStruct | null;
   today = inject(NgbCalendar).getToday();
   frlrDate: string = '';
+  vehicleData: any = [];
+  transporterMode: any = [];
 
   constructor(
     private router: Router,
@@ -97,12 +99,12 @@ export class AddEditDispatchNoteComponent {
       supplierAddress: [''],
       vehicleNumber: ['', [Validators.required]],
       vehicleSize: [''],
-      frlrNumber: ['', [Validators.required]],
+      frlrNumber: [''],
       status: ['Active'],
       transporterCode: ['', [Validators.required]],
       transporterName: [''],
       transporterMode: [''],
-      frlrDate: ['', [Validators.required]],
+      frlrDate: [''],
       partdetails: this.fb.array([], Validators.required),
     });
   }
@@ -536,10 +538,14 @@ export class AddEditDispatchNoteComponent {
     const transporters = this.transportersList.find((item: any) => {
      return item.id == data;
     })
+    this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == data);
+    this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode)
+    console.log(this.transporterMode);
+    
     this.addOrEditDispatchNoteFormGroup.patchValue({
-      transporterName: transporters?.transporterName,
-      transporterMode: transporters?.transporterMode.value
+      transporterName: transporters?.transporterName
     })
+   
   }
 
   onDateSelect(type: string, e: any) {

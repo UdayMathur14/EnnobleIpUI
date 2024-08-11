@@ -45,40 +45,6 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Vehicle Number <span class="text-danger">*</span></label>
-          <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
-            placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
-            <ng-option *ngFor="let vehicle of activeVehiclesLists"
-              [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Vehicle Size</label>
-          <input formControlName="vehicleSize" type="text" class="input-field" readonly value="17" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">FRLR# <span class="text-danger">*</span></label>
-          <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">FRLR Date <span class="text-danger">*</span></label>
-          <div class="input-group datepicker">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
-              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
-            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
-              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
           <label for=""> Transporter Code <span class="text-danger">*</span></label>
           <ng-select (change)="onTransporterSelection($event)" formControlName="transporterCode" class="input-field"
             placeholder="Select Transporter Code">
@@ -96,7 +62,45 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Mode <span class="text-danger">*</span></label>
-          <input formControlName="transporterMode" type="text" class="input-field" readonly />
+          <ng-select formControlName="transporterMode" class="input-field"
+          placeholder="Select Transporter Code">
+          <ng-option *ngFor="let mode of transporterMode"
+            [value]="mode.id">{{mode.value}}</ng-option>
+        </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vehicle Number <span class="text-danger">*</span></label>
+          <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
+            placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
+            <ng-option *ngFor="let vehicle of vehicleData"
+              [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vehicle Size</label>
+          <input formControlName="vehicleSize" type="text" class="input-field" readonly value="17" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">FRLR# </label>
+          <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">FRLR Date</label>
+          <div class="input-group datepicker">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
+              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
