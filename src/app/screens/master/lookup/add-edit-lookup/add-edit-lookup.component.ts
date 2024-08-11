@@ -43,6 +43,8 @@ export class AddEditLookupComponent implements OnInit {
       attribute7: [''],
       attribute8: [''],
       attribute9: [''],
+      attribute11: [''],
+      attribute12: [''],
     })
   }
 
@@ -103,6 +105,11 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: this.lookupForm.controls['attribute2'].value,
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
+      attribute5: this.lookupForm.controls['attribute5'].value || 0,
+      attribute6: this.lookupForm.controls['attribute6'].value || 0,
+      attribute7: this.lookupForm.controls['attribute7'].value || 0,
+      attribute11: this.lookupForm.controls['attribute11'].value,
+      attribute12: this.lookupForm.controls['attribute12'].value,
       actionBy: localStorage.getItem("userId")
     }
     if (this.lookupId > 0) {
@@ -159,6 +166,11 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: this.lookupForm.controls['attribute2'].value,
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
+      attribute5: this.lookupForm.controls['attribute5'].value,
+      attribute6: this.lookupForm.controls['attribute6'].value,
+      attribute7: this.lookupForm.controls['attribute7'].value,
+      attribute11: this.lookupForm.controls['attribute11'].value,
+      attribute12: this.lookupForm.controls['attribute12'].value,
     };
   }
 
