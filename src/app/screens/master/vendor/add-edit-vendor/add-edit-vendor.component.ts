@@ -142,7 +142,8 @@ export class AddEditVendorComponent implements OnInit {
       vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
         return {                                                                          
           transactionTypeId: mapping?.transactionType?.iTransactionTypeId || mapping?.iTransactionTypeId,                        
-          paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id
+          paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
+          status: mapping.status
         }
       })
     };
@@ -244,11 +245,15 @@ export class AddEditVendorComponent implements OnInit {
 
     if (data?.vendorMappingModels) {
       this.transactionMappings = data.vendorMappingModels.map((mapping: any) => {
+        console.log(mapping);
+        
         return {
           transactionType: mapping.transactionType.code || {},
           paidByDetails: mapping.paidByDetails.code || {},
           iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
           id: mapping.paidByDetails.id || {},
+          status: 'Active',
+          disabled: true
         };
       });
     }
@@ -383,6 +388,8 @@ export class AddEditVendorComponent implements OnInit {
     let obj = {
       transactionType: undefined,
       paidByDetails: undefined,
+      disabled: false,
+      status: 'Active'
     };
     this.transactionMappings.push(obj);
     
