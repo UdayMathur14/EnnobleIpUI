@@ -4,11 +4,14 @@
       <tr>
         <th (click)="sortData('pointName')">Point Name</th>
         <th (click)="sortData('pointCharge')">Point Charge</th>
+        <th (click)="sortData('historyPointChargeAmount')">Historic Point Charge</th>
         <th (click)="sortData('sameLocationCharge')">Same Location Charge</th>
+        <th (click)="sortData('historySameLocationChargeAmount')">Historic Same Location Charge</th>
         <th (click)="sortData('locations')">Location Code</th>
         <th (click)="sortData('materialRemarks')">Material Remarks</th>
         <th (click)="sortData('accountsRemarks')">Account Remarks</th>
         <th (click)="sortData('status')">Status</th>
+        <th class="text-center">Time Stamp Attachment</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -65,11 +68,21 @@
           </ng-template>
         </td>
         <td>{{ pointcharge?.pointCharge }}</td>
+        <td>{{ pointcharge?.historyPointChargeAmount || '-' }}</td>
         <td>{{ pointcharge?.sameLocationCharge }}</td>
+        <td>{{ pointcharge?.historySameLocationChargeAmount || '-' }}</td>
         <td>{{ pointcharge?.locations.value }}</td>
         <td>{{ pointcharge?.materialRemarks || "-" }}</td>
         <td>{{ pointcharge?.accountsRemarks || "-" }}</td>
         <td>{{ pointcharge?.status }}</td>
+        <div class="d-flex justify-content-center">
+          <button class="icon-button mt-2"
+          (click)="openPDF(pointcharge.fileData, pointcharge.fileName)" ngbTooltip="Time Stamp Attachment" placement="top">
+          <div class="img-container">
+            <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" />
+          </div>
+        </button>
+        </div>
         <td class="text-center">
           <img
             src="assets/images/icons/editPencil.svg"
