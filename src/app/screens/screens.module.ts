@@ -107,6 +107,7 @@ import { ProvisionReportGridTableComponent } from "./reports/provision-report/co
 import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TableColumnsSettingsComponent } from "./reports/debit-note-report/components/table-columns-settings/table-columns-settings.component";
+import { BiltiRbTxnDataComponent } from "./modals/bilti-rb-txn-data/bilti-rb-txn-data.component";
 
 @NgModule({
     declarations: [
@@ -211,7 +212,8 @@ import { TableColumnsSettingsComponent } from "./reports/debit-note-report/compo
         ProvisionReportFilterComponent,
         ProvisionReportGridTableComponent,
         AdhocReportComponent,
-        TableColumnsSettingsComponent
+        TableColumnsSettingsComponent,
+        BiltiRbTxnDataComponent
     ],
     imports: [
         LayoutModule,

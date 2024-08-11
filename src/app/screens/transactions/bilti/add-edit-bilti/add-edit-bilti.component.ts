@@ -13,6 +13,8 @@ import { FreightService } from '../../../../core/service/freight.service';
 import { VendorService } from '../../../../core/service/vendor.service';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BiltiRbTxnDataComponent } from '../../../modals/bilti-rb-txn-data/bilti-rb-txn-data.component';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -93,7 +95,8 @@ export class AddEditBiltiComponent implements OnInit {
     private freightService: FreightService,
     private vendorService: VendorService,
     private pointChargeService: PointChargeService,
-    private lookUpService: LookupService
+    private lookUpService: LookupService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -540,12 +543,12 @@ onFrlrNoClear() {
 
         response.vendors.forEach((vendor: any) => {
           const cityId = vendor.cityId;
-          this.vendorMapCode[vendor.vendorCode] = vendor.vendorCode;
+          this.vendorMapCode[vendor.vendorCode] = vendor?.vendorCode;
           this.vendorMapName[vendor.vendorCode] = vendor.vendorName;
-          this.pointMapName[vendor.vendorCode] = vendor.city.value;
+          this.pointMapName[vendor.vendorCode] = vendor?.city?.value;
           this.pointMapCharge[vendor.vendorCode] = this.pointMapCharge[cityId]
-          this.paidByDetailsMap[vendor.vendorCode] = vendor.paidByDetail.value;
-          this.vendorIdMap[vendor.vendorCode] = vendor.id;
+          this.paidByDetailsMap[vendor.vendorCode] = vendor?.paidByDetail?.value;
+          this.vendorIdMap[vendor.vendorCode] = vendor?.id;
         });
         this.loadSpinner = false;
       },
@@ -886,5 +889,22 @@ onFrlrNoClear() {
         reject('No matching bilti found');
       }
     });
+  }
+
+  onAdd(){
+    let documentModal = this.modalService.open(BiltiRbTxnDataComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+    });
+    documentModal.componentInstance.title = 'rbTXNData';
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+        }
+      },
+      (reason) => {}
+    );
   }
 }

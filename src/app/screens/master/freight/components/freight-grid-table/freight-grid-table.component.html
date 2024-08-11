@@ -71,7 +71,7 @@
             <u>{{freight?.historyFreightAmount || '-' }}</u>
           </span>
         </td>
-        <td>{{freight?.historyFreightTime || '-' }}</td>
+        <td>{{freight?.historyActionTimestamp | date: 'yyyy-MM-dd' || '-' }}</td>
         <td>{{freight?.freightAmount || '-' }}</td>
         <td>{{freight?.remarks || '-' }}</td>
         <td>{{freight?.materialRemarks || '-'}}</td>
