@@ -123,10 +123,16 @@ export class AddEditTransporterComponent implements OnInit {
         console.log(mapping);
         
         return {
-          transactionType: mapping.transactionType.code || {},
-          paidByDetails: mapping.paidByDetails.code || {},
-          iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
-          id: mapping.paidByDetails.id || {},
+          transportationMode: mapping.transportationMode.code || {},
+          taxationType: mapping.taxationType.code || {},
+          taxaCode: mapping.taxCodes.code || {},
+          tdsCode: mapping.tdsCodes.code,
+          transportationModeId: mapping?.transportationMode?.id,
+          taxationTypeId: mapping?.taxationType?.id,
+          taxaCodesId: mapping?.taxCodes?.id,
+          tdsCodesId: mapping?.tdsCodes.id,
+          status: 'Active',
+          disabled: true
         };
       });
       this.loadSpinner = false;
@@ -162,10 +168,11 @@ export class AddEditTransporterComponent implements OnInit {
       transporterMappings: this.transporterMappings.map((mapping: any) => {
         console.log(mapping);
         return {
-          transportationModeId: mapping?.transportationMode?.id,
-          taxationTypeId: mapping?.taxationType?.id,
-          taxaCodesId: mapping?.taxaCode?.id,
-          tdsCodesId: mapping?.tdsCode.id,
+          transportationModeId: mapping?.transportationMode?.id || mapping?.transportationModeId,
+          taxationTypeId: mapping?.taxationType?.id || mapping?.taxationTypeId,
+          taxaCodesId: mapping?.taxaCode?.id || mapping?.taxaCodesId,
+          tdsCodesId: mapping?.tdsCode.id || mapping?.tdsCodesId,
+          status: mapping.status
         };
       }),
     };
@@ -398,7 +405,9 @@ export class AddEditTransporterComponent implements OnInit {
       transportationMode: undefined,
       taxationType: undefined,
       taxaCode: undefined,
-      tdsCode: undefined
+      tdsCode: undefined,
+      status: 'Active',
+      disabled: true
     }
 
     this.transporterMappings.push(newObj)
