@@ -32,4 +32,14 @@ export class BiltiRbTxnDataComponent implements OnInit {
       this.dispatchNotes = res.dispatchNotes;
     })
   }
+
+  getSelectedDispatchNotes() {
+    return this.dispatchNotes.filter((note: any) => note.selected);
+  }
+
+  onSavePress() {
+    const selectedNotes = this.getSelectedDispatchNotes();
+    this.activeModal.close(selectedNotes);
+
+  }
 }

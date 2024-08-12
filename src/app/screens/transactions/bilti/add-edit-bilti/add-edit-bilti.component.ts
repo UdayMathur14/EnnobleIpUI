@@ -209,12 +209,14 @@ export class AddEditBiltiComponent implements OnInit {
     const locationIds = this.locationId?[this.locationId]:[];
     this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
       this.dispatchData = res.dispatchNotes
-      const filteredDispatchNotes = res.dispatchNotes.filter((item: any) => item.openFlag !== 'Close');
+      const filteredDispatchNotes = res.dispatchNotes.filter((item: any) => item?.openFlag !== 'Close');
     this.frmTransactionData = [...new Set(filteredDispatchNotes.map((item: any) => 
-      item.frlrNumber))].map(frlrNumber => filteredDispatchNotes.find((t: any) => 
-        t.frlrNumber === frlrNumber));
+      item?.frlrNumber))].map(frlrNumber => filteredDispatchNotes.find((t: any) => 
+        t?.frlrNumber === frlrNumber));
     this.dispatchNotes = filteredDispatchNotes;
       this.loadSpinner = false;
+      console.log(this.frmTransactionData);
+      
     })
   }
   
@@ -306,7 +308,7 @@ export class AddEditBiltiComponent implements OnInit {
           pointName:element?.suppliers?.city?.value,
           pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
           vendorId: element?.suppliers?.id,
-          paidByDetails: paidByDetails[0].paidByDetail.value
+          paidByDetails: paidByDetails[0]?.paidByDetail?.value
         });
       }
     });
@@ -900,8 +902,9 @@ onFrlrNoClear() {
     documentModal.componentInstance.title = 'rbTXNData';
 
     documentModal.result.then(
-      (result) => {
-        if (result) {
+      (selectedNotes) => {
+        if (selectedNotes) {
+          console.log('Selected Notes:', selectedNotes);
         }
       },
       (reason) => {}

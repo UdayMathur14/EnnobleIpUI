@@ -7,10 +7,14 @@
             </span>
         </h3>
     </div>
+    <div class="d-flex justify-content-end mb-2">
+        <button class="ms-auto custom-button-regulr" (click)="onSavePress()">Save</button>
+    </div>
     <div class="custom-table">
         <table>
             <thead>
                 <tr>
+                    <th>Select</th>
                     <th>Dispatch Number</th>
                     <th>Supplier Code</th>
                     <th>Supplier Name</th>
@@ -20,7 +24,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let rbData of dispatchNotes">
-                    <td><input type="checkbox" [(ngModel)]="rbData.selected" /></td> <!-- Checkbox added here -->
+                    <td><input type="checkbox" [(ngModel)]="rbData.selected" /></td> 
                     <td>{{rbData?.dispatchNumber}}</td>
                     <td>{{rbData?.suppliers?.vendorCode}}</td>
                     <td>{{rbData?.suppliers?.vendorName}}</td>

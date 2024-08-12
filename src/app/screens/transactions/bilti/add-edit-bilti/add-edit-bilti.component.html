@@ -30,7 +30,7 @@
       <div class="custom-form-input">
         <label for="">FRLR Number <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="frlrNo" (change)="onFrlrNoSelectionChange($event)" (clear)="onFrlrNoClear()">
-          <ng-option *ngFor="let frmTransactionData of frmTransactionData" [value]="frmTransactionData">{{frmTransactionData.frlrNumber}}</ng-option>
+          <ng-option *ngFor="let frmTransactionData of frmTransactionData" [value]="frmTransactionData">{{frmTransactionData?.frlrNumber}}</ng-option>
         </ng-select>
       </div>
     </div>

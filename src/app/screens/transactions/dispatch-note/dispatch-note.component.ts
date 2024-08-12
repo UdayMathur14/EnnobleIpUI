@@ -39,7 +39,7 @@ export class DispatchNoteComponent {
       "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "dispatchNumber": filters?.dispatchNumber || "",
       "status": filters?.status || "",
-      "frlrNumber": filters?.frlrNo
+      "frlrNumber": filters?.frlrNo || ""
     }
     this.loadSpinner = true;
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {
