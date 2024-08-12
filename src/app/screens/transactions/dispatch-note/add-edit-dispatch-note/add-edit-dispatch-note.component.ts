@@ -152,7 +152,7 @@ export class AddEditDispatchNoteComponent {
           locationId: response.locations.id,
           transporterCode: response.transporterId,
           transporterName: response.transporter.transporterName,
-          transporterMode: response.transporter.modeOfTransport.value,
+          transporterMode: response?.transporter?.modeOfTransport?.value,
           frlrDate: frlrDate
         });
 
@@ -482,7 +482,11 @@ export class AddEditDispatchNoteComponent {
   }
 
   isFormInvalid() {
-    return this.addOrEditDispatchNoteFormGroup.invalid || !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
+    return !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value 
+    || !this.addOrEditDispatchNoteFormGroup.controls['supplierCode']?.value ||
+    !this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value ||
+    !this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value ||
+    !this.addOrEditDispatchNoteFormGroup.controls['vehicleNumber']?.value
   }
 
   setLocation(){
@@ -504,7 +508,7 @@ export class AddEditDispatchNoteComponent {
   getLocationId(): Promise<void> {
     return new Promise((resolve, reject) => {
       const dispatchNote = this.dispatchNotes.filter((item: any) => {
-        return item.id == this.dispatchId
+        return item?.id == this.dispatchId
       });
       if (dispatchNote.length > 0) {
         this.dispatchLocationId = dispatchNote[0].locations.id;

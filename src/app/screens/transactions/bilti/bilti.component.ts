@@ -31,7 +31,7 @@ export class BiltiComponent implements OnInit {
 
   getAllBiltisList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      biltiNumber: filters?.biltiNumber,
+      biltiNumber: filters?.biltiNumber || "",
       locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id),
       status: ""
     };

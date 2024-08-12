@@ -11,12 +11,17 @@ import { DispatchNoteService } from '../../../core/service/dispatch-note.service
 export class BiltiRbTxnDataComponent implements OnInit {
   dispatchNotes:  any = [];
   count = Number.MAX_VALUE;
+  @Input() biltiTransactionType: any;
+  filters: any = [];
+  dispatchNumber: string = ''
 
   constructor(public activeModal: NgbActiveModal,
     private dispatchNoteService: DispatchNoteService
   ){}
 
   ngOnInit(): void {
+    console.log(this.biltiTransactionType);
+    
     this.getDispatchData();
   }
 
@@ -29,7 +34,13 @@ export class BiltiRbTxnDataComponent implements OnInit {
     }
 
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {
+      if(this.biltiTransactionType == 'RB'){
+      res.filters((item: any) => item.frlrNumber == 'null')
+      }
       this.dispatchNotes = res.dispatchNotes;
+      this.filters = res?.filters
+      console.log(this.filters);
+      
     })
   }
 

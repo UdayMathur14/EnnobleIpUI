@@ -41,7 +41,9 @@ export class LookupService extends CRUDService<LookupRequest> {
         if(obj){
           locations.push(obj);
         }
+        APIConstant.plantCodes = el.whCode;
       });
+ 
       APIConstant.locationsListDropdown = locations;
       localStorage.setItem('locationId', locations[0]?.id)
       localStorage.setItem("userId",profile.userId);
