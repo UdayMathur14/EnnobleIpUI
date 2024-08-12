@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TemporaryMaxBiltiNoComponent } from '../../../modals/temporary-max-bilti-no/temporary-max-bilti-no.component';
 
 @Component({
   selector: 'app-add-edit-advice',
@@ -27,6 +29,8 @@ export class AddEditAdviceComponent implements OnInit {
   locations: any[] = APIConstant.locationsListDropdown;
   advicesList: any = [];
   adviceLocationId: number = 0;
+  transactionCode: string = '';
+  transactionId: number | null = null;
 
   constructor(
     private router: Router,
@@ -35,7 +39,8 @@ export class AddEditAdviceComponent implements OnInit {
     private transactionTypesService: TransactionTypesService,
     private toastr: ToastrService,
     private lookupService: LookupService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.adviceForm = this.formBuilder.group({
       adviceType: ['', [Validators.required]],
@@ -102,8 +107,16 @@ export class AddEditAdviceComponent implements OnInit {
           manualAllocReq: response.manualAllocationRequired,
           status: response.status
         });
+        const selectedAdviceType = this.adviceForm.controls['adviceType'].value;
+        const transactionData = this.transactionTypesList.find((item: any) => item.name == selectedAdviceType)
+        console.log(transactionData);
+        this.transactionCode = transactionData.code,
+        this.transactionId = transactionData.id
+
         this.loadSpinner = false;
       },
+
+      
       error => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
@@ -144,7 +157,7 @@ export class AddEditAdviceComponent implements OnInit {
       transactionTypeId: (adviceTypeValue && adviceTypeValue.id ? adviceTypeValue.id : null) || 0,
       batchName: this.adviceForm.controls['batchName']?.value || '',
       maxBiltiNumber: Number(this.adviceForm.controls['maxBiltiLimit']?.value),
-      manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
+      manualAllocationRequired: 'No',
       actionBy: localStorage.getItem("userId")
     };
 
@@ -258,5 +271,38 @@ export class AddEditAdviceComponent implements OnInit {
         reject('No matching advice found');
       }
     });
+  }
+
+  onManualAllocChange(event: any) {
+    const manualAllocationValue = event.target.value
+    if (manualAllocationValue === 'Yes') {
+      this.temporaryMaxBiltiNo();
+    }
+  }
+
+  temporaryMaxBiltiNo(){
+    let documentModal = this.modalService.open(TemporaryMaxBiltiNoComponent, {
+      size: 'md',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+    });
+    documentModal.componentInstance.title = 'temporaryMaxBiltiNo';
+    documentModal.componentInstance.adviceType = this.adviceForm.get('adviceType')?.value;
+    documentModal.componentInstance.batchName = this.adviceForm.get('batchName')?.value;
+    documentModal.componentInstance.transactionCode = this.transactionCode;
+    documentModal.componentInstance.maxBiltiLimit = this.adviceForm.get('maxBiltiLimit')?.value;
+    documentModal.componentInstance.manualAllocReq = this.adviceForm.get('manualAllocReq')?.value;
+    documentModal.componentInstance.status = this.adviceForm.get('status')?.value;
+    documentModal.componentInstance.transactionId = this.transactionId;
+    documentModal.componentInstance.locationCode = this.adviceForm.get('locationCode')?.value;
+    documentModal.componentInstance.adviceId = this.adviceId;
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+          this.router.navigate(['master/advice']);
+        }
+      },
+    );
   }
 }

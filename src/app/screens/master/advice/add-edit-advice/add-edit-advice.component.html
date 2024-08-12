@@ -42,10 +42,10 @@
                     <input type="text" class="input-field" formControlName="maxBiltiLimit" />
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-2 col-md-2" *ngIf="adviceId">
                 <div class="custom-form-input">
                     <label for="">Manual Allocation Req. <span class="text-danger">*</span></label>
-                    <select name="" id="" formControlName="manualAllocReq">
+                    <select name="" id="" formControlName="manualAllocReq" (change)="onManualAllocChange($event)">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>

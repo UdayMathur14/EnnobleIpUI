@@ -108,6 +108,7 @@ import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.compon
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TableColumnsSettingsComponent } from "./reports/debit-note-report/components/table-columns-settings/table-columns-settings.component";
 import { BiltiRbTxnDataComponent } from "./modals/bilti-rb-txn-data/bilti-rb-txn-data.component";
+import { TemporaryMaxBiltiNoComponent } from "./modals/temporary-max-bilti-no/temporary-max-bilti-no.component";
 
 @NgModule({
     declarations: [
@@ -213,7 +214,8 @@ import { BiltiRbTxnDataComponent } from "./modals/bilti-rb-txn-data/bilti-rb-txn
         ProvisionReportGridTableComponent,
         AdhocReportComponent,
         TableColumnsSettingsComponent,
-        BiltiRbTxnDataComponent
+        BiltiRbTxnDataComponent,
+        TemporaryMaxBiltiNoComponent
     ],
     imports: [
         LayoutModule,
