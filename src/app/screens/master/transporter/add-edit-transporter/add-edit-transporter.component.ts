@@ -172,7 +172,7 @@ export class AddEditTransporterComponent implements OnInit {
           taxationTypeId: mapping?.taxationType?.id || mapping?.taxationTypeId,
           taxaCodesId: mapping?.taxaCode?.id || mapping?.taxaCodesId,
           tdsCodesId: mapping?.tdsCode.id || mapping?.tdsCodesId,
-          status: mapping.status
+          status: mapping.status,
         };
       }),
     };
@@ -407,7 +407,7 @@ export class AddEditTransporterComponent implements OnInit {
       taxaCode: undefined,
       tdsCode: undefined,
       status: 'Active',
-      disabled: true
+      disabled: false
     }
 
     this.transporterMappings.push(newObj)
