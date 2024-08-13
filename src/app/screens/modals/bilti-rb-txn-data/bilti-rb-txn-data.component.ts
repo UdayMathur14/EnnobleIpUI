@@ -38,10 +38,10 @@ export class BiltiRbTxnDataComponent implements OnInit {
       const patchedData = this.dispatchNoteId.map((item: any) => item.dispatchNoteId);
       if(this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'){
         this.dispatchNotes = res.dispatchNotes.filter((note: any) => note.frlrNumber === null 
-      &&  !patchedData.includes(note.id));
+      &&  !patchedData.includes(note.id)  && note.openFlag === 'Open');
       } else {
         this.dispatchNotes = res.dispatchNotes.filter((note: any) => 
-          !patchedData.includes(note.id)
+          !patchedData.includes(note.id) &&  note.openFlag === 'Open'
         );
         this.filters = res?.filters
       }

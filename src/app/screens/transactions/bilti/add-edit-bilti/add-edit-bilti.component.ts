@@ -640,7 +640,7 @@ onFrlrNoClear() {
         source: formData?.source,
         destination: formData?.destination,
         vehicleId: this.vehicleId,
-        vehicleNumber: formData.transactionType.code === 'RB'? formData?.vehicleNumber :formData?.vehicleNumber.vehicleNumber,
+        vehicleNumber: formData.transactionType.code === 'RB'? formData?.vehicleNumber :formData?.vehicleNumber?.vehicleNumber,
         vehicleSize: formData?.vehicleSize,
         attribute9: '2024-05-04T13:03:47.509Z',
         attribute10: '2024-05-04T13:03:47.509Z',
