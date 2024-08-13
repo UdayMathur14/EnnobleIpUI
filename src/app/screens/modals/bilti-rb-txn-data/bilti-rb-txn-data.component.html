@@ -1,7 +1,4 @@
 <div class="common-modal">
-    <div class="custom-form-input">
-        <label for="">Dispatch Number</label>
-    </div>
     <div class="ngmodal-header">
         <h3>
             Dispatch Notes
@@ -10,8 +7,31 @@
             </span>
         </h3>
     </div>
-    <div class="d-flex justify-content-end mb-2">
-        <button class="ms-auto custom-button-regulr" (click)="onSavePress()">Save</button>
+    <div class="row d-flex mb-2">
+        <div class="col-3">
+            <div class="custom-form-input">
+                <label for="">Dispatch Number</label>
+                <ng-select class="input-field" [(ngModel)]="dispatchNumber" placeholder="Select Dispatch No">
+                    <ng-option *ngFor="let dispatch of filters?.DispatchNumber"
+                        [value]="dispatch">{{dispatch}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="getDispatchData()">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-end">
+                <button class="custom-button-regulr" (click)="onSavePress()">Add</button>
+            </div>
+        </div>
+    </div>
     <div class="custom-table">
         <table>
             <thead>
@@ -26,7 +46,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let rbData of dispatchNotes">
-                    <td><input type="checkbox" [(ngModel)]="rbData.selected" /></td> 
+                    <td><input type="checkbox" [(ngModel)]="rbData.selected" /></td>
                     <td>{{rbData?.dispatchNumber}}</td>
                     <td>{{rbData?.suppliers?.vendorCode}}</td>
                     <td>{{rbData?.suppliers?.vendorName}}</td>

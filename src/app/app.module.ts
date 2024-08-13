@@ -11,6 +11,7 @@ import { initializeAppFactory } from './core/initializer/app.initializer';
 import { ExportAsModule, ExportAsService } from 'ngx-export-as';
 import { NgbDateCustomParserFormatterService } from './core/service/NgbDateCustomParserFormatter.service';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     HttpClientJsonpModule,
     ExportAsModule,
+    NgSelectModule,
     ToastrModule.forRoot({
       enableHtml: true,
       timeOut: 8000,
