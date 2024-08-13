@@ -138,8 +138,8 @@ export class AddEditDispatchNoteComponent {
         const suppliers = response.suppliers;
         this.supplierId = suppliers.id;
         this.vehicleId = vehicles.id;
-        const frlrDate = this.convertToNgbDate(response.frlrDate);
-        this.frlrDate = response.frlrDate
+        const frlrDate = this?.convertToNgbDate(response?.frlrDate)
+        this.frlrDate = response?.frlrDate
         this.dispatchNote.status = response.status;
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
@@ -152,8 +152,8 @@ export class AddEditDispatchNoteComponent {
           locationId: response.locations.id,
           transporterCode: response.transporterId,
           transporterName: response.transporter.transporterName,
-          transporterMode: response?.transporter?.modeOfTransport?.value,
-          frlrDate: frlrDate
+          transporterMode: response?.transporterMode,
+          frlrDate: frlrDate,
         });
 
         response?.dispatchNotePartItems?.forEach(
@@ -270,7 +270,8 @@ export class AddEditDispatchNoteComponent {
       partDetails: [],
       id: this.dispatchId,
       transporterId: 0,
-      frlrDate: ''
+      frlrDate: '',
+      transporterMode: ''
     };
   }
 
@@ -389,7 +390,8 @@ export class AddEditDispatchNoteComponent {
       'frlrNumber'
     ].value as string;
     this.dispatchNote.transporterId = this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value,
-    this.dispatchNote.frlrDate = this.frlrDate
+    this.dispatchNote.frlrDate = this.frlrDate || null,
+    this.dispatchNote.transporterMode = this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value
 
     const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
       'partdetails'
@@ -558,12 +560,15 @@ export class AddEditDispatchNoteComponent {
       this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
   }
 
-  convertToNgbDate(dateString: string): NgbDate {
-    const dateParts = dateString?.split('-');
-    return new NgbDate(
-      parseInt(dateParts[0], 10),
-      parseInt(dateParts[1], 10),
-      parseInt(dateParts[2], 10)
-    );
-  }
+  convertToNgbDate(dateString: string): any {
+    if(dateString){
+      const dateParts = dateString?.split('-');
+      return new NgbDate(
+        parseInt(dateParts[0], 10),
+        parseInt(dateParts[1], 10),
+        parseInt(dateParts[2], 10)
+      );
+    }
+    }
+
 }
