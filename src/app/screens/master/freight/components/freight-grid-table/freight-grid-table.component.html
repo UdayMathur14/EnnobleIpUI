@@ -7,8 +7,6 @@
         <th (click)="sortData('source.value')">Source</th>
         <th (click)="sortData('destination.value')">Destination</th>
         <th (click)="sortData('vehicleSize.value')">Vehicle Size</th>
-        <th (click)="sortData('freightAmount')">Previous Freight Amount</th>
-        <th (click)="sortData('freightAmount')">Previous Freight Time</th>
         <th (click)="sortData('freightAmount')">Freight Amount</th>
         <th (click)="sortData('remarks')">Remarks</th>
         <th (click)="sortData('materialRemarks')">Material Remarks</th>
@@ -66,12 +64,6 @@
         <td>{{freight?.source?.value || '-' }}</td>
         <td>{{freight?.destination?.value || '-' }}</td>
         <td>{{freight?.vehicleSize?.value || '-' }}</td>
-        <td class="pointer">
-          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{freight?.historyFreightAmount || '-' }}</u>
-          </span>
-        </td>
-        <td>{{freight?.historyActionTimestamp | date: 'yyyy-MM-dd' || '-' }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="historyData">
             <u>{{freight?.freightAmount || '-' }}</u>
@@ -79,12 +71,14 @@
           <ng-template #historyData>
             <table class="popover-table">
               <tr>
-                <th style="padding-right: 15px;">Previous Freight Amount</th>
-                <th style="padding-left: 15px;">Previous Freight Time</th>
+                <th>Freight Amount</th>
+                <th style="padding-left: 15px;">Change Request Date</th>
+                <th style="padding-left: 15px;">Approved Date</th>
               </tr>
-              <tr>
-                <td>{{freight?.freightAmount || '-'}}</td>
-                <td>200</td>
+              <tr *ngFor="let historyData of freight.historyData">
+                <td>{{historyData?.freightAmount || '-'}}</td>
+                <td>{{historyData?.changeDate | date: 'yyyy-MM-dd' || '-'}}</td>
+                <td>{{historyData?.approvedDate | date: 'yyyy-MM-dd'  || '-'}}</td>
               </tr>
             </table>
           </ng-template>

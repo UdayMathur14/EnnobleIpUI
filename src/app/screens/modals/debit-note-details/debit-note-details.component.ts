@@ -50,7 +50,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
 
   createLineItem(item: any): FormGroup {
     return this.formBuilder.group({
-      paidByDetails: [item.supplierDetail?.paidByDetails?.value || ''],
+      paidByDetails: [item.paidByDetails || ''],
       vendorName: [item.supplierDetail?.vendorName || ''],
       remarks: [this.biltiProcess?.loadingLocation?.value],
       id: [item.id],
