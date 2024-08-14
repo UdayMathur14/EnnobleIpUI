@@ -52,7 +52,8 @@ export class AddEditFreightComponent implements OnInit {
       matApprovalOn: [''],
       accApproval: [''],
       accApprovalOn: [''],
-      remarks: ['']
+      remarks: [''],
+      newFreightAmount: ['']
     });
   }
 
@@ -122,7 +123,7 @@ export class AddEditFreightComponent implements OnInit {
       sourceId: (parseInt(this.freightForm.controls['source'].value)) || 0,
       destinationId: parseInt(this.freightForm.controls['destination'].value) || 0,
       vehicleSizeId: (parseInt(this.freightForm.controls['vehicleSize'].value)) || 0,
-      freightAmount: this.freightForm.controls['freightAmount'].value,
+      freightAmount: parseInt(this.freightForm.controls['freightAmount'].value) || 0,
       status: this.freightForm.controls['status'].value,
       matApproval: null,
       matApprovalOn: null,
@@ -131,7 +132,8 @@ export class AddEditFreightComponent implements OnInit {
       remarks: null,
       actionBy: localStorage.getItem("userId"),
       fileName: this.nocFileName,
-      fileData: this.nocFileBase64
+      fileData: this.nocFileBase64,
+      newFreightAmount: parseInt(this.freightForm.controls['newFreightAmount'].value) || 0,
     }
     if (this.freightId > 0) {
       this.updateFreight(data);

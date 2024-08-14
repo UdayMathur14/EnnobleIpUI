@@ -59,7 +59,13 @@
             <div class="col-lg-2 col-md-4">
                 <div class="custom-form-input">
                     <label for="">Freight Amount <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="freightAmount" />
+                    <input type="text" class="input-field" formControlName="freightAmount" [readOnly]="freightId" />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4" *ngIf="freightId">
+                <div class="custom-form-input">
+                    <label for="">New Freight Amount <span class="text-danger">*</span></label>
+                    <input type="text" class="input-field" formControlName="newFreightAmount" />
                 </div>
             </div>
 

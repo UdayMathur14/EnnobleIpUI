@@ -37,11 +37,11 @@ export class BiltiRbTxnDataComponent implements OnInit {
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {
       const patchedData = this.dispatchNoteId.map((item: any) => item.dispatchNoteId);
       if(this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'){
-        this.dispatchNotes = res.dispatchNotes.filter((note: any) => note.frlrNumber === null 
-      &&  !patchedData.includes(note.id)  && note.openFlag === 'Open');
+        this.dispatchNotes = res?.dispatchNotes?.filter((note: any) => note?.frlrNumber === null 
+      &&  !patchedData?.includes(note?.id)  && note?.openFlag === 'Open');
       } else {
         this.dispatchNotes = res.dispatchNotes.filter((note: any) => 
-          !patchedData.includes(note.id) &&  note.openFlag === 'Open'
+          !patchedData?.includes(note?.id) &&  note?.openFlag === 'Open'
         );
         this.filters = res?.filters
       }
@@ -51,7 +51,7 @@ export class BiltiRbTxnDataComponent implements OnInit {
   }
 
   getSelectedDispatchNotes() {
-    return this.dispatchNotes.filter((note: any) => note.selected);
+    return this.dispatchNotes.filter((note: any) => note?.selected);
   }
 
   onSavePress() {

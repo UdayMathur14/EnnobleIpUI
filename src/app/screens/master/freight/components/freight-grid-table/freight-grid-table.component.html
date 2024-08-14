@@ -72,7 +72,25 @@
           </span>
         </td>
         <td>{{freight?.historyActionTimestamp | date: 'yyyy-MM-dd' || '-' }}</td>
-        <td>{{freight?.freightAmount || '-' }}</td>
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="historyData">
+            <u>{{freight?.freightAmount || '-' }}</u>
+          </span>
+          <ng-template #historyData>
+            <table class="popover-table">
+              <tr>
+                <th style="padding-right: 15px;">Previous Freight Amount</th>
+                <th style="padding-left: 15px;">Previous Freight Time</th>
+              </tr>
+              <tr>
+                <td>{{freight?.freightAmount || '-'}}</td>
+                <td>200</td>
+              </tr>
+            </table>
+          </ng-template>
+        </td>
+        
+        
         <td>{{freight?.remarks || '-' }}</td>
         <td>{{freight?.materialRemarks || '-'}}</td>
         <td>{{freight?.accountsRemarks || '-'}}</td>
