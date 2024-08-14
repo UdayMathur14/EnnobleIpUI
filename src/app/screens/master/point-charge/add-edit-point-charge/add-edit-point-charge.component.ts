@@ -52,6 +52,7 @@ export class AddEditPointChargeComponent implements OnInit {
       pointCharge: ['', [Validators.required]],
       sameLocationCharge: ['', [Validators.required]],
       status: ['Active', [Validators.required]],
+      newPointCharge: ['']
     });
   }
 
@@ -165,6 +166,7 @@ export class AddEditPointChargeComponent implements OnInit {
          cityId: cityId,
         fileName: this.nocFileName,
         fileData: this.nocFileBase64,
+        newPointCharge: parseInt(this.pointChargeForm.get('newPointCharge')?.value) || 0,
       };
 
       this.pointChargeService

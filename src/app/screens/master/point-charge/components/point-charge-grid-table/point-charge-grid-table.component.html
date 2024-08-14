@@ -75,12 +75,12 @@
           <ng-template #historyData>
             <table class="popover-table">
               <tr>
-                <th>Freight Amount</th>
+                <th>Point Charge Amount</th>
                 <th style="padding-left: 15px;">Change Request Date</th>
                 <th style="padding-left: 15px;">Approved Date</th>
               </tr>
               <tr *ngFor="let historyData of pointcharge.historyData">
-                <td>{{historyData?.freightAmount || '-'}}</td>
+                <td>{{historyData?.pointCharge || '-'}}</td>
                 <td>{{historyData?.changeDate | date: 'yyyy-MM-dd' || '-'}}</td>
                 <td>{{historyData?.approvedDate | date: 'yyyy-MM-dd'  || '-'}}</td>
               </tr>
