@@ -269,7 +269,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   calculateDifference(): void {
      this.freightAmount =
       this.biltiBillProcessData?.freightDetails?.freightAmount || 0;
-    const difference = this.grandTotalLG - this.freightAmount;
+    const difference = this.grandTotal - this.freightAmount;
 
     let excessAmount = 0;
     let penaltyAmount = 0;

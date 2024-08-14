@@ -54,7 +54,8 @@ export class DebitNoteReportComponent {
 
   getReports(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     const data = {
-      batchNumber: filters?.batchNumber
+      batchNumber: filters?.batchNumber || "",
+      screenCode: 309
     }
     this.reportService.getDebitNote(data, offset, count).subscribe((res: any) => {
       this.billTiBillReport = res.billTiBillReport;
