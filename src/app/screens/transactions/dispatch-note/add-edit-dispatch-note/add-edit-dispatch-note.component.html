@@ -19,13 +19,13 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Supplier Code <span class="text-danger">*</span></label>
           <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
-            placeholder="Select Part Number" (clear)="onSupplierCodeClear()">
+            placeholder="Select Supplier Code" (clear)="onSupplierCodeClear()">
             <ng-option *ngFor="let supplier of activeSuppliersLists"
-              [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
+              [value]="supplier.vendorCode">{{supplier.vendorCode}} ({{supplier.vendorName}})</ng-option>
           </ng-select>
         </div>
       </div>
@@ -43,13 +43,13 @@
             value="LG Electronics Pvt. Ltd, Surajpur, Greater Noida" />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for=""> Transporter Code <span class="text-danger">*</span></label>
           <ng-select (change)="onTransporterSelection($event)" formControlName="transporterCode" class="input-field"
             placeholder="Select Transporter Code">
             <ng-option *ngFor="let transporter of activeTransportersList"
-              [value]="transporter.id">{{transporter.transporterCode}}</ng-option>
+              [value]="transporter.id">{{transporter.transporterCode}} ({{transporter?.transporterName}})</ng-option>
           </ng-select>
         </div>
       </div>
@@ -73,7 +73,7 @@
         <div class="custom-form-input">
           <label for="">Vehicle Number <span class="text-danger">*</span></label>
           <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
-            placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
+            placeholder="Select Vehicle Number" (clear)="onVehicleNumberClear()">
             <ng-option *ngFor="let vehicle of vehicleData"
               [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
           </ng-select>
@@ -134,35 +134,35 @@
             <tr formGroupName={{ind}}>
               <td>{{ind+1}}</td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
                     (change)="onPartSelect($event, ind)">
-                    <ng-option *ngFor="let part of getFilteredPartNumbers(ind)" [value]="part">{{part.partNumber}}</ng-option>
+                    <ng-option *ngFor="let part of getFilteredPartNumbers(ind)" [value]="part">{{part.partNumber}} ({{part?.partName}})</ng-option>
                   </ng-select>
 
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <input formControlName="partName" type="text" class="input-field" placeholder="Part Name" readonly
                     [value]="" />
 
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <input formControlName="partQuantity" class="input-field" type="text" placeholder="Select Quantity" (keypress)="validateNo($event)">
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <input formControlName="partSize" type="text" class="input-field" placeholder="Part Size" readonly
                     [value]="" />
 
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks" readonly
                     [value]="" />
                 </div>

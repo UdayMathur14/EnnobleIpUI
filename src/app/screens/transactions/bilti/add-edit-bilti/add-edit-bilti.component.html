@@ -26,7 +26,7 @@
         </ng-select>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">FRLR Number <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="frlrNo" (change)="onFrlrNoSelectionChange($event)" (clear)="onFrlrNoClear()">
@@ -48,11 +48,11 @@
         <input type="text" class="input-field" formControlName="vehicleSize" readonly/>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">Transporter Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="transporterCode" (change)="onTransporterChange($event)" (clear)="onTransporterClear()">
-          <ng-option *ngFor="let transporter of filteredTransportersLists" [value]="transporter.transporterCode">{{transporter.transporterCode}}</ng-option>
+          <ng-option *ngFor="let transporter of filteredTransportersLists" [value]="transporter.transporterCode">{{transporter?.transporterCode}} ({{transporter?.transporterName}})</ng-option>
         </ng-select>
       </div>
     </div>

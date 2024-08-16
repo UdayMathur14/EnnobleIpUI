@@ -109,6 +109,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TableColumnsSettingsComponent } from "./reports/debit-note-report/components/table-columns-settings/table-columns-settings.component";
 import { BiltiRbTxnDataComponent } from "./modals/bilti-rb-txn-data/bilti-rb-txn-data.component";
 import { TemporaryMaxBiltiNoComponent } from "./modals/temporary-max-bilti-no/temporary-max-bilti-no.component";
+import { ApprovalPdfComponent } from "./modals/approval-pdf/approval-pdf.component";
 
 @NgModule({
     declarations: [
@@ -215,7 +216,8 @@ import { TemporaryMaxBiltiNoComponent } from "./modals/temporary-max-bilti-no/te
         AdhocReportComponent,
         TableColumnsSettingsComponent,
         BiltiRbTxnDataComponent,
-        TemporaryMaxBiltiNoComponent
+        TemporaryMaxBiltiNoComponent,
+        ApprovalPdfComponent
     ],
     imports: [
         LayoutModule,

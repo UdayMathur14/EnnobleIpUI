@@ -1,0 +1,38 @@
+.container-fluid {
+    padding: 40px;
+  }
+  
+    .header {
+      font-weight: bold;
+      font-size: 20px;
+      text-decoration: underline;
+      color: #000080;
+  }
+  
+  .col-auto{
+    padding-right:0;
+    padding-bottom:0
+  }
+  
+  .horizontal-line{
+    width: 100px;
+  }
+  
+  .custom-table table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    border: 1px solid black !important;
+    padding: 8px;
+    text-align: center;
+  }
+  .custom-table th {
+    background-color: #f2f2f2;
+  }
+  
+  
+  
+  
