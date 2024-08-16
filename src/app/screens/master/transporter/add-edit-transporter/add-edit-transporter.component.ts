@@ -31,6 +31,7 @@ export class AddEditTransporterComponent implements OnInit {
   vendorsList: any = [];
   count: number = Number.MAX_VALUE;
   selectedVendor: any = [];
+  isShow: boolean = false;
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -132,7 +133,8 @@ export class AddEditTransporterComponent implements OnInit {
           taxaCodesId: mapping?.taxCodes?.id,
           tdsCodesId: mapping?.tdsCodes.id,
           status: 'Active',
-          disabled: true
+          disabled: true,
+          isShow: false
         };
       });
       this.loadSpinner = false;
@@ -407,7 +409,8 @@ export class AddEditTransporterComponent implements OnInit {
       taxaCode: undefined,
       tdsCode: undefined,
       status: 'Active',
-      disabled: false
+      disabled: false,
+      isShow: true
     }
 
     this.transporterMappings.push(newObj)
