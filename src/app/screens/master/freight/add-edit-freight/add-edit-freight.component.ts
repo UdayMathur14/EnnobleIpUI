@@ -75,7 +75,9 @@ export class AddEditFreightComponent implements OnInit {
 
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: number) {
+    this.loadSpinner = true;
     this.freightService.getFreightData(this.freightLocationId,freightId).subscribe((response: any) => {
+      this.loadSpinner = false;
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
@@ -145,9 +147,9 @@ export class AddEditFreightComponent implements OnInit {
     const locationCode = this.freightForm.controls['locationCode']?.value
     this.freightService.updateFreight(locationCode,this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
-      this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
       this.router.navigate(['/master/freight']);
+      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
@@ -250,13 +252,6 @@ export class AddEditFreightComponent implements OnInit {
   
   onUploadPdf(evt: any) {
     const file = evt.target.files[0];
-    const maxSizeInBytes = 2 * 1024 * 1024;
-  
-    if (file.size > maxSizeInBytes) {
-      this.toastr.error('File size should be less than 2MB', 'Error');
-      return;
-    }
-  
     this.nocFileName = file.name;
     const reader = new FileReader();
     reader.readAsDataURL(file);

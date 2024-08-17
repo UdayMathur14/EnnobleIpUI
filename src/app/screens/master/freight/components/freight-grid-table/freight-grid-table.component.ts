@@ -71,15 +71,12 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
         
         const a = document.createElement('a');
         a.href = url;
-        a.download = response.fileName || 'download.pdf'; // Use the filename from response, or default to 'download.pdf'
+        a.download = response.fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
 
-        this.loadSpinner = false;
-    }, error => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
     });
 }

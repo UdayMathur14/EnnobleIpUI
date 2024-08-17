@@ -64,7 +64,7 @@
             </div>
             <div class="col-lg-2 col-md-4" *ngIf="freightId">
                 <div class="custom-form-input">
-                    <label for="">New Freight Amount <span class="text-danger">*</span></label>
+                    <label for="">New Freight Amount</label>
                     <input type="text" class="input-field" formControlName="newFreightAmount" />
                 </div>
             </div>
@@ -86,4 +86,7 @@
             </div>
         </div>
     </form>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+    Loading...
 </div>

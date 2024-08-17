@@ -150,11 +150,11 @@ export class AddEditPointChargeComponent implements OnInit {
 
   // CREATING OR EDITING NEW POINT CHARGE
   onPressSave() {
+    this.loadSpinner = true;
     const cityData = this.destinations.find((item: any) => item.value == this.pointChargeForm.value.pointName);
     const cityId = cityData?.id
     
     const locationCode = this.pointChargeForm.controls['locationCode']?.value;
-    this.loadSpinner = true;
     if (this.pointChargeForm.valid && this.pointChargeId) {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
@@ -175,8 +175,8 @@ export class AddEditPointChargeComponent implements OnInit {
           (response: any) => {
             this.pointChargeData = response;
             this.toastr.success('Point Charge Updated Successfully');
-            this.loadSpinner = false;
             this.router.navigate(['/master/pointCharge']);
+            this.loadSpinner = false;
           },
           (error) => {
             //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -202,8 +202,8 @@ export class AddEditPointChargeComponent implements OnInit {
         (response: any) => {
           this.pointChargeData = response;
           this.toastr.success('Point Charge Created Successfully');
-          this.loadSpinner = false;
           this.router.navigate(['/master/pointCharge']);
+          this.loadSpinner = false;
         },
         (error) => {
           //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -211,7 +211,6 @@ export class AddEditPointChargeComponent implements OnInit {
         }
       );
     }
-    this.loadSpinner = false;
   }
 
   setLocation() {
@@ -292,11 +291,6 @@ export class AddEditPointChargeComponent implements OnInit {
 
   onUploadPdf(evt: any) {
     const file = evt.target.files[0];
-    const maxSizeInBytes = 2 * 1024 * 1024;
-    if (file.size > maxSizeInBytes) {
-      this.toastr.error('File size should be less than 2MB', 'Error');
-      return;
-    }
     this.nocFileName = file.name;
     const reader = new FileReader();
     reader.readAsDataURL(file);
