@@ -245,7 +245,6 @@ export class AddEditVendorComponent implements OnInit {
 
     if (data?.vendorMappingModels) {
       this.transactionMappings = data.vendorMappingModels.map((mapping: any) => {
-        console.log(mapping);
         
         return {
           transactionType: mapping.transactionType.code || {},

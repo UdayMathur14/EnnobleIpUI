@@ -28,7 +28,6 @@ export class TemporaryMaxBiltiNoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.adviceType);
   }
 
   onPressSubmit() {

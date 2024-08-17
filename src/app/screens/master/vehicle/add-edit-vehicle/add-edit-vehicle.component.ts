@@ -139,7 +139,7 @@ export class AddEditVehicleComponent implements OnInit {
 
       this.loadSpinner = false;
     }
-    console.log(localStorage.getItem("userId"));
+
     if (!this.vehicleId) {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,

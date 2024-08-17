@@ -121,7 +121,6 @@ export class AddEditTransporterComponent implements OnInit {
       this.getLocationData(response.locationId)
       this.transporterData = response
       this.transporterMappings = response.transporterMappings.map((mapping: any) => {
-        console.log(mapping);
         
         return {
           transportationMode: mapping.transportationMode.code || {},
@@ -168,7 +167,6 @@ export class AddEditTransporterComponent implements OnInit {
       note: this.transporterForm.controls['note'].value,
       footer: this.transporterForm.controls['footer'].value,
       transporterMappings: this.transporterMappings.map((mapping: any) => {
-        console.log(mapping);
         return {
           transportationModeId: mapping?.transportationMode?.id || mapping?.transportationModeId,
           taxationTypeId: mapping?.taxationType?.id || mapping?.taxationTypeId,
@@ -236,7 +234,6 @@ export class AddEditTransporterComponent implements OnInit {
       postalCode: this.transporterForm.controls['postalCode'].value,
       transporterCode: this.selectedVendor?.vendorCode || '',
       transporterMappings: this.transporterMappings.map((mapping: any) => {
-        console.log(mapping);
         return {
           transportationModeId: mapping?.transportationMode?.id,
           taxationTypeId: mapping?.taxationType?.id,
@@ -414,14 +411,11 @@ export class AddEditTransporterComponent implements OnInit {
     }
 
     this.transporterMappings.push(newObj)
-
-    console.log(this.transporterMappings);
     
   }
 
   onTransporterModeSelect(e: any, index: any) {
-    console.log(e);
-    
+
     this.transporterMappings[index].transportationModeId = e?.typeId;
   }
 
@@ -430,8 +424,6 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   onRcmNonRcmSelect(e: any, index: any) {
-    console.log(e);
-    
     this.transporterMappings[index].taxationTypeId = e?.typeId;
     if (e?.value === "RCM") {
       this.getTaxCodesRcmDropdownData();

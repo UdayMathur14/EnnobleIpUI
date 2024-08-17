@@ -549,7 +549,6 @@ export class AddEditDispatchNoteComponent {
     })
     this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == data);
     this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode)
-    console.log(this.transporterMode);
     
     this.addOrEditDispatchNoteFormGroup.patchValue({
       transporterName: transporters?.transporterName

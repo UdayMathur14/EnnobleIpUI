@@ -24,7 +24,6 @@ export class ApprovalPdfComponent implements OnInit {
   ngOnInit(): void {
     this.getApprovalBiltiData();
     this.getBiltiInfo();
-    console.log(this.biltiData);
     
   }
 
@@ -48,7 +47,6 @@ export class ApprovalPdfComponent implements OnInit {
     };
     this.biltiService.getBiltiApprovalData(data).subscribe((response: any) => {
       this.approvalData = response
-      console.log(response);
       
       });
   }
