@@ -539,7 +539,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
         actionBy: localStorage.getItem("userId"),
         transactionCode: 203,
-        actionByName: this.userName
       };
    
     this.commonTransaction.updateStatus(this.locationId, this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
@@ -559,6 +558,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
       actionBy: localStorage.getItem("userId"),
       transactionCode: 203,
+      actionByName: this.userName
     };
  
   this.commonTransaction.updateStatus(this.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {

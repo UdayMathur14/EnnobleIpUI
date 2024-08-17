@@ -12,6 +12,7 @@ import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.
 export class ApprovalPdfComponent implements OnInit {
   approvalData: any = [];
   @Input() biltiData: any = [];
+  @Input() title: any = [];
   adviceType: any;
   batchName: any;
   constructor(
@@ -40,7 +41,7 @@ export class ApprovalPdfComponent implements OnInit {
       screenCode: 0,
       fromDate: null,
       toDate: null,
-      batchNumber: this.biltiData[0]?.biltiBillProcessModel?.batchNumber,
+      batchNumber: this.title == 'report' ? this.biltiData?.batchNumber : this.biltiData[0]?.biltiBillProcessModel?.batchNumber,
       adviceType: '',
       batchName: '',
       biltiNumber: '',

@@ -4,6 +4,8 @@ import { XlsxService } from '../../../core/service/xlsx.service';
 import { ReportService } from '../../../core/service/report.service';
 import { ExportService } from '../../../core/service/export.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApprovalPdfComponent } from '../../modals/approval-pdf/approval-pdf.component';
 
 @Component({
   selector: 'app-debit-note-report',
@@ -45,7 +47,8 @@ export class DebitNoteReportComponent {
     private reportService: ReportService,
     private exportService: ExportService,
     private xlsxService: XlsxService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit(): void {
@@ -93,7 +96,7 @@ export class DebitNoteReportComponent {
     this.headers = headers;
   }
 
-  exportData(fileName: string = 'Debit Report') {
+  exportExcel(fileName: string = 'Debit Report') {
     const data = {
       batchNumber: this.appliedFilters?.batchNumber || null,
     };
@@ -124,6 +127,24 @@ export class DebitNoteReportComponent {
         this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
       },
       (error) => {}
+    );
+  }
+
+  exportPdf(){
+    let documentModal = this.modalService.open(ApprovalPdfComponent, {
+      size: 'xl',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+    });
+    documentModal.componentInstance.title = 'report';
+    documentModal.componentInstance.biltiData = this.searchedData;
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+        }
+      },
+      (reason) => {}
     );
   }
 }

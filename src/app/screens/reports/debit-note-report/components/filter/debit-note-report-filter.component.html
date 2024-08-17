@@ -21,9 +21,15 @@
         <div class="col-lg-auto ms-auto d-flex align-items-center">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-export specific-padding-export" (click)="exportData.emit()">
+                <button class="custom-button-export specific-padding-export"
+                        [ngbPopover]="popoverContent" popoverTitle="Export Options"
+                        placement="bottom-right">
                     Export
                 </button>
+                <ng-template #popoverContent>
+                    <div class="popover-options" (click)="onExportPDF()">View PDF</div>
+                    <div class="popover-options" (click)="onExportExcel()">Export Excel</div>
+                </ng-template>
             </div>
         </div>
     </div>

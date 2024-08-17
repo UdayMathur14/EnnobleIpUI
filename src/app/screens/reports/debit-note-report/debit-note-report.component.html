@@ -11,7 +11,7 @@
 </div>
 <div class="filter-section">
   <app-debit-note-report-filter (getData)="getData($event)" [reportFilter]="reportFilter"
-    (exportData)="exportData()"></app-debit-note-report-filter>
+    (exportExcel)="exportExcel()" (exportPdf)="exportPdf()"></app-debit-note-report-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">

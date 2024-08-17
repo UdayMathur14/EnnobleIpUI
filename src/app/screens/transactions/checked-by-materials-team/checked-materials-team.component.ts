@@ -151,7 +151,6 @@ export class CheckedMaterialsTeamComponent implements OnInit {
           if (result) {
           }
         },
-        (reason) => {}
       );
     }
 
