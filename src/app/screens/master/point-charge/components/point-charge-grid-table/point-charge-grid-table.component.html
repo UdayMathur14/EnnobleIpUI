@@ -4,9 +4,7 @@
       <tr>
         <th (click)="sortData('pointName')">Point Name</th>
         <th (click)="sortData('pointCharge')">Point Charge</th>
-        <th (click)="sortData('historyPointChargeAmount')">Historic Point Charge</th>
         <th (click)="sortData('sameLocationCharge')">Same Location Charge</th>
-        <th (click)="sortData('historySameLocationChargeAmount')">Historic Same Location Charge</th>
         <th (click)="sortData('locations')">Location Code</th>
         <th (click)="sortData('materialRemarks')">Material Remarks</th>
         <th (click)="sortData('accountsRemarks')">Account Remarks</th>
@@ -67,7 +65,6 @@
             </div>
           </ng-template>
         </td>
-        <td>{{ pointcharge?.pointCharge }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="historyData">
             <u>{{ pointcharge?.pointCharge }}</u>
