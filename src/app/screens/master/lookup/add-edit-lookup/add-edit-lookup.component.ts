@@ -185,9 +185,7 @@ export class AddEditLookupComponent implements OnInit {
   }
 
   selecetLookupType(e: any){
-    if(this.lookupId){
       this.selectedLookupType = e?.target?.innerText
-    }
   }
 
 }
