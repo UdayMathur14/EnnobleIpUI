@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item">
+        <div class="accordion-item" *ngIf="securityGroups('MFG_REPORT')">
           <h2 class="accordion-header" id="reportsHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsereports" aria-expanded="false" aria-controls="collapsereports">
               Reports
@@ -61,12 +61,12 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('provision-report')">Provision Report</li>
-                <li (click)="onreportChange('processed-report')">Processed Report</li>
-                <li (click)="onreportChange('error-logging-report')">Error Logging Report</li>
-                <li (click)="onreportChange('rejection-bilti-detail-report')">Rejection Bilti Detail Report</li>
-                <li (click)="onreportChange('debit-note-report')">Debit Note Report</li>
-                <li (click)="onreportChange('adhoc-report')">Adhoc Report</li>
+                <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROVISION_REPORT')">Provision Report</li>
+                <li (click)="onreportChange('processed-report')" *ngIf="securityGroups('MFG_REPORT_PROCESSED_REPORT')">Processed Report</li>
+                <li (click)="onreportChange('error-logging-report')" *ngIf="securityGroups('MFG_REPORT_ERROR_LOGGING_REPORT')">Error Logging Report</li>
+                <li (click)="onreportChange('rejection-bilti-detail-report')" *ngIf="securityGroups('MFG_REPORT_REJECTION_BILTI_DETAIL_REPORT')">Rejection Bilti Detail Report</li>
+                <li (click)="onreportChange('debit-note-report')" *ngIf="securityGroups('MFG_REPORT_DEBIT_NOTE_REPORT')">Debit Note Report</li>
+                <li (click)="onreportChange('adhoc-report')" *ngIf="securityGroups('MFG_REPORT_ADHOC_REPORT')">Adhoc Report</li>
               </ul>
             </div>
           </div>
