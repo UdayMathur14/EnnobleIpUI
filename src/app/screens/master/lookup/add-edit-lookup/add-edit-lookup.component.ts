@@ -82,9 +82,15 @@ export class AddEditLookupComponent implements OnInit {
         attribute2: response.attribute2,
         attribute3: response.attribute3,
         attribute4: response.attribute4,
+        attribute11: response.attribute11,
+        attribute12: response.attribute12,
+        attribute5: response.attribute5,
+        attribute6: response.attribute6,
+        attribute7: response.attribute7,
       });
 
       this.lookupTypes = [response.lookUpType];
+      this.selectedLookupType = response?.lookUpType?.value
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -179,7 +185,9 @@ export class AddEditLookupComponent implements OnInit {
   }
 
   selecetLookupType(e: any){
-    this.selectedLookupType = e?.target?.innerText
+    if(this.lookupId){
+      this.selectedLookupType = e?.target?.innerText
+    }
   }
 
 }

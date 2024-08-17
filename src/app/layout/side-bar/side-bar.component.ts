@@ -15,7 +15,7 @@ export class SideBarComponent {
         this.selectedAccordion = window.location.pathname.includes('/master/') ? 'master' : window.location.pathname.includes('/transaction/') ? 'transactions' : 'report';
     }
 
-    securityGroups(permission: String) {
+    securityGroups(permission: any) {
         return this.authGuard.securityGroups(permission);
     }
 
@@ -86,4 +86,14 @@ export class SideBarComponent {
             this.router.navigate(['/report/adhoc-report'])
         }
     }
+
+    hasPermission(key: string): boolean {
+        const profile: any = localStorage.getItem("profile");
+        const userData = JSON.parse(profile);
+        if (userData && userData.permissions) {
+          return userData.permissions.some((permission: string) => permission.startsWith(key));
+        }
+      
+        return false;
+      }
 }
