@@ -54,9 +54,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   }
 
   downloadPDF(data: any) {
-    console.log(data);
     this.freightService.getFreightData(data?.locationId, data?.id).subscribe((response: any) => {
-        console.log(response);
         
         const base64Prefix = 'data:application/pdf;base64,';
         const base64Data = response.fileData.startsWith(base64Prefix) ? response.fileData.substring(base64Prefix.length) : response.fileData;
