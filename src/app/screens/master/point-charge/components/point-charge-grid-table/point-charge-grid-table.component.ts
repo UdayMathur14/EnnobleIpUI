@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChang
 import { Router } from '@angular/router';
 import { CommonUtility } from '../../../../../core/utilities/common';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-point-charge-grid-table',
@@ -14,7 +15,8 @@ export class PointChargeGridTableComponent implements OnInit {
   @Input() pointChargesList : any[] = [];
   constructor(
     private router: Router,
-    private pointChargeService: PointChargeService
+    private pointChargeService: PointChargeService,
+    private toastr: ToastrService,
   ) { }
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -51,33 +53,36 @@ export class PointChargeGridTableComponent implements OnInit {
   }
 
   openPDF(data: any) {
-    this.pointChargeService
-        .getPointChargeData(data?.locationId, data?.id)
-        .subscribe(
-          (response: any) => {
+    this.pointChargeService.getPointChargeData(data?.locationId, data?.id).subscribe(
+        (response: any) => {
+            if (!response.fileData) {
+                this.toastr.error('No PDF is available to download', 'Error');
+                return;
+            }
+
             const base64Prefix = 'data:application/pdf;base64,';
-        const base64Data = response.fileData.startsWith(base64Prefix) ? response.fileData.substring(base64Prefix.length) : response.fileData;
-        const byteCharacters = atob(base64Data);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = response.fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-          },
-          (error) => {
-            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-          }
-        );
-  }
+            const base64Data = response.fileData.startsWith(base64Prefix) 
+                ? response.fileData.substring(base64Prefix.length) 
+                : response.fileData;
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = response.fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        },
+    );
+}
+
 }
 
