@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { APIConstant } from '../../../core/constants';
+import { ApprovalPdfComponent } from '../../modals/approval-pdf/approval-pdf.component';
 
 @Component({
   selector: 'app-approval-material-head',
@@ -27,13 +28,21 @@ export class ApprovalMaterialHeadComponent {
   totalBiltis: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  userName: string = '';
+  @ViewChild(ApprovalPdfComponent) approvalPdfComponent!: ApprovalPdfComponent;
 
   constructor(private biltiProcessService: BiltiBillProcessService,
     private toastr: ToastrService,
-    private commonTransaction: CommonTransactionService
+    private commonTransaction: CommonTransactionService,
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
+    const loginData = localStorage.getItem("logindata");
+    if(loginData){
+      const data = JSON.parse(loginData)
+      this.userName = data?.username
+    }
     this.getAllBiltiProcess();
   }
 
@@ -104,6 +113,7 @@ export class ApprovalMaterialHeadComponent {
       remarks: remarks,
       actionBy: localStorage.getItem("userId"),
       transactionCode: 203,
+      actionByName: this.userName,
     };
 
     this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
@@ -129,6 +139,24 @@ export class ApprovalMaterialHeadComponent {
       this.count = data;
       this.currentPage = 1;
       this.getAllBiltiProcess(0, this.count, this.searchedData);
+    }
+
+    onPreviewPdf() {
+      let documentModal = this.modalService.open(ApprovalPdfComponent, {
+        size: 'xl',
+        backdrop: 'static',
+        windowClass: 'modal-width',
+      });
+      documentModal.componentInstance.title = 'Approval';
+      documentModal.componentInstance.biltiData = this.biltiBillProcess;
+  
+      documentModal.result.then(
+        (result) => {
+          if (result) {
+          }
+        },
+        (reason) => {}
+      );
     }
 
 }

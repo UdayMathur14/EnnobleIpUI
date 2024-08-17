@@ -8,6 +8,9 @@
 
 <div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}" *ngIf="(searchedData?.batchNumber && biltiBillProcess?.length > 0)
     || searchedData?.toDate && biltiBillProcess?.length > 0">
+      <div class="action-buttons me-2">
+        <button class="custom-button-regulr" (click)="onPreviewPdf()">Approval PDF</button>
+      </div>
   <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
     [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left" #approvePopover="ngbPopover"
     (click)="openPopover(approvePopover)">

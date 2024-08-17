@@ -58,6 +58,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   fullPath:any;
   amountDisabled: boolean = false;
   locationId: any;
+  userName: string = '';
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -81,7 +82,12 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     });
     this.initForm();
     this.getBiltiBillProcessbyId();
-    this.locationId = localStorage.getItem('locationId')
+    this.locationId = localStorage.getItem('locationId');
+    const loginData = localStorage.getItem("logindata");
+    if(loginData){
+      const data = JSON.parse(loginData)
+      this.userName = data?.username
+    }
   }
 
   initForm(): void {
@@ -533,6 +539,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         remarks: this.biltiBillProcess.controls['rejectRemarks']?.value || "",
         actionBy: localStorage.getItem("userId"),
         transactionCode: 203,
+        actionByName: this.userName
       };
    
     this.commonTransaction.updateStatus(this.locationId, this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {

@@ -16,24 +16,16 @@
       <div class="custom-table">
         <table border="1" cellspacing="0" cellpadding="5">
           <tr>
-            <td>Supplier :</td>
-            <td colspan="3">SURAJPUR TEMPO TRANSPORT ASSOCIATION</td>
-          </tr>
-          <tr>
-            <td>Code :</td>
-            <td colspan="3">IN030367 RCM</td>
-          </tr>
-          <tr>
             <td>Payment Advise No :</td>
-            <td>RM SALES HA 689</td>
+            <td>{{approvalData?.batchNumber}}</td>
           </tr>
           <tr>
             <td>Payment Advise Date:</td>
-            <td>07-Mar-2024 16:26:12</td>
+            <td>{{approvalData?.biltiBillProcessDate | date : "yyyy-MM-dd"}}</td>
           </tr>
           <tr>
             <td>Payment TTL(Grand TTL):</td>
-            <td colspan="3">54206</td>
+            <td colspan="3">{{approvalData?.paymentTotal}}</td>
           </tr>
         </table>
       </div>
@@ -54,9 +46,10 @@
           </thead>
           <tbody>
             <tr>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{{approvalData?.checkedByMaterial || '-'}}</td>
+              <td>{{approvalData?.approvedByMaterialHead || '-'}}</td>
+              <td>{{approvalData?.approvedByAccounts || '-'}}</td>
+
             </tr>
           </tbody>
         </table>
@@ -68,12 +61,14 @@
       <thead>
         <tr>
           <th colspan="2">Payment Advise No:</th>
-          <th colspan="2">RM_SALES_HA_689</th>
+          <th colspan="2">{{approvalData?.batchNumber}}</th>
           <th colspan="5">Additions</th>
           <th colspan = "4"></th>
         </tr>
         <tr>
           <th>No.</th>
+          <th>Supplier Code</th>
+          <th>Supplier Name</th>
           <th>Bilti No.</th>
           <th>Bilti Date</th>
           <th>Basic Freight Charges</th>
@@ -91,22 +86,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td>0</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>0</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr *ngFor="let approval of approvalData?.biltiDetails; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{approval?.transporterCode}}</td>
+          <td>{{approval?.transporterName}}</td>
+          <td>{{approval?.biltiNumber}}</td>
+          <td>{{approval?.creationDate | date : "yyyy-MM-dd"}}</td>
+          <td>{{approval?.basicFreightCharge}}</td>
+          <td>{{approval?.pointCharges}}</td>
+          <td>{{approval?.unloadingCharges}}</td>
+          <td>{{approval?.detentionCharges}}</td>
+          <td>{{approval?.overloadCharges}}</td>
+          <td>{{approval?.tollTaxCharges}}</td>
+          <td>{{approval?.netAmount}}</td>
+          <td>{{approval?.sgstAmount}}</td>
+          <td>{{approval?.cgstAmount}}</td>
+          <td>{{approval?.igstAmount}}</td>
+          <td>{{approval?.debitNoteAmount}}</td>
+          <td>{{approval?.grandTotal}}</td>
         </tr>
       </tbody>
     </table>

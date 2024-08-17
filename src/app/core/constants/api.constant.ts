@@ -79,6 +79,7 @@ export const createBiltiBillProcess = (locationId: any) => `v1/bilti-process/cre
 export const updateBiltiBillProcess = (locationId: any, biltiBillProcessId: any) => `v1/bilti-process/update/${locationId}/${biltiBillProcessId}`
 export const updateBiltiStatus= (locationId:any, BatchNumber: any) => `v1/commonTransaction/updateBatchStatus/${locationId}/${BatchNumber}`; 
 export const changeBiltiStatus = (locationId: any) => `v1/bilti-bill-change-status/update/${locationId}`; 
+export const biltiApprovalData = (locationId: any) => `v1/bilti-process/searchApprovalData`; 
 export const getNocPdf = (locationId: any, id: number) => `v1/bilti-bill-change-status/${locationId}/${id}`;
 
 export const errorLoggingReport = (offset: any, count: number) => `v1/errorLoggingReport/search?offset=${offset}&count=${count}`;

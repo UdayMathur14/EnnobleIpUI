@@ -30,6 +30,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   totalBiltis: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  userName: string = '';
   @ViewChild(ApprovalPdfComponent) approvalPdfComponent!: ApprovalPdfComponent;
 
   constructor(private router : Router,
@@ -40,6 +41,12 @@ export class CheckedMaterialsTeamComponent implements OnInit {
 ){}
 
   ngOnInit(): void {
+    const loginData = localStorage.getItem("logindata");
+    if(loginData){
+      const data = JSON.parse(loginData)
+      this.userName = data?.username
+    }
+    
     this.getAllBiltiProcess();
   }
 
@@ -103,6 +110,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
         remarks:  remarks,
         actionBy: localStorage.getItem("userId"),
         transactionCode: 203,
+        actionByName: this.userName
       };
     this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
