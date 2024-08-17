@@ -38,7 +38,7 @@
                 </div>
               </ng-template>
             </td>
-            <td>{{pointchargeAcc?.pointCharge}}</td>
+            <td>{{pointchargeAcc?.newPointCharge && pointchargeAcc?.newPointCharge != 0 ? pointchargeAcc?.newPointCharge : pointchargeAcc?.pointCharge || '-' }}</td>
             <td>{{pointchargeAcc?.sameLocationCharge}}</td>
             <td>-</td>
             <td class="text-center d-flex justify-content-center" (click)="selectPoint(pointchargeAcc.id)">

@@ -43,7 +43,7 @@
             <td>{{freight?.source?.value || '-' }}</td>
             <td>{{freight?.destination?.value || '-' }}</td>
             <td>{{freight?.vehicleSize?.value || '-' }}</td>
-            <td>{{freight?.freightAmount || '-' }}</td>
+            <td>{{freight?.newFreightAmount && freight?.newFreightAmount != 0 ? freight?.newFreightAmount : freight?.freightAmount || '-' }}</td>
             <td>{{freight?.remarks || '-' }}</td>
             <td class="text-center d-flex justify-content-center" (click)="selectFreight(freight.id)">
               <!-- Approve Button -->
