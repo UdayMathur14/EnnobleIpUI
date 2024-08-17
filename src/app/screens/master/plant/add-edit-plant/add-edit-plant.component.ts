@@ -99,7 +99,6 @@ export class AddEditPlantComponent implements OnInit {
     const type = 'ProfitCenter';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.profitCenterDropdownData = res.lookUps;
-      console.log(res.lookUps);
       
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -116,7 +115,6 @@ export class AddEditPlantComponent implements OnInit {
     const type = 'BusinessPlace';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.businessPlaceDropdownData = res.lookUps;
-      console.log(res.lookUps);
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
@@ -132,7 +130,6 @@ export class AddEditPlantComponent implements OnInit {
     const type = 'SectionCode';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.sectionCodeDropdownData = res.lookUps;
-      console.log(res.lookUps);
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
@@ -148,7 +145,6 @@ export class AddEditPlantComponent implements OnInit {
     const type = 'CostCenter';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.costCenterDropdownData = res.lookUps;
-      console.log(res.lookUps);
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
@@ -231,8 +227,6 @@ export class AddEditPlantComponent implements OnInit {
       costCenter: this.plantForm.controls['costCenter'].value,
       transactionTypeDetails: transactionData
     }
-
-    console.log(data);
     
     this.plantService.updatePlant(locationCode,this.queryData, data).subscribe((response: any) => {
       this.plantData = response;

@@ -114,8 +114,6 @@ export class AddEditFreightComponent implements OnInit {
 
   //FUNCTION EXECUTED ON SAVE BUTTON CLICK
   onPressSave() {
-    .log(this.freightForm.value);
-    
     this.loadSpinner = true;
     let data = {
       freightCode: this.freightForm.controls['freightCode'].value,

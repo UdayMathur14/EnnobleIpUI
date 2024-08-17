@@ -436,9 +436,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.transporterMappings[ind].taxationTypeId = 0;
   }
 
-  onTaxCodeSelect(e: any, index: any) {
-    console.log(e);
-    
+  onTaxCodeSelect(e: any, index: any) { 
     this.transporterMappings[index].taxaCodesId = e?.typeId;
   }
 
@@ -447,8 +445,6 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   onTdsCodeSelect(e: any, index: any) {
-    console.log(e);
-    
     this.transporterMappings[index].tdsCodesId = e?.typeId;
   }
 
@@ -484,7 +480,6 @@ export class AddEditTransporterComponent implements OnInit {
     }
     this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {
       this.vendorsList = response.vendors;
-      console.log(this.vendorsList);
       this.loadSpinner = false;
       // this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
     }, error => {

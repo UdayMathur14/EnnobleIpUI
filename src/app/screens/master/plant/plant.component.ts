@@ -67,7 +67,6 @@ export class PlantComponent implements OnInit {
   }
 
   getData(e: any) {
-    console.log(e);
     this.appliedFilters = e;
     this.currentPage = 1;
     this.getPlantsList(0, this.count, this.appliedFilters);

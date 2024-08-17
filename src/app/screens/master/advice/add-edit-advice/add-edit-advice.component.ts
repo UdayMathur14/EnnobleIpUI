@@ -109,7 +109,6 @@ export class AddEditAdviceComponent implements OnInit {
         });
         const selectedAdviceType = this.adviceForm.controls['adviceType'].value;
         const transactionData = this.transactionTypesList.find((item: any) => item.name == selectedAdviceType)
-        console.log(transactionData);
         this.transactionCode = transactionData.code,
         this.transactionId = transactionData.id
 
