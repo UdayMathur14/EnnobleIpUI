@@ -88,6 +88,12 @@ export class AddEditBiltiComponent implements OnInit {
   combinedRows: any = [];
   freightCode: string = '';
   dispatchNoteId: any = [];
+  transporterMode: any = [];
+  taxationType: string = '';
+  taxCode: string = '';
+  tdsCode: string = '';
+  modeofTransport: string = '';
+  transporters: any;
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -144,6 +150,7 @@ export class AddEditBiltiComponent implements OnInit {
         transporterName: new FormControl(''),
         loadingLocation: new FormControl(null, [Validators.required]),
         status: new FormControl('Active'),
+        transporterMode: [''],
         vendors: this.fb.array([])
     });
   }
@@ -399,6 +406,12 @@ export class AddEditBiltiComponent implements OnInit {
         transporterName: this.transporterMapName[selected.transporterId],
       });
     }
+     const frlrTransporterCode = this.transporterMapCode[selected?.transporterId]
+     this.transporters = this.transportersList.find((item: any) => {
+      return item?.transporterCode == frlrTransporterCode;
+     })
+     this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+     
     if (this.biltiId == 0) {
       this.patchTransactionType(this.biltiTransactionType)
     } else {
@@ -461,6 +474,9 @@ onFrlrNoClear() {
   }
 
   onTransporterChange(data: any) {
+    this.biltiForm.patchValue({
+      transporterMode: null
+    });
     this.transportersList.forEach((transporter: any) => {
       if (transporter.transporterCode === data) {
         this.transporterId = transporter.id;
@@ -469,6 +485,27 @@ onFrlrNoClear() {
         });
       }
     });
+    
+    this.transporters = this.transportersList.find((item: any) => {
+      return item.transporterCode == data;
+     })
+     this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+     if(this.transporterMode.length == 1 ){
+      this.biltiForm.patchValue({
+        transporterMode: this.transporterMode[0]?.transportationMode.value || null
+    })
+    this.taxationType = this.transporterMode[0]?.taxationType.value;
+    this.tdsCode = this.transporterMode[0]?.tdsCodes.code;
+    this.taxCode = this.transporterMode[0]?.taxCodes.code;
+    this.modeofTransport =  this.transporterMode[0]?.transportationMode.value;
+     }
+  }
+
+  onChangeMode(data: any){
+      this.taxationType = data?.taxationType?.code;
+      this.tdsCode = data?.tdsCodes?.code;
+      this.taxCode = data?.taxCodes?.code;
+      this.modeofTransport = data?.transportationMode.value;
   }
 
   onTransporterClear() {
@@ -630,20 +667,27 @@ onFrlrNoClear() {
         frlrNumber: this.frlrNumber ?? '',
         transporterId: this.transporterId,
         transporterCode: formData?.transporterCode,
-        transporterTypeFlag :transporterTypeFlag,
+        transporterTypeFlag: transporterTypeFlag,
         transporterName: formData?.transporterName,
         freightId: this.freightId,
         freightCode: formData?.freightCode?.freightCode,
         freightAmount: formData?.freightAmount,
         loadingLocationId: this.biltiForm.controls['loadingLocation'].value,
-        loadingLocationValue :loadingLocationValue,
+        loadingLocationValue: loadingLocationValue,
         source: formData?.source,
         destination: formData?.destination,
         vehicleId: this.vehicleId,
-        vehicleNumber: formData.transactionType.code === 'RB'? formData?.vehicleNumber :formData?.vehicleNumber?.vehicleNumber,
+        vehicleNumber:
+          formData.transactionType.code === 'RB'
+            ? formData?.vehicleNumber
+            : formData?.vehicleNumber?.vehicleNumber,
         vehicleSize: formData?.vehicleSize,
         attribute9: '2024-05-04T13:03:47.509Z',
         attribute10: '2024-05-04T13:03:47.509Z',
+        transporterMode: this.modeofTransport,
+        taxationType: this.taxationType,
+        taxCode: this.taxCode,
+        tdsCode: this.tdsCode,
         lineItemsEntity: [
           {
             vendorId: 0,
@@ -724,6 +768,10 @@ onFrlrNoClear() {
         freightCode: this.freightCode,
         freightAmount: formData?.freightAmount,
         loadingLocationValue :loadingLocationValue,
+        transporterMode: this.modeofTransport,
+        taxationType: this.taxationType,
+        taxCode: this.taxCode,
+        tdsCode: this.tdsCode,
         lineItemsEntity:  [
           {
           vendorId: 0,
@@ -912,8 +960,18 @@ onFrlrNoClear() {
           source: response?.source,
           destination: response?.destination,
           loadingLocation: location?.id,
-          locationId: response.locationId
+          locationId: response.locationId,
+          transporterMode: response.transporterMode
         });
+        this.transporters = this.transportersList.find((item: any) => {
+          return item.transporterCode == transporter?.transporterCode;
+         })
+         this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+         this.taxationType = response?.taxationType;
+        this.tdsCode = response?.tdsCode;
+        this.taxCode = response?.taxCode;
+        this.modeofTransport =  response?.transporterMode;
+         
         if(this.selectedTransactionTypeCode == "RB"){
           this.getDispatchData();
         } else {
