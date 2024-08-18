@@ -58,7 +58,7 @@ export class AddEditVendorComponent implements OnInit {
     // paidByDetail: new FormControl('', [Validators.required]),
     taxationTypeId: new FormControl('', [Validators.required]),
     taxCodeId: new FormControl('', [Validators.required]),
-    tdsCodeId: new FormControl('', [Validators.required]),
+    // tdsCodeId: new FormControl('', [Validators.required]),
     cgst: new FormControl(''),
     sgst: new FormControl(''),
     igst: new FormControl(''),
@@ -137,7 +137,7 @@ export class AddEditVendorComponent implements OnInit {
       email: this.vendorForm.get('email')?.value,
       taxationTypeId: this.vendorForm.get('taxationTypeId')?.value || 0,
       taxCodeId: this.vendorForm.get('taxCodeId')?.value || 0,
-      tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
+      // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
       status: this.vendorForm.get('status')?.value,
       vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
         return {                                                                          
@@ -231,7 +231,7 @@ export class AddEditVendorComponent implements OnInit {
       gstin: data.gstInNo,
       taxationTypeId: data?.taxationTypeId,
       taxCodeId: data?.taxCodeId,
-      tdsCodeId: data?.tdsCodeId,
+      // tdsCodeId: data?.tdsCodeId,
       // paymentTermCode: data.payTermCode,
       // paymentStatus: data.payTermStatus,
       // paidByDetail: data.paidByDetail?.value,
