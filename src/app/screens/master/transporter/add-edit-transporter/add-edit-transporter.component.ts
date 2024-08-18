@@ -21,7 +21,6 @@ export class AddEditTransporterComponent implements OnInit {
   taxationCode: any;
   transporterMode: any[] = []
   rcmNonRcmType: any[] = []
-  taxCodes: any[] = []
   tdsCodes: any[] = []
   disableSubmit: boolean = false;
   locations: any[] = APIConstant.locationsListDropdown;
@@ -32,6 +31,8 @@ export class AddEditTransporterComponent implements OnInit {
   count: number = Number.MAX_VALUE;
   selectedVendor: any = [];
   isShow: boolean = false;
+  taxCodesRcm: any[] = [];
+  taxCodesNonRcm: any[] = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -84,6 +85,8 @@ export class AddEditTransporterComponent implements OnInit {
     this.getTransporterModeDropdownData();
     this.getRCMNonRCMTypeDropdownData();
     this.getTdsCodesDropdownData();
+    this.getTaxCodesNonRcmDropdownData();
+    this.getTaxCodesRcmDropdownData();
   }
 
   getTransporterData(transporterId: string) {
@@ -289,7 +292,9 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TaxCodesRCM'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodes = res.lookUps
+      this.taxCodesRcm = res.lookUps
+      console.log(this.taxCodesRcm);
+      
     })
   }
 
@@ -301,7 +306,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TaxCodesNonRCM'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodes = res.lookUps
+      this.taxCodesNonRcm = res.lookUps
+      console.log(this.taxCodesNonRcm);
     })
   }
 
@@ -425,11 +431,8 @@ export class AddEditTransporterComponent implements OnInit {
 
   onRcmNonRcmSelect(e: any, index: any) {
     this.transporterMappings[index].taxationTypeId = e?.typeId;
-    if (e?.value === "RCM") {
-      this.getTaxCodesRcmDropdownData();
-    }else{
-      this.getTaxCodesNonRcmDropdownData();
-    }
+    console.log(this.transporterMappings);
+    
   }
 
   onRcmNonRcmClear(ind: number) {

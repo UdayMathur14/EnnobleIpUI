@@ -214,9 +214,16 @@
                   (change)="onTaxCodeSelect($event, ind)" 
                   (clear)="onTaxCodeClear(ind)"
                   [disabled]="transaction.disabled">
-                  <ng-option *ngFor="let code of taxCodes" [value]="code">
+                  <ng-container *ngIf="transaction?.taxationType?.code === 'RCM'">
+                  <ng-option *ngFor="let code of taxCodesRcm" [value]="code">
                     {{code.code}}
                   </ng-option>
+                </ng-container>
+                <ng-container *ngIf="transaction?.taxationType?.code === 'Non-RCM'">
+                  <ng-option *ngFor="let code of taxCodesNonRcm" [value]="code">
+                    {{code.code}}
+                  </ng-option>
+                </ng-container>
                 </ng-select>
               </div>
             </div>
