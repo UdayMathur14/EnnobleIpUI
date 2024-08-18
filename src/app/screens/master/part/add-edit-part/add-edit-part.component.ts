@@ -39,11 +39,11 @@ export class AddEditPartComponent implements OnInit {
     if (this.partId != 0) {
       this.getPartData(this.partId);
     }
-    this.loadSpinner = false;
   }
 
   //FETCHING SELECTED PART'S DATA FROM API
   getPartData(partId: number) {
+    this.loadSpinner = true;
     this.partService.getPartData(partId).subscribe((response: any) => {
       this.partForm.setValue({
         partNumber: response.partNumber,

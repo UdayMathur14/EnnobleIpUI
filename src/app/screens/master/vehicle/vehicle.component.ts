@@ -54,7 +54,6 @@ export class VehicleComponent implements OnInit{
       this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }

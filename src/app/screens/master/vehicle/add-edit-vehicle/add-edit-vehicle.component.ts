@@ -78,6 +78,8 @@ export class AddEditVehicleComponent implements OnInit {
 
   // GET THE DATA OF SPECIFIC VEHICLE
   getVehicleData(vehicleId: string) {
+    this.loadSpinner = true;
+    this.loadSpinner = true;
     if (this.vehicleId) {
       this.loadSpinner = true;
       this.vehicleService.getVehicleData(this.vehicleLocationId,vehicleId).subscribe((response: any) => {
@@ -115,8 +117,8 @@ export class AddEditVehicleComponent implements OnInit {
 
   // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
-    this.locationCode = this.vehicleForm.controls['locationId']?.value
     this.loadSpinner = true;
+    this.locationCode = this.vehicleForm.controls['locationId']?.value
     if (this.vehicleId) {
       let data = {
         transporterId: 1,
@@ -136,8 +138,6 @@ export class AddEditVehicleComponent implements OnInit {
           //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
-
-      this.loadSpinner = false;
     }
 
     if (!this.vehicleId) {
@@ -155,14 +155,12 @@ export class AddEditVehicleComponent implements OnInit {
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Created Successfully')
-          this.loadSpinner = false;
           this.router.navigate(['/master/vehicle'])
+          this.loadSpinner = false;
         }, error => {
           //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
-
-      this.loadSpinner = false;
     }
 
   }
@@ -250,6 +248,7 @@ export class AddEditVehicleComponent implements OnInit {
       });
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
   }
 

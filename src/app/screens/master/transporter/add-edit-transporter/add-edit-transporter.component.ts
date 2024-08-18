@@ -77,7 +77,6 @@ export class AddEditTransporterComponent implements OnInit {
     if (this.queryData != 0) {
       this.getTransporterData(this.queryData);
     }
-    this.loadSpinner = false;
     // Enable or disable status control based on queryData for Create and Update
     this.getTransporterModeDropdownData();
     this.getTaxationcode();
@@ -91,6 +90,7 @@ export class AddEditTransporterComponent implements OnInit {
 
   getTransporterData(transporterId: string) {
     this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
+      this.loadSpinner = false;
       this.transporterMappings = response?.transporterMappings
       this.transporterForm.patchValue({
         transporterCode: response.transporterCode,
@@ -139,7 +139,6 @@ export class AddEditTransporterComponent implements OnInit {
           isShow: false
         };
       });
-      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;

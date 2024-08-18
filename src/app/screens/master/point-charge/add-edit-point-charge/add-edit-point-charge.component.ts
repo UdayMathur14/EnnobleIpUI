@@ -86,10 +86,12 @@ export class AddEditPointChargeComponent implements OnInit {
     this.lookupService.getLocationsLookup(data, type).subscribe(
       (res: any) => {
         this.pointNameData = res.lookUps;
+        this.loadSpinner = false;
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.baseService.plantSpinner.next(false);
+        this.loadSpinner = false;
       }
     );
   }

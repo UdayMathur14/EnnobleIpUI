@@ -56,7 +56,6 @@ export class AddEditLookupComponent implements OnInit {
     } else {
       this.getLookupTypes();
     }
-    this.loadSpinner = false;
   }
 
   //TO GET LOOKUP-TYPE DATA
@@ -64,8 +63,10 @@ export class AddEditLookupComponent implements OnInit {
     let data = {}
     this.lookupService.getLookupsType(data).subscribe((response: any) => {
       this.lookupTypes = response.lookUpTypes;
+      this.loadSpinner = false;
     }, error => {
       this.toastr.error(error.statusText, error.status)
+      this.loadSpinner = false;
     })
   }
 

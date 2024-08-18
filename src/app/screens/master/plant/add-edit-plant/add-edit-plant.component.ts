@@ -32,6 +32,7 @@ export class AddEditPlantComponent implements OnInit {
   locations: any[] = APIConstant.locationsListDropdown;
   offset: number = 0;
   count: number = Number.MAX_VALUE;
+  loadSpinner: boolean = false;
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -152,6 +153,7 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   getPlantData(plantId: string) {
+    this.loadSpinner = true;
     const location = this.locationsDropdownData.find((loc: any) => loc.id === this.plantLocationId)
     
     this.plantService.getPlantData(this.plantLocationId,plantId).subscribe((response: any) => {
@@ -177,9 +179,11 @@ export class AddEditPlantComponent implements OnInit {
       this.plantData = response;
       this.initializeSelectedTransactionCodes();
       this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 
@@ -199,6 +203,7 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   onPressSave() {
+    this.loadSpinner = true;
     const locationCode = this.plantForm.controls['locationId']?.value
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
@@ -233,9 +238,11 @@ export class AddEditPlantComponent implements OnInit {
       this.toastr.success('Plant Update Successfully');
       this.baseService.plantSpinner.next(false);
       this.router.navigate(['master/plant']);
+      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 

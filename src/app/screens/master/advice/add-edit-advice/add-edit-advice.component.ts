@@ -60,7 +60,6 @@ export class AddEditAdviceComponent implements OnInit {
     } else {
       //this.getLocations();
     }
-    this.loadSpinner = false;
     this.getAllTransactionTypes();
     // Subscribe to changes in adviceType and locationCode form controls to autofill Batch Name
     this.adviceForm.get('adviceType')!.valueChanges.subscribe(value => {
@@ -255,6 +254,7 @@ export class AddEditAdviceComponent implements OnInit {
       });
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
   }
 
