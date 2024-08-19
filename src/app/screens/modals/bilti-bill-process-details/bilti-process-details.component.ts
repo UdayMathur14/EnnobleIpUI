@@ -529,6 +529,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       const rejectRemarks = this.biltiBillProcess.controls['rejectRemarks']?.value;
       if (!rejectRemarks || rejectRemarks.trim().length === 0) {
         this.toastr.error('Remarks are required when rejecting.');
+        this.loadSpinner = false;
         return;
       }
     }

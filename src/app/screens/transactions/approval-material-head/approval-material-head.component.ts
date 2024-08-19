@@ -105,6 +105,7 @@ export class ApprovalMaterialHeadComponent {
     this.loadSpinner = true;
     if (status === 'Rejected' && !remarks.trim()) {
       this.toastr.error('Remarks are required for rejection');
+      this.loadSpinner = false;
       return;
     }
     const data = {
