@@ -6,13 +6,13 @@
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
   <app-processed-report-filter (filterSearchObj)="filteredData($event)"
-    [filters]="filters"></app-processed-report-filter>
+    [filters]="filters" (exportData)="exportData()"></app-processed-report-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
   <div class="grid-table">
     <div class="table-container">
-      <app-processed-report-grid-table [biltiBillProcess]="biltiBillProcess"></app-processed-report-grid-table>
+      <app-processed-report-grid-table [biltiBillProcess]="biltiBillProcess" (exportHeader)="onExportHeader($event)"></app-processed-report-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <ngb-pagination [collectionSize]="totalBiltiBills" [(page)]="currentPage" [pageSize]="count"

@@ -23,6 +23,7 @@ export class ProcessedReportFilterComponent implements OnInit {
   locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
   locations:any[] = APIConstant.locationsListDropdown;
   status: any = undefined;
+  @Output() exportData: EventEmitter<any> = new EventEmitter();
 
   @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
