@@ -977,6 +977,7 @@ onFrlrNoClear() {
         } else {
           this.getFrlr(this.selectedTransactionTypeCode);
         }
+        this.loadSpinner = false;
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -1005,6 +1006,7 @@ onFrlrNoClear() {
         });
       },
       (error) => {
+        this.loadSpinner = false;
       }
     );
   }

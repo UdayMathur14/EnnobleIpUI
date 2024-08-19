@@ -47,7 +47,9 @@ export class DispatchNoteComponent {
       this.totaldispatchNotes = res.paging.total;
       this.filters = res.filters;
       this.loadSpinner = false;
-    })
+    },error => {
+      this.loadSpinner = false;
+  }) 
   }
 
   getData(e:any){

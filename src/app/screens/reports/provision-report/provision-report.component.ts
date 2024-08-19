@@ -19,6 +19,7 @@ export class ProvisionReportComponent {
   filters: any = [];
   appliedFilters: any = {};
   headers: string[] = [];
+  loadSpinner: boolean = true;
 
   constructor(
     private router: Router,
@@ -45,8 +46,11 @@ export class ProvisionReportComponent {
       (res: any) => {
         this.provisionalReport = res.provisionalReport;
         this.totalReports = res.paging.total;
+        this.loadSpinner = false;
       },
-      (error) => {}
+      (error) => {
+        this.loadSpinner = false;
+      }
     );
   }
   onExportHeader(headers: string[]) {

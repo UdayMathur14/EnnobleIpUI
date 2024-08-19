@@ -60,7 +60,6 @@ export class ApprovalMaterialHeadComponent {
     this.biltiProcessService
       .getBiltiBillProcess(data, offset, count)
       .subscribe((response: any) => {
-        this.loadSpinner = false;
         response.biltiBillProcess.forEach((element: any) => {
           element.creationDate = moment
             .utc(element.creationDate)
@@ -76,6 +75,7 @@ export class ApprovalMaterialHeadComponent {
         this.biltiBillProcess = response.biltiBillProcess;
         this.totalBiltis = response.paging.total;
         this.filters = response.filters;
+        this.loadSpinner = false;
         this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
           .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       },

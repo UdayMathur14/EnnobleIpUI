@@ -174,6 +174,9 @@ export class AddEditDispatchNoteComponent {
             this.initializeSelectedParts(selectedPartNumbers)
           }
         );
+      }, error => {
+        // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
       });
   }
 
@@ -193,8 +196,10 @@ export class AddEditDispatchNoteComponent {
         this.activePartsLists = this.partsList.filter(
           (parts: any) => parts.status === 'Active'
         );
+        this.loadSpinner = false;
       },
       (error) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
@@ -208,8 +213,10 @@ export class AddEditDispatchNoteComponent {
         this.activeVehiclesLists = this.vehicleList.filter(
           (vehicle: any) => vehicle.status === 'Active'
         );
+        this.loadSpinner = false;
       },
       (error) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
@@ -226,8 +233,10 @@ export class AddEditDispatchNoteComponent {
         this.activeSuppliersLists = this.supplierList.filter(
           (supplier: any) => supplier.status === 'Active' || supplier.status === 'ACTIVE'
         );
+        this.loadSpinner = false;
       },
       (error) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
@@ -240,8 +249,10 @@ export class AddEditDispatchNoteComponent {
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
         this.lookupList = response.lookUps;
+        this.loadSpinner = false;
       },
       (error: any) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
@@ -535,8 +546,10 @@ export class AddEditDispatchNoteComponent {
       this.activeTransportersList = this.transportersList.filter(
         (items: any) => items.status === 'Active'
       );
+      this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
   }
 

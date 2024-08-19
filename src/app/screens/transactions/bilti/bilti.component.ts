@@ -17,6 +17,7 @@ export class BiltiComponent implements OnInit {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  loadSpinner: boolean = true;
   
   constructor(private router: Router,
               private biltiService: BiltiService) { }
@@ -40,7 +41,10 @@ export class BiltiComponent implements OnInit {
         this.biltisList = response.biltiCreations;
         this.totalBiltis = response.paging.total;
         this.filters = response.filters;
-      },
+        this.loadSpinner = false;
+      },error => {
+        this.loadSpinner = false;
+      }
     );
   }
 

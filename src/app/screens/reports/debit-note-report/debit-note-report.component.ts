@@ -25,6 +25,7 @@ export class DebitNoteReportComponent {
   searchedData:any = [];
   appliedFilters: any = {};
   headers: string[] = [];
+  loadSpinner: boolean = true;
 
   columns = [
     { header: 'Supplier Code', field: 'supplierCode', visible: true },
@@ -64,8 +65,9 @@ export class DebitNoteReportComponent {
       this.billTiBillReport = res.billTiBillReport;
       this.reportFilter = res.filters.BatchNumber;
       this.totalReports = res.paging.total;
+      this.loadSpinner = false;
     }, error => {
-
+      this.loadSpinner = false;
     })
   }
 
