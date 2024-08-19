@@ -110,6 +110,11 @@ import { TableColumnsSettingsComponent } from "./reports/debit-note-report/compo
 import { BiltiRbTxnDataComponent } from "./modals/bilti-rb-txn-data/bilti-rb-txn-data.component";
 import { TemporaryMaxBiltiNoComponent } from "./modals/temporary-max-bilti-no/temporary-max-bilti-no.component";
 import { ApprovalPdfComponent } from "./modals/approval-pdf/approval-pdf.component";
+import { OutboundReportComponent } from "./reports/outbound-report/outbound-report.component";
+import { OutboundReportFilterComponent } from "./reports/outbound-report/components/filter/outbound-report-filter.component";
+import { OutboundReportGridTableComponent } from "./reports/outbound-report/components/grid-table/outbound-report-grid-table.component";
+import { GlTaxationOutBoundComponent } from "./modals/gl-taxation-out-bound/gl-taxation-out-bound.component";
+import { GlTdsOutBoundComponent } from "./modals/gl-tds-out-bound/gl-tds-out-bound.component";
 
 @NgModule({
     declarations: [
@@ -217,7 +222,12 @@ import { ApprovalPdfComponent } from "./modals/approval-pdf/approval-pdf.compone
         TableColumnsSettingsComponent,
         BiltiRbTxnDataComponent,
         TemporaryMaxBiltiNoComponent,
-        ApprovalPdfComponent
+        ApprovalPdfComponent,
+        OutboundReportComponent,
+        OutboundReportFilterComponent,
+        OutboundReportGridTableComponent,
+        GlTaxationOutBoundComponent,
+        GlTdsOutBoundComponent
     ],
     imports: [
         LayoutModule,

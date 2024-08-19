@@ -61,12 +61,13 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROVISION_REPORT')">Provision Report</li>
+                <!-- <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROVISION_REPORT')">Provision Report</li> -->
                 <li (click)="onreportChange('processed-report')" *ngIf="securityGroups('MFG_REPORT_PROCESSED_REPORT')">Processed Report</li>
                 <li (click)="onreportChange('error-logging-report')" *ngIf="securityGroups('MFG_REPORT_ERROR_LOGGING_REPORT')">Error Logging Report</li>
                 <li (click)="onreportChange('rejection-bilti-detail-report')" *ngIf="securityGroups('MFG_REPORT_REJECTION_BILTI_DETAIL_REPORT')">Rejection Bilti Detail Report</li>
                 <li (click)="onreportChange('debit-note-report')" *ngIf="securityGroups('MFG_REPORT_DEBIT_NOTE_REPORT')">Debit Note Report</li>
                 <li (click)="onreportChange('adhoc-report')" *ngIf="securityGroups('MFG_REPORT_ADHOC_REPORT')">Adhoc Report</li>
+                <li (click)="onreportChange('provisional-report')">Provisional Report</li>
               </ul>
             </div>
           </div>

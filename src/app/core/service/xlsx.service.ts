@@ -30,4 +30,30 @@ export class XlsxService {
         // Write the workbook to a file
         XLSX.writeFile(wb, `${fileName}.csv`);
     }
+
+    xlsxMultipleExport(sheetsData: { [sheetName: string]: { rows: any[], headers: string[] } }, fileName: string = 'Download Template') {
+        // Create a new workbook
+        const wb = XLSX.utils.book_new();
+
+        // Iterate over each sheet data
+        for (const [sheetName, { rows, headers }] of Object.entries(sheetsData)) {
+            // Create a new worksheet
+            const ws = XLSX.utils.json_to_sheet(rows, { skipHeader: true });
+
+            // Add the headers as the first row
+            XLSX.utils.sheet_add_aoa(ws, [headers], { origin: 'A1' });
+
+            // Ensure all rows are correctly added
+            rows.forEach((row, index) => {
+                const rowIndex = index + 2; // Starting after headers
+                XLSX.utils.sheet_add_aoa(ws, [Object.values(row)], { origin: `A${rowIndex}` });
+            });
+
+            // Append the worksheet to the workbook
+            XLSX.utils.book_append_sheet(wb, ws, sheetName);
+        }
+
+        // Write the workbook to a file
+        XLSX.writeFile(wb, `${fileName}.xlsx`);
+    }
 }
