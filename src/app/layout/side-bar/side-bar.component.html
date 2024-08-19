@@ -67,7 +67,7 @@
                 <li (click)="onreportChange('rejection-bilti-detail-report')" *ngIf="securityGroups('MFG_REPORT_REJECTION_BILTI_DETAIL_REPORT')">Rejection Bilti Detail Report</li>
                 <li (click)="onreportChange('debit-note-report')" *ngIf="securityGroups('MFG_REPORT_DEBIT_NOTE_REPORT')">Debit Note Report</li>
                 <li (click)="onreportChange('adhoc-report')" *ngIf="securityGroups('MFG_REPORT_ADHOC_REPORT')">Adhoc Report</li>
-                <li (click)="onreportChange('provisional-report')">Provisional Report</li>
+                <li (click)="onreportChange('provisional-report')" *ngIf="securityGroups('MFG_REPORT_PROVISIONAL_REPORT')">Provisional Report</li>
               </ul>
             </div>
           </div>
