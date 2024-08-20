@@ -102,7 +102,6 @@ export class AddEditLookupComponent implements OnInit {
 
       this.lookupTypes = [response.lookUpType];
       this.selectedLookupType = response?.lookUpType?.value
-      console.log(this.selectedLookupType);
       
       this.loadSpinner = false;
     }, error => {

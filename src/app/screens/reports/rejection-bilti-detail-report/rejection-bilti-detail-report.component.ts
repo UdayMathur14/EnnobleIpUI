@@ -120,7 +120,6 @@ export class RejectionBiltiDetailReportComponent {
 
     this.biltiBIllProService.getBiltiBillProcess(data, 0, this.totalBiltiBills).subscribe(
       (res: any) => {
-        console.log(res);
         
         const processedReportToExport = res.biltiBillProcess;
         const mappedAdviceList = processedReportToExport.map((row: any) => ({
