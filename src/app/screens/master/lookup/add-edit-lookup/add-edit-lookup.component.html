@@ -22,32 +22,23 @@
                     </ng-select>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-3 col-md-3" *ngIf="selectedLookupType != 'OutboundFixedValues' && selectedLookupType != 'GlAccount_Non_RCM'">
                 <div class="custom-form-input">
                     <label for="">Code <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="code" *ngIf="lookupId>0" readonly />
                     <input type="text" class="input-field" formControlName="code" *ngIf="lookupId == 0" />
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-3 col-md-3" *ngIf="selectedLookupType !=  'OutboundFixedValues' &&  selectedLookupType !=  'GlAccount_Non_RCM' && selectedLookupType != 'TdsCodes'">
                 <div class="custom-form-input">
                     <label for="">Value <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="value" />
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3">
+            <div class="col-lg-3 col-md-3" *ngIf="selectedLookupType !=  'OutboundFixedValues' && selectedLookupType!=  'GlAccount_Non_RCM'">
                 <div class="custom-form-input">
                     <label for="">Description <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="description" />
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3" *ngIf="lookupId>0">
-                <div class="custom-form-input">
-                    <label for="">Status <span class="text-danger">*</span></label>
-                    <select name="" id="" formControlName="status">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
                 </div>
             </div>
 
@@ -127,7 +118,7 @@
                         <input type="text" class="input-field" formControlName="attribute3" />
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3">
+                <!-- <div class="col-lg-3 col-md-3">
                     <div class="custom-form-input">
                         <label for="">REVERSE CGST COA </label>
                         <input type="text" class="input-field" formControlName="attribute4" />
@@ -144,7 +135,7 @@
                         <label for="">REVERSE IGST COA </label>
                         <input type="text" class="input-field" formControlName="attribute12" />
                     </div>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3">
                     <div class="custom-form-input">
                         <label for="">CGST % </label>
@@ -170,6 +161,12 @@
                     <div class="custom-form-input">
                         <label for="">TDS % </label>
                         <input type="text" class="input-field" formControlName="attribute5" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">TDS Tax Type </label>
+                        <input type="text" class="input-field" formControlName="value" />
                     </div>
                 </div>
             </ng-container>
@@ -206,6 +203,155 @@
                     </div>
                 </div>
             </ng-container>
+            
+            <ng-container *ngIf="selectedLookupType === 'OutboundFixedValues'">
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Company Code</label>
+                        <input type="text" class="input-field" formControlName="code" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">System Code </label>
+                        <input type="text" class="input-field" formControlName="value" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Source Name</label>
+                        <input type="text" class="input-field" formControlName="description" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Category </label>
+                        <input type="text" class="input-field" formControlName="attribute1" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Fixed Value AP </label>
+                        <input type="text" class="input-field" formControlName="attribute2" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Transaction Code</label>
+                        <input type="text" class="input-field" formControlName="attribute3" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Exchange Rate </label>
+                        <input type="text" class="input-field" formControlName="attribute5" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Invoice Currency Code </label>
+                        <input type="text" class="input-field" formControlName="attribute4" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Debit </label>
+                        <input type="text" class="input-field" formControlName="attribute11" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Credit </label>
+                        <input type="text" class="input-field" formControlName="attribute12" />
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="selectedLookupType === 'GlAccount_Non_RCM'">
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Freight Code</label>
+                        <input type="text" class="input-field" formControlName="attribute1" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">CGST </label>
+                        <input type="text" class="input-field" formControlName="attribute2" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">SGST</label>
+                        <input type="text" class="input-field" formControlName="attribute3" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">IGST</label>
+                        <input type="text" class="input-field" formControlName="attribute4" />
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedLookupType === 'GlAccount_RCM'">
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Freight Code</label>
+                        <input type="text" class="input-field" formControlName="attribute1" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">CGST </label>
+                        <input type="text" class="input-field" formControlName="attribute2" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">SGST</label>
+                        <input type="text" class="input-field" formControlName="attribute3" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">IGST</label>
+                        <input type="text" class="input-field" formControlName="attribute4" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Reverse CGST Code </label>
+                        <input type="text" class="input-field" formControlName="attribute11" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Reverse SGST Code </label>
+                        <input type="text" class="input-field" formControlName="attribute12" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">Reverse IGST Code </label>
+                        <input type="text" class="input-field" formControlName="attribute13" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="custom-form-input">
+                        <label for="">TDS Code </label>
+                        <input type="text" class="input-field" formControlName="attribute14" />
+                    </div>
+                </div>
+            </ng-container>
+            <div class="col-lg-3 col-md-3" *ngIf="lookupId>0">
+                <div class="custom-form-input">
+                    <label for="">Status <span class="text-danger">*</span></label>
+                    <select name="" id="" formControlName="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </form>
 
