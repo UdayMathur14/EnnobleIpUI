@@ -237,11 +237,14 @@ export class AddEditTransporterComponent implements OnInit {
       postalCode: this.transporterForm.controls['postalCode'].value,
       transporterCode: this.selectedVendor?.vendorCode || '',
       transporterMappings: this.transporterMappings.map((mapping: any) => {
+        console.log(mapping);
+        
         return {
           transportationModeId: mapping?.transportationMode?.id,
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxaCode?.id,
           tdsCodesId: mapping?.tdsCode.id,
+          status: 'Active'
         };
       }),
     };
