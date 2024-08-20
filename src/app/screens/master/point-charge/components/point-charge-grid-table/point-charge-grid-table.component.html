@@ -84,7 +84,25 @@
             </table>
           </ng-template>
         </td>
-        <td>{{ pointcharge?.sameLocationCharge }}</td>
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="historyDataLocationCharge">
+            <u>{{ pointcharge?.sameLocationCharge }}</u>
+          </span>
+          <ng-template #historyDataLocationCharge>
+            <table class="popover-table">
+              <tr>
+                <th>Same Location Charge Amount</th>
+                <th style="padding-left: 15px;">Change Request Date</th>
+                <th style="padding-left: 15px;">Approved Date</th>
+              </tr>
+              <tr *ngFor="let historyData of pointcharge.historyData">
+                <td>{{historyData?.sameLocationCharge || '-'}}</td>
+                <td>{{historyData?.changeDate | date: 'yyyy-MM-dd' || '-'}}</td>
+                <td>{{historyData?.approvedDate | date: 'yyyy-MM-dd'  || '-'}}</td>
+              </tr>
+            </table>
+          </ng-template>
+        </td>
         <td>{{ pointcharge?.locations.value }}</td>
         <td>{{ pointcharge?.materialRemarks || "-" }}</td>
         <td>{{ pointcharge?.accountsRemarks || "-" }}</td>

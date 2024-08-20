@@ -40,7 +40,7 @@
               </ng-template>
             </td>
             <td>{{pointchargeMat?.newPointCharge && pointchargeMat?.newPointCharge != 0 ? pointchargeMat?.newPointCharge : pointchargeMat?.pointCharge || '-' }}</td>
-            <td>{{pointchargeMat?.sameLocationCharge}}</td>
+            <td>{{pointchargeMat?.newSameLocationCharge && pointchargeMat?.newSameLocationCharge != 0 ? pointchargeMat?.newSameLocationCharge : pointchargeMat?.newSameLocationCharge || '-' }}</td>
             <td>-</td>
             <td class="text-center d-flex justify-content-center" (click)="selectPoint(pointchargeMat.id)">
               <!-- Approve Button -->

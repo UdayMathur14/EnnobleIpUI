@@ -39,7 +39,7 @@
               </ng-template>
             </td>
             <td>{{pointchargeAcc?.newPointCharge && pointchargeAcc?.newPointCharge != 0 ? pointchargeAcc?.newPointCharge : pointchargeAcc?.pointCharge || '-' }}</td>
-            <td>{{pointchargeAcc?.sameLocationCharge}}</td>
+            <td>{{pointchargeAcc?.newSameLocationCharge && pointchargeAcc?.newSameLocationCharge != 0 ? pointchargeAcc?.newSameLocationCharge : pointchargeAcc?.newSameLocationCharge || '-' }}</td>
             <td>-</td>
             <td class="text-center d-flex justify-content-center" (click)="selectPoint(pointchargeAcc.id)">
               <!-- Approve Button -->
