@@ -191,12 +191,13 @@
                   (change)="onTransactionTypeSelect($event, ind)" 
                   (clear)="onTransactionTypeClear(ind)"
                   [disabled]="transaction.disabled">
-                  <ng-option *ngFor="let mode of transactionTypes" [value]="mode">
-                    {{mode.code}}
+                  <ng-option *ngFor="let type of getAvailableTransactionTypes(ind)" [value]="type.code">
+                    {{type.code}}
                   </ng-option>
                 </ng-select>
               </div>
             </div>
+            
           </td>
           <td>
             <div class="col-lg-6 col-md-6">

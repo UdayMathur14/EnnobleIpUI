@@ -34,6 +34,7 @@ export class AddEditVendorComponent implements OnInit {
   tdsCodes: any[] = [];
   paidByDetails: any[] = [];
   transactionTypes: any[] = [];
+  selectedTransactionTypes: Set<string> = new Set();
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
     vendorName: new FormControl(''),
@@ -140,8 +141,10 @@ export class AddEditVendorComponent implements OnInit {
       // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
       status: this.vendorForm.get('status')?.value,
       vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
+        const iTransactionTypeId = this.transactionTypes.find((item: any)=> item.code == mapping.transactionType)
+        
         return {                                                                          
-          transactionTypeId: mapping?.transactionType?.iTransactionTypeId || mapping?.iTransactionTypeId,                        
+          transactionTypeId: iTransactionTypeId?.iTransactionTypeId || mapping?.iTransactionTypeId,                        
           paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
           status: mapping.status
         }
@@ -215,7 +218,8 @@ export class AddEditVendorComponent implements OnInit {
       this.onChangeTaxationCode(data?.taxCodeId)
     },1000)
 
-    this.onSelectTdsCode(data?.tdsCodes?.id)
+    this.onSelectTdsCode(data?.tdsCodes?.id);
+    this.selectedTransactionTypes.clear();
     this.vendorForm.patchValue({
       vendorCode: data?.vendorCode,
       vendorName: data.vendorName,
@@ -245,7 +249,7 @@ export class AddEditVendorComponent implements OnInit {
 
     if (data?.vendorMappingModels) {
       this.transactionMappings = data.vendorMappingModels.map((mapping: any) => {
-        
+        this.selectedTransactionTypes.add(mapping.transactionType.code);
         return {
           transactionType: mapping.transactionType.code || {},
           paidByDetails: mapping.paidByDetails.code || {},
@@ -394,14 +398,28 @@ export class AddEditVendorComponent implements OnInit {
     
   }
 
-  onTransactionTypeSelect(e: any, index: any) {
-    this.transactionMappings[index].transactionType = e;
+  onTransactionTypeSelect(e: any, index: number) {
+    const selectedTypeValue = e;
+    if (selectedTypeValue) {
+      this.transactionMappings[index].transactionType = selectedTypeValue;
+      this.selectedTransactionTypes.add(selectedTypeValue);
+    }
+  }
+  
+
+  onTransactionTypeClear(index: number) {
+    const clearedTypeValue = this.transactionMappings[index].transactionType;
+    if (clearedTypeValue) {
+      this.selectedTransactionTypes.delete(clearedTypeValue);
+      this.transactionMappings[index].transactionType = undefined;
+    }
   }
 
-  onTransactionTypeClear(ind: number) {
-    this.transactionMappings[ind].transactionTypeId = undefined;
+  getAvailableTransactionTypes(index: number): any[] {
+    return this.transactionTypes.filter(type => !this.selectedTransactionTypes.has(type.code) || this.transactionMappings[index].transactionType === type.code);
   }
-
+  
+  
   onPaidByDetailsClear(ind: number) {
     this.transactionMappings[ind].paidByDetailsId = undefined;
   }
