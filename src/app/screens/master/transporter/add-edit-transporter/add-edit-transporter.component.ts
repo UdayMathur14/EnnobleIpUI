@@ -33,6 +33,7 @@ export class AddEditTransporterComponent implements OnInit {
   isShow: boolean = false;
   taxCodesRcm: any[] = [];
   taxCodesNonRcm: any[] = [];
+  selectedModes: Set<number> = new Set();
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -81,7 +82,6 @@ export class AddEditTransporterComponent implements OnInit {
     this.getTransporterModeDropdownData();
     this.getTaxationcode();
     this.getVendorsList();
-    this.getTransporterModeDropdownData();
     this.getRCMNonRCMTypeDropdownData();
     this.getTdsCodesDropdownData();
     this.getTaxCodesNonRcmDropdownData();
@@ -91,7 +91,8 @@ export class AddEditTransporterComponent implements OnInit {
   getTransporterData(transporterId: string) {
     this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
       this.loadSpinner = false;
-      this.transporterMappings = response?.transporterMappings
+      this.transporterMappings = response?.transporterMappings;
+      this.selectedModes.clear();
       this.transporterForm.patchValue({
         transporterCode: response.transporterCode,
         transporterName: response.transporterName,
@@ -124,7 +125,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.getLocationData(response.locationId)
       this.transporterData = response
       this.transporterMappings = response.transporterMappings.map((mapping: any) => {
-        
+        this.selectedModes.add( mapping.transportationMode.code);
         return {
           transportationMode: mapping.transportationMode.code || {},
           taxationType: mapping.taxationType.code || {},
@@ -291,8 +292,7 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TaxCodesRCM'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodesRcm = res.lookUps
-      console.log(this.taxCodesRcm);
+      this.taxCodesRcm = res.lookUps;
       
     })
   }
@@ -305,8 +305,7 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TaxCodesNonRCM'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodesNonRcm = res.lookUps
-      console.log(this.taxCodesNonRcm);
+      this.taxCodesNonRcm = res.lookUps;
     })
   }
 
@@ -419,18 +418,31 @@ export class AddEditTransporterComponent implements OnInit {
     
   }
 
-  onTransporterModeSelect(e: any, index: any) {
-
-    this.transporterMappings[index].transportationModeId = e?.typeId;
+  onTransporterModeSelect(e: any, index: number) {
+    const selectedMode = e?.value;
+    if (selectedMode) {
+      this.transporterMappings[index].transportationModeId = selectedMode;
+      this.selectedModes.add(selectedMode);
+    }
   }
 
-  onTransporterModeClear(ind: number) {
-    this.transporterMappings[ind].transportationModeId = undefined;
+  onTransporterModeClear(index: number) {
+    const clearedMode = this.transporterMappings[index].transportationModeId;
+    if (clearedMode) {
+      this.selectedModes.delete(clearedMode);
+      this.transporterMappings[index].transportationModeId = undefined;
+    }
   }
+  
+
+  getAvailableModes(index: number): any[] {
+    return this.transporterMode.filter(mode => !this.selectedModes.has(mode.value) || this.transporterMappings[index].transportationModeId === mode.value);
+  }
+  
+  
 
   onRcmNonRcmSelect(e: any, index: any) {
     this.transporterMappings[index].taxationTypeId = e?.typeId;
-    console.log(this.transporterMappings);
     
   }
 

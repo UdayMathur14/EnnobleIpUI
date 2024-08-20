@@ -186,12 +186,13 @@
                   (change)="onTransporterModeSelect($event, ind)" 
                   (clear)="onTransporterModeClear(ind)"
                   [disabled]="transaction.disabled">
-                  <ng-option *ngFor="let mode of transporterMode" [value]="mode">
+                  <ng-option *ngFor="let mode of getAvailableModes(ind)" [value]="mode">
                     {{mode.value}}
                   </ng-option>
                 </ng-select>
               </div>
             </div>
+            
           </td>
           <td>
             <div class="col-lg-6 col-md-6">
