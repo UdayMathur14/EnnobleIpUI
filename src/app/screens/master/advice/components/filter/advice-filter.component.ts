@@ -11,6 +11,7 @@ export class AdviceFilterComponent implements OnInit {
   @Input() filters : any = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
   adviceType : any = undefined;
+  batchName: any = undefined;
   locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
   status: any = undefined;
 
@@ -23,7 +24,8 @@ export class AdviceFilterComponent implements OnInit {
     let obj = {
       "locationIds": this.locationIds || [],
       "adviceType" : this.adviceType || "",
-      "status": this.status || ""
+      "status": this.status || "",
+      "batchName": this.batchName || ""
     }
     this.getData.emit(obj)
   }
@@ -32,10 +34,12 @@ export class AdviceFilterComponent implements OnInit {
     this.adviceType = undefined;
     this.locationIds = [];
     this.status = undefined;
+    this.batchName = undefined;
     let obj = {
       "adviceType" : "",
       "locationIds": [],
-      "status": ""
+      "status": "",
+      "batchName": ""
     }
     this.getData.emit(obj)
   }

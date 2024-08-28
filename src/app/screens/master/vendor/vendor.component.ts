@@ -73,10 +73,6 @@ export class VendorComponent implements OnInit{
     let data = {
       "vendorCode": this.appliedFilters?.vendorCode || "",
       "vendorName": this.appliedFilters?.vendorName || "",
-      "city": this.appliedFilters?.city || "",
-      "state": this.appliedFilters?.state || "",
-      "taxationType": this.appliedFilters?.taxationType || "",
-      "paidByDetail": this.appliedFilters?.paidByDetail || "",
       "status": this.appliedFilters?.status || ""
     }
     this.vendorService.getVendors(data, 0, this.totalVendors).subscribe((response: any) => {

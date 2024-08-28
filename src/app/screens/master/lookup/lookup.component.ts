@@ -40,7 +40,7 @@ export class LookupComponent implements OnInit {
     let data = {
       code: filters?.code || '',
       lookUpType: filters?.lookUpType || '',
-      value: '',
+      value: filters?.value,
       status: filters?.status || '',
     };
     this.lookupService.getLookups(data, offset, count).subscribe(

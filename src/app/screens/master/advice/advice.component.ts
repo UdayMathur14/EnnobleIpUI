@@ -37,7 +37,8 @@ export class AdviceComponent implements OnInit{
     const data = {
       "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
       "adviceType": filters?.adviceType || '',
-      "status": filters?.status || ''
+      "status": filters?.status || '',
+      "batchName": filters?.batchName || ''
     }
     this.adviceService.getAdviceTypes(data, offset, count).subscribe((response: any) => {
       this.advicesList = response.advices;

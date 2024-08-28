@@ -16,6 +16,14 @@
                 </ng-select>
             </div>
         </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="">Batch Name</label>
+                <ng-select class="input-field" [(ngModel)]="batchName" placeholder="Select Batch Name">
+                    <ng-option *ngFor="let advice of filters?.BatchName" [value]="advice">{{advice}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label>Status</label>
@@ -27,7 +35,7 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onAdviceSearch()" [disabled]="!adviceType && !locationIds.length && !status">Search</button>
+                <button class="custom-button-filters" (click)="onAdviceSearch()" [disabled]="!adviceType && !locationIds.length && !status && !batchName">Search</button>
                 <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>

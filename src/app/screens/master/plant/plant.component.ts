@@ -44,8 +44,6 @@ export class PlantComponent implements OnInit {
         filters?.locations ||
         APIConstant.locationsListDropdown.map((e: any) => e.id),
       plantCode: filters?.plantCode || '',
-      city: filters?.city || '',
-      state: filters?.state || '',
       auCode: filters?.auCode || '',
       siteCode: filters?.siteCode || '',
       status: filters?.status || '',

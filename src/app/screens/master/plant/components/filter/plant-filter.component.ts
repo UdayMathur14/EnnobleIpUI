@@ -21,8 +21,6 @@ export class PlantFilterComponent {
   onPlantSearch() {
     const filterData = {
       plantCode: this.plantCode,
-      city: this.cityCode,
-      state: this.stateCode,
       auCode: this.auCode,
       siteCode: this.siteCode,
       locations: this.locationIds,
@@ -33,8 +31,6 @@ export class PlantFilterComponent {
 
   onClearFilter() {
     this.plantCode = undefined;
-    this.cityCode = undefined
-    this.stateCode = undefined
     this.auCode = undefined
     this.siteCode = undefined;
     this.locationIds = [];
@@ -42,8 +38,6 @@ export class PlantFilterComponent {
 
     const filterData = {
       plantCode: undefined,
-      city: undefined,
-      state: undefined,
       auCode: undefined,
       siteCode: undefined,
       locations: [],

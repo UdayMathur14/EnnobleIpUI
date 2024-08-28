@@ -22,42 +22,6 @@
         </div>
         <div class="col-2">
             <div class="custom-form-input">
-                <label for="">City</label>
-                <ng-select class="input-field" [(ngModel)]="city"
-                    placeholder="Select City">
-                    <ng-option *ngFor="let city of filters?.City"
-                        [value]="city">{{city}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
-                <label for="">State</label>
-                <ng-select class="input-field" [(ngModel)]="state"
-                    placeholder="Select State">
-                    <ng-option *ngFor="let state of filters?.State"
-                    [value]="state">{{state}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
-                <label for="">Taxation Type</label>
-                <ng-select class="input-field" [(ngModel)]="taxationType" placeholder="Select Taxation">
-                    <ng-option *ngFor="let taxation of filters?.TaxationType" [value]="taxation">{{taxation}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
-                <label for="">Paid By Details</label>
-                <ng-select class="input-field" [(ngModel)]="paidByDetails" placeholder="Select">
-                    <ng-option *ngFor="let paidBy of filters?.PaidByDetail" [value]="paidBy">{{paidBy}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
                 <label>Status</label>
                 <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
                     <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>

@@ -19,22 +19,6 @@
         </div>
         <div class="col-2">
             <div class="custom-form-input">
-                <label>City</label>
-                <ng-select class="input-field" [(ngModel)]="cityCode" placeholder="Select City">
-                    <ng-option *ngFor="let city of filters?.City" [value]="city">{{city}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
-                <label>State</label>
-                <ng-select class="input-field" [(ngModel)]="stateCode" placeholder="Select State">
-                    <ng-option *ngFor="let state of filters?.State" [value]="state">{{state}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="custom-form-input">
                 <label>AU Code</label>
                 <ng-select class="input-field" [(ngModel)]="auCode" placeholder="Select AU Code">
                     <ng-option *ngFor="let auCode of filters?.AuCode" [value]="auCode">{{auCode}}</ng-option>
