@@ -28,23 +28,14 @@ export class ErrorLoggingReportFilterComponent {
     }
 
     this.getData.emit({ fromDate: this.fromDate, 
-      toDate: this.toDate,
-      messageSource: this.messageSource,
-      messageName: this.messageName,
-      responseCode: this.responseCode })
+      toDate: this.toDate, })
   }
 
   onClearFilter() {
     this.fromDate = null;
     this.toDate = null;
-    this.messageName = undefined;
-    this.messageSource = undefined,
-    this.responseCode = undefined;
     this.getData.emit({ fromDate: '', 
       toDate: '' ,
-      messageSource: '', 
-      messageName: '', 
-      responseCode: '',
     })
   }
 }

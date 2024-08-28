@@ -97,9 +97,6 @@ export class ErrorLoggingReportComponent {
       (res: any) => {
         const errorLoggingsToExport = res.errorLoggings;
         const mappedAdviceList = errorLoggingsToExport.map((row: any) => ({
-          responseCode: row?.responseCode,
-          messageSource: row?.messageSource,
-          methodName: row?.methodName,
           description: row?.description,
           detailDescriptions: row?.detailDescriptions || [],
         }));
