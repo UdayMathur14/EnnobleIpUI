@@ -331,7 +331,7 @@ export class AddEditPlantComponent implements OnInit {
         return plant.id == this.queryData
       });
       if (plant.length > 0) {
-        this.plantLocationId = plant[0].locations.id;
+        this.plantLocationId = plant[0]?.locations?.id;
         resolve();
       } else {
         reject('No matching plant found');

@@ -45,17 +45,17 @@
             </div>
           </ng-template>
         </td>
-        <td>{{plant.plantDesc}}</td>
-        <td>{{ plant.plantAddress }}</td>
-        <td>{{ plant.state }}</td>
-        <td>{{ plant.city }}</td>
-        <td>{{ plant.panNo }}</td>
-        <td>{{ plant.gstInNo }}</td>
-        <td>{{ plant.siteCode }}</td>
-        <td>{{ plant.locations.value }}</td>
-        <td>{{ plant.dsc }}</td>
-        <td>{{ plant.dcp }}</td>
-        <td>{{ plant.status }}</td>
+        <td>{{plant?.plantDesc}}</td>
+        <td>{{ plant?.plantAddress }}</td>
+        <td>{{ plant?.state }}</td>
+        <td>{{ plant?.city }}</td>
+        <td>{{ plant?.panNo }}</td>
+        <td>{{ plant?.gstInNo }}</td>
+        <td>{{ plant?.siteCode }}</td>
+        <td>{{ plant?.locations?.value }}</td>
+        <td>{{ plant?.dsc }}</td>
+        <td>{{ plant?.dcp }}</td>
+        <td>{{ plant?.status }}</td>
         <td class="text-center">
           <img src="assets/images/icons/link.svg" class="me-2 pointer" alt="link" (click)="onLinkClick(plant)" />
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPlant(plant)" />
