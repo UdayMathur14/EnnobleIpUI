@@ -32,10 +32,12 @@ export class LookupService extends CRUDService<LookupRequest> {
     const p: any = localStorage.getItem("profile");
     const profile: any = JSON.parse(p);
     const appLocation: any = profile?.mfgUnit?.au[0]?.location;
+    const allAppLocation: any = profile?.mfgUnit?.au;
     this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
 
       this.baseService.lookupData.next(response);
       const locations: any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
+      const commonLocations: any = [];
       appLocation.forEach((el: any) => {
         const obj = response.lookUps.find((f: any) => f.typeId === 6 && f.code === el.name);
         if(obj){
@@ -43,8 +45,17 @@ export class LookupService extends CRUDService<LookupRequest> {
         }
         APIConstant.plantCodes = el.whCode;
       });
+      allAppLocation.forEach((el: any) => {
+        const obj = response.lookUps.find((f: any) => f.typeId === 6 && f.code === el.location[0]?.name);
+        if(obj){
+          commonLocations.push(obj);
+        }
+        APIConstant.plantCodes = el.whCode;
+      });
+
  
       APIConstant.locationsListDropdown = locations;
+      APIConstant.commonLocationsList = commonLocations;
       localStorage.setItem('locationId', locations[0]?.id)
       localStorage.setItem("userId",profile.userId);
     }, error => {

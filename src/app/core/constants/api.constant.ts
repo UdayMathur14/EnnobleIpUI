@@ -16,6 +16,7 @@ export const APIConstant:any = {
     Gtm: gtmURL,
     commonURL:commonURL,
     locationsListDropdown:[],
+    commonLocationsList:[],
     generateToken:(appId:string)=> `api/v1/login/generate-token/${appId}`,
     lookup: `/lookup/`,
     plantData: `v1/plant/`,

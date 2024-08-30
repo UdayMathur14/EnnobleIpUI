@@ -30,6 +30,7 @@ export class AddEditPlantComponent implements OnInit {
   deletedTransactions: any[] = [];
   plantLocationId: number = 0;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   offset: number = 0;
   count: number = Number.MAX_VALUE;
   loadSpinner: boolean = false;
