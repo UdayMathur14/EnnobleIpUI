@@ -157,7 +157,7 @@ export class AddEditPlantComponent implements OnInit {
     this.loadSpinner = true;
     const location = this.locationsDropdownData.find((loc: any) => loc.id === this.plantLocationId)
     
-    this.plantService.getPlantData(this.plantLocationId,plantId).subscribe((response: any) => {
+    this.plantService.getPlantData(plantId).subscribe((response: any) => {
       this.plantForm.setValue({
         plantCode: response.plantCode,
         plantDesc: response.plantDesc,

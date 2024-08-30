@@ -40,7 +40,7 @@ export const freight = (offset: any, count: number) =>`v1/freight/search?offset=
 export const freightData = (locationId: any, freightId: any) => `v1/freight/${locationId}/${freightId}`;
 export const createFreight = (locationId: any) => `v1/freight/create/${locationId}`;
 export const updateFreight = (locationId: any, freightId: any) => `v1/freight/update/${locationId}/${freightId}`;
-export const plantData = (locationId: any, plantId: any) => `v1/plant/${locationId}/${plantId}`;
+export const plantData = (plantId: any) => `v1/plant/${plantId}`;
 export const plant = (offset: any, count: number) => `v1/plant/search?offset=${offset}&count=${count}`;
 export const updatePlant = (locationId: any, plantId: any) => `v1/plant/update/${locationId}/${plantId}`;
 export const transactionTypes = (offset: any, count: number) => `v1/transaction-type/search?offset=${offset}&count=${count}`;
