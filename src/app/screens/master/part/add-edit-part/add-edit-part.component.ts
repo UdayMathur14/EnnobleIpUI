@@ -15,7 +15,7 @@ export class AddEditPartComponent implements OnInit {
   partId: number = 0;
   partData!: PartDataModel;
   partsList: any;
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
 
   constructor(private router: Router,
     private partService: PartService,
@@ -97,6 +97,7 @@ export class AddEditPartComponent implements OnInit {
 
   //UPDATING PART DATA
   updatePart(data: any) {
+    this.loadSpinner = true;
     this.partService.updatePart(this.partId, data).subscribe((response: any) => {
       this.partData = response;
       this.loadSpinner = false;
@@ -110,6 +111,7 @@ export class AddEditPartComponent implements OnInit {
 
   //CREATING NEW PART
   createNewPart(data: any) {
+    this.loadSpinner = true;
     this.partService.createPart(data).subscribe((response: any) => {
       this.partData = response;
       this.loadSpinner = false;

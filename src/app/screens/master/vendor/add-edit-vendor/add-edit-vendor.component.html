@@ -112,11 +112,11 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Taxation Code <span class="text-danger">*</span></label>
           <ng-select name="" id="" formControlName="taxCodeId" (change)="onChangeTaxationCode($event)">
-            <ng-option *ngFor="let code of taxCodes" [value]="code.id">{{code.code}}</ng-option>
+            <ng-option *ngFor="let code of taxCodes" [value]="code.id">{{code.code}} ({{code?.description}})</ng-option>
           </ng-select>
         </div>
       </div>

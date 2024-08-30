@@ -180,7 +180,7 @@
         @for (transaction of transporterMappings; track transaction.transportationMode; let ind = $index) {
         <tr>
           <td>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-9 col-md-9">
               <div class="custom-form-input mb-0">
                 <ng-select class="input-field" [(ngModel)]="transaction.transportationMode"
                   (change)="onTransporterModeSelect($event, ind)" 
@@ -195,7 +195,7 @@
             
           </td>
           <td>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-9 col-md-9">
               <div class="custom-form-input mb-0">
                 <ng-select class="input-field" [(ngModel)]="transaction.taxationType"
                   (change)="onRcmNonRcmSelect($event, ind)" 
@@ -209,7 +209,7 @@
             </div>
           </td>
           <td>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-12 col-md-12">
               <div class="custom-form-input mb-0">
                 <ng-select class="input-field" [(ngModel)]="transaction.taxaCode"
                   (change)="onTaxCodeSelect($event, ind)" 
@@ -217,12 +217,12 @@
                   [disabled]="transaction.disabled">
                   <ng-container *ngIf="transaction?.taxationType?.code === 'RCM'">
                   <ng-option *ngFor="let code of taxCodesRcm" [value]="code">
-                    {{code.code}}
+                    {{code.code}} ({{code?.description}})
                   </ng-option>
                 </ng-container>
                 <ng-container *ngIf="transaction?.taxationType?.code === 'Non-RCM'">
                   <ng-option *ngFor="let code of taxCodesNonRcm" [value]="code">
-                    {{code.code}}
+                    {{code.code}} ({{code?.description}})
                   </ng-option>
                 </ng-container>
                 </ng-select>
@@ -230,14 +230,14 @@
             </div>
           </td>
           <td>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-12 col-md-12">
               <div class="custom-form-input mb-0">
                 <ng-select class="input-field" [(ngModel)]="transaction.tdsCode"
                   (change)="onTdsCodeSelect($event, ind)" 
                   (clear)="onTdsCodeClear(ind)"
                   [disabled]="transaction.disabled">
                   <ng-option *ngFor="let code of tdsCodes" [value]="code">
-                    {{code.code}}
+                    {{code.code}} ({{code?.description}})
                   </ng-option>
                 </ng-select>
               </div>
