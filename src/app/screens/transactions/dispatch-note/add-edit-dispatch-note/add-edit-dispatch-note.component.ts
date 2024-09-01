@@ -560,7 +560,8 @@ export class AddEditDispatchNoteComponent {
 
   onTransporterSelection(data: any){
     this.addOrEditDispatchNoteFormGroup.patchValue({
-      transporterMode: null
+      transporterMode: null,
+      vehicleNumber: null
     })
     const transporters = this.transportersList.find((item: any) => {
      return item.id == data;
