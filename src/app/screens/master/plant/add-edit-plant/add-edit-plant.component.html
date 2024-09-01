@@ -101,8 +101,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Profit Center<span class="text-danger">*</span></label>
-          <ng-select [searchable]="true" formControlName="profitCenter" placeholder="Select location"
-            (change)="getLocationData($event)">
+          <ng-select [searchable]="true" formControlName="profitCenter" placeholder="Select location">
             <ng-option *ngFor="let center of profitCenterDropdownData" [value]="center.code">{{center.code}}</ng-option>
           </ng-select>
         </div>
@@ -110,8 +109,7 @@
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Cost Center<span class="text-danger">*</span></label>
-            <ng-select [searchable]="true" formControlName="costCenter" placeholder="Select Cost Center"
-              (change)="getLocationData($event)">
+            <ng-select [searchable]="true" formControlName="costCenter" placeholder="Select Cost Center">
               <ng-option *ngFor="let center of costCenterDropdownData" [value]="center.code">{{center.code}}</ng-option>
             </ng-select>
           </div>
@@ -120,8 +118,7 @@
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Business Place<span class="text-danger">*</span></label>
-            <ng-select [searchable]="true" formControlName="businessPlace" placeholder="Select Business Place"
-              (change)="getLocationData($event)">
+            <ng-select [searchable]="true" formControlName="businessPlace" placeholder="Select Business Place">
               <ng-option *ngFor="let place of businessPlaceDropdownData" [value]="place.code">{{place.code}}</ng-option>
             </ng-select>
           </div>
@@ -129,8 +126,7 @@
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">Section Code<span class="text-danger">*</span></label>
-            <ng-select [searchable]="true" formControlName="sectionCode" placeholder="Select Section Code"
-              (change)="getLocationData($event)">
+            <ng-select [searchable]="true" formControlName="sectionCode" placeholder="Select Section Code">
               <ng-option *ngFor="let code of sectionCodeDropdownData" [value]="code.code">{{code.code}}</ng-option>
             </ng-select>
           </div>

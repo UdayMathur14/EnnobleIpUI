@@ -158,24 +158,24 @@ export class AddEditPlantComponent implements OnInit {
     const location = this.locationsDropdownData.find((loc: any) => loc.id === this.plantLocationId)
     
     this.plantService.getPlantData(plantId).subscribe((response: any) => {
-      this.plantForm.setValue({
-        plantCode: response.plantCode,
-        plantDesc: response.plantDesc,
-        plantAddress: response.plantAddress,
-        city: response.city,
-        stateCode: response.state,
-        gstnNo: response.gstInNo,
-        panNo: response.panNo,
-        plantType: response.plantType,
-        siteCode: response.siteCode,
+      this.plantForm.patchValue({
+        plantCode: response?.plantCode,
+        plantDesc: response?.plantDesc,
+        plantAddress: response?.plantAddress,
+        city: response?.city,
+        stateCode: response?.state,
+        gstnNo: response?.gstInNo,
+        panNo: response?.panNo,
+        plantType: response?.plantType,
+        siteCode: response?.siteCode,
         profitCenter: response?.profitCenter,
         businessPlace: response?.businessPlace,
         sectionCode: response?.sectionCode,
         costCenter: response?.costCenter,
-        locationId: response.locations.id,
+        locationId: response?.locations?.id,
         dsc: location?.attribute3,
         dcp: location?.attribute4,
-        status: response.status,
+        status: response?.status,
       });
       this.plantData = response;
       this.initializeSelectedTransactionCodes();
@@ -205,7 +205,7 @@ export class AddEditPlantComponent implements OnInit {
 
   onPressSave() {
     this.loadSpinner = true;
-    const locationCode = this.plantForm.controls['locationId']?.value
+    const locationCode = this.plantForm?.controls['locationId']?.value
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
@@ -354,8 +354,8 @@ export class AddEditPlantComponent implements OnInit {
     return item.id == data;
     })
     this.plantForm.patchValue({
-      dsc: locationData.attribute1,
-      dcp: locationData.attribute2
+      dsc: locationData?.attribute1,
+      dcp: locationData?.attribute2
     })
   }
 }
