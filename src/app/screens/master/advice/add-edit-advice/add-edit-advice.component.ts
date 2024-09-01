@@ -55,11 +55,12 @@ export class AddEditAdviceComponent implements OnInit {
   ngOnInit(): void {
     this.adviceId = Number(this._Activatedroute.snapshot.paramMap.get('adviceId'));
     this.adviceId = this.adviceId === 0 ? 0 : this.adviceId;
-    if (this.adviceId != 0) {
-      this.getAdviceEditData();
-    } else {
-      //this.getLocations();
-    }
+    setTimeout(() => {
+      if (this.adviceId != 0) {
+        this.getAdviceEditData();
+      }
+    }, 1000);
+     
     this.getAllTransactionTypes();
     // Subscribe to changes in adviceType and locationCode form controls to autofill Batch Name
     this.adviceForm.get('adviceType')!.valueChanges.subscribe(value => {
