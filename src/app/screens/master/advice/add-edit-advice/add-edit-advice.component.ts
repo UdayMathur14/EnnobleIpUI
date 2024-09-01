@@ -108,9 +108,9 @@ export class AddEditAdviceComponent implements OnInit {
           status: response.status
         });
         const selectedAdviceType = this.adviceForm.controls['adviceType'].value;
-        const transactionData = this.transactionTypesList.find((item: any) => item.name == selectedAdviceType)
-        this.transactionCode = transactionData.code,
-        this.transactionId = transactionData.id
+        const transactionData = this.transactionTypesList?.find((item: any) => item?.name == selectedAdviceType)
+        this.transactionCode = transactionData?.code,
+        this.transactionId = transactionData?.id
 
         this.loadSpinner = false;
       },
