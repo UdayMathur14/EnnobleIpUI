@@ -7,7 +7,7 @@
             <th>Point Name</th>
             <th>Point Charge</th>
             <th>Same Location Charge</th>
-            <th>Remarks</th>
+            <th>Time Stamp Attachment</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
@@ -40,7 +40,12 @@
             </td>
             <td>{{pointchargeAcc?.newPointCharge && pointchargeAcc?.newPointCharge != 0 ? pointchargeAcc?.newPointCharge : pointchargeAcc?.pointCharge || '-' }}</td>
             <td>{{pointchargeAcc?.newSameLocationCharge && pointchargeAcc?.newSameLocationCharge != 0 ? pointchargeAcc?.newSameLocationCharge : pointchargeAcc?.newSameLocationCharge || '-' }}</td>
-            <td>-</td>
+            <td> <button class="icon-button mt-2"
+              (click)="openPDF(pointchargeAcc)" ngbTooltip="Time Stamp Attachment" placement="top">
+              <div class="img-container">
+                <img src="assets/images/icons/link.svg" alt="link" class="ms-5 pointer" />
+              </div>
+            </button></td>
             <td class="text-center d-flex justify-content-center" (click)="selectPoint(pointchargeAcc.id)">
               <!-- Approve Button -->
               <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"

@@ -10,6 +10,7 @@
             <th>Vehicle Size</th>
             <th>Freight Amount</th>
             <th>Remarks</th>
+            <th>Time Stamp Attachment</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
@@ -46,6 +47,15 @@
             <td>{{freight?.vehicleSize?.value || '-' }}</td>
             <td>{{freight?.newFreightAmount && freight?.newFreightAmount != 0 ? freight?.newFreightAmount : freight?.freightAmount || '-' }}</td>
             <td>{{freight?.remarks || '-' }}</td>
+            <td>
+              <button class="icon-button mt-2"
+              (click)="downloadPDF(freight)" ngbTooltip="Time Stamp Attachment" placement="top">
+              <div class="img-container">
+                <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" />
+              </div>
+            </button>
+            </td>
+    
             <td class="text-center d-flex justify-content-center" (click)="selectFreight(freight.id)">
               <!-- Approve Button -->
               <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"

@@ -115,4 +115,39 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     });
   }
 
+  downloadPDF(data: any) {
+    this.freightService.getFreightData(data?.locationId, data?.id).subscribe(
+        (response: any) => {
+            if (!response.fileData) {
+                this.toastr.error('No PDF is available to download', 'Error');
+                this.loadSpinner = false;
+                return;
+            }
+
+            const base64Prefix = 'data:application/pdf;base64,';
+            const base64Data = response.fileData.startsWith(base64Prefix) 
+                ? response.fileData.substring(base64Prefix.length) 
+                : response.fileData;
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = response.fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            this.loadSpinner = false;
+        },
+    );
+}
+
 }
