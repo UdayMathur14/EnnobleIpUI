@@ -295,6 +295,13 @@ export class AddEditPointChargeComponent implements OnInit {
 
   onUploadPdf(evt: any) {
     const file = evt.target.files[0];
+    const maxSizeInBytes = 5 * 1024 * 1024;
+  
+    if (file.size > maxSizeInBytes) {
+      this.toastr.error('File size should be less than 5MB', 'Error');
+      return;
+    }
+  
     this.nocFileName = file.name;
     const reader = new FileReader();
     reader.readAsDataURL(file);
