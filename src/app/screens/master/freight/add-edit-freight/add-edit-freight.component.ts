@@ -130,7 +130,7 @@ export class AddEditFreightComponent implements OnInit {
       matApprovalOn: null,
       accApproval: null,
       accApprovalOn: null,
-      remarks: null,
+      remarks: this.freightForm.controls['remarks'].value,
       actionBy: localStorage.getItem("userId"),
       fileName: this.nocFileName,
       fileData: this.nocFileBase64,
