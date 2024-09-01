@@ -66,7 +66,7 @@
       <div class="custom-form-input">
         <label for="">Transporter Mode <span class="text-danger">*</span></label>
         <ng-select formControlName="transporterMode" class="input-field"
-        placeholder="Select Transporter Code" (change)="onChangeMode($event)" [readonly]="transporterMode?.length <=1">
+        placeholder="Select Transporter Code" (change)="onChangeMode($event)">
         <ng-option *ngFor="let mode of transporterMode"
           [value]="mode" >{{mode.transportationMode.value}}</ng-option>
       </ng-select>
