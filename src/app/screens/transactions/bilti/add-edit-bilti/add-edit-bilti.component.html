@@ -64,6 +64,16 @@
     </div>
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
+        <label for="">Transporter Mode <span class="text-danger">*</span></label>
+        <ng-select formControlName="transporterMode" class="input-field"
+        placeholder="Select Transporter Code" (change)="onChangeMode($event)" [readonly]="transporterMode?.length <=1">
+        <ng-option *ngFor="let mode of transporterMode"
+          [value]="mode" >{{mode.transportationMode.value}}</ng-option>
+      </ng-select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2">
+      <div class="custom-form-input">
         <label for="">Freight Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="freightCode" (change)="onFreightChange($event)" (clear)="onFreightClear()">
           <ng-option *ngFor="let freight of filteredFreightsLists" [value]="freight">{{freight.freightCode}}</ng-option>
@@ -95,16 +105,6 @@
           <ng-option *ngFor="let loadingLocation of filteredLoadinglocation"
             [value]="loadingLocation.id">{{loadingLocation.value}}</ng-option>
         </ng-select>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">
-      <div class="custom-form-input">
-        <label for="">Transporter Mode <span class="text-danger">*</span></label>
-        <ng-select formControlName="transporterMode" class="input-field"
-        placeholder="Select Transporter Code" (change)="onChangeMode($event)" [readonly]="transporterMode?.length <=1">
-        <ng-option *ngFor="let mode of transporterMode"
-          [value]="mode" >{{mode.transportationMode.value}}</ng-option>
-      </ng-select>
       </div>
     </div>
   </div>

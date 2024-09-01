@@ -113,7 +113,6 @@ export class AddEditBiltiComponent implements OnInit {
 
   ngOnInit() {
     this.biltiId = Number(this.activatedRoute.snapshot.paramMap.get('biltiId'));
-    
     const locationId = this.activatedRoute.snapshot.paramMap.get('locationId');
     if(locationId){
       this.locationId = Number(locationId);
@@ -199,7 +198,8 @@ export class AddEditBiltiComponent implements OnInit {
 
 
   getFrlr(selectedTransactionType: string) {
-    const plantCodes = this.plantCodes.map((plant: any) => plant.name);
+    const plantCodes = this.plantCodes?.map((plant: any) => plant.name);
+    
     const data = {
       transactionType: selectedTransactionType,
       plantCode: plantCodes
@@ -282,7 +282,7 @@ export class AddEditBiltiComponent implements OnInit {
         pointCharge: null,
         remarks: null,
         paidByDetails: null,
-        documentrefNo: null
+        documentrefNo: null,
       });
     });
     this.biltiForm.patchValue({
@@ -293,7 +293,7 @@ export class AddEditBiltiComponent implements OnInit {
       freightCode: null,
       source: null,
       destination: null,
-      freightAmount: null
+      freightAmount: null,
     })
   }
   

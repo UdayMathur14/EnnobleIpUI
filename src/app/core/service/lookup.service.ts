@@ -50,7 +50,6 @@ export class LookupService extends CRUDService<LookupRequest> {
         if(obj){
           commonLocations.push(obj);
         }
-        APIConstant.plantCodes = el.whCode;
       });
 
  
