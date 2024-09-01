@@ -2,10 +2,10 @@
     <h1>{{freightId>0 ? 'Edit Freight' : 'Create Freight'}}</h1>
     <div class="action-buttons">
         <div class="action-buttons">
-            <label for="file-upload" class="custom-file-upload custom-button-export pointer">Upload</label>
+            <label for="file-upload" class="custom-file-upload custom-button-regulr pointer">Upload</label>
             <input type="file" id="file-upload" (change)="onUploadPdf($event)" />
           </div>
-        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid || !isFileUploaded">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">
             Cancel
         </button>

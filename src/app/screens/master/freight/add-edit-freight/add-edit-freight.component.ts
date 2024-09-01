@@ -31,6 +31,7 @@ export class AddEditFreightComponent implements OnInit {
   freightLocationId: number = 0;
   nocFileBase64 : any = '';
   nocFileName: string = '';
+  isFileUploaded: boolean = false;
 
   constructor(
     private router: Router,
@@ -256,6 +257,7 @@ export class AddEditFreightComponent implements OnInit {
   
     if (file.size > maxSizeInBytes) {
       this.toastr.error('File size should be less than 5MB', 'Error');
+      this.isFileUploaded = false;
       return;
     }
   
@@ -266,6 +268,7 @@ export class AddEditFreightComponent implements OnInit {
       const base64String = reader.result;
       this.nocFileBase64 = base64String;
       this.toastr.success('PDF Added', 'Success');
+      this.isFileUploaded = true;
     };
   }
   
