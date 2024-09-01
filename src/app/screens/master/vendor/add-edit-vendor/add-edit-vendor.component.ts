@@ -35,6 +35,7 @@ export class AddEditVendorComponent implements OnInit {
   paidByDetails: any[] = [];
   transactionTypes: any[] = [];
   selectedTransactionTypes: Set<string> = new Set();
+  isShow: boolean = false;
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
     vendorName: new FormControl(''),
@@ -256,7 +257,8 @@ export class AddEditVendorComponent implements OnInit {
           iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
           id: mapping.paidByDetails.id || {},
           status: 'Active',
-          disabled: true
+          disabled: true,
+          isShow: false
         };
       });
     }
@@ -392,7 +394,8 @@ export class AddEditVendorComponent implements OnInit {
       transactionType: undefined,
       paidByDetails: undefined,
       disabled: false,
-      status: 'Active'
+      status: 'Active',
+      isShow: true
     };
     this.transactionMappings.push(obj);
     

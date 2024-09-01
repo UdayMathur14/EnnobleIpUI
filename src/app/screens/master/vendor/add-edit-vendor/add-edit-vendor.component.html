@@ -222,7 +222,7 @@
             </div>
           </td>
 
-          <td class="text-center">
+          <td class="text-center" *ngIf="transaction.isShow">
             <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
               (click)="onDeleteTransaction(transaction, ind)" />
           </td>
