@@ -38,7 +38,7 @@
               <ul>
                 <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('MFG_TXN_DISPATCH_NOTE')">Dispatch Note</li>
                 <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('MFG_TXN_BILTI_CREATION')">Bilti Creation</li>
-                <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('MFG_TXN_BILTI_BILL_PROCESS_VIEW')">Bilti Bill Process View</li>
+                <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('MFG_TXN_BILTI_BILL_PROCESS')">Bilti Bill Process</li>
                 <li (click)="onTransactionChange('pointMasterMaterial')" *ngIf="securityGroups('MFG_TXN_POINT_MASTER_BY_MATERIAL')">Point Master by Material</li>
                 <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('MFG_TXN_POINT_MASTER_BY_ACCOUNTS')">Point Master by Accounts</li>
                 <li (click)="onTransactionChange('freightMasterMaterial')" *ngIf="securityGroups('MFG_TXN_FREIGHT_MASTER_BY_MATERIAL')">Freight Master by Material</li>
