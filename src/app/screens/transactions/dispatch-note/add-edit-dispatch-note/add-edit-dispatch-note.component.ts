@@ -172,6 +172,11 @@ export class AddEditDispatchNoteComponent {
             });
             const selectedPartNumbers = this.partDetails.controls.map(control => control.value.partNumber);
             this.initializeSelectedParts(selectedPartNumbers)
+            const transporters = this.transportersList.find((item: any) => {
+              return item.id == response?.transporterId;
+             })
+             this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == response?.transporterId);
+             this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode)
           }
         );
       }, error => {
