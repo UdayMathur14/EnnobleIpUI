@@ -91,6 +91,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.getTdsCodesDropdownData();
     this.getTaxCodesNonRcmDropdownData();
     this.getTaxCodesRcmDropdownData();
+    this.setLocation();
   }
 
   getTransporterData(transporterId: string) {

@@ -43,7 +43,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locationIds ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e: any) => e.id),
       screenCode: 101,
       pointName: filters?.pointName || '',
       status: filters?.status || '',

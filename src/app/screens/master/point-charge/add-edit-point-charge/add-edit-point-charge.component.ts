@@ -223,7 +223,7 @@ export class AddEditPointChargeComponent implements OnInit {
     if (!this.pointChargeId) {
       this.lookupService.setLocationId(
         this.pointChargeForm,
-        this.locations,
+        this.commonLocations,
         'locationCode'
       );
     }
@@ -232,7 +232,7 @@ export class AddEditPointChargeComponent implements OnInit {
   getEditPointChargeData() {
     this.loadSpinner = true;
     let data = {
-      locationIds: APIConstant.locationsListDropdown.map((e: any) => e.id),
+    "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       screenCode: 101,
       pointName: '',
     };
