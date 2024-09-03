@@ -50,7 +50,7 @@ export class TransporterComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e: any) => e.id),
       transporterCode: filters?.transCode,
       transporterName: filters?.transName,
       city: '',

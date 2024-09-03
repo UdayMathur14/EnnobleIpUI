@@ -42,7 +42,7 @@ export class FreightComponent implements OnInit{
 
   getFreightList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "locationIds": filters?.locationIds ||  APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": filters?.freightCode,
       "source": filters?.source,

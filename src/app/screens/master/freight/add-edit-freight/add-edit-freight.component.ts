@@ -214,13 +214,13 @@ export class AddEditFreightComponent implements OnInit {
 
   setLocation(){
     if(!this.freightId){
-      this.lookUpService.setLocationId(this.freightForm, this.locations, 'locationCode');
+      this.lookUpService.setLocationId(this.freightForm, this.commonLocations, 'locationCode');
     }
   }
 
   getEditFreightData() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": "",
       "source": "",

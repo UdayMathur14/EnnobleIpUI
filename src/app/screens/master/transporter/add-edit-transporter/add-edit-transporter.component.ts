@@ -6,6 +6,7 @@ import { TransporterService } from '../../../../core/service/transporter.service
 import { APIConstant } from '../../../../core/constants';
 import { TransporterDataModel, TransporterListingModel } from '../../../../core/model/masterModels.model';
 import { VendorService } from '../../../../core/service/vendor.service';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-transporter',
@@ -35,12 +36,15 @@ export class AddEditTransporterComponent implements OnInit {
   taxCodesRcm: any[] = [];
   taxCodesNonRcm: any[] = [];
   selectedModes: Set<number> = new Set();
+  transporterLocationId: number = 0;
+  transporterList: any = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private _Activatedroute: ActivatedRoute,
     private transporterService: TransporterService,
-    private vendorService: VendorService) {
+    private vendorService: VendorService,
+    private lookupService: LookupService) {
     this.transporterForm = this.formBuilder.group({
       transporterCode: [''],
       transporterName: [''],
@@ -77,7 +81,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.queryData = this._Activatedroute.snapshot.paramMap.get("transporterCode");
     this.queryData = this.queryData == 0 ? '' : this.queryData;
     if (this.queryData != 0) {
-      this.getTransporterData(this.queryData);
+      this.getTransportersList();
     }
     // Enable or disable status control based on queryData for Create and Update
     this.getTransporterModeDropdownData();
@@ -92,6 +96,7 @@ export class AddEditTransporterComponent implements OnInit {
   getTransporterData(transporterId: string) {
     this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
       this.loadSpinner = false;
+      this.transporterList = response;
       this.transporterMappings = response?.transporterMappings;
       this.selectedModes.clear();
       this.transporterForm.patchValue({
@@ -190,7 +195,8 @@ export class AddEditTransporterComponent implements OnInit {
 
   //UPDATING TRANSPORTER DATA
   updateTransporter(data: any) {
-    this.transporterService.updateTransporter(this.queryData, data).subscribe((response: any) => {
+    const locationCode = this.transporterForm.controls['locationCode']?.value
+    this.transporterService.updateTransporter(locationCode, this.queryData, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Transporter Updated Successfully');
       this.router.navigate(['/master/transporter']);
@@ -202,6 +208,7 @@ export class AddEditTransporterComponent implements OnInit {
 
   //CREATING NEW TRANSPORTER
   createNewTransporter() {
+    const locationCode = this.transporterForm.controls['locationCode']?.value
     const data = {
       status: this.transporterForm.controls['status'].value,
       actionBy: localStorage.getItem('userId'),
@@ -249,7 +256,7 @@ export class AddEditTransporterComponent implements OnInit {
         };
       }),
     };
-    this.transporterService.createTransporter(data).subscribe((response: any) => {
+    this.transporterService.createTransporter(locationCode,data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Transporter Updated Successfully');
       this.router.navigate(['/master/transporter']);
@@ -372,7 +379,7 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   getLocationData(data: any){
-    const locationData = this.locations.find((item: any) => {
+    const locationData = this.commonLocations.find((item: any) => {
     return item.id == data;
     })
     this.transporterForm.patchValue({
@@ -503,6 +510,55 @@ export class AddEditTransporterComponent implements OnInit {
     }, error => {
       this.loadSpinner = false;
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+
+  
+  setLocation(){
+    this.lookupService.setLocationId(this.transporterForm, this.commonLocations, 'locationCode');
+}
+
+getTransportersList() {
+  let data = {
+    locationIds:
+      APIConstant.commonLocationsList.map((e: any) => e.id),
+    transporterCode:"",
+    transporterName: "",
+    city: '',
+    state: '',
+    taxationType: '',
+    status: "",
+  };
+  this.transporterService.getTransporters(data).subscribe(
+    (response: any) => {
+      this.transporterList = response.transporters;
+      this.getLocationId().then(() => {
+        this.getTransporterData(this.queryData);
+      });
+      this.loadSpinner = false;
+    },
+    (error) => {
+      this.loadSpinner = false;
+      this.toastr.error(
+        error.error.details
+          .map((detail: any) => detail.description)
+          .join('<br>')
+      );
+    }
+  );
+}
+
+  getLocationId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const transporter = this.transporterList.filter((freight: any) => {
+        return freight.id == this.queryData
+      });
+      if (transporter.length > 0) {
+        this.transporterLocationId = transporter[0].locations.id;
+        resolve();
+      } else {
+        reject('No matching freight found');
+      }
     });
   }
 }

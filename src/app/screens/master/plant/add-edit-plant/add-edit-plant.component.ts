@@ -313,7 +313,7 @@ export class AddEditPlantComponent implements OnInit {
 
   getEditPlantData() { 
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e: any) => (e.id)),
       "plantCode": "",
       "city": "",
       "state": "",
@@ -353,12 +353,12 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   getLocationData(data: any){
-    const locationData = this.locations.find((item: any) => {
+    const locationData = this.commonLocations.find((item: any) => {
     return item.id == data;
     })
     this.plantForm.patchValue({
-      dsc: locationData?.attribute1,
-      dcp: locationData?.attribute2
+      dsc: locationData?.attribute3,
+      dcp: locationData?.attribute4
     })
   }
 }

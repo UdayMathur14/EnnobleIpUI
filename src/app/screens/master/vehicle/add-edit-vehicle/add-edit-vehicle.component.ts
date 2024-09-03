@@ -232,7 +232,7 @@ export class AddEditVehicleComponent implements OnInit {
 
   setLocation(){
     if(!this.vehicleId){
-      this.lookUpService.setLocationId(this.vehicleForm, this.locations, 'locationId');
+      this.lookUpService.setLocationId(this.vehicleForm, this.commonLocations, 'locationId');
     }
   }
 

@@ -42,7 +42,7 @@ export class PlantComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e: any) => e.id),
       plantCode: filters?.plantCode || '',
       auCode: filters?.auCode || '',
       siteCode: filters?.siteCode || '',
