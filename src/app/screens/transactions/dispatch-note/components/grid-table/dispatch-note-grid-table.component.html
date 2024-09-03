@@ -2,6 +2,7 @@
   <table>
     <thead>
       <tr>
+        <th>Location Code</th>
         <th>Dispatch Number</th>
         <th>FRLR#</th>
         <th>Supplier Code</th>
@@ -14,6 +15,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let dispatchNote of dispatchNotes">
+        <td>{{ dispatchNote?.locations?.value }}</td>
         <td class="pointer">
           <span
             container="body"

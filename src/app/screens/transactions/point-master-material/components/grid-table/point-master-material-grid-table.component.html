@@ -4,6 +4,7 @@
       <table>
         <thead>
           <tr>
+            <th>Location Code</th>
             <th>Point Name</th>
             <th>Point Charge</th>
             <th>Same Location Charge</th>
@@ -14,6 +15,7 @@
         <tbody>
           @for (pointchargeMat of pointChargesList; track pointchargeMat.id) {
           <tr>
+            <td>{{ pointchargeMat?.locations?.value }}</td>
             <td class="pointer">
               <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
                 <u>{{pointchargeMat.pointName}}</u>

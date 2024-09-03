@@ -223,7 +223,7 @@ export class AddEditAdviceComponent implements OnInit {
     const locationCode = this.adviceId === 0
       ? this.adviceForm.get('locationCode')!.value
       : this.locationCodeInput.nativeElement.value;
-      const locationName = this.locations.find((item: any) => {
+      const locationName = this.commonLocations.find((item: any) => {
         return item?.id == locationCode
       })
     if (adviceType && adviceType.name && locationCode) {
@@ -240,13 +240,13 @@ export class AddEditAdviceComponent implements OnInit {
 
   setLocation(){
     if(!this.adviceId){
-      this.lookupService.setLocationId(this.adviceForm, this.locations, 'locationCode');
+      this.lookupService.setLocationId(this.adviceForm, this.commonLocations, 'locationCode');
     }
   }
 
   getAdviceEditData() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": ""
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {

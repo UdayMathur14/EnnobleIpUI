@@ -510,7 +510,7 @@ export class AddEditDispatchNoteComponent {
 
   setLocation(){
     if(!this.vehicleId){
-      this.lookupService.setLocationId(this.addOrEditDispatchNoteFormGroup, this.locations, 'locationId');
+      this.lookupService.setLocationId(this.addOrEditDispatchNoteFormGroup, this.commonLocations, 'locationId');
     }
   }
 
@@ -540,7 +540,7 @@ export class AddEditDispatchNoteComponent {
 
   getTransportersList() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "transporterCode": "",
       "transporterName": "",
       "city": "",

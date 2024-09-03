@@ -2,6 +2,7 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
+        <th>Location Code</th>
         <th (click)="sortData('freightCode')">Freight Code</th>
         <th (click)="sortData('locations.value')">Location Code</th>
         <th (click)="sortData('source.value')">Source</th>
@@ -19,6 +20,7 @@
     <tbody>
       @for (freight of freightList; track freight.id) {
       <tr>
+        <td>{{ freight?.locations?.value }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{freight?.freightCode || '-' }}</u>

@@ -4,6 +4,7 @@
       <table>
         <thead>
           <tr>
+            <th>Location Code</th>
             <th>Freight Code</th>
             <th>Source</th>
             <th>Destination</th>
@@ -16,6 +17,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let freight of freightList; let i = index">
+            <td>{{ freight?.locations?.value }}</td>
             <td class="pointer">
               <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
                 <u>{{freight?.freightCode || '-'}}</u>

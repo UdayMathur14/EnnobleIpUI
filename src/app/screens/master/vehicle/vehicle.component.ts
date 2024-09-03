@@ -42,7 +42,7 @@ export class VehicleComponent implements OnInit{
 
   getVehicleList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": filters?.vehicleNumber ||  "",
       "transporter": filters?.transporterId ||  "",
       "vehicleSizeCode": filters?.vehcileSize ||  "",

@@ -36,7 +36,7 @@ export class DispatchNoteComponent {
 
   getDispatchData(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
-      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "dispatchNumber": filters?.dispatchNumber || "",
       "status": filters?.status || "",
       "frlrNumber": filters?.frlrNo || ""

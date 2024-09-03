@@ -2,6 +2,7 @@
   <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
     <thead>
       <tr>
+        <th>Location Code</th>
         <th (click)="sortData('transporterCode')">Transporter Code</th>
         <th (click)="sortData('transporterName')">Trans. Name</th>
         <th (click)="sortData('locationId')">Location Code</th>
@@ -20,6 +21,7 @@
     <tbody>
       @for (transporter of transportersList; track transporter.id) {
       <tr>
+        <td>{{ transporter?.locations?.value }}</td>
         <td class="pointer" container="body">
           <span
             placement="end"

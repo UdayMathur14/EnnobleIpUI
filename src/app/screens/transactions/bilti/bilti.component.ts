@@ -33,7 +33,7 @@ export class BiltiComponent implements OnInit {
   getAllBiltisList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
       biltiNumber: filters?.biltiNumber || "",
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id),
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id),
       status: ""
     };
     this.biltiService.getBiltis(data, offset, count).subscribe(

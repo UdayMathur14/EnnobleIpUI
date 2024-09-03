@@ -2,6 +2,7 @@
     <table>
         <thead>
             <tr>
+              <!-- <th>Location Code</th> -->
                 <th>Bilti No.</th>
                 <th>Vehicle No.</th>
                 <th>Vehicle Size</th>
@@ -18,6 +19,7 @@
         <tbody>
           @for (bilti of biltisList; track bilti.id) {
             <tr>
+              <!-- <td>{{ bilti?.locations?.value }}</td> -->
                 <td class="pointer" container="body">
                     <span
                       placement="end"

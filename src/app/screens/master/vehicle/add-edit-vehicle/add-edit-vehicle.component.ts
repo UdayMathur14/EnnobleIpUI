@@ -238,7 +238,7 @@ export class AddEditVehicleComponent implements OnInit {
 
   getEditVehicleData(){
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": "",
       "transporterId": 0
     }

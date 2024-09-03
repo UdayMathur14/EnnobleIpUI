@@ -223,8 +223,9 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   getDispatchData(dispatchNumber: string = "") {
-    const locationIds = this.locationId?[this.locationId]:[];
-    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
+    const locationCode = [this.biltiForm.controls['locationId'].value];
+    // const locationIds = this.locationId?[this.locationId]:[];
+    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationCode }).subscribe((res: any) => {
       this.dispatchData = res.dispatchNotes
       const filteredDispatchNotes = res.dispatchNotes.filter((item: any) => item?.openFlag !== 'Close'
       && item?.frlrNumber !== null);
@@ -989,7 +990,7 @@ onFrlrNoClear() {
 
   setLocation(){
     if(!this.biltiId){
-      this.lookUpService.setLocationId(this.biltiForm, this.locations, 'locationId');
+      this.lookUpService.setLocationId(this.biltiForm, this.commonLocations, 'locationId');
     }
   }
 
@@ -997,7 +998,7 @@ onFrlrNoClear() {
     this.loadSpinner = true;
     let data = {
       biltiNumber: '',
-      locationIds: APIConstant.locationsListDropdown.map((e: any) => e.id),
+      locationIds: APIConstant.commonLocationsList.map((e: any) => e.id),
     };
     this.biltiService.getBiltis(data).subscribe(
       (response: any) => {

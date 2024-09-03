@@ -2,6 +2,7 @@
   <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
     <thead>
       <tr>
+        <th>Location Code</th>
         <th (click)="sortData('pointName')">Point Name</th>
         <th (click)="sortData('pointCharge')">Point Charge</th>
         <th (click)="sortData('sameLocationCharge')">Same Location Charge</th>
@@ -16,6 +17,7 @@
     <tbody>
       @for (pointcharge of pointChargesList; track pointcharge.id) {
       <tr>
+        <td>{{ pointcharge?.locations?.value }}</td>
         <td class="pointer" container="body">
           <span
             placement="end"
