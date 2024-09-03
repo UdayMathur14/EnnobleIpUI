@@ -194,6 +194,9 @@ export class AddEditPlantComponent implements OnInit {
     }
     this.transactionService.getTransactionTypes(data, this.offset, this.count).subscribe((response: any) => {
       this.transactionTypesList = response.transactionTypes
+      this.transactionTypesList = response.transactionTypes.filter(
+        (transactionType: any) => transactionType.status === 'Active'
+      );
     }, error => {
 
     })
