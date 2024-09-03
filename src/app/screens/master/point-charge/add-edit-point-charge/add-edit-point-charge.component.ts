@@ -31,6 +31,7 @@ export class AddEditPointChargeComponent implements OnInit {
   pointNameData: any = [];
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   pointChargeLocationId: number = 0;
   nocFileBase64: any = '';
   nocFileName: string = '';

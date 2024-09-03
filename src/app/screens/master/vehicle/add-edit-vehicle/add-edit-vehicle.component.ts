@@ -26,6 +26,7 @@ export class AddEditVehicleComponent implements OnInit {
   vehcileSizes: any = []
   locationId!:Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   locationCode: any
   vehicleLocationId: number = 0;
   transporterOffset: number = 0;

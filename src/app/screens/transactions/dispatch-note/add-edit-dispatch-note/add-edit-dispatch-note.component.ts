@@ -38,6 +38,7 @@ export class AddEditDispatchNoteComponent {
   loadSpinner: boolean = false;
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   selectedParts: any = [];
   deletedParts: any[] = [];
   activeSuppliersLists: any[] = [];

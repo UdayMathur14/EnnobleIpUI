@@ -27,6 +27,7 @@ export class AddEditFreightComponent implements OnInit {
   getData: any = [];
   locationId!:Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   freightList: any = [];
   freightLocationId: number = 0;
   nocFileBase64 : any = '';

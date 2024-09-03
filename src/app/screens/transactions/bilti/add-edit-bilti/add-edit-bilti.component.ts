@@ -78,6 +78,7 @@ export class AddEditBiltiComponent implements OnInit {
   rbVehicleNumber: string = ''
   locationId!: Number;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   plantCodes: any[]= APIConstant.plantCodes
   biltisList: any = [];
   biltiLocationId: number = 0;

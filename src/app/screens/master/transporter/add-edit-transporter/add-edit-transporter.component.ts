@@ -24,6 +24,7 @@ export class AddEditTransporterComponent implements OnInit {
   tdsCodes: any[] = []
   disableSubmit: boolean = false;
   locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = APIConstant.commonLocationsList;
   transporterData!: TransporterDataModel;
   transporterMappings: any[] = [];
   transporters: any[] = [];

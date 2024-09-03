@@ -25,7 +25,7 @@
                 <div class="custom-form-input">
                     <label for="">Location Code<span class="text-danger">*</span></label>
                     <ng-select [searchable]="true" formControlName="locationCode" placeholder="Select location" [readonly]="freightId > 0">
-                        <ng-option *ngFor="let location of locations"
+                        <ng-option *ngFor="let location of commonLocations"
                             [value]="location.id">{{location.value}}</ng-option>
                     </ng-select>
                 </div>
