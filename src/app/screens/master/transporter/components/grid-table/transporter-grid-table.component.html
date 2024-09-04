@@ -2,10 +2,9 @@
   <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
     <thead>
       <tr>
-        <th>Location Code</th>
+        <th (click)="sortData('locationId')">Location Code</th>
         <th (click)="sortData('transporterCode')">Transporter Code</th>
         <th (click)="sortData('transporterName')">Trans. Name</th>
-        <th (click)="sortData('locationId')">Location Code</th>
         <th (click)="sortData('transporterAddress1')">Address</th>
         <th (click)="sortData('transporterContactNo')">Contact</th>
         <th (click)="sortData('transporterMailId')">Email</th>
@@ -56,7 +55,6 @@
           </ng-template>
         </td>
         <td>{{ transporter.transporterName }}</td>
-        <td>{{ transporter?.locations?.code }}</td>
         <td>
           {{ transporter.transporterAddress1 }}
           {{ transporter.transporterAddress2 }}

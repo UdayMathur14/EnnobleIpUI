@@ -109,19 +109,19 @@ export class TransporterComponent implements OnInit {
               locationCode: transporter.locations.value,
               transporterCode: transporter.transporterCode,
               transporterName: transporter.transporterName,
-              locationId: transporter.locationId,
-              consignorName: transporter.consignorName,
-              ownerName: transporter.ownerName,
-              contactPerson: transporter.contactPerson,
               transporterAddress1:
                 transporter.transporterAddress1 +
                 ', ' +
                 transporter.transporterAddress2,
-              transporterContactNo: transporter.transporterContactNo,
+                transporterContactNo: transporter.transporterContactNo,
               transporterMailId: transporter.transporterMailId,
+              consignorName: transporter?.consignorName,
+              ownerName: transporter?.ownerName,
+              contactPerson: transporter?.contactPerson,
               regdDetails: transporter.regdDetails,
-              status: transporter.status,
               autoBiltiRequiredFlag: transporter.autoBiltiRequiredFlag,
+              status: transporter.status,
+
             })
           );
           this.xlsxService.xlsxExport(
