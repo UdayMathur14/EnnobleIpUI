@@ -61,7 +61,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="handleSearch()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !status">
           Search
         </button>
       </div>
@@ -70,7 +70,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber && !status">
           Clear
         </button>
       </div>
