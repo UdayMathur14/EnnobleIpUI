@@ -2,11 +2,10 @@
   <table #table [ngClass]="sortDirection === 'asc' ? 'asc' : 'dsc'">
     <thead>
       <tr>
-        <th>Location Code</th>
+        <th (click)="sortData('locations')">Location Code</th>
         <th (click)="sortData('pointName')">Point Name</th>
         <th (click)="sortData('pointCharge')">Point Charge</th>
         <th (click)="sortData('sameLocationCharge')">Same Location Charge</th>
-        <th (click)="sortData('locations')">Location Code</th>
         <th (click)="sortData('materialRemarks')">Material Remarks</th>
         <th (click)="sortData('accountsRemarks')">Account Remarks</th>
         <th (click)="sortData('status')">Status</th>
@@ -105,7 +104,6 @@
             </table>
           </ng-template>
         </td>
-        <td>{{ pointcharge?.locations.value }}</td>
         <td>{{ pointcharge?.materialRemarks || "-" }}</td>
         <td>{{ pointcharge?.accountsRemarks || "-" }}</td>
         <td>{{ pointcharge?.status }}</td>

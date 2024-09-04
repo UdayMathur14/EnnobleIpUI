@@ -1090,5 +1090,32 @@ disabledonAdd(){
   return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value
 }
 
+onChangeLocation(data: any){
+  const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+  vendorsArray.controls.forEach((vendorGroup) => {
+    vendorGroup.patchValue({
+      vendorCode: null,
+      vendorName: null,
+      pointName: null,
+      pointCharge: null,
+      remarks: null,
+      paidByDetails: null,
+      documentrefNo: null,
+    });
+  });
+  this.biltiForm.patchValue({
+    vehicleNumber: null,
+    vehicleSize: null,
+    transporterCode: null,
+    transporterName: null,
+    freightCode: null,
+    source: null,
+    destination: null,
+    freightAmount: null,
+    transactionType: null,
+    frlrNo: null
+  })
+}
+
   
 }

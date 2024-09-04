@@ -15,8 +15,8 @@ export class BiltiFilterComponent implements OnInit {
   biltiNum!: any | null;
   biltisList: any = [];
   loadSpinner: boolean = true;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
-  locations: any[] = APIConstant.locationsListDropdown;
+  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
+  locations: any[] = APIConstant.commonLocationsList;
 
   constructor() { }
 
@@ -35,10 +35,10 @@ export class BiltiFilterComponent implements OnInit {
 
   onClearFilter() {
     this.biltiNum = null;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     let obj = {
       biltiNum: null,
-      locationIds: []
+      locationIds: this.locationIds
     }
     this.getData.emit(obj)
   }

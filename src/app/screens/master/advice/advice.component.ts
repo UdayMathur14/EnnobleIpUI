@@ -16,7 +16,7 @@ export class AdviceComponent implements OnInit{
   fullScreen : boolean = false;
   loadSpinner : boolean = true;
   headers: string[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   currentPage: number = 1;
   count: number = 10;
   totalAdvices: number = 0;
@@ -68,7 +68,7 @@ export class AdviceComponent implements OnInit{
 
   exportData(fileName: string = "Advice") {
     const data = {
-      "locationIds": this.appliedFilters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": this.appliedFilters?.adviceType || '',
       "status": this.appliedFilters?.status || ''
     }

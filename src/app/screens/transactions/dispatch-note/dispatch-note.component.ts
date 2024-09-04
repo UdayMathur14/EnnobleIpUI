@@ -14,8 +14,8 @@ export class DispatchNoteComponent {
   isFilters: boolean = true;
   dispatchNumber: string = "";
   dispatchNotes = [];
-  locations: any[] = APIConstant.locationsListDropdown;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
+  locations: any[] = APIConstant.commonLocationsList;
+  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
   loadSpinner: boolean = true;
   currentPage: number = 1;
   count: number = 10;

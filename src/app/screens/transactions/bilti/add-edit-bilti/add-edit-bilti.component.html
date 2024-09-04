@@ -13,7 +13,7 @@
     <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">Location Code<span class="text-danger">*</span></label>
-        <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="biltiId > 0">
+        <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="biltiId > 0" (change)="onChangeLocation($event)">
           <ng-option *ngFor="let location of commonLocations" [value]="location.id">{{location.value}}</ng-option>
         </ng-select>
       </div>

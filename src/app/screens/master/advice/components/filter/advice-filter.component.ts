@@ -12,7 +12,7 @@ export class AdviceFilterComponent implements OnInit {
   @Output() getData : EventEmitter<object> = new EventEmitter();
   adviceType : any = undefined;
   batchName: any = undefined;
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
+  locationIds : any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
   status: any = undefined;
 
   constructor(){}
@@ -32,12 +32,12 @@ export class AdviceFilterComponent implements OnInit {
 
   onClearFilter(){
     this.adviceType = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
     this.batchName = undefined;
     let obj = {
       "adviceType" : "",
-      "locationIds": [],
+      "locationIds": this.locationIds,
       "status": "",
       "batchName": ""
     }

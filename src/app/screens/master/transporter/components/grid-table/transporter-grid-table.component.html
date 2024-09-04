@@ -21,7 +21,7 @@
     <tbody>
       @for (transporter of transportersList; track transporter.id) {
       <tr>
-        <td>{{ transporter?.locations?.value }}</td>
+        <td>{{ transporter?.locations?.value || '-' }}</td>
         <td class="pointer" container="body">
           <span
             placement="end"

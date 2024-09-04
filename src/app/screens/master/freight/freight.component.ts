@@ -22,7 +22,7 @@ export class FreightComponent implements OnInit{
   sources : any[] = [];
   freightList: any[] = [];
   headers: string[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   currentPage: number = 1;
   count: number = 10;
   totalFreights: number = 0;
@@ -79,7 +79,7 @@ export class FreightComponent implements OnInit{
 
   exportData(fileName: string = "Freight") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": this.appliedFilters?.freightCode,
       "source": this.appliedFilters?.source,
@@ -90,8 +90,8 @@ export class FreightComponent implements OnInit{
     this.freightService.getFreightsList(data, 0, this.totalFreights).subscribe((response: any) => {
       const freightListToExport = response.freights;
       const mappedPlantsList = freightListToExport.map((freight: any) => ({
-        freightCode: freight?.freightCode,
         locations: freight?.locations?.value,
+        freightCode: freight?.freightCode,
         source: freight?.source?.value,
         destination: freight?.destination?.value,
         vehicleSize: freight?.vehicleSize?.value,

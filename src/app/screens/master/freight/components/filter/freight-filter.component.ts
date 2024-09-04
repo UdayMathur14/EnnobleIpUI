@@ -17,7 +17,7 @@ export class FreightFilterComponent implements OnInit {
   destination : any = undefined;
   vehicleSize : any = undefined;
   status: any = undefined;
-  locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locationIds:any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
   
   constructor(){}
 
@@ -42,14 +42,14 @@ export class FreightFilterComponent implements OnInit {
     this.source = undefined;
     this.vehicleSize = undefined;
     this.destination = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
     let obj = {
       "freightCode" : "",
       "source" : "",
       "vehicleSize" : "",
       "destination" : "",
-      "locationIds" : [],
+      "locationIds" : this.locationIds,
       "status": ""
     }
     this.getData.emit(obj)

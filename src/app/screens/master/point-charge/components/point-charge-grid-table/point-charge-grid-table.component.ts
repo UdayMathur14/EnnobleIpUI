@@ -45,7 +45,7 @@ export class PointChargeGridTableComponent implements OnInit {
     const headers: string[] = [];
     const headerCells = this.table?.nativeElement?.querySelectorAll('thead th');
     headerCells?.forEach((cell: any) => {
-      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+      if (cell.innerText.trim() !== 'Action' && cell.innerText.trim() !== 'Contract Attachment') { // Exclude "Actions" header
         headers.push(cell.innerText.trim());
       }
     });

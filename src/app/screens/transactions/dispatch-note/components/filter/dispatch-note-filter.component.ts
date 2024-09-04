@@ -13,8 +13,8 @@ export class DispatchNoteFiltersComponent {
   status: any = undefined;
   frlrNo: any = undefined;
   @Input() filters : any = [];
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.commonLocationsList;
+  locationIds:any[]= APIConstant.commonLocationsList.map((e:any)=>(e.id));
 
   constructor() { }
 
@@ -26,7 +26,7 @@ export class DispatchNoteFiltersComponent {
     this.dispatchNumber = null;
     this.status = undefined;
     this.frlrNo = undefined;
-    this.locationIds = [];
-    this.getData.emit({ dispatchNumber: null,locationIds:[], status: '', frlrNo: ''})
+    this.locationIds = this.locationIds;
+    this.getData.emit({ dispatchNumber: null,locationIds:this.locationIds, status: '', frlrNo: ''})
   }
 }

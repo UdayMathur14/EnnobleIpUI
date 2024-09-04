@@ -11,7 +11,7 @@ export class PointFilterComponent implements OnInit {
   @Input() locations : any[] = [];
   @Input() filters : any = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locationIds : any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
   pointName : any = undefined;
   status: any = undefined;
   
@@ -31,11 +31,11 @@ export class PointFilterComponent implements OnInit {
 
   onClearFilter(){
     this.pointName = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
     let obj = {
       "pointName" : undefined,
-      "locationIds" : [],
+      "locationIds" : this.locationIds,
       "status": undefined
     }
     this.getData.emit(obj)

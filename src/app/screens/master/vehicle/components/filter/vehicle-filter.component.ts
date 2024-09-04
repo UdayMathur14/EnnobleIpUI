@@ -12,7 +12,7 @@ export class VehicleFiltersComponent implements OnInit {
   @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   @Input() filters: any = [];
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locationIds : any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
   vehicleNum : any = undefined;
   transporterNam : any = undefined;
   loadSpinner: boolean = true;
@@ -44,13 +44,13 @@ export class VehicleFiltersComponent implements OnInit {
     this.transporterNam = undefined;
     this.vehicleSize = undefined;
     this.status = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     let obj = {
       "vehicleNumber": undefined,
       "transporterNam": undefined,
       "status": undefined,
       "vehicleSize": undefined,
-      "locationIds" : []
+      "locationIds" : this.locationIds
     }
     this.getData.emit(obj)
   }
