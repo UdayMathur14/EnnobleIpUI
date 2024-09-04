@@ -46,4 +46,14 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.vendorsList);
   }
+
+  getPaidByDetails(vendor: any) {
+    return vendor.vendorMappingModels.map((m: any) => m.paidByDetails.code).join(', ');
+  }
+
+  getTransactionTypes(vendor: any) {
+    return vendor.vendorMappingModels.map((m: any) => m.transactionType.code).join(', ');
+  }
+  
+  
 }
