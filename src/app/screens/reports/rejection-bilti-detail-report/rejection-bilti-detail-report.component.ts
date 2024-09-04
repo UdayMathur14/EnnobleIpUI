@@ -21,7 +21,7 @@ export class RejectionBiltiDetailReportComponent {
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
   toDate: any = moment().format('YYYY-MM-DD');
   currentPage: number = 1;
   count: number = 10;
@@ -111,7 +111,7 @@ export class RejectionBiltiDetailReportComponent {
       status: this.searchedData?.status,
       screenCode: 307,
       adviceType: this.searchedData?.adviceType || "",
-      locationIds: this.searchedData?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      locationIds: this.searchedData?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
     };
 
     if (this.totalBiltiBills === 0) {

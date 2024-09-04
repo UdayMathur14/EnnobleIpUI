@@ -36,7 +36,7 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters" (click)="onAdviceSearch()" [disabled]="!adviceType && !locationIds.length && !status && !batchName">Search</button>
-                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!adviceType && locationIds.length && !status && !batchName">Clear</button>
             </div>
         </div>
     </div>

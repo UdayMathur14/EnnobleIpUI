@@ -38,7 +38,7 @@
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber && !status && !frlrNo">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !dispatchNumber && !frlrNo"> Clear</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !dispatchNumber && !frlrNo && !status"> Clear</button>
                 </div>
             </div>
         </div>

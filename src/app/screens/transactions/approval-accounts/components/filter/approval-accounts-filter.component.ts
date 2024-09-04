@@ -21,8 +21,8 @@ export class ApprovalAccountsFiltersComponent {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
-  locations: any[] = APIConstant.locationsListDropdown;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locations: any[] = APIConstant.commonLocationsList;
+  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
   @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
@@ -64,10 +64,11 @@ export class ApprovalAccountsFiltersComponent {
     this.toDate = null;
     this.selectedFromDate = null;
     this.selectedToDate = null;
+    this.locationIds = this.locationIds;
     const filterObj = {
       batchNumber: '',
       biltiNumber: '',
-      locationIds: []
+      locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
   }

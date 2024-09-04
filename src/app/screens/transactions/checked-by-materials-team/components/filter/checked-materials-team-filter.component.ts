@@ -22,8 +22,8 @@ export class CheckedMaterialsTeamFilterComponent {
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.ccommonLocationsList;
+  locationIds:any[]= APIConstant.commonLocationsList.map((e:any)=>(e.id));
   constructor(
     private toastr: ToastrService,
   ) { }
@@ -58,10 +58,11 @@ export class CheckedMaterialsTeamFilterComponent {
     this.fromDate = null,
     this.toDate = null,
     this.selectedFromDate = null,
-    this.selectedToDate = null
+    this.selectedToDate = null,
+    this.locationIds = this.locationIds
     const filterObj = {
       batchNumber : '',
-      locationIds: []
+      locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
   }

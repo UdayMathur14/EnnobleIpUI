@@ -46,7 +46,7 @@
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters me-2" style="padding:4px 10px" (click)="onPlantSearch()"
                     [disabled]="!locationIds && !plantCode && !cityCode && !stateCode && !auCode && !siteCode && !status ">Search</button>
-                <button class="custom-button-filters" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
+                <button class="custom-button-filters" style="padding:4px 10px" (click)="onClearFilter()" [disabled]="locationIds && !plantCode && !cityCode && !stateCode && !auCode && !siteCode && !status">Clear</button>
             </div>
         </div>
     </div>

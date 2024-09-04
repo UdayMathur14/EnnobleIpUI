@@ -28,7 +28,7 @@ export class BiltiRbTxnDataComponent implements OnInit {
 
   getDispatchData(offset: number = 0, count: number = this.count) {
     const data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "dispatchNumber": this.dispatchNumber || "",
       "status": "",
       "frlrNumber": ""

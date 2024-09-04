@@ -24,7 +24,7 @@
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="onBiltiSearch()"
                         [disabled]="locationIds.length==0 && !biltiNum">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !biltiNum">
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !biltiNum">
                         Clear</button>
                 </div>
             </div>

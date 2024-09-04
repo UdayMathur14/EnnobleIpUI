@@ -39,7 +39,7 @@
                 <div class="d-flex">
                     <button class="custom-button-filters" style="padding:4px 10px" (click)="onTransporterSearch()"
                     [disabled]="!locationIds && !transCode && !transName && !status">Search</button>
-                <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()">Clear</button>
+                <button class="custom-button-filters ms-2" style="padding:4px 10px" (click)="onClearFilter()" [disabled]="locationIds && !transCode && !transName && !status">Clear</button>
                 </div> 
             </div>
         </div>

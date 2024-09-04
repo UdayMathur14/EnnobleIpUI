@@ -20,8 +20,8 @@ export class ProcessedReportFilterComponent implements OnInit {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
-  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]= APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.commonLocationsList;
   status: any = undefined;
   @Output() exportData: EventEmitter<any> = new EventEmitter();
 
@@ -66,10 +66,11 @@ export class ProcessedReportFilterComponent implements OnInit {
     this.toDate = null,
     this.biltiNumber = undefined
     this.status = undefined;
+    this.locationIds = this.locationIds
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
-      locationIds: APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      locationIds: this.locationIds,
       status: ''
     }
     this.filterSearchObj.emit(filterObj)

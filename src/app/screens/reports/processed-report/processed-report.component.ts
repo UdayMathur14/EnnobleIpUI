@@ -21,7 +21,7 @@ export class ProcessedReportComponent {
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
   toDate: any = moment().format('YYYY-MM-DD');
   currentPage: number = 1;
   count: number = 10;
@@ -50,7 +50,7 @@ export class ProcessedReportComponent {
       adviceType: filters?.adviceType || "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: filters?.biltiNumber || "",
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       status: filters?.status
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
@@ -111,7 +111,7 @@ export class ProcessedReportComponent {
         status: this.searchedData?.status,
         screenCode: 308,
         adviceType: this.searchedData?.adviceType || "",
-        locationIds: this.searchedData?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+        locationIds: this.searchedData?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       };
   
       if (this.totalBiltiBills === 0) {

@@ -20,8 +20,8 @@ export class ChangeBiltiStatusFilterComponent {
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
   status: any  = undefined;
-  locations: any[] = APIConstant.locationsListDropdown;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locations: any[] = APIConstant.commonLocationsList;
+  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
   @Input() filters: any = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -57,11 +57,11 @@ export class ChangeBiltiStatusFilterComponent {
     this.selectedFromDate = null;
     this.selectedToDate = null;
     this.status = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     const filterObj = {
       batchNumber : '',
       biltiNumber : '',
-      locationIds: [],
+      locationIds: this.locationIds,
       status: ''
     }
     this.filterSearchObj.emit(filterObj)

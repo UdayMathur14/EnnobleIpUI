@@ -87,7 +87,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status">
+          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status">
           Clear
         </button>
       </div>

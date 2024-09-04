@@ -19,8 +19,8 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
-  locations:any[] = APIConstant.locationsListDropdown;
+  locationIds:any[]= APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.commonLocationsList;
   adviceType: any = undefined;
   status: any = undefined;
   @Input() filters: any = [];
@@ -68,14 +68,14 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
     this.batchName = undefined;
     this.adviceType = undefined;
     this.status = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
       batchaname: '',
       adviceType: '',
       status: '',
-      locationIds: []
+      locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
   }

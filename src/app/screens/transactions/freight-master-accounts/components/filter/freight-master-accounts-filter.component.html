@@ -21,10 +21,10 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()"
-                    [disabled]="locationIds.length==0 && !freightCode">Clear</button>
                 <button class="custom-button-filters" (click)="onFreightSearch()"
                     [disabled]="locationIds.length==0 && !freightCode">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()"
+                    [disabled]="locationIds.length && !freightCode">Clear</button>
             </div>
         </div>
     </div>

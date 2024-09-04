@@ -26,7 +26,7 @@ export class AddEditAdviceComponent implements OnInit {
   locationsDropdownData: any = [];
   transactionTypeId: any;
   locationId!: Number;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   commonLocations: any[] = APIConstant.commonLocationsList;
   advicesList: any = [];
   adviceLocationId: number = 0;

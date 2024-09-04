@@ -77,7 +77,7 @@ export class AddEditBiltiComponent implements OnInit {
   matchedDispatchNotes:any = [];
   rbVehicleNumber: string = ''
   locationId!: Number;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   commonLocations: any[] = APIConstant.commonLocationsList;
   plantCodes: any[]= APIConstant.plantCodes
   biltisList: any = [];

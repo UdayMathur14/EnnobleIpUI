@@ -20,8 +20,8 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !pointName">Clear</button>
                 <button class="custom-button-filters" (click)="onPointChargeSearch()" [disabled]="locationIds.length==0 && !pointName">Search</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !pointName">Clear</button>
             </div>
         </div>
     </div>

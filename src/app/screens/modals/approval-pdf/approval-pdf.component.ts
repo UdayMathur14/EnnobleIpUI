@@ -35,7 +35,7 @@ export class ApprovalPdfComponent implements OnInit {
 
   getApprovalBiltiData() {
     let data = {
-      locationIds: APIConstant.locationsListDropdown.map((e: any) => e.id),
+      locationIds: APIConstant.commonLocationsList.map((e: any) => e.id),
       status: '',
       screenCode: 0,
       fromDate: null,

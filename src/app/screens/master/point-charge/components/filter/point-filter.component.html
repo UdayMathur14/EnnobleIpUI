@@ -28,7 +28,7 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters" (click)="onFreightSearch()" [disabled]="!pointName && !locationIds.length && !status">Search</button>
-                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="!pointName && locationIds.length && !status">Clear</button>
             </div>
         </div>
     </div>

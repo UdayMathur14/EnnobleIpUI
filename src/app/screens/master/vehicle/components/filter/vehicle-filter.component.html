@@ -54,7 +54,7 @@
                     <button class="custom-button-filters" (click)="onVehicleSearch()"
                         [disabled]="!locationIds.length && !vehicleNum && !transporterNam && !vehicleSize && !status">Search</button>
                     <button class="custom-button-filters ms-2" (click)="onClearFilter()"
-                       > Clear</button>
+                    [disabled]="locationIds.length && !vehicleNum && !transporterNam && !vehicleSize && !status"> Clear</button>
                 </div>
             </div>
         </div>

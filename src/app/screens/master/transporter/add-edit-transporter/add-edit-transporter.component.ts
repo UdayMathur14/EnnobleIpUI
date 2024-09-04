@@ -24,7 +24,7 @@ export class AddEditTransporterComponent implements OnInit {
   rcmNonRcmType: any[] = []
   tdsCodes: any[] = []
   disableSubmit: boolean = false;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   commonLocations: any[] = APIConstant.commonLocationsList;
   transporterData!: TransporterDataModel;
   transporterMappings: any[] = [];

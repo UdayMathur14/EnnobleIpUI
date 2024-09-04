@@ -59,7 +59,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       adviceType: "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: "",
-      locationIds: this.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
+      locationIds: this.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
     }
     this.biltiProcessService.getBiltiBillProcess(data, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;

@@ -29,7 +29,7 @@ export class AddEditPlantComponent implements OnInit {
   selectedTransactionCodes: string[] = [];
   deletedTransactions: any[] = [];
   plantLocationId: number = 0;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   commonLocations: any[] = APIConstant.commonLocationsList;
   offset: number = 0;
   count: number = Number.MAX_VALUE;

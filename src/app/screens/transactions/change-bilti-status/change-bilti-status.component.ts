@@ -51,7 +51,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
       batchNumber: filters?.batchNumber || '',
       biltiNumber: filters?.biltiNumber || '',
       status: filters?.status,
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
     };
     this.biltiProcessService
       .getBiltiBillProcess(data, offset, count)

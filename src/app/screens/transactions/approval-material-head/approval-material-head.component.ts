@@ -55,7 +55,7 @@ export class ApprovalMaterialHeadComponent {
       adviceType: '',
       batchNumber: filters?.batchNumber,
       biltiNumber: '',
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
     };
     this.biltiProcessService
       .getBiltiBillProcess(data, offset, count)

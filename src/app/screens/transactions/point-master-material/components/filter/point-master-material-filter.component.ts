@@ -12,8 +12,8 @@ export class PointMasterMaterialFiltersComponent implements OnInit {
   @Output() pointFilterObj : EventEmitter<object> = new EventEmitter();
   pointName : any = undefined;
   filters : any = [];
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locations:any[] = APIConstant.commonLocationsList;
+  locationIds:any[]= APIConstant.commonLocationsList.map((e:any)=>(e.id));
   
   constructor(private pointChargeService : PointChargeService,
     private toastr : ToastrService){}
@@ -46,10 +46,10 @@ export class PointMasterMaterialFiltersComponent implements OnInit {
 
   onClearFilter(){
     this.pointName = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     let obj = {
       pointName : '',
-      locationIds:[]
+      locationIds:this.locationIds
     }
     this.pointFilterObj.emit(obj)
   }
