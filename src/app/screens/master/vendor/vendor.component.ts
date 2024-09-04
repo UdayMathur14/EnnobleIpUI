@@ -85,10 +85,10 @@ export class VendorComponent implements OnInit{
       contactNumber: vendor.contactNumber,
       email: vendor.email,
       state: vendor.state.value,
-      city: vendor.city.value,
-      gstnNo: vendor.gstnNo,
-      payTermCode: vendor.payTermCode,
-      payTermStatus: vendor.payTermStatus,
+      city: vendor.city,
+      gstnNo: vendor.gstInNo,
+      payTermCode: vendor.vendorPaytermMethodCode,
+      payTermStatus: vendor.vendorPaytermStatus,
       status: vendor.status,
   
     }));
