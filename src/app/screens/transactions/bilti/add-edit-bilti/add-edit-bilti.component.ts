@@ -223,9 +223,9 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   getDispatchData(dispatchNumber: string = "") {
-    const locationCode = [this.biltiForm.controls['locationId'].value];
+    const locationIds = [this.biltiForm.controls['locationId'].value];
     // const locationIds = this.locationId?[this.locationId]:[];
-    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationCode }).subscribe((res: any) => {
+    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
       this.dispatchData = res.dispatchNotes
       const filteredDispatchNotes = res.dispatchNotes.filter((item: any) => item?.openFlag !== 'Close'
       && item?.frlrNumber !== null);
