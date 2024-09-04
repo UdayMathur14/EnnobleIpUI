@@ -37,14 +37,14 @@ ngOnInit(): void {
     this.plantCode = undefined;
     this.auCode = undefined
     this.siteCode = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
 
     const filterData = {
       plantCode: undefined,
       auCode: undefined,
       siteCode: undefined,
-      locations: [],
+      locations: this.locationIds,
       status: undefined
     }
     this.getData.emit(filterData)

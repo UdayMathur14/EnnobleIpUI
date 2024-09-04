@@ -21,7 +21,7 @@ export class TransporterComponent implements OnInit {
   cities: any[] = [];
   states: any[] = [];
   headers: any[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   currentPage: number = 1;
   count: number = 10;
   totalTransporters: number = 0;
@@ -90,7 +90,7 @@ export class TransporterComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e: any) => e.id),
       transporterCode: this.appliedFilters?.transCode || '',
       transporterName: this.appliedFilters?.transName || '',
       city: this.appliedFilters?.city || '',
@@ -106,6 +106,7 @@ export class TransporterComponent implements OnInit {
           // Map the data to include only the necessary fields
           const mappedTransporterList = transportersListToExport.map(
             (transporter: any) => ({
+              locationCode: transporter.locations.value,
               transporterCode: transporter.transporterCode,
               transporterName: transporter.transporterName,
               locationId: transporter.locationId,

@@ -8,7 +8,7 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class TransporterFiltersComponent implements OnInit {
   @Input() filters : any = [];
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
+  locationIds : any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
   @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   transCode: any = undefined;
@@ -30,7 +30,7 @@ export class TransporterFiltersComponent implements OnInit {
     this.stateCode = undefined;
     this.taxationType = undefined;
     this.status = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
 
     const filterData = {
       "transCode" : "",
@@ -39,7 +39,7 @@ export class TransporterFiltersComponent implements OnInit {
       "stateCode" : "",
       "taxationType" : "",
       "status": "",
-      "locations" : []
+      "locations" : this.locationIds
     }
     this.getData.emit(filterData)
   }

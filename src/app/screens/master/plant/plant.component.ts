@@ -17,7 +17,7 @@ export class PlantComponent implements OnInit {
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
   currentPage: number = 1;
   count: number = 10;
   totalPlants: number = 0;
