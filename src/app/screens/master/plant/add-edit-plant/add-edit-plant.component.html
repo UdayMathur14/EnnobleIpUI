@@ -102,7 +102,7 @@
         <div class="custom-form-input">
           <label for="">Profit Center<span class="text-danger">*</span></label>
           <ng-select [searchable]="true" formControlName="profitCenter" placeholder="Select location">
-            <ng-option *ngFor="let center of profitCenterDropdownData" [value]="center.code">{{center.code}}</ng-option>
+            <ng-option *ngFor="let center of profitCenterDropdownData" [value]="center.code">{{center.code}} ({{center?.description}})</ng-option>
           </ng-select>
         </div>
       </div>
@@ -110,7 +110,7 @@
           <div class="custom-form-input">
             <label for="">Cost Center<span class="text-danger">*</span></label>
             <ng-select [searchable]="true" formControlName="costCenter" placeholder="Select Cost Center">
-              <ng-option *ngFor="let center of costCenterDropdownData" [value]="center.code">{{center.code}}</ng-option>
+              <ng-option *ngFor="let center of costCenterDropdownData" [value]="center.code">{{center.code}} ({{center?.description}})</ng-option>
             </ng-select>
           </div>
         </div>
@@ -119,7 +119,7 @@
           <div class="custom-form-input">
             <label for="">Business Place<span class="text-danger">*</span></label>
             <ng-select [searchable]="true" formControlName="businessPlace" placeholder="Select Business Place">
-              <ng-option *ngFor="let place of businessPlaceDropdownData" [value]="place.code">{{place.code}}</ng-option>
+              <ng-option *ngFor="let place of businessPlaceDropdownData" [value]="place.code">{{place.code}} ({{place?.description}})</ng-option>
             </ng-select>
           </div>
         </div>
@@ -127,7 +127,7 @@
           <div class="custom-form-input">
             <label for="">Section Code<span class="text-danger">*</span></label>
             <ng-select [searchable]="true" formControlName="sectionCode" placeholder="Select Section Code">
-              <ng-option *ngFor="let code of sectionCodeDropdownData" [value]="code.code">{{code.code}}</ng-option>
+              <ng-option *ngFor="let code of sectionCodeDropdownData" [value]="code.code">{{code.code}} ({{code?.description}})</ng-option>
             </ng-select>
           </div>
         </div>
@@ -177,7 +177,7 @@
                 <ng-select class="input-field" [(ngModel)]="transaction.code"
                   (change)="onTransactionSelect($event, ind)" (clear)="onTransactionClear(ind)">
                   <ng-option *ngFor="let transaction of getFilteredTransactionTypes(ind)" [value]="transaction">
-                    {{transaction.code}}
+                    {{transaction?.code}} ({{transaction?.name}})
                   </ng-option>
                 </ng-select>
               </div>

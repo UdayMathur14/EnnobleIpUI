@@ -192,7 +192,7 @@
                   (clear)="onTransactionTypeClear(ind)"
                   [disabled]="transaction.disabled">
                   <ng-option *ngFor="let type of getAvailableTransactionTypes(ind)" [value]="type.code">
-                    {{type.code}}
+                    {{type.code}} ({{type?.name}})
                   </ng-option>
                 </ng-select>
               </div>
@@ -207,7 +207,7 @@
                   (clear)="onPaidByDetailsClear(ind)"
                   [disabled]="transaction.disabled">
                   <ng-option *ngFor="let detail of paidByDetails" [value]="detail">
-                    {{detail.code}}
+                    {{detail.code}} ({{detail?.description}})
                   </ng-option>
                 </ng-select>
               </div>

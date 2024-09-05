@@ -26,7 +26,7 @@
           <label for="">GL Sub Category Code <span class="text-danger">*</span></label>
           <ng-select name="" id="" formControlName="glSubcategory">
             <ng-option *ngFor="let glSubCategory of glSubcategoryCode"
-              [value]="glSubCategory.id">{{glSubCategory.value}}</ng-option>
+              [value]="glSubCategory.id">{{glSubCategory?.value}} ({{glSubCategory?.description}})</ng-option>
           </ng-select>
         </div>
       </div>

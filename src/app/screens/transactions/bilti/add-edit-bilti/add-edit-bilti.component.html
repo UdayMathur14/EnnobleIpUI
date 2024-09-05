@@ -22,7 +22,7 @@
       <div class="custom-form-input">
         <label for="">Transaction Type <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="transactionType" (change)="onOptionSelected($event)" [readonly]="biltiId>0">
-          <ng-option *ngFor="let transactionTypesList of filteredTransactionTypesLists" [value]="transactionTypesList">{{transactionTypesList.code}}</ng-option>
+          <ng-option *ngFor="let transactionTypesList of filteredTransactionTypesLists" [value]="transactionTypesList">{{transactionTypesList?.code}} ({{transactionTypesList?.name}})</ng-option>
         </ng-select>
       </div>
     </div>

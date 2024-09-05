@@ -253,7 +253,7 @@ export class AddEditVendorComponent implements OnInit {
         this.selectedTransactionTypes.add(mapping.transactionType.code);
         return {
           transactionType: mapping.transactionType.code || {},
-          paidByDetails: mapping.paidByDetails.code || {},
+          paidByDetails: mapping.paidByDetails.code + ' (' + mapping.paidByDetails.value + ')' || {},
           iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
           id: mapping.paidByDetails.id || {},
           status: 'Active',

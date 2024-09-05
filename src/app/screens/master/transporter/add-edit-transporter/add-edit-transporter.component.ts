@@ -103,7 +103,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.transporterForm.patchValue({
         transporterCode: response.transporterCode,
         transporterName: response.transporterName,
-        locationCode: response.locations.value,
+        locationCode: response.locations.id,
         status: response.status,
         ownerName: response.ownerName,
         contactPerson: response.contactPerson,
@@ -132,12 +132,16 @@ export class AddEditTransporterComponent implements OnInit {
       this.getLocationData(response.locationId)
       this.transporterData = response
       this.transporterMappings = response.transporterMappings.map((mapping: any) => {
+        const tdsCodes = this.tdsCodes?.find((item: any) => item?.id == mapping?.tdsCodes?.id)
+        const taxCodeRcm = this.taxCodesRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
+        const taxCodeNonRcm = this.taxCodesNonRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
+        const taxaCodeDescription = taxCodeRcm ? taxCodeRcm.description : (taxCodeNonRcm ? taxCodeNonRcm.description : '');
         this.selectedModes.add( mapping.transportationMode.code);
         return {
           transportationMode: mapping.transportationMode.code || {},
           taxationType: mapping.taxationType.code || {},
-          taxaCode: mapping.taxCodes.code || {},
-          tdsCode: mapping.tdsCodes.code,
+          taxaCode: mapping.taxCodes.code + ' (' + taxaCodeDescription  + ')' || {},
+          tdsCode: mapping.tdsCodes.code + ' (' + tdsCodes.description + ')',
           transportationModeId: mapping?.transportationMode?.id,
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxCodes?.id,
@@ -246,7 +250,6 @@ export class AddEditTransporterComponent implements OnInit {
       postalCode: this.transporterForm.controls['postalCode'].value,
       transporterCode: this.selectedVendor?.vendorCode || '',
       transporterMappings: this.transporterMappings.map((mapping: any) => {
-        console.log(mapping);
         
         return {
           transportationModeId: mapping?.transportationMode?.id,
@@ -516,7 +519,10 @@ export class AddEditTransporterComponent implements OnInit {
 
   
   setLocation(){
-    this.lookupService.setLocationId(this.transporterForm, this.commonLocations, 'locationCode');
+    if(!this.queryData){
+      this.lookupService.setLocationId(this.transporterForm, this.commonLocations, 'locationCode');
+    }
+    
 }
 
 getTransportersList() {
@@ -551,8 +557,8 @@ getTransportersList() {
 
   getLocationId(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const transporter = this.transporterList.filter((freight: any) => {
-        return freight.id == this.queryData
+      const transporter = this.transporterList.filter((transporter: any) => {
+        return transporter.id == this.queryData
       });
       if (transporter.length > 0) {
         this.transporterLocationId = transporter[0].locations.id;

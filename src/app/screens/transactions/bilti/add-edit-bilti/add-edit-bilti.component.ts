@@ -872,6 +872,7 @@ onFrlrNoClear() {
         const transactionType = this.transactionTypesLists.find(
           (type: any) => type.id === transactionTypeId
         );
+        
         this.selectedTransactionTypeCode = transactionType.code
         const vehicleId = response.vehicleId;
         const vehicleNumber = this.vehiclesList.find(
@@ -951,7 +952,7 @@ onFrlrNoClear() {
     this.vehicleNumber = response?.vehicleNumber;
     this.freightCode = response?.freightCode;
         this.biltiForm.patchValue({
-          transactionType: transactionType?.code,
+          transactionType: transactionType?.code + ' (' + transactionType.name + ')',
           frlrNo: response?.frlrNumber,
           vehicleNumber: response?.vehicleNumber,
           vehicleSize: vehicleNumber?.vehicleSize.value,
