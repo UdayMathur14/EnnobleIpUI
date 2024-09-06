@@ -74,6 +74,10 @@ export class AddEditTransporterComponent implements OnInit {
       sgst: [''],
       cgst: [''],
       igst: [''],
+      transporterPaymentGroup: [''],
+      transporterPaymentTermsName: [''],
+      transporterPaytermDays: [''],
+      transporterPaytermMethodCode: [''],
     });
   }
 
@@ -127,7 +131,11 @@ export class AddEditTransporterComponent implements OnInit {
         cgst: response.taxationType?.attribute5,
         sgst: response.taxationType?.attribute6,
         igst: response.taxationType?.attribute7,
-        taxationCode: response.taxationType?.id
+        taxationCode: response.taxationType?.id,
+        transporterPaymentGroup: response?.transporterPaymentGroup,
+        transporterPaymentTermsName: response?.transporterPaymentTermsName,
+        transporterPaytermDays: response?.transporterPaytermDays,
+        transporterPaytermMethodCode: response?.transporterPaytermMethodCode
       });
       this.getLocationData(response.locationId)
       this.transporterData = response
@@ -404,7 +412,11 @@ export class AddEditTransporterComponent implements OnInit {
       pan: this.selectedVendor?.panNo,
       gst: this.selectedVendor?.gstInNo,
       contactNumber: this.selectedVendor?.contactNumber,
-      transporterMailId: this.selectedVendor?.email
+      transporterMailId: this.selectedVendor?.email,
+      transporterPaymentGroup: this.selectedVendor?.vendorPaymentGroup,
+      transporterPaymentTermsName: this.selectedVendor?.vendorPaymentTermsName,
+      transporterPaytermDays: this.selectedVendor?.vendorPaytermDays,
+      transporterPaytermMethodCode: this.selectedVendor?.vendorPaytermMethodCode
     })
     
   }

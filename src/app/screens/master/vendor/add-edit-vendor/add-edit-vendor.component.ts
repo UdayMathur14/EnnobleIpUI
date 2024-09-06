@@ -65,6 +65,10 @@ export class AddEditVendorComponent implements OnInit {
     sgst: new FormControl(''),
     igst: new FormControl(''),
     tds: new FormControl(''),
+    vendorPaymentGroup: new FormControl(''),
+    vendorPaymentTermsName: new FormControl(''),
+    vendorPaytermDays: new FormControl(''),
+    vendorPaytermMethodCode: new FormControl(''),
     // rcmNonRcm: new FormControl(''),
     status: new FormControl('', [Validators.required]),
   });
@@ -245,6 +249,10 @@ export class AddEditVendorComponent implements OnInit {
       sgst: data?.attribute6,
       igst: data?.attribute7,
       status: data?.status,
+      vendorPaymentGroup: data?.vendorPaymentGroup,
+      vendorPaymentTermsName: data?.vendorPaymentTermsName,
+      vendorPaytermDays: data?.vendorPaytermDays,
+      vendorPaytermMethodCode: data?.vendorPaytermMethodCode
       // rcmNonRcm: data.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
     });
 

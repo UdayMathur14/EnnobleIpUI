@@ -61,6 +61,7 @@ export class AddEditPlantComponent implements OnInit {
       locationId: ['', Validators.required],
       dsc: ['', Validators.required],
       dcp: ['', Validators.required],
+      auCode: [''],
       status: ['Active', Validators.required]
     });
   }
@@ -176,6 +177,7 @@ export class AddEditPlantComponent implements OnInit {
         dsc: location?.attribute3,
         dcp: location?.attribute4,
         status: response?.status,
+        auCode: response?.auCode
       });
       this.plantData = response;
       this.initializeSelectedTransactionCodes();
