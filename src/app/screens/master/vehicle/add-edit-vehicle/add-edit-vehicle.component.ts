@@ -172,7 +172,8 @@ export class AddEditVehicleComponent implements OnInit {
       "code": 'VehicleSize',
     }
     this.vehicleService.getLookups(data).subscribe((response: any) => {
-      this.lookupsList = response.lookUps;
+      this.lookupsList = response.lookUps.filter(
+        (item: any) => item.status === 'Active');
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
@@ -226,7 +227,8 @@ export class AddEditVehicleComponent implements OnInit {
     }
     const type = 'VehicleSize'
     this.vehicleService.getDropdownData(data, type).subscribe((res: any) => {
-      this.vehcileSizes = res.lookUps
+      this.vehcileSizes = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 

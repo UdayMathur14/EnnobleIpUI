@@ -192,7 +192,8 @@ export class AddEditVendorComponent implements OnInit {
     };
     const type = 'taxationCode';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxationCode = res.lookUps;
+      this.taxationCode = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     });
   }
   getPaidByDetailsDropdownData() {
@@ -203,7 +204,8 @@ export class AddEditVendorComponent implements OnInit {
     };
     const type = 'PaidByDetails';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.paidByDetails = res.lookUps;
+      this.paidByDetails = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     });
   }
 
@@ -330,7 +332,8 @@ export class AddEditVendorComponent implements OnInit {
     const type = 'PaidByDetails';
     this.vendorService.getDropdownData(data, type).subscribe(
       (response: any) => {
-        this.paidbyDetailsList = response.lookUps;
+        this.paidbyDetailsList = response.lookUps.filter(
+          (item: any) => item.status === 'Active');
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -357,7 +360,8 @@ export class AddEditVendorComponent implements OnInit {
     };
     const type = 'RCM_Non_RCM_Type';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.rcmNonRcmType = res.lookUps;
+      this.rcmNonRcmType = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     });
   }
 
@@ -369,7 +373,8 @@ export class AddEditVendorComponent implements OnInit {
     };
     const type = 'TaxCodesRCM';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodes = res.lookUps;
+      this.taxCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     });
   }
 
@@ -381,7 +386,8 @@ export class AddEditVendorComponent implements OnInit {
     };
     const type = 'TaxCodesNonRCM';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodes = res.lookUps;
+      this.taxCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     });
   }
 
@@ -393,7 +399,8 @@ export class AddEditVendorComponent implements OnInit {
     };
     const type = 'TdsCodes';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.tdsCodes = res.lookUps;
+      this.tdsCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     });
   }
 

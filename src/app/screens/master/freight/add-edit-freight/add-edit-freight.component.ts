@@ -184,7 +184,8 @@ export class AddEditFreightComponent implements OnInit {
     }
     const type = 'Source'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.sources = res.lookUps
+      this.sources = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 
@@ -196,7 +197,8 @@ export class AddEditFreightComponent implements OnInit {
     }
     const type = 'Destination'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.destinations = res.lookUps
+      this.destinations = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 
@@ -208,7 +210,8 @@ export class AddEditFreightComponent implements OnInit {
     }
     const type = 'VehicleSize'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.vehcileSizes = res.lookUps
+      this.vehcileSizes = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 

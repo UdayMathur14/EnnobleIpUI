@@ -86,7 +86,8 @@ export class AddEditPlantComponent implements OnInit {
     };
     const type = 'Locations';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locationsDropdownData = res.lookUps;
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
 
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -101,7 +102,8 @@ export class AddEditPlantComponent implements OnInit {
     };
     const type = 'ProfitCenter';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.profitCenterDropdownData = res.lookUps;
+      this.profitCenterDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
       
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -117,7 +119,8 @@ export class AddEditPlantComponent implements OnInit {
     };
     const type = 'BusinessPlace';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.businessPlaceDropdownData = res.lookUps;
+      this.businessPlaceDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
@@ -132,7 +135,8 @@ export class AddEditPlantComponent implements OnInit {
     };
     const type = 'SectionCode';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.sectionCodeDropdownData = res.lookUps;
+      this.sectionCodeDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
@@ -147,7 +151,8 @@ export class AddEditPlantComponent implements OnInit {
     };
     const type = 'CostCenter';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.costCenterDropdownData = res.lookUps;
+      this.costCenterDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);

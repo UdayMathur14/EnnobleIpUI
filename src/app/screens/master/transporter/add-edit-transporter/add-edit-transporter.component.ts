@@ -291,7 +291,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TransporterMode'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.transporterMode = res.lookUps
+      this.transporterMode = res.lookUps.filter(
+        (item: any) => item?.status === 'Active')
     })
   }
 
@@ -303,7 +304,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'RCM_Non_RCM_Type'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.rcmNonRcmType = res.lookUps
+      this.rcmNonRcmType = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 
@@ -315,7 +317,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TaxCodesRCM'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodesRcm = res.lookUps;
+      this.taxCodesRcm = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
       
     })
   }
@@ -328,7 +331,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TaxCodesNonRCM'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxCodesNonRcm = res.lookUps;
+      this.taxCodesNonRcm = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     })
   }
 
@@ -340,7 +344,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TdsCodes'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.tdsCodes = res.lookUps
+      this.tdsCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     })
   }
 
@@ -352,7 +357,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'taxationCode'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxationCode = res.lookUps
+      this.taxationCode = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
   getTransporterMode() {
@@ -363,7 +369,8 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TransporterMode'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
-      this.transporterMode = res.lookUps
+      this.transporterMode = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 

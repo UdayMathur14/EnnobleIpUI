@@ -93,7 +93,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
     }
     const type = 'GLSubCategory'
     this.transactionTypesService.getDropdownData(data, type).subscribe((res: any) => {
-      this.glSubcategoryCode = res.lookUps
+      this.glSubcategoryCode = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     })
   }
 

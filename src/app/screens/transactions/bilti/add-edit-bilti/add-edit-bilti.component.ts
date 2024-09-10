@@ -854,7 +854,8 @@ onFrlrNoClear() {
     };
     const type = 'LoadingLocation';
     this.biltiService.getLoadingLocation(data, type).subscribe((res: any) => {
-      this.loadingLocation = res.lookUps;
+      this.loadingLocation = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
       this.filteredLoadinglocation = this.loadingLocation.filter(
         (locations: any) => locations.status === 'Active'
       );

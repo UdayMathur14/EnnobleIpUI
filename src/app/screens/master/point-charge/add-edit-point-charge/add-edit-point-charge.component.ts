@@ -88,7 +88,8 @@ export class AddEditPointChargeComponent implements OnInit {
     const type = 'City';
     this.lookupService.getLocationsLookup(data, type).subscribe(
       (res: any) => {
-        this.pointNameData = res.lookUps;
+        this.pointNameData = res.lookUps.filter(
+          (item: any) => item.status === 'Active');
         this.loadSpinner = false;
       },
       (error) => {
@@ -290,7 +291,8 @@ export class AddEditPointChargeComponent implements OnInit {
     }
     const type = 'Destination'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.destinations = res.lookUps
+      this.destinations = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 

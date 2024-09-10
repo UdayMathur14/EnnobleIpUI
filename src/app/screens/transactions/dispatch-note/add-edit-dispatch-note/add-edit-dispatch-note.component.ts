@@ -254,7 +254,8 @@ export class AddEditDispatchNoteComponent {
     };
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
-        this.lookupList = response.lookUps;
+        this.lookupList = response.lookUps.filter(
+          (item: any) => item.status === 'Active');
         this.loadSpinner = false;
       },
       (error: any) => {

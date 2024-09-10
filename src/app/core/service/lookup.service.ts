@@ -57,8 +57,11 @@ export class LookupService extends CRUDService<LookupRequest> {
       const uniqueCommonLocations = commonLocations.filter((location: any, index: number, item: any) => 
         index === item.findIndex((l: any) => l.code === location.code)
       );
+      const activeUniqueCommonLocations = uniqueCommonLocations.filter(
+        (item: any) => item.status === 'Active');
+        
       APIConstant.locationsListDropdown = locations;
-      APIConstant.commonLocationsList = uniqueCommonLocations;
+      APIConstant.commonLocationsList = activeUniqueCommonLocations;
       
       localStorage.setItem('locationId', locations[0]?.id)
       localStorage.setItem("userId",profile.userId);
