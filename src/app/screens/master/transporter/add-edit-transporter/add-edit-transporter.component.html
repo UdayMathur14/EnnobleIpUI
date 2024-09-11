@@ -70,13 +70,13 @@
         <div class="custom-form-input">
           <label for="">Contact Number <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
-            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" readonly />
+            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" [readonly]="queryData == 0" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Email <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="transporterMailId" readonly />
+          <input type="text" class="input-field" formControlName="transporterMailId" [readonly]="queryData == 0" />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
