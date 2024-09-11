@@ -31,7 +31,8 @@ export class AddEditVehicleComponent implements OnInit {
   vehicleLocationId: number = 0;
   transporterOffset: number = 0;
   transporterCount: number = Number.MAX_VALUE;
-
+  filteredTransporter: any = [];
+  
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
@@ -114,6 +115,12 @@ export class AddEditVehicleComponent implements OnInit {
   onOptionSelected(selectedId: any) {
     this.transporterId = selectedId;
     this.getTransporterData(this.transporterId)
+    this.vehicleForm.patchValue({
+      address: null,
+      ownerName: null,
+      mobileNumber1: null,
+      emailId: null
+    })
   }
 
   // CREATING OR EDITING NEW VEHICLE
@@ -267,5 +274,12 @@ export class AddEditVehicleComponent implements OnInit {
         reject('No matching vehicle found');
       }
     });
+  }
+
+  onLocationSelect(event: any){
+    this.filteredTransporter = this.transportersList.filter((item: any) => item?.locations?.id == event);
+    this.vehicleForm.patchValue({
+      transporterName: null
+    })
   }
 }
