@@ -426,6 +426,10 @@ body {
         cursor: pointer;
     }
   }
+
+  .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+    top: 0px !important;
+  }
   
  
 
