@@ -192,7 +192,7 @@ export class AddEditVehicleComponent implements OnInit {
       "transporterName": ''
     }
     this.transporterService.getTransporters(data, this.transporterOffset, this.transporterCount).subscribe((response: any) => {
-      this.transportersList = response.transporters;
+      this.transportersList = response.transporters.filter((item: any) => item?.status == 'Active');
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
