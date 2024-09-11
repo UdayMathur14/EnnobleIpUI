@@ -112,7 +112,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Auto Bilti Required <span class="text-danger">*</span></label>
+          <label for="">Auto Bilti Required </label>
           <select formControlName="autoBiltiReq">
             <option value="Y">Yes</option>
             <option value="N">No</option>
@@ -211,7 +211,7 @@
                   (clear)="onTransporterModeClear(ind)"
                   [disabled]="transaction.disabled">
                   <ng-option *ngFor="let mode of getAvailableModes(ind)" [value]="mode">
-                    {{mode.value}}
+                    {{mode.value}} ({{mode.code}})
                   </ng-option>
                 </ng-select>
               </div>

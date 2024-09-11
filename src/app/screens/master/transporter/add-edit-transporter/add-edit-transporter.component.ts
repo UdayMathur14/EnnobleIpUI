@@ -38,6 +38,7 @@ export class AddEditTransporterComponent implements OnInit {
   selectedModes: Set<number> = new Set();
   transporterLocationId: number = 0;
   transporterList: any = [];
+  alltransporterMode: any = [];
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -57,7 +58,7 @@ export class AddEditTransporterComponent implements OnInit {
       contactNumber: ['', [Validators.required]],
       pan: [''],
       gst: [''],
-      autoBiltiReq: ['', [Validators.required]],
+      autoBiltiReq: [''],
       consignorContactInfo: [''],
       autoBiltiCharactor: ['', Validators.required],
       consignorName: [''],
@@ -146,7 +147,7 @@ export class AddEditTransporterComponent implements OnInit {
         const taxaCodeDescription = taxCodeRcm ? taxCodeRcm.description : (taxCodeNonRcm ? taxCodeNonRcm.description : '');
         this.selectedModes.add( mapping.transportationMode.code);
         return {
-          transportationMode: mapping.transportationMode.code || {},
+          transportationMode: mapping?.transportationMode?.code + ' (' + mapping?.transportationMode?.value  + ')' || {},
           taxationType: mapping.taxationType.code || {},
           taxaCode: mapping.taxCodes.code + ' (' + taxaCodeDescription  + ')' || {},
           tdsCode: mapping.tdsCodes.code + ' (' + tdsCodes.description + ')',
@@ -291,6 +292,7 @@ export class AddEditTransporterComponent implements OnInit {
     }
     const type = 'TransporterMode'
     this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
+      this.alltransporterMode = res.lookUps;
       this.transporterMode = res.lookUps.filter(
         (item: any) => item?.status === 'Active')
     })
