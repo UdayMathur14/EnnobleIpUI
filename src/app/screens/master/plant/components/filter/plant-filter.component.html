@@ -1,14 +1,12 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-2" *ngIf="locations && locations.length>1">
-            <div class="custom-form-input">
+        <div class="col-4" *ngIf="locations && locations.length>1">
                 <label for="">Locations</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
                     placeholder="Select location">
                     <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
                 </ng-select>
             </div>
-        </div>
         <div class="col-2">
             <div class="custom-form-input">
                 <label for="">Plant Code</label>

@@ -104,6 +104,7 @@ body {
     input,
     select,
     textarea {
+        min-height: 35px;
         padding: var(--spacer-4) var(--spacer-10);
         border-radius: var(--spacer-4);
         border: 1px solid var(--inputBorder);
@@ -333,8 +334,8 @@ body {
 //NG SELECT GLOBAL CSS
 .ng-select {
     .ng-select-container {
-        min-height: 30px;
-        height: 30px !important;
+        // min-height: 30px;
+        // height: 30px !important;
         border: 1px solid var(--inputBorder);
     }
 
