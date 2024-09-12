@@ -25,7 +25,7 @@
       <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
           <label for="">Transporter Code</label>
-          <ng-select [searchable]="true" formControlName="transporterCode" placeholder="Select transporter" (change)="onTransporterChange($event)">
+          <ng-select [searchable]="true" formControlName="transporterCode" placeholder="Select transporter" (change)="onTransporterChange($event)" [readonly]="queryData != 0">
             <ng-option *ngFor="let transporter of vendorsList" [value]="transporter.id">{{transporter.vendorCode}} ({{transporter.vendorName}})</ng-option>
           </ng-select>
         </div>

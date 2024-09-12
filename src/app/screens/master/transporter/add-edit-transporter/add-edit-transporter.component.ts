@@ -147,7 +147,7 @@ export class AddEditTransporterComponent implements OnInit {
         const taxaCodeDescription = taxCodeRcm ? taxCodeRcm.description : (taxCodeNonRcm ? taxCodeNonRcm.description : '');
         this.selectedModes.add( mapping.transportationMode.code);
         return {
-          transportationMode: mapping?.transportationMode?.code + ' (' + mapping?.transportationMode?.value  + ')' || {},
+          transportationMode: mapping?.transportationMode?.value + ' (' + mapping?.transportationMode?.code  + ')' || {},
           taxationType: mapping.taxationType.code || {},
           taxaCode: mapping.taxCodes.code + ' (' + taxaCodeDescription  + ')' || {},
           tdsCode: mapping.tdsCodes.code + ' (' + tdsCodes.description + ')',
