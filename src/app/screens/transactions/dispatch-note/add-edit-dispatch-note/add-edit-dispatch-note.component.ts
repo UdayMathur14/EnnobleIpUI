@@ -53,6 +53,7 @@ export class AddEditDispatchNoteComponent {
   frlrDate: string = '';
   vehicleData: any = [];
   transporterMode: any = [];
+  filteredTransporter: any = [];
 
   constructor(
     private router: Router,
@@ -134,6 +135,7 @@ export class AddEditDispatchNoteComponent {
     await this.dispatchNoteService
       .getDispatchNoteById(this.dispatchLocationId, dispatchId)
       .subscribe((response: any) => {
+        this.onLocationSelect(response.locationId);
         this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
@@ -406,7 +408,7 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNote.vehicleId = this.vehicleId;
     this.dispatchNote.frlrNumber = this.addOrEditDispatchNoteFormGroup.controls[
       'frlrNumber'
-    ].value as string;
+    ].value as string || '';
     this.dispatchNote.transporterId = this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value,
     this.dispatchNote.frlrDate = this.frlrDate || null,
     this.dispatchNote.transporterMode = this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value
@@ -435,6 +437,7 @@ export class AddEditDispatchNoteComponent {
           partQty: parseInt(dg.controls['partQuantity'].value),
           status: dg.controls['status'].value,
           id: dg.controls['id'].value || 0,
+          dispatchNoteid: this.dispatchId
         };
         this.dispatchNote.partDetails.push(note);
       }
@@ -592,6 +595,14 @@ export class AddEditDispatchNoteComponent {
         parseInt(dateParts[2], 10)
       );
     }
+    }
+
+    onLocationSelect(event: any){
+      this.filteredTransporter = this.activeTransportersList.filter((item: any) => item?.locations?.id == event);
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        transporterCode: null,
+        transporterName: null
+      })
     }
 
 }
