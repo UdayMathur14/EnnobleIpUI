@@ -52,7 +52,7 @@
       <div class="custom-form-input">
         <label for="">Transporter Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="transporterCode" (change)="onTransporterChange($event)" (clear)="onTransporterClear()">
-          <ng-option *ngFor="let transporter of filteredTransportersLists" [value]="transporter.transporterCode">{{transporter?.transporterCode}} ({{transporter?.transporterName}})</ng-option>
+          <ng-option *ngFor="let transporter of filteredTransporter" [value]="transporter.transporterCode">{{transporter?.transporterCode}} ({{transporter?.transporterName}})</ng-option>
         </ng-select>
       </div>
     </div>

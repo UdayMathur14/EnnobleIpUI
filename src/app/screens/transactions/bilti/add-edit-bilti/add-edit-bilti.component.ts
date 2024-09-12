@@ -95,6 +95,8 @@ export class AddEditBiltiComponent implements OnInit {
   tdsCode: string = '';
   modeofTransport: string = '';
   transporters: any;
+  filteredTransporter: any = [];
+  selectedLocationId: number = 0;
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -212,6 +214,7 @@ export class AddEditBiltiComponent implements OnInit {
       this.frmTransactionData = [...new Set(filteredFrmTransactions.map((item: any) => 
         item.frlrNumber))].map(frlrNumber => filteredFrmTransactions.find((t: any) => 
           t.frlrNumber === frlrNumber));
+      
       this.frlrList = response.transactionTypes;
         this.loadSpinner = false;
       },
@@ -409,6 +412,7 @@ export class AddEditBiltiComponent implements OnInit {
       });
     }
      const frlrTransporterCode = this.transporterMapCode[selected?.transporterId]
+     
      this.transporters = this.transportersList.find((item: any) => {
       return item?.transporterCode == frlrTransporterCode;
      })
@@ -462,7 +466,10 @@ onFrlrNoClear() {
         this.filteredTransportersLists = this.transportersList.filter(
           (transporters: any) => transporters.status === 'Active'
         );
-        response.transporters.forEach((transporter: any) => {
+        const matchedLocationtransporter = this.transportersList.filter(
+          (transporters: any) => transporters?.locationId === this.selectedLocationId
+        );
+        matchedLocationtransporter.forEach((transporter: any) => {
           this.transporterMapCode[transporter.id] = transporter.transporterCode;
           this.transporterMapName[transporter.id] = transporter.transporterName;
         });
@@ -867,6 +874,7 @@ onFrlrNoClear() {
     this.loadSpinner = true;
     this.biltiService.getBiltiData(this.biltiLocationId,biltiId).subscribe(
       (response: any) => {
+        this.onChangeLocation(response.locationId)
         this.lineItem = response.biltiCreationLineItems
         this.loadSpinner=false
         const transactionTypeId = response.transactionTypeId;
@@ -1093,6 +1101,12 @@ disabledonAdd(){
 }
 
 onChangeLocation(data: any){
+  this.selectedLocationId = data;
+  this.filteredTransporter = this.filteredTransportersLists.filter((item: any) => item?.locations?.id == data);
+  this.biltiForm.patchValue({
+    transporterCode: null,
+    transporterName: null
+  })
   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
   vendorsArray.controls.forEach((vendorGroup) => {
     vendorGroup.patchValue({
@@ -1118,6 +1132,5 @@ onChangeLocation(data: any){
     frlrNo: null
   })
 }
-
   
 }
