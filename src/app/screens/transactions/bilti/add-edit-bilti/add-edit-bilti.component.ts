@@ -313,6 +313,12 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
+    this.transportersList.forEach((transporter: any) => {
+      if (transporter.locationId === this.selectedLocationId) {
+      this.transporterMapCode[transporter.id] = transporter.transporterCode;
+      this.transporterMapName[transporter.id] = transporter.transporterName;
+      }
+    });
     this.onChangeFrlrNoClear()
     this.displayRows = [];
     this.dispatchNotes.forEach((element: any) => {
@@ -406,6 +412,7 @@ export class AddEditBiltiComponent implements OnInit {
       this.frmId = selected?.id;
       this.loadingLocationid = selected?.loadingLocationId;
       this.vehicleId = this.vehicleId;
+      
       this.biltiForm.patchValue({
         transporterCode: this.transporterMapCode[selected.transporterId],
         transporterName: this.transporterMapName[selected.transporterId],
@@ -466,13 +473,10 @@ onFrlrNoClear() {
         this.filteredTransportersLists = this.transportersList.filter(
           (transporters: any) => transporters.status === 'Active'
         );
-        const matchedLocationtransporter = this.transportersList.filter(
-          (transporters: any) => transporters?.locationId === this.selectedLocationId
-        );
-        matchedLocationtransporter.forEach((transporter: any) => {
-          this.transporterMapCode[transporter.id] = transporter.transporterCode;
-          this.transporterMapName[transporter.id] = transporter.transporterName;
-        });
+        // response.transporters.forEach((transporter: any) => {
+        //   this.transporterMapCode[transporter.id] = transporter.transporterCode;
+        //   this.transporterMapName[transporter.id] = transporter.transporterName;
+        // });
         this.loadSpinner = false;
       },
       (error) => {
@@ -1107,6 +1111,7 @@ onChangeLocation(data: any){
     transporterCode: null,
     transporterName: null
   })
+  
   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
   vendorsArray.controls.forEach((vendorGroup) => {
     vendorGroup.patchValue({
