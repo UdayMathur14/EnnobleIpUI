@@ -306,4 +306,10 @@ export class AddEditAdviceComponent implements OnInit {
       },
     );
   }
+
+  validateIntegerInput(event: any): void {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^0-9]/g, '');
+  }
+  
 }
