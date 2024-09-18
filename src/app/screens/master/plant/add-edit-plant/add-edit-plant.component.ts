@@ -58,9 +58,6 @@ export class AddEditPlantComponent implements OnInit {
       businessPlace: [''],
       sectionCode: [''],
       costCenter: [''],
-      locationId: ['', Validators.required],
-      dsc: ['', Validators.required],
-      dcp: ['', Validators.required],
       auCode: [''],
       status: ['Active', Validators.required]
     });
@@ -75,7 +72,9 @@ export class AddEditPlantComponent implements OnInit {
     this.getCostCenters();
     this.getSectionCodes();
     this.getTransactionTypes();
-    this.getEditPlantData();
+    setTimeout(() => {
+      this.getPlantData();
+    }, 1000);
   }
 
   getLocations() {
@@ -159,11 +158,11 @@ export class AddEditPlantComponent implements OnInit {
     });
   }
 
-  getPlantData(plantId: string) {
+  getPlantData() {
     this.loadSpinner = true;
     const location = this.locationsDropdownData.find((loc: any) => loc.id === this.plantLocationId)
     
-    this.plantService.getPlantData(plantId).subscribe((response: any) => {
+    this.plantService.getPlantData(this.queryData).subscribe((response: any) => {
       this.plantForm.patchValue({
         plantCode: response?.plantCode,
         plantDesc: response?.plantDesc,
@@ -178,9 +177,6 @@ export class AddEditPlantComponent implements OnInit {
         businessPlace: response?.businessPlace,
         sectionCode: response?.sectionCode,
         costCenter: response?.costCenter,
-        locationId: response?.locations?.id,
-        dsc: location?.attribute3,
-        dcp: location?.attribute4,
         status: response?.status,
         auCode: response?.auCode
       });
@@ -215,14 +211,16 @@ export class AddEditPlantComponent implements OnInit {
 
   onPressSave() {
     this.loadSpinner = true;
-    const locationCode = this.plantForm?.controls['locationId']?.value
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
       let transactionObj = {
         id: e.id,
         transactionTypeId: e.transactionTypeId,
-        status: e.status
+        status: e.status,
+        locationId: e.locationId,
+        dsc: e.dsc,
+        dcp: e.dcp
       }
       transactionData.push(transactionObj);
     })
@@ -235,8 +233,6 @@ export class AddEditPlantComponent implements OnInit {
     let data = {
       status: this.plantForm.controls['status'].value,
       actionBy: localStorage.getItem("userId"),
-      dsc: this.plantForm.controls['dsc'].value,
-      dcp: this.plantForm.controls['dcp'].value,
       profitCenter: this.plantForm.controls['profitCenter'].value,
       businessPlace: this.plantForm.controls['businessPlace'].value,
       sectionCode: this.plantForm.controls['sectionCode'].value,
@@ -244,7 +240,7 @@ export class AddEditPlantComponent implements OnInit {
       transactionTypeDetails: transactionData
     }
     
-    this.plantService.updatePlant(locationCode,this.queryData, data).subscribe((response: any) => {
+    this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
       this.toastr.success('Plant Update Successfully');
       this.baseService.plantSpinner.next(false);
@@ -268,7 +264,10 @@ export class AddEditPlantComponent implements OnInit {
       txnTypeId: null,
       name: '',
       code: null,
-      transactionTypeId: 0
+      transactionTypeId: 0,
+      locationId: null,
+      dcp: '',
+      dsc: ''
     }
     this.plantData.transactionTypeMapping.push(obj);
   }
@@ -283,11 +282,15 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   getFilteredTransactionTypes(index: number): any[] {
-    return this.transactionTypesList.filter(
-      (transaction: any) =>
-        !this.selectedTransactionCodes.includes(transaction.code) ||
-        this.plantData.transactionTypeMapping[index].code === transaction.code
-    );
+    return this.transactionTypesList.filter((transaction: any) => {
+      const duplicateTransaction = this.plantData.transactionTypeMapping.some(
+        (t, i) =>
+          i !== index &&
+          t.locationId === this.plantData.transactionTypeMapping[index].locationId &&
+          t.code === transaction.code
+      );
+      return !duplicateTransaction || this.plantData.transactionTypeMapping[index].code === transaction.code;
+    });
   }
 
   initializeSelectedTransactionCodes() {
@@ -317,23 +320,6 @@ export class AddEditPlantComponent implements OnInit {
   this.plantData.transactionTypeMapping.splice(index, 1);
   this.updateSelectedTransactionCodes();
   }
-
-  getEditPlantData() { 
-    let data = {
-      "locationIds": APIConstant.commonLocationsList.map((e: any) => (e.id)),
-      "plantCode": "",
-      "city": "",
-      "state": "",
-      "auCode": "",
-      "siteCode": ""
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.getLocationId().then(() => {
-        this.getPlantData(this.queryData);
-      });
-    });
-  }
   
   getLocationId(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -359,13 +345,12 @@ export class AddEditPlantComponent implements OnInit {
     );
   }
 
-  getLocationData(data: any){
-    const locationData = this.commonLocations.find((item: any) => {
-    return item.id == data;
+  getLocationData(e: any, index: any){
+    const locationData = this.locations.find((item: any) => {
+    return item.id == e;
     })
-    this.plantForm.patchValue({
-      dsc: locationData?.attribute3,
-      dcp: locationData?.attribute4
-    })
+    this.plantData.transactionTypeMapping[index].locationId = locationData?.id;
+    this.plantData.transactionTypeMapping[index].dsc = locationData?.attribute3;
+    this.plantData.transactionTypeMapping[index].dcp = locationData?.attribute4;
   }
 }

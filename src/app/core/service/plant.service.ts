@@ -21,11 +21,11 @@ export class PlantService extends CRUDService<PlantRequest> {
     }
 
     getPlantData(plantId : string){
-        return this.get(plantData(plantId));
+        return this.get(APIConstant.plantData + plantId);
     }
 
-    updatePlant(locationId: number = 0, plantId : string, data : object,){
-        return this.put(updatePlant(locationId, plantId), data);
+    updatePlant(plantId : string, data : object,){
+        return this.put(APIConstant.updatePlant +  plantId, data);
     }
 
     getLocationsLookup(data: object, type: string) {

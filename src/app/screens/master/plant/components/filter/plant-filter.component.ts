@@ -9,7 +9,7 @@ import { APIConstant } from '../../../../../core/constants';
 export class PlantFilterComponent implements OnInit {
   @Input() locations: any[] = [];
   @Input() filters: any = [];
-  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
+  locationIds: any;
   @Output() getData: EventEmitter<any> = new EventEmitter();
   plantCode: any = undefined;
   stateCode: any = undefined;

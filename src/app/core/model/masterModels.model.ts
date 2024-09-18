@@ -261,6 +261,9 @@ export interface PlantDataModel {
       name: string;
       code: any;
       transactionTypeId: number;
+      locationId: null,
+      dsc: string,
+      dcp: string,
     }
   ];
 }

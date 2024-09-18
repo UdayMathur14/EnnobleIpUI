@@ -2,7 +2,6 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('locations.value')">Location Code</th>
         <th (click)="sortData('plantCode')">Plant Code</th>
         <th (click)="sortData('plantDesc')">Plant Name</th>
         <th (click)="sortData('plantAddress')">Address</th>
@@ -11,8 +10,6 @@
         <th (click)="sortData('panNo')">PAN</th>
         <th (click)="sortData('gstnNo')">GSTIN</th>
         <th (click)="sortData('siteCode')">Site Code</th>
-        <th (click)="sortData('dsc')">DSC</th>
-        <th (click)="sortData('dcp')">DCP</th>
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Actions</th>
       </tr>
@@ -20,7 +17,6 @@
     <tbody>
       @for (plant of plantsList; track plant.id) {
       <tr>
-        <td>{{ plant?.locations?.value }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{ plant.plantCode }}</u>
@@ -53,8 +49,6 @@
         <td>{{ plant?.panNo }}</td>
         <td>{{ plant?.gstInNo }}</td>
         <td>{{ plant?.siteCode }}</td>
-        <td>{{ plant?.dsc }}</td>
-        <td>{{ plant?.dcp }}</td>
         <td>{{ plant?.status }}</td>
         <td class="text-center">
           <img src="assets/images/icons/link.svg" class="me-2 pointer" alt="link" (click)="onLinkClick(plant)" />

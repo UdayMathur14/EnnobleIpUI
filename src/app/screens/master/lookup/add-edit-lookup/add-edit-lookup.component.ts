@@ -81,6 +81,7 @@ export class AddEditLookupComponent implements OnInit {
   //TO GET SELECTED LOOKUP DATA
   getLookupData(lookupId: number) {
     this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
+      this.selectedLookupType = response?.lookUpType?.value
       this.lookupForm.patchValue({
         typeId: response.typeId,
         code: response.code,
