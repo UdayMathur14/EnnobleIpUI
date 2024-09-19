@@ -211,7 +211,12 @@ export class AddEditTransporterComponent implements OnInit {
 
   //UPDATING TRANSPORTER DATA
   updateTransporter(data: any) {
-    const locationCode = this.transporterForm.controls['locationCode']?.value
+    const locationCode = this.transporterForm.controls['locationCode']?.value;
+    if (!locationCode) {
+      this.toastr.error("Location Code is Required");
+      this.loadSpinner = false;
+      return;
+    }
     this.transporterService.updateTransporter(locationCode, this.queryData, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Transporter Updated Successfully');
@@ -224,7 +229,12 @@ export class AddEditTransporterComponent implements OnInit {
 
   //CREATING NEW TRANSPORTER
   createNewTransporter() {
-    const locationCode = this.transporterForm.controls['locationCode']?.value
+    const locationCode = this.transporterForm.controls['locationCode']?.value;
+    if (!locationCode) {
+      this.toastr.error("Location Code is Required");
+      this.loadSpinner = false;
+      return;
+    }
     const data = {
       status: this.transporterForm.controls['status'].value,
       actionBy: localStorage.getItem('userId'),
