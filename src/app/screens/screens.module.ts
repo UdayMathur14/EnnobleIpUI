@@ -115,6 +115,7 @@ import { OutboundReportFilterComponent } from "./reports/outbound-report/compone
 import { OutboundReportGridTableComponent } from "./reports/outbound-report/components/grid-table/outbound-report-grid-table.component";
 import { GlTaxationOutBoundComponent } from "./modals/gl-taxation-out-bound/gl-taxation-out-bound.component";
 import { GlTdsOutBoundComponent } from "./modals/gl-tds-out-bound/gl-tds-out-bound.component";
+import { inputAlphabetValidator } from "../core/shared/inputAlphabetValidator.directive";
 
 @NgModule({
     declarations: [
@@ -227,7 +228,8 @@ import { GlTdsOutBoundComponent } from "./modals/gl-tds-out-bound/gl-tds-out-bou
         OutboundReportFilterComponent,
         OutboundReportGridTableComponent,
         GlTaxationOutBoundComponent,
-        GlTdsOutBoundComponent
+        GlTdsOutBoundComponent,
+        inputAlphabetValidator
     ],
     imports: [
         LayoutModule,
