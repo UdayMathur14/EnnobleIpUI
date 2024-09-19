@@ -37,6 +37,7 @@ export class AddEditPointChargeComponent implements OnInit {
   nocFileName: string = '';
   destinations: any = [];
   isFileUploaded: boolean = false;
+  statusValue: string = '';
 
   constructor(
     private router: Router,
@@ -108,6 +109,7 @@ export class AddEditPointChargeComponent implements OnInit {
         .getPointChargeData(this.pointChargeLocationId, pointChargeId)
         .subscribe(
           (response: any) => {
+            this.statusValue = response.status
             this.pointChargeData = response;
             this.patchPointChargeForm(response);
             this.loadSpinner = false;
@@ -316,5 +318,9 @@ export class AddEditPointChargeComponent implements OnInit {
       this.toastr.success('PDF Added', 'Success');
       this.isFileUploaded = true;
     };
+  }
+
+  onChangeStatus(event: any){
+    this.statusValue = event?.target?.value;
   }
 }
