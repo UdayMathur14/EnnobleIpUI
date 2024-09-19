@@ -39,6 +39,7 @@ export class AddEditTransporterComponent implements OnInit {
   transporterLocationId: number = 0;
   transporterList: any = [];
   alltransporterMode: any = [];
+  autoBiltiRequiredFlag: string = '';
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -101,6 +102,7 @@ export class AddEditTransporterComponent implements OnInit {
 
   getTransporterData(transporterId: string) {
     this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
+      this.autoBiltiRequiredFlag = response?.autoBiltiRequiredFlag;
       this.loadSpinner = false;
       this.transporterList = response;
       this.transporterMappings = response?.transporterMappings;
@@ -116,7 +118,7 @@ export class AddEditTransporterComponent implements OnInit {
         address2: response.transporterAddress2,
         contactNumber: response.transporterContactNo,
         pan: response.panNo,
-        gst: response.gstnNo,
+        gst: response.gstInNo,
         autoBiltiReq: response.autoBiltiRequiredFlag,
         consignorContactInfo: response.consignorContactInformation,
         rcmNonRcm: response.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
@@ -182,9 +184,9 @@ export class AddEditTransporterComponent implements OnInit {
         this.transporterForm.controls['transporterMailId'].value,
       regdDetails: this.transporterForm.controls['regdDetails'].value,
       autoBiltiRequiredFlag:
-        this.transporterForm.controls['autoBiltiReq'].value,
+       this.transporterForm.controls['autoBiltiReq'].value,
       autoBiltiStartingCharacter:
-        this.transporterForm.controls['autoBiltiCharactor'].value,
+      this.autoBiltiRequiredFlag == 'Y' ? this.transporterForm.controls['autoBiltiCharactor'].value: '',
       biltiHeaderComments:
         this.transporterForm.controls['biltiHeaderComment'].value,
       note: this.transporterForm.controls['note'].value,
@@ -238,7 +240,7 @@ export class AddEditTransporterComponent implements OnInit {
       autoBiltiRequiredFlag:
         this.transporterForm.controls['autoBiltiReq'].value,
       autoBiltiStartingCharacter:
-        this.transporterForm.controls['autoBiltiCharactor'].value,
+      this.autoBiltiRequiredFlag == 'Y' ? this.transporterForm.controls['autoBiltiCharactor'].value: '',
       biltiHeaderComments:
         this.transporterForm.controls['biltiHeaderComment'].value,
       note: this.transporterForm.controls['note'].value,
@@ -588,5 +590,9 @@ getTransportersList() {
         reject('No matching freight found');
       }
     });
+  }
+
+  onAutoBiltiChange(event: any){
+    this.autoBiltiRequiredFlag = event?.target?.value
   }
 }

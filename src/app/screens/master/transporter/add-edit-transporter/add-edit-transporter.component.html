@@ -68,14 +68,14 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Contact Number <span class="text-danger">*</span></label>
+          <label for="">Contact Number <span *ngIf="queryData" class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
             (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" [readonly]="queryData == 0" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Transporter Email <span class="text-danger">*</span></label>
+          <label for="">Transporter Email <span *ngIf="queryData" class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="transporterMailId" [readonly]="queryData == 0" />
         </div>
       </div>
@@ -94,34 +94,34 @@
 
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Owner Name</label>
+          <label for="">Owner Name <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="ownerName" inputAlphabetValidator />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Contact Person</label>
+          <label for="">Contact Person <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactPerson" inputAlphabetValidator />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Regd. Details</label>
+          <label for="">Regd. Details <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="regdDetails" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Auto Bilti Required </label>
-          <select formControlName="autoBiltiReq">
+          <label for="">Auto Bilti Required <span class="text-danger">*</span> </label>
+          <select formControlName="autoBiltiReq" (change)="onAutoBiltiChange($event)">
             <option value="Y">Yes</option>
             <option value="N">No</option>
           </select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-2 col-md-2" *ngIf="autoBiltiRequiredFlag == 'Y'">
         <div class="custom-form-input">
-          <label for="">Auto Bilti Starting Char. <span class="text-danger">*</span></label>
+          <label for="">Auto Bilti Starting Char</label>
           <input type="text" class="input-field" formControlName="autoBiltiCharactor" readonly/>
         </div>
       </div>
