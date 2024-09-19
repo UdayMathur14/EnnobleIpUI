@@ -13,6 +13,7 @@ export class TransactionTypeModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal){}
 
   ngOnInit(): void {
+    
     this.filterActiveTransactions()
   }
 
