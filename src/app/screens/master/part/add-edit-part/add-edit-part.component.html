@@ -26,26 +26,26 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Part Name <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partName" />
+                    <input type="text" class="input-field" formControlName="partName" inputAlphabetValidator/>
 
                 </div>
             </div>
             <div class="col-lg-4 col-md-4">
                 <div class="custom-form-input">
                     <label for="">Description <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="description" />
+                    <input type="text" class="input-field" formControlName="description" inputAlphabetValidator/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Part Size <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partSize">
+                    <input type="text" class="input-field" formControlName="partSize" inputIntegerValidator>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Part Price <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partPrice" />
+                    <input type="text" class="input-field" formControlName="partPrice" inputDecimalValidator/>
                 </div>
             </div>
         </div>

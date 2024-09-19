@@ -39,7 +39,7 @@
         <div class="custom-form-input">
           <label for="">Phone <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="phone" minlength="10" maxlength="12"
-             (input)="phoneNumberLength($event)" />
+             (input)="phoneNumberLength($event)" inputIntegerValidator />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

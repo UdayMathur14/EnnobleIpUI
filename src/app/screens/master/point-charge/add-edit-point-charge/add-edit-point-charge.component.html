@@ -35,25 +35,25 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Point Charge <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="pointCharge" [readOnly]="pointChargeId" />
+          <input type="text" class="input-field" formControlName="pointCharge" [readOnly]="pointChargeId" inputDecimalValidator/>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Same Location Charge <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="sameLocationCharge" [readOnly]="pointChargeId" />
+          <input type="text" class="input-field" formControlName="sameLocationCharge" [readOnly]="pointChargeId" inputDecimalValidator/>
         </div>
       </div>
       <div class="col-lg-2 col-md-4" *ngIf="pointChargeId">
         <div class="custom-form-input">
             <label for="">New Point Charge Amount</label>
-            <input type="text" class="input-field" formControlName="newPointCharge" />
+            <input type="text" class="input-field" formControlName="newPointCharge" inputDecimalValidator />
         </div>
     </div>
     <div class="col-lg-2 col-md-4" *ngIf="pointChargeId">
       <div class="custom-form-input">
           <label for="">New Same Location Charge</label>
-          <input type="text" class="input-field" formControlName="newSameLocationCharge" />
+          <input type="text" class="input-field" formControlName="newSameLocationCharge" inputDecimalValidator />
       </div>
   </div>
       <div class="col-lg-2 col-md-2" *ngIf="pointChargeId">

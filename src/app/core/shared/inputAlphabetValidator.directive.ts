@@ -1,9 +1,9 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[inputAlphabetValidator]'
+selector: '[inputAlphabetValidator]'
 })
-export class inputAlphabetValidator {
+export class InputAlphabetValidator {
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
     const charCode = event.which ? event.which : event.keyCode;
 
