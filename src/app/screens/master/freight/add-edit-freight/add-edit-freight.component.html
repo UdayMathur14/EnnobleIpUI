@@ -5,7 +5,7 @@
             <label for="file-upload" class="custom-file-upload custom-button-regulr pointer">Upload</label>
             <input type="file" id="file-upload" (change)="onUploadPdf($event)" />
           </div>
-        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid || !isFileUploaded">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid || (!isFileUploaded && !freightId) || (!isFileUploaded && freightId && statusValue == 'Active' )">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">
             Cancel
         </button>
@@ -72,7 +72,7 @@
             <div class="col-lg-2 col-md-2" *ngIf="freightId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
-                    <select formControlName="status" name="status">
+                    <select formControlName="status" name="status" (change)="onChangeStatus($event)">
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>

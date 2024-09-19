@@ -33,6 +33,7 @@ export class AddEditFreightComponent implements OnInit {
   nocFileBase64 : any = '';
   nocFileName: string = '';
   isFileUploaded: boolean = false;
+  statusValue: string = '';
 
   constructor(
     private router: Router,
@@ -79,6 +80,7 @@ export class AddEditFreightComponent implements OnInit {
   getFreightData(freightId: number) {
     this.loadSpinner = true;
     this.freightService.getFreightData(this.freightLocationId,freightId).subscribe((response: any) => {
+      this.statusValue = response.status
       this.loadSpinner = false;
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
@@ -274,6 +276,10 @@ export class AddEditFreightComponent implements OnInit {
       this.toastr.success('PDF Added', 'Success');
       this.isFileUploaded = true;
     };
+  }
+
+  onChangeStatus(event: any){
+    this.statusValue = event?.target?.value;
   }
   
 }
