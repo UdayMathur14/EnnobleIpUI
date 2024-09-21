@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ap-outbound-filter',

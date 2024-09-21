@@ -23,6 +23,7 @@ export class AdviceComponent implements OnInit{
   filters: any = [];
   appliedFilters: any = {};
   maxCount: number = Number.MAX_VALUE;
+  batchDetails: any = [];
   constructor(private router: Router,
     private adviceService : AdviceTypeService,
     private toastr : ToastrService,
@@ -44,6 +45,7 @@ export class AdviceComponent implements OnInit{
       this.advicesList = response.advices;
       this.totalAdvices = response.paging.total;
       this.filters = response.filters;
+      this.batchDetails = response?.batchDetails
       this.loadSpinner = false;
     }, error => {
       this.loadSpinner = false;
