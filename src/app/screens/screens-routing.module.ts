@@ -46,6 +46,7 @@ import { ProvisionReportComponent } from "./reports/provision-report/provision-r
 import { DebitNoteReportComponent } from "./reports/debit-note-report/debit-note-report.component";
 import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.component";
 import { OutboundReportComponent } from "./reports/outbound-report/outbound-report.component";
+import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.component";
 
 const routes: Routes = [
     {
@@ -97,6 +98,7 @@ const routes: Routes = [
             { path: "transaction/checkedMaterialsTeam", component: CheckedMaterialsTeamComponent, canActivate: [AuthGuard] },
             { path: "transaction/approvalMaterialHead", component: ApprovalMaterialHeadComponent, canActivate: [AuthGuard] },
             { path: "transaction/changeBiltiStatus", component: ChangeBiltiStatusComponent, canActivate: [AuthGuard] },
+            { path: "transaction/apOutbound", component: ApOutboundComponent, canActivate: [AuthGuard] },
 
             { path: "report/processed", component: ProcessedReportComponent, canActivate: [AuthGuard] },
             { path: "report/rejection-bilti-detail", component: RejectionBiltiDetailReportComponent, canActivate: [AuthGuard] },

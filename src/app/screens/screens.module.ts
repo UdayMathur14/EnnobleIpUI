@@ -118,6 +118,10 @@ import { GlTdsOutBoundComponent } from "./modals/gl-tds-out-bound/gl-tds-out-bou
 import { InputAlphabetValidator } from "../core/shared/inputAlphabetValidator.directive";
 import { InputDecimalValidator } from "../core/shared/inputDecimalValidator.directive";
 import { InputIntegerValidator } from "../core/shared/inputIntegerValidator.directive";
+import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.component";
+import { ApOutboundFilterComponent } from "./transactions/ap-outbound/components/filter/ap-outbound-filter.component";
+import { ApOutboundGridTableComponent } from "./transactions/ap-outbound/components/grid-table/ap-outbound-grid-table.component";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 
 @NgModule({
     declarations: [
@@ -233,7 +237,10 @@ import { InputIntegerValidator } from "../core/shared/inputIntegerValidator.dire
         GlTdsOutBoundComponent,
         InputAlphabetValidator,
         InputDecimalValidator,
-        InputIntegerValidator
+        InputIntegerValidator,
+        ApOutboundComponent,
+        ApOutboundFilterComponent,
+        ApOutboundGridTableComponent
     ],
     imports: [
         LayoutModule,
@@ -249,7 +256,8 @@ import { InputIntegerValidator } from "../core/shared/inputIntegerValidator.dire
         NgbDatepicker,
         NgbDatepickerModule,
         DragDropModule,
-        NgbPagination
+        NgbPagination,
+        NgMultiSelectDropDownModule
     ],
     providers: [],
 })

@@ -47,7 +47,7 @@
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': biltiBillProcess.length > 0}"
-  *ngIf="searchedData?.batchNumber || searchedData?.toDate">
+  *ngIf="searchedData?.batchNumber && !loadSpinner">
   <div class="grid-table">
     <div class="table-container">
       <app-checked-materials-team-grid-table [biltiBillProcess]="biltiBillProcess"

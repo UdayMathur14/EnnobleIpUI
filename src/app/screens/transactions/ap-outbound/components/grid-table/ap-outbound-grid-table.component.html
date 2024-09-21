@@ -1,0 +1,24 @@
+<div class="custom-table">
+    <table #table>
+      <thead>
+        <tr>
+          <th>Batch Number</th>
+          <th>Bilti Bill Process Date</th>
+          <th>Bilti Number</th>
+          <th>Grand Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let biltiList of biltiBillProcess">
+            <td>{{biltiList?.biltiBillProcessModel?.batchNumber}}</td>
+          <td>{{biltiList?.biltiBillProcessModel?.biltiBillProcessDate | date : "yyyy-MM-dd"}}</td>
+          <td>{{biltiList?.biltiNumber}}</td>
+          <td>{{biltiList?.biltiBillProcessModel?.grandTotal}}</td>
+        </tr>
+        <tr>
+            <td align="center" colspan="13" *ngIf="!biltiBillProcess.length">No Data Found</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  

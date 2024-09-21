@@ -12,6 +12,7 @@
         <th>Supplier Name</th>
         <th>Vehicle Number</th>
         <th>Vehicle Size</th>
+        <th>Status</th>
         <th class="text-center">Actions</th>
       </tr>
     </thead>
@@ -56,6 +57,7 @@
         <td>{{dispatchNote?.suppliers?.vendorName || '-'}}</td>
         <td>{{dispatchNote.vehicles?.vehicleNumber || '-'}}</td>
         <td>{{dispatchNote?.vehicles?.vehicleSize?.value || '-'}}</td>
+        <td>{{dispatchNote?.openFlag || '-'}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/link.svg"

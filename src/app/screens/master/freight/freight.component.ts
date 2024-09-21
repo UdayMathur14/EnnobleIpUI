@@ -41,6 +41,7 @@ export class FreightComponent implements OnInit{
   }
 
   getFreightList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
+    this.loadSpinner = true;
     let data = {
       "locationIds": filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,

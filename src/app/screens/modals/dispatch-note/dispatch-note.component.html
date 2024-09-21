@@ -12,11 +12,10 @@
       </div>
         <div class="ngmodal-body mt-4">
             <!-- <img src="assets/images/test-delivery-note.jpg" alt=""> -->
-            <p>Recycling Person Contact Number: <span class="fw-bold fs-6 phone">{{dispatch.suppliers.contactNumber}}</span></p>
+            <p>Recycling Contact Person: <span class="fw-bold fs-6 phone">{{dispatch?.locations?.attribute4}}</span></p>
             <div class="address">
-                <p>LG Electronics India Pvt. Ltd.</p>
-                <p>{{dispatch?.vehicles?.transporterEntity?.transporterAddress1}}</p>
-                <p>{{dispatch?.vehicles?.transporterEntity?.transporterAddress2}}</p>
+                <p>{{dispatch?.locations?.attribute1}}</p>
+                <p>{{dispatch?.locations?.attribute2}}</p>
             </div>
 
             <p class="fw-bold">Supplier Name: <span class="fs-5">{{dispatch.suppliers.vendorName}}</span></p>

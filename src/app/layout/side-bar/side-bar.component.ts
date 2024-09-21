@@ -68,6 +68,8 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/approvalAccounts'])
         } else if (transaction === 'changeBiltiStatus') {
             this.router.navigate(['/transaction/changeBiltiStatus'])
+        } else if (transaction === 'apOutbound') {
+            this.router.navigate(['/transaction/apOutbound'])
         }
     }
 

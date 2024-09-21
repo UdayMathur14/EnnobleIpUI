@@ -406,6 +406,8 @@ export class AddEditBiltiComponent implements OnInit {
     }
 
     if (selected) {
+      console.log(selected);
+      
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
       this.transporterId = selected?.transporterId;
