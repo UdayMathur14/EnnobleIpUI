@@ -3,11 +3,15 @@ import { Router } from '@angular/router';
 import { ExportService } from '../../../core/service/export.service';
 import { DispatchNoteService } from '../../../core/service/dispatch-note.service';
 import { APIConstant } from '../../../core/constants';
+import { XlsxService } from '../../../core/service/xlsx.service';
+import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dispatch-note',
   templateUrl: './dispatch-note.component.html',
-  styleUrl: './dispatch-note.component.scss'
+  styleUrl: './dispatch-note.component.scss',
+  providers: [DatePipe]
 })
 export class DispatchNoteComponent {
 
@@ -23,10 +27,13 @@ export class DispatchNoteComponent {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  headers: any [] = [];
 
   constructor(private router: Router,
     private dispatchNoteService: DispatchNoteService,
-    private exportService: ExportService
+    private xlsxService: XlsxService,
+    private toastr : ToastrService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -73,4 +80,40 @@ export class DispatchNoteComponent {
       this.currentPage = 1;
       this.getDispatchData(0, this.count, this.appliedFilters);
     }
+
+    onExportHeader(headers: any) {
+      this.headers = headers;
+    }
+
+    exportData(fileName: string = "Dispatch Notes") {
+      const data = {
+        "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+        "dispatchNumber": this.appliedFilters?.dispatchNumber || "",
+        "status": this.appliedFilters?.status || "",
+        "frlrNumber": this.appliedFilters?.frlrNo || ""
+      }
+      this.dispatchNoteService.getDispatchNote(data, 0, this.totaldispatchNotes).subscribe((response: any) => {
+        const dispatchListToExport = response.dispatchNotes;
+      const mappedDispatchNotesList = dispatchListToExport.map((item: any) => ({
+        locationCode: item?.locations?.value,
+        dispatchNumber: item?.dispatchNumber,
+        frlrNo: item?.frlrNumber,
+        frlrDate: this.datePipe.transform(item.frlrDate, 'yyyy-MM-dd'),
+        transporterCode: item?.transporter?.transporterCode,
+        transporterName: item?.transporter?.transporterName,
+        supplierCode: item?.suppliers?.vendorCode,
+        supplierName: item?.suppliers?.vendorName,
+        vehicleNumber: item?.vehicles.vehicleNumber,
+        vehcileSize: item?.vehicles?.vehicleSize?.value,
+        status: item?.status
+      }));
+      this.xlsxService.xlsxExport(mappedDispatchNotesList, this.headers, fileName);
+        this.loadSpinner = false;
+      }, error => {
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      })
+      
+    }
+
 }

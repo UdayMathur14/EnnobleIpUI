@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
@@ -12,7 +12,8 @@ import { DispatchNoteModelComponent } from '../../../../modals/dispatch-note/dis
 export class DispatchNoteGridTableComponent {
 
   @Input() dispatchNotes: any = [];
-
+  @ViewChild('table') table!: ElementRef;
+  @Output() exportHeader = new EventEmitter<string[]>();
   constructor(private router: Router,
     private modalService: NgbModal) { }
 
@@ -37,5 +38,23 @@ export class DispatchNoteGridTableComponent {
       }
     );
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dispatchNotes']) {
+      this.emitHeaders();
+    }
+  }
+
+  emitHeaders() {
+    const headers: string[] = [];
+    const headerCells = this.table?.nativeElement?.querySelectorAll('thead th');
+    headerCells?.forEach((cell: any) => {
+      if (cell.innerText.trim() !== 'Actions') { 
+        headers.push(cell.innerText.trim());
+      }
+    });
+    this.exportHeader.emit(headers);
+  }
+
 
 }
