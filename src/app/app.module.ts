@@ -50,10 +50,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
       useClass: ResponseInterceptor,
       multi: true,
     },
-    { 
-      provide: NgbDateParserFormatter, 
-      useClass: NgbDateCustomParserFormatterService 
-    }
   ],
   bootstrap: [AppComponent]
 })
