@@ -15,6 +15,8 @@ export class DispatchNoteModelComponent {
   constructor(public activeModal: NgbActiveModal, private pdfService: PdfService){}
 
   ngOnInit(){
+    console.log(this.dispatch);
+    
     this.getActiveParts();
   }
 
@@ -33,4 +35,11 @@ export class DispatchNoteModelComponent {
   onClose(){
     this.activeModal.close();
   }
+
+  getDateTime(creationDate: string): string {
+    const dateObj = new Date(creationDate);
+    dateObj.setHours(dateObj.getHours() + 1);
+    return dateObj.toISOString();
+  }
+  
 }
