@@ -90,3 +90,4 @@ export const debitNoteReport = (offset: any, count: number) => `v1/biltiDebitNot
 export const provisionalReport = (offset: any, count: number) => `v1/provisionalReport/search?offset=${offset}&count=${count}`;
 export const getAdhocDropdownsData = `v1/adHocReport/get`;
 export const generateAdhocData = `v1/adHocReport/search`;
+export const apOutboundData = () => `v1/intf/ApHeaderInterfaceTransfer`;

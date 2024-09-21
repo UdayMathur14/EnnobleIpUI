@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, adviceTypeData, biltiApprovalData, biltiBillProcess, biltiBillProcessbyId, createAdviceType, createBiltiBillProcess, updateAdviceType, updateBiltiBillProcess } from "../constants";
+import { APIConstant, adviceTypeData, apOutboundData, biltiApprovalData, biltiBillProcess, biltiBillProcessbyId, createAdviceType, createBiltiBillProcess, updateAdviceType, updateBiltiBillProcess } from "../constants";
 import { PlantRequest } from "../models/plant";
 
 @Injectable({
@@ -33,6 +33,10 @@ export class BiltiBillProcessService extends CRUDService<PlantRequest> {
 
     getBiltiApprovalData(data: any) {
         return this.post(biltiApprovalData(data), data);
+    }
+
+    createApOutbound(data: any) {
+        return this.post(apOutboundData(), data);
     }
 
 }

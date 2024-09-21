@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ap-outbound',
@@ -16,8 +17,11 @@ export class ApOutboundComponent implements OnInit {
   filters: any = [];
   currentPage: number = 1;
   isFilters: boolean = true;
+  selectedBiltiData: any[] = [];  
 
-  constructor(private biltiBillService: BiltiBillProcessService){}
+  constructor(private biltiBillService: BiltiBillProcessService,
+    private toastr: ToastrService
+  ){}
 
   ngOnInit(): void {
     this.getAllBiltiProcess()
@@ -66,5 +70,27 @@ export class ApOutboundComponent implements OnInit {
       this.count = data;
       this.currentPage = 1;
       this.getAllBiltiProcess(0, this.count, this.searchedData);
+    }
+
+    onSelectedRows(data: any[]) {
+      this.selectedBiltiData = data;
+      console.log(this.selectedBiltiData);
+    }
+
+    createApOutbound() {
+      this.loadSpinner = true;
+      const invoiceNumbers = this.biltiBillProcess.map((item: any) => item.biltiNumber);
+      const payload = {
+        invoiceNumber: invoiceNumbers
+      };
+  
+      this.biltiBillService.createApOutbound(payload).subscribe((response: any) => {
+          this.toastr.success(response.message);
+          this.loadSpinner = false;
+          this.searchedData = [];
+      }, error => {
+        this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      });
     }
 }
