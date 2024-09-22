@@ -4,11 +4,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-debit-note-details-modal',
   templateUrl: './debit-note-details.component.html',
   styleUrl: './debit-note-details.component.scss',
+  providers: [DatePipe]
 })
 export class DebitNoteDetailsModalComponent implements OnInit {
   @Input() biltiProcess: any;
@@ -20,7 +22,8 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private biltiBillService: BiltiBillProcessService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
   ngOnInit(): void {
 
@@ -75,9 +78,10 @@ export class DebitNoteDetailsModalComponent implements OnInit {
   populateForm(): void {
     if (this.biltiBillDetailsData) {
       // this.calculateTotals();
+      const formattedCreationDate = this.datePipe.transform(this.biltiBillDetailsData.creationDate, 'yyyy-MM-dd');
       this.biltiBillDetails.patchValue({
         biltiNumber: this.biltiBillDetailsData.biltiNumber,
-        creationDate: this.biltiBillDetailsData.creationDate,
+        creationDate: formattedCreationDate,
         adviceType: this.biltiBillDetailsData.transactionTypeDetails?.name,
         freightAmount:
           this.biltiBillDetailsData.biltiBillProcessModel?.debitAmount,
