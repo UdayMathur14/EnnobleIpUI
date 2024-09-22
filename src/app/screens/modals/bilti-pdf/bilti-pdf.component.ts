@@ -15,6 +15,7 @@ export class BiltiPdfModalComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, private pdfService: PdfService){}
 
   ngOnInit(): void {
+console.log(this.biltiData);
 
   }
 
@@ -28,5 +29,21 @@ export class BiltiPdfModalComponent implements OnInit {
     this.activeModal.close();
   }
 
+  getUniqueVendorNames(lineItemDetails: any[]): string {
+    if (!lineItemDetails || lineItemDetails.length === 0) {
+      return '';
+    }
+
+    const uniqueVendors = new Map();
+
+    lineItemDetails.forEach(item => {
+      if (item.vendor && !uniqueVendors.has(item.vendor.vendorCode)) {
+        uniqueVendors.set(item.vendor.vendorCode, item.vendor.vendorName);
+      }
+    });
+
+    return Array.from(uniqueVendors.values()).join(', ');
+  }
+  
   
 }
