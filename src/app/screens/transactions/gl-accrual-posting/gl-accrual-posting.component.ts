@@ -37,10 +37,8 @@ export class GlAccrualPostingComponent {
       subCategory: "",
     };
     this.glAccrualPostingService.getGlAccrualPosting(obj, offset, count).subscribe((response: any) => {
-      console.log(response);
-      
       this.loadSpinner = false;
-      this.glAccrualList = response.biltiBillProcess;
+      this.glAccrualList = response.glOutBound;
       this.totalglAccrualLists = response.paging.total;
       this.filters = response.filters;
       this.loadSpinner = false;
@@ -68,5 +66,13 @@ export class GlAccrualPostingComponent {
       this.count = data;
       this.currentPage = 1;
       this.getGlAccrualPosting(0, this.count, this.searchedData);
+    }
+
+    glOutboundTransfer(){
+      this.glAccrualPostingService.glOutboundTransfer().subscribe((response: any) => {
+         this.loadSpinner = false;
+       }, error => {
+        this.loadSpinner = false;
+       })
     }
 }

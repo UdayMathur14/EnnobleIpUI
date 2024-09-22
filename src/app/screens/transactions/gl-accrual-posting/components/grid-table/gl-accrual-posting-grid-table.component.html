@@ -1,1 +1,44 @@
-<p>gl-accrual-posting-grid-table works!</p>
+<div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Company Code</th>
+          <th>Cost Center</th>
+          <th>Currency Code</th>
+          <th>Amount</th>
+          <th>Batch Id</th>
+          <th>Business Area</th>
+          <th>Closing Category</th>
+          <th>Functional Area</th>
+          <th>Gl Account</th>
+          <th>Period Name</th>
+          <th>Sequence Key</th>
+          <th>Sub Category</th>
+          <th>System Id</th>
+          <th>Transfer Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let glAccrualList of glAccrualList; let i = index">
+          <td>{{glAccrualList?.companyCode}}</td>
+          <td>{{glAccrualList?.costCenter}}</td>
+          <td>{{glAccrualList?.currencyCode}}</td>
+          <td>{{glAccrualList?.amount}}</td>
+          <td>{{glAccrualList?.batchId}}</td>
+          <td>{{glAccrualList?.businessArea}}</td>
+          <td>{{glAccrualList?.closingCategory}}</td>
+          <td>{{glAccrualList?.functionalArea}}</td>
+          <td>{{glAccrualList?.glAccount}}</td>
+          <td>{{glAccrualList?.periodName}}</td>
+          <td>{{glAccrualList?.sequenceKey}}</td>
+          <td>{{glAccrualList?.subCategory}}</td>
+          <td>{{glAccrualList?.systemId}}</td>
+          <td>{{glAccrualList?.transferCount}}</td>
+        </tr>
+        <tr>
+          <td align="center" colspan="5" *ngIf="!glAccrualList.length">No Data Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -5,7 +5,7 @@
     <app-gl-accrual-posting-filters [filters]="filters" (getData)="filteredData($event)"></app-gl-accrual-posting-filters>
   </div>
   <div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}">
-    <button class="custom-button-filters me-3" style="float: right">Post</button>
+    <button class="custom-button-filters me-3" style="float: right" (click)="glOutboundTransfer()">Post</button>
   </div>
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
     <div class="grid-table" >

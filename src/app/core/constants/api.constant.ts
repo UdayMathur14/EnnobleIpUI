@@ -92,3 +92,4 @@ export const getAdhocDropdownsData = `v1/adHocReport/get`;
 export const generateAdhocData = `v1/adHocReport/search`;
 export const apOutboundData = () => `v1/intf/ApHeaderInterfaceTransfer`;
 export const glAccrualPosting = (offset: any, count: number) => `v1/glOutBound/search?offset=${offset}&count=${count}`;
+export const glOutboundTransfer = () => `v1/intf/GlOutboundTransfer`;
