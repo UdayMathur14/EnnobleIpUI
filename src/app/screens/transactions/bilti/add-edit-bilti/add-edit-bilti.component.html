@@ -38,7 +38,7 @@
       <div class="custom-form-input">
         <label for="">Vehicle Number <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="vehicleNumber" (change)="onVehicleChange($event)" (clear)="onVehicleClear()">
-          <ng-option *ngFor="let vehicle of filteredVehiclesLists"  [value]="vehicle">{{vehicle.vehicleNumber}}</ng-option>
+          <ng-option *ngFor="let vehicle of filteredVehicles"  [value]="vehicle">{{vehicle.vehicleNumber}}</ng-option>
         </ng-select>
       </div>
     </div>
@@ -76,7 +76,7 @@
       <div class="custom-form-input">
         <label for="">Freight Code <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="freightCode" (change)="onFreightChange($event)" (clear)="onFreightClear()">
-          <ng-option *ngFor="let freight of filteredFreightsLists" [value]="freight">{{freight.freightCode}}</ng-option>
+          <ng-option *ngFor="let freight of filteredFreights" [value]="freight">{{freight.freightCode}}</ng-option>
         </ng-select>
       </div>
     </div>

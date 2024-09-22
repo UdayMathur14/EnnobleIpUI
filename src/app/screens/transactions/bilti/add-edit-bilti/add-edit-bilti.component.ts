@@ -97,6 +97,8 @@ export class AddEditBiltiComponent implements OnInit {
   transporters: any;
   filteredTransporter: any = [];
   selectedLocationId: number = 0;
+  filteredVehicles: any = [];
+  filteredFreights: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -181,6 +183,7 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   getAllTransactionTypes() {
+    this.loadSpinner = true;
     const data = {
       code: '',
     };
@@ -201,6 +204,7 @@ export class AddEditBiltiComponent implements OnInit {
 
 
   getFrlr(selectedTransactionType: string) {
+    this.loadSpinner = true;
     const plantCodes = this.plantCodes?.map((plant: any) => plant.name);
     
     const data = {
@@ -445,6 +449,7 @@ onFrlrNoClear() {
 }
 
    getVehicleNumber() {
+    this.loadSpinner = true;
     const data = {
       vehicleNumber: '',
       transporterId: 0,
@@ -465,6 +470,7 @@ onFrlrNoClear() {
   }
 
   getAllTransportersList() {
+    this.loadSpinner = true;
     const data = {
       transporterCode: '',
       transporterName: '',
@@ -545,6 +551,7 @@ onFrlrNoClear() {
   }
 
   getAllFreightList() {
+    this.loadSpinner = true;
     const data = {
       freightCode: '',
       sourceId: 0,
@@ -615,6 +622,7 @@ onFrlrNoClear() {
   }
 
   getAllVendorList() {
+    this.loadSpinner = true;
     const data = {
       vendorCode: '',
       vendorName: '',
@@ -635,6 +643,7 @@ onFrlrNoClear() {
   }
 
   getAllPointChargesList() {
+    this.loadSpinner = true;
     let data = {
       pointName: '',
       locationIds:[]
@@ -860,6 +869,7 @@ onFrlrNoClear() {
   }
 
   getLoadingLocationData() {
+    this.loadSpinner = true;
     let data = {
       CreationDate: '',
       LastUpdatedBy: '',
@@ -867,11 +877,15 @@ onFrlrNoClear() {
     };
     const type = 'LoadingLocation';
     this.biltiService.getLoadingLocation(data, type).subscribe((res: any) => {
+      this.loadSpinner = false;
       this.loadingLocation = res.lookUps.filter(
         (item: any) => item.status === 'Active');
       this.filteredLoadinglocation = this.loadingLocation.filter(
         (locations: any) => locations.status === 'Active'
       );
+    }, (error) => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     });
   }
 
@@ -1109,9 +1123,21 @@ disabledonAdd(){
 onChangeLocation(data: any){
   this.selectedLocationId = data;
   this.filteredTransporter = this.filteredTransportersLists.filter((item: any) => item?.locations?.id == data);
+  this.filteredVehicles = this.filteredVehiclesLists.filter((item: any) => item?.locations?.id == data);
+  this.filteredFreights = this.filteredFreightsLists.filter((item: any) => item?.locations?.id == data);
+  this.biltiForm.patchValue({
+    vehicleNumber: null,
+    transporterName: null
+  })
   this.biltiForm.patchValue({
     transporterCode: null,
-    transporterName: null
+    vehicleSize: null
+  })
+  this.biltiForm.patchValue({
+    freightCode: null,
+    source: null,
+    destination: null,
+    freightAmount: null
   })
   
   const vendorsArray = this.biltiForm.get('vendors') as FormArray;
