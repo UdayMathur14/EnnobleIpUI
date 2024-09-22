@@ -54,6 +54,7 @@ export class AddEditDispatchNoteComponent {
   vehicleData: any = [];
   transporterMode: any = [];
   filteredTransporter: any = [];
+  filteredVehicles: any = [];
 
   constructor(
     private router: Router,
@@ -194,6 +195,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   private async getAllPartsListInit() {
+    this.loadSpinner = true;
     const data = {
       partNumber: '',
       partName: '',
@@ -214,6 +216,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   private async getAllVehicles() {
+    this.loadSpinner = true;
     const data = {};
     await this.vehicleService.getVehicles(data).subscribe(
       (response: any) => {
@@ -231,6 +234,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   private async getAllVendors() {
+    this.loadSpinner = true;
     const data = {
       vendorCode: '',
       vendorName: '',
@@ -251,6 +255,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   private async getAllLookups() {
+    this.loadSpinner = true;
     let data = {
       type: 'PartQuantity',
     };
@@ -572,8 +577,13 @@ export class AddEditDispatchNoteComponent {
      return item.id == data;
     })
     this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == data);
-    this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode)
+    this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode);
     
+    if(this.transporterMode.length <=1){
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        transporterMode: this.transporterMode[0]?.code
+      })
+    }
     this.addOrEditDispatchNoteFormGroup.patchValue({
       transporterName: transporters?.transporterName
     })
@@ -599,9 +609,15 @@ export class AddEditDispatchNoteComponent {
 
     onLocationSelect(event: any){
       this.filteredTransporter = this.activeTransportersList.filter((item: any) => item?.locations?.id == event);
+      this.filteredVehicles = this.activeVehiclesLists.filter((item: any) => item?.locations?.id == event);
       this.addOrEditDispatchNoteFormGroup.patchValue({
         transporterCode: null,
         transporterName: null
+      })
+
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        vehicleNumber: null,
+        vehicleSize: null
       })
     }
 

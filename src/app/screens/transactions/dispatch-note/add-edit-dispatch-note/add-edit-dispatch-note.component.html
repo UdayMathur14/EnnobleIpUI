@@ -60,6 +60,16 @@
           <input formControlName="transporterName" type="text" class="input-field" readonly />
         </div>
       </div>
+      <div class="col-lg-2 col-md-2" *ngIf="transporterMode.length > 1">
+        <div class="custom-form-input">
+          <label for="">Transporter Mode <span class="text-danger">*</span></label>
+          <ng-select formControlName="transporterMode" class="input-field"
+          placeholder="Select Transporter Code">
+          <ng-option *ngFor="let mode of transporterMode"
+            [value]="mode.code">{{mode.value}}</ng-option>
+        </ng-select>
+        </div>
+      </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Mode <span class="text-danger">*</span></label>
@@ -75,7 +85,7 @@
           <label for="">Vehicle Number <span class="text-danger">*</span></label>
           <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
             placeholder="Select Vehicle Number" (clear)="onVehicleNumberClear()">
-            <ng-option *ngFor="let vehicle of vehicleData"
+            <ng-option *ngFor="let vehicle of filteredVehicles"
               [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
           </ng-select>
         </div>
