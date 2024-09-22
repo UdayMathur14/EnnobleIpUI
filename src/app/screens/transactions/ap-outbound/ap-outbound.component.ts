@@ -24,7 +24,9 @@ export class ApOutboundComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.getAllBiltiProcess()
+    this.getAllBiltiProcess();
+    console.log(this.selectedBiltiData);
+    
   }
 
   getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
@@ -74,12 +76,11 @@ export class ApOutboundComponent implements OnInit {
 
     onSelectedRows(data: any[]) {
       this.selectedBiltiData = data;
-      console.log(this.selectedBiltiData);
     }
 
     createApOutbound() {
       this.loadSpinner = true;
-      const invoiceNumbers = this.biltiBillProcess.map((item: any) => item.biltiNumber);
+      const invoiceNumbers = this.selectedBiltiData.map((item: any) => item.biltiNumber);
       const payload = {
         invoiceNumber: invoiceNumbers
       };

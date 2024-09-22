@@ -5,7 +5,7 @@
     <app-ap-outbound-filter [filters]="filters" (getData)="filteredData($event)"></app-ap-outbound-filter>
   </div>
   <div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}" *ngIf="searchedData?.batchNumber && !loadSpinner && biltiBillProcess.length">
-    <button class="custom-button-filters me-3" style="float: right" (click)="createApOutbound()">Post</button>
+    <button class="custom-button-filters me-3" style="float: right" (click)="createApOutbound()" [disabled]="selectedBiltiData.length == 0">Post</button>
   </div>
   <div class="content-section" [ngClass]="{'isFilters': isFilters}" *ngIf="searchedData?.batchNumber && !loadSpinner">
     <div class="grid-table" >
