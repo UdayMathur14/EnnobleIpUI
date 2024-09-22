@@ -88,13 +88,13 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">FRLR# </label>
+          <label for="">FRLR/MDN No </label>
           <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">FRLR Date</label>
+          <label for="">FRLR/MDN Date</label>
           <div class="input-group datepicker">
             <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
               [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
