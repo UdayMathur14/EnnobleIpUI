@@ -70,6 +70,8 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/changeBiltiStatus'])
         } else if (transaction === 'apOutbound') {
             this.router.navigate(['/transaction/apOutbound'])
+        } else if (transaction === 'glAccrualPosting') {
+            this.router.navigate(['/transaction/glAccrual-posting'])
         }
     }
 

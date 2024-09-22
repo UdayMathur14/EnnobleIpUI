@@ -122,6 +122,9 @@ import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.comp
 import { ApOutboundFilterComponent } from "./transactions/ap-outbound/components/filter/ap-outbound-filter.component";
 import { ApOutboundGridTableComponent } from "./transactions/ap-outbound/components/grid-table/ap-outbound-grid-table.component";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { GlAccrualPostingComponent } from "./transactions/gl-accrual-posting/gl-accrual-posting.component";
+import { GlAccrualPostingFiltersComponent } from "./transactions/gl-accrual-posting/components/filters/gl-accrual-posting-filters.component";
+import { GlAccrualPostingGridTableComponent } from "./transactions/gl-accrual-posting/components/grid-table/gl-accrual-posting-grid-table.component";
 
 @NgModule({
     declarations: [
@@ -240,7 +243,10 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
         InputIntegerValidator,
         ApOutboundComponent,
         ApOutboundFilterComponent,
-        ApOutboundGridTableComponent
+        ApOutboundGridTableComponent,
+        GlAccrualPostingComponent,
+        GlAccrualPostingFiltersComponent,
+        GlAccrualPostingGridTableComponent
     ],
     imports: [
         LayoutModule,
