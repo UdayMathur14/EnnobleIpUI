@@ -16,6 +16,7 @@ import { LookupService } from '../../../../core/service/lookup.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiRbTxnDataComponent } from '../../../modals/bilti-rb-txn-data/bilti-rb-txn-data.component';
 import { Logger } from 'html2canvas/dist/types/core/logger';
+import { forkJoin, tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -119,25 +120,42 @@ export class AddEditBiltiComponent implements OnInit {
   ngOnInit() {
     this.biltiId = Number(this.activatedRoute.snapshot.paramMap.get('biltiId'));
     const locationId = this.activatedRoute.snapshot.paramMap.get('locationId');
-    if(locationId){
+    if (locationId) {
       this.locationId = Number(locationId);
     }
-
+  
     this.initForm();
-    this.getAllTransportersList();
-    this.getAllTransactionTypes();
-    this.getAllFreightList();
-    this.getAllVendorList();
-    this.getAllPointChargesList();
-    this.getLoadingLocationData();
-    this.getVehicleNumber();
-    setTimeout(() => {
-      if (this.biltiId > 0) {
-        this.getEditBiltiData();
+    this.loadSpinner = true;
+    let editBiltiDataCompleted = false;
+
+    forkJoin({
+      transporters: this.getAllTransportersList(),
+      transactionTypes: this.getAllTransactionTypes(),
+      freights: this.getAllFreightList(),
+      vendors: this.getAllVendorList(),
+      pointCharges: this.getAllPointChargesList(),
+      loadingLocation: this.getLoadingLocationData(),
+      vehicleNumbers: this.getVehicleNumber(),
+    }).subscribe({
+      next: (responses) => {
+        if (this.biltiId > 0) {
+          this.getEditBiltiData().subscribe(() => {
+            editBiltiDataCompleted = true;
+            this.loadSpinner = false;
+          });
+        } else {
+          this.loadSpinner = false;
+        }
+      },
+      error: (error) => {
+        this.loadSpinner = false;
       }
-    },1000)
+    });
+  
     this.setLocation();
   }
+  
+  
 
   initForm() {
     this.biltiForm = this.fb.group({
@@ -183,28 +201,21 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   getAllTransactionTypes() {
-    this.loadSpinner = true;
     const data = {
       code: '',
     };
-    this.transactionTypesService.getTransactionTypes(data).subscribe(
-      (response: any) => {
+    return this.transactionTypesService.getTransactionTypes(data).pipe(
+      tap((response: any) => {
         this.transactionTypesLists = response.transactionTypes;
         this.filteredTransactionTypesLists = this.transactionTypesLists.filter(
           (transactionType: any) => transactionType.status === 'Active'
         );
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
+      })
     );
   }
 
 
   getFrlr(selectedTransactionType: string) {
-    this.loadSpinner = true;
     const plantCodes = this.plantCodes?.map((plant: any) => plant.name);
     
     const data = {
@@ -220,12 +231,7 @@ export class AddEditBiltiComponent implements OnInit {
           t.frlrNumber === frlrNumber));
       
       this.frlrList = response.transactionTypes;
-        this.loadSpinner = false;
       },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
     );
   }
 
@@ -240,7 +246,6 @@ export class AddEditBiltiComponent implements OnInit {
       item?.frlrNumber))].map(frlrNumber => filteredDispatchNotes.find((t: any) => 
         t?.frlrNumber === frlrNumber));
     this.dispatchNotes = filteredDispatchNotes;
-      this.loadSpinner = false;
     })
   }
   
@@ -410,8 +415,6 @@ export class AddEditBiltiComponent implements OnInit {
     }
 
     if (selected) {
-      console.log(selected);
-      
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
       this.transporterId = selected?.transporterId;
@@ -448,51 +451,37 @@ onFrlrNoClear() {
   });
 }
 
-   getVehicleNumber() {
-    this.loadSpinner = true;
-    const data = {
-      vehicleNumber: '',
-      transporterId: 0,
-    };
-     this.vehicleService.getVehicles(data).subscribe(
-      (response: any) => {
-        this.vehiclesList = response.vehicles;
-        this.filteredVehiclesLists = this.vehiclesList.filter(
-          (vehicles: any) => vehicles.status === 'Active'
-        );
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
-  }
+getVehicleNumber() {
+  const data = {
+    vehicleNumber: '',
+    transporterId: 0,
+  };
+  return this.vehicleService.getVehicles(data).pipe(
+    tap((response: any) => {
+      this.vehiclesList = response.vehicles;
+      this.filteredVehiclesLists = this.vehiclesList.filter(
+        (vehicles: any) => vehicles.status === 'Active'
+      );
+    })
+  );
+}
+
 
   getAllTransportersList() {
-    this.loadSpinner = true;
     const data = {
       transporterCode: '',
       transporterName: '',
     };
-     this.transporterService.getTransporters(data).subscribe(
-      (response: any) => {
+    return this.transporterService.getTransporters(data).pipe(
+      tap((response: any) => {
         this.transportersList = response.transporters;
         this.filteredTransportersLists = this.transportersList.filter(
           (transporters: any) => transporters.status === 'Active'
         );
-        // response.transporters.forEach((transporter: any) => {
-        //   this.transporterMapCode[transporter.id] = transporter.transporterCode;
-        //   this.transporterMapName[transporter.id] = transporter.transporterName;
-        // });
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
+      })
     );
   }
+  
 
   onTransporterChange(data: any) {
     this.biltiForm.patchValue({
@@ -551,24 +540,18 @@ onFrlrNoClear() {
   }
 
   getAllFreightList() {
-    this.loadSpinner = true;
     const data = {
       freightCode: '',
       sourceId: 0,
       vehicleSizeId: 0,
-    };
-    this.freightService.getFreightsList(data).subscribe(
-      (response: any) => {
+    }
+    return this.freightService.getFreightsList(data).pipe(
+      tap((response: any) => {
         this.freightList = response.freights;
         this.filteredFreightsLists = this.freightList.filter(
           (freight: any) => freight.status === 'Active'
         );
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
+      })
     );
   }
 
@@ -622,44 +605,32 @@ onFrlrNoClear() {
   }
 
   getAllVendorList() {
-    this.loadSpinner = true;
     const data = {
       vendorCode: '',
       vendorName: '',
     };
-    this.vendorService.getVendors(data).subscribe(
-      (response: any) => {
+    return this.vendorService.getVendors(data).pipe(
+      tap((response: any) => {
         this.vendorList = response.vendors;
         this.filteredVendorcode = this.vendorList.filter(
           (vendors: any) => vendors.status === 'Active' || vendors.status === 'ACTIVE'
         );
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
+      })
     );
   }
 
   getAllPointChargesList() {
-    this.loadSpinner = true;
-    let data = {
+    const data = {
       pointName: '',
-      locationIds:[]
+      locationIds: []
     };
-    this.pointChargeService.getPointCharges(data).subscribe(
-      (response: any) => {
+    return this.pointChargeService.getPointCharges(data).pipe(
+      tap((response: any) => {
         this.pointChargesList = response.pointCharges;
         this.filteredPointname = this.pointChargesList.filter(
           (pointname: any) => pointname.status === 'Active'
         );
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
+      })
     );
   }
 
@@ -869,34 +840,29 @@ onFrlrNoClear() {
   }
 
   getLoadingLocationData() {
-    this.loadSpinner = true;
-    let data = {
+    const data = {
       CreationDate: '',
       LastUpdatedBy: '',
       LastUpdateDate: '',
     };
     const type = 'LoadingLocation';
-    this.biltiService.getLoadingLocation(data, type).subscribe((res: any) => {
-      this.loadSpinner = false;
-      this.loadingLocation = res.lookUps.filter(
-        (item: any) => item.status === 'Active');
-      this.filteredLoadinglocation = this.loadingLocation.filter(
-        (locations: any) => locations.status === 'Active'
-      );
-    }, (error) => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    });
+    return this.biltiService.getLoadingLocation(data, type).pipe(
+      tap((res: any) => {
+        this.loadingLocation = res.lookUps.filter(
+          (item: any) => item.status === 'Active'
+        );
+        this.filteredLoadinglocation = this.loadingLocation.filter(
+          (locations: any) => locations.status === 'Active'
+        );
+      })
+    );
   }
 
   getBiltiData(biltiId: number) {
-    
-    this.loadSpinner = true;
     this.biltiService.getBiltiData(this.biltiLocationId,biltiId).subscribe(
       (response: any) => {
         this.onChangeLocation(response.locationId)
         this.lineItem = response.biltiCreationLineItems
-        this.loadSpinner=false
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
           (type: any) => type.id === transactionTypeId
@@ -1009,11 +975,6 @@ onFrlrNoClear() {
         } else {
           this.getFrlr(this.selectedTransactionTypeCode);
         }
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
       }
     );
   }
@@ -1025,22 +986,15 @@ onFrlrNoClear() {
   }
 
   getEditBiltiData() {
-    this.loadSpinner = true;
-    let data = {
-      biltiNumber: '',
-      locationIds: APIConstant.commonLocationsList.map((e: any) => e.id),
-    };
-    this.biltiService.getBiltis(data).subscribe(
-      (response: any) => {
-        this.biltisList = response.biltiCreations;
-        this.getLocationId().then(() => {
-          this.getBiltiData(this.biltiId);
-        });
-      },
-      (error) => {
-        this.loadSpinner = false;
-      }
-    );
+    return this.biltiService.getBiltis({ biltiNumber: '', locationIds: APIConstant.commonLocationsList.map((e: any) => e.id) })
+      .pipe(
+        tap((response: any) => {
+          this.biltisList = response.biltiCreations;
+          this.getLocationId().then(() => {
+            this.getBiltiData(this.biltiId);
+          });
+        })
+      );
   }
 
   getLocationId(): Promise<void> {
