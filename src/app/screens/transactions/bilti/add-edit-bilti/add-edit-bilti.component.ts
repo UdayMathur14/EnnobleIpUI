@@ -322,6 +322,9 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
+    this.biltiForm.patchValue({
+      transporterMode: null,
+    });
     this.transportersList.forEach((transporter: any) => {
       if (transporter.locationId === this.selectedLocationId) {
       this.transporterMapCode[transporter.id] = transporter.transporterCode;
