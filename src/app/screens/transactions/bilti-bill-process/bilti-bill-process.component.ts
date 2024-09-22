@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-bilti-bill-process',
@@ -44,7 +45,7 @@ export class BiltiBillProcessComponent implements OnInit {
       adviceType: filters?.adviceType || "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: filters?.biltiNumber || "",
-      locationIds:[],
+      locationIds: APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       status: ""
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {

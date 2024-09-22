@@ -102,6 +102,7 @@ export class ApprovalMaterialHeadComponent {
   }
 
   updateStatus(status: string, remarks: string, popover: any) {
+    
     this.loadSpinner = true;
     if (status === 'Rejected' && !remarks.trim()) {
       this.toastr.error('Remarks are required for rejection');
@@ -117,7 +118,7 @@ export class ApprovalMaterialHeadComponent {
       actionByName: this.userName,
     };
 
-    this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
+    this.commonTransaction.updateBiltiApprovalStatus(this.biltiBillProcess[0]?.locationId, this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
       this.loadSpinner = false;
       if (popover) {

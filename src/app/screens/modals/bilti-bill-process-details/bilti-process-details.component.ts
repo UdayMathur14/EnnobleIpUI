@@ -72,6 +72,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.biltiProcess);
+    
     this.route.url.subscribe(url => {
       this.fullPath = this.router.url;
       this.showSaveButton = (window.location.pathname === '/transaction/biltiBillProcess');
@@ -139,9 +141,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     
   }
 
+
   getBiltiBillProcessbyId() {
     this.biltiBillService
-      .getBiltiBillProcessbyId(this.biltiProcess.id)
+      .getBiltiBillProcessbyId(this.biltiProcess.locationId, this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillProcessData = response;
         this.transactionTypeId = this.biltiBillProcessData?.transactionTypeId;
@@ -494,7 +497,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   createBiltiProcess(data: any) {
-    this.biltiBillService.createBiltiBillProcess(data).subscribe(
+    this.biltiBillService.createBiltiBillProcess(this.biltiProcess.locationId,data).subscribe(
       (response: any) => {
         this.toastr.success('Bilti Bill Process Created Successfully');
         this.loadSpinner = false;
@@ -508,7 +511,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   updateBiltiProcess(data: any) {
-    this.biltiBillService.updateBiltiBillProcess(this.biltiBillProcessData?.biltiBillProcessModel?.id,data).subscribe(
+    this.biltiBillService.updateBiltiBillProcess(this.biltiProcess.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id,data).subscribe(
       (response: any) => {
         this.toastr.success('Bilti Bill Process Updated Successfully');
         this.loadSpinner = false;
@@ -542,7 +545,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         transactionCode: 203,
       };
    
-    this.commonTransaction.updateStatus(this.locationId, this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+    this.commonTransaction.updateStatus(this.biltiProcess.locationId, this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Status Updated Successfully');
       this.activeModal.close('save');
@@ -562,7 +565,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       actionByName: this.userName
     };
  
-  this.commonTransaction.updateStatus(this.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+  this.commonTransaction.updateStatus(this.biltiProcess.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
     this.loadSpinner = false;
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');
@@ -580,7 +583,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       transactionCode: 203,
     };
  
-  this.commonTransaction.updateStatus(this.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
+  this.commonTransaction.updateStatus(this.biltiProcess.locationId,this.biltiBillProcessData?.biltiBillProcessModel?.id, data).subscribe((response: any) => {
     this.loadSpinner = false;
     this.toastr.success('Status Updated Successfully');
     this.activeModal.close('save');

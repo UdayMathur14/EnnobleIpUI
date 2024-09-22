@@ -716,7 +716,7 @@ getVehicleNumber() {
           attribute9: "2024-05-04T13:03:47.509Z",
           attribute10: "2024-05-04T13:03:47.509Z",
           frmId: vendorControl.biltiDetailsTransactionType === 'RB' ? 0 : this.frmId,
-          dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id || this.combinedRows[index]?.dispatchNoteId : this.combinedRows[index]?.dispatchNoteId,
+          dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id || this.combinedRows[index]?.dispatchNoteId : this.combinedRows[index]?.dispatchNoteId || 0,
           documentReferenceNo: vendorControl.documentrefNo,
           pointCharge: parseInt(vendorControl?.pointCharge) || 0,
           pointName: vendorControl.pointName,

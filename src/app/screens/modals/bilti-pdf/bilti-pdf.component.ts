@@ -44,6 +44,13 @@ console.log(this.biltiData);
 
     return Array.from(uniqueVendors.values()).join(', ');
   }
-  
-  
+
+  calculateTotalPointCharges(): number {
+    if (this.biltiData?.lineItemDetail) {
+      return this.biltiData.lineItemDetail.reduce((total: number, item: any) => {
+        return total + (item.pointCharge || 0);
+      }, 0);
+    }
+    return 0;
+  }
 }

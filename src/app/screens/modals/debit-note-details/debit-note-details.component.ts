@@ -65,7 +65,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
 
   getBiltiBillProcessbyId() {
     this.biltiBillService
-      .getBiltiBillProcessbyId(this.biltiProcess.id)
+      .getBiltiBillProcessbyId(this.biltiProcess.locationId,this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillDetailsData = response;
         // this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
@@ -174,7 +174,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     };
 
     this.biltiBillService
-      .updateBiltiBillProcess(this.biltiBillDetailsData.biltiBillProcessModel?.id, payload)
+      .updateBiltiBillProcess(this.biltiProcess.locationId,this.biltiBillDetailsData.biltiBillProcessModel?.id, payload)
       .subscribe(
         (response: any) => {
           this.toastr.success('Debit Note Updated Successfully');

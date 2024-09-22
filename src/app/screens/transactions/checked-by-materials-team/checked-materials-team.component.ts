@@ -62,6 +62,8 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       locationIds: this.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
     }
     this.biltiProcessService.getBiltiBillProcess(data, offset, count).subscribe((response: any) => {
+      console.log(response);
+      
       this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
@@ -84,6 +86,8 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   }
 
   filteredData(data: any) {
+    console.log(data);
+    
     this.searchedData = data;
     this.batchNumber = data.batchNumber;
     this.currentPage = 1;
@@ -114,7 +118,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
         transactionCode: 203,
         actionByName: this.userName
       };
-    this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
+    this.commonTransaction.updateBiltiApprovalStatus(this.biltiBillProcess[0]?.locationId, this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
       this.loadSpinner = false;
       if (popover) {
