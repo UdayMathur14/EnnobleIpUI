@@ -68,8 +68,11 @@ export class AddEditFreightComponent implements OnInit {
     // })
     if (this.freightId != 0) {
       this.getEditFreightData();
+      this.loadSpinner = true;
+    } else {
+      this.loadSpinner = false;
     }
-    this.loadSpinner = false;
+
     this.getSourceDropdownData();
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();

@@ -63,6 +63,8 @@ export class AddEditPointChargeComponent implements OnInit {
   ngOnInit(): void {
     if (!this.pointChargeId) {
       this.loadSpinner = false;
+    } else {
+      this.loadSpinner = true;
     }
 
     this._route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -91,7 +93,6 @@ export class AddEditPointChargeComponent implements OnInit {
       (res: any) => {
         this.pointNameData = res.lookUps.filter(
           (item: any) => item.status === 'Active');
-        this.loadSpinner = false;
       },
       (error) => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
