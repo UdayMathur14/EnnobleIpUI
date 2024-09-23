@@ -64,6 +64,7 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadSpinner = true;
     this.baseService.plantSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
     this.getLocations();
