@@ -15,8 +15,6 @@ export class DispatchNoteModelComponent {
   constructor(public activeModal: NgbActiveModal, private pdfService: PdfService){}
 
   ngOnInit(){
-    console.log(this.dispatch);
-    
     this.getActiveParts();
   }
 

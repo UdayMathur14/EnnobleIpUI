@@ -25,8 +25,6 @@ export class ApOutboundComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBiltiProcess();
-    console.log(this.selectedBiltiData);
-    
   }
 
   getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {

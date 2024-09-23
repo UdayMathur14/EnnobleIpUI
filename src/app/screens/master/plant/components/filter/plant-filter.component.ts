@@ -19,8 +19,7 @@ export class PlantFilterComponent implements OnInit {
   siteCode: any= undefined;
 
 ngOnInit(): void {
-  console.log(this.locationIds);
-  
+
 }
   onPlantSearch() {
     const filterData = {

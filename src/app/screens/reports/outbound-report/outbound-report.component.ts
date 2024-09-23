@@ -199,7 +199,7 @@ export class OutboundReportComponent implements OnInit {
               }, 'Provisional Report');
           },
           (error) => {
-              console.error('Error fetching outbound data:', error);
+            this.loadSpinner = false;
           }
       );
   }

@@ -62,7 +62,6 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       locationIds: this.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
     }
     this.biltiProcessService.getBiltiBillProcess(data, offset, count).subscribe((response: any) => {
-      console.log(response);
       
       this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
@@ -86,8 +85,6 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   }
 
   filteredData(data: any) {
-    console.log(data);
-    
     this.searchedData = data;
     this.batchNumber = data.batchNumber;
     this.currentPage = 1;

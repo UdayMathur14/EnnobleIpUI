@@ -71,9 +71,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     private datePipe: DatePipe
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.biltiProcess);
-    
+  ngOnInit(): void { 
     this.route.url.subscribe(url => {
       this.fullPath = this.router.url;
       this.showSaveButton = (window.location.pathname === '/transaction/biltiBillProcess');

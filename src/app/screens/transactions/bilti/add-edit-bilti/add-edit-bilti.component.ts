@@ -100,6 +100,7 @@ export class AddEditBiltiComponent implements OnInit {
   selectedLocationId: number = 0;
   filteredVehicles: any = [];
   filteredFreights: any = [];
+  autobiltiRequiredFlag: string = ''
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -173,6 +174,7 @@ export class AddEditBiltiComponent implements OnInit {
         loadingLocation: new FormControl(null, [Validators.required]),
         status: new FormControl('Active'),
         transporterMode: [''],
+        biltiNumber: '',
         vendors: this.fb.array([])
     });
   }
@@ -424,7 +426,7 @@ export class AddEditBiltiComponent implements OnInit {
       this.frmId = selected?.id;
       this.loadingLocationid = selected?.loadingLocationId;
       this.vehicleId = this.vehicleId;
-      
+      this.onTransporterChange(this.transporterMapCode[selected.transporterId]);
       this.biltiForm.patchValue({
         transporterCode: this.transporterMapCode[selected.transporterId],
         transporterName: this.transporterMapName[selected.transporterId],
@@ -487,6 +489,8 @@ getVehicleNumber() {
   
 
   onTransporterChange(data: any) {
+    const matchedTransporterData = this.transportersList.find((item: any) => item?.transporterCode == data);
+    this.autobiltiRequiredFlag = matchedTransporterData?.autoBiltiRequiredFlag;
     this.biltiForm.patchValue({
       transporterMode: null
     });
@@ -686,6 +690,7 @@ getVehicleNumber() {
         taxationType: this.taxationType,
         taxCode: this.taxCode,
         tdsCode: this.tdsCode,
+        biltiNumber: this.biltiForm.controls['biltiNumber'].value,
         lineItemsEntity: [
           {
             vendorId: 0,
@@ -770,6 +775,7 @@ getVehicleNumber() {
         taxationType: this.taxationType,
         taxCode: this.taxCode,
         tdsCode: this.tdsCode,
+        biltiNumber: this.biltiForm.controls['biltiNumber'].value,
         lineItemsEntity:  [
           {
           vendorId: 0,
@@ -864,7 +870,8 @@ getVehicleNumber() {
   getBiltiData(biltiId: number) {
     this.biltiService.getBiltiData(this.biltiLocationId,biltiId).subscribe(
       (response: any) => {
-        this.onChangeLocation(response.locationId)
+        this.onChangeLocation(response.locationId);
+        this.onTransporterChange(response.transporterCode)
         this.lineItem = response.biltiCreationLineItems
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
@@ -962,7 +969,8 @@ getVehicleNumber() {
           destination: response?.destination,
           loadingLocation: location?.id,
           locationId: response.locationId,
-          transporterMode: response.transporterMode
+          transporterMode: response.transporterMode,
+          biltiNumber: response?.biltiNumber
         });
         this.transporters = this.transportersList.find((item: any) => {
           return item.transporterCode == transporter?.transporterCode;

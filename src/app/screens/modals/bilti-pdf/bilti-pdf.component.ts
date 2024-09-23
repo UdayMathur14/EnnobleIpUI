@@ -15,7 +15,6 @@ export class BiltiPdfModalComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, private pdfService: PdfService){}
 
   ngOnInit(): void {
-console.log(this.biltiData);
 
   }
 
