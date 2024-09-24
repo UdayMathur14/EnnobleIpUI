@@ -30,7 +30,7 @@ export class AddEditPlantComponent implements OnInit {
   deletedTransactions: any[] = [];
   plantLocationId: number = 0;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   offset: number = 0;
   count: number = Number.MAX_VALUE;
   loadSpinner: boolean = false;
@@ -64,6 +64,7 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
     this.loadSpinner = true;
     this.baseService.plantSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
@@ -78,6 +79,10 @@ export class AddEditPlantComponent implements OnInit {
     }, 1000);
   }
 
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
   getLocations() {
     let data = {
       CreationDate: '',
@@ -87,7 +92,8 @@ export class AddEditPlantComponent implements OnInit {
     const type = 'Locations';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.locationsDropdownData = res.lookUps.filter(
-        (item: any) => item.status === 'Active');
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
 
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -215,11 +221,13 @@ export class AddEditPlantComponent implements OnInit {
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
+      console.log(e);
+      
       let transactionObj = {
-        id: e.id,
+        id: e.locations.id,
         transactionTypeId: e.transactionTypeId,
         status: e.status,
-        locationId: e.locationId,
+        locationId: e.locations.id || e.locations.value,
         dsc: e.dsc,
         dcp: e.dcp
       }
@@ -266,7 +274,7 @@ export class AddEditPlantComponent implements OnInit {
       name: '',
       code: null,
       transactionTypeId: 0,
-      locationId: null,
+      locations: {id: 0, value: ''},
       dcp: '',
       dsc: ''
     }
@@ -287,7 +295,7 @@ export class AddEditPlantComponent implements OnInit {
       const duplicateTransaction = this.plantData.transactionTypeMapping.some(
         (t, i) =>
           i !== index &&
-          t.locationId === this.plantData.transactionTypeMapping[index].locationId &&
+          t.locations.id === this.plantData.transactionTypeMapping[index].locations.id &&
           t.code === transaction.code
       );
       return !duplicateTransaction || this.plantData.transactionTypeMapping[index].code === transaction.code;
@@ -307,10 +315,14 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   onDeleteTransaction(transaction: any, index: number) {
+    console.log(transaction);
+    
     const deletedTransaction = {
-      id: transaction.id,
+      id: transaction.locationId,
       transactionTypeId: transaction.transactionTypeId,
-      status: 'Inactive'
+      status: 'Inactive',
+      dsc: transaction?.dsc,
+      dcp: transaction?.dcp
     };
     if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
       this.deletedTransactions.push(deletedTransaction);
@@ -350,7 +362,7 @@ export class AddEditPlantComponent implements OnInit {
     const locationData = this.locations.find((item: any) => {
     return item.id == e;
     })
-    this.plantData.transactionTypeMapping[index].locationId = locationData?.id;
+    this.plantData.transactionTypeMapping[index].locations.id = locationData?.id;
     this.plantData.transactionTypeMapping[index].dsc = locationData?.attribute3;
     this.plantData.transactionTypeMapping[index].dcp = locationData?.attribute4;
   }
