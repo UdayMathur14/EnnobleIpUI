@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-freight-filter',
@@ -11,17 +12,42 @@ import { APIConstant } from '../../../../../core/constants';
 export class FreightFilterComponent implements OnInit {
   @Output() getData : EventEmitter<object> = new EventEmitter();
   @Input() filters : any =[];
-  @Input() locations : any[] = [];
   freightCode : any = undefined;
   source : any = undefined;
   destination : any = undefined;
   vehicleSize : any = undefined;
   status: any = undefined;
-  locationIds:any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
   
-  constructor(){}
+  constructor(private lookupService: LookupService){}
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   onFreightSearch(){

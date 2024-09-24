@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-point-filter',
@@ -8,16 +9,42 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './point-filter.component.scss'
 })
 export class PointFilterComponent implements OnInit {
-  @Input() locations : any[] = [];
   @Input() filters : any = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
-  locationIds : any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
   pointName : any = undefined;
   status: any = undefined;
   
-  constructor(){}
+  constructor(private lookupService: LookupService){}
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        console.log(this.locations);
+        
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   onFreightSearch(){
