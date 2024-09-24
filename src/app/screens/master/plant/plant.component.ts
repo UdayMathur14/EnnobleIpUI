@@ -17,13 +17,14 @@ export class PlantComponent implements OnInit {
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
-  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   currentPage: number = 1;
   count: number = 10;
   totalPlants: number = 0;
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locationsDropdownData: any = [];
 
   constructor(
     private router: Router,
@@ -34,7 +35,30 @@ export class PlantComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getCommonLocations();
+    this.getLocations();
     this.getPlantsList();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   getPlantsList(offset: number = 0,count: number = this.count,filters: any = this.appliedFilters) {
