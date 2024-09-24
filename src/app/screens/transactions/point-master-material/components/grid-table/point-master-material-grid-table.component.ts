@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../../../core/service/commonTransaction.service';
 import { PointChargeDataModel } from '../../../../../core/model/masterModels.model';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
+import { LookupService } from '../../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-point-master-material-grid-table',
@@ -23,11 +25,39 @@ export class PointMasterMaterialGridTableComponent {
   totalPointCharge: number = 0;
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
   
-  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
+  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute,
+    private lookupService: LookupService
+  ) { }
 
   ngOnInit(): void {
-    this.getAllPointChargesList();
+    this.getCommonLocations();
+    this.getLocations();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        this.getAllPointChargesList();
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   // SORTING DATA FROM FILTER CHANGES
@@ -43,7 +73,7 @@ export class PointMasterMaterialGridTableComponent {
     let data = {
       "screenCode": 102,
       "pointName": filters?.pointName || "",
-      locationIds: filters?.locationIds || []
+      locationIds: filters?.locationIds || this.locationIds
     }
     this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
