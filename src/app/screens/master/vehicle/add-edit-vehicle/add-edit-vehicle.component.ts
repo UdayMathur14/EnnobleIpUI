@@ -26,12 +26,13 @@ export class AddEditVehicleComponent implements OnInit {
   vehcileSizes: any = []
   locationId!:Number;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   locationCode: any
   vehicleLocationId: number = 0;
   transporterOffset: number = 0;
   transporterCount: number = Number.MAX_VALUE;
   filteredTransporter: any = [];
+  locationsDropdownData: any = [];
   
   constructor(
     private router: Router,
@@ -40,7 +41,8 @@ export class AddEditVehicleComponent implements OnInit {
     private toastr: ToastrService,
     private baseService: BaseService,
     private lookUpService: LookupService,
-    private transporterService: TransporterService
+    private transporterService: TransporterService,
+    private lookupService: LookupService
   ) { }
 
   vehicleForm = new FormGroup({
@@ -58,7 +60,9 @@ export class AddEditVehicleComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.getAllTransportersList()
+    this.getCommonLocations();
+    this.getAllTransportersList();
+    this.getLocations();
     if (!this.vehicleId) {
       this.loadSpinner = false;
     }
@@ -76,6 +80,28 @@ export class AddEditVehicleComponent implements OnInit {
     this.getAllLookups();
     this.getVehicleSizeDropdownData();
     this.setLocation();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
   }
 
   // GET THE DATA OF SPECIFIC VEHICLE
