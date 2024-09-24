@@ -126,7 +126,7 @@ export class AddEditFreightComponent implements OnInit {
         remarks: response.remarks,
         
       });
-      this.checkApprovalStatus(response.approvedByMaterialAction, response.approvedByAccountsAction, response.NewFreightAmountStatus);
+      this.checkApprovalStatus(response.approvedByMaterialAction, response.approvedByAccountsAction, response.newFreightAmount, response.newFreightAmountStatus);
 
       this.loadSpinner = false;
     }, error => {
@@ -136,10 +136,8 @@ export class AddEditFreightComponent implements OnInit {
   }
 
   //FUNCTION TO HANDLE STATUS FIELD ON UPDATE
-  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, NewFreightAmountStatus: string) {
-    if (approvedByAccounts == null || approvedByMaterial == null || NewFreightAmountStatus ==  null ||
-      approvedByMaterial.includes('Rejected') ||
-      approvedByAccounts.includes('Rejected')) {
+  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, newFreightAmount: any, newFreightAmountStatus: any ) {
+    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected')) && newFreightAmount != null && newFreightAmountStatus == 'Inactive') {
       this.freightForm.get('status')?.disable();
     } else {
       this.freightForm.get('status')?.enable();
