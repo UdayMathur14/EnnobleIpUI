@@ -5,6 +5,8 @@ import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../../../core/service/commonTransaction.service';
 import { FreightDataModel } from '../../../../../core/model/masterModels.model';
+import { LookupService } from '../../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-freight-master-accounts-grid-table',
@@ -23,12 +25,18 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
   totalFreight: number = 0;
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
   
-  constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
+  constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute,
+    private lookupService: LookupService
+  ) { }
 
 
   ngOnInit(): void {
-    this.getAllFreightListInit();
+    this.getCommonLocations();
+    this.getLocations();
   }
 
   //SORTING DATA FROM FILTER CHANGES
@@ -38,13 +46,36 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     }
   }
 
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        this.getAllFreightListInit();
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+
+
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit(offset: number = 0, count: number = this.count, filters: any = this.searchedFreight) {
     this.loadSpinner = true;
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": filters?.freightCode || '',
-      locationIds: filters?.locationIds || []
+      locationIds: filters?.locationIds || this.locationIds
     }
     this.freightService.getFreightsList(data, offset, count).subscribe((response: any) => {
       this.freightList = response.freights;
