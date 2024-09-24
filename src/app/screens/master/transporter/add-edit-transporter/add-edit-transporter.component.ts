@@ -25,7 +25,7 @@ export class AddEditTransporterComponent implements OnInit {
   tdsCodes: any[] = []
   disableSubmit: boolean = false;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   transporterData!: TransporterDataModel;
   transporterMappings: any[] = [];
   transporters: any[] = [];
@@ -40,6 +40,8 @@ export class AddEditTransporterComponent implements OnInit {
   transporterList: any = [];
   alltransporterMode: any = [];
   autoBiltiRequiredFlag: string = '';
+  locationsDropdownData: any = [];
+
   constructor(private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -84,6 +86,8 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
     this.queryData = this._Activatedroute.snapshot.paramMap.get("transporterCode");
     this.queryData = this.queryData == 0 ? '' : this.queryData;
     if (this.queryData != 0) {
@@ -166,6 +170,27 @@ export class AddEditTransporterComponent implements OnInit {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   //FUNCTION EXECUTED ON SAVE BUTTON CLICK

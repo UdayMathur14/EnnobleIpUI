@@ -100,7 +100,6 @@ export class AddEditVehicleComponent implements OnInit {
 
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.baseService.plantSpinner.next(false);
     });
   }
 
