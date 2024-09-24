@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-transporter-filter',
@@ -8,8 +9,9 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class TransporterFiltersComponent implements OnInit {
   @Input() filters : any = [];
-  locationIds : any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
-  @Input() locations : any[] = [];
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
   transCode: any = undefined;
   transName: any = undefined;
@@ -18,9 +20,35 @@ export class TransporterFiltersComponent implements OnInit {
   taxationType : any = undefined;
   status: any = undefined;
 
-  constructor() { }
+  constructor(private lookupService: LookupService) { }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
+    
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        console.log(this.locations);
+        
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   onClearFilter(){

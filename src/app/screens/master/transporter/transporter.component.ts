@@ -21,7 +21,6 @@ export class TransporterComponent implements OnInit {
   cities: any[] = [];
   states: any[] = [];
   headers: any[] = [];
-  locations: any[] = APIConstant.commonLocationsList;
   currentPage: number = 1;
   count: number = 10;
   totalTransporters: number = 0;
