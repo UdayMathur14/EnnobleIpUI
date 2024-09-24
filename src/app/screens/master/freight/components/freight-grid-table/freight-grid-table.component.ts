@@ -53,8 +53,8 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     CommonUtility.sortTableData(field, this.sortDirection, this.freightList);
   }
 
-  downloadPDF(data: any) {
-    this.freightService.getFreightData(data?.locationId, data?.id).subscribe(
+  viewAttachment(data: any) {
+    this.freightService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
                 this.toastr.error('No PDF is available to download', 'Error');
