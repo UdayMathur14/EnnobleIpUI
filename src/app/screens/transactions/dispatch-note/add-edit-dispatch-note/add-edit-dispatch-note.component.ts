@@ -38,7 +38,7 @@ export class AddEditDispatchNoteComponent {
   loadSpinner: boolean = false;
   locationId!: Number;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   selectedParts: any = [];
   deletedParts: any[] = [];
   activeSuppliersLists: any[] = [];
@@ -55,6 +55,7 @@ export class AddEditDispatchNoteComponent {
   transporterMode: any = [];
   filteredTransporter: any = [];
   filteredVehicles: any = [];
+  locationsDropdownData: any = [];
 
   constructor(
     private router: Router,
@@ -71,6 +72,8 @@ export class AddEditDispatchNoteComponent {
   ) { }
 
   ngOnInit() {
+    this.getCommonLocations();
+    this.getLocations();
     this.initForm();
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
@@ -109,6 +112,27 @@ export class AddEditDispatchNoteComponent {
       transporterMode: [''],
       frlrDate: [''],
       partdetails: this.fb.array([], Validators.required),
+    });
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 

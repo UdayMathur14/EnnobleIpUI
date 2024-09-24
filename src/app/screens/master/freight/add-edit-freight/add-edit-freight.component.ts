@@ -27,13 +27,14 @@ export class AddEditFreightComponent implements OnInit {
   getData: any = [];
   locationId!:Number;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   freightList: any = [];
   freightLocationId: number = 0;
   nocFileBase64 : any = '';
   nocFileName: string = '';
   isFileUploaded: boolean = false;
   statusValue: string = '';
+  locationsDropdownData: any = [];
 
   constructor(
     private router: Router,
@@ -42,7 +43,8 @@ export class AddEditFreightComponent implements OnInit {
     private baseService: BaseService,
     private freightService: FreightService,
     private lookUpService: LookupService,
-    private _Activatedroute: ActivatedRoute) {
+    private _Activatedroute: ActivatedRoute,
+    private lookupService: LookupService) {
     this.freightForm = this.formBuilder.group({
       freightCode: [''],
       locationCode: [undefined, [Validators.required]],
@@ -61,6 +63,8 @@ export class AddEditFreightComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
     this.freightId = Number(this._Activatedroute.snapshot.paramMap.get("freightId"));
     this.freightId = this.freightId == 0 ? 0 : this.freightId;
     // this.baseService.lookupData.subscribe((res: any) => {
@@ -77,6 +81,27 @@ export class AddEditFreightComponent implements OnInit {
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();
     this.setLocation();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD

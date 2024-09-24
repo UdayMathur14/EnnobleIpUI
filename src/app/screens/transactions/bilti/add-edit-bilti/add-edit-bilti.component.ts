@@ -79,7 +79,7 @@ export class AddEditBiltiComponent implements OnInit {
   rbVehicleNumber: string = ''
   locationId!: Number;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   plantCodes: any[]= APIConstant.plantCodes
   biltisList: any = [];
   biltiLocationId: number = 0;
@@ -100,7 +100,8 @@ export class AddEditBiltiComponent implements OnInit {
   selectedLocationId: number = 0;
   filteredVehicles: any = [];
   filteredFreights: any = [];
-  autobiltiRequiredFlag: string = ''
+  autobiltiRequiredFlag: string = '';
+  locationsDropdownData: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -119,6 +120,8 @@ export class AddEditBiltiComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getCommonLocations();
+    this.getLocations();
     this.biltiId = Number(this.activatedRoute.snapshot.paramMap.get('biltiId'));
     const locationId = this.activatedRoute.snapshot.paramMap.get('locationId');
     if (locationId) {
@@ -156,7 +159,26 @@ export class AddEditBiltiComponent implements OnInit {
     this.setLocation();
   }
   
-  
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookUpService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
 
   initForm() {
     this.biltiForm = this.fb.group({

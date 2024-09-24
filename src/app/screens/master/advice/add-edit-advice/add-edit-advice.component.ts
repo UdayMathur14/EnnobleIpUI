@@ -27,7 +27,7 @@ export class AddEditAdviceComponent implements OnInit {
   transactionTypeId: any;
   locationId!: Number;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   advicesList: any = [];
   adviceLocationId: number = 0;
   transactionCode: string = '';
@@ -54,6 +54,8 @@ export class AddEditAdviceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
     this.adviceId = Number(this._Activatedroute.snapshot.paramMap.get('adviceId'));
     this.adviceId = this.adviceId === 0 ? 0 : this.adviceId;
     setTimeout(() => {
@@ -76,6 +78,27 @@ export class AddEditAdviceComponent implements OnInit {
       }
     });
     this.setLocation();
+  }
+  
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   // Function to get the values for advice type dropdown

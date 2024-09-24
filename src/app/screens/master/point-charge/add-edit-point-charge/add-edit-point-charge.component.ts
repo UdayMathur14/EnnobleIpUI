@@ -31,14 +31,15 @@ export class AddEditPointChargeComponent implements OnInit {
   pointNameData: any = [];
   locationId!: Number;
   locations: any[] = APIConstant.commonLocationsList;
-  commonLocations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   pointChargeLocationId: number = 0;
   nocFileBase64: any = '';
   nocFileName: string = '';
   destinations: any = [];
   isFileUploaded: boolean = false;
   statusValue: string = '';
-
+  locationsDropdownData: any = [];
+  
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
@@ -61,6 +62,8 @@ export class AddEditPointChargeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
     if (!this.pointChargeId) {
       this.loadSpinner = false;
     } else {
@@ -80,6 +83,27 @@ export class AddEditPointChargeComponent implements OnInit {
     this.getCityLookup();
     this.setLocation();
     this.getDestinationDropdownData();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   getCityLookup() {
