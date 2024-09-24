@@ -21,7 +21,6 @@ export class VehicleComponent implements OnInit{
   transportersList : any[] = [];
   headers: any [] = [];
   loadSpinner : boolean = true;
-  locations: any[] = APIConstant.commonLocationsList;
   transporterOffset: number = 0;
   transporterCount: number = Number.MAX_VALUE;
   currentPage: number = 1;
@@ -30,6 +29,8 @@ export class VehicleComponent implements OnInit{
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
+
   constructor(private router: Router,
     private xlsxService: XlsxService,
     private vehicleService : VehicleService,
@@ -37,12 +38,17 @@ export class VehicleComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
+
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
     this.getVehicleList();
   }
 
   getVehicleList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || this.locations,
       "vehicleNumber": filters?.vehicleNumber ||  "",
       "transporter": filters?.transporterId ||  "",
       "vehicleSizeCode": filters?.vehcileSize ||  "",

@@ -93,7 +93,7 @@ export class TransporterComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        APIConstant.commonLocationsList.map((e: any) => e.id),
+        this.locations,
       transporterCode: this.appliedFilters?.transCode || '',
       transporterName: this.appliedFilters?.transName || '',
       city: this.appliedFilters?.city || '',
