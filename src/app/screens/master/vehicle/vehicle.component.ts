@@ -81,7 +81,7 @@ export class VehicleComponent implements OnInit{
 
   exportData(fileName: string = "Vehicle") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds || this.locations,
       "vehicleNumber": this.appliedFilters?.vehicleNumber ||  "",
       "transporter": this.appliedFilters?.transporterId ||  "",
       "vehicleSizeCode": this.appliedFilters?.vehcileSize ||  "",

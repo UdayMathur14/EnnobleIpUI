@@ -13,7 +13,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-freight-filter [filters]="filters" (getData)="getData($event)"></app-freight-filter>
+  <app-freight-filter [filters]="filters" (getData)="getData($event)" (locationsData)="handleLocations($event)"></app-freight-filter>
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">

@@ -16,6 +16,7 @@ export class AdviceFilterComponent implements OnInit {
   commonLocations: any = [];
   locationIds : any[] = []
   locations : any[] = [];
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
 
   constructor(private lookupService: LookupService){}
 
@@ -40,7 +41,7 @@ export class AdviceFilterComponent implements OnInit {
         (item: any) => item.status === 'Active' && 
         this.commonLocations.some((location: any) => location.id === item.id));
         this.locationIds = this.locations.map((e: any) => (e.id));
-        console.log(this.locations);
+        this.locationsData.emit(this.locationIds);
         
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));

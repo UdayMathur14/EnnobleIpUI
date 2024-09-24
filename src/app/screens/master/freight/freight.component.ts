@@ -22,13 +22,14 @@ export class FreightComponent implements OnInit{
   sources : any[] = [];
   freightList: any[] = [];
   headers: string[] = [];
-  locations: any[] = APIConstant.commonLocationsList;
+  locations: any = [];
   currentPage: number = 1;
   count: number = 10;
   totalFreights: number = 0;
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  
   constructor(
     private router: Router,
     private xlsxService : XlsxService,
@@ -37,13 +38,17 @@ export class FreightComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.getFreightList()
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
+    this.getFreightList();
   }
 
   getFreightList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     this.loadSpinner = true;
     let data = {
-      "locationIds": filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds ||  this.locations,
       "screenCode": 101,
       "freightCode": filters?.freightCode,
       "source": filters?.source,
@@ -80,7 +85,7 @@ export class FreightComponent implements OnInit{
 
   exportData(fileName: string = "Freight") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds ||  this.locations,
       "screenCode": 101,
       "freightCode": this.appliedFilters?.freightCode,
       "source": this.appliedFilters?.source,

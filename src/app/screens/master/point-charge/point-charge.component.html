@@ -13,7 +13,7 @@
 </div>
 
 <div class="filter-section">
-  <app-point-filter [filters]="filters" (getData)="getData($event)"></app-point-filter>
+  <app-point-filter [filters]="filters" (getData)="getData($event)" (locationsData)="handleLocations($event)"></app-point-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">

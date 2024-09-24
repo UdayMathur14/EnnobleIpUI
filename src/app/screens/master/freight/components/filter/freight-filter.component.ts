@@ -11,6 +11,7 @@ import { LookupService } from '../../../../../core/service/lookup.service';
 })
 export class FreightFilterComponent implements OnInit {
   @Output() getData : EventEmitter<object> = new EventEmitter();
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   @Input() filters : any =[];
   freightCode : any = undefined;
   source : any = undefined;
@@ -44,6 +45,7 @@ export class FreightFilterComponent implements OnInit {
         (item: any) => item.status === 'Active' && 
         this.commonLocations.some((location: any) => location.id === item.id));
         this.locationIds = this.locations.map((e: any) => (e.id));
+        this.locationsData.emit(this.locationIds);
         
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));

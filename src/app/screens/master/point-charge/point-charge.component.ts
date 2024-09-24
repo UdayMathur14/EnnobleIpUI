@@ -12,7 +12,7 @@ import { APIConstant } from '../../../core/constants';
   styleUrls: ['./point-charge.component.scss'],
 })
 export class PointChargeComponent implements OnInit {
-  locations: any[] = APIConstant.commonLocationsList;
+  locations: any = [];
   isFilters: boolean = true;
   fullScreen: boolean = false;
   loadSpinner: boolean = true;
@@ -32,6 +32,11 @@ export class PointChargeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+ 
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
     this.getPointChargesList();
   }
 
@@ -43,7 +48,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locationIds ||
-        APIConstant.commonLocationsList.map((e: any) => e.id),
+        this.locations,
       screenCode: 101,
       pointName: filters?.pointName || '',
       status: filters?.status || '',
@@ -80,7 +85,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locationIds ||
-        APIConstant.commonLocationsList.map((e: any) => e.id),
+        this.locations,
       screenCode: 101,
       pointName: this.appliedFilters?.pointName || '',
       status: this.appliedFilters?.status || '',
