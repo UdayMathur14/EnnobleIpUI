@@ -101,7 +101,7 @@ export class AddEditFreightComponent implements OnInit {
         remarks: response.remarks,
         
       });
-      this.checkApprovalStatus(response.approvedByMaterial, response.approvedByAccounts);
+      this.checkApprovalStatus(response.approvedByMaterialAction, response.approvedByAccountsAction);
 
       this.loadSpinner = false;
     }, error => {
@@ -113,8 +113,8 @@ export class AddEditFreightComponent implements OnInit {
   //FUNCTION TO HANDLE STATUS FIELD ON UPDATE
   checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
     if (approvedByAccounts == null || approvedByMaterial == null ||
-      approvedByMaterial.includes('Rejected By') ||
-      approvedByAccounts.includes('Rejected By')) {
+      approvedByMaterial.includes('Rejected') ||
+      approvedByAccounts.includes('Rejected')) {
       this.freightForm.get('status')?.disable();
     } else {
       this.freightForm.get('status')?.enable();
