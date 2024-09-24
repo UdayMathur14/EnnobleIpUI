@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-bilti-filter',
@@ -15,15 +16,41 @@ export class BiltiFilterComponent implements OnInit {
   biltiNum!: any | null;
   biltisList: any = [];
   loadSpinner: boolean = true;
-  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
-  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
 
-  constructor() { }
+  constructor(private lookupService: LookupService) { }
 
   ngOnInit(): void {
-    
+    this.getCommonLocations();
+    this.getLocations();
   }
 
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        this.locationsData.emit(this.locationIds);
+        
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+  
   onBiltiSearch() {
     let obj = {
       "biltiNumber": this.biltiNum || "",

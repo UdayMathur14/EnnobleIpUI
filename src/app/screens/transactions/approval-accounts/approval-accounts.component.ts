@@ -28,6 +28,7 @@ export class ApprovalAccountsComponent implements OnInit {
   totalBiltis: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
 
   constructor(
     private router: Router,
@@ -38,6 +39,11 @@ export class ApprovalAccountsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
     this.getAllBiltiProcess();
   }
 
@@ -50,7 +56,7 @@ export class ApprovalAccountsComponent implements OnInit {
       adviceType: "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: filters?.biltiNumber || "",
-      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
+      locationIds: filters?.locationIds || this.locations
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;

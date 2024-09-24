@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-change-bilti-status-filter',
   templateUrl: './change-bilti-status-filter.component.html',
   styleUrl: './change-bilti-status-filter.component.scss'
 })
-export class ChangeBiltiStatusFilterComponent {
+export class ChangeBiltiStatusFilterComponent implements OnInit {
   fromDate!: NgbDateStruct | null;
   toDate!: NgbDateStruct | null;
   model!: NgbDateStruct;
@@ -20,11 +21,20 @@ export class ChangeBiltiStatusFilterComponent {
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
   status: any  = undefined;
-  locations: any[] = APIConstant.commonLocationsList;
-  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
   @Input() filters: any = [];
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
+
+  constructor(private lookupService: LookupService){}
+
+  ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
+  }
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
@@ -36,6 +46,28 @@ export class ChangeBiltiStatusFilterComponent {
     }
   }
 
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        this.locationsData.emit(this.locationIds);
+        
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
 
   handleSearch() {
     const filterObj = {

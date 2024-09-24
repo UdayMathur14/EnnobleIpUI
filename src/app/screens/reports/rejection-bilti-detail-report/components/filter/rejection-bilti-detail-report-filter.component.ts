@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, 
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-rejection-bilti-detail-report-filter',
@@ -20,10 +21,12 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
-  locationIds:any[]= APIConstant.commonLocationsList.map((e:any)=>(e.id));
-  locations:any[] = APIConstant.commonLocationsList;
   status: any = undefined;
   @Output() exportData: EventEmitter<any> = new EventEmitter();
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
 
   @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
@@ -31,10 +34,35 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(
     private toastr: ToastrService,
+    private lookupService: LookupService
   ) { }
 
   ngOnInit(): void {
-    
+    this.getCommonLocations();
+    this.getLocations();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locations = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+        this.locationIds = this.locations.map((e: any) => (e.id));
+        this.locationsData.emit(this.locationIds);
+        
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   onDateSelect(type: string, e: any) {

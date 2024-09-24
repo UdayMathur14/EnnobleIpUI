@@ -29,6 +29,7 @@ export class RejectionBiltiDetailReportComponent {
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
   headers: string[] = [];
+  locations: any = [];
 
   constructor(
     private router: Router,
@@ -38,6 +39,11 @@ export class RejectionBiltiDetailReportComponent {
   ) { }
 
   ngOnInit(): void {
+
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
     this.getAllBiltiProcess();
   }
 
@@ -50,7 +56,7 @@ export class RejectionBiltiDetailReportComponent {
       adviceType: filters?.adviceType || '',
       batchNumber: filters?.batchNumber || '',
       biltiNumber: filters?.biltiNumber || '',
-      locationIds: filters?.locationIds || [],
+      locationIds: filters?.locationIds ||  this.locations,
       status: filters?.status
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
@@ -111,7 +117,7 @@ export class RejectionBiltiDetailReportComponent {
       status: this.searchedData?.status,
       screenCode: 307,
       adviceType: this.searchedData?.adviceType || "",
-      locationIds: this.searchedData?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      locationIds: this.searchedData?.locationIds ||  this.locations,
     };
 
     if (this.totalBiltiBills === 0) {

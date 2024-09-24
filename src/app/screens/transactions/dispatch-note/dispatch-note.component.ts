@@ -18,8 +18,7 @@ export class DispatchNoteComponent {
   isFilters: boolean = true;
   dispatchNumber: string = "";
   dispatchNotes = [];
-  locations: any[] = APIConstant.commonLocationsList;
-  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));
+  locations: any = [];
   loadSpinner: boolean = true;
   currentPage: number = 1;
   count: number = 10;
@@ -37,13 +36,18 @@ export class DispatchNoteComponent {
   ) { }
 
   ngOnInit() {
+
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
     this.getDispatchData();
   }
 
 
   getDispatchData(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
-      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || this.locations,
       "dispatchNumber": filters?.dispatchNumber || "",
       "status": filters?.status || "",
       "frlrNumber": filters?.frlrNo || ""
@@ -87,7 +91,7 @@ export class DispatchNoteComponent {
 
     exportData(fileName: string = "Dispatch Notes") {
       const data = {
-        "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+        "locationIds": this.appliedFilters?.locationIds || this.locations,
         "dispatchNumber": this.appliedFilters?.dispatchNumber || "",
         "status": this.appliedFilters?.status || "",
         "frlrNumber": this.appliedFilters?.frlrNo || ""

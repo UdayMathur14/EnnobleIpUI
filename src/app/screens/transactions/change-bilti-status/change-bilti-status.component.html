@@ -2,7 +2,7 @@
     <h1>Change Bilti Status Listing</h1>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-    <app-change-bilti-status-filter [filters]="filters" (filterSearchObj)="filteredData($event)"></app-change-bilti-status-filter>
+    <app-change-bilti-status-filter [filters]="filters" (filterSearchObj)="filteredData($event)" (locationsData)="handleLocations($event)"></app-change-bilti-status-filter>
   </div>
   
   <div class="content-section" [ngClass]="{'isFilters': isFilters}">
