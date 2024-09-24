@@ -1104,7 +1104,9 @@ onAdd() {
 }
 
 disabledonAdd(){
-  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value
+  const selectedTransation = this.biltiForm.controls['transactionType'].value;
+  
+  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value || selectedTransation?.code == 'RB'
 }
 
 onChangeLocation(data: any){
