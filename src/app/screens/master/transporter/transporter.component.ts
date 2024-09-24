@@ -27,17 +27,20 @@ export class TransporterComponent implements OnInit {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
 
   constructor(
-    private exportService: ExportService,
     private transporterService: TransporterService,
-    private lookupService: LookupService,
     private toastr: ToastrService,
     private xlsxService: XlsxService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+  }
+
+  handleLocations(event: any){
+    this.locations = event;
     this.getTransportersList();
   }
 
@@ -46,10 +49,11 @@ export class TransporterComponent implements OnInit {
     count: number = this.count,
     filters: any = this.appliedFilters
   ) {
+    
     let data = {
       locationIds:
         filters?.locations ||
-        APIConstant.commonLocationsList.map((e: any) => e.id),
+        this.locations,
       transporterCode: filters?.transCode,
       transporterName: filters?.transName,
       city: '',

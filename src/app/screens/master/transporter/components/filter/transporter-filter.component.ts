@@ -13,6 +13,7 @@ export class TransporterFiltersComponent implements OnInit {
   locationIds : any[] = []
   locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   transCode: any = undefined;
   transName: any = undefined;
   cityCode : any = undefined;
@@ -44,6 +45,7 @@ export class TransporterFiltersComponent implements OnInit {
         (item: any) => item.status === 'Active' && 
         this.commonLocations.some((location: any) => location.id === item.id));
         this.locationIds = this.locations.map((e: any) => (e.id));
+        this.locationsData.emit(this.locationIds);
         console.log(this.locations);
         
     }, error => {
