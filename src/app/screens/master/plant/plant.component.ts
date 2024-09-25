@@ -35,37 +35,14 @@ export class PlantComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getCommonLocations();
-    this.getLocations();
     this.getPlantsList();
-  }
-
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locationsDropdownData = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
   }
 
   getPlantsList(offset: number = 0,count: number = this.count,filters: any = this.appliedFilters) {
     this.loadSpinner = true;
     let data = {
       locationIds:
-        filters?.locations || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+        filters?.locations || [],
       plantCode: filters?.plantCode || '',
       auCode: filters?.auCode || '',
       siteCode: filters?.siteCode || '',
@@ -98,7 +75,7 @@ export class PlantComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+        [],
       plantCode: this.appliedFilters?.plantCode || '',
       city: this.appliedFilters?.city || '',
       state: this.appliedFilters?.state || '',
