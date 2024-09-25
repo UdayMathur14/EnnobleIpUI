@@ -24,7 +24,7 @@ export class PlantComponent implements OnInit {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
-  locationsDropdownData: any = [];
+  locationsDropdownData: any = APIConstant.commonLocationsList;
 
   constructor(
     private router: Router,

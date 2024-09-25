@@ -133,7 +133,7 @@ export class AddEditVehicleComponent implements OnInit {
       address: data.transporterEntity.transporterAddress1,
       mobileNumber1: data.transporterEntity.transporterContactNo,
       emailId: data.transporterEntity.transporterMailId,
-      locationId:  data.locations.id
+      locationId:  data.locations.code
     });
   }
 
@@ -151,7 +151,9 @@ export class AddEditVehicleComponent implements OnInit {
   // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
     this.loadSpinner = true;
-    this.locationCode = this.vehicleForm.controls['locationId']?.value
+    this.locationCode = this.vehicleForm.controls['locationId']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
+    const matchedLocationId = matchedLocation?.id;
     if (this.vehicleId) {
       let data = {
         transporterId: 1,
@@ -161,7 +163,7 @@ export class AddEditVehicleComponent implements OnInit {
         actionBy: localStorage.getItem("userId"),
       }
 
-      this.vehicleService.updateVehicle(this.locationCode,this.vehicleId, data)
+      this.vehicleService.updateVehicle(matchedLocationId,this.vehicleId, data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')

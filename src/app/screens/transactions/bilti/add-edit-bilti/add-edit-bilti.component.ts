@@ -261,8 +261,10 @@ export class AddEditBiltiComponent implements OnInit {
 
   getDispatchData(dispatchNumber: string = "") {
     const locationIds = [this.biltiForm.controls['locationId'].value];
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationIds);
+    const matchedLocationId = matchedLocation?.id
     // const locationIds = this.locationId?[this.locationId]:[];
-    this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
+    this.dispatchNoteService.getDispatchNote({ dispatchNumber, matchedLocationId }).subscribe((res: any) => {
       this.dispatchData = res.dispatchNotes
       const filteredDispatchNotes = res.dispatchNotes.filter((item: any) => item?.openFlag !== 'Close'
       && item?.frlrNumber !== null);
@@ -664,7 +666,9 @@ getVehicleNumber() {
   }
 
   onPressSave() {
-    const locationCode = this.biltiForm.controls['locationId']?.value
+    const locationCode = this.biltiForm.controls['locationId']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
+    const matchedLocationId = matchedLocation?.id
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
     const frlrNumber = formData?.frlrNo?.frlrNumber;
@@ -855,7 +859,7 @@ getVehicleNumber() {
           data.lineItemsEntity[0].id = this.lineItem[0].id || 0;
         }
       })
-      this.biltiService.updateBilti(locationCode,this.biltiId, data).subscribe(
+      this.biltiService.updateBilti(matchedLocationId,this.biltiId, data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Updated Successfully');
@@ -990,7 +994,7 @@ getVehicleNumber() {
           source: response?.source,
           destination: response?.destination,
           loadingLocation: location?.id,
-          locationId: response.locationId,
+          locationId: response.locationDetail.code,
           transporterMode: response.transporterMode,
           biltiNumber: response?.biltiNumber
         });

@@ -114,7 +114,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.transporterForm.patchValue({
         transporterCode: response.transporterCode,
         transporterName: response.transporterName,
-        locationCode: response.locations.id,
+        locationCode: response.locations.code,
         status: response.status,
         ownerName: response.ownerName,
         contactPerson: response.contactPerson,
@@ -237,12 +237,14 @@ export class AddEditTransporterComponent implements OnInit {
   //UPDATING TRANSPORTER DATA
   updateTransporter(data: any) {
     const locationCode = this.transporterForm.controls['locationCode']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
+    const matchedLocationId = matchedLocation?.id
     if (!locationCode) {
       this.toastr.error("Location Code is Required");
       this.loadSpinner = false;
       return;
     }
-    this.transporterService.updateTransporter(locationCode, this.queryData, data).subscribe((response: any) => {
+    this.transporterService.updateTransporter(matchedLocationId || locationCode, this.queryData, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Transporter Updated Successfully');
       this.router.navigate(['/master/transporter']);

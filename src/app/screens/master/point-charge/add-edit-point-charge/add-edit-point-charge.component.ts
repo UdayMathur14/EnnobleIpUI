@@ -155,7 +155,7 @@ export class AddEditPointChargeComponent implements OnInit {
       pointCharge: data.pointCharge,
       sameLocationCharge: data.sameLocationCharge,
       status: data.status,
-      locationCode: data.locations.id,
+      locationCode: data.locations.code,
     });
     this.checkApprovalStatus(data.approvedByMaterialAction, data.approvedByAccountsAction);
   }
@@ -188,6 +188,8 @@ export class AddEditPointChargeComponent implements OnInit {
     const cityId = cityData?.id
     
     const locationCode = this.pointChargeForm.controls['locationCode']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
+    const matchedLocationId = matchedLocation?.id
     if (this.pointChargeForm.valid && this.pointChargeId) {
       let data = {
         pointName: this.pointChargeForm.get('pointName')?.value,
@@ -204,7 +206,7 @@ export class AddEditPointChargeComponent implements OnInit {
       };
 
       this.pointChargeService
-        .updatePointCharge(locationCode, this.pointChargeId, data)
+        .updatePointCharge(matchedLocationId, this.pointChargeId, data)
         .subscribe(
           (response: any) => {
             this.pointChargeData = response;

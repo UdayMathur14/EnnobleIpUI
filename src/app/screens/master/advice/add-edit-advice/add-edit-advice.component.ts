@@ -127,7 +127,7 @@ export class AddEditAdviceComponent implements OnInit {
           adviceType: response.adviceType,
           batchName: response.batchName,
           maxBiltiLimit: response.maxBiltiNumber,
-          locationCode: response.location.id,
+          locationCode: response.location.code,
           manualAllocReq: response.manualAllocationRequired,
           status: response.status
         });
@@ -203,8 +203,10 @@ export class AddEditAdviceComponent implements OnInit {
 
   // Updating advice data
   updateAdviceType(data: any) {
-    const locationCode = this.adviceForm.controls['locationCode']?.value
-    this.adviceService.updateAdviceType(locationCode,this.adviceId, data).subscribe(
+    const locationCode = this.adviceForm.controls['locationCode']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
+    const matchedLocationId = matchedLocation?.id
+    this.adviceService.updateAdviceType(matchedLocationId,this.adviceId, data).subscribe(
       (response: any) => {
         this.adviceForm.patchValue({
           adviceType: response.adviceType,

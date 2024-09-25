@@ -113,7 +113,7 @@ export class AddEditFreightComponent implements OnInit {
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
-        locationCode: response.locations.id,
+        locationCode: response.locations.code,
         source: response.sourceId,
         destination: response.destinationId,
         vehicleSize: response.vehicleSizeId,
@@ -174,8 +174,10 @@ export class AddEditFreightComponent implements OnInit {
 
   //UPDATING FREIGHT DATA
   updateFreight(data: any) {
-    const locationCode = this.freightForm.controls['locationCode']?.value
-    this.freightService.updateFreight(locationCode,this.freightId, data).subscribe((response: any) => {
+    const locationCode = this.freightForm.controls['locationCode']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
+    const matchedLocationId = matchedLocation?.id;
+    this.freightService.updateFreight(matchedLocationId,this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
       this.toastr.success('Freight Updated Successfully');
       this.router.navigate(['/master/freight']);

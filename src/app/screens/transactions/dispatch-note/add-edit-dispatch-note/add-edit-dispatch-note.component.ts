@@ -177,7 +177,7 @@ export class AddEditDispatchNoteComponent {
           frlrNumber: response.frlrNumber,
           supplierAddress: suppliers.vendorAddress1,
           status: response.status,
-          locationId: response.locations.id,
+          locationId: response.locations.code,
           transporterCode: response.transporterId,
           transporterName: response.transporter.transporterName,
           transporterMode: response?.transporterMode,
@@ -431,7 +431,9 @@ export class AddEditDispatchNoteComponent {
   }
 
   async onSavePress() {
-    const locationCode = this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value
+    const locationCode = this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
+    const matchedLocationId = matchedLocation?.id
     this.loadSpinner = true;
     this.dispatchNote.supplierId = this.supplierId;
     this.dispatchNote.vehicleId = this.vehicleId;
@@ -473,7 +475,7 @@ export class AddEditDispatchNoteComponent {
       this.dispatchNote.partDetails = [...this.dispatchNote.partDetails, ...this.deletedParts];
 
       this.dispatchNoteService
-        .updateDispatchNote(locationCode, this.dispatchId, this.dispatchNote)
+        .updateDispatchNote(matchedLocationId, this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');
