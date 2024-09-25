@@ -38,17 +38,12 @@ export class VehicleComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getVehicleList();
   }
 
   getVehicleList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "locationIds": filters?.locationIds || this.locations,
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": filters?.vehicleNumber ||  "",
       "transporter": filters?.transporterId ||  "",
       "vehicleSizeCode": filters?.vehcileSize ||  "",
@@ -81,7 +76,7 @@ export class VehicleComponent implements OnInit{
 
   exportData(fileName: string = "Vehicle") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds || this.locations,
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": this.appliedFilters?.vehicleNumber ||  "",
       "transporter": this.appliedFilters?.transporterId ||  "",
       "vehicleSizeCode": this.appliedFilters?.vehcileSize ||  "",

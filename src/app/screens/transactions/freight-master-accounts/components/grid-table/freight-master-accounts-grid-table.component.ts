@@ -35,8 +35,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCommonLocations();
-    this.getLocations();
+    this.getAllFreightListInit();
   }
 
   //SORTING DATA FROM FILTER CHANGES
@@ -46,36 +45,13 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     }
   }
 
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locations = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-        this.locationIds = this.locations.map((e: any) => (e.id));
-        this.getAllFreightListInit();
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
-  }
-
-
   //GETTINGS FREIGHTS LISTING ON PAGE LOAD
   getAllFreightListInit(offset: number = 0, count: number = this.count, filters: any = this.searchedFreight) {
     this.loadSpinner = true;
     let data = {
       "screenCode": 103, //Freight Account Screen Code
       "freightCode": filters?.freightCode || '',
-      locationIds: filters?.locationIds || this.locationIds
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.freightService.getFreightsList(data, offset, count).subscribe((response: any) => {
       this.freightList = response.freights;

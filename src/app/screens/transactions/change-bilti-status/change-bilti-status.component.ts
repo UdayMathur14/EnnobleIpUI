@@ -40,13 +40,9 @@ export class ChangeBiltiStatusComponent implements OnInit {
     private biltiProcessService: BiltiBillProcessService) { }
 
   ngOnInit(): void {
-   
+   this.getAllBiltiProcess();
   }
 
-  handleLocations(event: any){
-    this.locations = event;
-    this.getAllBiltiProcess();
-  }
 
   getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     this.loadSpinner = true;
@@ -58,7 +54,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
       batchNumber: filters?.batchNumber || '',
       biltiNumber: filters?.biltiNumber || '',
       status: filters?.status,
-      locationIds: filters?.locationIds ||  this.locations
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     };
     this.biltiProcessService
       .getBiltiBillProcess(data, offset, count)

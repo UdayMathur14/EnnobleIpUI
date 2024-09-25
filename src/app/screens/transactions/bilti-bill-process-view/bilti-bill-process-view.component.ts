@@ -36,11 +36,6 @@ export class BiltiBillProcessViewComponent {
   ) { }
 
   ngOnInit(): void {
-
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getAllBiltiProcess();
   }
 
@@ -55,7 +50,7 @@ export class BiltiBillProcessViewComponent {
       biltiNumber: filters?.biltiNumber || "",
       batchName: filters?.batchName || "",
       status: filters?.status || "",
-      locationIds: filters?.locationIds || this.locations
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;

@@ -32,11 +32,6 @@ export class PointChargeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
- 
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getPointChargesList();
   }
 
@@ -48,7 +43,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locationIds ||
-        this.locations,
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       screenCode: 101,
       pointName: filters?.pointName || '',
       status: filters?.status || '',
@@ -85,7 +80,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locationIds ||
-        this.locations,
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       screenCode: 101,
       pointName: this.appliedFilters?.pointName || '',
       status: this.appliedFilters?.status || '',

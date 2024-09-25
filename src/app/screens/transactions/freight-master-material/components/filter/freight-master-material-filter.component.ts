@@ -14,39 +14,14 @@ export class FreightMasterMaterialFiltersComponent implements OnInit {
   freightCode : any = undefined;
   filters : any = [];
   commonLocations: any = [];
-  locationIds : any[] = []
-  locations : any[] = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] = APIConstant.commonLocationsList;
   
   constructor(private freightService : FreightService,
     private toastr : ToastrService, private lookupService: LookupService){}
 
   ngOnInit(): void {
     this.getAllFreightsListInit();
-    this.getCommonLocations();
-    this.getLocations();
-  }
-
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locations = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-        this.locationIds = this.locations.map((e: any) => (e.id));
-        console.log(this.locations);
-        
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
   }
 
   //BINDING FREIGHT NUMBERS DROPDOWN

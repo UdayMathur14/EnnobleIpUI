@@ -5,7 +5,7 @@
   </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-bilti-filter [filters]="filters" (getData)="getData($event)" (locationsData)="handleLocations($event)"></app-bilti-filter>
+  <app-bilti-filter [filters]="filters" (getData)="getData($event)"></app-bilti-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">

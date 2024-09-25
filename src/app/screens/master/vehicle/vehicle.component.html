@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-vehicle-filters [filters]="filters" (getData)="getData($event)" (locationsData)="handleLocations($event)"></app-vehicle-filters>
+  <app-vehicle-filters [filters]="filters" (getData)="getData($event)"></app-vehicle-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">

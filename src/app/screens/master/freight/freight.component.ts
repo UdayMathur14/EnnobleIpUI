@@ -38,17 +38,13 @@ export class FreightComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getFreightList();
   }
 
   getFreightList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     this.loadSpinner = true;
     let data = {
-      "locationIds": filters?.locationIds ||  this.locations,
+      "locationIds": filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": filters?.freightCode,
       "source": filters?.source,
@@ -85,7 +81,7 @@ export class FreightComponent implements OnInit{
 
   exportData(fileName: string = "Freight") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds ||  this.locations,
+      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": this.appliedFilters?.freightCode,
       "source": this.appliedFilters?.source,

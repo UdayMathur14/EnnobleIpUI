@@ -6,7 +6,7 @@
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
   <app-rejection-bilti-detail-report-filter (filterSearchObj)="filteredData($event)"
-    [filters]="filters" (exportData)="exportData()" (locationsData)="handleLocations($event)"></app-rejection-bilti-detail-report-filter>
+    [filters]="filters" (exportData)="exportData()"></app-rejection-bilti-detail-report-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">

@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-transporter-filter [filters]="filters" (getData)="getData($event)" (locationsData)="handleLocations($event)"></app-transporter-filter>
+  <app-transporter-filter [filters]="filters" (getData)="getData($event)"></app-transporter-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">

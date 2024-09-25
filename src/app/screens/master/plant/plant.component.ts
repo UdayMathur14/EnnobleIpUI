@@ -65,7 +65,7 @@ export class PlantComponent implements OnInit {
     this.loadSpinner = true;
     let data = {
       locationIds:
-        filters?.locations,
+        filters?.locations || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       plantCode: filters?.plantCode || '',
       auCode: filters?.auCode || '',
       siteCode: filters?.siteCode || '',
@@ -98,7 +98,7 @@ export class PlantComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        APIConstant.commonLocationsList.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       plantCode: this.appliedFilters?.plantCode || '',
       city: this.appliedFilters?.city || '',
       state: this.appliedFilters?.state || '',

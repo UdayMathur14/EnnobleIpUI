@@ -31,17 +31,12 @@ export class AdviceComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getAdviceTypesList();
   }
 
   getAdviceTypesList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
-      "locationIds": filters?.locationIds || this.locations,
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": filters?.adviceType || '',
       "status": filters?.status || '',
       "batchName": filters?.batchName || ''
@@ -75,7 +70,7 @@ export class AdviceComponent implements OnInit{
 
   exportData(fileName: string = "Advice") {
     const data = {
-      "locationIds": this.appliedFilters?.locationIds || this.locations,
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": this.appliedFilters?.adviceType || '',
       "status": this.appliedFilters?.status || ''
     }

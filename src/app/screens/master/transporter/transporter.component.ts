@@ -37,10 +37,6 @@ export class TransporterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getTransportersList();
   }
 
@@ -53,7 +49,7 @@ export class TransporterComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locations ||
-        this.locations,
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       transporterCode: filters?.transCode,
       transporterName: filters?.transName,
       city: '',
@@ -93,7 +89,7 @@ export class TransporterComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        this.locations,
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       transporterCode: this.appliedFilters?.transCode || '',
       transporterName: this.appliedFilters?.transName || '',
       city: this.appliedFilters?.city || '',

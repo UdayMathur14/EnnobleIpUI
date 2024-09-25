@@ -34,30 +34,7 @@ export class PointMasterMaterialGridTableComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getCommonLocations();
-    this.getLocations();
-  }
-
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locations = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-        this.locationIds = this.locations.map((e: any) => (e.id));
-        this.getAllPointChargesList();
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
+    this.getAllPointChargesList();
   }
 
   // SORTING DATA FROM FILTER CHANGES
@@ -73,7 +50,7 @@ export class PointMasterMaterialGridTableComponent {
     let data = {
       "screenCode": 102,
       "pointName": filters?.pointName || "",
-      locationIds: filters?.locationIds || this.locationIds
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;

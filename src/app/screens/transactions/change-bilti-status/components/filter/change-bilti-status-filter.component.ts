@@ -23,8 +23,8 @@ export class ChangeBiltiStatusFilterComponent implements OnInit {
   status: any  = undefined;
   @Input() filters: any = [];
   commonLocations: any = [];
-  locationIds : any[] = []
-  locations : any[] = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations : any[] = APIConstant.commonLocationsList;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
@@ -32,8 +32,6 @@ export class ChangeBiltiStatusFilterComponent implements OnInit {
   constructor(private lookupService: LookupService){}
 
   ngOnInit(): void {
-    this.getCommonLocations();
-    this.getLocations();
   }
 
   onDateSelect(type: string, e: any) {
@@ -44,29 +42,6 @@ export class ChangeBiltiStatusFilterComponent implements OnInit {
     } else {
       this.selectedToDate = e.year + '-' + month.toString() + '-' + day.toString();
     }
-  }
-
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locations = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-        this.locationIds = this.locations.map((e: any) => (e.id));
-        this.locationsData.emit(this.locationIds);
-        
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
   }
 
   handleSearch() {

@@ -14,8 +14,8 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
   pointName : any = undefined;
   filters : any = [];
   commonLocations: any = [];
-  locationIds : any[] = []
-  locations : any[] = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] = APIConstant.commonLocationsList;
   
   
   constructor(private pointChargeService : PointChargeService,
@@ -24,31 +24,6 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAllPointChargesList();
-    this.getCommonLocations();
-    this.getLocations();
-  }
-
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locations = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-        this.locationIds = this.locations.map((e: any) => (e.id));
-        console.log(this.locations);
-        
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
   }
 
   //BINDING POINT CHARGE NUMBERS DROPDOWN

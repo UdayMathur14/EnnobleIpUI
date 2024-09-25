@@ -39,11 +39,6 @@ export class ApprovalAccountsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getAllBiltiProcess();
   }
 
@@ -56,7 +51,7 @@ export class ApprovalAccountsComponent implements OnInit {
       adviceType: "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: filters?.biltiNumber || "",
-      locationIds: filters?.locationIds || this.locations
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;

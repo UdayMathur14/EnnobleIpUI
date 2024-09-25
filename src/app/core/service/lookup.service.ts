@@ -57,6 +57,7 @@ export class LookupService extends CRUDService<LookupRequest> {
       const uniqueCommonLocations = commonLocations.filter((location: any, index: number, item: any) => 
         index === item.findIndex((l: any) => l.code === location.code)
       );
+      
       // const activeUniqueCommonLocations = uniqueCommonLocations.filter(
       //   (item: any) => item.status === 'Active');
         

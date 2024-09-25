@@ -36,18 +36,12 @@ export class DispatchNoteComponent {
   ) { }
 
   ngOnInit() {
-
-  }
-
-  handleLocations(event: any){
-    this.locations = event;
     this.getDispatchData();
   }
 
-
   getDispatchData(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
-      "locationIds": filters?.locationIds || this.locations,
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "dispatchNumber": filters?.dispatchNumber || "",
       "status": filters?.status || "",
       "frlrNumber": filters?.frlrNo || ""
@@ -91,7 +85,7 @@ export class DispatchNoteComponent {
 
     exportData(fileName: string = "Dispatch Notes") {
       const data = {
-        "locationIds": this.appliedFilters?.locationIds || this.locations,
+        "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
         "dispatchNumber": this.appliedFilters?.dispatchNumber || "",
         "status": this.appliedFilters?.status || "",
         "frlrNumber": this.appliedFilters?.frlrNo || ""
