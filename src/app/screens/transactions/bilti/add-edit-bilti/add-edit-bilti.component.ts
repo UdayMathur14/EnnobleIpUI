@@ -17,6 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiRbTxnDataComponent } from '../../../modals/bilti-rb-txn-data/bilti-rb-txn-data.component';
 import { Logger } from 'html2canvas/dist/types/core/logger';
 import { forkJoin, tap } from 'rxjs';
+import { PlantService } from '../../../../core/service';
 
 @Component({
   selector: 'app-add-edit-bilti',
@@ -109,7 +110,7 @@ export class AddEditBiltiComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dispatchNoteService: DispatchNoteService,
     private fb: FormBuilder,
-    private transactionTypesService: TransactionTypesService,
+    private plantService: PlantService,
     private vehicleService: VehicleService,
     private transporterService: TransporterService,
     private freightService: FreightService,
@@ -225,15 +226,37 @@ export class AddEditBiltiComponent implements OnInit {
   }
 
   getAllTransactionTypes() {
-    const data = {
-      code: '',
+    let data = {
+      locationIds: [],
+      plantCode:  '',
+      auCode:  '',
+      siteCode:  '',
+      status: '',
     };
-    return this.transactionTypesService.getTransactionTypes(data).pipe(
+    return this.plantService.getPlants(data).pipe(
       tap((response: any) => {
-        this.transactionTypesLists = response.transactionTypes;
-        this.filteredTransactionTypesLists = this.transactionTypesLists.filter(
-          (transactionType: any) => transactionType.status === 'Active'
-        );
+        const plants = response.plants;
+        
+       const activePlants =  plants.filter((plant: any) => plant.status === 'Active');
+       this.transactionTypesLists = plants
+       .flatMap((plant: any) => plant.transactionTypeMapping || [])
+       .reduce((acc: any[], current: any) => {
+         const existingItem = acc.find((item) => item.code === current.code);
+         if (!existingItem) {
+           acc.push(current);
+         }
+         return acc;
+       }, []);
+       this.filteredTransactionTypesLists = activePlants
+         .flatMap((plant: any) => plant.transactionTypeMapping || [])
+         .reduce((acc: any[], current: any) => {
+           const existingItem = acc.find((item) => item.code === current.code);
+           if (!existingItem) {
+             acc.push(current);
+           }
+           return acc;
+         }, []);
+       
       })
     );
   }
@@ -276,7 +299,7 @@ export class AddEditBiltiComponent implements OnInit {
   }
   
   onOptionSelected(selectedTransactionType: any) {
-    this.transactionTypeId = selectedTransactionType.id;
+    this.transactionTypeId = selectedTransactionType.transactionTypeId;
     if(selectedTransactionType?.code == "RB"){
       this.getDispatchData();
     }else{
@@ -740,7 +763,7 @@ getVehicleNumber() {
        
         const lineItem = {
           vendorId: formData.transactionType.code === 'RB'? vendorControl.vendorCode: formData?.vendors[index].vendorCode,
-          vendorCode: formData.transactionType.code === 'RB'? matchingVendor.vendorCode: matchingVendor.vendorCode,
+          vendorCode: formData.transactionType.code === 'RB'? matchingVendor?.vendorCode: matchingVendor?.vendorCode,
           vendorName: formData.transactionType.code === 'RB'? vendorControl.vendorName: formData?.vendors[index].vendorName,
           actionBy: localStorage.getItem("userId") || '',
           remarks: vendorControl?.remarks,
@@ -821,7 +844,7 @@ getVehicleNumber() {
 
       formData.vendors.forEach((vendorControl: any, index: number) => {
         
-        const matchingVendor = this.vendorList.find((vendor: any) => vendor?.vendorCode === vendorControl?.vendorCode || vendor?.id === vendorControl.vendorCode );
+        const matchingVendor = this.vendorList?.find((vendor: any) => vendor?.vendorCode === vendorControl?.vendorCode || vendor?.id === vendorControl.vendorCode );
         const matchedLineitems = this.allFrmTransactionData.filter((item: any) => {
           return item.documentNumber == vendorControl.documentrefNo
         }
@@ -899,11 +922,12 @@ getVehicleNumber() {
         this.onChangeLocation(response.locationId);
         this.onTransporterChange(response.transporterCode)
         this.lineItem = response.biltiCreationLineItems
+        
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
-          (type: any) => type.id === transactionTypeId
+          (type: any) => type.transactionTypeId === transactionTypeId
         );
-        
+                
         this.selectedTransactionTypeCode = transactionType.code
         const vehicleId = response.vehicleId;
         const vehicleNumber = this.vehiclesList.find(
@@ -1110,7 +1134,7 @@ onAdd() {
 disabledonAdd(){
   const selectedTransation = this.biltiForm.controls['transactionType'].value;
   
-  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value || selectedTransation?.code == 'RB'
+  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value || selectedTransation?.code == 'RB' || this.selectedTransactionTypeCode == 'RB' || this.selectedTransactionTypePatchCode == 'RB'
 }
 
 onChangeLocation(data: any){

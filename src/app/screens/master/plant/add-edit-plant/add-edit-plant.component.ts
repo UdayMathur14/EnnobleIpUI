@@ -221,7 +221,6 @@ export class AddEditPlantComponent implements OnInit {
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
-      console.log(e);
       
       let transactionObj = {
         id: e.locations.id,
@@ -315,16 +314,14 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   onDeleteTransaction(transaction: any, index: number) {
-    console.log(transaction);
-    
     const deletedTransaction = {
-      id: transaction.locationId,
+      locationId: transaction.locationId,
       transactionTypeId: transaction.transactionTypeId,
       status: 'Inactive',
       dsc: transaction?.dsc,
       dcp: transaction?.dcp
     };
-    if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
+    if (deletedTransaction.locationId != 0 && deletedTransaction.transactionTypeId) {
       this.deletedTransactions.push(deletedTransaction);
     }
     this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
