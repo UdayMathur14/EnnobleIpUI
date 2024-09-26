@@ -39,7 +39,7 @@ export class DispatchNoteModelComponent {
     }
 
     const options = {
-      scale: 2,
+      scale: 3,
       useCORS: true,
     };
   

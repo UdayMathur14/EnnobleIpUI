@@ -39,7 +39,7 @@ export class BiltiPdfModalComponent implements OnInit {
     }
 
     const options = {
-      scale: 2,
+      scale: 3,
       useCORS: true,
     };
   
