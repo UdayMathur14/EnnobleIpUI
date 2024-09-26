@@ -2,14 +2,6 @@
     <div class="row">
         <div class="col-3">
             <div class="custom-form-input">
-                <label for="">Batch Id</label>
-                <ng-select class="input-field" placeholder="Select Batch Id" [(ngModel)]="batchId">
-                    <ng-option *ngFor="let source of filters?.BatchId" [value]="source">{{source}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="custom-form-input">
                 <label for="">Cost Center</label>
                 <ng-select class="input-field" placeholder="Select Cost Center" [(ngModel)]="costCenter">
                     <ng-option *ngFor="let costCenter of filters?.CostCenter" [value]="costCenter">{{costCenter}}</ng-option>
@@ -44,8 +36,8 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters mt-1 me-2" (click)="handleSearch()"
-                    [disabled]="!batchId && !costCenter && !glAccount && !subCategory && !businessArea">Search</button>
-                <button class="custom-button-filters mt-1 ms-1" (click)="onClearFilter()" [disabled]="!batchId && !costCenter && !glAccount && !subCategory && !businessArea">Clear</button>
+                    [disabled]=" !costCenter && !glAccount && !subCategory && !businessArea">Search</button>
+                <button class="custom-button-filters mt-1 ms-1" (click)="onClearFilter()" [disabled]="!costCenter && !glAccount && !subCategory && !businessArea">Clear</button>
             </div>
         </div>
     </div>

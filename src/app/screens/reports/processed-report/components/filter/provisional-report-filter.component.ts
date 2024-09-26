@@ -1,12 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 
 @Component({
-  selector: 'app-gl-accrual-posting-filters',
-  templateUrl: './gl-accrual-posting-filters.component.html',
-  styleUrl: './gl-accrual-posting-filters.component.scss'
+  selector: 'app-provisional-report-filter',
+  templateUrl: './provisional-report-filter.component.html',
+  styleUrl: './provisional-report-filter.component.scss'
 })
-export class GlAccrualPostingFiltersComponent {
+export class ProvisionalReportFilterComponent {
+
+  @Output() exportData: EventEmitter<any> = new EventEmitter();
+ 
   @Output() getData: EventEmitter<any> = new EventEmitter();
+
   costCenter: any = undefined;
   businessArea: any = undefined;
   glAccount: any = undefined;

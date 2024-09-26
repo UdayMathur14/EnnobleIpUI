@@ -39,7 +39,6 @@ import { AddEditLookupComponent } from "./master/lookup/add-edit-lookup/add-edit
 import { AuthGuard } from "../core/guards/auth.guard";
 import { NotFound404Component } from "./not-found-404/not-found-404.component";
 import { MasterComponent } from "./master/master.component";
-import { ProcessedReportComponent } from "./reports/processed-report/processed-report.component";
 import { RejectionBiltiDetailReportComponent } from "./reports/rejection-bilti-detail-report/rejection-bilti-detail-report.component";
 import { ErrorLoggingReportComponent } from "./reports/error-logging-report/error-logging-report.component";
 import { ProvisionReportComponent } from "./reports/provision-report/provision-report.component";
@@ -48,6 +47,7 @@ import { AdhocReportComponent } from "./reports/adhoc-report/adhoc-report.compon
 import { OutboundReportComponent } from "./reports/outbound-report/outbound-report.component";
 import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.component";
 import { GlAccrualPostingComponent } from "./transactions/gl-accrual-posting/gl-accrual-posting.component";
+import { ProvisionalReportComponent } from "./reports/processed-report/provisional-report.component";
 
 const routes: Routes = [
     {
@@ -102,13 +102,13 @@ const routes: Routes = [
             { path: "transaction/apOutbound", component: ApOutboundComponent, canActivate: [AuthGuard] },
             { path: "transaction/glAccrual-posting", component: GlAccrualPostingComponent, canActivate: [AuthGuard] },
 
-            { path: "report/processed", component: ProcessedReportComponent, canActivate: [AuthGuard] },
+            { path: "report/provision", component: ProvisionalReportComponent, canActivate: [AuthGuard] },
             { path: "report/rejection-bilti-detail", component: RejectionBiltiDetailReportComponent, canActivate: [AuthGuard] },
             { path: "report/error-logging", component: ErrorLoggingReportComponent, canActivate: [AuthGuard] },
             { path: "report/debit-note", component: DebitNoteReportComponent, canActivate: [AuthGuard] },
             { path: "report/provision", component: ProvisionReportComponent, canActivate: [AuthGuard] },
             { path: "report/adhoc-report", component: AdhocReportComponent, canActivate: [AuthGuard] },
-            { path: "report/provisional-report", component: OutboundReportComponent, canActivate: [AuthGuard] },
+            { path: "report/processed-report", component: OutboundReportComponent, canActivate: [AuthGuard] },
         ],
     },
 ];

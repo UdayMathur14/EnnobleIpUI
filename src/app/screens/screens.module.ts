@@ -89,9 +89,6 @@ import { ChangeBiltiStatusModalComponent } from "./modals/change-bilti-status/ch
 import { TransactionTypeFilterComponent } from "./master/transaction-type/components/filter/transactionType-filter.component";
 import { PointFilterComponent } from "./master/point-charge/components/filter/point-filter.component";
 import { AdviceFilterComponent } from "./master/advice/components/filter/advice-filter.component";
-import { ProcessedReportComponent } from "./reports/processed-report/processed-report.component";
-import { ProcessedReportFilterComponent } from "./reports/processed-report/components/filter/processed-report-filter.component";
-import { ProcessedReportGridTableComponent } from "./reports/processed-report/components/grid-table/processed-report-grid-table.component";
 import { RejectionBiltiDetailReportComponent } from "./reports/rejection-bilti-detail-report/rejection-bilti-detail-report.component";
 import { RejectionBiltiDetailReportFilterComponent } from "./reports/rejection-bilti-detail-report/components/filter/rejection-bilti-detail-report-filter.component";
 import { RejectionBiltiDetailReportGridTableComponent } from "./reports/rejection-bilti-detail-report/components/grid-table/rejection-bilti-detail-report-grid-table.component";
@@ -125,6 +122,9 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { GlAccrualPostingComponent } from "./transactions/gl-accrual-posting/gl-accrual-posting.component";
 import { GlAccrualPostingFiltersComponent } from "./transactions/gl-accrual-posting/components/filters/gl-accrual-posting-filters.component";
 import { GlAccrualPostingGridTableComponent } from "./transactions/gl-accrual-posting/components/grid-table/gl-accrual-posting-grid-table.component";
+import { ProvisionalReportComponent } from "./reports/processed-report/provisional-report.component";
+import { ProvisionalReportFilterComponent } from "./reports/processed-report/components/filter/provisional-report-filter.component";
+import { ProvisionalReportGridTableComponent } from "./reports/processed-report/components/grid-table/provisional-report-grid-table.component";
 
 @NgModule({
     declarations: [
@@ -192,9 +192,9 @@ import { GlAccrualPostingGridTableComponent } from "./transactions/gl-accrual-po
         BiltiBillProcessComponent,
         BiltiBillProcessFilterComponent,
         BiltiBillProcessGridTableComponent,
-        ProcessedReportComponent,
-        ProcessedReportFilterComponent,
-        ProcessedReportGridTableComponent,
+        ProvisionalReportComponent,
+        ProvisionalReportFilterComponent,
+        ProvisionalReportGridTableComponent,
         RejectionBiltiDetailReportComponent,
         RejectionBiltiDetailReportFilterComponent,
         RejectionBiltiDetailReportGridTableComponent,

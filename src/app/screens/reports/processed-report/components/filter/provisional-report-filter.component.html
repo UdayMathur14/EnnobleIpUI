@@ -1,0 +1,52 @@
+<div class="filters-box">
+  <div class="row">
+  <div class="col-3">
+      <div class="custom-form-input">
+          <label for="">Cost Center</label>
+          <ng-select class="input-field" placeholder="Select Cost Center" [(ngModel)]="costCenter">
+              <ng-option *ngFor="let costCenter of filters?.CostCenter" [value]="costCenter">{{costCenter}}</ng-option>
+          </ng-select>
+      </div>
+  </div>
+  <div class="col-3">
+      <div class="custom-form-input">
+          <label for="">Business Area</label>
+          <ng-select class="input-field" placeholder="Select Business Area" [(ngModel)]="businessArea">
+              <ng-option *ngFor="let businessArea of filters?.BusinessArea" [value]="businessArea">{{businessArea}}</ng-option>
+          </ng-select>
+      </div>
+  </div>
+  <div class="col-3">
+      <div class="custom-form-input">
+          <label for="">GL Account</label>
+          <ng-select class="input-field" placeholder="Select Gl Account" [(ngModel)]="glAccount">
+              <ng-option *ngFor="let glAccount of filters?.GlAccount" [value]="glAccount">{{glAccount}}</ng-option>
+          </ng-select>
+      </div>
+  </div>
+  <div class="col-3">
+      <div class="custom-form-input">
+          <label for="">Sub Category</label>
+          <ng-select class="input-field" placeholder="Select Sub Category" [(ngModel)]="subCategory">
+              <ng-option *ngFor="let subCategory of filters?.SubCategory" [value]="subCategory">{{subCategory}}</ng-option>
+          </ng-select>
+      </div>
+  </div>
+    <div class="col-lg-auto">
+      <div class="custom-form-input">
+          <label for="" class="d-block">&nbsp;</label>
+          <button class="custom-button-filters mt-1 me-2" (click)="handleSearch()"
+          [disabled]="!costCenter && !glAccount && !subCategory && !businessArea">Search</button>
+      <button class="custom-button-filters mt-1 ms-1" (click)="onClearFilter()" [disabled]=" !costCenter && !glAccount && !subCategory && !businessArea">Clear</button>
+      </div>
+  </div>
+  <div class="col-lg-auto">
+    <div class="custom-form-input">
+        <label for="" class="d-block">&nbsp;</label>
+        <button class="custom-button-export excel-button" (click)="exportData.emit()">
+            Export
+        </button>
+    </div>
+</div>
+  </div>
+</div>

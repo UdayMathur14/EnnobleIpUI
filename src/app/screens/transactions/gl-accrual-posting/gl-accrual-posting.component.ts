@@ -31,10 +31,10 @@ export class GlAccrualPostingComponent {
     this.loadSpinner = true;
     const obj = {
       batchId: "",
-      costCenter: "",
-      businessArea: "",
-      glAccount: "",
-      subCategory: "",
+      costCenter: filters?.costCenter || "",
+      businessArea: filters?.businessArea || "",
+      glAccount: filters?.glAccount || "",
+      subCategory: filters?.subCategory || "",
     };
     this.glAccrualPostingService.getGlAccrualPosting(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;
