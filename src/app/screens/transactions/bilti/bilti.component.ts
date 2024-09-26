@@ -39,7 +39,9 @@ export class BiltiComponent implements OnInit {
     };
     this.biltiService.getBiltis(data, offset, count).subscribe(
       (response: any) => {
-        this.biltisList = response.biltiCreations;
+        this.biltisList = response.biltiCreations.filter((value: any, index: number, self: any[]) =>
+          index === self.findIndex((t) => t.id === value.id)
+        );
         this.totalBiltis = response.paging.total;
         this.filters = response.filters;
         this.loadSpinner = false;
