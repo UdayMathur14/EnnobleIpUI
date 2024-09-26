@@ -730,7 +730,7 @@ getVehicleNumber() {
         vehicleId: this.vehicleId,
         vehicleNumber:
           formData.transactionType.code === 'RB'
-            ? formData?.vehicleNumber
+            ? formData?.vehicleNumber?.vehicleNumber || formData?.vehicleNumber
             : formData?.vehicleNumber?.vehicleNumber,
         vehicleSize: formData?.vehicleSize,
         attribute9: '2024-05-04T13:03:47.509Z',
