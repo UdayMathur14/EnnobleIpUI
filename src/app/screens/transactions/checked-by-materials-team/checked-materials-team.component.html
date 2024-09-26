@@ -26,7 +26,7 @@
   <!-- Approve Popover Content -->
   <ng-template #approvePopContent approveRemarks="ngbPopover">
     <div class="custom-form-input">
-      <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
+      <textarea name="" id="" rows="3" class="input-field" #approveRemarks maxlength="150"></textarea>
     </div>
     <button class="custom-button-secondary" (click)="updateStatus('Approved', approveRemarks.value, approvePopover)">
       Confirm Approve
@@ -37,7 +37,7 @@
   <!-- Reject Popover Content -->
   <ng-template #rejectPopContent rejectRemarks="ngbPopover">
     <div class="custom-form-input">
-      <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
+      <textarea name="" id="" rows="3" class="input-field" #rejectRemarks maxlength="150"></textarea>
     </div>
     <button class="custom-button-regulr" (click)="updateStatus('Rejected', rejectRemarks.value,rejectPopover)">
       Confirm Reject

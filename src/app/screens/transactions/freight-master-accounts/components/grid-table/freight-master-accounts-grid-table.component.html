@@ -73,7 +73,7 @@
               <!-- Approve Popover Content -->
               <ng-template #approvePopContent approveRemarks="ngbPopover">
                 <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
+                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks maxlength="150"></textarea>
                 </div>
                 <button class="custom-button-secondary"
                   (click)="approveFreight(approveRemarks.value, approvePopover, freight)">
@@ -84,7 +84,7 @@
               <!-- Reject Popover Content -->
               <ng-template #rejectPopContent rejectRemarks="ngbPopover">
                 <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
+                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks maxlength="150"></textarea>
                 </div>
                 <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''"
                   (click)="rejectFreight(rejectRemarks.value, rejectPopover, freight)">

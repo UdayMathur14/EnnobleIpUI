@@ -61,7 +61,9 @@ export class ApprovalAccountsComponent implements OnInit {
           element.biltiBillProcessModel.biltiBillProcessDate = moment.utc(element.biltiBillProcessModel.biltiBillProcessDate).local().format("YYYY-MM-DD");
         }
       });
-      this.biltiBillProcess = response.biltiBillProcess;
+      this.biltiBillProcess = response.biltiBillProcess.filter((value: any, index: number, self: any[]) =>
+        index === self.findIndex((t) => t.id === value.id)
+      );;
       this.totalBiltis = response.paging.total;
         this.filters = response.filters;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
