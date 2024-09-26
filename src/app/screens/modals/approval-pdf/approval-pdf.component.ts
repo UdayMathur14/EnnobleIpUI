@@ -32,6 +32,15 @@ export class ApprovalPdfComponent implements OnInit {
 
   downloadPDF() {
     this.loadSpinner =true;
+    const downloadButton = document.getElementById('download-button');
+    const closeButton = document.getElementById('icon-button');
+  
+    if (downloadButton) {
+      downloadButton.style.display = 'none';
+    }
+    if (closeButton) {
+      closeButton.style.display = 'none';
+    }
     const data = document.getElementById('approval-content');
 
     if (!data) {
@@ -64,11 +73,9 @@ export class ApprovalPdfComponent implements OnInit {
         }
       }
   
-      pdf.save('approval.pdf');
+      pdf.save('approval');
       this.onClose();
-    }).catch((error) => {
-      console.error('Error generating PDF:', error);
-    });
+    })
   }
   
 
