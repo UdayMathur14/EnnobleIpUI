@@ -92,7 +92,7 @@ export class ProvisionalReportComponent {
       this.headers = headers;
     }
   
-    exportData(fileName: string = 'Provisional') {
+    exportData(fileName: string = 'Provisional Report') {
       const obj = {
         batchId: "",
         costCenter: this.searchedData?.costCenter || "",

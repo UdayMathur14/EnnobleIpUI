@@ -107,7 +107,6 @@ export class OutboundReportComponent implements OnInit {
                   category: report?.category || '',
                   accountingDate: report?.accountingDate || null,
                   descText: report?.descText || '-',
-                  exchangeDate: report?.exchangeDate || null,
                   exchangeRate: report?.exchangeRate || '',
                   fixedValueAp: report?.fixedValueAp || null,
                   invoiceNo: report?.invoiceNo || '',
@@ -196,7 +195,7 @@ export class OutboundReportComponent implements OnInit {
                   [fileName1]: { rows: outBoundReportToExport, headers: this.headers },
                   [fileName2]: { rows: taxReports, headers: headersTax },
                   [fileName3]: { rows: tds, headers: headersTds }
-              }, 'Provisional Report');
+              }, 'Processing Report');
           },
           (error) => {
             this.loadSpinner = false;
