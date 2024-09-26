@@ -414,6 +414,7 @@ export class AddEditBiltiComponent implements OnInit {
         if (commonData) {
           this.displayRows.push({
             documentrefNo: element.documentNumber,
+            toDestination: element?.toDestination
           });
         }
       });
@@ -438,18 +439,20 @@ export class AddEditBiltiComponent implements OnInit {
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
     );
+    
     this.patchedPointName = this.biltiTransactionType == 'RB' ? this.displayRows[0].pointName : this.pointMapName[selected?.toDestination];
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
+      console.log(row);
       const vendorGroup = vendorsArray.at(index) as FormGroup;
-      this.vendorId = this.vendorIdMap[selected?.toDestination];
-      
+      const toDestination = row?.toDestination;
+      // this.vendorId = this.vendorIdMap[selected?.toDestination];
       vendorGroup.patchValue({
         documentrefNo: row.documentrefNo,
-        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorId,
-        vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[selected?.toDestination],
-        pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[selected?.toDestination],
-        paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[selected?.toDestination] 
+        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
+        vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
+        pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
+        paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
       });
     });
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;

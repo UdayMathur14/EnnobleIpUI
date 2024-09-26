@@ -3,6 +3,8 @@ import { PdfService } from '../../../core/service/pdf.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { APIConstant } from '../../../core/constants';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-approval-pdf',
@@ -15,6 +17,7 @@ export class ApprovalPdfComponent implements OnInit {
   @Input() title: any = [];
   adviceType: any;
   batchName: any;
+  loadSpinner: boolean = false;
   constructor(
     private pdfService: PdfService,
     private activeModal: NgbActiveModal,
@@ -28,10 +31,46 @@ export class ApprovalPdfComponent implements OnInit {
   }
 
   downloadPDF() {
-    const data = document.getElementById('approval-content') as HTMLElement;
-    this.pdfService.generatePdf(data, 'approval');
-    this.onClose();
+    this.loadSpinner =true;
+    const data = document.getElementById('approval-content');
+
+    if (!data) {
+      console.error('Element not found: approval-content');
+      return;
+    }
+
+    const options = {
+      scale: 2,
+      useCORS: true,
+    };
+  
+    html2canvas(data, options).then((canvas: HTMLCanvasElement) => {
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+  
+      let position = 0;
+  
+      while (heightLeft >= 0) {
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        position -= pageHeight;
+        if (heightLeft >= 0) {
+          pdf.addPage();
+        }
+      }
+  
+      pdf.save('approval.pdf');
+      this.onClose();
+    }).catch((error) => {
+      console.error('Error generating PDF:', error);
+    });
   }
+  
 
   getApprovalBiltiData() {
     let data = {
@@ -63,5 +102,6 @@ export class ApprovalPdfComponent implements OnInit {
 
   onClose() {
     this.activeModal.close();
+    this.loadSpinner = false;
   }
 }
