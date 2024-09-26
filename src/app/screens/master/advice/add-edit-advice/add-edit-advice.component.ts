@@ -32,6 +32,7 @@ export class AddEditAdviceComponent implements OnInit {
   adviceLocationId: number = 0;
   transactionCode: string = '';
   transactionId: number | null = null;
+  matchedLocationId: any;
 
   constructor(
     private router: Router,
@@ -122,6 +123,7 @@ export class AddEditAdviceComponent implements OnInit {
     this.adviceService.getAdviceTypeData(this.adviceLocationId,adviceId).subscribe(
       (response: any) => {
         this.locationCode = response.location.value;
+        this.matchedLocationId = response?.location?.id;
         this.transactionTypeId = response.transactionTypeId;
         this.adviceForm.patchValue({
           adviceType: response.adviceType,
@@ -203,10 +205,7 @@ export class AddEditAdviceComponent implements OnInit {
 
   // Updating advice data
   updateAdviceType(data: any) {
-    const locationCode = this.adviceForm.controls['locationCode']?.value;
-    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
-    const matchedLocationId = matchedLocation?.id
-    this.adviceService.updateAdviceType(matchedLocationId,this.adviceId, data).subscribe(
+    this.adviceService.updateAdviceType(this.matchedLocationId,this.adviceId, data).subscribe(
       (response: any) => {
         this.adviceForm.patchValue({
           adviceType: response.adviceType,
@@ -276,6 +275,7 @@ export class AddEditAdviceComponent implements OnInit {
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
       this.advicesList = response.advices;
+      
       this.getLocationId().then(() => {
         this.getAdviceTypeData(this.adviceId);
       });
@@ -320,7 +320,7 @@ export class AddEditAdviceComponent implements OnInit {
     documentModal.componentInstance.manualAllocReq = this.adviceForm.get('manualAllocReq')?.value;
     documentModal.componentInstance.status = this.adviceForm.get('status')?.value;
     documentModal.componentInstance.transactionId = this.transactionId;
-    documentModal.componentInstance.locationCode = this.adviceForm.get('locationCode')?.value;
+    documentModal.componentInstance.locationCode = this.matchedLocationId;
     documentModal.componentInstance.adviceId = this.adviceId;
 
     documentModal.result.then(

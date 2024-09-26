@@ -38,7 +38,7 @@
             <div class="col-lg-3 col-md-3" *ngIf="selectedLookupType !=  'OutboundFixedValues' && selectedLookupType!=  'GlAccount_Non_RCM'">
                 <div class="custom-form-input">
                     <label for="">Description <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="description" />
+                    <input type="text" class="input-field" formControlName="description" maxlength="100" />
                 </div>
             </div>
 
