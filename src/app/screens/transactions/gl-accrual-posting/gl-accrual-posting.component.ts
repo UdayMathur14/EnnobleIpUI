@@ -70,6 +70,7 @@ export class GlAccrualPostingComponent {
 
     glOutboundTransfer(){
       this.glAccrualPostingService.glOutboundTransfer().subscribe((response: any) => {
+        this.toastr.success(response.message);
          this.loadSpinner = false;
        }, error => {
         this.loadSpinner = false;
