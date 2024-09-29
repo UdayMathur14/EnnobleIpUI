@@ -103,6 +103,7 @@ export class AddEditBiltiComponent implements OnInit {
   filteredFreights: any = [];
   autobiltiRequiredFlag: string = '';
   locationsDropdownData: any = [];
+  vehicleSize: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -123,6 +124,7 @@ export class AddEditBiltiComponent implements OnInit {
   ngOnInit() {
     this.getCommonLocations();
     this.getLocations();
+    this.getVehicleSize();
     this.biltiId = Number(this.activatedRoute.snapshot.paramMap.get('biltiId'));
     const locationId = this.activatedRoute.snapshot.paramMap.get('locationId');
     if (locationId) {
@@ -175,6 +177,23 @@ export class AddEditBiltiComponent implements OnInit {
       this.locationsDropdownData = res.lookUps.filter(
         (item: any) => item.status === 'Active' && 
         this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+
+  getVehicleSize() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'vehicleSize';
+    this.lookUpService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.vehicleSize = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+console.log(this.vehicleSize);
 
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -384,6 +403,7 @@ export class AddEditBiltiComponent implements OnInit {
     this.displayRows = [];
     this.dispatchNotes.forEach((element: any) => {
       const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber;
+      
       const paidByDetails = this.vendorList
       .filter((item: any) => 
         item?.vendorCode === element?.suppliers?.vendorCode
@@ -443,7 +463,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.patchedPointName = this.biltiTransactionType == 'RB' ? this.displayRows[0].pointName : this.pointMapName[selected?.toDestination];
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
-      console.log(row);
       const vendorGroup = vendorsArray.at(index) as FormGroup;
       const toDestination = row?.toDestination;
       // this.vendorId = this.vendorIdMap[selected?.toDestination];
@@ -459,6 +478,22 @@ export class AddEditBiltiComponent implements OnInit {
     const vehicleNumber = this.vehiclesList.find(
       (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
     );
+
+    if (selected) {
+      console.log(selected?.vehicleSizeId);
+      
+      this.vehicleNumber = selected?.vehicleNumber;
+      this.frlrNumber = selected?.frlrNumber;
+      this.transporterId = selected?.transporterId;
+      this.frmId = selected?.id;
+      this.loadingLocationid = selected?.loadingLocationId;
+      this.vehicleId = this.vehicleId;
+      this.onTransporterChange(this.transporterMapCode[selected.transporterId]);
+        this.biltiForm.patchValue({
+          transporterCode: this.transporterMapCode[selected.transporterId],
+          transporterName: this.transporterMapName[selected.transporterId],
+        });
+    }
     if (this.biltiTransactionType == 'RB') {
       this.vehicleId = selectedFrlr?.vehicleId
       this.biltiForm.patchValue({
@@ -467,20 +502,10 @@ export class AddEditBiltiComponent implements OnInit {
       })
     } else {
       this.vehicleId = vehicleNumber?.id;
-    }
-
-    if (selected) {
-      this.vehicleNumber = selected?.vehicleNumber;
-      this.frlrNumber = selected?.frlrNumber;
-      this.transporterId = selected?.transporterId;
-      this.frmId = selected?.id;
-      this.loadingLocationid = selected?.loadingLocationId;
-      this.vehicleId = this.vehicleId;
-      this.onTransporterChange(this.transporterMapCode[selected.transporterId]);
       this.biltiForm.patchValue({
-        transporterCode: this.transporterMapCode[selected.transporterId],
-        transporterName: this.transporterMapName[selected.transporterId],
-      });
+      vehicleNumber: this.vehicleNumber,
+      vehicleSize: selectedFrlr?.vehicles?.vehicleSize?.value,
+    })
     }
      const frlrTransporterCode = this.transporterMapCode[selected?.transporterId]
      
