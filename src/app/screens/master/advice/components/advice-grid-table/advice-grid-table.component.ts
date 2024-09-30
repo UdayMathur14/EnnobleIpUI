@@ -32,7 +32,7 @@ export class AdviceGridTableComponent implements OnInit {
     const headers: string[] = [];
     const headerCells = this.table?.nativeElement?.querySelectorAll('thead th');
     headerCells?.forEach((cell: any) => {
-      if (cell.innerText.trim() !== 'Action') {
+      if (cell.innerText.trim() !== 'Action' && cell.innerText.trim() !== 'Batch Number') {
         headers.push(cell.innerText.trim());
       }
     });

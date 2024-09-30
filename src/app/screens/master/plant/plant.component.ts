@@ -89,17 +89,14 @@ export class PlantComponent implements OnInit {
 
         // Map the data to include only the necessary fields
         const mappedPlantsList = plantListToExport?.map((plant: any) => ({
-          locationCode: plant?.locations?.value,
           plantCode: plant?.plantCode,
           plantDesc: plant?.plantDesc,
           plantAddress: plant?.plantAddress,
-          state: plant?.state?.value,
-          city: plant?.city?.value,
+          state: plant?.state,
+          city: plant?.city,
           panNo: plant?.panNo,
-          gstnNo: plant?.gstnNo,
+          gstnNo: plant?.gstInNo,
           siteCode: plant?.siteCode,
-          dsc: plant?.dsc,
-          dcp: plant?.dcp,
           status: plant?.status,
         }));
         this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
