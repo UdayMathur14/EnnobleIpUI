@@ -122,7 +122,8 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
   }
 
   openPDF(data: any) {
-    this.pointChargeService.getPointChargeData(data?.locationId, data?.id).subscribe(
+    this.loadSpinner = true;
+    this.pointChargeService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
                 this.toastr.error('No PDF is available to download', 'Error');
@@ -149,6 +150,7 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+            this.loadSpinner = false;
         },
     );
 }

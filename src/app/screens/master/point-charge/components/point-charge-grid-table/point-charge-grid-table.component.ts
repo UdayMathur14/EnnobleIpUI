@@ -13,6 +13,7 @@ export class PointChargeGridTableComponent implements OnInit {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   @Input() pointChargesList : any[] = [];
+  loadSpinner: boolean = false;
   constructor(
     private router: Router,
     private pointChargeService: PointChargeService,
@@ -53,6 +54,7 @@ export class PointChargeGridTableComponent implements OnInit {
   }
 
   openPDF(data: any) {
+    this.loadSpinner = true;
     this.pointChargeService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
@@ -80,6 +82,7 @@ export class PointChargeGridTableComponent implements OnInit {
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
+            this.loadSpinner = false;
         },
     );
 }

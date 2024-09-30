@@ -122,8 +122,9 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     });
   }
 
-  downloadPDF(data: any) {
-    this.freightService.getFreightData(data?.locationId, data?.id).subscribe(
+  viewAttachment(data: any) {
+    this.loadSpinner = true;
+    this.freightService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
                 this.toastr.error('No PDF is available to download', 'Error');

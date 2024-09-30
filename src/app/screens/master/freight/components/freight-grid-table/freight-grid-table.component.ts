@@ -14,7 +14,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   @Input() freightList: any[] = [];
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   
@@ -54,6 +54,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   }
 
   viewAttachment(data: any) {
+    this.loadSpinner = true;
     this.freightService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
