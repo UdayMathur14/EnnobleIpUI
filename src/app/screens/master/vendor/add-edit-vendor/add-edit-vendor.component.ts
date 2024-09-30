@@ -42,13 +42,11 @@ export class AddEditVendorComponent implements OnInit {
     vendorAddress1: new FormControl(''),
     vendorAddress2: new FormControl(''),
     phone: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]{10}$'),
+      Validators.required
     ]),
     email: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/),
-    ]),
+      Validators.required
+]),
     city: new FormControl(''),
     state: new FormControl(''),
     country: new FormControl(''),
@@ -319,7 +317,7 @@ export class AddEditVendorComponent implements OnInit {
   phoneNumberLength(e: any) {
     const phoneControl = this.vendorForm.get('phone');
     if (phoneControl?.value) {
-      this.disableSubmit = phoneControl.value.length < 10 ? true : false;
+      this.disableSubmit = phoneControl.value.length < 10 || phoneControl.value.length > 12 ? true : false;
     }
   }
 

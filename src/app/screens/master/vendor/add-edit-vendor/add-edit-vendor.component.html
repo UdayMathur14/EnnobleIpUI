@@ -2,7 +2,7 @@
   <h1>Edit Vendor</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onPressSave()"
-      [disabled]="vendorForm.get('email')?.hasError('pattern') || disableSubmit|| !vendorForm.valid">Save</button>
+      [disabled]="disableSubmit|| !vendorForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
   </div>
 </div>
