@@ -157,7 +157,7 @@ export class AddEditPointChargeComponent implements OnInit {
       status: data.status,
       locationCode: data.locations.code,
     });
-    this.checkApprovalStatus(data.approvedByMaterialAction, data.approvedByAccountsAction);
+    this.checkApprovalStatus(data.approvedByMaterialAction, data.approvedByAccountsAction, data.newPointCharge, data.newChargeStatus);
   }
 
   data = [
@@ -299,13 +299,8 @@ export class AddEditPointChargeComponent implements OnInit {
     });
   }
 
-  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
-    if (
-      approvedByAccounts == null ||
-      approvedByMaterial == null ||
-      approvedByMaterial.includes('Rejected') ||
-      approvedByAccounts.includes('Rejected')
-    ) {
+  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, newPointCharge: any, newChargeStatus: any ) {
+    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected')) && newPointCharge != 0 && newChargeStatus == 'Inactive' || (approvedByAccounts == null || approvedByMaterial == null)) {
       this.pointChargeForm.get('status')?.disable();
     } else {
       this.pointChargeForm.get('status')?.enable();

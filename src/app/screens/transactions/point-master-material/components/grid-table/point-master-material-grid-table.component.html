@@ -42,10 +42,10 @@
               </ng-template>
             </td>
             <td>{{pointchargeMat?.newPointCharge && pointchargeMat?.newPointCharge != 0 ? pointchargeMat?.newPointCharge : pointchargeMat?.pointCharge || '-' }}</td>
-            <td>{{pointchargeMat?.newSameLocationCharge && pointchargeMat?.newSameLocationCharge != 0 ? pointchargeMat?.newSameLocationCharge : pointchargeMat?.newSameLocationCharge || '-' }}</td>
+            <td>{{pointchargeMat?.newSameLocationCharge && pointchargeMat?.newSameLocationCharge != 0 ? pointchargeMat?.newSameLocationCharge : pointchargeMat?.sameLocationCharge || '-' }}</td>
             <td>
                 <button class="icon-button mt-2"
-                (click)="openPDF(pointchargeMat)" ngbTooltip="Time Stamp Attachment" placement="top">
+                (click)="openPDF(pointchargeMat)" ngbTooltip="Contract Attachment" placement="top">
                 <div class="img-container">
                   <img src="assets/images/icons/link.svg" alt="link" class="ms-5 pointer" />
                 </div>

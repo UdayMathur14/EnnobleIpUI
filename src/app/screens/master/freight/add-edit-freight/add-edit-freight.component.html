@@ -5,7 +5,7 @@
             <label for="file-upload" class="custom-file-upload custom-button-regulr pointer">Upload</label>
             <input type="file" id="file-upload" (change)="onUploadPdf($event)" />
           </div>
-        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid || (!isFileUploaded && !freightId) || (!isFileUploaded && freightId && statusValue == 'Active' )">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!freightForm.valid || (!isFileUploaded && !freightId) || (!isFileUploaded && freightId && statusValue == 'Active' ) || (!isFileUploaded && freightId && statusValue == 'Inactive')">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">
             Cancel
         </button>
