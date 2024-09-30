@@ -103,7 +103,7 @@ export class DispatchNoteComponent {
         supplierName: item?.suppliers?.vendorName,
         vehicleNumber: item?.vehicles.vehicleNumber,
         vehcileSize: item?.vehicles?.vehicleSize?.value,
-        status: item?.status
+        status: item?.openFlag
       }));
       this.xlsxService.xlsxExport(mappedDispatchNotesList, this.headers, fileName);
         this.loadSpinner = false;

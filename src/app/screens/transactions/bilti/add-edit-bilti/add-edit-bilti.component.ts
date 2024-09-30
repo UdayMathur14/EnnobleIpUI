@@ -104,6 +104,7 @@ export class AddEditBiltiComponent implements OnInit {
   autobiltiRequiredFlag: string = '';
   locationsDropdownData: any = [];
   vehicleSize: any = [];
+  vehicleSizeData: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -481,6 +482,8 @@ console.log(this.vehicleSize);
 
     if (selected) {
       console.log(selected?.vehicleSizeId);
+      this.vehicleSizeData = this.vehicleSize.find((item: any)=> item.id == selected?.vehicleSizeId);
+      console.log(this.vehicleSizeData);
       
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
@@ -504,7 +507,7 @@ console.log(this.vehicleSize);
       this.vehicleId = vehicleNumber?.id;
       this.biltiForm.patchValue({
       vehicleNumber: this.vehicleNumber,
-      vehicleSize: selectedFrlr?.vehicles?.vehicleSize?.value,
+      vehicleSize: this.vehicleSizeData?.code,
     })
     }
      const frlrTransporterCode = this.transporterMapCode[selected?.transporterId]
@@ -719,9 +722,11 @@ getVehicleNumber() {
   onPressSave() {
     const locationCode = this.biltiForm.controls['locationId']?.value;
     const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
-    const matchedLocationId = matchedLocation?.id
+    const matchedLocationId = matchedLocation?.id;
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
+    console.log(formData);
+    
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchData.filter((item: any) => {
@@ -759,7 +764,7 @@ getVehicleNumber() {
         vehicleNumber:
           formData.transactionType.code === 'RB'
             ? formData?.vehicleNumber?.vehicleNumber || formData?.vehicleNumber
-            : formData?.vehicleNumber?.vehicleNumber,
+            : formData?.vehicleNumber?.vehicleNumber || formData?.vehicleNumber,
         vehicleSize: formData?.vehicleSize,
         attribute9: '2024-05-04T13:03:47.509Z',
         attribute10: '2024-05-04T13:03:47.509Z',
@@ -1038,7 +1043,7 @@ getVehicleNumber() {
           transactionType: transactionType?.code + ' (' + transactionType.name + ')',
           frlrNo: response?.frlrNumber,
           vehicleNumber: response?.vehicleNumber,
-          vehicleSize: vehicleNumber?.vehicleSize.value,
+          vehicleSize: response?.vehicleSize,
           transporterCode: transporter?.transporterCode,
           transporterName: transporter?.transporterName,
           freightCode: response?.freightCode,
