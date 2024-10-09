@@ -1172,7 +1172,9 @@ disabledonAdd(){
 
 onChangeLocation(data: any){
   this.selectedLocationId = data;
-  this.filteredTransporter = this.filteredTransportersLists.filter((item: any) => item?.locations?.id == data);
+  this.filteredTransporter = this.filteredTransportersLists.filter((item: any) => {
+    return item.transporterMappings.some((mapping: any) => mapping.locationId === data);
+  });
   this.filteredVehicles = this.filteredVehiclesLists.filter((item: any) => item?.locations?.id == data);
   this.filteredFreights = this.filteredFreightsLists.filter((item: any) => item?.locations?.id == data);
   this.biltiForm.patchValue({

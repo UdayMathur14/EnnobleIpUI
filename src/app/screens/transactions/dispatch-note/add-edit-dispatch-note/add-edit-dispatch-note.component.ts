@@ -634,7 +634,9 @@ export class AddEditDispatchNoteComponent {
     }
 
     onLocationSelect(event: any){
-      this.filteredTransporter = this.activeTransportersList.filter((item: any) => item?.locations?.id == event);
+      this.filteredTransporter = this.activeTransportersList.filter((item: any) => {
+        return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
+      });
       this.filteredVehicles = this.activeVehiclesLists.filter((item: any) => item?.locations?.id == event);
       this.addOrEditDispatchNoteFormGroup.patchValue({
         transporterCode: null,
