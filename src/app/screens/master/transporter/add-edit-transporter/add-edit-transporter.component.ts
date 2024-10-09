@@ -149,7 +149,7 @@ export class AddEditTransporterComponent implements OnInit {
       // this.getLocationData(response.locationId)
       this.transporterData = response
       this.transporterMappings = response.transporterMappings.map((mapping: any) => {
-        this.selectedLocations.push(mapping.locationId);
+        // this.selectedLocations.push(mapping.locationId);
         this.autoBiltiRequiredFlag = mapping?.autoBiltiRequiredFlag;
         const tdsCodes = this.tdsCodes?.find((item: any) => item?.id == mapping?.tdsCodes?.id)
         const taxCodeRcm = this.taxCodesRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
@@ -526,11 +526,12 @@ export class AddEditTransporterComponent implements OnInit {
     return item.id == data;
     })
     this.transporterMappings[index].autoBilti = locationData.attribute11;
+    this.transporterMappings[index].storedAutoBilti = locationData.attribute11;
     // this.transporterMappings[index].autoBilti = this.transporterMappings[index].autoBiltiReq == 'Y' ?  locationData.attribute11 : '';
     this.transporterMappings[index].consignerName = locationData.attribute1;
     this.transporterMappings[index].consignerContact = locationData.attribute2;
 
-    this.updateSelectedLocations();
+    // this.updateSelectedLocations();
   }
   
   updateSelectedLocations() {
@@ -651,7 +652,12 @@ getTransportersList() {
   //   });
   // }
 
-  onAutoBiltiChange(event: any){
+  onAutoBiltiChange(event: any, index: number){
     this.autoBiltiRequiredFlag = event?.target?.value
+    if(this.transporterMappings[index].autoBiltiReq == 'N'){
+    this.transporterMappings[index].autoBilti = ''
+    } else if (event.target.value === 'Y') {
+      this.transporterMappings[index].autoBilti = this.transporterMappings[index].storedAutoBilti;
+    }
   }
 }

@@ -99,10 +99,10 @@ export class TransporterComponent implements OnInit {
       .subscribe(
         (response: any) => {
           const transportersListToExport = response.transporters;
-          // Map the data to include only the necessary fields
+
           const mappedTransporterList = transportersListToExport.map(
             (transporter: any) => ({
-              locationCode: transporter.locations.value,
+              // locationCode: transporter.locations.value,
               transporterCode: transporter.transporterCode,
               transporterName: transporter.transporterName,
               transporterAddress1:
@@ -111,11 +111,11 @@ export class TransporterComponent implements OnInit {
                 transporter.transporterAddress2,
                 transporterContactNo: transporter.transporterContactNo,
               transporterMailId: transporter.transporterMailId,
-              consignorName: transporter?.consignorName,
+              // consignorName: transporter?.consignorName,
               ownerName: transporter?.ownerName,
               contactPerson: transporter?.contactPerson,
               regdDetails: transporter.regdDetails,
-              autoBiltiRequiredFlag: transporter.autoBiltiRequiredFlag,
+              // autoBiltiRequiredFlag: transporter.autoBiltiRequiredFlag,
               status: transporter.status,
 
             })

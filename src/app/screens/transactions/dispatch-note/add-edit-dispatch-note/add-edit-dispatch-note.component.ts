@@ -505,7 +505,7 @@ export class AddEditDispatchNoteComponent {
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
           partQty: parseInt(dg.controls['partQuantity'].value),
-          status: "Active",
+          // status: "Active",
         };
         this.dispatchNote.partDetails.push(note);
       }

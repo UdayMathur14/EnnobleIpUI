@@ -666,6 +666,7 @@ getVehicleNumber() {
         const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
           return item.pointName == lineItemsVendorData?.city
         })
+        
         currentVendor.patchValue({
           pointCharge: samePointName ? lineItemsSameLocationCharge?.sameLocationCharge :
             lineItemsSameLocationCharge?.pointCharge
