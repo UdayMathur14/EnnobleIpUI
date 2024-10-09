@@ -161,7 +161,7 @@ export class AddEditPointChargeComponent implements OnInit {
   }
 
   checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, newPointCharge: any, newChargeStatus: any ) {
-    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected')) && newPointCharge != 0 && newChargeStatus == 'Inactive' || (approvedByAccounts == null || approvedByMaterial == null)) {
+    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected'))) {
       this.pointChargeForm.get('status')?.disable();
     } else {
       this.pointChargeForm.get('status')?.enable();
