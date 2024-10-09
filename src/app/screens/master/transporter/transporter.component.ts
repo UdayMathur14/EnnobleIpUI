@@ -50,12 +50,9 @@ export class TransporterComponent implements OnInit {
       locationIds:
         filters?.locations ||
         APIConstant.commonLocationsList.map((e:any)=>(e.id)),
-      transporterCode: filters?.transCode,
-      transporterName: filters?.transName,
-      city: '',
-      state: '',
-      taxationType: '',
-      status: filters?.status,
+      transporterCode: filters?.transCode || "",
+      transporterName: filters?.transName || "",
+      status: filters?.status || "",
     };
     this.transporterService.getTransporters(data, offset, count).subscribe(
       (response: any) => {

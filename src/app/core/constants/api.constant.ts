@@ -28,6 +28,7 @@ export const APIConstant:any = {
     lookupData: `v1/lookup/`,
     updateLookup: `v1/lookup/update/`,
     createLookup: `v1/lookup/create`,
+    createTransporter: `v1/transporter/create`,
     lookupstype: `v1/lookup-type/search`,
     createPart: `v1/part/create`,
     transactionTypeData: `v1/transaction-type/`,
@@ -60,9 +61,9 @@ export const adviceType = (offset: any, count: number) => `v1/advice/search?offs
 export const updateAdviceType = (locationId: any, adviceId: any) => `v1/advice/update/${locationId}/${adviceId}`;
 export const createAdviceType = (locationId: any) => `v1/advice/create/${locationId}`;
 export const transporter = (offset: any, count: number) => `v1/transporter/search?offset=${offset}&count=${count}`;
-export const transporterData = (locationId: any, transporterId: any) => `v1/transporter/${locationId}/${transporterId}`;
-export const updateTransporter = (locationId: any, transporterId: any) => `v1/transporter/update/${locationId}/${transporterId}`;
-export const createTransporter = (locationId: any) => `v1/transporter/create/${locationId}`;
+export const transporterData = (transporterId: any) => `v1/transporter/${transporterId}`;
+export const updateTransporter = (transporterId: any) => `v1/transporter/update/${transporterId}`;
+// export const createTransporter = () => `v1/transporter/create}`;
 export const getDropdownDatas= (type: any) => `v1/lookup/search-type?type=${type}`;
 export const commonTransaction= (locationId:any, id: any) => `v1/commonTransaction/updateStatus/${locationId}/${id}`;   
 export const bilti = (offset: any, count: number) => `v1/bilti-creation/search?offset=${offset}&count=${count}`;

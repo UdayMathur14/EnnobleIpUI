@@ -27,12 +27,13 @@ export class AddEditTransporterComponent implements OnInit {
   locations: any[] = APIConstant.commonLocationsList;
   commonLocations: any[] = [];
   transporterData!: TransporterDataModel;
-  transporterMappings: any[] = [];
+  transporterMappings: any = [];
   transporters: any[] = [];
   vendorsList: any = [];
   count: number = Number.MAX_VALUE;
   selectedVendor: any = [];
   isShow: boolean = false;
+  isLocationDisabled: boolean = false;
   taxCodesRcm: any[] = [];
   taxCodesNonRcm: any[] = [];
   selectedModes: Set<number> = new Set();
@@ -41,6 +42,7 @@ export class AddEditTransporterComponent implements OnInit {
   alltransporterMode: any = [];
   autoBiltiRequiredFlag: string = '';
   locationsDropdownData: any = [];
+  selectedLocations: number[] = [];
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -92,6 +94,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.queryData = this.queryData == 0 ? '' : this.queryData;
     if (this.queryData != 0) {
       this.getTransportersList();
+      this.getTransporterData();
     }
     // Enable or disable status control based on queryData for Create and Update
     this.getTransporterModeDropdownData();
@@ -104,9 +107,8 @@ export class AddEditTransporterComponent implements OnInit {
     this.setLocation();
   }
 
-  getTransporterData(transporterId: string) {
-    this.transporterService.getTransporterData(transporterId).subscribe((response: any) => {
-      this.autoBiltiRequiredFlag = response?.autoBiltiRequiredFlag;
+  getTransporterData() {
+    this.transporterService.getTransporterData(this.queryData).subscribe((response: any) => {
       this.loadSpinner = false;
       this.transporterList = response;
       this.transporterMappings = response?.transporterMappings;
@@ -114,7 +116,7 @@ export class AddEditTransporterComponent implements OnInit {
       this.transporterForm.patchValue({
         transporterCode: response.transporterCode,
         transporterName: response.transporterName,
-        locationCode: response.locations.code,
+        // locationCode: response.locations?.code,
         status: response.status,
         ownerName: response.ownerName,
         contactPerson: response.contactPerson,
@@ -125,7 +127,7 @@ export class AddEditTransporterComponent implements OnInit {
         gst: response.gstInNo,
         autoBiltiReq: response.autoBiltiRequiredFlag,
         consignorContactInfo: response.consignorContactInformation,
-        rcmNonRcm: response.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
+        rcmNonRcm: response.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM',
         autoBiltiCharactor: response.autoBiltiStartingCharacter,
         consignorName: response.consignorName,
         regdDetails: response.regdDetails,
@@ -144,26 +146,34 @@ export class AddEditTransporterComponent implements OnInit {
         transporterPaytermDays: response?.transporterPaytermDays,
         transporterPaytermMethodCode: response?.transporterPaytermMethodCode
       });
-      this.getLocationData(response.locationId)
+      // this.getLocationData(response.locationId)
       this.transporterData = response
       this.transporterMappings = response.transporterMappings.map((mapping: any) => {
+        this.selectedLocations.push(mapping.locationId);
+        this.autoBiltiRequiredFlag = mapping?.autoBiltiRequiredFlag;
         const tdsCodes = this.tdsCodes?.find((item: any) => item?.id == mapping?.tdsCodes?.id)
         const taxCodeRcm = this.taxCodesRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
         const taxCodeNonRcm = this.taxCodesNonRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
         const taxaCodeDescription = taxCodeRcm ? taxCodeRcm.description : (taxCodeNonRcm ? taxCodeNonRcm.description : '');
         this.selectedModes.add( mapping.transportationMode.code);
         return {
-          transportationMode: mapping?.transportationMode?.value + ' (' + mapping?.transportationMode?.code  + ')' || {},
+          transportationMode: mapping?.transportationMode?.value || {},
           taxationType: mapping.taxationType.code || {},
-          taxaCode: mapping.taxCodes.code + ' (' + taxaCodeDescription  + ')' || {},
-          tdsCode: mapping.tdsCodes.code + ' (' + tdsCodes.description + ')',
+          taxaCode: mapping.taxCodes.code || {},
+          tdsCode: mapping.tdsCodes.code,
           transportationModeId: mapping?.transportationMode?.id,
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxCodes?.id,
           tdsCodesId: mapping?.tdsCodes.id,
           status: 'Active',
           disabled: true,
-          isShow: false
+          isShow: false,
+          isLocationDisabled: true,
+          location: mapping?.locationId,
+          autoBilti: mapping?.autoBiltiStartingCharacter,
+          consignerName: mapping?.consignorName,
+          consignerContact: mapping?.consignorContactInformation,
+          autoBiltiReq: mapping?.autoBiltiRequiredFlag,
         };
       });
     }, error => {
@@ -208,10 +218,6 @@ export class AddEditTransporterComponent implements OnInit {
       transporterMailId:
         this.transporterForm.controls['transporterMailId'].value,
       regdDetails: this.transporterForm.controls['regdDetails'].value,
-      autoBiltiRequiredFlag:
-       this.transporterForm.controls['autoBiltiReq'].value,
-      autoBiltiStartingCharacter:
-      this.autoBiltiRequiredFlag == 'Y' ? this.transporterForm.controls['autoBiltiCharactor'].value: '',
       biltiHeaderComments:
         this.transporterForm.controls['biltiHeaderComment'].value,
       note: this.transporterForm.controls['note'].value,
@@ -221,8 +227,13 @@ export class AddEditTransporterComponent implements OnInit {
           transportationModeId: mapping?.transportationMode?.id || mapping?.transportationModeId,
           taxationTypeId: mapping?.taxationType?.id || mapping?.taxationTypeId,
           taxaCodesId: mapping?.taxaCode?.id || mapping?.taxaCodesId,
-          tdsCodesId: mapping?.tdsCode.id || mapping?.tdsCodesId,
+          tdsCodesId: mapping?.tdsCode?.id || mapping?.tdsCodesId,
           status: mapping.status,
+          locationId: mapping?.location,
+          autoBiltiRequiredFlag: mapping?.autoBiltiReq,
+          autoBiltiStartingCharacter: mapping?.autoBilti,
+          consignorName: mapping?.consignerName,
+          consignorContactInformation: mapping?.consignerContact
         };
       }),
     };
@@ -239,12 +250,12 @@ export class AddEditTransporterComponent implements OnInit {
     const locationCode = this.transporterForm.controls['locationCode']?.value;
     const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
     const matchedLocationId = matchedLocation?.id
-    if (!locationCode) {
-      this.toastr.error("Location Code is Required");
-      this.loadSpinner = false;
-      return;
-    }
-    this.transporterService.updateTransporter(matchedLocationId || locationCode, this.queryData, data).subscribe((response: any) => {
+    // if (!locationCode) {
+    //   this.toastr.error("Location Code is Required");
+    //   this.loadSpinner = false;
+    //   return;
+    // }
+    this.transporterService.updateTransporter(this.queryData, data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Transporter Updated Successfully');
       this.router.navigate(['/master/transporter']);
@@ -257,11 +268,11 @@ export class AddEditTransporterComponent implements OnInit {
   //CREATING NEW TRANSPORTER
   createNewTransporter() {
     const locationCode = this.transporterForm.controls['locationCode']?.value;
-    if (!locationCode) {
-      this.toastr.error("Location Code is Required");
-      this.loadSpinner = false;
-      return;
-    }
+    // if (!locationCode) {
+    //   this.toastr.error("Location Code is Required");
+    //   this.loadSpinner = false;
+    //   return;
+    // }
     const data = {
       status: this.transporterForm.controls['status'].value,
       actionBy: localStorage.getItem('userId'),
@@ -274,10 +285,6 @@ export class AddEditTransporterComponent implements OnInit {
       transporterMailId:
         this.transporterForm.controls['transporterMailId'].value,
       regdDetails: this.transporterForm.controls['regdDetails'].value,
-      autoBiltiRequiredFlag:
-        this.transporterForm.controls['autoBiltiReq'].value,
-      autoBiltiStartingCharacter:
-      this.autoBiltiRequiredFlag == 'Y' ? this.transporterForm.controls['autoBiltiCharactor'].value: '',
       biltiHeaderComments:
         this.transporterForm.controls['biltiHeaderComment'].value,
       note: this.transporterForm.controls['note'].value,
@@ -303,12 +310,17 @@ export class AddEditTransporterComponent implements OnInit {
           transportationModeId: mapping?.transportationMode?.id,
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxaCode?.id,
-          tdsCodesId: mapping?.tdsCode.id,
-          status: 'Active'
+          tdsCodesId: mapping?.tdsCode?.id,
+          status: 'Active',
+          locationId: mapping?.location,
+          autoBiltiRequiredFlag: mapping?.autoBiltiReq,
+          autoBiltiStartingCharacter: mapping?.autoBilti,
+          consignorName: mapping?.consignerName,
+          consignorContactInformation: mapping?.consignerContact
         };
       }),
     };
-    this.transporterService.createTransporter(locationCode,data).subscribe((response: any) => {
+    this.transporterService.createTransporter(data).subscribe((response: any) => {
       this.loadSpinner = false;
       this.toastr.success('Transporter Created Successfully');
       this.router.navigate(['/master/transporter']);
@@ -421,7 +433,7 @@ export class AddEditTransporterComponent implements OnInit {
       cgst: selectedLookup.attribute5,
       sgst: selectedLookup.attribute6,
       igst: selectedLookup.attribute7,
-      rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
+      rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM'
     });
 
   }
@@ -438,17 +450,6 @@ export class AddEditTransporterComponent implements OnInit {
     this.disableSubmit = this.transporterForm.get('contactNumber')?.value.length < 10 ? true : false;
   }
 
-  getLocationData(data: any){
-    const locationData = this.commonLocations.find((item: any) => {
-    return item.id == data;
-    })
-    this.transporterForm.patchValue({
-      autoBiltiCharactor: locationData?.attribute11,
-      consignorName: locationData?.attribute1,
-      consignorContactInfo: locationData?.attribute2,
-
-    })
-  }
 
   onTransporterChange(event: any){
     this.selectedVendor = this.vendorsList.find((item: any) => item.id == event)
@@ -486,7 +487,13 @@ export class AddEditTransporterComponent implements OnInit {
       tdsCode: undefined,
       status: 'Active',
       disabled: false,
-      isShow: true
+      location: undefined,
+      autoBilti: undefined,
+      consignerName: undefined,
+      consignerContact: undefined,
+      autoBiltiReq: undefined,
+      isShow: true,
+      isLocationDisabled: false
     }
 
     this.transporterMappings.push(newObj)
@@ -513,9 +520,31 @@ export class AddEditTransporterComponent implements OnInit {
   getAvailableModes(index: number): any[] {
     return this.transporterMode.filter(mode => !this.selectedModes.has(mode.value) || this.transporterMappings[index].transportationModeId === mode.value);
   }
-  
-  
 
+  getLocationData(data: any, index: number){
+    const locationData = this.commonLocations.find((item: any) => {
+    return item.id == data;
+    })
+    this.transporterMappings[index].autoBilti = locationData.attribute11;
+    // this.transporterMappings[index].autoBilti = this.transporterMappings[index].autoBiltiReq == 'Y' ?  locationData.attribute11 : '';
+    this.transporterMappings[index].consignerName = locationData.attribute1;
+    this.transporterMappings[index].consignerContact = locationData.attribute2;
+
+    this.updateSelectedLocations();
+  }
+  
+  updateSelectedLocations() {
+    this.selectedLocations = this.transporterMappings
+      .filter((transaction: any) => transaction.location)
+      .map((transaction: any) => transaction.location);
+  }
+  
+  getFilteredLocations(index: number) {
+    return this.locationsDropdownData.filter((location: any) => {
+      return !this.selectedLocations.includes(location.id) || this.transporterMappings[index].location === location.id;
+    });
+  }
+  
   onRcmNonRcmSelect(e: any, index: any) {
     this.transporterMappings[index].taxationTypeId = e?.typeId;
     
@@ -547,14 +576,8 @@ export class AddEditTransporterComponent implements OnInit {
       transactionTypeId: transaction.transactionTypeId,
       status: 'Inactive'
     };
-  //   if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
-  //     this.deletedTransactions.push(deletedTransaction);
-  //   }
-  //   this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
-  //     code => code !== transaction.code
-  // );
+  
   this.transporterMappings.splice(index, 1);
-  // this.updateSelectedTransactionCodes();
   }
 
   getVendorsList(offset: number = 0, count: number = this.count) {
@@ -570,7 +593,6 @@ export class AddEditTransporterComponent implements OnInit {
     this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {
       this.vendorsList = response.vendors;
       this.loadSpinner = false;
-      // this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
     }, error => {
       this.loadSpinner = false;
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -599,9 +621,9 @@ getTransportersList() {
   this.transporterService.getTransporters(data).subscribe(
     (response: any) => {
       this.transporterList = response.transporters;
-      this.getLocationId().then(() => {
-        this.getTransporterData(this.queryData);
-      });
+      // this.getLocationId().then(() => {
+      //   this.getTransporterData(this.queryData);
+      // });
       this.loadSpinner = false;
     },
     (error) => {
@@ -615,19 +637,19 @@ getTransportersList() {
   );
 }
 
-  getLocationId(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const transporter = this.transporterList.filter((transporter: any) => {
-        return transporter.id == this.queryData
-      });
-      if (transporter.length > 0) {
-        this.transporterLocationId = transporter[0].locations.id;
-        resolve();
-      } else {
-        reject('No matching freight found');
-      }
-    });
-  }
+  // getLocationId(): Promise<void> {
+  //   return new Promise((resolve, reject) => {
+  //     const transporter = this.transporterList.filter((transporter: any) => {
+  //       return transporter.id == this.queryData
+  //     });
+  //     if (transporter.length > 0) {
+  //       this.transporterLocationId = transporter[0].locations.id;
+  //       resolve();
+  //     } else {
+  //       reject('No matching freight found');
+  //     }
+  //   });
+  // }
 
   onAutoBiltiChange(event: any){
     this.autoBiltiRequiredFlag = event?.target?.value

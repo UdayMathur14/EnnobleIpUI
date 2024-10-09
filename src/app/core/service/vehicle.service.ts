@@ -37,7 +37,7 @@ export class VehicleService extends CRUDService<VehicleRequest> {
   }
 
   getTransporterData(transporterId: string) {
-    return this.get(transporterData(this.locationIds, transporterId));
+    return this.get(transporterData(transporterId));
   }
 
   getDropdownData(data : object, type: string){

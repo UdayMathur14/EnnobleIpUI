@@ -552,6 +552,11 @@ export interface TransporterDataModel {
       taxationTypeId: number | undefined;
       taxaCodesId: number | undefined;
       tdsCodesId: number | undefined;
+      location: number,
+      autoBilti: string,
+      consignerName: string,
+      consignerContact: number,
+      autoBiltiReq: string
     }
   ];
 }
