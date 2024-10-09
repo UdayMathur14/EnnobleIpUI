@@ -524,14 +524,12 @@ export class AddEditTransporterComponent implements OnInit {
   getAvailableModes(index: number): any[] {
     const currentLocationId = this.transporterMappings[index].location;
     this.selectedModes = new Set<any>(); 
-    if(this.queryData == 0 || this.queryData > 0){
       for (let i = 0; i < index; i++) {
         const prevMapping = this.transporterMappings[i];
         if (prevMapping.location === currentLocationId) {
             this.selectedModes.add(prevMapping.transportationModeId);
             this.selectedModes.add(prevMapping.transportationMode);
         }
-    }
     }
 
     const currentMode = this.transporterMappings[index].transportationModeId;
