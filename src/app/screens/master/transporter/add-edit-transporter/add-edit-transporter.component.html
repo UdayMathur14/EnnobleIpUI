@@ -71,8 +71,14 @@
           <label for="">Contact Number <span *ngIf="queryData" class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
             (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" [readonly]="queryData == 0" />
+          <div *ngIf="transporterForm.get('contactNumber')?.invalid && transporterForm.get('contactNumber')?.touched">
+            <small class="text-danger" *ngIf="transporterForm.get('contactNumber')?.errors?.['minlength']">
+              Contact number must be at least 10 digits.
+            </small>
+          </div>
         </div>
       </div>
+      
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Email <span *ngIf="queryData" class="text-danger">*</span></label>
@@ -166,16 +172,16 @@
     <table>
       <thead>
         <tr>
-          <th>Location Code</th>
-          <th>Auto Bilti Required</th>
-          <th>Auto Bilti Starting Char</th>
-          <th>Consigner Name</th>
-          <th>Consigner Contact</th>
-          <th>Mode of Transport</th>
-          <th>RCM/Non-RCM Type</th>
-          <th>Tax Code</th>
-          <th>TDS Code</th>
-          <th>Status</th>
+          <th>Location Code<span class="text-danger">*</span></th>
+          <th>Auto Bilti Required<span class="text-danger">*</span></th>
+          <th>Auto Bilti Starting Char<span class="text-danger">*</span></th>
+          <th>Consigner Name<span class="text-danger">*</span></th>
+          <th>Consigner Contact<span class="text-danger">*</span></th>
+          <th>Mode of Transport<span class="text-danger">*</span></th>
+          <th>RCM/Non-RCM Type<span class="text-danger">*</span></th>
+          <th>Tax Code<span class="text-danger">*</span></th>
+          <th>TDS Code<span class="text-danger">*</span></th>
+          <th>Status<span class="text-danger">*</span></th>
           <th class="text-center">Action</th>
         </tr>
       </thead>

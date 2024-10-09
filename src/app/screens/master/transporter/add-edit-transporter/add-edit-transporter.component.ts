@@ -36,7 +36,7 @@ export class AddEditTransporterComponent implements OnInit {
   isLocationDisabled: boolean = false;
   taxCodesRcm: any[] = [];
   taxCodesNonRcm: any[] = [];
-  selectedModes: Set<number> = new Set();
+  selectedModes: Set<any> = new Set();
   transporterLocationId: number = 0;
   transporterList: any = [];
   alltransporterMode: any = [];
@@ -60,7 +60,7 @@ export class AddEditTransporterComponent implements OnInit {
       contactPerson: [''],
       address1: [''],
       address2: [''],
-      contactNumber: ['', [Validators.required]],
+      contactNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12)]],
       pan: [''],
       gst: [''],
       autoBiltiReq: [''],
@@ -155,9 +155,13 @@ export class AddEditTransporterComponent implements OnInit {
         const taxCodeRcm = this.taxCodesRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
         const taxCodeNonRcm = this.taxCodesNonRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
         const taxaCodeDescription = taxCodeRcm ? taxCodeRcm.description : (taxCodeNonRcm ? taxCodeNonRcm.description : '');
-        this.selectedModes.add( mapping.transportationMode.code);
+        this.selectedModes.add({
+          transporterModeId: mapping.transportationMode.id,
+          location: mapping.locationId
+        });
+        
         return {
-          transportationMode: mapping?.transportationMode?.value || {},
+          transportationMode: mapping?.transportationMode?.code || {},
           taxationType: mapping.taxationType.code || {},
           taxaCode: mapping.taxCodes.code || {},
           tdsCode: mapping.tdsCodes.code,
@@ -491,7 +495,7 @@ export class AddEditTransporterComponent implements OnInit {
       autoBilti: undefined,
       consignerName: undefined,
       consignerContact: undefined,
-      autoBiltiReq: undefined,
+      autoBiltiReq: 'Y',
       isShow: true,
       isLocationDisabled: false
     }
@@ -504,7 +508,7 @@ export class AddEditTransporterComponent implements OnInit {
     const selectedMode = e?.value;
     if (selectedMode) {
       this.transporterMappings[index].transportationModeId = selectedMode;
-      this.selectedModes.add(selectedMode);
+      this.selectedModes.add(selectedMode);   
     }
   }
 
@@ -518,8 +522,20 @@ export class AddEditTransporterComponent implements OnInit {
   
 
   getAvailableModes(index: number): any[] {
-    return this.transporterMode.filter(mode => !this.selectedModes.has(mode.value) || this.transporterMappings[index].transportationModeId === mode.value);
+    const currentLocationId = this.transporterMappings[index].location;
+    const selectedModes = new Set<any>(); 
+    for (let i = 0; i < index; i++) {
+      const prevMapping = this.transporterMappings[i];
+      if (prevMapping.location === currentLocationId) {
+        selectedModes.add(prevMapping.transportationModeId);
+      }
+    }
+
+    return this.transporterMode.filter(mode => 
+      !selectedModes.has(mode.value) || this.transporterMappings[index].transportationModeId === mode.value
+    );
   }
+  
 
   getLocationData(data: any, index: number){
     const locationData = this.commonLocations.find((item: any) => {
