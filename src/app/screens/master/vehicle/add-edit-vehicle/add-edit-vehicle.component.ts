@@ -304,7 +304,9 @@ export class AddEditVehicleComponent implements OnInit {
   }
 
   onLocationSelect(event: any){
-    this.filteredTransporter = this.transportersList.filter((item: any) => item?.locations?.id == event);
+    this.filteredTransporter = this.transportersList.filter((item: any) => {
+      return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
+    });
     this.vehicleForm.patchValue({
       transporterName: null
     })
