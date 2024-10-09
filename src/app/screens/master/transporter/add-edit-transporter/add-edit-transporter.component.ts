@@ -526,9 +526,9 @@ export class AddEditTransporterComponent implements OnInit {
     this.selectedModes = new Set<any>(); 
       for (let i = 0; i < index; i++) {
         const prevMapping = this.transporterMappings[i];
-        if (prevMapping.location === currentLocationId) {
-            this.selectedModes.add(prevMapping.transportationModeId);
-            this.selectedModes.add(prevMapping.transportationMode);
+        if (prevMapping?.location === currentLocationId) {
+            this.selectedModes.add(prevMapping?.transportationModeId);
+            this.selectedModes.add(prevMapping?.transportationMode);
         }
     }
 
@@ -673,8 +673,6 @@ getTransportersList() {
 
   onAutoBiltiChange(event: any, index: number){
     const location = this.locationsDropdownData.find((item: any) => item.id == this.transporterMappings[index].location)
-    console.log(location);
-    
     this.autoBiltiRequiredFlag = event?.target?.value
     if(this.transporterMappings[index].autoBiltiReq == 'N'){
     this.transporterMappings[index].autoBilti = ''
