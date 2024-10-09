@@ -161,7 +161,7 @@ export class AddEditTransporterComponent implements OnInit {
         // });
         
         return {
-          transportationMode: mapping?.transportationMode?.code || {},
+          transportationMode: mapping?.transportationMode?.value || {},
           taxationType: mapping.taxationType.code || {},
           taxaCode: mapping.taxCodes.code || {},
           tdsCode: mapping.tdsCodes.code,
