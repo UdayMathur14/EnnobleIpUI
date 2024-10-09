@@ -201,7 +201,7 @@
           <td>
             <div class="col-lg-9 col-md-9">
               <div class="custom-form-input biltiwidth">
-                <select  [(ngModel)]="transaction.autoBiltiReq" (change)="onAutoBiltiChange($event, ind)" [disabled]="transaction?.isLocationDisabled">
+                <select  [(ngModel)]="transaction.autoBiltiReq" (change)="onAutoBiltiChange($event, ind)">
                   <option value="Y">Yes</option>
                   <option value="N">No</option>
                 </select>

@@ -522,8 +522,6 @@ export class AddEditTransporterComponent implements OnInit {
   
 
   getAvailableModes(index: number): any[] {
-    console.log(this.transporterMappings);
-    
     const currentLocationId = this.transporterMappings[index].location;
     this.selectedModes = new Set<any>(); 
     if(this.queryData == 0 || this.queryData > 0){
@@ -683,11 +681,16 @@ getTransportersList() {
   // }
 
   onAutoBiltiChange(event: any, index: number){
+    const location = this.locationsDropdownData.find((item: any) => item.id == this.transporterMappings[index].location)
+    console.log(location);
+    
     this.autoBiltiRequiredFlag = event?.target?.value
     if(this.transporterMappings[index].autoBiltiReq == 'N'){
     this.transporterMappings[index].autoBilti = ''
-    } else if (event.target.value === 'Y') {
+    } else if (event.target.value === 'Y' && this.queryData == 0) {
       this.transporterMappings[index].autoBilti = this.transporterMappings[index].storedAutoBilti;
+    } else if (event.target.value === 'Y' && this.queryData > 0){
+      this.transporterMappings[index].autoBilti = location.attribute11;
     }
   }
 }
