@@ -301,7 +301,7 @@ export class AddEditFreightComponent implements OnInit {
     reader.onload = () => {
       const base64String = reader.result;
       this.nocFileBase64 = base64String;
-      this.toastr.success('PDF Added', 'Success');
+      this.toastr.success('PDF attached successfully', 'Success');
       this.isFileUploaded = true;
     };
   }

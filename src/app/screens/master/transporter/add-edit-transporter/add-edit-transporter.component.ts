@@ -72,8 +72,7 @@ export class AddEditTransporterComponent implements OnInit {
       biltiHeaderComment: ['', [Validators.required]],
       note: ['', [Validators.required]],
       footer: ['', [Validators.required]],
-      transporterMailId: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/
-      )]],
+      transporterMailId: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       postalCode: [''],
       taxationCode: ['', Validators.required],
       rcmNonRcm: [''],
@@ -149,16 +148,17 @@ export class AddEditTransporterComponent implements OnInit {
       // this.getLocationData(response.locationId)
       this.transporterData = response
       this.transporterMappings = response.transporterMappings.map((mapping: any) => {
+        const transportationModeId = mapping?.transportationMode?.code;
         // this.selectedLocations.push(mapping.locationId);
         this.autoBiltiRequiredFlag = mapping?.autoBiltiRequiredFlag;
         const tdsCodes = this.tdsCodes?.find((item: any) => item?.id == mapping?.tdsCodes?.id)
         const taxCodeRcm = this.taxCodesRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
         const taxCodeNonRcm = this.taxCodesNonRcm?.find((item: any) => item?.id == mapping?.taxCodes?.id);
         const taxaCodeDescription = taxCodeRcm ? taxCodeRcm.description : (taxCodeNonRcm ? taxCodeNonRcm.description : '');
-        this.selectedModes.add({
-          transporterModeId: mapping.transportationMode.id,
-          location: mapping.locationId
-        });
+        // this.selectedModes.add({
+        //   transporterModeId: mapping.transportationMode.id,
+        //   location: mapping.locationId
+        // });
         
         return {
           transportationMode: mapping?.transportationMode?.code || {},
@@ -523,18 +523,21 @@ export class AddEditTransporterComponent implements OnInit {
 
   getAvailableModes(index: number): any[] {
     const currentLocationId = this.transporterMappings[index].location;
-    const selectedModes = new Set<any>(); 
+    
+    this.selectedModes = new Set<any>(); 
     for (let i = 0; i < index; i++) {
-      const prevMapping = this.transporterMappings[i];
-      if (prevMapping.location === currentLocationId) {
-        selectedModes.add(prevMapping.transportationModeId);
-      }
+        const prevMapping = this.transporterMappings[i];
+        if (prevMapping.location === currentLocationId) {
+            this.selectedModes.add(prevMapping.transportationModeId);
+        }
     }
+    const currentMode = this.transporterMappings[index].transportationModeId;
 
     return this.transporterMode.filter(mode => 
-      !selectedModes.has(mode.value) || this.transporterMappings[index].transportationModeId === mode.value
+        !this.selectedModes.has(mode.value) || currentMode === mode.value
     );
-  }
+}
+
   
 
   getLocationData(data: any, index: number){

@@ -42,10 +42,10 @@ export class AddEditVendorComponent implements OnInit {
     vendorAddress1: new FormControl(''),
     vendorAddress2: new FormControl(''),
     phone: new FormControl('', [
-      Validators.required
+      Validators.required, Validators.minLength(10), Validators.maxLength(12)
     ]),
     email: new FormControl('', [
-      Validators.required
+      Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
 ]),
     city: new FormControl(''),
     state: new FormControl(''),
@@ -145,9 +145,8 @@ export class AddEditVendorComponent implements OnInit {
       status: this.vendorForm.get('status')?.value,
       vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
         const iTransactionTypeId = this.transactionTypes.find((item: any)=> item.code == mapping.transactionType)
-        
         return {                                                                          
-          transactionTypeId: iTransactionTypeId?.iTransactionTypeId || mapping?.iTransactionTypeId,                        
+          transactionTypeId: iTransactionTypeId?.id || mapping?.id,                        
           paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
           status: mapping.status
         }
@@ -262,7 +261,7 @@ export class AddEditVendorComponent implements OnInit {
         return {
           transactionType: mapping.transactionType.code || {},
           paidByDetails: mapping.paidByDetails.code + ' (' + mapping.paidByDetails.value + ')' || {},
-          iTransactionTypeId: mapping.transactionType.iTransactionTypeId || {},
+          iTransactionTypeId: mapping.transactionType.id || {},
           id: mapping.paidByDetails.id || {},
           status: 'Active',
           disabled: true,

@@ -160,6 +160,14 @@ export class AddEditPointChargeComponent implements OnInit {
     this.checkApprovalStatus(data.approvedByMaterialAction, data.approvedByAccountsAction, data.newPointCharge, data.newChargeStatus);
   }
 
+  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, newPointCharge: any, newChargeStatus: any ) {
+    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected')) && newPointCharge != 0 && newChargeStatus == 'Inactive' || (approvedByAccounts == null || approvedByMaterial == null)) {
+      this.pointChargeForm.get('status')?.disable();
+    } else {
+      this.pointChargeForm.get('status')?.enable();
+    }
+  }
+
   data = [
     { name: 'United States', code: 'USA' },
     { name: 'United States', code: 'USA' },
@@ -299,14 +307,6 @@ export class AddEditPointChargeComponent implements OnInit {
     });
   }
 
-  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, newPointCharge: any, newChargeStatus: any ) {
-    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected')) && newPointCharge != 0 && newChargeStatus == 'Inactive' || (approvedByAccounts == null || approvedByMaterial == null)) {
-      this.pointChargeForm.get('status')?.disable();
-    } else {
-      this.pointChargeForm.get('status')?.enable();
-    }
-  }
-
   getDestinationDropdownData() {
     let data = {
       "CreationDate": "",
@@ -337,7 +337,7 @@ export class AddEditPointChargeComponent implements OnInit {
     reader.onload = () => {
       const base64String = reader.result;
       this.nocFileBase64 = base64String;
-      this.toastr.success('PDF Added', 'Success');
+      this.toastr.success('PDF attached successfully', 'Success');
       this.isFileUploaded = true;
     };
   }

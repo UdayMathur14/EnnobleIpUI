@@ -71,7 +71,7 @@
           <label for="">Contact Number <span *ngIf="queryData" class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
             (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" [readonly]="queryData == 0" />
-          <div *ngIf="transporterForm.get('contactNumber')?.invalid && transporterForm.get('contactNumber')?.touched">
+          <div *ngIf="transporterForm.get('contactNumber')?.invalid">
             <small class="text-danger" *ngIf="transporterForm.get('contactNumber')?.errors?.['minlength']">
               Contact number must be at least 10 digits.
             </small>
