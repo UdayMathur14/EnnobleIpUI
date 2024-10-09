@@ -522,16 +522,18 @@ export class AddEditTransporterComponent implements OnInit {
   
 
   getAvailableModes(index: number): any[] {
+    console.log(this.transporterMappings);
+    
     const currentLocationId = this.transporterMappings[index].location;
     this.selectedModes = new Set<any>(); 
-    if(this.queryData == 0){
+    if(this.queryData == 0 || this.queryData > 0){
       for (let i = 0; i < index; i++) {
         const prevMapping = this.transporterMappings[i];
         if (prevMapping.location === currentLocationId) {
             this.selectedModes.add(prevMapping.transportationModeId);
         }
     }
-    } else {
+    } else if(this.queryData > 0 && this.transporterMappings) {
       for (let i = 0; i < index; i++) {
         const prevMapping = this.transporterMappings[i];
         
@@ -548,7 +550,6 @@ export class AddEditTransporterComponent implements OnInit {
     );
 }
 
-  
 
   getLocationData(data: any, index: number){
     const locationData = this.commonLocations.find((item: any) => {
