@@ -108,6 +108,7 @@ export class AddEditTransporterComponent implements OnInit {
 
   getTransporterData() {
     this.transporterService.getTransporterData(this.queryData).subscribe((response: any) => {
+      this.initializeSelectedTransactionCodes();
       this.loadSpinner = false;
       this.transporterList = response;
       this.transporterMappings = response?.transporterMappings;
@@ -309,9 +310,8 @@ export class AddEditTransporterComponent implements OnInit {
       postalCode: this.transporterForm.controls['postalCode'].value,
       transporterCode: this.selectedVendor?.vendorCode || '',
       transporterMappings: this.transporterMappings.map((mapping: any) => {
-        
         return {
-          transportationModeId: mapping?.transportationMode?.id,
+          transportationModeId: mapping?.transportationModeId,
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxaCode?.id,
           tdsCodesId: mapping?.tdsCode?.id,
@@ -485,7 +485,8 @@ export class AddEditTransporterComponent implements OnInit {
     // this.transporterData.transporterMappings.push(obj);
 
     const newObj = {
-      transportationMode: undefined,
+      transportationMode:undefined,
+      transportationModeId: undefined,
       taxationType: undefined,
       taxaCode: undefined,
       tdsCode: undefined,
@@ -503,13 +504,37 @@ export class AddEditTransporterComponent implements OnInit {
     this.transporterMappings.push(newObj)
     
   }
-
+  selectedTransactionCodes: any
   onTransporterModeSelect(e: any, index: number) {
     const selectedMode = e?.value;
     if (selectedMode) {
-      this.transporterMappings[index].transportationModeId = selectedMode;
-      this.selectedModes.add(selectedMode);   
+      this.transporterMappings[index].transportationMode = selectedMode;
+      this.transporterMappings[index].transportationModeId = e?.id;
     }
+    this.updateSelectedTransactionCodes();
+    
+  }
+
+  getAvailableModes(index: number): any[] {
+    return this.transporterMode.filter((transaction: any) => {
+      const duplicateTransaction = this.transporterMappings.some(
+        (t: any, i: number) =>
+          i !== index &&
+          t.location === this.transporterMappings[index].location &&
+          t.transportationMode === transaction.value
+      );
+      return !duplicateTransaction || this.transporterMappings[index].transportationMode === transaction.value;
+    });
+  }
+  initializeSelectedTransactionCodes() {
+    this.selectedTransactionCodes = this.transporterMappings
+      .filter((transaction: any) => transaction.transportationMode)
+      .map((transaction: any) => transaction.transportationMode);
+  }
+  updateSelectedTransactionCodes() {
+    this.selectedTransactionCodes = this.transporterMappings
+      .filter((transaction: any) => transaction.transportationMode)
+      .map((transaction: any) => transaction.transportationMode);
   }
 
   onTransporterModeClear(index: number) {
@@ -521,23 +546,23 @@ export class AddEditTransporterComponent implements OnInit {
   }
   
 
-  getAvailableModes(index: number): any[] {
-    const currentLocationId = this.transporterMappings[index].location;
-    this.selectedModes = new Set<any>(); 
-      for (let i = 0; i < index; i++) {
-        const prevMapping = this.transporterMappings[i];
-        if (prevMapping?.location === currentLocationId) {
-            this.selectedModes.add(prevMapping?.transportationModeId);
-            this.selectedModes.add(prevMapping?.transportationMode);
-        }
-    }
+//   getAvailableModes(index: number): any[] {
+//     const currentLocationId = this.transporterMappings[index].location;
+//     this.selectedModes = new Set<any>(); 
+//       for (let i = 0; i < index; i++) {
+//         const prevMapping = this.transporterMappings[i];
+//         if (prevMapping?.location === currentLocationId) {
+//             this.selectedModes.add(prevMapping?.transportationModeId);
+//             this.selectedModes.add(prevMapping?.transportationMode);
+//         }
+//     }
 
-    const currentMode = this.transporterMappings[index].transportationModeId;
+//     const currentMode = this.transporterMappings[index].transportationModeId;
 
-    return this.transporterMode.filter(mode => 
-        !this.selectedModes.has(mode.value) || currentMode === mode.value
-    );
-}
+//     return this.transporterMode.filter(mode => 
+//         !this.selectedModes.has(mode.value) || currentMode === mode.value
+//     );
+// }
 
 
   getLocationData(data: any, index: number){

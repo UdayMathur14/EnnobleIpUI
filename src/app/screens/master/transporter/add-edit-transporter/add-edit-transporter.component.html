@@ -234,8 +234,7 @@
               <div class="custom-form-input biltiwidth">
                 <ng-select class="input-field" [(ngModel)]="transaction.transportationMode"
                   (change)="onTransporterModeSelect($event, ind)" 
-                  (clear)="onTransporterModeClear(ind)"
-                  [disabled]="transaction.disabled" appendTo="body">
+                  (clear)="onTransporterModeClear(ind)" appendTo="body">
                   <ng-option *ngFor="let mode of getAvailableModes(ind)" [value]="mode">
                     {{mode.value}} ({{mode.code}})
                   </ng-option>
@@ -249,8 +248,7 @@
               <div class="custom-form-input biltiwidth">
                 <ng-select class="input-field" [(ngModel)]="transaction.taxationType" appendTo="body"
                   (change)="onRcmNonRcmSelect($event, ind)" 
-                  (clear)="onRcmNonRcmClear(ind)"
-                  [disabled]="transaction.disabled">
+                  (clear)="onRcmNonRcmClear(ind)">
                   <ng-option *ngFor="let type of rcmNonRcmType" [value]="type">
                     {{type.code}}
                   </ng-option>
@@ -263,8 +261,7 @@
               <div class="custom-form-input biltiwidth">
                 <ng-select class="input-field" [(ngModel)]="transaction.taxaCode"
                   (change)="onTaxCodeSelect($event, ind)"  appendTo="body"
-                  (clear)="onTaxCodeClear(ind)"
-                  [disabled]="transaction.disabled">
+                  (clear)="onTaxCodeClear(ind)">
                   <ng-container *ngIf="transaction?.taxationType?.code === 'RCM'">
                   <ng-option *ngFor="let code of taxCodesRcm" [value]="code">
                     {{code.code}} ({{code?.description}})
@@ -284,8 +281,7 @@
               <div class="custom-form-input biltiwidth">
                 <ng-select class="input-field" [(ngModel)]="transaction.tdsCode" appendTo="body"
                   (change)="onTdsCodeSelect($event, ind)" 
-                  (clear)="onTdsCodeClear(ind)"
-                  [disabled]="transaction.disabled">
+                  (clear)="onTdsCodeClear(ind)">
                   <ng-option *ngFor="let code of tdsCodes" [value]="code">
                     {{code.code}} ({{code?.description}})
                   </ng-option>
