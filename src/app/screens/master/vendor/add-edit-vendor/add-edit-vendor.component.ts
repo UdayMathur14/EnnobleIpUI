@@ -263,9 +263,9 @@ export class AddEditVendorComponent implements OnInit {
           paidByDetails: mapping.paidByDetails.code + ' (' + mapping.paidByDetails.value + ')' || {},
           iTransactionTypeId: mapping.transactionType.id || {},
           id: mapping.paidByDetails.id || {},
-          status: 'Active',
+          status: mapping?.status,
           disabled: true,
-          isShow: false
+          isShow: false,
         };
       });
     }

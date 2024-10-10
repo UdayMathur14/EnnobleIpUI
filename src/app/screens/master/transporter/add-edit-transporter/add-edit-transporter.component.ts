@@ -161,8 +161,8 @@ export class AddEditTransporterComponent implements OnInit {
         //   transporterModeId: mapping.transportationMode.id,
         //   location: mapping.locationId
         // });
-        
         return {
+          id: mapping?.id,
           transportationMode: mapping?.transportationMode?.value || {},
           taxationType: mapping.taxationType.code || {},
           taxaCode: mapping.taxCodes.code || {},
@@ -171,7 +171,7 @@ export class AddEditTransporterComponent implements OnInit {
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxCodes?.id,
           tdsCodesId: mapping?.tdsCodes.id,
-          status: 'Active',
+          status: mapping?.status,
           disabled: true,
           isShow: false,
           isLocationDisabled: true,
@@ -229,12 +229,15 @@ export class AddEditTransporterComponent implements OnInit {
       note: this.transporterForm.controls['note'].value,
       footer: this.transporterForm.controls['footer'].value,
       transporterMappings: this.transporterMappings.map((mapping: any) => {
+        console.log(mapping);
+        
         return {
+          id: mapping?.id || 0,
           transportationModeId: mapping?.transportationMode?.id || mapping?.transportationModeId,
           taxationTypeId: mapping?.taxationType?.id || mapping?.taxationTypeId,
           taxaCodesId: mapping?.taxaCode?.id || mapping?.taxaCodesId,
           tdsCodesId: mapping?.tdsCode?.id || mapping?.tdsCodesId,
-          status: mapping.status,
+          status: mapping?.status,
           locationId: mapping?.location,
           autoBiltiRequiredFlag: mapping?.autoBiltiReq,
           autoBiltiStartingCharacter: mapping?.autoBilti,
@@ -312,6 +315,7 @@ export class AddEditTransporterComponent implements OnInit {
       transporterCode: this.selectedVendor?.vendorCode || '',
       transporterMappings: this.transporterMappings.map((mapping: any) => {
         return {
+          id: 0,
           transportationModeId: mapping?.transportationModeId,
           taxationTypeId: mapping?.taxationType?.id,
           taxaCodesId: mapping?.taxaCode?.id,
@@ -499,7 +503,8 @@ export class AddEditTransporterComponent implements OnInit {
       consignerContact: undefined,
       autoBiltiReq: 'Y',
       isShow: true,
-      isLocationDisabled: false
+      isLocationDisabled: false,
+      id: 0
     }
 
     this.transporterMappings.push(newObj)
@@ -507,6 +512,8 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   onTransporterModeSelect(e: any, index: number) {
+    console.log(e);
+    
     const selectedMode = e?.value;
     if (selectedMode) {
       this.transporterMappings[index].transportationMode = selectedMode;
