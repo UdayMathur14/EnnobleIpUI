@@ -611,7 +611,7 @@ export class AddEditDispatchNoteComponent {
     this.transporterMode = transporter?.map((item: any) => item.transportationMode);
     if(this.transporterMode.length <=1){
       this.addOrEditDispatchNoteFormGroup.patchValue({
-        transporterMode: this.transporterMode[0]?.code
+        transporterMode: this.transporterMode[0]?.value
       })
     }
     this.addOrEditDispatchNoteFormGroup.patchValue({

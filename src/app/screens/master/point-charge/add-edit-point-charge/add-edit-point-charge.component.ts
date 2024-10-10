@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant, getDropdownDatas } from '../../../../core/constants';
 import { FreightService } from '../../../../core/service/freight.service';
+import { StatusConfirmationComponent } from '../../../modals/status-confirmation/status-confirmation.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-edit-point-charge',
@@ -48,7 +50,8 @@ export class AddEditPointChargeComponent implements OnInit {
     private baseService: BaseService,
     private lookupService: LookupService,
     private formBuilder: FormBuilder,
-    private freightService: FreightService
+    private freightService: FreightService,
+    private modalService: NgbModal
   ) {
     this.pointChargeForm = this.formBuilder.group({
       locationCode: [undefined, [Validators.required]],
@@ -344,5 +347,26 @@ export class AddEditPointChargeComponent implements OnInit {
 
   onChangeStatus(event: any){
     this.statusValue = event?.target?.value;
+    if (this.statusValue === 'Active') {
+      this.statusConfirmation();
+    }
+  }
+
+ statusConfirmation(){
+    let documentModal = this.modalService.open(StatusConfirmationComponent, {
+      size: 'md',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+      centered: true
+    });
+
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+       
+        }
+      },
+    );
   }
 }

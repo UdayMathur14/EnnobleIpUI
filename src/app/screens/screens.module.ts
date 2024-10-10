@@ -125,6 +125,7 @@ import { GlAccrualPostingGridTableComponent } from "./transactions/gl-accrual-po
 import { ProvisionalReportComponent } from "./reports/processed-report/provisional-report.component";
 import { ProvisionalReportFilterComponent } from "./reports/processed-report/components/filter/provisional-report-filter.component";
 import { ProvisionalReportGridTableComponent } from "./reports/processed-report/components/grid-table/provisional-report-grid-table.component";
+import { StatusConfirmationComponent } from "./modals/status-confirmation/status-confirmation.component";
 
 @NgModule({
     declarations: [
@@ -246,7 +247,8 @@ import { ProvisionalReportGridTableComponent } from "./reports/processed-report/
         ApOutboundGridTableComponent,
         GlAccrualPostingComponent,
         GlAccrualPostingFiltersComponent,
-        GlAccrualPostingGridTableComponent
+        GlAccrualPostingGridTableComponent,
+        StatusConfirmationComponent
     ],
     imports: [
         LayoutModule,

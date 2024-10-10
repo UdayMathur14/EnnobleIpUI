@@ -7,6 +7,8 @@ import { BaseService } from '../../../../core/service/base.service';
 import { FreightDataModel } from '../../../../core/model/masterModels.model';
 import { APIConstant } from '../../../../core/constants';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { StatusConfirmationComponent } from '../../../modals/status-confirmation/status-confirmation.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -44,7 +46,8 @@ export class AddEditFreightComponent implements OnInit {
     private freightService: FreightService,
     private lookUpService: LookupService,
     private _Activatedroute: ActivatedRoute,
-    private lookupService: LookupService) {
+    private lookupService: LookupService,
+    private modalService: NgbModal) {
     this.freightForm = this.formBuilder.group({
       freightCode: [''],
       locationCode: [undefined, [Validators.required]],
@@ -308,6 +311,27 @@ export class AddEditFreightComponent implements OnInit {
 
   onChangeStatus(event: any){
     this.statusValue = event?.target?.value;
+    if (this.statusValue === 'Active') {
+      this.statusConfirmation();
+    }
+  }
+
+  statusConfirmation(){
+    let documentModal = this.modalService.open(StatusConfirmationComponent, {
+      size: 'md',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+      centered: true
+    });
+
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+       
+        }
+      },
+    );
   }
   
 }
