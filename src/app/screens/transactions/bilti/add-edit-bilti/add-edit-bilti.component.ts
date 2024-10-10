@@ -485,6 +485,7 @@ console.log(this.vehicleSize);
       console.log(selected?.vehicleSizeId);
       this.vehicleSizeData = this.vehicleSize.find((item: any)=> item.id == selected?.vehicleSizeId);
       console.log(this.vehicleSizeData);
+      console.log(selected);
       
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
@@ -493,11 +494,16 @@ console.log(this.vehicleSize);
       this.loadingLocationid = selected?.loadingLocationId;
       this.vehicleId = this.vehicleId;
       this.onTransporterChange(this.transporterMapCode[selected.transporterId]);
+      const transporter = this.transportersList.find((item: any) => item.id == selected?.transporterId);
+      
         this.biltiForm.patchValue({
-          transporterCode: this.transporterMapCode[selected.transporterId],
-          transporterName: this.transporterMapName[selected.transporterId],
+          transporterCode: transporter?.transporterCode,
+          transporterName: transporter?.transporterName,
+          transporterMode: selected?.transporterMode
         });
     }
+   
+    
     if (this.biltiTransactionType == 'RB') {
       this.vehicleId = selectedFrlr?.vehicleId
       this.biltiForm.patchValue({
@@ -514,10 +520,10 @@ console.log(this.vehicleSize);
      const frlrTransporterCode = this.transporterMapCode[selected?.transporterId]
      
      this.transporters = this.transportersList.find((item: any) => {
-      return item?.transporterCode == frlrTransporterCode;
+      return item?.transporterCode == frlrTransporterCode || item?.id == selected?.transporterId;
      })
      this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
-     
+     console.log(this.transporterMode );
     if (this.biltiId == 0) {
       this.patchTransactionType(this.biltiTransactionType)
     } else {
@@ -771,7 +777,7 @@ getVehicleNumber() {
         vehicleSize: formData?.vehicleSize,
         attribute9: '2024-05-04T13:03:47.509Z',
         attribute10: '2024-05-04T13:03:47.509Z',
-        transporterMode: this.modeofTransport,
+        transporterMode: this.modeofTransport || formData?.transporterMode,
         taxationType: this.taxationType,
         taxCode: this.taxCode,
         tdsCode: this.tdsCode,
