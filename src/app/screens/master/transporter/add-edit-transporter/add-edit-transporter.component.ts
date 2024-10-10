@@ -43,7 +43,7 @@ export class AddEditTransporterComponent implements OnInit {
   autoBiltiRequiredFlag: string = '';
   locationsDropdownData: any = [];
   selectedLocations: number[] = [];
-  selectedTransportationMode: any
+  selectedTransportationMode: any;
 
   constructor(private router: Router,
     private toastr: ToastrService,

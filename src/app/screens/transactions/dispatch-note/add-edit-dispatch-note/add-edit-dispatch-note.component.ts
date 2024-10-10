@@ -169,7 +169,6 @@ export class AddEditDispatchNoteComponent {
         }, 1000);
         // this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == this.selectedTransporterId)
         this.onLocationSelect(response.locationId);
-        console.log(this.filteredVehicles);
         this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
