@@ -75,7 +75,7 @@
           <label for="">Vehicle Number <span class="text-danger">*</span></label>
           <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
             placeholder="Select Vehicle Number" (clear)="onVehicleNumberClear()">
-            <ng-option *ngFor="let vehicle of filteredVehicles"
+            <ng-option *ngFor="let vehicle of matchedvehicle"
               [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
           </ng-select>
         </div>

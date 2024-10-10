@@ -56,6 +56,9 @@ export class AddEditDispatchNoteComponent {
   filteredTransporter: any = [];
   filteredVehicles: any = [];
   locationsDropdownData: any = [];
+  selectedLocationId: number = 0;
+  matchedvehicle: any = [];
+  selectedTransporterId: number = 0;
 
   constructor(
     private router: Router,
@@ -160,7 +163,13 @@ export class AddEditDispatchNoteComponent {
     await this.dispatchNoteService
       .getDispatchNoteById(this.dispatchLocationId, dispatchId)
       .subscribe((response: any) => {
+        this.selectedTransporterId = response?.transporterId;
+        setTimeout(() => {
+          this.onTransporterSelection(this.selectedTransporterId);
+        }, 1000);
+        // this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == this.selectedTransporterId)
         this.onLocationSelect(response.locationId);
+        console.log(this.filteredVehicles);
         this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
@@ -595,16 +604,12 @@ export class AddEditDispatchNoteComponent {
   }
 
   onTransporterSelection(data: any){
-    this.addOrEditDispatchNoteFormGroup.patchValue({
-      transporterMode: null,
-      vehicleNumber: null
-    })
     const transporters = this.transportersList.find((item: any) => {
      return item.id == data;
     })
     this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == data);
-    this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode);
-    
+    const transporter = transporters?.transporterMappings?.filter((item: any) => item?.locationId == this.selectedLocationId);
+    this.transporterMode = transporter?.map((item: any) => item.transportationMode);
     if(this.transporterMode.length <=1){
       this.addOrEditDispatchNoteFormGroup.patchValue({
         transporterMode: this.transporterMode[0]?.code
@@ -613,6 +618,8 @@ export class AddEditDispatchNoteComponent {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       transporterName: transporters?.transporterName
     })
+    
+    this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == data)
    
   }
 
@@ -634,6 +641,8 @@ export class AddEditDispatchNoteComponent {
     }
 
     onLocationSelect(event: any){
+      
+      this.selectedLocationId = event;
       this.filteredTransporter = this.activeTransportersList.filter((item: any) => {
         return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
       });

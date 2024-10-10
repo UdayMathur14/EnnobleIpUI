@@ -43,6 +43,7 @@ export class AddEditTransporterComponent implements OnInit {
   autoBiltiRequiredFlag: string = '';
   locationsDropdownData: any = [];
   selectedLocations: number[] = [];
+  selectedTransportationMode: any
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -108,7 +109,7 @@ export class AddEditTransporterComponent implements OnInit {
 
   getTransporterData() {
     this.transporterService.getTransporterData(this.queryData).subscribe((response: any) => {
-      this.initializeSelectedTransactionCodes();
+      this.initializeSelectedTransansporterCodes();
       this.loadSpinner = false;
       this.transporterList = response;
       this.transporterMappings = response?.transporterMappings;
@@ -504,14 +505,14 @@ export class AddEditTransporterComponent implements OnInit {
     this.transporterMappings.push(newObj)
     
   }
-  selectedTransactionCodes: any
+
   onTransporterModeSelect(e: any, index: number) {
     const selectedMode = e?.value;
     if (selectedMode) {
       this.transporterMappings[index].transportationMode = selectedMode;
       this.transporterMappings[index].transportationModeId = e?.id;
     }
-    this.updateSelectedTransactionCodes();
+    this.updateSelectedTransporterCodes();
     
   }
 
@@ -526,13 +527,13 @@ export class AddEditTransporterComponent implements OnInit {
       return !duplicateTransaction || this.transporterMappings[index].transportationMode === transaction.value;
     });
   }
-  initializeSelectedTransactionCodes() {
-    this.selectedTransactionCodes = this.transporterMappings
+  initializeSelectedTransansporterCodes() {
+    this.selectedTransportationMode = this.transporterMappings
       .filter((transaction: any) => transaction.transportationMode)
       .map((transaction: any) => transaction.transportationMode);
   }
-  updateSelectedTransactionCodes() {
-    this.selectedTransactionCodes = this.transporterMappings
+  updateSelectedTransporterCodes() {
+    this.selectedTransportationMode = this.transporterMappings
       .filter((transaction: any) => transaction.transportationMode)
       .map((transaction: any) => transaction.transportationMode);
   }
