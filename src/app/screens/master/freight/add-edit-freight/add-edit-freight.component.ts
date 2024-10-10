@@ -136,8 +136,8 @@ export class AddEditFreightComponent implements OnInit {
   }
 
   //FUNCTION TO HANDLE STATUS FIELD ON UPDATE
-  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string, newFreightAmount: any, newFreightAmountStatus: any ) {
-    if ((approvedByAccounts == null || approvedByMaterial == null || approvedByMaterial.includes('Rejected') || approvedByAccounts.includes('Rejected'))) {
+  checkApprovalStatus(approvedByMaterialAction: string, approvedByAccountsAction: string, newFreightAmount: any, newFreightAmountStatus: any ) {
+    if ((approvedByAccountsAction == null || approvedByMaterialAction == null || approvedByMaterialAction.includes('Rejected') || approvedByAccountsAction.includes('Rejected'))) {
       this.freightForm.get('status')?.disable();
     } else {
       this.freightForm.get('status')?.enable();
