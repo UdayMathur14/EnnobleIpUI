@@ -105,6 +105,7 @@ export class AddEditBiltiComponent implements OnInit {
   locationsDropdownData: any = [];
   vehicleSize: any = [];
   vehicleSizeData: any = [];
+  activeTransporterMappings: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -584,7 +585,8 @@ getVehicleNumber() {
     this.transporters = this.transportersList.find((item: any) => {
       return item.transporterCode == data;
      })
-     this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+     this.activeTransporterMappings = this.transporters?.transporterMappings?.filter((item: any) => item.status == 'Active');
+     this.transporterMode = this.activeTransporterMappings?.map((item: any) => item) || [];
      if(this.transporterMode.length == 1 ){
       this.biltiForm.patchValue({
         transporterMode: this.transporterMode[0]?.transportationMode.value || null

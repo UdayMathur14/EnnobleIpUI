@@ -607,7 +607,7 @@ export class AddEditDispatchNoteComponent {
      return item.id == data;
     })
     this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == data);
-    const transporter = transporters?.transporterMappings?.filter((item: any) => item?.locationId == this.selectedLocationId);
+    const transporter = transporters?.transporterMappings?.filter((item: any) => item?.locationId == this.selectedLocationId && item?.status == 'Active');
     this.transporterMode = transporter?.map((item: any) => item.transportationMode);
     if(this.transporterMode.length <=1){
       this.addOrEditDispatchNoteFormGroup.patchValue({
