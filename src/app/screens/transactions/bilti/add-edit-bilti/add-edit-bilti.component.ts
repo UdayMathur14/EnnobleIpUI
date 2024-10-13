@@ -484,11 +484,7 @@ console.log(this.vehicleSize);
     );
 
     if (selected) {
-      console.log(selected?.vehicleSizeId);
       this.vehicleSizeData = this.vehicleSize.find((item: any)=> item.id == selected?.vehicleSizeId);
-      console.log(this.vehicleSizeData);
-      console.log(selected);
-      
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
       this.transporterId = selected?.transporterId;
@@ -525,7 +521,6 @@ console.log(this.vehicleSize);
       return item?.transporterCode == frlrTransporterCode || item?.id == selected?.transporterId;
      })
      this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
-     console.log(this.transporterMode );
     if (this.biltiId == 0) {
       this.patchTransactionType(this.biltiTransactionType)
     } else {
@@ -627,7 +622,6 @@ getVehicleNumber() {
     });
     this.vehicleNumber = data.vehicleNumber
     const patchedVehicleSize = this.biltiForm.controls['vehicleSize'].value;
-    console.log(patchedVehicleSize.toLowerCase())
     this.freightListFiltered = this.filteredFreights.filter((item: any) => item?.vehicleSize?.code?.toLowerCase() == patchedVehicleSize?.toLowerCase())
   }
 
@@ -654,6 +648,29 @@ getVehicleNumber() {
   }
 
   onFreightChange(data: any) {
+    const source = data.source?.value;
+    const destination = data.destination?.value;
+    const reorderedRows = this.displayRows.filter((row: any) => row.pointName !== source && row.pointName !== destination);
+    
+    const sourceRows = this.displayRows.filter((row: any) => row.pointName === source);
+    const destinationRows = this.displayRows.filter((row: any) => row.pointName === destination);
+
+    this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
+    console.log(this.displayRows);
+    const vendorsArrays = this.biltiForm.get('vendors') as FormArray;
+    this.displayRows.forEach((row: any, index: number) => {
+      const vendorGroup = vendorsArrays.at(index) as FormGroup;
+      const toDestination = row?.toDestination;
+      console.log(row.documentrefNo);
+      
+      vendorGroup.patchValue({
+        documentrefNo: row?.documentrefNo || row?.documentReferenceNo,
+        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
+        vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
+        pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
+        paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
+      });
+    });
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
       const vendorData = this.vendorList.find((element: any) => {
         return element?.city == this.patchedPointName
@@ -693,6 +710,13 @@ getVehicleNumber() {
       source: data?.source?.value,
       destination: data?.destination?.value
     });
+    if (
+      this.displayRows.length > 0 &&
+      (this.displayRows[0].pointName !== source || this.displayRows[this.displayRows.length - 1].pointName !== destination)
+  ) {
+      this.toastr.error('Invalid bilti');
+      return;
+  }
   }
 
   onFreightClear() {
@@ -739,8 +763,7 @@ getVehicleNumber() {
     const matchedLocationId = matchedLocation?.id;
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
-    console.log(formData);
-    
+
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchData.filter((item: any) => {
@@ -966,9 +989,11 @@ getVehicleNumber() {
   getBiltiData(biltiId: number) {
     this.biltiService.getBiltiData(this.biltiLocationId,biltiId).subscribe(
       (response: any) => {
-        this.onChangeLocation(response.locationId);
-        this.onTransporterChange(response.transporterCode)
-        this.lineItem = response.biltiCreationLineItems
+        this.onChangeLocation(response?.locationId);
+        this.onTransporterChange(response?.transporterCode)
+        this.lineItem = response.biltiCreationLineItems;
+        this.filteredFreights = this.filteredFreightsLists.filter((item: any) => item?.locations?.id == response?.locationId);
+        this.freightListFiltered = this.filteredFreights.filter((item: any) => item?.vehicleSize?.code?.toLowerCase() == response.vehicleSize?.toLowerCase())
         
         const transactionTypeId = response.transactionTypeId;
         const transactionType = this.transactionTypesLists.find(
