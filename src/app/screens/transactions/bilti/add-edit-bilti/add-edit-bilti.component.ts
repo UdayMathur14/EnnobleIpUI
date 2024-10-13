@@ -106,6 +106,7 @@ export class AddEditBiltiComponent implements OnInit {
   vehicleSize: any = [];
   vehicleSizeData: any = [];
   activeTransporterMappings: any = [];
+  freightListFiltered: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -392,6 +393,7 @@ console.log(this.vehicleSize);
   }
 
   onFrlrNoSelectionChange(selectedFrlr: any) {
+    // this.filteredFreights.filter
     this.biltiForm.patchValue({
       transporterMode: null,
     });
@@ -529,7 +531,8 @@ console.log(this.vehicleSize);
     } else {
       this.patchTransactionType(this.selectedTransactionTypeCode)
     }
-
+    const patchedVehicleSize = this.biltiForm.controls['vehicleSize'].value;
+    this.freightListFiltered = this.filteredFreights.filter((item: any) => item?.vehicleSize?.code?.toLowerCase() == patchedVehicleSize?.toLowerCase())
   }
 
 onFrlrNoClear() {
@@ -623,7 +626,9 @@ getVehicleNumber() {
       vehicleSize: data.vehicleSize.value,
     });
     this.vehicleNumber = data.vehicleNumber
-    
+    const patchedVehicleSize = this.biltiForm.controls['vehicleSize'].value;
+    console.log(patchedVehicleSize.toLowerCase())
+    this.freightListFiltered = this.filteredFreights.filter((item: any) => item?.vehicleSize?.code?.toLowerCase() == patchedVehicleSize?.toLowerCase())
   }
 
   onVehicleClear() {
@@ -632,7 +637,7 @@ getVehicleNumber() {
     });
   }
 
-  getAllFreightList() {
+  getAllFreightList() {    
     const data = {
       freightCode: '',
       sourceId: 0,
