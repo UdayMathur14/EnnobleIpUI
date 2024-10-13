@@ -714,7 +714,7 @@ getVehicleNumber() {
       this.displayRows.length > 0 &&
       (this.displayRows[0].pointName !== source || this.displayRows[this.displayRows.length - 1].pointName !== destination)
   ) {
-      this.toastr.error('Invalid bilti');
+      this.toastr.error('Invalid Freight Code');
       return;
   }
   }
