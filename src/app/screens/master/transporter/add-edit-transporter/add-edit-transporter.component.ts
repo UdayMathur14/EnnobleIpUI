@@ -180,6 +180,7 @@ export class AddEditTransporterComponent implements OnInit {
           consignerName: mapping?.consignorName,
           consignerContact: mapping?.consignorContactInformation,
           autoBiltiReq: mapping?.autoBiltiRequiredFlag,
+          locationCode: mapping?.locations.code
         };
       });
     }, error => {
@@ -578,6 +579,7 @@ export class AddEditTransporterComponent implements OnInit {
     return item.id == data;
     })
     this.transporterMappings[index].autoBilti = locationData.attribute11;
+    this.transporterMappings[index].location = locationData.id;
     this.transporterMappings[index].storedAutoBilti = locationData.attribute11;
     // this.transporterMappings[index].autoBilti = this.transporterMappings[index].autoBiltiReq == 'Y' ?  locationData.attribute11 : '';
     this.transporterMappings[index].consignerName = locationData.attribute1;
