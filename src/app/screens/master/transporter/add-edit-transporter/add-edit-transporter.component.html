@@ -235,7 +235,7 @@
                 <ng-select class="input-field" [(ngModel)]="transaction.transportationMode"
                   (change)="onTransporterModeSelect($event, ind)" 
                   (clear)="onTransporterModeClear(ind)" appendTo="body">
-                  <ng-option *ngFor="let mode of transporterMode" [value]="mode">
+                  <ng-option *ngFor="let mode of getAvailableModes(ind)" [value]="mode">
                     {{mode.value}} ({{mode.code}})
                   </ng-option>
                 </ng-select>
