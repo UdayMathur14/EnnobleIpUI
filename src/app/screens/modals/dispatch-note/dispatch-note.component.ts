@@ -19,6 +19,8 @@ export class DispatchNoteModelComponent {
 
   ngOnInit(){
     this.getActiveParts();
+    console.log(this.dispatch);
+    
   }
 
   downloadPDF() {
@@ -81,8 +83,7 @@ export class DispatchNoteModelComponent {
 
   getDateTime(creationDate: string): string {
     const dateObj = new Date(creationDate);
-    dateObj.setHours(dateObj.getHours() + 1);
+    dateObj.setMinutes(dateObj.getMinutes() + 30);
     return dateObj.toISOString();
   }
-  
 }

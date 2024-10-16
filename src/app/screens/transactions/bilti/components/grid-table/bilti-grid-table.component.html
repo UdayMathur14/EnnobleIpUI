@@ -12,6 +12,7 @@
                 <th>Freight Amount</th>
                 <th>FRLR#</th>
                 <th>Loading Location</th>
+                <th>Status</th>
                 <th class="text-center">Bilti Details</th>
                 <th class="text-center">Action</th>
             </tr>
@@ -48,14 +49,15 @@
                       </div>
                     </ng-template>
                   </td>
-                  <td>{{bilti.vehicles.vehicleNumber}}</td>
+                  <td>{{bilti?.vehicles?.vehicleNumber}}</td>
                   <td>{{bilti?.vehicleSize}}</td>
-                  <td>{{bilti.freights.code}}</td>
-                  <td>{{bilti.freights.source.value}}</td>
-                  <td>{{bilti.freights.destination.value}}</td>
-                  <td>{{bilti.freights.freightAmount}}</td>
-                  <td>{{bilti.frlrNumber}}</td>
-                  <td>{{bilti.loadingLocation.value}}</td>
+                  <td>{{bilti?.freights?.code}}</td>
+                  <td>{{bilti?.freights?.source?.value}}</td>
+                  <td>{{bilti?.freights?.destination?.value}}</td>
+                  <td>{{bilti?.freights?.freightAmount}}</td>
+                  <td>{{bilti?.frlrNumber}}</td>
+                  <td>{{bilti?.loadingLocation?.value}}</td>
+                  <td>{{bilti?.status}}</td>
                 <td class="text-center">
                   <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewPdf(bilti)"
                   placement="top" ngbTooltip="Bilti PDF" />

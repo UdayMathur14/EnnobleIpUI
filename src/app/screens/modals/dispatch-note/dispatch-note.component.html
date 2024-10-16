@@ -21,16 +21,18 @@
             <p class="fw-bold">Supplier Name: <span class="fs-5">{{dispatch.suppliers.vendorName}}</span></p>
             <div class="more-information">
                 <div class="info">
-                    <div class="key fw-bold">Address: </div>
+                    <div class="key">Address 1: </div>
                     <div class="value">{{dispatch.suppliers.vendorAddress1}}</div>
                 </div>
                 <div class="info">
-                    <div class="key">Address: </div>
-                    <div class="value">{{dispatch.suppliers.vendorAddress2}}</div>
+                    <div class="key">Address 2: </div>
+                    <div class="value">{{dispatch?.suppliers?.city}}, {{dispatch?.suppliers?.state}},
+                        {{dispatch?.suppliers?.postalCode}}
+                    </div>
                 </div>
                 <div class="info">
                     <div class="key">GSTIN Number: </div>
-                    <div class="value">{{dispatch?.transporterEntity?.gstInNo}}</div>
+                    <div class="value">{{dispatch?.suppliers?.gstInNo}}</div>
                 </div>
             </div>
 

@@ -61,7 +61,6 @@ export class AddEditVehicleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCommonLocations();
-    this.getAllTransportersList();
     this.getLocations();
     if (!this.vehicleId) {
       this.loadSpinner = false;
@@ -80,6 +79,7 @@ export class AddEditVehicleComponent implements OnInit {
     this.getAllLookups();
     this.getVehicleSizeDropdownData();
     this.setLocation();
+    this.getAllTransportersList();
   }
 
   getCommonLocations(){
@@ -122,9 +122,11 @@ export class AddEditVehicleComponent implements OnInit {
 
   // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
+    console.log(data);
+    
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
-      transporterName: data.transporterEntity.transporterName,
+      transporterName: data.transporterEntity?.transporterName,
       vehicleSize: data.vehicleSizeId,
       vehicleCondition: data.vehicleCondition,
       remarks: data.remarks,
@@ -154,9 +156,10 @@ export class AddEditVehicleComponent implements OnInit {
     this.locationCode = this.vehicleForm.controls['locationId']?.value;
     const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
     const matchedLocationId = matchedLocation?.id;
+    const transporterId = this.transportersList.find((item: any) => item?.transporterName == this.vehicleForm.controls['transporterName']?.value)?.id
     if (this.vehicleId) {
       let data = {
-        transporterId: 1,
+        transporterId: transporterId,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,
@@ -214,12 +217,19 @@ export class AddEditVehicleComponent implements OnInit {
   }
 
   getAllTransportersList() {
+    this.loadSpinner  = true;
+    const locationId = this.vehicleForm.controls['locationId'].value;   
     let data = {
       "transporterCode": '',
       "transporterName": ''
     }
     this.transporterService.getTransporters(data, this.transporterOffset, this.transporterCount).subscribe((response: any) => {
-      this.transportersList = response.transporters.filter((item: any) => item?.status == 'Active');
+      if (response && response.transporters) {
+        this.transportersList = response.transporters.filter((item: any) => item?.status === 'Active');
+        if (this.transportersList.length > 0) {
+          this.onLocationSelect(locationId);
+        }
+      }
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -270,6 +280,7 @@ export class AddEditVehicleComponent implements OnInit {
     if(!this.vehicleId){
       this.lookUpService.setLocationId(this.vehicleForm, this.commonLocations, 'locationId');
     }
+    
   }
 
   getEditVehicleData(){
@@ -301,14 +312,18 @@ export class AddEditVehicleComponent implements OnInit {
         reject('No matching vehicle found');
       }
     });
+    
   }
 
   onLocationSelect(event: any){
     this.filteredTransporter = this.transportersList.filter((item: any) => {
       return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
     });
-    this.vehicleForm.patchValue({
-      transporterName: null
-    })
+    if(this.vehicleId == 0){
+      this.vehicleForm.patchValue({
+        transporterName: null
+      })
+    }
+
   }
 }

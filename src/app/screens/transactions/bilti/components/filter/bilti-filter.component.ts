@@ -20,6 +20,7 @@ export class BiltiFilterComponent implements OnInit {
   locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
   locations : any[] = APIConstant.commonLocationsList;
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
+  status: any = undefined;
 
   constructor(private lookupService: LookupService) { }
 
@@ -30,7 +31,8 @@ export class BiltiFilterComponent implements OnInit {
   onBiltiSearch() {
     let obj = {
       "biltiNumber": this.biltiNum || "",
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      status: this.status
     }
     this.getData.emit(obj)
   }
@@ -39,9 +41,11 @@ export class BiltiFilterComponent implements OnInit {
   onClearFilter() {
     this.biltiNum = null;
     this.locationIds = this.locationIds;
+    this.status = undefined;
     let obj = {
       biltiNum: null,
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      status: ''
     }
     this.getData.emit(obj)
   }

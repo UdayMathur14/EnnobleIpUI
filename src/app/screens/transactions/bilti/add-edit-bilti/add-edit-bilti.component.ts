@@ -163,6 +163,7 @@ export class AddEditBiltiComponent implements OnInit {
     });
   
     this.setLocation();
+    this.selectedLocationId = this.biltiForm?.controls['locationId']?.value;
   }
   
   getCommonLocations(){
@@ -566,6 +567,7 @@ getVehicleNumber() {
         this.filteredTransportersLists = this.transportersList.filter(
           (transporters: any) => transporters.status === 'Active'
         );
+        this.onChangeLocation(this.selectedLocationId)
       })
     );
   }

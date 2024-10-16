@@ -98,6 +98,9 @@ export class AddEditDispatchNoteComponent {
         this.getEditData();
       }
     }, 1000);
+    this.selectedLocationId = this.addOrEditDispatchNoteFormGroup?.controls['locationId']?.value;
+    console.log(this.selectedLocationId);
+    
   }
 
   initForm() {
@@ -591,10 +594,15 @@ export class AddEditDispatchNoteComponent {
       "taxationType": ""
     }
     this.transporterService.getTransporters(data).subscribe((response: any) => {
+      if (response && response.transporters) {
       this.transportersList = response.transporters;
       this.activeTransportersList = this.transportersList.filter(
         (items: any) => items.status === 'Active'
       );
+      if (this.transportersList.length > 0) {
+        this.onLocationSelect(this.selectedLocationId);
+      }
+    }
       this.loadSpinner = false;
     }, error => {
       // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
@@ -640,7 +648,6 @@ export class AddEditDispatchNoteComponent {
     }
 
     onLocationSelect(event: any){
-      
       this.selectedLocationId = event;
       this.filteredTransporter = this.activeTransportersList.filter((item: any) => {
         return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
