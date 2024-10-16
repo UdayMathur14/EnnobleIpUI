@@ -161,10 +161,8 @@ export class AddEditTransporterComponent implements OnInit {
         //   transporterModeId: mapping.transportationMode.id,
         //   location: mapping.locationId
         // });
-        
         return {
           id: mapping?.id,
-          locationId: mapping?.locationId,
           transportationMode: mapping?.transportationMode?.value || {},
           taxationType: mapping.taxationType.code || {},
           taxaCode: mapping.taxCodes.code || {},
@@ -177,7 +175,7 @@ export class AddEditTransporterComponent implements OnInit {
           disabled: true,
           isShow: false,
           isLocationDisabled: true,
-          location: mapping?.locations.code,
+          location: mapping?.locationId,
           autoBilti: mapping?.autoBiltiStartingCharacter,
           consignerName: mapping?.consignorName,
           consignerContact: mapping?.consignorContactInformation,
@@ -231,6 +229,8 @@ export class AddEditTransporterComponent implements OnInit {
       note: this.transporterForm.controls['note'].value,
       footer: this.transporterForm.controls['footer'].value,
       transporterMappings: this.transporterMappings.map((mapping: any) => {
+        console.log(mapping);
+        
         return {
           id: mapping?.id || 0,
           transportationModeId: mapping?.transportationMode?.id || mapping?.transportationModeId,
@@ -238,7 +238,7 @@ export class AddEditTransporterComponent implements OnInit {
           taxaCodesId: mapping?.taxaCode?.id || mapping?.taxaCodesId,
           tdsCodesId: mapping?.tdsCode?.id || mapping?.tdsCodesId,
           status: mapping?.status,
-          locationId: mapping?.locationId,
+          locationId: mapping?.location,
           autoBiltiRequiredFlag: mapping?.autoBiltiReq,
           autoBiltiStartingCharacter: mapping?.autoBilti,
           consignorName: mapping?.consignerName,
@@ -512,6 +512,8 @@ export class AddEditTransporterComponent implements OnInit {
   }
 
   onTransporterModeSelect(e: any, index: number) {
+    console.log(e);
+    
     const selectedMode = e?.value;
     if (selectedMode) {
       this.transporterMappings[index].transportationMode = selectedMode;
@@ -553,12 +555,11 @@ export class AddEditTransporterComponent implements OnInit {
   
 
 //   getAvailableModes(index: number): any[] {
-//     const currentLocationId = this.transporterMappings[index].locationId;
+//     const currentLocationId = this.transporterMappings[index].location;
 //     this.selectedModes = new Set<any>(); 
 //       for (let i = 0; i < index; i++) {
 //         const prevMapping = this.transporterMappings[i];
-
-//         if (prevMapping?.locationId === currentLocationId) {
+//         if (prevMapping?.location === currentLocationId) {
 //             this.selectedModes.add(prevMapping?.transportationModeId);
 //             this.selectedModes.add(prevMapping?.transportationMode);
 //         }
