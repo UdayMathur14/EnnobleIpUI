@@ -238,7 +238,7 @@ export class AddEditTransporterComponent implements OnInit {
           taxaCodesId: mapping?.taxaCode?.id || mapping?.taxaCodesId,
           tdsCodesId: mapping?.tdsCode?.id || mapping?.tdsCodesId,
           status: mapping?.status,
-          locationId: mapping?.locationId,
+          locationId: mapping?.locationId || mapping?.location,
           autoBiltiRequiredFlag: mapping?.autoBiltiReq,
           autoBiltiStartingCharacter: mapping?.autoBilti,
           consignorName: mapping?.consignerName,
