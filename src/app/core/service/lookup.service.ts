@@ -43,7 +43,7 @@ export class LookupService extends CRUDService<LookupRequest> {
         if(obj){
           locations.push(obj);
         }
-        APIConstant.plantCodes = el.whCode;
+        
       });
       allAppLocation.forEach((el: any) => {
         el.location.forEach((locationObj: any) => {
@@ -52,8 +52,9 @@ export class LookupService extends CRUDService<LookupRequest> {
             commonLocations.push(obj);
           }
         });
+        
+        APIConstant.plantCodes = allAppLocation;
       });
-
       const uniqueCommonLocations = commonLocations.filter((location: any, index: number, item: any) => 
         index === item.findIndex((l: any) => l.code === location.code)
       );
@@ -63,7 +64,6 @@ export class LookupService extends CRUDService<LookupRequest> {
         
       APIConstant.locationsListDropdown = locations;
       APIConstant.commonLocationsList = uniqueCommonLocations;
-      
       localStorage.setItem('locationId', locations[0]?.id)
       localStorage.setItem("userId",profile.userId);
     }, error => {

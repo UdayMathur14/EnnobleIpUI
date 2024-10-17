@@ -107,6 +107,7 @@ export class AddEditBiltiComponent implements OnInit {
   vehicleSizeData: any = [];
   activeTransporterMappings: any = [];
   freightListFiltered: any = [];
+  matchedPlants: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -197,7 +198,6 @@ export class AddEditBiltiComponent implements OnInit {
     this.lookUpService.getLocationsLookup(data, type).subscribe((res: any) => {
       this.vehicleSize = res.lookUps.filter(
         (item: any) => item.status === 'Active');
-console.log(this.vehicleSize);
 
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -286,8 +286,7 @@ console.log(this.vehicleSize);
 
 
   getFrlr(selectedTransactionType: string) {
-    const plantCodes = this.plantCodes?.map((plant: any) => plant.name);
-    
+    const plantCodes = this.matchedPlants?.map((plant: any) => plant.name);
     const data = {
       transactionType: selectedTransactionType,
       plantCode: plantCodes
@@ -439,16 +438,17 @@ console.log(this.vehicleSize);
         if (commonData) {
           this.displayRows.push({
             documentrefNo: element.documentNumber,
-            toDestination: element?.toDestination
+            toDestination: element?.toDestination,
+            fromDestination: element?.fromDestination
           });
         }
       });
     } 
+    
     this.pointChargesList.forEach((pointCharge: any) => {
       this.pointMapCharge[pointCharge.pointName] = pointCharge.pointCharge;
   })
     this.vendorList.forEach((vendor: any) => {
-      
       const matchingModel = vendor.vendorMappingModels.find((item: any) => item.transactionType.code === this.biltiTransactionType || this.selectedTransactionTypeCode);
       const cityId = vendor.city
       this.vendorMapCode[vendor.vendorCode] = vendor?.vendorCode;
@@ -658,12 +658,10 @@ getVehicleNumber() {
     const destinationRows = this.displayRows.filter((row: any) => row.pointName === destination);
 
     this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
-    console.log(this.displayRows);
     const vendorsArrays = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArrays.at(index) as FormGroup;
       const toDestination = row?.toDestination;
-      console.log(row.documentrefNo);
       
       vendorGroup.patchValue({
         documentrefNo: row?.documentrefNo || row?.documentReferenceNo,
@@ -1213,6 +1211,16 @@ disabledonAdd(){
 
 onChangeLocation(data: any){
   this.selectedLocationId = data;
+  const selectedLocationName  = this.locationsDropdownData.find((item: any) => item?.id == data)?.code
+
+this.plantCodes.forEach(item => {
+  item.location.forEach((loc: any) => {
+    if (loc.name === selectedLocationName) {
+      this.matchedPlants = loc.whCode;
+    }
+  });
+});
+
   this.filteredTransporter = this.filteredTransportersLists.filter((item: any) => {
     return item.transporterMappings.some((mapping: any) => mapping.locationId === data);
   });
