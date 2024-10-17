@@ -108,6 +108,10 @@ export class AddEditBiltiComponent implements OnInit {
   activeTransporterMappings: any = [];
   freightListFiltered: any = [];
   matchedPlants: any = [];
+  plantsList: any = [];
+  createLineItem: any = [];
+  selectedPlantCode: any = [];
+  lineItemId: number = 0
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -147,6 +151,7 @@ export class AddEditBiltiComponent implements OnInit {
       pointCharges: this.getAllPointChargesList(),
       loadingLocation: this.getLoadingLocationData(),
       vehicleNumbers: this.getVehicleNumber(),
+      plantList: this.getPlantsList()
     }).subscribe({
       next: (responses) => {
         if (this.biltiId > 0) {
@@ -439,7 +444,7 @@ export class AddEditBiltiComponent implements OnInit {
           this.displayRows.push({
             documentrefNo: element.documentNumber,
             toDestination: element?.toDestination,
-            fromDestination: element?.fromDestination
+            frmId: element?.id
           });
         }
       });
@@ -464,21 +469,42 @@ export class AddEditBiltiComponent implements OnInit {
     const selected = this.frmTransactionData.find(
       (data: any) => data.frlrNumber === selectedFrlr?.frlrNumber
     );
-    
-    this.patchedPointName = this.biltiTransactionType == 'RB' ? this.displayRows[0].pointName : this.pointMapName[selected?.toDestination];
+   
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
     this.displayRows.forEach((row: any, index: number) => {
+
+      const matchedPlant = this.plantsList.find(
+        (plant: any) => plant.plantCode === row.toDestination
+      );
+    if (matchedPlant) {
+      this.displayRows[index].vendorName = matchedPlant?.plantDesc;
+      this.displayRows[index].pointName = matchedPlant?.city;
+    } 
+    
       const vendorGroup = vendorsArray.at(index) as FormGroup;
       const toDestination = row?.toDestination;
-      // this.vendorId = this.vendorIdMap[selected?.toDestination];
-      vendorGroup.patchValue({
-        documentrefNo: row.documentrefNo,
-        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
-        vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
-        pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
-        paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
-      });
+      if(this.biltiTransactionType == 'STO' || this.selectedTransactionTypeCode == 'STO' || 
+        this.biltiTransactionType == 'CWC' || this.selectedTransactionTypeCode == 'CWC'){
+          vendorGroup.patchValue({
+            documentrefNo: row.documentrefNo,
+            vendorCode: row?.toDestination,
+            vendorName: row?.vendorName,
+            pointName: row?.pointName,
+            paidByDetails: 'Paid by LG'
+          });
+      } else{
+        vendorGroup.patchValue({
+          documentrefNo: row.documentrefNo,
+          vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
+          vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
+          pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
+          paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
+        });
+      }
+    
     });
+
+    this.patchedPointName = this.biltiTransactionType == 'RB' || this.biltiTransactionType == 'STO' || this.biltiTransactionType == 'CWC' ? this.displayRows[0].pointName : this.pointMapName[selected?.toDestination];
     const selectedVehiclenumber = selectedFrlr?.vehicleNumber;
     const vehicleNumber = this.vehiclesList.find(
       (vehicle: any) => vehicle?.vehicleNumber === selectedVehiclenumber
@@ -489,7 +515,7 @@ export class AddEditBiltiComponent implements OnInit {
       this.vehicleNumber = selected?.vehicleNumber;
       this.frlrNumber = selected?.frlrNumber;
       this.transporterId = selected?.transporterId;
-      this.frmId = selected?.id;
+      // this.frmId = selected?.id;
       this.loadingLocationid = selected?.loadingLocationId;
       this.vehicleId = this.vehicleId;
       this.onTransporterChange(this.transporterMapCode[selected.transporterId]);
@@ -593,15 +619,17 @@ getVehicleNumber() {
      })
      this.activeTransporterMappings = this.transporters?.transporterMappings?.filter((item: any) => item.status == 'Active');
      this.transporterMode = this.activeTransporterMappings?.map((item: any) => item) || [];
-     if(this.transporterMode.length == 1 ){
-      this.biltiForm.patchValue({
-        transporterMode: this.transporterMode[0]?.transportationMode.value || null
-    })
-    this.taxationType = this.transporterMode[0]?.taxationType.value;
-    this.tdsCode = this.transporterMode[0]?.tdsCodes.code;
-    this.taxCode = this.transporterMode[0]?.taxCodes.code;
-    this.modeofTransport =  this.transporterMode[0]?.transportationMode.value;
-     }
+    //  if(this.transporterMode.length == 1 ){
+    //   this.biltiForm.patchValue({
+    //     transporterMode: this.transporterMode[0]?.transportationMode.value || null
+    // })
+    
+    // this.taxationType = this.transporterMode[0]?.taxationType.value;
+    // this.tdsCode = this.transporterMode[0]?.tdsCodes.code;
+    // this.taxCode = this.transporterMode[0]?.taxCodes.code;
+    // this.modeofTransport =  this.transporterMode[0]?.transportationMode.value;
+    
+    //  }
   }
 
   onChangeMode(data: any){
@@ -652,24 +680,39 @@ getVehicleNumber() {
   onFreightChange(data: any) {
     const source = data.source?.value;
     const destination = data.destination?.value;
-    const reorderedRows = this.displayRows.filter((row: any) => row.pointName !== source && row.pointName !== destination);
+
+    const reorderedRows = this.displayRows.filter((row: any) => row?.pointName !== source && row?.pointName !== destination);
     
-    const sourceRows = this.displayRows.filter((row: any) => row.pointName === source);
-    const destinationRows = this.displayRows.filter((row: any) => row.pointName === destination);
+    const sourceRows = this.displayRows.filter((row: any) => row?.pointName === source);
+    const destinationRows = this.displayRows.filter((row: any) => row?.pointName === destination);
 
     this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
+
     const vendorsArrays = this.biltiForm.get('vendors') as FormArray;
+    
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArrays.at(index) as FormGroup;
-      const toDestination = row?.toDestination;
-      
-      vendorGroup.patchValue({
-        documentrefNo: row?.documentrefNo || row?.documentReferenceNo,
-        vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
-        vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
-        pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
-        paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
-      });
+      if(this.biltiTransactionType == 'STO' || this.selectedTransactionTypeCode == 'STO' || 
+        this.biltiTransactionType == 'CWC' || this.selectedTransactionTypeCode == 'CWC'){
+          
+          vendorGroup?.patchValue({
+            documentrefNo: row.documentrefNo || row?.documentReferenceNo,
+            vendorCode: row?.toDestination || row?.vendorCode,
+            vendorName: row?.vendorName,
+            pointName: row?.pointName,
+            paidByDetails: 'Paid by LG'
+          });
+      }else {
+        const toDestination = row?.toDestination;
+        vendorGroup.patchValue({
+          documentrefNo: row?.documentrefNo || row?.documentReferenceNo,
+          vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
+          vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
+          pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
+          paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
+        });
+      }
+     
     });
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
       const vendorData = this.vendorList.find((element: any) => {
@@ -763,7 +806,6 @@ getVehicleNumber() {
     const matchedLocationId = matchedLocation?.id;
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
-
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchData.filter((item: any) => {
@@ -826,31 +868,50 @@ getVehicleNumber() {
 
       formData.vendors.forEach((vendorControl: any, index: number) => {
         const matchingVendor = this.vendorList.find((vendor: any) => vendor.id === vendorControl.vendorCode);
+        const matchingPlant = this.plantsList.find((item: any) => item?.plantCode == vendorControl?.vendorCode)
+        
         const matchedLineitems = this.allFrmTransactionData.filter((item: any) => {
-          return item.documentNumber == vendorControl.documentrefNo
+          return item.documentNumber == vendorControl?.documentrefNo
         }
-        )
+        ) 
+        
+        if(formData.transactionType.code === 'CWC' || formData.transactionType.code === 'STO'){
+          this.createLineItem = {
+            // vendorId: matchingPlant.id,
+            vendorCode: formData?.vendors[index].vendorCode,
+            vendorName: formData?.vendors[index].vendorName,
+            actionBy: localStorage.getItem("userId") || '',
+            remarks: vendorControl?.remarks,
+            frmId: this.displayRows[index]?.frmId,
+            dispatchNoteId: this.combinedRows[index]?.dispatchNoteId || 0,
+            documentReferenceNo: vendorControl.documentrefNo,
+            pointCharge: parseInt(vendorControl?.pointCharge) || 0,
+            pointName: vendorControl.pointName,
+            plantCode:  matchedLineitems[0]?.fromDestination || "",
+            paidByDetails: 'Paid by LG',
+          };
+        } else {
+          this.createLineItem = {
+            // vendorId: formData.transactionType.code === 'RB'? vendorControl.vendorCode: formData?.vendors[index].vendorCode,
+            vendorCode: formData.transactionType.code === 'RB'? matchingVendor?.vendorCode: matchingVendor?.vendorCode,
+            vendorName: formData.transactionType.code === 'RB'? vendorControl.vendorName: formData?.vendors[index].vendorName,
+            actionBy: localStorage.getItem("userId") || '',
+            remarks: vendorControl?.remarks,
+            frmId: vendorControl.biltiDetailsTransactionType === 'RB' ? 0 : this.displayRows[index]?.frmId,
+            dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id || this.combinedRows[index]?.dispatchNoteId : this.combinedRows[index]?.dispatchNoteId || 0,
+            documentReferenceNo: vendorControl.documentrefNo,
+            pointCharge: parseInt(vendorControl?.pointCharge) || 0,
+            pointName: vendorControl.pointName,
+            plantCode: formData.transactionType.code === 'RB' ? '' : matchedLineitems[0]?.fromDestination || "",
+            paidByDetails: vendorControl.paidByDetails,
+          };
+        }
        
-        const lineItem = {
-          vendorId: formData.transactionType.code === 'RB'? vendorControl.vendorCode: formData?.vendors[index].vendorCode,
-          vendorCode: formData.transactionType.code === 'RB'? matchingVendor?.vendorCode: matchingVendor?.vendorCode,
-          vendorName: formData.transactionType.code === 'RB'? vendorControl.vendorName: formData?.vendors[index].vendorName,
-          actionBy: localStorage.getItem("userId") || '',
-          remarks: vendorControl?.remarks,
-          attribute9: "2024-05-04T13:03:47.509Z",
-          attribute10: "2024-05-04T13:03:47.509Z",
-          frmId: vendorControl.biltiDetailsTransactionType === 'RB' ? 0 : this.frmId,
-          dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id || this.combinedRows[index]?.dispatchNoteId : this.combinedRows[index]?.dispatchNoteId || 0,
-          documentReferenceNo: vendorControl.documentrefNo,
-          pointCharge: parseInt(vendorControl?.pointCharge) || 0,
-          pointName: vendorControl.pointName,
-          plantCode: formData.transactionType.code === 'RB' ? '' : matchedLineitems[0]?.fromDestination || "",
-          paidByDetails: vendorControl.paidByDetails,
-        };
+       
         if(data.lineItemsEntity[0].vendorId == 0){
-          data.lineItemsEntity[0] = lineItem
+          data.lineItemsEntity[0] = this.createLineItem
         }else{
-          data.lineItemsEntity.push(lineItem);
+          data.lineItemsEntity.push(this.createLineItem);
         }
       })
   
@@ -919,29 +980,51 @@ getVehicleNumber() {
           return item.documentNumber == vendorControl.documentrefNo
         }
         )
+
+        if(formData.transactionType.code === 'STO' || formData.transactionType.code === 'CWC' || vendorControl.biltiDetailsTransactionType === 'STO' || vendorControl.biltiDetailsTransactionType === 'CWC'){
+          this.createLineItem = {
+            // vendorId: this.selectedTransactionTypePatchCode === 'RB'? this.matchedDispatchNotes[index]?.suppliers?.id || matchingVendor?.id : formData?.vendors[index].vendorCode,
+            actionBy: localStorage.getItem("userId") || '',
+            remarks: vendorControl?.remarks,
+            attribute9: new Date().toISOString(),
+            attribute10: new Date().toISOString(),
+            status: vendorControl?.biltiStatus,
+            id: this.lineItemId,
+            frmId: this.displayRows[index]?.frmId,
+            dispatchNoteId:  0,
+            documentReferenceNo: vendorControl.documentrefNo,
+            pointCharge: parseInt(vendorControl?.pointCharge) || 0,
+            vendorCode:formData?.vendors[index]?.vendorCode,
+            vendorName: formData?.vendors[index]?.vendorName,
+            pointName: vendorControl.pointName,
+            plantCode: matchedLineitems[0]?.fromDestination || this.selectedPlantCode,
+            paidByDetails: vendorControl.paidByDetails || "Paid by LG",
+          };
+        }else {
+          this.createLineItem = {
+            // vendorId: this.selectedTransactionTypePatchCode === 'RB'? this.matchedDispatchNotes[index]?.suppliers?.id || matchingVendor?.id : formData?.vendors[index].vendorCode,
+            actionBy: localStorage.getItem("userId") || '',
+            remarks: vendorControl?.remarks,
+            attribute9: new Date().toISOString(),
+            attribute10: new Date().toISOString(),
+            status: vendorControl?.biltiStatus,
+            id: this.lineItemId,
+            frmId: this.displayRows[index]?.frmId,
+            dispatchNoteId: vendorControl.biltiDetailsTransactionType === 'RB' ?  this.combinedRows[index]?.dispatchNoteId || this.dispatchNoteId : 0,
+            documentReferenceNo: vendorControl.documentrefNo,
+            pointCharge: parseInt(vendorControl?.pointCharge) || 0,
+            vendorCode: formData.transactionType.code === 'RB' || vendorControl.biltiDetailsTransactionType === 'RB' ? matchingVendor?.vendorCode: matchingVendor?.vendorCode,
+            vendorName: formData.transactionType.code === 'RB' || vendorControl.biltiDetailsTransactionType === 'RB'? vendorControl?.vendorName: formData?.vendors[index]?.vendorName,
+            pointName: vendorControl.pointName,
+            plantCode: formData.transactionType.code === 'RB' || vendorControl.biltiDetailsTransactionType === 'RB' ? ''  : matchedLineitems[0]?.fromDestination || this.selectedPlantCode,
+            paidByDetails: vendorControl.paidByDetails || "",
+          };
+        }
         
-        const lineItem = {
-          vendorId: this.selectedTransactionTypePatchCode === 'RB'? this.matchedDispatchNotes[index]?.suppliers?.id || matchingVendor?.id : formData?.vendors[index].vendorCode,
-          actionBy: localStorage.getItem("userId") || '',
-          remarks: vendorControl?.remarks,
-          attribute9: new Date().toISOString(),
-          attribute10: new Date().toISOString(),
-          status: vendorControl?.biltiStatus,
-          id: 0,
-          frmId: vendorControl.biltiDetailsTransactionType === 'RB' ? 0 : this.frmId,
-          dispatchNoteId: vendorControl.biltiDetailsTransactionType === 'RB' ?  this.combinedRows[index]?.dispatchNoteId || this.dispatchNoteId : 0,
-          documentReferenceNo: vendorControl.documentrefNo,
-          pointCharge: parseInt(vendorControl?.pointCharge) || 0,
-          vendorCode: formData.transactionType.code === 'RB'? matchingVendor?.vendorCode: matchingVendor?.vendorCode,
-          vendorName: formData.transactionType.code === 'RB'? vendorControl?.vendorName: formData?.vendors[index]?.vendorName,
-          pointName: vendorControl.pointName,
-          plantCode: formData.transactionType.code === 'RB' ? '' : matchedLineitems[0]?.fromDestination || "",
-          paidByDetails: vendorControl.paidByDetails || "",
-        };
         if(data.lineItemsEntity[0].vendorId == 0){
-          data.lineItemsEntity[0] = lineItem
+          data.lineItemsEntity[0] = this.createLineItem
         }else{
-          data.lineItemsEntity.push(lineItem);
+          data.lineItemsEntity.push(this.createLineItem);
         }
         if (this.lineItem.length > 1) {
           data.lineItemsEntity.forEach((item, index) => {
@@ -1026,7 +1109,6 @@ getVehicleNumber() {
         );
         this.pointChargeId = pointCharge?.id;
         this.frlrNumber = response?.frlrNumber;
-        this.frmId = response?.biltiCreationLineItems[0]?.frmId
         this.selectedTransactionTypePatchCode = transactionType?.code;
         this.displayRows = response.biltiCreationLineItems;
         const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
@@ -1040,11 +1122,15 @@ getVehicleNumber() {
     });
     this.biltiCreationLineItemsData = response?.biltiCreationLineItems
     vendorsArray.controls.forEach((vendorGroup, index) => {
-      const vendorId = this.biltiCreationLineItemsData[index]?.vendorId;
+      const vendorId = this.biltiCreationLineItemsData[index]?.vendorCode;
       const remarks = this.biltiCreationLineItemsData[index]?.remarks;
+      this.frmId = response?.biltiCreationLineItems[index]?.frmId;
+      this.lineItemId = response?.biltiCreationLineItems[index]?.id;
       const biltiStatus = this.biltiCreationLineItemsData[index]?.status;
-      const vendor = this.vendorList.find((vendor: any) => vendor.id === vendorId);
-      this.dispatchNoteId = this.biltiCreationLineItemsData[index]?.dispatchNoteId
+      const vendor = this.vendorList.find((vendor: any) => vendor?.vendorCode === vendorId)
+      
+      this.dispatchNoteId = this.biltiCreationLineItemsData[index]?.dispatchNoteId;
+      this.selectedPlantCode = this.biltiCreationLineItemsData[index]?.plantCode
       
         vendorGroup.patchValue({
           pointCharge: this.biltiCreationLineItemsData[index]?.pointCharge,
@@ -1055,8 +1141,8 @@ getVehicleNumber() {
         this.patchedPointName = this.biltiCreationLineItemsData[0]?.vendor?.cityDetail?.value
     if(this.selectedTransactionTypePatchCode =='RB'){
       vendorGroup.patchValue({
-        vendorCode: vendor?.vendorCode,
-        vendorName: vendor?.vendorName,
+        vendorCode: this.lineItem[index]?.vendorCode,
+        vendorName: this.lineItem[index]?.vendorName,
         remarks: remarks,
         biltiStatus: biltiStatus,
       });
@@ -1066,8 +1152,8 @@ getVehicleNumber() {
         });
     }else{
       vendorGroup.patchValue({
-        vendorCode: vendor?.id,
-        vendorName: vendor?.vendorName,
+        vendorCode: this.lineItem[index]?.vendorCode,
+        vendorName: this.lineItem[index]?.vendorName,
         remarks: remarks,
         biltiStatus: biltiStatus,
       });
@@ -1101,6 +1187,7 @@ getVehicleNumber() {
          this.taxationType = response?.taxationType;
         this.tdsCode = response?.tdsCode;
         this.taxCode = response?.taxCode;
+        
         this.modeofTransport =  response?.transporterMode;
          
         if(this.selectedTransactionTypeCode == "RB"){
@@ -1266,5 +1353,23 @@ this.plantCodes.forEach(item => {
     frlrNo: null
   })
 }
+
+getPlantsList() {
+  const data = {
+    locationIds: [],
+    plantCode: '',
+    auCode: '',
+    siteCode: '',
+    status: '',
+  };
+
+  return this.plantService.getPlants(data).pipe(
+    tap((response: any) => {
+      this.plantsList = response.plants;
+    }),
+  );
+}
+
+
   
 }
