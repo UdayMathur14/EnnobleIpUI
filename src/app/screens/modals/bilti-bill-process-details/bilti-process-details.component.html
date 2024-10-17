@@ -110,48 +110,48 @@
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="freightCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="pointCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true" />
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="detentionCharge"
-                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="overloadCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="tollTax" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="unloadingCharge"
-                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="otherCharges" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true" maxlength="150"/>
+                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'" maxlength="150"/>
                 </div>
               </td>
             </tr>
