@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BiltiListingModel } from '../../../../core/model/masterModels.model';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
-import { APIConstant } from '../../../../core/constants';
+import { APIConstant, pointCharge } from '../../../../core/constants';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { VehicleService } from '../../../../core/service/vehicle.service';
 import { TransporterService } from '../../../../core/service/transporter.service';
@@ -437,18 +437,6 @@ export class AddEditBiltiComponent implements OnInit {
         });
       }
     });
-    if (this.biltiTransactionType != 'RB') {
-      this.allFrmTransactionData.forEach((element: any) => {
-        const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
-        if (commonData) {
-          this.displayRows.push({
-            documentrefNo: element.documentNumber,
-            toDestination: element?.toDestination,
-            frmId: element?.id
-          });
-        }
-      });
-    } 
     
     this.pointChargesList.forEach((pointCharge: any) => {
       this.pointMapCharge[pointCharge.pointName] = pointCharge.pointCharge;
@@ -463,6 +451,19 @@ export class AddEditBiltiComponent implements OnInit {
       this.paidByDetailsMap[vendor.vendorCode] =  matchingModel?.paidByDetails?.value;
       this.vendorIdMap[vendor.vendorCode] = vendor?.id;
     });
+    if (this.biltiTransactionType != 'RB') {
+      this.allFrmTransactionData.forEach((element: any) => {
+        const commonData = element?.frlrNumber == selectedFrlr?.frlrNumber
+        if (commonData) {
+          this.displayRows.push({
+            documentrefNo: element.documentNumber,
+            toDestination: element?.toDestination,
+            frmId: element?.id,
+            pointName: this.pointMapName[element.toDestination],
+          });
+        }
+      });
+    } 
     const vendorControls = this.displayRows.map((vendor: any) => this.createVendorGroup(vendor));
     this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
 
@@ -493,6 +494,8 @@ export class AddEditBiltiComponent implements OnInit {
             paidByDetails: 'Paid by LG'
           });
       } else{
+        console.log(this.pointMapName[toDestination]);
+        
         vendorGroup.patchValue({
           documentrefNo: row.documentrefNo,
           vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
@@ -685,6 +688,11 @@ getVehicleNumber() {
     
     const sourceRows = this.displayRows.filter((row: any) => row?.pointName === source);
     const destinationRows = this.displayRows.filter((row: any) => row?.pointName === destination);
+console.log(reorderedRows);
+console.log(sourceRows);
+console.log(destinationRows);
+
+
 
     this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
 
