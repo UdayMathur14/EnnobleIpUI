@@ -550,7 +550,17 @@ export class AddEditBiltiComponent implements OnInit {
      this.transporters = this.transportersList.find((item: any) => {
       return item?.transporterCode == frlrTransporterCode || item?.id == selected?.transporterId;
      })
-     this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+    //  this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+     const uniquevalues = new Set();
+     this.transporterMode =  this.transporters?.transporterMappings
+       ?.filter((item: any) => {
+         const value = item.transportationMode.value;
+         if (!uniquevalues.has(value)) {
+          uniquevalues.add(value);
+           return true;
+         }
+         return false;
+       }) || [];
     if (this.biltiId == 0) {
       this.patchTransactionType(this.biltiTransactionType)
     } else {
@@ -621,7 +631,18 @@ getVehicleNumber() {
       return item.transporterCode == data;
      })
      this.activeTransporterMappings = this.transporters?.transporterMappings?.filter((item: any) => item.status == 'Active');
-     this.transporterMode = this.activeTransporterMappings?.map((item: any) => item) || [];
+     const uniquevalues = new Set();
+     this.transporterMode = this.activeTransporterMappings
+       ?.filter((item: any) => {
+         const value = item.transportationMode.value;
+         if (!uniquevalues.has(value)) {
+          uniquevalues.add(value);
+           return true;
+         }
+         return false;
+       }) || [];
+     
+     
     //  if(this.transporterMode.length == 1 ){
     //   this.biltiForm.patchValue({
     //     transporterMode: this.transporterMode[0]?.transportationMode.value || null
@@ -1191,7 +1212,16 @@ console.log(destinationRows);
         this.transporters = this.transportersList.find((item: any) => {
           return item.transporterCode == transporter?.transporterCode;
          })
-         this.transporterMode = this.transporters?.transporterMappings?.map((item: any) => item) || [];
+         const uniquevalues = new Set();
+         this.transporterMode =  this.transporters?.transporterMappings
+           ?.filter((item: any) => {
+             const value = item.transportationMode.value;
+             if (!uniquevalues.has(value)) {
+              uniquevalues.add(value);
+               return true;
+             }
+             return false;
+           }) || [];
          this.taxationType = response?.taxationType;
         this.tdsCode = response?.tdsCode;
         this.taxCode = response?.taxCode;
