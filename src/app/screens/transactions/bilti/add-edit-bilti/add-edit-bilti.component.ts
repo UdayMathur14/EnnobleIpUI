@@ -777,9 +777,13 @@ getVehicleNumber() {
       destination: data?.destination?.value
     });
     if (
-      this.displayRows.length > 0 &&
-      (this.displayRows[0].pointName.toLowerCase() !== source.toLowerCase() || this.displayRows[this.displayRows.length - 1].pointName.toLowerCase() !== destination.toLowerCase())
+      this.displayRows.length == 1  &&
+      (this.displayRows[this.displayRows.length - 1].pointName.toLowerCase() !== destination.toLowerCase())
   ) {
+      this.toastr.error('Invalid Freight Code');
+      return;
+  } else if( this.displayRows.length > 1 &&
+    (this.displayRows[0].pointName.toLowerCase() !== source.toLowerCase() || this.displayRows[this.displayRows.length - 1].pointName.toLowerCase() !== destination.toLowerCase())) {
       this.toastr.error('Invalid Freight Code');
       return;
   }
