@@ -739,10 +739,10 @@ getVehicleNumber() {
     });
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
       const vendorData = this.vendorList.find((element: any) => {
-        return element?.city == this.patchedPointName
+        return element?.city.toLowerCase() == this.patchedPointName.toLowerCase()
       })
       const commonData = this.pointChargesList.find((item: any) => {
-        return item?.pointName == vendorData?.city
+        return item?.pointName.toLowerCase() == vendorData?.city.toLowerCase()
       })
       const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
       vendorAtIndexZero.patchValue({
@@ -752,15 +752,15 @@ getVehicleNumber() {
       const currentVendor = vendorsArray.at(i) as FormGroup;
       const prevVendor = vendorsArray.at(i - 1) as FormGroup;
 
-      const currentPointName = currentVendor.value.pointName;
-      const prevPointName = prevVendor.value.pointName;
+      const currentPointName = currentVendor.value.pointName.toLowerCase();
+      const prevPointName = prevVendor.value.pointName.toLowerCase();
         const samePointName = currentPointName === prevPointName
         const lineItemsVendorData = this.vendorList.find((element: any) => {
-          return element?.city == currentPointName
+          return element?.city.toLowerCase() == currentPointName
         })
 
         const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
-          return item.pointName == lineItemsVendorData?.city
+          return item.pointName.toLowerCase() == lineItemsVendorData?.city.toLowerCase()
         })
         
         currentVendor.patchValue({
@@ -778,7 +778,7 @@ getVehicleNumber() {
     });
     if (
       this.displayRows.length > 0 &&
-      (this.displayRows[0].pointName !== source || this.displayRows[this.displayRows.length - 1].pointName !== destination)
+      (this.displayRows[0].pointName.toLowerCase() !== source.toLowerCase() || this.displayRows[this.displayRows.length - 1].pointName.toLowerCase() !== destination.toLowerCase())
   ) {
       this.toastr.error('Invalid Freight Code');
       return;
