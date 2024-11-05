@@ -702,12 +702,12 @@ getVehicleNumber() {
   }
 
   onFreightChange(data: any) {
-    const source = data.source?.value.toLowerCase();
-    const destination = data.destination?.value.toLowerCase();
+    const source = data.source?.value;
+    const destination = data.destination?.value;
 
-    const reorderedRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() !== source && row?.pointName.toLowerCase() !== destination);
-    const sourceRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() === source);
-    const destinationRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() === destination);
+    const reorderedRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() !== source.toLowerCase() && row?.pointName.toLowerCase() !== destination.toLowerCase());
+    const sourceRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() === source.toLowerCase());
+    const destinationRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() === destination.toLowerCase());
 
     this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
 
