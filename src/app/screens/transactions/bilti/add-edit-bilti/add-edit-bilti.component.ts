@@ -561,6 +561,10 @@ export class AddEditBiltiComponent implements OnInit {
          }
          return false;
        }) || [];
+       const modeofTransport = this.transporterMode.find((mode: any) => mode.transportationMode.value === 'Road');
+       if (modeofTransport) {
+         this.biltiForm.patchValue({ transporterMode: modeofTransport });
+       }
     if (this.biltiId == 0) {
       this.patchTransactionType(this.biltiTransactionType)
     } else {
@@ -641,7 +645,10 @@ getVehicleNumber() {
          }
          return false;
        }) || [];
-     
+       const modeofTransport = this.transporterMode.find((mode: any) => mode.transportationMode.value === 'Road');
+       if (modeofTransport) {
+         this.biltiForm.patchValue({ transporterMode: modeofTransport });
+       }
      
     //  if(this.transporterMode.length == 1 ){
     //   this.biltiForm.patchValue({
@@ -705,9 +712,9 @@ getVehicleNumber() {
     const source = data.source?.value;
     const destination = data.destination?.value;
 
-    const reorderedRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() !== source.toLowerCase() && row?.pointName.toLowerCase() !== destination.toLowerCase());
-    const sourceRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() === source.toLowerCase());
-    const destinationRows = this.displayRows.filter((row: any) => row?.pointName.toLowerCase() === destination.toLowerCase());
+    const reorderedRows = this.displayRows.filter((row: any) => row?.pointName?.toLowerCase() !== source?.toLowerCase() && row?.pointName?.toLowerCase() !== destination?.toLowerCase());
+    const sourceRows = this.displayRows.filter((row: any) => row?.pointName?.toLowerCase() === source?.toLowerCase());
+    const destinationRows = this.displayRows.filter((row: any) => row?.pointName?.toLowerCase() === destination?.toLowerCase());
 
     this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
 
@@ -833,6 +840,8 @@ getVehicleNumber() {
     const matchedLocationId = matchedLocation?.id;
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
+    console.log(formData);
+    
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchData.filter((item: any) => {
@@ -874,7 +883,7 @@ getVehicleNumber() {
         vehicleSize: formData?.vehicleSize,
         attribute9: '2024-05-04T13:03:47.509Z',
         attribute10: '2024-05-04T13:03:47.509Z',
-        transporterMode: this.modeofTransport || formData?.transporterMode,
+        transporterMode: formData?.transporterMode?.transportationMode?.value,
         taxationType: this.taxationType,
         taxCode: this.taxCode,
         tdsCode: this.tdsCode,
