@@ -275,7 +275,8 @@
       <p class="text-danger mb-0">Grand Total cannot be less than Freight Amount</p>
     </div>
     <div class="text-center"  *ngIf="showSaveButton">
-      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
+      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="(freightAmount > grandTotal) || (totalFreightCharge != freightAmount || totalPointCharge != pointCharges) 
+      && (totalLGFreightCharge != freightAmount || totalLGPointCharge != pointCharges)">Save</button>
     </div>
     <div class="row approve-button" *ngIf="showApproveRejectButtons">
       <div class="col-lg-6 col-md-6">

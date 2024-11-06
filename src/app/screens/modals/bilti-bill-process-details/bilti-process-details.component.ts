@@ -47,7 +47,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   grandTotalLG: number = 0;
 
   grandTotal: number = 0;
-
+  pointCharges: any;
   transactionTypeId: any;
   maxBiltiNumber: any;
   transacttionTypeCode: any;
@@ -230,6 +230,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   calculateTotals(): void {
+    this.pointCharges = this.biltiBillProcess.controls['pointCharges']?.value
     this.totalFreightCharge = this.sumColumn('freightCharge');
     this.totalPointCharge = this.sumColumn('pointCharge');
     this.totalDetentionCharge = this.sumColumn('detentionCharge');
@@ -252,6 +253,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   calculateTotalLGCharges(): void {
+    this.pointCharges = this.biltiBillProcess.controls['pointCharges']?.value
     const formValue = this.biltiBillProcess.value;
     this.totalLGFreightCharge = parseFloat(formValue.freightChargeLg) || 0;
     this.totalLGPointCharge = parseFloat(formValue.pointChargeLg) || 0;
