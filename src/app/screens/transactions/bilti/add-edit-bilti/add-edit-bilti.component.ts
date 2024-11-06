@@ -494,8 +494,6 @@ export class AddEditBiltiComponent implements OnInit {
             paidByDetails: 'Paid by LG'
           });
       } else{
-        console.log(this.pointMapName[toDestination]);
-        
         vendorGroup.patchValue({
           documentrefNo: row.documentrefNo,
           vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
@@ -734,7 +732,7 @@ getVehicleNumber() {
           });
       }else {
         const toDestination = row?.toDestination;
-        vendorGroup.patchValue({
+        vendorGroup?.patchValue({
           documentrefNo: row?.documentrefNo || row?.documentReferenceNo,
           vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
           vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
@@ -840,8 +838,6 @@ getVehicleNumber() {
     const matchedLocationId = matchedLocation?.id;
     this.loadSpinner = true;
     const formData = this.biltiForm.value;
-    console.log(formData);
-    
     const frlrNumber = formData?.frlrNo?.frlrNumber;
     if(this.biltiId > 0){
        this.matchedDispatchNotes = this.dispatchData.filter((item: any) => {
