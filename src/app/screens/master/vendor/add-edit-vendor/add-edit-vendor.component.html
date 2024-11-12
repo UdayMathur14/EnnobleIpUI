@@ -55,6 +55,14 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
+          <label for="">Freight City<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" formControlName="freightCity" placeholder="Select Freight City">
+            <ng-option *ngFor="let city of freightCity" [value]="city.code">{{city.code}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
           <label for="">City</label>
           <input type="text" class="input-field" formControlName="city" readonly />
         </div>
@@ -163,7 +171,7 @@
           <input type="text" class="input-field" formControlName="vendorPaymentGroup" readonly />
         </div>
       </div>
-      <div class="col-lg-23 col-md-3">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Vendor Payment Terms Name</label>
           <input type="text" class="input-field" formControlName="vendorPaymentTermsName" readonly />
@@ -219,7 +227,7 @@
                 <ng-select class="input-field" [(ngModel)]="transaction.transactionType"
                   (change)="onTransactionTypeSelect($event, ind)" 
                   (clear)="onTransactionTypeClear(ind)"
-                  [disabled]="transaction.disabled">
+                  [disabled]="transaction.disabledTransaction">
                   <ng-option *ngFor="let type of getAvailableTransactionTypes(ind)" [value]="type.code">
                     {{type.code}} ({{type?.name}})
                   </ng-option>
@@ -244,7 +252,7 @@
           </td>
           <td class="text-center">
             <div class="custom-form-input" style="width: 60%">
-            <select name="" [(ngModel)]="transaction.status">
+            <select name="" [(ngModel)]="transaction.status" (ngModelChange)="onStatusChange($event, transaction)">
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>

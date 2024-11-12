@@ -79,6 +79,14 @@
           <input type="text" class="input-field" formControlName="auCode" readonly />
         </div>
       </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Freight City<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" formControlName="freightCity" placeholder="Select Freight City">
+            <ng-option *ngFor="let city of freightCity" [value]="city.code">{{city.code}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
 
       <!-- new dropdowns. to be changed later -->
       <div class="col-lg-2 col-md-2">

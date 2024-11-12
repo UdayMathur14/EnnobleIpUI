@@ -44,6 +44,7 @@ export class AddEditTransporterComponent implements OnInit {
   locationsDropdownData: any = [];
   selectedLocations: number[] = [];
   selectedTransportationMode: any;
+  freightCity: any = [];
 
   constructor(private router: Router,
     private toastr: ToastrService,
@@ -84,6 +85,7 @@ export class AddEditTransporterComponent implements OnInit {
       transporterPaymentTermsName: [''],
       transporterPaytermDays: [''],
       transporterPaytermMethodCode: [''],
+      freightCity: ['']
     });
   }
 
@@ -105,6 +107,7 @@ export class AddEditTransporterComponent implements OnInit {
     this.getTaxCodesNonRcmDropdownData();
     this.getTaxCodesRcmDropdownData();
     this.setLocation();
+    this.getFreightCity();
   }
 
   getTransporterData() {
@@ -145,7 +148,8 @@ export class AddEditTransporterComponent implements OnInit {
         transporterPaymentGroup: response?.transporterPaymentGroup,
         transporterPaymentTermsName: response?.transporterPaymentTermsName,
         transporterPaytermDays: response?.transporterPaytermDays,
-        transporterPaytermMethodCode: response?.transporterPaytermMethodCode
+        transporterPaytermMethodCode: response?.transporterPaytermMethodCode,
+        freightCity: response?.freightCity
       });
       // this.getLocationData(response.locationId)
       this.transporterData = response
@@ -229,6 +233,7 @@ export class AddEditTransporterComponent implements OnInit {
         this.transporterForm.controls['biltiHeaderComment'].value,
       note: this.transporterForm.controls['note'].value,
       footer: this.transporterForm.controls['footer'].value,
+      freightCity: this.transporterForm.controls['freightCity'].value,
       transporterMappings: this.transporterMappings.map((mapping: any) => {
         console.log(mapping);
         
@@ -314,6 +319,7 @@ export class AddEditTransporterComponent implements OnInit {
       panNo: this.transporterForm.controls['pan'].value,
       postalCode: this.transporterForm.controls['postalCode'].value,
       transporterCode: this.selectedVendor?.vendorCode || '',
+      freightCity: this.transporterForm.controls['freightCity'].value,
       transporterMappings: this.transporterMappings.map((mapping: any) => {
         return {
           id: 0,
@@ -716,5 +722,20 @@ getTransportersList() {
     } else if (event.target.value === 'Y' && this.queryData > 0){
       this.transporterMappings[index].autoBilti = location.attribute11;
     }
+  }
+
+  getFreightCity() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'FreightCity';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.freightCity = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    }, error => {
+
+    });
   }
 }

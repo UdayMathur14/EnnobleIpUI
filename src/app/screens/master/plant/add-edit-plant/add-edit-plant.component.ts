@@ -34,6 +34,7 @@ export class AddEditPlantComponent implements OnInit {
   offset: number = 0;
   count: number = Number.MAX_VALUE;
   loadSpinner: boolean = false;
+  freightCity: any = [];
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -59,7 +60,8 @@ export class AddEditPlantComponent implements OnInit {
       sectionCode: [''],
       costCenter: [''],
       auCode: [''],
-      status: ['Active', Validators.required]
+      status: ['Active', Validators.required],
+      freightCity: ['']
     });
   }
 
@@ -74,6 +76,7 @@ export class AddEditPlantComponent implements OnInit {
     this.getCostCenters();
     this.getSectionCodes();
     this.getTransactionTypes();
+    this.getFreightCity();
     setTimeout(() => {
       this.getPlantData();
     }, 1000);
@@ -185,7 +188,8 @@ export class AddEditPlantComponent implements OnInit {
         sectionCode: response?.sectionCode,
         costCenter: response?.costCenter,
         status: response?.status,
-        auCode: response?.auCode
+        auCode: response?.auCode,
+        freightCity: response?.freightCity
       });
       this.plantData = response;
       this.initializeSelectedTransactionCodes();
@@ -245,7 +249,8 @@ export class AddEditPlantComponent implements OnInit {
       businessPlace: this.plantForm.controls['businessPlace'].value,
       sectionCode: this.plantForm.controls['sectionCode'].value,
       costCenter: this.plantForm.controls['costCenter'].value,
-      transactionTypeDetails: transactionData
+      transactionTypeDetails: transactionData,
+      freightCity: this.plantForm.controls['freightCity'].value
     }
     
     this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
@@ -362,5 +367,20 @@ export class AddEditPlantComponent implements OnInit {
     this.plantData.transactionTypeMapping[index].locations.id = locationData?.id;
     this.plantData.transactionTypeMapping[index].dsc = locationData?.attribute3;
     this.plantData.transactionTypeMapping[index].dcp = locationData?.attribute4;
+  }
+
+  getFreightCity() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'FreightCity';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.freightCity = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    }, error => {
+
+    });
   }
 }

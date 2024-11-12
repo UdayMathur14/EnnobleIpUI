@@ -749,11 +749,11 @@ getVehicleNumber() {
       const commonData = this.pointChargesList.find((item: any) => {
         return item?.pointName?.toLowerCase() == vendorData?.city?.toLowerCase()
       })
-      const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
-      vendorAtIndexZero.patchValue({
-        pointCharge: 0
-      });
-    for (let i = 1; i < vendorsArray.length; i++) {
+      // const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
+      // vendorAtIndexZero.patchValue({
+      //   pointCharge: 0
+      // });
+    for (let i = 0; i < vendorsArray.length; i++) {
       const currentVendor = vendorsArray.at(i) as FormGroup;
       const prevVendor = vendorsArray.at(i - 1) as FormGroup;
 

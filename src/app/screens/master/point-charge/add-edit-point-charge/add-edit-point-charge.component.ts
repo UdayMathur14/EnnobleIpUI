@@ -316,7 +316,7 @@ export class AddEditPointChargeComponent implements OnInit {
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
-    const type = 'Destination'
+    const type = 'FreightCity'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
       this.destinations = res.lookUps.filter(
         (item: any) => item.status === 'Active')

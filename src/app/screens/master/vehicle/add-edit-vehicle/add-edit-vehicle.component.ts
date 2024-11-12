@@ -50,8 +50,8 @@ export class AddEditVehicleComponent implements OnInit {
     vehicleNumber: new FormControl('', [Validators.required]),
     transporterName: new FormControl(null, [Validators.required]),
     vehicleSize: new FormControl(null, [Validators.required]),
-    vehicleCondition: new FormControl('', [Validators.required]),
-    remarks: new FormControl('', [Validators.required]),
+    vehicleCondition: new FormControl(''),
+    remarks: new FormControl(''),
     vehicleStatus: new FormControl('Active', [Validators.required]),
     ownerName: new FormControl(''),
     address: new FormControl(''),
@@ -164,6 +164,7 @@ export class AddEditVehicleComponent implements OnInit {
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,
         actionBy: localStorage.getItem("userId"),
+        ownerName: this.vehicleForm.get('ownerName')?.value,
       }
 
       this.vehicleService.updateVehicle(matchedLocationId,this.vehicleId, data)
@@ -187,6 +188,7 @@ export class AddEditVehicleComponent implements OnInit {
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,
+        ownerName: this.vehicleForm.get('ownerName')?.value,
       }
 
       this.vehicleService.createVehicle(this.locationCode,data)
@@ -250,7 +252,7 @@ export class AddEditVehicleComponent implements OnInit {
 
   patchTransporterField(data: any) {
     this.vehicleForm.patchValue({
-      ownerName: data.ownerName,
+      // ownerName: data.ownerName,
       address: data.transporterAddress1,
       mobileNumber1: data.transporterContactNo,
       emailId: data.transporterMailId,

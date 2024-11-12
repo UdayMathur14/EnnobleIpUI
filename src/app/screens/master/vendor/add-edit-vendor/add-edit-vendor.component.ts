@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-vendor',
@@ -36,6 +37,8 @@ export class AddEditVendorComponent implements OnInit {
   transactionTypes: any[] = [];
   selectedTransactionTypes: Set<string> = new Set();
   isShow: boolean = false;
+  freightCity: any = [];
+  statusValue: string = '';
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
     vendorName: new FormControl(''),
@@ -53,6 +56,7 @@ export class AddEditVendorComponent implements OnInit {
     postalCode: new FormControl(''),
     pan: new FormControl(''),
     gstin: new FormControl(''),
+    freightCity: new FormControl(''),
     // paymentTermCode: new FormControl(''),
     // paymentStatus: new FormControl(''),
     // paidByDetail: new FormControl('', [Validators.required]),
@@ -77,7 +81,8 @@ export class AddEditVendorComponent implements OnInit {
     private vendorService: VendorService,
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
-    private transactionTypeService: TransactionTypesService
+    private transactionTypeService: TransactionTypesService,
+    private lookupService: LookupService,
   ) {}
 
   ngOnInit(): void {
@@ -90,7 +95,7 @@ export class AddEditVendorComponent implements OnInit {
     this.getTransactionTypes();
     this.getRCMNonRCMTypeDropdownData();
     this.getTdsCodesDropdownData();
-
+    this.getFreightCity();
     this.vendorForm.get('paidByDetail')?.valueChanges.subscribe((value) => {
       const selectedDetail = this.paidbyDetailsList.find(
         (detail: any) => detail.value === value
@@ -141,6 +146,7 @@ export class AddEditVendorComponent implements OnInit {
       email: this.vendorForm.get('email')?.value,
       taxationTypeId: this.vendorForm.get('taxationTypeId')?.value || 0,
       taxCodeId: this.vendorForm.get('taxCodeId')?.value || 0,
+      freightCity: this.vendorForm.get('freightCity')?.value,
       // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
       status: this.vendorForm.get('status')?.value,
       vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
@@ -251,7 +257,8 @@ export class AddEditVendorComponent implements OnInit {
       vendorPaymentGroup: data?.vendorPaymentGroup,
       vendorPaymentTermsName: data?.vendorPaymentTermsName,
       vendorPaytermDays: data?.vendorPaytermDays,
-      vendorPaytermMethodCode: data?.vendorPaytermMethodCode
+      vendorPaytermMethodCode: data?.vendorPaytermMethodCode,
+      freightCity: data?.freightCity
       // rcmNonRcm: data.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
     });
 
@@ -264,7 +271,8 @@ export class AddEditVendorComponent implements OnInit {
           iTransactionTypeId: mapping.transactionType.id || {},
           id: mapping.paidByDetails.id || {},
           status: mapping?.status,
-          disabled: true,
+          disabled: mapping?.status == 'Active',
+          disabledTransaction: true,
           isShow: false,
         };
       });
@@ -406,6 +414,7 @@ export class AddEditVendorComponent implements OnInit {
       transactionType: undefined,
       paidByDetails: undefined,
       disabled: false,
+      disabledTransaction: false,
       status: 'Active',
       isShow: true
     };
@@ -457,5 +466,24 @@ export class AddEditVendorComponent implements OnInit {
     // );
     this.transactionMappings.splice(index, 1);
     // this.updateSelectedTransactionCodes();
+  }
+
+  getFreightCity() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'FreightCity';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.freightCity = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    }, error => {
+
+    });
+  }
+
+  onStatusChange(status: string, transaction: any) {
+    transaction.disabled = status === 'Active';
   }
 }

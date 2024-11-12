@@ -9,6 +9,7 @@ import { APIConstant } from '../../../../core/constants';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { StatusConfirmationComponent } from '../../../modals/status-confirmation/status-confirmation.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlantService } from '../../../../core/service';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -37,6 +38,7 @@ export class AddEditFreightComponent implements OnInit {
   isFileUploaded: boolean = false;
   statusValue: string = '';
   locationsDropdownData: any = [];
+  plantsList: any = [];
 
   constructor(
     private router: Router,
@@ -47,6 +49,7 @@ export class AddEditFreightComponent implements OnInit {
     private lookUpService: LookupService,
     private _Activatedroute: ActivatedRoute,
     private lookupService: LookupService,
+    private plantService: PlantService,
     private modalService: NgbModal) {
     this.freightForm = this.formBuilder.group({
       freightCode: [''],
@@ -80,7 +83,7 @@ export class AddEditFreightComponent implements OnInit {
       this.loadSpinner = false;
     }
 
-    this.getSourceDropdownData();
+    // this.getSourceDropdownData();
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();
     this.setLocation();
@@ -209,18 +212,18 @@ export class AddEditFreightComponent implements OnInit {
     this.router.navigate(['master/freight']);
   }
 
-  getSourceDropdownData() {
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'Source'
-    this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.sources = res.lookUps.filter(
-        (item: any) => item.status === 'Active')
-    })
-  }
+  // getSourceDropdownData() {
+  //   let data = {
+  //     "CreationDate": "",
+  //     "LastUpdatedBy": "",
+  //     "LastUpdateDate": ""
+  //   }
+  //   const type = 'FreightCity'
+  //   this.freightService.getDropdownData(data, type).subscribe((res: any) => {
+  //     this.sources = res.lookUps.filter(
+  //       (item: any) => item.status === 'Active')
+  //   })
+  // }
 
   getDestinationDropdownData() {
     let data = {
@@ -228,7 +231,7 @@ export class AddEditFreightComponent implements OnInit {
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
-    const type = 'Destination'
+    const type = 'FreightCity'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
       this.destinations = res.lookUps.filter(
         (item: any) => item.status === 'Active')
@@ -331,6 +334,31 @@ export class AddEditFreightComponent implements OnInit {
        
         }
       },
+    );
+  }
+
+  onChangeLocation(event: any) {
+    this.loadSpinner = true;
+    let data = {
+      locationIds: [event],
+      plantCode: '',
+      auCode: '',
+      siteCode: '',
+      status: '',
+    };
+    
+    this.plantService.getPlants(data).subscribe(
+      (response: any) => {
+        this.plantsList = response.plants.filter(
+          (plant: any, index: number, self: any[]) =>
+            plant.freightCity !== null &&
+            index === self.findIndex((p: any) => p.freightCity === plant.freightCity)
+        );
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
+      }
     );
   }
   

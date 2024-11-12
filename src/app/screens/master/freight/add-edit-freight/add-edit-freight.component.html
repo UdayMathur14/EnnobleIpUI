@@ -24,7 +24,8 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Location Code<span class="text-danger">*</span></label>
-                    <ng-select [searchable]="true" formControlName="locationCode" placeholder="Select location" [readonly]="freightId > 0">
+                    <ng-select [searchable]="true" formControlName="locationCode" placeholder="Select location" [readonly]="freightId > 0"
+                        (change)="onChangeLocation($event)">
                         <ng-option *ngFor="let location of locationsDropdownData"
                             [value]="location.id">{{location.value}}</ng-option>
                     </ng-select>
@@ -34,7 +35,7 @@
                 <div class="custom-form-input">
                     <label for="">Source <span class="text-danger">*</span></label>
                     <ng-select class="input-field" placeholder="Select Source" formControlName="source">
-                        <ng-option *ngFor="let source of sources" [value]="source.id">{{source.value}}</ng-option>
+                        <ng-option *ngFor="let source of plantsList" [value]="source.id">{{source.freightCity}}</ng-option>
                     </ng-select>
                 </div>
             </div>
