@@ -312,6 +312,42 @@ export class AddEditFreightComponent implements OnInit {
     };
   }
 
+  viewUploadedPdf() {
+    if (this.nocFileBase64) {
+        try {
+            const base64Prefix = 'data:application/pdf;base64,';
+            let base64Data = this.nocFileBase64;
+            if (base64Data.startsWith(base64Prefix)) {
+                base64Data = base64Data.substring(base64Prefix.length);
+            }
+
+            const byteCharacters = atob(base64Data);
+            const byteArrays = [];
+            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                const slice = byteCharacters.slice(offset, offset + 1024);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                byteArrays.push(new Uint8Array(byteNumbers));
+            }
+
+            const blob = new Blob(byteArrays, { type: 'application/pdf' });
+            const blobUrl = URL.createObjectURL(blob);
+            const pdfWindow = window.open();
+            if (pdfWindow) {
+                pdfWindow.document.write(
+                    `<iframe width="100%" height="100%" src="${blobUrl}" style="border:none;"></iframe>`
+                );
+            }
+        } catch (error) {
+            console.error('Error viewing PDF:', error);
+        }
+    }
+}
+
+
+
   onChangeStatus(event: any){
     this.statusValue = event?.target?.value;
     if (this.statusValue === 'Active') {

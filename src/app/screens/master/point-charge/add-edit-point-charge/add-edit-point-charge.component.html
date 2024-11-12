@@ -5,6 +5,9 @@
       <label for="file-upload" class="custom-file-upload custom-button-regulr pointer">Upload</label>
       <input type="file" id="file-upload" (change)="onUploadPdf($event)" />
     </div>
+    <button *ngIf="isFileUploaded" class="custom-button-regulr" (click)="viewUploadedPdf()">
+      View Uploaded PDF
+  </button>
     <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!(pointChargeForm.valid && (pointChargeForm.controls['status'].dirty || isFileUploaded))">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
