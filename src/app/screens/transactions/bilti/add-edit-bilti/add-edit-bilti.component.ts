@@ -111,7 +111,8 @@ export class AddEditBiltiComponent implements OnInit {
   plantsList: any = [];
   createLineItem: any = [];
   selectedPlantCode: any = [];
-  lineItemId: number = 0
+  lineItemId: number = 0;
+  vendorCode: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -291,6 +292,11 @@ export class AddEditBiltiComponent implements OnInit {
 
 
   getFrlr(selectedTransactionType: string) {
+    if (selectedTransactionType === 'INVOICE-RB') {
+      selectedTransactionType = 'INVOICE';
+    } else if (selectedTransactionType === 'RTV-RB') {
+      selectedTransactionType = 'RTV';
+    }
     const plantCodes = this.matchedPlants?.map((plant: any) => plant.name);
     const data = {
       transactionType: selectedTransactionType,
@@ -494,6 +500,8 @@ export class AddEditBiltiComponent implements OnInit {
             paidByDetails: 'Paid by LG'
           });
       } else{
+        this.vendorCode.push(this.vendorMapCode[toDestination])
+        console.log(this.vendorCode);
         vendorGroup.patchValue({
           documentrefNo: row.documentrefNo,
           vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
@@ -1280,6 +1288,8 @@ getVehicleNumber() {
   }
 
 onAdd() {
+  console.log(this.biltiForm.controls['transporterCode']?.value);
+  
   let documentModal = this.modalService.open(BiltiRbTxnDataComponent, {
     size: 'xl',
     backdrop: 'static',
@@ -1288,7 +1298,9 @@ onAdd() {
   documentModal.componentInstance.title = 'rbTXNData';
   documentModal.componentInstance.biltiTransactionType = this.biltiTransactionType,
   documentModal.componentInstance.selectedTransactionTypeCode = this.selectedTransactionTypeCode,
-  documentModal.componentInstance.dispatchNoteId = this.biltiCreationLineItemsData
+  documentModal.componentInstance.dispatchNoteId = this.biltiCreationLineItemsData,
+  documentModal.componentInstance.transporterCode = this.biltiForm.controls['transporterCode']?.value,
+  documentModal.componentInstance.vendorCode = this.vendorCode,
 
   documentModal.result.then((selectedNotes) => {
     if (selectedNotes) {
@@ -1340,8 +1352,8 @@ onAdd() {
 
 disabledonAdd(){
   const selectedTransation = this.biltiForm.controls['transactionType'].value;
-  
-  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value || selectedTransation?.code == 'RB' || this.selectedTransactionTypeCode == 'RB' || this.selectedTransactionTypePatchCode == 'RB'
+  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value || !(selectedTransation?.code == 'RTV-RB' || this.selectedTransactionTypeCode == 'RTV-RB' || this.selectedTransactionTypePatchCode == 'RTV-RB' || 
+  selectedTransation?.code == 'INVOICE-RB' || this.selectedTransactionTypeCode == 'INVOICE-RB' || this.selectedTransactionTypePatchCode == 'INVOICE-RB')
 }
 
 onChangeLocation(data: any){

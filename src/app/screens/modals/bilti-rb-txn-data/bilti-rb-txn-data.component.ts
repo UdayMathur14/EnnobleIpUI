@@ -14,7 +14,9 @@ export class BiltiRbTxnDataComponent implements OnInit {
   count = Number.MAX_VALUE;
   @Input() biltiTransactionType: any;
   @Input() dispatchNoteId: any;
-  @Input() selectedTransactionTypeCode: any
+  @Input() selectedTransactionTypeCode: any;
+  @Input() transporterCode: any;
+  @Input() vendorCode: any;
   filters: any = [];
   dispatchNumber: string = '';
 
@@ -27,26 +29,20 @@ export class BiltiRbTxnDataComponent implements OnInit {
   }
 
   getDispatchData(offset: number = 0, count: number = this.count) {
+    
     const data = {
       "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "dispatchNumber": this.dispatchNumber || "",
       "status": "",
-      "frlrNumber": ""
+      "frlrNumber": "",
+      "transporterCode": this.transporterCode,
+      "transporterName": "",
+      "vendorCodes": this.vendorCode,
+      "vendorNames": [],
     }
 
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {
-      const patchedData = this.dispatchNoteId.map((item: any) => item.dispatchNoteId);
-      if(this.biltiTransactionType != 'RB' || this.selectedTransactionTypeCode != 'RB'){
-        this.dispatchNotes = res?.dispatchNotes?.filter((note: any) => note?.frlrNumber === null 
-      &&  !patchedData?.includes(note?.id)  && note?.openFlag === 'Open');
-      // } else {
-      //   this.dispatchNotes = res.dispatchNotes.filter((note: any) => 
-      //     !patchedData?.includes(note?.id) &&  note?.openFlag === 'Open'
-      //   );
-        this.filters = res?.filters
-      }
-
-      
+      this.dispatchNotes = res?.dispatchNotes 
     })
   }
 
