@@ -127,7 +127,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
     this.freightService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
-                this.toastr.error('No PDF is available to download', 'Error');
+                this.toastr.error('No PDF is available to view', 'Error');
                 this.loadSpinner = false;
                 return;
             }
@@ -136,6 +136,7 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
             const base64Data = response.fileData.startsWith(base64Prefix) 
                 ? response.fileData.substring(base64Prefix.length) 
                 : response.fileData;
+                
             const byteCharacters = atob(base64Data);
             const byteNumbers = new Array(byteCharacters.length);
             for (let i = 0; i < byteCharacters.length; i++) {
@@ -144,18 +145,15 @@ export class FreightMasterAccountsGridTableComponent implements OnInit {
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
+
+            window.open(url, '_blank');
             
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = response.fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            setTimeout(() => window.URL.revokeObjectURL(url), 100);
 
             this.loadSpinner = false;
         },
     );
 }
+
 
 }

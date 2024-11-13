@@ -129,7 +129,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     this.freightService.getContractById(data?.locationId, data?.id).subscribe(
         (response: any) => {
             if (!response.fileData) {
-                this.toastr.error('No PDF is available to download', 'Error');
+                this.toastr.error('No PDF is available to view', 'Error');
                 this.loadSpinner = false;
                 return;
             }
@@ -146,18 +146,15 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], { type: 'application/pdf' });
             const url = window.URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = response.fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+
+            window.open(url, '_blank');
+
+            setTimeout(() => window.URL.revokeObjectURL(url), 100);
 
             this.loadSpinner = false;
         },
     );
 }
+
 
 }
