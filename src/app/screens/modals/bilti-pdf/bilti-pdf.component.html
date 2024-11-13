@@ -84,7 +84,7 @@
           <p><b>Source:</b></p>
         </div>
         <div class="col-auto">
-          <p>{{biltiData?.freights?.source?.value}}</p>
+          <p>{{biltiData?.freights?.source?.freightCity}}</p>
         </div>
       </div>
     </div>
@@ -154,9 +154,9 @@
       </thead>
       <tbody *ngFor="let biltiData of biltiData.lineItemDetail">
         <tr>
-          <td>{{biltiData?.vendor?.vendorName}}</td>
+          <td>{{biltiData?.vendorName}}</td>
           <td>{{biltiData?.documentReferenceNo}}</td>
-          <td>{{biltiData?.vendor?.cityDetail?.code}}</td>
+          <td>{{biltiData?.pointName}}</td>
           <td>{{biltiData?.pointCharge}}</td>
         </tr>
       </tbody>

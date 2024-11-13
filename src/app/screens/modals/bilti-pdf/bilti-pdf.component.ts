@@ -82,8 +82,8 @@ console.log(this.biltiData);
     const uniqueVendors = new Map();
 
     lineItemDetails.forEach(item => {
-      if (item.vendor && !uniqueVendors.has(item.vendor.vendorCode)) {
-        uniqueVendors.set(item.vendor.vendorCode, item.vendor.vendorName);
+      if (item && !uniqueVendors.has(item.vendorCode)) {
+        uniqueVendors.set(item.vendorCode, item.vendorName);
       }
     });
 
