@@ -271,7 +271,7 @@ export class AddEditVendorComponent implements OnInit {
           iTransactionTypeId: mapping.transactionType.id || {},
           id: mapping.paidByDetails.id || {},
           status: mapping?.status,
-          disabled: mapping?.status == 'Active',
+          disabled: true,
           disabledTransaction: true,
           isShow: false,
         };
@@ -484,6 +484,6 @@ export class AddEditVendorComponent implements OnInit {
   }
 
   onStatusChange(status: string, transaction: any) {
-    transaction.disabled = status === 'Active';
+    transaction.disabled = status === 'Inactive';
   }
 }
