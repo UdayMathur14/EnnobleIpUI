@@ -110,48 +110,48 @@
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="freightCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="pointCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'" />
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="detentionCharge"
-                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="overloadCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="tollTax" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="unloadingCharge"
-                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="otherCharges" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true || this.biltiBillProcessData?.transactionTypeCode == 'CWC' || this.biltiBillProcessData?.transactionTypeCode == 'STO'" maxlength="150"/>
+                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false" maxlength="150"/>
                 </div>
               </td>
             </tr>
@@ -200,48 +200,48 @@
                 <div class="custom-form-input">
                   <!-- <input type="text" class="input-field" value="0.00" /> -->
                   <input type="text" class="input-field" id="lgFreightCharge" formControlName="freightChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgPointCharge" formControlName="pointChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgDetentionCharge" formControlName="detentionChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgOverloadCharge" formControlName="overloadChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgTollTax" formControlName="tollTaxLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgUnloadingCharge" formControlName="unloadingChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgOtherCharges" formControlName="otherChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true" />
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="lgRemarks" [readonly]="amountDisabled == true" maxlength="150"/>
+                  <input type="text" class="input-field" formControlName="lgRemarks" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false" maxlength="150"/>
                 </div>
               </td>
             </tr>
@@ -275,8 +275,7 @@
       <p class="text-danger mb-0">Grand Total cannot be less than Freight Amount</p>
     </div>
     <div class="text-center"  *ngIf="showSaveButton">
-      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="(freightAmount > grandTotal) || (totalFreightCharge != freightAmount || totalPointCharge != pointCharges) 
-      && (totalLGFreightCharge != freightAmount || totalLGPointCharge != pointCharges)">Save</button>
+      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
     </div>
     <div class="row approve-button" *ngIf="showApproveRejectButtons">
       <div class="col-lg-6 col-md-6">
