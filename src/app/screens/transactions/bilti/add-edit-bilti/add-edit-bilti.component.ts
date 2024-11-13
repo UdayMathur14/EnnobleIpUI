@@ -707,7 +707,7 @@ getVehicleNumber() {
   }
 
   onFreightChange(data: any) {
-    const source = data.source?.value;
+    const source = data.source?.freightCity;
     const destination = data.destination?.value;
 
     const reorderedRows = this.displayRows.filter((row: any) => row?.pointName?.toLowerCase() !== source?.toLowerCase() && row?.pointName?.toLowerCase() !== destination?.toLowerCase());
@@ -717,11 +717,11 @@ getVehicleNumber() {
     this.displayRows = [...sourceRows, ...reorderedRows, ...destinationRows];
 
     const vendorsArrays = this.biltiForm.get('vendors') as FormArray;
-    
+
     this.displayRows.forEach((row: any, index: number) => {
       const vendorGroup = vendorsArrays.at(index) as FormGroup;
-      if(this.biltiTransactionType == 'STO' || this.selectedTransactionTypeCode == 'STO' || 
-        this.biltiTransactionType == 'CWC' || this.selectedTransactionTypeCode == 'CWC'){
+      if (this.biltiTransactionType === 'STO' || this.selectedTransactionTypeCode === 'STO' ||
+        this.biltiTransactionType === 'CWC' || this.selectedTransactionTypeCode === 'CWC') {
           
           vendorGroup?.patchValue({
             documentrefNo: row.documentrefNo || row?.documentReferenceNo,
@@ -730,69 +730,76 @@ getVehicleNumber() {
             pointName: row?.pointName,
             paidByDetails: 'Paid by LG'
           });
-      }else {
+      } else {
         const toDestination = row?.toDestination;
         vendorGroup?.patchValue({
           documentrefNo: row?.documentrefNo || row?.documentReferenceNo,
-          vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
-          vendorName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.vendorName: this.vendorMapName[toDestination],
-          pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
-          paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination] 
+          vendorCode: this.biltiTransactionType === 'RB' || this.selectedTransactionTypeCode === 'RB' ? row?.vendorId : this.vendorIdMap[toDestination],
+          vendorName: this.biltiTransactionType === 'RB' || this.selectedTransactionTypeCode === 'RB' ? row?.vendorName : this.vendorMapName[toDestination],
+          pointName: this.biltiTransactionType === 'RB' || this.selectedTransactionTypeCode === 'RB' ? row?.pointName : this.pointMapName[toDestination],
+          paidByDetails: this.biltiTransactionType === 'RB' || this.selectedTransactionTypeCode === 'RB' ? row?.paidByDetails : this.paidByDetailsMap[toDestination]
         });
       }
-     
     });
+
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-      const vendorData = this.vendorList.find((element: any) => {
-        return element?.city?.toLowerCase() == this.patchedPointName?.toLowerCase()
-      })
-      const commonData = this.pointChargesList.find((item: any) => {
-        return item?.pointName?.toLowerCase() == vendorData?.city?.toLowerCase()
-      })
-      // const vendorAtIndexZero = vendorsArray.at(0) as FormGroup;
-      // vendorAtIndexZero.patchValue({
-      //   pointCharge: 0
-      // });
+
     for (let i = 0; i < vendorsArray.length; i++) {
       const currentVendor = vendorsArray.at(i) as FormGroup;
       const prevVendor = vendorsArray.at(i - 1) as FormGroup;
 
       const currentPointName = currentVendor.value.pointName?.toLowerCase();
-      const prevPointName = prevVendor.value.pointName?.toLowerCase();
-        const samePointName = currentPointName === prevPointName
-        const lineItemsVendorData = this.vendorList.find((element: any) => {
-          return element?.city?.toLowerCase() == currentPointName
-        })
+      const currentVendorCode = currentVendor.value.vendorCode;
+      const prevPointName = prevVendor?.value.pointName?.toLowerCase();
+      const prevVendorCode = prevVendor?.value.vendorCode;
 
-        const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
-          return item.pointName?.toLowerCase() == lineItemsVendorData?.city?.toLowerCase()
-        })
-        
+      const sameVendorAndPoint = currentPointName === prevPointName && currentVendorCode === prevVendorCode;
+
+      if (currentPointName === destination?.toLowerCase()) {
         currentVendor.patchValue({
-          pointCharge: samePointName ? lineItemsSameLocationCharge?.sameLocationCharge :
-            lineItemsSameLocationCharge?.pointCharge
+          pointCharge: 0
         });
+      } else {
+        const samePointName = currentPointName === prevPointName;
+        const lineItemsVendorData = this.vendorList.find((element: any) => {
+          return element?.city?.toLowerCase() === currentPointName;
+        });
+    
+        const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
+          return item.pointName?.toLowerCase() === lineItemsVendorData?.city?.toLowerCase();
+        });
+
+        currentVendor.patchValue({
+          pointCharge: sameVendorAndPoint
+            ? 0
+            : samePointName
+            ? lineItemsSameLocationCharge?.sameLocationCharge
+            : lineItemsSameLocationCharge?.pointCharge
+        });
+      }
     }
 
     this.freightId = data.id;
-    this.freightCode = data.freightCode
+    this.freightCode = data.freightCode;
     this.biltiForm.patchValue({
       freightAmount: data?.freightAmount,
-      source: data?.source?.value,
+      source: data?.source?.freightCity,
       destination: data?.destination?.value
     });
+
     if (
-      this.displayRows.length == 1  &&
+      this.displayRows.length === 1 &&
       (this.displayRows[this.displayRows.length - 1].pointName?.toLowerCase() !== destination?.toLowerCase())
-  ) {
+    ) {
       this.toastr.error('Invalid Freight Code');
       return;
-  } else if( this.displayRows.length > 1 &&
-    (this.displayRows[0].pointName?.toLowerCase() !== source?.toLowerCase() || this.displayRows[this.displayRows.length - 1].pointName?.toLowerCase() !== destination?.toLowerCase())) {
+    } else if (this.displayRows.length > 1 &&
+      (this.displayRows[0].pointName?.toLowerCase() !== source?.toLowerCase() || this.displayRows[this.displayRows.length - 1].pointName?.toLowerCase() !== destination?.toLowerCase())) {
       this.toastr.error('Invalid Freight Code');
       return;
+    }
   }
-  }
+
 
   onFreightClear() {
     this.biltiForm.patchValue({
