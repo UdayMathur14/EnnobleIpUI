@@ -429,13 +429,14 @@ export class AddEditBiltiComponent implements OnInit {
         )
       )
       .map((model: any) => model?.paidByDetails);    
+      console.log(element);
       
       if (commonData) {
         this.displayRows.push({
           documentrefNo: element?.dispatchNumber,
           vendorCode: element?.suppliers?.vendorCode,
           vendorName: element?.suppliers?.vendorName,
-          pointName:element?.suppliers?.city,
+          pointName:element?.suppliers?.freightCity,
           pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
           vendorId: element?.suppliers?.id,
           paidByDetails: paidByDetails[0]?.value,
@@ -1317,7 +1318,7 @@ onAdd() {
         this.displayRowsRb.push({
           documentrefNo: element?.dispatchNumber,
           vendorName: element?.suppliers?.vendorName,
-          pointName: element?.suppliers?.city,
+          pointName: element?.suppliers?.freightCity,
           pointCharge: 0,
           vendorCode: element?.suppliers?.id,
           biltiDetailsTransactionType: 'RB',
@@ -1349,7 +1350,7 @@ onAdd() {
 
 disabledonAdd(){
   const selectedTransation = this.biltiForm.controls['transactionType'].value;
-  return !this.biltiForm.controls['transactionType'].value || !(selectedTransation?.code == 'RTV-RB' || this.selectedTransactionTypeCode == 'RTV-RB' || this.selectedTransactionTypePatchCode == 'RTV-RB' || 
+  return !this.biltiForm.controls['transactionType'].value || !this.biltiForm.controls['freightCode'].value || !(selectedTransation?.code == 'RTV-RB' || this.selectedTransactionTypeCode == 'RTV-RB' || this.selectedTransactionTypePatchCode == 'RTV-RB' || 
   selectedTransation?.code == 'INVOICE-RB' || this.selectedTransactionTypeCode == 'INVOICE-RB' || this.selectedTransactionTypePatchCode == 'INVOICE-RB')
 }
 
