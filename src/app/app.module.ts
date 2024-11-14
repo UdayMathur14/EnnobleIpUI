@@ -27,7 +27,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule,
     ToastrModule.forRoot({
       enableHtml: true,
-      timeOut: 8000,
+      timeOut: 4000,
       progressBar: true,
       extendedTimeOut: 4000
     })

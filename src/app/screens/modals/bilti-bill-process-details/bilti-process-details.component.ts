@@ -283,7 +283,7 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     let excessAmount = 0;
     let penaltyAmount = 0;
 
-    if (this.grandTotalLG == 0 || difference == 0) {
+    if (difference == 0) {
       excessAmount = 0;
       penaltyAmount = 0;
       this.biltiBillProcess.get('penaltyReason')?.enable();
