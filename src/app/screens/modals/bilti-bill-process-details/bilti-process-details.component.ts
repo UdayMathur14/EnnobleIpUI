@@ -601,4 +601,13 @@ validateNo(e: any) {
   }
   return true;
 }
+
+get isSaveDisabled(): boolean {
+  const excessReason = this.biltiBillProcess.controls['excessReason']?.value;
+  const penaltyReason = this.biltiBillProcess.controls['penaltyReason']?.value;
+  
+  return this.freightAmount > this.grandTotal || !(excessReason || penaltyReason);
+}
+
+
 }
