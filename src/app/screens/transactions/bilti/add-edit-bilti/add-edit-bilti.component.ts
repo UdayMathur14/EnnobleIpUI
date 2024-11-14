@@ -486,7 +486,7 @@ export class AddEditBiltiComponent implements OnInit {
       );
     if (matchedPlant) {
       this.displayRows[index].vendorName = matchedPlant?.plantDesc;
-      this.displayRows[index].pointName = matchedPlant?.city;
+      this.displayRows[index].pointName = matchedPlant?.freightCity;
     } 
     
       const vendorGroup = vendorsArray.at(index) as FormGroup;
