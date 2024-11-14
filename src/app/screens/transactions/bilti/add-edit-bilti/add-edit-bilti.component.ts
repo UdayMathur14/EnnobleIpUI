@@ -449,10 +449,10 @@ export class AddEditBiltiComponent implements OnInit {
   })
     this.vendorList.forEach((vendor: any) => {
       const matchingModel = vendor.vendorMappingModels.find((item: any) => item.transactionType.code === this.biltiTransactionType || this.selectedTransactionTypeCode);
-      const cityId = vendor.city
+      const cityId = vendor.freightCity
       this.vendorMapCode[vendor.vendorCode] = vendor?.vendorCode;
       this.vendorMapName[vendor.vendorCode] = vendor.vendorName;
-      this.pointMapName[vendor.vendorCode] = vendor?.city;
+      this.pointMapName[vendor.vendorCode] = vendor?.freightCity;
       this.pointMapCharge[vendor.vendorCode] = this.pointMapCharge[cityId];
       this.paidByDetailsMap[vendor.vendorCode] =  matchingModel?.paidByDetails?.value;
       this.vendorIdMap[vendor.vendorCode] = vendor?.id;
@@ -501,7 +501,6 @@ export class AddEditBiltiComponent implements OnInit {
           });
       } else{
         this.vendorCode.push(this.vendorMapCode[toDestination])
-        console.log(this.vendorCode);
         vendorGroup.patchValue({
           documentrefNo: row.documentrefNo,
           vendorCode: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB' ? row?.vendorId: this.vendorIdMap[toDestination],
@@ -770,11 +769,11 @@ getVehicleNumber() {
       } else {
         const samePointName = currentPointName === prevPointName;
         const lineItemsVendorData = this.vendorList.find((element: any) => {
-          return element?.city?.toLowerCase() === currentPointName;
+          return element?.freightCity?.toLowerCase() === currentPointName;
         });
     
         const lineItemsSameLocationCharge = this.pointChargesList.find((item: any) => {
-          return item.pointName?.toLowerCase() === lineItemsVendorData?.city?.toLowerCase();
+          return item.pointName?.toLowerCase() === lineItemsVendorData?.freightCity?.toLowerCase();
         });
 
         currentVendor.patchValue({
@@ -1288,8 +1287,6 @@ getVehicleNumber() {
   }
 
 onAdd() {
-  console.log(this.biltiForm.controls['transporterCode']?.value);
-  
   let documentModal = this.modalService.open(BiltiRbTxnDataComponent, {
     size: 'xl',
     backdrop: 'static',
