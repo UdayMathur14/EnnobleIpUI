@@ -21,6 +21,7 @@ export class BiltiFilterComponent implements OnInit {
   locations : any[] = APIConstant.commonLocationsList;
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   status: any = undefined;
+  biltiStatus: any = undefined;
 
   constructor(private lookupService: LookupService) { }
 
@@ -32,7 +33,8 @@ export class BiltiFilterComponent implements OnInit {
     let obj = {
       "biltiNumber": this.biltiNum || "",
       locationIds: this.locationIds,
-      status: this.status
+      status: this.status,
+      biltiStatus: this.biltiStatus
     }
     this.getData.emit(obj)
   }
@@ -42,10 +44,12 @@ export class BiltiFilterComponent implements OnInit {
     this.biltiNum = null;
     this.locationIds = this.locationIds;
     this.status = undefined;
+    this.biltiStatus = undefined
     let obj = {
       biltiNum: null,
       locationIds: this.locationIds,
-      status: ''
+      status: '',
+      biltiStatus: ''
     }
     this.getData.emit(obj)
   }

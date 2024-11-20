@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-4" *ngIf="locations && locations.length>1">
+        <div class="col-lg-3" *ngIf="locations && locations.length>1">
                 <label for="">Location Code</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
                     placeholder="Select location">
@@ -8,7 +8,7 @@
                         [value]="location.id">{{location.value}}</ng-option>
                 </ng-select>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Bilti Number</label>
                 <ng-select class="input-field" [(ngModel)]="biltiNum" placeholder="Select Bilti Number">
@@ -16,11 +16,19 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Status</label>
                 <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
                     <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="custom-form-input">
+                <label>Bilti Status</label>
+                <ng-select class="input-field" [(ngModel)]="biltiStatus" placeholder="Select Bilti Status">
+                    <ng-option *ngFor="let status of filters?.BiltiStatus" [value]="status">{{status}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -30,7 +38,7 @@
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="onBiltiSearch()"
                         [disabled]="locationIds.length==0 && !biltiNum && !status">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !biltiNum && !status">
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !biltiNum && !status && !biltiStatus">
                         Clear</button>
                 </div>
             </div>
