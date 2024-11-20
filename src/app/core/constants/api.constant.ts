@@ -96,3 +96,4 @@ export const glAccrualPosting = (offset: any, count: number) => `v1/glOutBound/s
 export const glOutboundTransfer = () => `v1/intf/GlOutboundTransfer`;
 export const freightContract = (locationId:any, freightId:any) => `v1/freight/contracts/${locationId}/${freightId}`;
 export const pointMasterContract = (locationId:any, pointId:any) => `v1/point-charge/contracts/${locationId}/${pointId}`;
+export const calculatePointCharge= () => `v1/bilti-creation/calculate`;

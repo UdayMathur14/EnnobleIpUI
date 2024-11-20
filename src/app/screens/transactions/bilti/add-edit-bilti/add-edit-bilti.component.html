@@ -120,8 +120,11 @@
       Bilti Details
       <!-- <button class="custom-button-regulr">Add</button> -->
     </h4>
-    <button class="ms-auto mb-2 custom-button-regulr" (click)="onAdd()"
-    [disabled]="disabledonAdd()">Add RB TXN Data</button>
+    <div class="d-flex ms-auto mb-2">
+      <button class="custom-button-regulr" (click)="onAdd()"
+      [disabled]="disabledonAdd()">Add RB TXN Data</button>
+      <button class="custom-button-regulr  ms-3" [disabled]="disablePointCharge()" (click)="calculatePointCharge()">Calculate Point Charge</button>
+    </div>
   </div>
   <div class="custom-table">
     <table>
@@ -130,7 +133,8 @@
           <th>Line#</th>
           <th>Transaction Type</th>
           <th>Doc. Ref. Number</th>
-          <th>Vendor Code / Plant <Code></Code></th>
+          <th>Source </th>
+          <th>Vendor Code / Plant </th>
           <th>Vendor Name / Plant Name</th>
           <th>Point Name</th>
           <th>Point Charge</th>
@@ -157,6 +161,13 @@
                   <div class="input-with-icon">
                     <input type="text" class="input-field" readonly formControlName="documentrefNo" />
                   </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="col-lg-12 col-md-12">
+                <div class="custom-form-input biltiwidth">
+                  <input type="text" class="input-field" readonly formControlName="source" readonly />
                 </div>
               </div>
             </td>

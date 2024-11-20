@@ -179,7 +179,7 @@ export class AddEditDispatchNoteComponent {
         this.vehicleId = vehicles.id;
         const frlrDate = this?.convertToNgbDate(response?.frlrDate)
         this.frlrDate = response?.frlrDate
-        this.dispatchNote.status = response.status;
+        this.dispatchNote.status = 'Active';
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
           vehicleSize: vehicles.vehicleSize.value,

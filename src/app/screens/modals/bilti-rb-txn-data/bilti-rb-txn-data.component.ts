@@ -33,7 +33,7 @@ export class BiltiRbTxnDataComponent implements OnInit {
     const data = {
       "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "dispatchNumber": this.dispatchNumber || "",
-      "status": "",
+      "status": "open",
       "frlrNumber": "",
       "transporterCode": this.transporterCode,
       "transporterName": "",
