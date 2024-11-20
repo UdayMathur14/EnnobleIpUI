@@ -44,7 +44,12 @@ export class DispatchNoteComponent {
       "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "dispatchNumber": filters?.dispatchNumber || "",
       "status": filters?.status || "",
-      "frlrNumber": filters?.frlrNo || ""
+      "frlrNumber": filters?.frlrNo || "",
+      "dispatchStatus": filters?.dispatchStatus,
+      "transporterCode": "",
+      "transporterName": "",
+      "vendorCodes": [],
+      "vendorNames": [],
     }
     this.loadSpinner = true;
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {

@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-4" *ngIf="locations && locations.length>1">
+        <div class="col-lg-3" *ngIf="locations && locations.length>1">
             <div class="">
                 <label for="">Location Code</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
@@ -9,7 +9,7 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="custom-form-input">
                 <label for="">Dispatch Number</label>
                 <ng-select class="input-field" [(ngModel)]="dispatchNumber" placeholder="Select Dispatch No">
@@ -17,7 +17,7 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="custom-form-input">
                 <label for="">FRLR#</label>
                 <ng-select class="input-field" [(ngModel)]="frlrNo" placeholder="Select FRLR No">
@@ -25,11 +25,19 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Status</label>
                 <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
                     <ng-option *ngFor="let status of filters?.status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="custom-form-input">
+                <label>Dispatch Note Status</label>
+                <ng-select class="input-field" [(ngModel)]="dispatchStatus" placeholder="Select Dispatch Note Status">
+                    <ng-option *ngFor="let status of filters?.DispatchStatus" [value]="status">{{status}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -38,7 +46,7 @@
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber && !status && !frlrNo">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !dispatchNumber && !frlrNo && !status"> Clear</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !dispatchNumber && !frlrNo && !status && !dispatchStatus"> Clear</button>
                 </div>
             </div>
         </div>
