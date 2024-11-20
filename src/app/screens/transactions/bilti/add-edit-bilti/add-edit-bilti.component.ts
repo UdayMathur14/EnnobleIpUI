@@ -115,6 +115,8 @@ export class AddEditBiltiComponent implements OnInit {
   vendorCode: any = [];
   selectedFrlr: string = '';
   rbDispatchNumbers: any = [];
+  pointChargeData: any = [];
+  isPointChargeCalculated: boolean = false;
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -837,10 +839,12 @@ getVehicleNumber() {
     }
 
     this.biltiService.calculatePointCharge(data).subscribe((res: any) => {
+      this.pointChargeData = res;
       if(res[0].errorMessage != null){
         this.toastr.error(res[0].errorMessage);
         return;
       }
+      this.isPointChargeCalculated = true;
     const vendorsArray = this.biltiForm.get('vendors') as FormArray;
 
     res?.forEach((item: any, index: number) => {
@@ -971,8 +975,8 @@ getVehicleNumber() {
             vendorName: formData?.vendors[index].vendorName,
             actionBy: localStorage.getItem("userId") || '',
             remarks: vendorControl?.remarks,
-            frmId: this.displayRows[index]?.frmId,
-            dispatchNoteId: this.combinedRows[index]?.dispatchNoteId || 0,
+            frmId: this.pointChargeData[index]?.documentType == 'RB' ? 0 : this.pointChargeData[index]?.id,
+            dispatchNoteId: this.pointChargeData[index]?.documentType == 'RB' ? this.pointChargeData[index]?.id : 0,
             documentReferenceNo: vendorControl.documentrefNo,
             pointCharge: parseInt(vendorControl?.pointCharge) || 0,
             pointName: vendorControl.pointName,
@@ -986,8 +990,8 @@ getVehicleNumber() {
             vendorName: formData.transactionType.code === 'RB'? vendorControl.vendorName: formData?.vendors[index].vendorName,
             actionBy: localStorage.getItem("userId") || '',
             remarks: vendorControl?.remarks,
-            frmId: vendorControl.biltiDetailsTransactionType === 'RB' ? 0 : this.displayRows[index]?.frmId,
-            dispatchNoteId: formData.transactionType.code === 'RB' ? this.matchedDispatchNotes[index]?.id || this.combinedRows[index]?.dispatchNoteId : this.combinedRows[index]?.dispatchNoteId || 0,
+            frmId: this.pointChargeData[index]?.documentType == 'RB' ? 0 : this.pointChargeData[index]?.id,
+            dispatchNoteId: this.pointChargeData[index]?.documentType == 'RB' ? this.pointChargeData[index]?.id : 0,
             documentReferenceNo: vendorControl.documentrefNo,
             pointCharge: parseInt(vendorControl?.pointCharge) || 0,
             pointName: vendorControl.pointName,
