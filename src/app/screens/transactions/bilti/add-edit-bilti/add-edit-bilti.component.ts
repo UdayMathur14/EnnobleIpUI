@@ -117,6 +117,7 @@ export class AddEditBiltiComponent implements OnInit {
   rbDispatchNumbers: any = [];
   pointChargeData: any = [];
   isPointChargeCalculated: boolean = false;
+  patchedRbDispatchNotes: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -831,36 +832,71 @@ getVehicleNumber() {
   }
 
   calculatePointCharge() {
-    const data = {
-     "frlrNumber": this.selectedFrlr,
-     "dispatchNumbers": this.rbDispatchNumbers || [],
-     "freightCode": this.freightCode,
-     "transactionTypeCode": this.biltiTransactionType
+    const allDispatchNumbers = [...(this.rbDispatchNumbers || []), ...(this.patchedRbDispatchNotes || [])];
+    
+    if(this.biltiId > 0){
+      const data = {
+        "frlrNumber": this.selectedFrlr,
+        "dispatchNumbers": allDispatchNumbers || [],
+        "freightCode": this.freightCode,
+        "transactionTypeCode": this.selectedTransactionTypePatchCode
+       }
+   
+       this.biltiService.calculatePointCharge(data).subscribe((res: any) => {
+         this.pointChargeData = res;
+         if(res[0].errorMessage != null){
+           this.toastr.error(res[0].errorMessage);
+           return;
+         }
+         this.isPointChargeCalculated = true;
+       const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+   
+       res?.forEach((item: any, index: number) => {
+         vendorsArray.at(index).patchValue({
+           vendorCode: item?.toDestination,
+           vendorName: item?.vendorNameOrPlantDesc,
+           pointName: item?.freightCity,
+           pointCharge: item?.pointCharge ? item?.pointCharge : item?.sameLocationCharge  || 0,
+           // remarks: item?.skipReason || '',
+           documentrefNo: item?.documentNumber,
+           biltiDetailsTransactionType: item?.documentType,
+           source: item?.fromDestination,
+           paidByDetails: item?.paidByDetails
+         });
+       });
+       })
+    } else {
+      const data = {
+        "frlrNumber": this.selectedFrlr,
+        "dispatchNumbers": this.rbDispatchNumbers || [],
+        "freightCode": this.freightCode,
+        "transactionTypeCode": this.biltiTransactionType
+       }
+   
+       this.biltiService.calculatePointCharge(data).subscribe((res: any) => {
+         this.pointChargeData = res;
+         if(res[0].errorMessage != null){
+           this.toastr.error(res[0].errorMessage);
+           return;
+         }
+         this.isPointChargeCalculated = true;
+       const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+   
+       res?.forEach((item: any, index: number) => {
+         vendorsArray.at(index).patchValue({
+           vendorCode: item?.toDestination,
+           vendorName: item?.vendorNameOrPlantDesc,
+           pointName: item?.freightCity,
+           pointCharge: item?.pointCharge ? item?.pointCharge : item?.sameLocationCharge  || 0,
+           // remarks: item?.skipReason || '',
+           documentrefNo: item?.documentNumber,
+           biltiDetailsTransactionType: item?.documentType,
+           source: item?.fromDestination,
+           paidByDetails: item?.paidByDetails
+         });
+       });
+       })
     }
-
-    this.biltiService.calculatePointCharge(data).subscribe((res: any) => {
-      this.pointChargeData = res;
-      if(res[0].errorMessage != null){
-        this.toastr.error(res[0].errorMessage);
-        return;
-      }
-      this.isPointChargeCalculated = true;
-    const vendorsArray = this.biltiForm.get('vendors') as FormArray;
-
-    res?.forEach((item: any, index: number) => {
-      vendorsArray.at(index).patchValue({
-        vendorCode: item?.toDestination,
-        vendorName: item?.vendorNameOrPlantDesc,
-        pointName: item?.freightCity,
-        pointCharge: item?.pointCharge ? item?.pointCharge : item?.sameLocationCharge  || 0,
-        // remarks: item?.skipReason || '',
-        documentrefNo: item?.documentNumber,
-        biltiDetailsTransactionType: item?.documentType,
-        source: item?.fromDestination,
-        paidByDetails: item?.paidByDetails
-      });
-    });
-    })
   }
 
   getAllVendorList() {
@@ -980,13 +1016,14 @@ getVehicleNumber() {
             documentReferenceNo: vendorControl.documentrefNo,
             pointCharge: parseInt(vendorControl?.pointCharge) || 0,
             pointName: vendorControl.pointName,
-            plantCode:  matchedLineitems[0]?.fromDestination || "",
-            paidByDetails: 'Paid by LG',
+            plantCode: formData?.vendors[index].source,
+            paidByDetails: formData?.vendors[index].paidByDetails,
+            sequenceNumber: ''
           };
         } else {
           this.createLineItem = {
             // vendorId: formData.transactionType.code === 'RB'? vendorControl.vendorCode: formData?.vendors[index].vendorCode,
-            vendorCode: formData.transactionType.code === 'RB'? formData?.vendors[index].vendorCode: formData?.vendors[index].vendorCode,
+            vendorCode: formData?.vendors[index].vendorCode,
             vendorName: formData.transactionType.code === 'RB'? vendorControl.vendorName: formData?.vendors[index].vendorName,
             actionBy: localStorage.getItem("userId") || '',
             remarks: vendorControl?.remarks,
@@ -996,7 +1033,8 @@ getVehicleNumber() {
             pointCharge: parseInt(vendorControl?.pointCharge) || 0,
             pointName: vendorControl.pointName,
             plantCode: formData?.vendors[index].source,
-            paidByDetails: vendorControl.paidByDetails,
+            paidByDetails: formData?.vendors[index].paidByDetails,
+            sequenceNumber: ''
           };
         }
        
@@ -1083,15 +1121,15 @@ getVehicleNumber() {
             attribute10: new Date().toISOString(),
             status: vendorControl?.biltiStatus,
             id: this.lineItemId,
-            frmId: this.displayRows[index]?.frmId,
+            frmId: this.pointChargeData.length ? this.pointChargeData[index]?.id : this.displayRows[index]?.frmId,
             dispatchNoteId:  0,
             documentReferenceNo: vendorControl.documentrefNo,
             pointCharge: parseInt(vendorControl?.pointCharge) || 0,
             vendorCode:formData?.vendors[index]?.vendorCode,
             vendorName: formData?.vendors[index]?.vendorName,
             pointName: vendorControl.pointName,
-            plantCode: matchedLineitems[0]?.fromDestination || this.selectedPlantCode,
-            paidByDetails: vendorControl.paidByDetails || "Paid by LG",
+            plantCode: formData?.vendors[index].source,
+            paidByDetails: vendorControl.paidByDetails,
           };
         }else {
           this.createLineItem = {
@@ -1102,14 +1140,14 @@ getVehicleNumber() {
             attribute10: new Date().toISOString(),
             status: vendorControl?.biltiStatus,
             id: this.lineItemId,
-            frmId: this.displayRows[index]?.frmId,
+            frmId: this.pointChargeData.length? this.pointChargeData[index]?.documentType == 'RB' ? 0 : this.pointChargeData[index]?.id : this.displayRows[index]?.frmId,
             dispatchNoteId: vendorControl.biltiDetailsTransactionType === 'RB' ?  this.combinedRows[index]?.dispatchNoteId || this.dispatchNoteId : 0,
             documentReferenceNo: vendorControl.documentrefNo,
             pointCharge: parseInt(vendorControl?.pointCharge) || 0,
             vendorCode: formData.transactionType.code === 'RB' || vendorControl.biltiDetailsTransactionType === 'RB' ? matchingVendor?.vendorCode: matchingVendor?.vendorCode,
             vendorName: formData.transactionType.code === 'RB' || vendorControl.biltiDetailsTransactionType === 'RB'? vendorControl?.vendorName: formData?.vendors[index]?.vendorName,
             pointName: vendorControl.pointName,
-            plantCode: formData.transactionType.code === 'RB' || vendorControl.biltiDetailsTransactionType === 'RB' ? ''  : matchedLineitems[0]?.fromDestination || this.selectedPlantCode,
+            plantCode: formData?.vendors[index].source,
             paidByDetails: vendorControl.paidByDetails || "",
           };
         }
@@ -1165,6 +1203,7 @@ getVehicleNumber() {
   getBiltiData(biltiId: number) {
     this.biltiService.getBiltiData(this.biltiLocationId,biltiId).subscribe(
       (response: any) => {
+        this.selectedFrlr = response?.frlrNumber
         this.onChangeLocation(response?.locationId);
         this.onTransporterChange(response?.transporterCode)
         this.lineItem = response.biltiCreationLineItems;
@@ -1214,6 +1253,8 @@ getVehicleNumber() {
       });
     });
     this.biltiCreationLineItemsData = response?.biltiCreationLineItems
+    this.patchedRbDispatchNotes = this.biltiCreationLineItemsData.filter((item: any) => item.dispatchNoteId !== 0)
+    .map((item: any) => item.documentReferenceNo);
     vendorsArray.controls.forEach((vendorGroup, index) => {
       const vendorId = this.biltiCreationLineItemsData[index]?.vendorCode;
       const remarks = this.biltiCreationLineItemsData[index]?.remarks;
@@ -1230,6 +1271,7 @@ getVehicleNumber() {
           pointName: this.biltiCreationLineItemsData[index]?.pointName,
           paidByDetails: this.biltiCreationLineItemsData[index]?.paidByDetails,
           biltiDetailsTransactionType:this.biltiCreationLineItemsData[index]?.dispatchNoteId == 0 ?transactionType?.code : 'RB',
+          source: this.biltiCreationLineItemsData[index]?.plantCode
         });
         this.patchedPointName = this.biltiCreationLineItemsData[0]?.vendor?.cityDetail?.value
     if(this.selectedTransactionTypePatchCode =='RB'){
@@ -1482,6 +1524,8 @@ getPlantsList() {
   );
 }
 
-
+disableSave(){
+  return (!this.isPointChargeCalculated && this.biltiId == 0) || (this.rbSelectedNotes != 0 && this.biltiId > 0 && !this.isPointChargeCalculated)
+}
   
 }

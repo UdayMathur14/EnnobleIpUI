@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>{{biltiId>0?'Edit':'Add'}} Bilti</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!isPointChargeCalculated">Save</button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="disableSave()">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -18,7 +18,7 @@
         </ng-select>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-4 col-md-4">
       <div class="custom-form-input">
         <label for="">Transaction Type <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="transactionType" (change)="onOptionSelected($event)" [readonly]="biltiId>0">
@@ -26,7 +26,7 @@
         </ng-select>
       </div>
     </div>
-    <div class="col-lg-4 col-md-4">
+    <div class="col-lg-2 col-md-2">
       <div class="custom-form-input">
         <label for="">FRLR Number <span class="text-danger">*</span></label>
         <ng-select name="" id="" formControlName="frlrNo" (change)="onFrlrNoSelectionChange($event)" (clear)="onFrlrNoClear()">
