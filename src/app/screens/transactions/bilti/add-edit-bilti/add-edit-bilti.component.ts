@@ -1018,7 +1018,7 @@ getVehicleNumber() {
             pointName: vendorControl.pointName,
             plantCode: formData?.vendors[index].source,
             paidByDetails: formData?.vendors[index].paidByDetails,
-            sequenceNumber: ''
+            sequenceNumber: index + 1
           };
         } else {
           this.createLineItem = {
@@ -1034,7 +1034,7 @@ getVehicleNumber() {
             pointName: vendorControl.pointName,
             plantCode: formData?.vendors[index].source,
             paidByDetails: formData?.vendors[index].paidByDetails,
-            sequenceNumber: ''
+            sequenceNumber: index + 1
           };
         }
        
@@ -1130,6 +1130,7 @@ getVehicleNumber() {
             pointName: vendorControl.pointName,
             plantCode: formData?.vendors[index].source,
             paidByDetails: vendorControl.paidByDetails,
+            sequenceNumber: index + 1
           };
         }else {
           this.createLineItem = {
@@ -1149,6 +1150,7 @@ getVehicleNumber() {
             pointName: vendorControl.pointName,
             plantCode: formData?.vendors[index].source,
             paidByDetails: vendorControl.paidByDetails || "",
+            sequenceNumber: index + 1
           };
         }
         
@@ -1252,7 +1254,9 @@ getVehicleNumber() {
         
       });
     });
-    this.biltiCreationLineItemsData = response?.biltiCreationLineItems
+    this.biltiCreationLineItemsData = response?.biltiCreationLineItems.sort((a: any, b: any) => a.sequenceNumber - b.sequenceNumber)
+    console.log(this.biltiCreationLineItemsData);
+    
     this.patchedRbDispatchNotes = this.biltiCreationLineItemsData.filter((item: any) => item.dispatchNoteId !== 0)
     .map((item: any) => item.documentReferenceNo);
     vendorsArray.controls.forEach((vendorGroup, index) => {
