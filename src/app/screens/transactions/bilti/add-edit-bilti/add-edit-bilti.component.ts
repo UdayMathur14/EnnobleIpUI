@@ -249,6 +249,7 @@ export class AddEditBiltiComponent implements OnInit {
       documentrefNo: [''],
       dispatchNoteId: [0],
       source: [''],
+      isFromBiltiRbTxn: ''
     });
   }
 
@@ -447,7 +448,8 @@ export class AddEditBiltiComponent implements OnInit {
           pointCharge:element?.suppliers?.city?.pointChargeDetails?.pointCharge,
           vendorId: element?.suppliers?.id,
           paidByDetails: paidByDetails[0]?.value,
-          biltiDetailsTransactionType: this.biltiTransactionType
+          biltiDetailsTransactionType: this.biltiTransactionType,
+          isFromBiltiRbTxn: false
         });
       }
     });
@@ -474,7 +476,8 @@ export class AddEditBiltiComponent implements OnInit {
             toDestination: element?.toDestination,
             frmId: element?.id,
             pointName: this.pointMapName[element.toDestination],
-            fromDestination: element?.fromDestination
+            fromDestination: element?.fromDestination,
+            isFromBiltiRbTxn: false
           });
         }
       });
@@ -506,7 +509,8 @@ export class AddEditBiltiComponent implements OnInit {
             vendorName: row?.vendorName,
             pointName: row?.pointName,
             paidByDetails: 'Paid by LG',
-            source: row?.fromDestination
+            source: row?.fromDestination,
+            isFromBiltiRbTxn: row?.isFromBiltiRbTxn
           });
       } else{
         this.vendorCode.push(this.vendorMapCode[toDestination])
@@ -517,7 +521,7 @@ export class AddEditBiltiComponent implements OnInit {
           pointName: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.pointName: this.pointMapName[toDestination],
           paidByDetails: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? row?.paidByDetails: this.paidByDetailsMap[toDestination],
           source: this.biltiTransactionType == 'RB' || this.selectedTransactionTypeCode == 'RB'? '': row?.fromDestination,
-
+          isFromBiltiRbTxn: row?.isFromBiltiRbTxn
         });
       }
     
@@ -1414,11 +1418,13 @@ onAdd() {
           vendorCode: element?.suppliers?.id,
           biltiDetailsTransactionType: 'RB',
           dispatchNoteId: element.id,
-          paidByDetails: matchingPaidByDetails?.value
+          paidByDetails: matchingPaidByDetails?.value,
+          isFromBiltiRbTxn: true,
         });
       });
   
       this.combinedRows = [...existingRows, ...this.displayRowsRb];
+      
       const vendorControls = this.combinedRows.map((vendor: any) => this.createVendorGroup(vendor));
       this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
   
@@ -1433,7 +1439,8 @@ onAdd() {
           pointCharge: row.pointCharge,
           biltiDetailsTransactionType: row.biltiDetailsTransactionType,
           paidByDetails: row?.paidByDetails,
-          source: row?.source
+          source: row?.source,
+          isFromBiltiRbTxn: row?.isFromBiltiRbTxn
         });
       });
     }
@@ -1531,5 +1538,12 @@ getPlantsList() {
 disableSave(){
   return (!this.isPointChargeCalculated && this.biltiId == 0) || (this.rbSelectedNotes != 0 && this.biltiId > 0 && !this.isPointChargeCalculated)
 }
-  
+
+deleteRow(index: number): void {
+  const vendors = this.biltiForm.get('vendors') as FormArray;
+  const deletedRow = vendors.at(index).value;
+  console.log('Deleted Row:', deletedRow);
+  vendors.removeAt(index);
+  this.biltiForm.markAsDirty();
+}
 }

@@ -140,6 +140,7 @@
           <th>Point Charge</th>
           <th>Remarks</th>
           <th>Paid by details</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody formArrayName="vendors">
@@ -215,6 +216,9 @@
                   <input type="text" class="input-field" formControlName="paidByDetails" [readonly]="true"  />
                 </div>
               </div>
+            </td>
+            <td class="text-center" *ngIf="vendorGroup.value.isFromBiltiRbTxn == true" >
+              <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link" (click)="deleteRow(i)" />
             </td>
           </tr>
         </ng-container>
