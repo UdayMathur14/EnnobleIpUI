@@ -183,7 +183,7 @@ export class AddEditVendorComponent implements OnInit {
     this.transactionTypeService
       .getTransactionTypes(data)
       .subscribe((res: any) => {
-        this.transactionTypes = res?.transactionTypes;
+        this.transactionTypes = res?.transactionTypes.filter((type: any) => type.code.toLowerCase() !== 'rtv-rb' && type.code.toLowerCase() !== 'invoice-rb');
       });
   }
 
