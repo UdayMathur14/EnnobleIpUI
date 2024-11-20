@@ -50,7 +50,7 @@ export class AddEditDispatchNoteComponent {
   activeTransportersList: any = [];
   // frlrDate!: NgbDateStruct | null;
   today = inject(NgbCalendar).getToday();
-  frlrDate: string = '';
+  frlrDate: any;
   vehicleData: any = [];
   transporterMode: any = [];
   filteredTransporter: any = [];
@@ -92,6 +92,9 @@ export class AddEditDispatchNoteComponent {
     this.getAllLookups();
     this.getTransportersList();
     this.setLocation();
+    if(this.dispatchId == 0){
+      this.setCurrentDate();
+    }
 
     setTimeout(() => {
       if (this.dispatchId > 0) {
@@ -629,6 +632,16 @@ export class AddEditDispatchNoteComponent {
     this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == data)
    
   }
+
+  setCurrentDate(): void {   
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      frlrDate: this.today,
+    });
+    const month = Number(this.today.month) < 10 ? '0' + this.today.month : this.today.month;
+    const day = Number(this.today.day) < 10 ? '0' + this.today.day : this.today.day;
+      this.frlrDate = this.today.year + '-' + month.toString() + '-' + day.toString();
+  }
+
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
