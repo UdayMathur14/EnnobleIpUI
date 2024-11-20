@@ -25,7 +25,7 @@ console.log(this.biltiData);
 
   downloadPDF() {
     this.loadSpinner = true;
-    this.printingDate = this.formatCurrentDate();
+    // this.printingDate = this.formatCurrentDate();
   
     const downloadButton = document.getElementById('download-button');
     const closeButton = document.getElementById('icon-button');
@@ -60,7 +60,7 @@ console.log(this.biltiData);
         }
       }
       pdf.setFontSize(10);
-      pdf.text('Bilti Printing Date: ' + this.printingDate, 107.6, 83);
+      // pdf.text('Bilti Printing Date: ' + this.printingDate, 107.6, 1);
   
       pdf.save('bilti');
       this.onClose();
