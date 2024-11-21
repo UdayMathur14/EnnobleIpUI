@@ -59,6 +59,7 @@ export class AddEditDispatchNoteComponent {
   selectedLocationId: number = 0;
   matchedvehicle: any = [];
   selectedTransporterId: number = 0;
+  filteredParts: any = [];
 
   constructor(
     private router: Router,
@@ -102,7 +103,6 @@ export class AddEditDispatchNoteComponent {
       }
     }, 1000);
     this.selectedLocationId = this.addOrEditDispatchNoteFormGroup?.controls['locationId']?.value;
-    console.log(this.selectedLocationId);
     
   }
 
@@ -419,7 +419,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   getFilteredPartNumbers(index: number) {
-    return this.activePartsLists.filter(
+    return this.filteredParts.filter(
       (parts: any) =>
         !this.selectedParts.includes(parts.partNumber)
     );
@@ -666,6 +666,7 @@ export class AddEditDispatchNoteComponent {
         return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
       });
       this.filteredVehicles = this.activeVehiclesLists.filter((item: any) => item?.locations?.id == event);
+      this.filteredParts = this.activePartsLists.filter((item: any) => item?.locations?.id == event);
       this.addOrEditDispatchNoteFormGroup.patchValue({
         transporterCode: null,
         transporterName: null
