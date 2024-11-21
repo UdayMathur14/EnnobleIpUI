@@ -18,15 +18,17 @@ export class BiltiRbTxnDataComponent implements OnInit {
   @Input() transporterCode: any;
   @Input() vendorCode: any;
   @Input() locationId: any;
+  @Input() dispatchNo: any;
   filters: any = [];
   dispatchNumber: string = '';
+  selectAll: boolean = false;
 
   constructor(public activeModal: NgbActiveModal,
     private dispatchNoteService: DispatchNoteService
   ){}
 
   ngOnInit(): void {
-    this.getDispatchData(); 
+    this.getDispatchData();  
   }
 
   getDispatchData(offset: number = 0, count: number = this.count) {
@@ -43,8 +45,17 @@ export class BiltiRbTxnDataComponent implements OnInit {
     }
 
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {
-      this.dispatchNotes = res?.dispatchNotes.filter((item: any) => item?.frlrNumber == null)
+      const documentRefNos = this.dispatchNo.map((item: any) => item.documentrefNo);
+      this.dispatchNotes = res?.dispatchNotes.filter((item: any) => item?.frlrNumber == null && !documentRefNos.includes(item?.dispatchNumber))
     })
+  }
+
+  toggleSelectAll() {
+    this.dispatchNotes.forEach((note: any) => (note.selected = this.selectAll));
+  }
+  
+  checkIfAllSelected() {
+    this.selectAll = this.dispatchNotes.every((note: any) => note.selected);
   }
 
   getSelectedDispatchNotes() {
@@ -53,7 +64,7 @@ export class BiltiRbTxnDataComponent implements OnInit {
 
   onSavePress() {
     const selectedNotes = this.getSelectedDispatchNotes();
-    this.activeModal.close(selectedNotes);
+    this.activeModal.close(selectedNotes.length ? selectedNotes : this.dispatchNotes);
 
   }
   onClearFilter() {

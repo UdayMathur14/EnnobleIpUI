@@ -1259,8 +1259,6 @@ getVehicleNumber() {
       });
     });
     this.biltiCreationLineItemsData = response?.biltiCreationLineItems.sort((a: any, b: any) => a.sequenceNumber - b.sequenceNumber)
-    console.log(this.biltiCreationLineItemsData);
-    
     this.patchedRbDispatchNotes = this.biltiCreationLineItemsData.filter((item: any) => item.dispatchNoteId !== 0)
     .map((item: any) => item.documentReferenceNo);
     vendorsArray.controls.forEach((vendorGroup, index) => {
@@ -1424,8 +1422,11 @@ onAdd() {
         });
       });
   
-      this.combinedRows = [...existingRows, ...this.displayRowsRb];
-      
+      const mergedRows = [...existingRows, ...this.displayRowsRb];
+      this.combinedRows = mergedRows.filter(
+        (row, index, self) =>
+          self.findIndex(r => r.documentrefNo === row.documentrefNo) === index
+      );
       const vendorControls = this.combinedRows.map((vendor: any) => this.createVendorGroup(vendor));
       this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
   
@@ -1446,7 +1447,7 @@ onAdd() {
       });
     }
   });
-  
+  documentModal.componentInstance.dispatchNo = this.combinedRows
 }
 
 disabledonAdd(){
@@ -1543,7 +1544,6 @@ disableSave(){
 deleteRow(index: number): void {
   const vendors = this.biltiForm.get('vendors') as FormArray;
   const deletedRow = vendors.at(index).value;
-  console.log('Deleted Row:', deletedRow);
   vendors.removeAt(index);
   this.biltiForm.markAsDirty();
 }

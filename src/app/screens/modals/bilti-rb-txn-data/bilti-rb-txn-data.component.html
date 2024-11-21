@@ -36,6 +36,9 @@
         <table>
             <thead>
                 <tr>
+                    <th>
+                        <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
+                      </th>
                     <th>Select</th>
                     <th>Dispatch Number</th>
                     <th>Supplier Code</th>
