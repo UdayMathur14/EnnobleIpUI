@@ -1452,7 +1452,7 @@ onAdd() {
 
 disabledonAdd(){
   const selectedTransation = this.biltiForm.controls['transactionType'].value;
-  return !this.biltiForm.controls['transactionType'].value || !(selectedTransation?.code == 'RTV-RB' || this.selectedTransactionTypeCode == 'RTV-RB' || this.selectedTransactionTypePatchCode == 'RTV-RB' || 
+  return !(this.biltiForm.controls['transactionType'].value && this.biltiForm.controls['frlrNo'].value) || !(selectedTransation?.code == 'RTV-RB' || this.selectedTransactionTypeCode == 'RTV-RB' || this.selectedTransactionTypePatchCode == 'RTV-RB' || 
   selectedTransation?.code == 'INVOICE-RB' || this.selectedTransactionTypeCode == 'INVOICE-RB' || this.selectedTransactionTypePatchCode == 'INVOICE-RB')
 }
 
