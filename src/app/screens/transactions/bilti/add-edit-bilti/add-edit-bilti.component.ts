@@ -1395,6 +1395,7 @@ onAdd() {
   documentModal.componentInstance.dispatchNoteId = this.biltiCreationLineItemsData,
   documentModal.componentInstance.transporterCode = this.biltiForm.controls['transporterCode']?.value,
   documentModal.componentInstance.vendorCode = this.vendorCode,
+  documentModal.componentInstance.locationId = this.biltiForm.controls['locationId']?.value,
 
   documentModal.result.then((selectedNotes) => {
     if (selectedNotes) {

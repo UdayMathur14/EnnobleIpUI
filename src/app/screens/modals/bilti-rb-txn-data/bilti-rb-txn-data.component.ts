@@ -17,6 +17,7 @@ export class BiltiRbTxnDataComponent implements OnInit {
   @Input() selectedTransactionTypeCode: any;
   @Input() transporterCode: any;
   @Input() vendorCode: any;
+  @Input() locationId: any;
   filters: any = [];
   dispatchNumber: string = '';
 
@@ -25,13 +26,13 @@ export class BiltiRbTxnDataComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.getDispatchData();
+    this.getDispatchData(); 
   }
 
   getDispatchData(offset: number = 0, count: number = this.count) {
     
     const data = {
-      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      "locationIds": [this.locationId],
       "dispatchNumber": this.dispatchNumber || "",
       "status": "open",
       "frlrNumber": "",
@@ -42,7 +43,7 @@ export class BiltiRbTxnDataComponent implements OnInit {
     }
 
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {
-      this.dispatchNotes = res?.dispatchNotes 
+      this.dispatchNotes = res?.dispatchNotes.filter((item: any) => item?.frlrNumber == null)
     })
   }
 
