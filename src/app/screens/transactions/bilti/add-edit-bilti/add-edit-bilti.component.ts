@@ -118,6 +118,7 @@ export class AddEditBiltiComponent implements OnInit {
   pointChargeData: any = [];
   isPointChargeCalculated: boolean = false;
   patchedRbDispatchNotes: any = [];
+  deletedRow: any = [];
   constructor(
     private router: Router,
     private biltiService: BiltiService,
@@ -1447,7 +1448,8 @@ onAdd() {
       });
     }
   });
-  documentModal.componentInstance.dispatchNo = this.combinedRows
+  const dispatchNotes = this.combinedRows.filter((item: any) => item?.documentrefNo != this.deletedRow.documentrefNo)
+  documentModal.componentInstance.dispatchNo = dispatchNotes;
 }
 
 disabledonAdd(){
@@ -1543,7 +1545,7 @@ disableSave(){
 
 deleteRow(index: number): void {
   const vendors = this.biltiForm.get('vendors') as FormArray;
-  const deletedRow = vendors.at(index).value;
+  this.deletedRow = vendors.at(index).value;
   vendors.removeAt(index);
   this.biltiForm.markAsDirty();
 }
