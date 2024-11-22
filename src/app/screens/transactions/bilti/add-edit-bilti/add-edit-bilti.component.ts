@@ -1401,8 +1401,6 @@ onAdd() {
       this.rbSelectedNotes = selectedNotes.length;
      this.rbDispatchNumbers = selectedNotes.map((note: any) => note.dispatchNumber);
       const existingRows = this.biltiForm.get('vendors')?.value;
-      console.log(existingRows);
-      
       selectedNotes.forEach((element: any) => {
         const matchingPaidByDetails = this.vendorList
           .filter((item: any) => item?.vendorCode === element?.suppliers?.vendorCode)
@@ -1450,13 +1448,14 @@ onAdd() {
       
     }
   });
-  console.log(this.deletedRow);
-  const dispatchNotes = this.combinedRows.filter(
-    (item: any) => !this.deletedRow.some(
-      (item: any) => item.documentrefNo === item.documentrefNo
-    )
-  );
   
+  const vendorsArray = this.biltiForm.get('vendors') as FormArray;
+  const dispatchNotes = this.combinedRows.filter(
+    (item: any) =>
+      vendorsArray.controls.some(
+        (vendorGroup: any) => vendorGroup.value.documentrefNo == item.documentrefNo
+      )
+  );
   documentModal.componentInstance.dispatchNo = dispatchNotes;
 }
 
