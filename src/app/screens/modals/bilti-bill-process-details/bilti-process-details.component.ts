@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToWords } from 'to-words';
 import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
 import { DatePipe } from '@angular/common';
+import { freight } from '../../../core/constants';
 
 @Component({
   selector: 'app-bilti-process-details-modal',
@@ -124,9 +125,12 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
   }
 
   createLineItem(item: any): FormGroup {
+    console.log(item);
+    
     return this.formBuilder.group({
       documentNumber: [item?.documentReferenceNo],
       vendorName: [item?.vendorName || ''],
+      freightCity: [item?.pointName || ''],
       freightCharge: [item?.biltiBillProcessChargesByVendor?.freightCharge],
       pointCharge: [item?.biltiBillProcessChargesByVendor?.pointCharge],
       detentionCharge: [item?.biltiBillProcessChargesByVendor?.detentionCharge],
@@ -138,7 +142,6 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
     });
     
   }
-
 
   getBiltiBillProcessbyId() {
     this.biltiBillService
@@ -179,8 +182,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         excessAmount: this.biltiBillProcessData.biltiBillProcessModel?.excessAmount,
         penaltyReason: this.biltiBillProcessData.biltiBillProcessModel?.penaltyReason,
         excessReason: this.biltiBillProcessData.biltiBillProcessModel?.excessReason,
-        freightChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.freightCharge,
-        pointChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.pointCharge,
+        // freightChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.freightCharge,
+        // pointChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.pointCharge,
+        freightChargeLg: this.biltiBillProcessData?.chargesByVendor == false ? this.biltiProcess?.freightAmount: '',
+      pointChargeLg: this.biltiBillProcessData?.chargesByVendor == false ? this.biltiBillProcessData?.totalPointCharge: '',
         detentionChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.detentionCharge,
         overloadChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.overloadCharge,
         tollTaxLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.tollTax,
@@ -272,7 +277,15 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       this.totalLGUnloadingCharge +
       this.totalLGOtherCharges;
     this.grandTotalSum();
+    if(this.biltiBillProcessData?.chargesByVendor == false){
+      this.excessReason();
+    } else {
+      this.calculateExcessReasonVendor();
+    }
+    this.calculatePenaltyReasonLg();
     this.calculateDifference();
+
+    
   }
 
   calculateDifference(): void {
@@ -603,11 +616,83 @@ validateNo(e: any) {
 }
 
 get isSaveDisabled(): boolean {
-  const excessReason = this.biltiBillProcess.controls['excessReason']?.value;
-  const penaltyReason = this.biltiBillProcess.controls['penaltyReason']?.value;
-  
-  return this.freightAmount > this.grandTotal || !(excessReason || penaltyReason);
+  this.pointCharges = this.biltiBillProcess.controls['pointCharges']?.value;
+  this.freightAmount = this.biltiBillProcessData?.freightDetails?.freightAmount || 0;
+  // const excessReason = this.biltiBillProcess.controls['excessReason']?.value;
+  // const penaltyReason = this.biltiBillProcess.controls['penaltyReason']?.value;
+  const totalCharges = Number(this.freightAmount) + Number(this.pointCharges);
+  const formValue = this.biltiBillProcess.value;
+  this.totalLGFreightCharge = parseFloat(formValue.freightChargeLg) || 0;
+  return (this.biltiBillProcessData?.chargesByLG == true ? this.freightAmount > this.totalLGFreightCharge || this.pointCharges != this.totalLGPointCharge : totalCharges != this.totalFreightCharge);
 }
 
+excessReason() {
+    this.biltiBillProcess.valueChanges.subscribe((values: any) => {
+      const reasons: string[] = [];
+      if (values.pointChargeLg > 0) reasons.push('Point Charge');
+      if (values.detentionChargeLg > 0) reasons.push('Detention Charge');
+      if (values.overloadChargeLg > 0) reasons.push('Overload Charge');
+      if (values.tollTaxLg > 0) reasons.push('Toll Tax');
+      if (values.unloadingChargeLg > 0) reasons.push('Unloading Charge');
+      if (values.otherChargeLg > 0) reasons.push('Other Charges');
+  
+      if (reasons.length > 0 && this.grandTotal > this.freightAmount) {
+        this.biltiBillProcess.get('excessReason')?.setValue(`Due to ${reasons.join(', ')}`, { emitEvent: false });
+      } else {
+        this.biltiBillProcess.get('excessReason')?.setValue('', { emitEvent: false });
+      }
+    });
+  }
 
+  calculatePenaltyReasonLg() {
+    this.biltiBillProcess.valueChanges.subscribe((values: any) => {
+      const reasons: string[] = [];
+      if (values.pointChargeLg > 0) reasons.push('Point Charge');
+      if (values.detentionChargeLg > 0) reasons.push('Detention Charge');
+      if (values.overloadChargeLg > 0) reasons.push('Overload Charge');
+      if (values.tollTaxLg > 0) reasons.push('Toll Tax');
+      if (values.unloadingChargeLg > 0) reasons.push('Unloading Charge');
+      if (values.otherChargeLg > 0) reasons.push('Other Charges');
+  
+      if (reasons.length > 0 && this.grandTotal < this.freightAmount) {
+        this.biltiBillProcess.get('penaltyReason')?.setValue(`Due to ${reasons.join(', ')}`, { emitEvent: false });
+      } else {
+        this.biltiBillProcess.get('penaltyReason')?.setValue('', { emitEvent: false });
+      }
+    });
+  }
+
+  calculateExcessReasonVendor(): void {
+    const penaltyReasons: string[] = [];
+  
+    this.biltiCreationLineItemDetails.controls.forEach((control, index) => {
+      const charges = [
+        // { name: 'freightCharge', label: 'Freight Charge' },
+        { name: 'pointCharge', label: 'Point Charge' },
+        { name: 'detentionCharge', label: 'Detention Charge' },
+        { name: 'overloadCharge', label: 'Overload Charge' },
+        { name: 'tollTax', label: 'Toll Tax' },
+        { name: 'unloadingCharge', label: 'Unloading Charge' },
+        { name: 'otherCharges', label: 'Other Charges' },
+      ];
+  
+      charges.forEach((charge) => {
+        const value = control.get(charge.name)?.value;
+        if (value > 0) {
+          penaltyReasons.push(`${charge.label}`);
+        }
+      });
+    });
+  
+    if (penaltyReasons.length > 0 && this.grandTotal > this.freightAmount) {
+      this.biltiBillProcess.get('excessReason')?.setValue(
+        `Due to ${penaltyReasons.join(', ')}`
+      );
+    } else if((Number(this.freightAmount) + Number(this.pointCharges)) == this.totalFreightCharge){
+      this.biltiBillProcess.get('excessReason')?.setValue('FREIGHT RECOVERED FROM VENDOR');
+    } else {
+      this.biltiBillProcess.get('excessReason')?.setValue('');
+    }
+  }
+  
 }

@@ -37,11 +37,23 @@
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
+            <label for="">Point Charge</label>
+            <input type="text" class="input-field" readonly formControlName="pointCharges"/>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <div class="custom-form-input">
+            <label for="">Max Bilti Number</label>
+            <input type="text" class="input-field" readonly formControlName="maxBiltiNo"/>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <div class="custom-form-input">
             <label for="">Penalty Amount</label>
             <input type="text" class="input-field" readonly formControlName="penaltyAmount" />
           </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-10 col-md-10">
           <div class="custom-form-input">
             <label for="">Penalty Reason<span class="text-danger">*</span></label>
             <input type="text" class="input-field" formControlName="penaltyReason" [readonly]="amountDisabled == true" />
@@ -55,22 +67,10 @@
             <input type="text" class="input-field" readonly formControlName="excessAmount" />
           </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-10 col-md-10">
           <div class="custom-form-input">
             <label for="">Excess Reason<span class="text-danger">*</span></label>
             <input type="text" class="input-field" formControlName="excessReason" [readonly]="amountDisabled == true" />
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-          <div class="custom-form-input">
-            <label for="">Point Charge</label>
-            <input type="text" class="input-field" readonly formControlName="pointCharges"/>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-          <div class="custom-form-input">
-            <label for="">Max Bilti Number</label>
-            <input type="text" class="input-field" readonly formControlName="maxBiltiNo"/>
           </div>
         </div>
       </div>
@@ -84,6 +84,7 @@
             <tr>
               <th class="ps-0">Document Ref. Number</th>
               <th>Supplier Name</th>
+              <th>Freight City</th>
               <th>Freight Charge</th>
               <th>Point Charge</th>
               <th>Detention Charge</th>
@@ -105,6 +106,11 @@
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="vendorName" readonly />
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
+                  <input type="text" class="input-field" formControlName="freightCity" readonly />
                 </div>
               </td>
               <td>
@@ -157,7 +163,7 @@
             </tr>
             <!-- Totals row -->
             <tr>
-              <td colspan="2" class="ps-0"><strong>Total:</strong></td>
+              <td colspan="3" class="ps-0"><strong>Total:</strong></td>
               <td><strong>{{ totalFreightCharge }}</strong></td>
               <td><strong>{{ totalPointCharge }}</strong></td>
               <td><strong>{{ totalDetentionCharge }}</strong></td>
