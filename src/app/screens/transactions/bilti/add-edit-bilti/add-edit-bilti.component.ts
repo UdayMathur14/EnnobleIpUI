@@ -1434,7 +1434,6 @@ onAdd() {
       this.biltiForm.setControl('vendors', this.fb.array(vendorControls));
   
       this.combinedRows.forEach((row: any, index: number) => {
-        
         const vendorGroup = (this.biltiForm.get('vendors') as FormArray).at(index) as FormGroup;
         vendorGroup.patchValue({
           documentrefNo: row.documentrefNo,
@@ -1448,10 +1447,16 @@ onAdd() {
           isFromBiltiRbTxn: row?.isFromBiltiRbTxn
         });
       });
+      
     }
   });
-
-  const dispatchNotes = this.combinedRows.filter((item: any) => item?.documentrefNo != this.deletedRow.documentrefNo)
+  console.log(this.deletedRow);
+  const dispatchNotes = this.combinedRows.filter(
+    (item: any) => !this.deletedRow.some(
+      (item: any) => item.documentrefNo === item.documentrefNo
+    )
+  );
+  
   documentModal.componentInstance.dispatchNo = dispatchNotes;
 }
 
@@ -1548,8 +1553,19 @@ disableSave(){
 
 deleteRow(index: number): void {
   const vendors = this.biltiForm.get('vendors') as FormArray;
-  this.deletedRow = vendors.at(index).value;
+  if (!Array.isArray(this.deletedRow)) {
+    this.deletedRow = [];
+  }
+  const deletedItem = vendors.at(index).value;
+  const isDuplicate = this.deletedRow.some(
+    (row: any) => row.documentrefNo === deletedItem.documentrefNo
+  );
+  if (!isDuplicate) {
+    this.deletedRow.push(deletedItem);
+  }
   vendors.removeAt(index);
   this.biltiForm.markAsDirty();
 }
+
+
 }

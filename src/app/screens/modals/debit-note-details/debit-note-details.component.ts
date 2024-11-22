@@ -57,9 +57,11 @@ export class DebitNoteDetailsModalComponent implements OnInit {
       vendorName: [item?.vendorName || ''],
       remarks: [this.biltiProcess?.loadingLocation?.value],
       id: [item.id],
+      invoiceAmount: [item?.fRMTransactionModel?.invTotalAmount || 0,
+      ],
       debitAmount: [item?.biltiBillProcessChargesByVendor?.debitAmount || 0,
       ],
-      debitRemarks: [item?.biltiBillProcessChargesByVendor?.debitRemarks, Validators.required],
+      debitRemarks: [item?.biltiBillProcessChargesByVendor?.debitRemarks || 'OK', Validators.required],
     });
   }
 

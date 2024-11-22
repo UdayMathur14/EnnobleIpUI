@@ -45,7 +45,8 @@
             <tr>
               <th class="ps-0">Paid By Details</th>
               <th>Supplier Name</th>
-              <th>Remarks</th>
+              <th>Loading Location</th>
+              <th>Invoice Amount</th>
               <th>Debit Amount</th>
               <th>Debit Remarks <span class="text-danger">*</span></th>
             </tr>
@@ -65,6 +66,11 @@
               <td>
                 <div class="custom-form-input mb-0">
                   <input type="text" class="input-field" formControlName="remarks" readonly maxlength="150"/>
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input mb-0">
+                  <input type="text" class="input-field" formControlName="invoiceAmount" readonly/>
                 </div>
               </td>
               <td>

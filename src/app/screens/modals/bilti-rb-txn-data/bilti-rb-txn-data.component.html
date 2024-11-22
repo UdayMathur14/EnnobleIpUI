@@ -48,7 +48,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let rbData of dispatchNotes">
-                    <td><input class ="custom-checkbox mt-2" type="checkbox" [(ngModel)]="rbData.selected" /></td>
+                    <td><input class ="custom-checkbox mt-2" type="checkbox" [(ngModel)]="rbData.selected"  (change)="checkIfAllSelected()" /></td>
                     <td>{{rbData?.dispatchNumber}}</td>
                     <td>{{rbData?.suppliers?.vendorCode}}</td>
                     <td>{{rbData?.suppliers?.vendorName}}</td>
