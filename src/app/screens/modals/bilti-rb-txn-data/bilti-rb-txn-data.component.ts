@@ -28,8 +28,6 @@ export class BiltiRbTxnDataComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    console.log(this.dispatchNo);
-    
     this.getDispatchData();  
   }
 

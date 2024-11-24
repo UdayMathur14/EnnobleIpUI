@@ -22,6 +22,7 @@ export class BiltiBillProcessFilterComponent {
   locationId!: Number;
   locations: any[] = APIConstant.commonLocationsList;
   @Input() filters: any = [];
+  paidByDetails: any = undefined;
   // @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
@@ -83,6 +84,7 @@ export class BiltiBillProcessFilterComponent {
       // "adviceType": selectedAdviceType || "",
       "fromDate": this.selectedFromDate,
       "toDate": this.selectedToDate,
+      "paidByDetails" : this.paidByDetails
     }
     this.filterSearchObj.emit(filterObj)
   }
@@ -93,6 +95,7 @@ export class BiltiBillProcessFilterComponent {
     this.toDate = null;
     this.selectedFromDate = null;
     this.selectedToDate = null;
+    this.paidByDetails = undefined;
     // this.adviceType = '';
     // this.batchName = '';
     // this.batchName = '';
@@ -105,6 +108,7 @@ export class BiltiBillProcessFilterComponent {
       // batchNumber : '',
       // adviceType: '',
       biltiNumber: '',
+      paidByDetails: ''
     }
     this.filterSearchObj.emit(filterObj)
   }

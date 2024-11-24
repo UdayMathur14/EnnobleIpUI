@@ -46,7 +46,8 @@ export class BiltiBillProcessComponent implements OnInit {
       batchNumber: filters?.batchNumber || "",
       biltiNumber: filters?.biltiNumber || "",
       locationIds: APIConstant.commonLocationsList.map((e:any)=>(e.id)),
-      status: ""
+      status: "",
+      paidByDetails: filters?.paidByDetails
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;
