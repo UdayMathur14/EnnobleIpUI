@@ -28,6 +28,7 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
   locations : any[] = APIConstant.commonLocationsList;
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
+  paidByDetails: any = undefined;
   constructor(
     private toastr: ToastrService,
     private lookupService: LookupService
@@ -55,9 +56,10 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
       "batchName": this.batchName || "",
       "fromDate": this.selectedFromDate,
       "toDate": this.selectedToDate,
-      locationIds: this.locationIds,
+      "locationIds": this.locationIds,
       "adviceType": this.adviceType || "",
-      "status": this.status || ""
+      "status": this.status || "",
+      "paidByDetails" : this.paidByDetails
     }
     this.filterSearchObj.emit(filterObj)
   }
@@ -73,13 +75,15 @@ export class BiltiBillProcessViewFilterComponent implements OnInit {
     this.adviceType = undefined;
     this.status = undefined;
     this.locationIds = this.locationIds;
+    this.paidByDetails = undefined;
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
       batchaname: '',
       adviceType: '',
       status: '',
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      paidByDetails: ''
     }
     this.filterSearchObj.emit(filterObj)
   }

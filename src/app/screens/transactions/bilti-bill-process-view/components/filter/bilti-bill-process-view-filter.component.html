@@ -66,6 +66,14 @@
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
+          <label>Paid By Details</label>
+          <ng-select class="input-field" [(ngModel)]="paidByDetails" placeholder="Select Status">
+              <ng-option *ngFor="let paidByDetails of filters?.PaidByDetails" [value]="paidByDetails">{{paidByDetails}}</ng-option>
+          </ng-select>
+      </div>
+  </div>
+    <div class="col-lg-2">
+      <div class="custom-form-input">
           <label>Status</label>
           <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
               <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
@@ -76,7 +84,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="handleSearch()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status && !paidByDetails">
           Search
         </button>
       </div>
@@ -85,7 +93,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status">
+          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber && !batchName && !adviceType && !status && !paidByDetails">
           Clear
         </button>
       </div>
