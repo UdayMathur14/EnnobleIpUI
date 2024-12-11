@@ -36,7 +36,8 @@ export class BiltiComponent implements OnInit {
       biltiNumber: filters?.biltiNumber || "",
       locationIds: filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       status: filters?.status,
-      biltiStatus: filters?.biltiStatus
+      biltiStatus: filters?.biltiStatus,
+      transactionTypeCode: filters?.transactionTypeCode
     };
     this.biltiService.getBiltis(data, offset, count).subscribe(
       (response: any) => {

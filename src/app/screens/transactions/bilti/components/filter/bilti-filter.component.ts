@@ -22,6 +22,7 @@ export class BiltiFilterComponent implements OnInit {
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   status: any = undefined;
   biltiStatus: any = undefined;
+  transactionTypeCode: any = undefined
 
   constructor(private lookupService: LookupService) { }
 
@@ -34,7 +35,8 @@ export class BiltiFilterComponent implements OnInit {
       "biltiNumber": this.biltiNum || "",
       locationIds: this.locationIds,
       status: this.status,
-      biltiStatus: this.biltiStatus
+      biltiStatus: this.biltiStatus,
+      transactionTypeCode: this.transactionTypeCode
     }
     this.getData.emit(obj)
   }
@@ -44,12 +46,14 @@ export class BiltiFilterComponent implements OnInit {
     this.biltiNum = null;
     this.locationIds = this.locationIds;
     this.status = undefined;
-    this.biltiStatus = undefined
+    this.biltiStatus = undefined,
+    this.transactionTypeCode = undefined
     let obj = {
       biltiNum: null,
       locationIds: this.locationIds,
       status: '',
-      biltiStatus: ''
+      biltiStatus: '',
+      transactionTypeCode: ''
     }
     this.getData.emit(obj)
   }

@@ -134,30 +134,30 @@
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="overloadCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="tollTax" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="unloadingCharge"
-                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="otherCharges" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false" maxlength="150"/>
+                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true" maxlength="150"/>
                 </div>
               </td>
             </tr>
