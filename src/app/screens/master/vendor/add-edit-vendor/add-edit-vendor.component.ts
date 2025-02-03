@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorService } from '../../../../core/service/vendor.service';
-import { VendorDataModel } from '../../../../core/model/masterModels.model';
+import {
+  TransporterDataModel,
+  VendorDataModel,
+} from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-vendor',
   templateUrl: './add-edit-vendor.component.html',
-  styleUrl: './add-edit-vendor.component.scss'
+  styleUrl: './add-edit-vendor.component.scss',
 })
 export class AddEditVendorComponent implements OnInit {
   queryData: any;
@@ -22,26 +27,52 @@ export class AddEditVendorComponent implements OnInit {
   paidbyDetailsList: any = [];
   disableSubmit: boolean = false;
   paidByDetailId: number | null = null;
-
+  transporterData!: TransporterDataModel;
+  transactionMappings: any[] = [];
+  transporterMode: any[] = [];
+  rcmNonRcmType: any[] = [];
+  taxCodes: any = [];
+  tdsCodes: any[] = [];
+  paidByDetails: any[] = [];
+  transactionTypes: any[] = [];
+  selectedTransactionTypes: Set<string> = new Set();
+  isShow: boolean = false;
+  freightCity: any = [];
+  statusValue: string = '';
   vendorForm = new FormGroup({
     vendorCode: new FormControl(''),
     vendorName: new FormControl(''),
-    vendorAddress: new FormControl(''),
-    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
-    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/)]),
+    vendorAddress1: new FormControl(''),
+    vendorAddress2: new FormControl(''),
+    phone: new FormControl('', [
+      Validators.required, Validators.minLength(10), Validators.maxLength(12)
+    ]),
+    email: new FormControl('', [
+      Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+]),
     city: new FormControl(''),
     state: new FormControl(''),
+    country: new FormControl(''),
+    postalCode: new FormControl(''),
     pan: new FormControl(''),
     gstin: new FormControl(''),
-    paymentTermCode: new FormControl(''),
-    paymentStatus: new FormControl(''),
-    paidByDetail: new FormControl('', [Validators.required]),
-    taxationCode: new FormControl('', [Validators.required]),
+    freightCity: new FormControl(''),
+    // paymentTermCode: new FormControl(''),
+    // paymentStatus: new FormControl(''),
+    // paidByDetail: new FormControl('', [Validators.required]),
+    taxationTypeId: new FormControl('', [Validators.required]),
+    taxCodeId: new FormControl('', [Validators.required]),
+    // tdsCodeId: new FormControl('', [Validators.required]),
     cgst: new FormControl(''),
     sgst: new FormControl(''),
     igst: new FormControl(''),
-    rcmNonRcm: new FormControl(''),
-    status: new FormControl('', [Validators.required])
+    tds: new FormControl(''),
+    vendorPaymentGroup: new FormControl(''),
+    vendorPaymentTermsName: new FormControl(''),
+    vendorPaytermDays: new FormControl(''),
+    vendorPaytermMethodCode: new FormControl(''),
+    // rcmNonRcm: new FormControl(''),
+    status: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -50,17 +81,25 @@ export class AddEditVendorComponent implements OnInit {
     private vendorService: VendorService,
     private pointChargeService: PointChargeService,
     private toastr: ToastrService,
-  ) { }
+    private transactionTypeService: TransactionTypesService,
+    private lookupService: LookupService,
+  ) {}
 
   ngOnInit(): void {
     this.loadSpinner = true;
-    this.queryData = this._Activatedroute.snapshot.paramMap.get("vendorId");
+    this.queryData = this._Activatedroute.snapshot.paramMap.get('vendorId');
     this.getVendorData(this.queryData);
     this.getAllPointChargesList();
     this.getTaxationCodeDropdownData();
-    this.getAllPaidByDetails();
-    this.vendorForm.get('paidByDetail')?.valueChanges.subscribe(value => {
-      const selectedDetail = this.paidbyDetailsList.find((detail: any) => detail.value === value);
+    this.getPaidByDetailsDropdownData();
+    this.getTransactionTypes();
+    this.getRCMNonRCMTypeDropdownData();
+    this.getTdsCodesDropdownData();
+    this.getFreightCity();
+    this.vendorForm.get('paidByDetail')?.valueChanges.subscribe((value) => {
+      const selectedDetail = this.paidbyDetailsList.find(
+        (detail: any) => detail.value === value
+      );
       if (selectedDetail) {
         this.paidByDetailId = selectedDetail.id;
       }
@@ -69,65 +108,108 @@ export class AddEditVendorComponent implements OnInit {
 
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
-    this.vendorService.getVendorData(vendorId).subscribe((response: any) => {
-      this.paidByDetailId = response.paidByDetail.id;
-      this.patchVendorData(response)
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.vendorService.getVendorData(vendorId).subscribe(
+      (response: any) => {
+        this.paidByDetailId = response.paidByDetail?.id;
+        this.patchVendorData(response);
+        this.loadSpinner = false;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    );
   }
 
-  //TO GET THE POINT NAME FROM POINT CHARGE 
+  //TO GET THE POINT NAME FROM POINT CHARGE
   getAllPointChargesList() {
-    let data = {}
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-      this.pointChargeName = response.pointCharges;
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    let data = {};
+    this.pointChargeService.getPointCharges(data).subscribe(
+      (response: any) => {
+        this.pointChargeName = response.pointCharges;
+        this.loadSpinner = false;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    );
   }
 
   //UPDATING THE VENDOR ON CLICK OF SAVE BUTTON
   onPressSave() {
     this.loadSpinner = true;
-    const rcmNonRcmValue = this.vendorForm.get('rcmNonRcm')?.value === 'RCM' ? 1 : 0;
-    let data = {
-      "actionBy": localStorage.getItem("userId"),
-      "contactNumber": this.vendorForm.get('phone')?.value,
-      "email": this.vendorForm.get('email')?.value,
-      "status": this.vendorForm.get('status')?.value,
-      "taxationTypeId": (this.vendorForm.get('taxationCode')?.value) || 0,
-      "attribute5": this.vendorForm.get('cgst')?.value,
-      "attribute6": this.vendorForm.get('sgst')?.value,
-      "attribute7": this.vendorForm.get('igst')?.value,
-      "attribute8": rcmNonRcmValue,
-      "paidByDetailId": Number(this.paidByDetailId)
-    }
-    this.vendorService.updateVendor(this.queryData, data).subscribe((response: any) => {
-      this.vendorData = response;
-      this.toastr.success("Vendor Update Successfully");
-      this.router.navigate(['master/vendor']);
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+
+    const data = {
+      actionBy: localStorage.getItem('userId'),
+      contactNumber: this.vendorForm.get('phone')?.value,
+      email: this.vendorForm.get('email')?.value,
+      taxationTypeId: this.vendorForm.get('taxationTypeId')?.value || 0,
+      taxCodeId: this.vendorForm.get('taxCodeId')?.value || 0,
+      freightCity: this.vendorForm.get('freightCity')?.value,
+      // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
+      status: this.vendorForm.get('status')?.value,
+      vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
+        const iTransactionTypeId = this.transactionTypes.find((item: any)=> item.code == mapping.transactionType)
+        return {                                                                          
+          transactionTypeId: iTransactionTypeId?.id || mapping?.id,                        
+          paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
+          status: mapping.status
+        }
+      })
+    };
+    this.vendorService.updateVendor(this.queryData, data).subscribe(
+      (response: any) => {
+        this.vendorData = response;
+        this.toastr.success('Vendor Update Successfully');
+        this.router.navigate(['master/vendor']);
+        this.loadSpinner = false;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    );
+  }
+
+  getTransactionTypes() {
+    const data = {
+      transactionTypeCode: '',
+      transactionTypeName: '',
+      glSubCategory: '',
+      status: '',
+    };
+
+    this.transactionTypeService
+      .getTransactionTypes(data)
+      .subscribe((res: any) => {
+        this.transactionTypes = res?.transactionTypes.filter((type: any) => type.code.toLowerCase() !== 'rtv-rb' && type.code.toLowerCase() !== 'invoice-rb');
+      });
   }
 
   getTaxationCodeDropdownData() {
     let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'taxationCode'
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'taxationCode';
     this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
-      this.taxationCode = res.lookUps
-    })
+      this.taxationCode = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    });
+  }
+  getPaidByDetailsDropdownData() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'PaidByDetails';
+    this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
+      this.paidByDetails = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    });
   }
 
   //NAVIGATION BACK TO VENDOR LISTING ON CLICK CANCEL BUTTON
@@ -136,44 +218,105 @@ export class AddEditVendorComponent implements OnInit {
   }
 
   patchVendorData(data: any) {
+    if (data?.taxationType?.code === "RCM") {
+      this.getTaxCodesRcmDropdownData();
+    }else{
+      this.getTaxCodesNonRcmDropdownData();
+    }
+    setTimeout(() => {
+      this.onSelectTdsCode(data?.tdsCodes?.id)
+      this.onChangeTaxationCode(data?.taxCodeId)
+    },1000)
+
+    this.onSelectTdsCode(data?.tdsCodes?.id);
+    this.selectedTransactionTypes.clear();
     this.vendorForm.patchValue({
-      vendorCode: data.vendorCode,
+      vendorCode: data?.vendorCode,
       vendorName: data.vendorName,
-      vendorAddress: data.vendorAddress1,
+      vendorAddress1: data.vendorAddress1,
+      vendorAddress2: data.vendorAddress2,
       phone: data.contactNumber,
       email: data.email,
-      city: data.city.value,
-      state: data.state.value,
+      city: data.city,
+      state: data.state,
+      country: data.country,
+      postalCode: data.postalCode,
       pan: data.panNo,
-      gstin: data.gstnNo,
-      paymentTermCode: data.payTermCode,
-      paymentStatus: data.payTermStatus,
-      paidByDetail: data.paidByDetail.value,
-      taxationCode: data.taxationType.id,
-      cgst: data.attribute5,
-      sgst: data.attribute6,
-      igst: data.attribute7,
-      status: data.status,
-      rcmNonRcm: data.taxationType.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
+      gstin: data.gstInNo,
+      taxationTypeId: data?.taxationTypeId,
+      taxCodeId: data?.taxCodeId,
+      // tdsCodeId: data?.tdsCodeId,
+      // paymentTermCode: data.payTermCode,
+      // paymentStatus: data.payTermStatus,
+      // paidByDetail: data.paidByDetail?.value,
+      // taxationCode: data.taxationType?.id,
+      cgst: data?.attribute5,
+      sgst: data?.attribute6,
+      igst: data?.attribute7,
+      status: data?.status,
+      vendorPaymentGroup: data?.vendorPaymentGroup,
+      vendorPaymentTermsName: data?.vendorPaymentTermsName,
+      vendorPaytermDays: data?.vendorPaytermDays,
+      vendorPaytermMethodCode: data?.vendorPaytermMethodCode,
+      freightCity: data?.freightCity
+      // rcmNonRcm: data.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
+    });
+
+    if (data?.vendorMappingModels) {
+      this.transactionMappings = data.vendorMappingModels.map((mapping: any) => {
+        this.selectedTransactionTypes.add(mapping.transactionType.code);
+        return {
+          transactionType: mapping.transactionType.code || {},
+          paidByDetails: mapping.paidByDetails.code + ' (' + mapping.paidByDetails.value + ')' || {},
+          iTransactionTypeId: mapping.transactionType.id || {},
+          id: mapping.paidByDetails.id || {},
+          status: mapping?.status,
+          disabled: true,
+          disabledTransaction: true,
+          isShow: false,
+        };
+      });
+    }
+     
+  }
+
+  onOptionSelected(event: any) {
+    this.vendorForm.patchValue({
+      taxCodeId: null
+    })
+    const selectedLookup = this.rcmNonRcmType.find(
+      (lookup: any) => lookup.id === event
+    );
+    if (selectedLookup?.code === 'RCM') {
+     this.getTaxCodesRcmDropdownData();
+    } else {
+      this.getTaxCodesNonRcmDropdownData();
+    }
+  }
+
+  onChangeTaxationCode(event: any){
+    const selectedTaxCode = this.taxCodes.find((item: any) => item.id == event)
+      this.vendorForm.patchValue({
+      cgst: selectedTaxCode?.attribute5 || 0,
+      sgst: selectedTaxCode?.attribute6 || 0,
+      igst: selectedTaxCode?.attribute7 || 0,
     });
   }
 
+  onSelectTdsCode(event: any){
+    const selectedLookup = this.tdsCodes.find(
+      (lookup: any) => lookup.id === event
+    );
 
-  onOptionSelected(event: any) {
-    const selectedLookup = this.taxationCode.find((lookup: any) => lookup.id === event);
     this.vendorForm.patchValue({
-      cgst: selectedLookup.attribute5,
-      sgst: selectedLookup.attribute6,
-      igst: selectedLookup.attribute7,
-      rcmNonRcm: selectedLookup.attribute8 === 1 ? 'RCM' : 'Non RCM' || ''
-    });
-
+      tds: selectedLookup?.attribute5
+    })
   }
 
   validateNo(e: any) {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false
+      return false;
     }
     return true;
   }
@@ -181,22 +324,166 @@ export class AddEditVendorComponent implements OnInit {
   phoneNumberLength(e: any) {
     const phoneControl = this.vendorForm.get('phone');
     if (phoneControl?.value) {
-      this.disableSubmit = phoneControl.value.length < 10 ? true : false;
+      this.disableSubmit = phoneControl.value.length < 10 || phoneControl.value.length > 12 ? true : false;
     }
   }
 
   getAllPaidByDetails() {
     let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'PaidByDetails'
-    this.vendorService.getDropdownData(data, type).subscribe((response: any) => {
-      this.paidbyDetailsList = response.lookUps;
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'PaidByDetails';
+    this.vendorService.getDropdownData(data, type).subscribe(
+      (response: any) => {
+        this.paidbyDetailsList = response.lookUps.filter(
+          (item: any) => item.status === 'Active');
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      }
+    );
+  }
 
+  getTransporterModeDropdownData() {
+    const data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'TransporterMode';
+    // this.transporterService.getDropdownData(data, type).subscribe((res: any) => {
+    //   this.transporterMode = res.lookUps
+    // })
+  }
+  getRCMNonRCMTypeDropdownData() {
+    const data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'RCM_Non_RCM_Type';
+    this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
+      this.rcmNonRcmType = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    });
+  }
+
+  getTaxCodesRcmDropdownData() {
+    const data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'TaxCodesRCM';
+    this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
+      this.taxCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    });
+  }
+
+  getTaxCodesNonRcmDropdownData() {
+    const data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'TaxCodesNonRCM';
+    this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
+      this.taxCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    });
+  }
+
+  getTdsCodesDropdownData() {
+    const data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'TdsCodes';
+    this.vendorService.getDropdownData(data, type).subscribe((res: any) => {
+      this.tdsCodes = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    });
+  }
+
+  onAddTransactionRow() {
+    let obj = {
+      transactionType: undefined,
+      paidByDetails: undefined,
+      disabled: false,
+      disabledTransaction: false,
+      status: 'Active',
+      isShow: true
+    };
+    this.transactionMappings.push(obj);
+    
+  }
+
+  onTransactionTypeSelect(e: any, index: number) {
+    const selectedTypeValue = e;
+    if (selectedTypeValue) {
+      this.transactionMappings[index].transactionType = selectedTypeValue;
+      this.selectedTransactionTypes.add(selectedTypeValue);
+    }
+  }
+  
+
+  onTransactionTypeClear(index: number) {
+    const clearedTypeValue = this.transactionMappings[index].transactionType;
+    if (clearedTypeValue) {
+      this.selectedTransactionTypes.delete(clearedTypeValue);
+      this.transactionMappings[index].transactionType = undefined;
+    }
+  }
+
+  getAvailableTransactionTypes(index: number): any[] {
+    return this.transactionTypes.filter(type => !this.selectedTransactionTypes.has(type.code) || this.transactionMappings[index].transactionType === type.code);
+  }
+  
+  
+  onPaidByDetailsClear(ind: number) {
+    this.transactionMappings[ind].paidByDetailsId = undefined;
+  }
+
+  onPaidByDetailsSelect(e: any, index: any) {
+    this.transactionMappings[index].paidByDetails = e;
+  }
+
+  onDeleteTransaction(transaction: any, index: number) {
+    // const deletedTransaction = {
+    //   id: transaction.id,
+    //   transactionTypeId: transaction.transactionTypeId,
+    //   status: 'Inactive',
+    // };
+    //   if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
+    //     this.deletedTransactions.push(deletedTransaction);
+    //   }
+    //   this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
+    //     code => code !== transaction.code
+    // );
+    this.transactionMappings.splice(index, 1);
+    // this.updateSelectedTransactionCodes();
+  }
+
+  getFreightCity() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'FreightCity';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.freightCity = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
     }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    })
+
+    });
+  }
+
+  onStatusChange(status: string, transaction: any) {
+    transaction.disabled = status === 'Inactive';
   }
 }

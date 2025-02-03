@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2" *ngIf="locations && locations.length>1">
+        <div class="col-lg-4" *ngIf="locations && locations.length>1">
             <div class="">
                 <label for="">Location Code</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
@@ -20,8 +20,8 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters me-2" (click)="onClearFilter()" [disabled]="locationIds.length==0 && !pointName">Clear</button>
                 <button class="custom-button-filters" (click)="onPointChargeSearch()" [disabled]="locationIds.length==0 && !pointName">Search</button>
+                <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !pointName">Clear</button>
             </div>
         </div>
     </div>

@@ -1,12 +1,10 @@
 <div class="filters-box">
   <div class="row">
-    <div class="col" *ngIf="locations && locations.length>1">
-      <div class="custom-form-input">
+    <div class="col-4" *ngIf="locations && locations.length>1">
         <label for="">Location Code</label>
         <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
           <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
         </ng-select>
-      </div>
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
@@ -61,7 +59,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="handleSearch()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !status">
           Search
         </button>
       </div>
@@ -70,10 +68,18 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber && !status">
           Clear
         </button>
       </div>
     </div>
+    <div class="col-lg-auto">
+      <div class="custom-form-input">
+          <label for="" class="d-block">&nbsp;</label>
+          <button class="custom-button-export excel-button" (click)="exportData.emit()">
+              Export
+          </button>
+      </div>
+  </div>
   </div>
 </div>

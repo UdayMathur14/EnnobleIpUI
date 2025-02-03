@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-transporter-filter',
@@ -8,9 +9,11 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class TransporterFiltersComponent implements OnInit {
   @Input() filters : any = [];
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
-  @Input() locations : any[] = [];
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations : any[] = APIConstant.commonLocationsList;
   @Output() getData: EventEmitter<any> = new EventEmitter();
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   transCode: any = undefined;
   transName: any = undefined;
   cityCode : any = undefined;
@@ -18,9 +21,10 @@ export class TransporterFiltersComponent implements OnInit {
   taxationType : any = undefined;
   status: any = undefined;
 
-  constructor() { }
+  constructor(private lookupService: LookupService) { }
 
   ngOnInit(): void {
+
   }
 
   onClearFilter(){
@@ -30,7 +34,7 @@ export class TransporterFiltersComponent implements OnInit {
     this.stateCode = undefined;
     this.taxationType = undefined;
     this.status = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
 
     const filterData = {
       "transCode" : "",
@@ -39,7 +43,7 @@ export class TransporterFiltersComponent implements OnInit {
       "stateCode" : "",
       "taxationType" : "",
       "status": "",
-      "locations" : []
+      "locations" : this.locationIds
     }
     this.getData.emit(filterData)
   }

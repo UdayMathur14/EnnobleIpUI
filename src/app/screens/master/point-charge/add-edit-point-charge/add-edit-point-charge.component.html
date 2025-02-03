@@ -1,7 +1,14 @@
 <div class="page-title">
   <h1>{{ pointChargeId ? 'Edit Point Charge' : 'Create Point Charge' }}</h1>
-  <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!pointChargeForm.valid">Save</button>
+  <div class="action-buttons d-flex align-items-start">
+    <div class="action-buttons">
+      <label for="file-upload" class="custom-file-upload custom-button-regulr pointer">Upload</label>
+      <input type="file" id="file-upload" (change)="onUploadPdf($event)" />
+    </div>
+    <button *ngIf="isFileUploaded" class="custom-button-regulr" (click)="viewUploadedPdf()">
+      View Uploaded PDF
+  </button>
+    <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!(pointChargeForm.valid && (pointChargeForm.controls['status'].dirty || isFileUploaded))">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -15,36 +22,47 @@
         <div class="custom-form-input">
           <label for="">Location Code<span class="text-danger">*</span></label>
           <ng-select [searchable]="true" formControlName="locationCode" placeholder="Select location" [readonly]="pointChargeId > 0">
-            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+            <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
           </ng-select>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Point Name <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="pointName" *ngIf="pointChargeId" readonly />
-          <ng-select name="" id="" formControlName="pointName" *ngIf="!pointChargeId">
-            <ng-option *ngFor="let pointName of pointNameData"
-              [value]="{name: pointName.value, id: pointName.id}">{{pointName.value}}</ng-option>
+          <ng-select name="" id="" formControlName="pointName" [readonly]="pointChargeId">
+            <ng-option *ngFor="let destination of destinations"
+            [value]="{name: destination.value, id: destination.id}">{{destination.value}}</ng-option>
           </ng-select>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Point Charge <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="pointCharge" />
+          <input type="text" class="input-field" formControlName="pointCharge" [readOnly]="pointChargeId" inputDecimalValidator/>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Same Location Charge <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="sameLocationCharge" />
+          <input type="text" class="input-field" formControlName="sameLocationCharge" [readOnly]="pointChargeId" inputDecimalValidator/>
         </div>
       </div>
+      <div class="col-lg-2 col-md-4" *ngIf="pointChargeId">
+        <div class="custom-form-input">
+            <label for="">New Point Charge Amount</label>
+            <input type="text" class="input-field" formControlName="newPointCharge" inputDecimalValidator />
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4" *ngIf="pointChargeId">
+      <div class="custom-form-input">
+          <label for="">New Same Location Charge</label>
+          <input type="text" class="input-field" formControlName="newSameLocationCharge" inputDecimalValidator />
+      </div>
+  </div>
       <div class="col-lg-2 col-md-2" *ngIf="pointChargeId">
         <div class="custom-form-input">
           <label for="">Status <span class="text-danger">*</span></label>
-          <select name="" id="" formControlName="status">
+          <select name="" id="" formControlName="status" (change)="onChangeStatus($event)">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
@@ -53,6 +71,6 @@
     </div>
   </form>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

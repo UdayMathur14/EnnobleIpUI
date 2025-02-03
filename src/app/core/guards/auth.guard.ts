@@ -10,7 +10,7 @@ import { CommonUtility } from '../utilities/common';
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad  {
   constructor(private authService: AuthService, private router: Router) {}
 
-  get menu(){return [];
+  get menu(){
     const profile:any = localStorage.getItem("profile");
     const userData = JSON.parse(profile);
     const mfgMenu = userData.app;
@@ -22,10 +22,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad  {
   }
 
   securityGroups(permission:String){
-    if(this.menu.find((e:any)=>e.key===permission)){
-      return true;
-    }
-    return true;
+    return this.menu.some((e: any) => e.key.toLowerCase() === permission.toLowerCase());
   }
 
   canActivate(): boolean {

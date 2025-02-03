@@ -1,0 +1,83 @@
+<div class="common-modal">
+    <div class="ngmodal-header">
+        <h3>
+            GL Taxation OutBound
+            <span class="d-flex justify-content-end" (click)="activeModal.dismiss('Cross click')">
+                <img src="assets/images/icons/close.svg" alt="" />
+            </span>
+        </h3>
+    </div>
+    <div class="custom-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Batch Id</th>
+                    <th>Category</th>
+                    <th>Business Place</th>
+                    <th>Company Code</th>
+                    <th>Debit Credit</th>
+                    <th>Desc Text</th>
+                    <th>Evidence Type</th>
+                    <th>Exclusive Payment</th>
+                    <th>Invoice Line Amount</th>
+                    <th>Invoice Line Id</th>
+                    <th>Invoice No.</th>
+                    <th>Line Item</th>
+                    <th>Payment Group</th>
+                    <th>Payment Method Code</th>
+                    <th>Payment Terms Date</th>
+                    <th>Payment Terms Name</th>
+                    <th>Profit Center</th>
+                    <th>Project Code</th>
+                    <th>Section Code</th>
+                    <th>Segment1 Business Area</th>
+                    <th>Segment 2 Cost Center</th>
+                    <th>Segment3 Gl Account</th>
+                    <th>Source Name</th>
+                    <th>System Code</th>
+                    <th>Tax Amount InTc</th>
+                    <th>Tax Base Amount InTc</th>
+                    <th>Tax Jurisdiction Code</th>
+                    <th>Tax Rate Code</th>
+                    <th>Vendor Site Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of reportData?.glTaxationOutBound">
+                    <td>{{report?.batchId || '-'}}</td>
+                    <td>{{report?.category || '-'}}</td>
+                    <td>{{report?.businessPlace || '-'}}</td>
+                    <td>{{report?.companyCode || '-'}}</td>
+                    <td>{{report?.debitCredit || '-'}}</td>
+                    <td>{{report?.descText || '-'}}</td>
+                    <td>{{report?.evidenceType || '-'}}</td>
+                    <td>{{report?.exclusivePayment || '-'}}</td>
+                    <td>{{report?.invoiceLineAmount || '-'}}</td>
+                    <td>{{report?.invoiceLineId || '-'}}</td>
+                    <td>{{report?.invoiceNo || '-'}}</td>
+                    <td>{{report?.lineItem || '-'}}</td>
+                    <td>{{report?.paymentGroup || '-'}}</td>
+                    <td>{{report?.paymentMethodCode || '-'}}</td>
+                    <td>{{report?.paymentTermsDate || '-'}}</td>
+                    <td>{{report?.paymentTermsName || '-'}}</td>
+                    <td>{{report?.profitCenter || '-'}}</td>
+                    <td>{{report?.projectCode || '-'}}</td>
+                    <td>{{report?.sectionCode || '-'}}</td>
+                    <td>{{report?.segment1BusinessArea || '-'}}</td>
+                    <td>{{report?.segment2CostCenter || '-'}}</td>
+                    <td>{{report?.segment3GlAccount || '-'}}</td>
+                    <td>{{report?.sourceName || '-'}}</td>
+                    <td>{{report?.systemCode || '-'}}</td>
+                    <td>{{report?.taxAmountInTc || '-'}}</td>
+                    <td>{{report?.taxBaseAmountInTc || '-'}}</td>
+                    <td>{{report?.taxJurisdictionCode || '-'}}</td>
+                    <td>{{report?.taxRateCode || '-'}}</td>
+                    <td>{{report?.vendorSiteCode || '-'}}</td>
+                </tr>
+                <tr *ngIf="reportData?.glTaxationOutBound.length == 0">
+                    <td align="center" colspan="13">No Result Found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

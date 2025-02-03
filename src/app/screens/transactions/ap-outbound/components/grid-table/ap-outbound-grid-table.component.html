@@ -1,0 +1,53 @@
+<div class="custom-table">
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="allSelected" />
+        </th>
+        <th>Batch Number</th>
+        <th>Bilti Bill Process Date</th>
+        <th>Bilti Number</th>
+        <th>Grand Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let biltiList of biltiBillProcess; let i = index">
+        <td>
+          <input type="checkbox" [(ngModel)]="biltiList.selected" (change)="toggleSelection(biltiList, $event)" />
+        </td>
+        <td>{{biltiList?.biltiBillProcessModel?.batchNumber}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.biltiBillProcessDate | date : 'yyyy-MM-dd'}}</td>
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{biltiList?.biltiNumber}}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{biltiList.creationDate | date: 'yyyy-MM-dd'}}</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{biltiList?.createdByDetails?.name}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{biltiList.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{biltiList?.lastUpdatedByDetails?.name}}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{biltiList?.biltiBillProcessModel?.grandTotal}}</td>
+      </tr>
+      <tr>
+        <td align="center" colspan="5" *ngIf="!biltiBillProcess.length">No Data Found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

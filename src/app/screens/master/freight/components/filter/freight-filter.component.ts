@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-freight-filter',
@@ -10,18 +11,21 @@ import { APIConstant } from '../../../../../core/constants';
 })
 export class FreightFilterComponent implements OnInit {
   @Output() getData : EventEmitter<object> = new EventEmitter();
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   @Input() filters : any =[];
-  @Input() locations : any[] = [];
   freightCode : any = undefined;
   source : any = undefined;
   destination : any = undefined;
   vehicleSize : any = undefined;
   status: any = undefined;
-  locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] =APIConstant.commonLocationsList;
   
-  constructor(){}
+  constructor(private lookupService: LookupService){}
 
   ngOnInit(): void {
+
   }
 
   onFreightSearch(){
@@ -42,14 +46,14 @@ export class FreightFilterComponent implements OnInit {
     this.source = undefined;
     this.vehicleSize = undefined;
     this.destination = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
     let obj = {
       "freightCode" : "",
       "source" : "",
       "vehicleSize" : "",
       "destination" : "",
-      "locationIds" : [],
+      "locationIds" : this.locationIds,
       "status": ""
     }
     this.getData.emit(obj)

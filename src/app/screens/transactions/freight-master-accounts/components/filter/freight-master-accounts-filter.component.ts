@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-freight-master-accounts-filter',
@@ -12,11 +13,12 @@ export class FreightMasterAccountsFiltersComponent {
   @Output() freightFilterObj: EventEmitter<object> = new EventEmitter();
   freightCode: any = undefined;
   filters: any = [];
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations : any[] = APIConstant.commonLocationsList;
 
   constructor(private freightService: FreightService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private lookupService: LookupService) { }
 
   ngOnInit(): void {
     this.getAllFreightsListInit();
@@ -46,10 +48,10 @@ export class FreightMasterAccountsFiltersComponent {
 
   onClearFilter() {
     this.freightCode = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     let obj = {
       freightCode: '',
-      locationIds:[]
+      locationIds: this.locationIds
     }
     this.freightFilterObj.emit(obj)
   }

@@ -7,6 +7,9 @@ import { BaseService } from '../../../../core/service/base.service';
 import { FreightDataModel } from '../../../../core/model/masterModels.model';
 import { APIConstant } from '../../../../core/constants';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { StatusConfirmationComponent } from '../../../modals/status-confirmation/status-confirmation.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlantService } from '../../../../core/service';
 
 @Component({
   selector: 'app-add-edit-freight',
@@ -26,9 +29,16 @@ export class AddEditFreightComponent implements OnInit {
   destinations: any = [];
   getData: any = [];
   locationId!:Number;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   freightList: any = [];
   freightLocationId: number = 0;
+  nocFileBase64 : any = '';
+  nocFileName: string = '';
+  isFileUploaded: boolean = false;
+  statusValue: string = '';
+  locationsDropdownData: any = [];
+  plantsList: any = [];
 
   constructor(
     private router: Router,
@@ -37,7 +47,10 @@ export class AddEditFreightComponent implements OnInit {
     private baseService: BaseService,
     private freightService: FreightService,
     private lookUpService: LookupService,
-    private _Activatedroute: ActivatedRoute) {
+    private _Activatedroute: ActivatedRoute,
+    private lookupService: LookupService,
+    private plantService: PlantService,
+    private modalService: NgbModal) {
     this.freightForm = this.formBuilder.group({
       freightCode: [''],
       locationCode: [undefined, [Validators.required]],
@@ -51,10 +64,13 @@ export class AddEditFreightComponent implements OnInit {
       accApproval: [''],
       accApprovalOn: [''],
       remarks: [''],
+      newFreightAmount: ['']
     });
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
     this.freightId = Number(this._Activatedroute.snapshot.paramMap.get("freightId"));
     this.freightId = this.freightId == 0 ? 0 : this.freightId;
     // this.baseService.lookupData.subscribe((res: any) => {
@@ -62,21 +78,48 @@ export class AddEditFreightComponent implements OnInit {
     // })
     if (this.freightId != 0) {
       this.getEditFreightData();
+      this.loadSpinner = true;
+    } else {
+      this.loadSpinner = false;
     }
-    this.loadSpinner = false;
-    this.getSourceDropdownData();
+
+    // this.getSourceDropdownData();
     this.getDestinationDropdownData();
     this.getVehicleSizeDropdownData();
     this.setLocation();
   }
 
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
+  }
+
   //FETCHING SELECTED FREIGHT'S DATA ON PAGE LOAD
   getFreightData(freightId: number) {
+    this.loadSpinner = true;
     this.freightService.getFreightData(this.freightLocationId,freightId).subscribe((response: any) => {
+      this.statusValue = response.status
+      this.loadSpinner = false;
       this.locationCode = response.locations.value;
       this.freightForm.patchValue({
         freightCode: response.freightCode,
-        locationCode: response.locations.id,
+        locationCode: response.locations.code,
         source: response.sourceId,
         destination: response.destinationId,
         vehicleSize: response.vehicleSizeId,
@@ -87,8 +130,9 @@ export class AddEditFreightComponent implements OnInit {
         accApproval: response.approvedByAccounts,
         accApprovalOn: response.approvedByAccountsOn,
         remarks: response.remarks,
+        
       });
-      this.checkApprovalStatus(response.approvedByMaterial, response.approvedByAccounts);
+      this.checkApprovalStatus(response.approvedByMaterialAction, response.approvedByAccountsAction, response.newFreightAmount, response.newFreightAmountStatus);
 
       this.loadSpinner = false;
     }, error => {
@@ -98,10 +142,8 @@ export class AddEditFreightComponent implements OnInit {
   }
 
   //FUNCTION TO HANDLE STATUS FIELD ON UPDATE
-  checkApprovalStatus(approvedByMaterial: string, approvedByAccounts: string) {
-    if (approvedByAccounts == null || approvedByMaterial == null ||
-      approvedByMaterial.includes('Rejected By') ||
-      approvedByAccounts.includes('Rejected By')) {
+  checkApprovalStatus(approvedByMaterialAction: string, approvedByAccountsAction: string, newFreightAmount: any, newFreightAmountStatus: any ) {
+    if ((approvedByAccountsAction == null || approvedByMaterialAction == null || approvedByMaterialAction.includes('Rejected') || approvedByAccountsAction.includes('Rejected'))) {
       this.freightForm.get('status')?.disable();
     } else {
       this.freightForm.get('status')?.enable();
@@ -117,14 +159,17 @@ export class AddEditFreightComponent implements OnInit {
       sourceId: (parseInt(this.freightForm.controls['source'].value)) || 0,
       destinationId: parseInt(this.freightForm.controls['destination'].value) || 0,
       vehicleSizeId: (parseInt(this.freightForm.controls['vehicleSize'].value)) || 0,
-      freightAmount: this.freightForm.controls['freightAmount'].value,
+      freightAmount: parseInt(this.freightForm.controls['freightAmount'].value) || 0,
       status: this.freightForm.controls['status'].value,
       matApproval: null,
       matApprovalOn: null,
       accApproval: null,
       accApprovalOn: null,
-      remarks: null,
-      actionBy: localStorage.getItem("userId")
+      remarks: this.freightForm.controls['remarks'].value,
+      actionBy: localStorage.getItem("userId"),
+      fileName: this.nocFileName,
+      fileData: this.nocFileBase64,
+      newFreightAmount: parseInt(this.freightForm.controls['newFreightAmount'].value) || 0,
     }
     if (this.freightId > 0) {
       this.updateFreight(data);
@@ -135,12 +180,14 @@ export class AddEditFreightComponent implements OnInit {
 
   //UPDATING FREIGHT DATA
   updateFreight(data: any) {
-    const locationCode = this.freightForm.controls['locationCode']?.value
-    this.freightService.updateFreight(locationCode,this.freightId, data).subscribe((response: any) => {
+    const locationCode = this.freightForm.controls['locationCode']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
+    const matchedLocationId = matchedLocation?.id;
+    this.freightService.updateFreight(matchedLocationId,this.freightId, data).subscribe((response: any) => {
       this.freightData = response;
-      this.loadSpinner = false;
       this.toastr.success('Freight Updated Successfully');
       this.router.navigate(['/master/freight']);
+      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
@@ -165,17 +212,18 @@ export class AddEditFreightComponent implements OnInit {
     this.router.navigate(['master/freight']);
   }
 
-  getSourceDropdownData() {
-    let data = {
-      "CreationDate": "",
-      "LastUpdatedBy": "",
-      "LastUpdateDate": ""
-    }
-    const type = 'Source'
-    this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.sources = res.lookUps
-    })
-  }
+  // getSourceDropdownData() {
+  //   let data = {
+  //     "CreationDate": "",
+  //     "LastUpdatedBy": "",
+  //     "LastUpdateDate": ""
+  //   }
+  //   const type = 'FreightCity'
+  //   this.freightService.getDropdownData(data, type).subscribe((res: any) => {
+  //     this.sources = res.lookUps.filter(
+  //       (item: any) => item.status === 'Active')
+  //   })
+  // }
 
   getDestinationDropdownData() {
     let data = {
@@ -183,9 +231,10 @@ export class AddEditFreightComponent implements OnInit {
       "LastUpdatedBy": "",
       "LastUpdateDate": ""
     }
-    const type = 'Destination'
+    const type = 'FreightCity'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.destinations = res.lookUps
+      this.destinations = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 
@@ -197,19 +246,20 @@ export class AddEditFreightComponent implements OnInit {
     }
     const type = 'VehicleSize'
     this.freightService.getDropdownData(data, type).subscribe((res: any) => {
-      this.vehcileSizes = res.lookUps
+      this.vehcileSizes = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 
   setLocation(){
     if(!this.freightId){
-      this.lookUpService.setLocationId(this.freightForm, this.locations, 'locationCode');
+      this.lookUpService.setLocationId(this.freightForm, this.commonLocations, 'locationCode');
     }
   }
 
   getEditFreightData() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": "",
       "source": "",
@@ -239,4 +289,113 @@ export class AddEditFreightComponent implements OnInit {
       }
     });
   }
+
+  
+  onUploadPdf(evt: any) {
+    const file = evt.target.files[0];
+    const maxSizeInBytes = 5 * 1024 * 1024;
+  
+    if (file.size > maxSizeInBytes) {
+      this.toastr.error('File size should be less than 5MB', 'Error');
+      this.isFileUploaded = false;
+      return;
+    }
+  
+    this.nocFileName = file.name;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = reader.result;
+      this.nocFileBase64 = base64String;
+      this.toastr.success('PDF attached successfully', 'Success');
+      this.isFileUploaded = true;
+    };
+  }
+
+  viewUploadedPdf() {
+    if (this.nocFileBase64) {
+        try {
+            const base64Prefix = 'data:application/pdf;base64,';
+            let base64Data = this.nocFileBase64;
+            if (base64Data.startsWith(base64Prefix)) {
+                base64Data = base64Data.substring(base64Prefix.length);
+            }
+
+            const byteCharacters = atob(base64Data);
+            const byteArrays = [];
+            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                const slice = byteCharacters.slice(offset, offset + 1024);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                byteArrays.push(new Uint8Array(byteNumbers));
+            }
+
+            const blob = new Blob(byteArrays, { type: 'application/pdf' });
+            const blobUrl = URL.createObjectURL(blob);
+            const pdfWindow = window.open();
+            if (pdfWindow) {
+                pdfWindow.document.write(
+                    `<iframe width="100%" height="100%" src="${blobUrl}" style="border:none;"></iframe>`
+                );
+            }
+        } catch (error) {
+            console.error('Error viewing PDF:', error);
+        }
+    }
+}
+
+
+
+  onChangeStatus(event: any){
+    this.statusValue = event?.target?.value;
+    if (this.statusValue === 'Active') {
+      this.statusConfirmation();
+    }
+  }
+
+  statusConfirmation(){
+    let documentModal = this.modalService.open(StatusConfirmationComponent, {
+      size: 'md',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+      centered: true
+    });
+
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+       
+        }
+      },
+    );
+  }
+
+  onChangeLocation(event: any) {
+    this.loadSpinner = true;
+    let data = {
+      locationIds: [event],
+      plantCode: '',
+      auCode: '',
+      siteCode: '',
+      status: '',
+    };
+    
+    this.plantService.getPlants(data).subscribe(
+      (response: any) => {
+        this.plantsList = response.plants.filter(
+          (plant: any, index: number, self: any[]) =>
+            plant.freightCity !== null &&
+            index === self.findIndex((p: any) => p.freightCity === plant.freightCity)
+        );
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
+      }
+    );
+  }
+  
 }

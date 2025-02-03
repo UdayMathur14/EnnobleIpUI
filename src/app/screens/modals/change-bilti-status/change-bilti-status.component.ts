@@ -52,7 +52,7 @@ export class ChangeBiltiStatusModalComponent implements OnInit {
        this.toastr.success('Bilti Status Updated Succesfully', 'Success');
        this.loadSpinner = false;
      }, error => {
- 
+      this.loadSpinner = false;
      })
    }
 }

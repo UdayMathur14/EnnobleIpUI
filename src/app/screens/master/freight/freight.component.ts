@@ -22,13 +22,14 @@ export class FreightComponent implements OnInit{
   sources : any[] = [];
   freightList: any[] = [];
   headers: string[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any = [];
   currentPage: number = 1;
   count: number = 10;
   totalFreights: number = 0;
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  
   constructor(
     private router: Router,
     private xlsxService : XlsxService,
@@ -37,12 +38,13 @@ export class FreightComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.getFreightList()
+    this.getFreightList();
   }
 
   getFreightList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
+    this.loadSpinner = true;
     let data = {
-      "locationIds": filters?.locationIds ||  APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": filters?.freightCode,
       "source": filters?.source,
@@ -56,7 +58,7 @@ export class FreightComponent implements OnInit{
       this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -79,7 +81,7 @@ export class FreightComponent implements OnInit{
 
   exportData(fileName: string = "Freight") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "screenCode": 101,
       "freightCode": this.appliedFilters?.freightCode,
       "source": this.appliedFilters?.source,
@@ -90,8 +92,8 @@ export class FreightComponent implements OnInit{
     this.freightService.getFreightsList(data, 0, this.totalFreights).subscribe((response: any) => {
       const freightListToExport = response.freights;
       const mappedPlantsList = freightListToExport.map((freight: any) => ({
-        freightCode: freight?.freightCode,
         locations: freight?.locations?.value,
+        freightCode: freight?.freightCode,
         source: freight?.source?.value,
         destination: freight?.destination?.value,
         vehicleSize: freight?.vehicleSize?.value,

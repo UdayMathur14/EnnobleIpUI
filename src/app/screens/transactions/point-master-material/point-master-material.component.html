@@ -6,6 +6,7 @@
   <app-point-master-material-filter (pointFilterObj)="searchPointName($event)"></app-point-master-material-filter>
 </div>
 
-<div class="content-section" [ngClass]="{isFilters: isFilters}">
+<div class="content-section" [ngClass]="{isFilters: isFilters}" >
   <app-point-master-material-grid-table [searchedPoint]="searchedPoint"></app-point-master-material-grid-table>
   </div>
+  

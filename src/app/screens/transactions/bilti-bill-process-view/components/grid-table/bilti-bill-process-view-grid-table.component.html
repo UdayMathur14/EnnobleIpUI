@@ -14,7 +14,8 @@
         <th>Debit Amount</th>
         <th>Bilti Bill Process Details</th>
         <th>Status</th>
-        <th>Remarks</th>
+        <th>Approval Remarks</th>
+        <th>Change Status Remarks</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -63,7 +64,8 @@
           <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails(biltiList)" class="pointer">
         </td>
         <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
-        <td>{{biltiList?.biltiBillChangeStatusDetails?.remarks || "-"}}</td>
+        <td>{{biltiList?.biltiBillProcessModel?.remarks || "-"}}</td>
+        <td>{{biltiList?.biltiBillChangeStatusDetails?.remarks  || "-"}}</td>
         <td class="text-center">
           <button class="icon-button" ngbTooltip="Edit" (click)="onEditBilti(biltiList)" placement="top" [disabled]="disableEdit(biltiList)">
             <img src="assets/images/icons/editPencil.svg" alt="edit" />
@@ -73,3 +75,4 @@
     </tbody>
   </table>
 </div>
+

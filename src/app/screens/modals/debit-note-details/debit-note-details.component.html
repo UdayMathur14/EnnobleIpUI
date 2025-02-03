@@ -45,7 +45,8 @@
             <tr>
               <th class="ps-0">Paid By Details</th>
               <th>Supplier Name</th>
-              <th>Remarks</th>
+              <th>Loading Location</th>
+              <th>Invoice Amount</th>
               <th>Debit Amount</th>
               <th>Debit Remarks <span class="text-danger">*</span></th>
             </tr>
@@ -64,7 +65,12 @@
               </td>
               <td>
                 <div class="custom-form-input mb-0">
-                  <input type="text" class="input-field" formControlName="remarks" readonly/>
+                  <input type="text" class="input-field" formControlName="remarks" readonly maxlength="150"/>
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input mb-0">
+                  <input type="text" class="input-field" formControlName="invoiceAmount" readonly/>
                 </div>
               </td>
               <td>
@@ -74,7 +80,7 @@
               </td>
               <td>
                 <div class="custom-form-input mb-0">
-                  <input type="text" class="input-field" formControlName="debitRemarks" />
+                  <input type="text" class="input-field" formControlName="debitRemarks"  maxlength="150"/>
                 </div>
               </td>
               <input type="hidden" formControlName="id" /> <!-- Hidden field to store the id -->
@@ -88,6 +94,6 @@
     </div>
   </form>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

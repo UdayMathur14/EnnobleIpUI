@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject }
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-approval-accounts-filter',
@@ -21,14 +22,17 @@ export class ApprovalAccountsFiltersComponent {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
-  locations: any[] = APIConstant.locationsListDropdown;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
   @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations : any[] = APIConstant.commonLocationsList;
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(
     private toastr: ToastrService,
+    private lookupService: LookupService
   ) { }
 
   ngOnInit(): void {
@@ -64,10 +68,11 @@ export class ApprovalAccountsFiltersComponent {
     this.toDate = null;
     this.selectedFromDate = null;
     this.selectedToDate = null;
+    this.locationIds = this.locationIds;
     const filterObj = {
       batchNumber: '',
       biltiNumber: '',
-      locationIds: []
+      locationIds: this.locationIds
     }
     this.filterSearchObj.emit(filterObj)
   }

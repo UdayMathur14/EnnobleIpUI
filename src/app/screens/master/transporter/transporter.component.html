@@ -3,6 +3,7 @@
   <div class="action-buttons">
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+      <button class="custom-button-regulr" (click)="onCreateTransporter()">Create Transporter</button>
       <div container="body">
         <img
           src="assets/images/icons/fullScreen.svg"
@@ -19,7 +20,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-transporter-filter [filters]="filters" (getData)="getData($event)"  [locations]="locations"></app-transporter-filter>
+  <app-transporter-filter [filters]="filters" (getData)="getData($event)"></app-transporter-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -50,7 +51,6 @@
       </div>
     </div>
 </div>
-
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

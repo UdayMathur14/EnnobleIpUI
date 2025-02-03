@@ -9,6 +9,7 @@
         <th (click)="sortData('manualAllocationRequired')">
           Manual Allocation Required
         </th>
+        <th>Batch Number</th>
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
@@ -49,6 +50,7 @@
         <td>{{ advice.batchName }}</td>
         <td>{{ advice.maxBiltiNumber }}</td>
         <td>{{ advice.manualAllocationRequired }}</td>
+        <td>{{ getBatchNumber(advice.batchName) || '-'}}</td>
         <td>{{ advice.status }}</td>
         <td class="text-center">
           <img

@@ -25,12 +25,15 @@ export class AddEditVehicleComponent implements OnInit {
   transporterData: any
   vehcileSizes: any = []
   locationId!:Number;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   locationCode: any
   vehicleLocationId: number = 0;
   transporterOffset: number = 0;
   transporterCount: number = Number.MAX_VALUE;
-
+  filteredTransporter: any = [];
+  locationsDropdownData: any = [];
+  
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
@@ -38,7 +41,8 @@ export class AddEditVehicleComponent implements OnInit {
     private toastr: ToastrService,
     private baseService: BaseService,
     private lookUpService: LookupService,
-    private transporterService: TransporterService
+    private transporterService: TransporterService,
+    private lookupService: LookupService
   ) { }
 
   vehicleForm = new FormGroup({
@@ -46,8 +50,8 @@ export class AddEditVehicleComponent implements OnInit {
     vehicleNumber: new FormControl('', [Validators.required]),
     transporterName: new FormControl(null, [Validators.required]),
     vehicleSize: new FormControl(null, [Validators.required]),
-    vehicleCondition: new FormControl('', [Validators.required]),
-    remarks: new FormControl('', [Validators.required]),
+    vehicleCondition: new FormControl(''),
+    remarks: new FormControl(''),
     vehicleStatus: new FormControl('Active', [Validators.required]),
     ownerName: new FormControl(''),
     address: new FormControl(''),
@@ -56,7 +60,8 @@ export class AddEditVehicleComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.getAllTransportersList()
+    this.getCommonLocations();
+    this.getLocations();
     if (!this.vehicleId) {
       this.loadSpinner = false;
     }
@@ -74,10 +79,34 @@ export class AddEditVehicleComponent implements OnInit {
     this.getAllLookups();
     this.getVehicleSizeDropdownData();
     this.setLocation();
+    this.getAllTransportersList();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   // GET THE DATA OF SPECIFIC VEHICLE
   getVehicleData(vehicleId: string) {
+    this.loadSpinner = true;
+    this.loadSpinner = true;
     if (this.vehicleId) {
       this.loadSpinner = true;
       this.vehicleService.getVehicleData(this.vehicleLocationId,vehicleId).subscribe((response: any) => {
@@ -93,9 +122,11 @@ export class AddEditVehicleComponent implements OnInit {
 
   // PATCHING VALUE ON EDIT FORM
   patchVehicleForm(data: any) {
+    console.log(data);
+    
     this.vehicleForm.patchValue({
       vehicleNumber: data.vehicleNumber,
-      transporterName: data.transporterEntity.transporterName,
+      transporterName: data.transporterEntity?.transporterName,
       vehicleSize: data.vehicleSizeId,
       vehicleCondition: data.vehicleCondition,
       remarks: data.remarks,
@@ -104,29 +135,39 @@ export class AddEditVehicleComponent implements OnInit {
       address: data.transporterEntity.transporterAddress1,
       mobileNumber1: data.transporterEntity.transporterContactNo,
       emailId: data.transporterEntity.transporterMailId,
-      locationId:  data.locations.id
+      locationId:  data.locations.code
     });
   }
 
   onOptionSelected(selectedId: any) {
     this.transporterId = selectedId;
     this.getTransporterData(this.transporterId)
+    this.vehicleForm.patchValue({
+      address: null,
+      ownerName: null,
+      mobileNumber1: null,
+      emailId: null
+    })
   }
 
   // CREATING OR EDITING NEW VEHICLE
   onPressSave() {
-    this.locationCode = this.vehicleForm.controls['locationId']?.value
     this.loadSpinner = true;
+    this.locationCode = this.vehicleForm.controls['locationId']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
+    const matchedLocationId = matchedLocation?.id;
+    const transporterId = this.transportersList.find((item: any) => item?.transporterName == this.vehicleForm.controls['transporterName']?.value)?.id
     if (this.vehicleId) {
       let data = {
-        transporterId: 1,
+        transporterId: transporterId,
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,
         actionBy: localStorage.getItem("userId"),
+        ownerName: this.vehicleForm.get('ownerName')?.value,
       }
 
-      this.vehicleService.updateVehicle(this.locationCode,this.vehicleId, data)
+      this.vehicleService.updateVehicle(matchedLocationId,this.vehicleId, data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Updated Successfully')
@@ -136,10 +177,8 @@ export class AddEditVehicleComponent implements OnInit {
           //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
-
-      this.loadSpinner = false;
     }
-    console.log(localStorage.getItem("userId"));
+
     if (!this.vehicleId) {
       let data = {
         vehicleNumber: this.vehicleForm.get('vehicleNumber')?.value,
@@ -149,20 +188,19 @@ export class AddEditVehicleComponent implements OnInit {
         vehicleCondition: this.vehicleForm.get('vehicleCondition')?.value,
         remarks: this.vehicleForm.get('remarks')?.value,
         status: this.vehicleForm.get('vehicleStatus')?.value,
+        ownerName: this.vehicleForm.get('ownerName')?.value,
       }
 
       this.vehicleService.createVehicle(this.locationCode,data)
         .subscribe((response: any) => {
           this.vehicleData = response;
           this.toastr.success('Vehicle Created Successfully')
-          this.loadSpinner = false;
           this.router.navigate(['/master/vehicle'])
+          this.loadSpinner = false;
         }, error => {
           //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
           this.loadSpinner = false;
         })
-
-      this.loadSpinner = false;
     }
 
   }
@@ -173,19 +211,27 @@ export class AddEditVehicleComponent implements OnInit {
       "code": 'VehicleSize',
     }
     this.vehicleService.getLookups(data).subscribe((response: any) => {
-      this.lookupsList = response.lookUps;
+      this.lookupsList = response.lookUps.filter(
+        (item: any) => item.status === 'Active');
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     })
   }
 
   getAllTransportersList() {
+    this.loadSpinner  = true;
+    const locationId = this.vehicleForm.controls['locationId'].value;   
     let data = {
       "transporterCode": '',
       "transporterName": ''
     }
     this.transporterService.getTransporters(data, this.transporterOffset, this.transporterCount).subscribe((response: any) => {
-      this.transportersList = response.transporters;
+      if (response && response.transporters) {
+        this.transportersList = response.transporters.filter((item: any) => item?.status === 'Active');
+        if (this.transportersList.length > 0) {
+          this.onLocationSelect(locationId);
+        }
+      }
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -206,7 +252,7 @@ export class AddEditVehicleComponent implements OnInit {
 
   patchTransporterField(data: any) {
     this.vehicleForm.patchValue({
-      ownerName: data.ownerName,
+      // ownerName: data.ownerName,
       address: data.transporterAddress1,
       mobileNumber1: data.transporterContactNo,
       emailId: data.transporterMailId,
@@ -227,19 +273,21 @@ export class AddEditVehicleComponent implements OnInit {
     }
     const type = 'VehicleSize'
     this.vehicleService.getDropdownData(data, type).subscribe((res: any) => {
-      this.vehcileSizes = res.lookUps
+      this.vehcileSizes = res.lookUps.filter(
+        (item: any) => item.status === 'Active')
     })
   }
 
   setLocation(){
     if(!this.vehicleId){
-      this.lookUpService.setLocationId(this.vehicleForm, this.locations, 'locationId');
+      this.lookUpService.setLocationId(this.vehicleForm, this.commonLocations, 'locationId');
     }
+    
   }
 
   getEditVehicleData(){
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": "",
       "transporterId": 0
     }
@@ -250,6 +298,7 @@ export class AddEditVehicleComponent implements OnInit {
       });
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
   }
 
@@ -265,5 +314,18 @@ export class AddEditVehicleComponent implements OnInit {
         reject('No matching vehicle found');
       }
     });
+    
+  }
+
+  onLocationSelect(event: any){
+    this.filteredTransporter = this.transportersList.filter((item: any) => {
+      return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
+    });
+    if(this.vehicleId == 0){
+      this.vehicleForm.patchValue({
+        transporterName: null
+      })
+    }
+
   }
 }

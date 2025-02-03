@@ -1,19 +1,25 @@
 <div class="custom-table">
-  <table>
+  <table #table>
     <thead>
       <tr>
+        <th>Location Code</th>
         <th>Dispatch Number</th>
-        <th>FRLR#</th>
+        <th>FRLR/MDN No</th>
+        <th>FRLR/MDN Date</th>
+        <th>Transporter Code</th>
+        <th>Transporter Name</th>
         <th>Supplier Code</th>
         <th>Supplier Name</th>
         <th>Vehicle Number</th>
         <th>Vehicle Size</th>
         <th>Status</th>
+        <th>Dispatch Note Status</th>
         <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let dispatchNote of dispatchNotes">
+        <td>{{ dispatchNote?.locations?.value }}</td>
         <td class="pointer">
           <span
             container="body"
@@ -21,7 +27,7 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{dispatchNote.dispatchNumber}}</u>
+            <u>{{dispatchNote?.dispatchNumber}}</u>
             <ng-template #tipContent>
               <div class="">
                 <div class="content-row">
@@ -44,12 +50,16 @@
             </ng-template>
           </span>
         </td>
-        <td>{{dispatchNote.frlrNumber}}</td>
-        <td>{{dispatchNote.suppliers.vendorCode}}</td>
-        <td>{{dispatchNote.suppliers.vendorName}}</td>
-        <td>{{dispatchNote.vehicles.vehicleNumber}}</td>
-        <td>{{dispatchNote.vehicles.vehicleSize.value}}</td>
-        <td>{{dispatchNote.status}}</td>
+        <td>{{dispatchNote?.frlrNumber || '-'}}</td>
+        <td>{{dispatchNote?.frlrDate | date: 'yyyy-MM-dd' || '-'}}</td>
+        <td>{{dispatchNote?.transporter?.transporterCode || '-'}}</td>
+        <td>{{dispatchNote?.transporter?.transporterName || '-'}}</td>
+        <td>{{dispatchNote?.suppliers?.vendorCode || '-'}}</td>
+        <td>{{dispatchNote?.suppliers?.vendorName || '-'}}</td>
+        <td>{{dispatchNote?.vehicles?.vehicleNumber || '-'}}</td>
+        <td>{{dispatchNote?.vehicles?.vehicleSize?.value || '-'}}</td>
+        <td>{{dispatchNote?.openFlag || '-'}}</td>
+        <td>{{dispatchNote?.status || '-'}}</td>
         <td class="text-center">
           <img
             src="assets/images/icons/link.svg"

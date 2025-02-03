@@ -4,11 +4,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-debit-note-details-modal',
   templateUrl: './debit-note-details.component.html',
   styleUrl: './debit-note-details.component.scss',
+  providers: [DatePipe]
 })
 export class DebitNoteDetailsModalComponent implements OnInit {
   @Input() biltiProcess: any;
@@ -20,7 +22,8 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private biltiBillService: BiltiBillProcessService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
   ngOnInit(): void {
 
@@ -50,19 +53,21 @@ export class DebitNoteDetailsModalComponent implements OnInit {
 
   createLineItem(item: any): FormGroup {
     return this.formBuilder.group({
-      paidByDetails: [item.supplierDetail?.paidByDetails?.value || ''],
-      vendorName: [item.supplierDetail?.vendorName || ''],
+      paidByDetails: [item.paidByDetails || ''],
+      vendorName: [item?.vendorName || ''],
       remarks: [this.biltiProcess?.loadingLocation?.value],
       id: [item.id],
+      invoiceAmount: [item?.fRMTransactionModel?.invTotalAmount || 0,
+      ],
       debitAmount: [item?.biltiBillProcessChargesByVendor?.debitAmount || 0,
       ],
-      debitRemarks: [item?.biltiBillProcessChargesByVendor?.debitRemarks, Validators.required],
+      debitRemarks: [item?.biltiBillProcessChargesByVendor?.debitRemarks || 'OK', Validators.required],
     });
   }
 
   getBiltiBillProcessbyId() {
     this.biltiBillService
-      .getBiltiBillProcessbyId(this.biltiProcess.id)
+      .getBiltiBillProcessbyId(this.biltiProcess.locationId,this.biltiProcess.id)
       .subscribe((response) => {
         this.biltiBillDetailsData = response;
         // this.transactionTypeId = this.biltiBillProcessData.transactionTypeId;
@@ -75,9 +80,10 @@ export class DebitNoteDetailsModalComponent implements OnInit {
   populateForm(): void {
     if (this.biltiBillDetailsData) {
       // this.calculateTotals();
+      const formattedCreationDate = this.datePipe.transform(this.biltiBillDetailsData.creationDate, 'yyyy-MM-dd');
       this.biltiBillDetails.patchValue({
         biltiNumber: this.biltiBillDetailsData.biltiNumber,
-        creationDate: this.biltiBillDetailsData.creationDate,
+        creationDate: formattedCreationDate,
         adviceType: this.biltiBillDetailsData.transactionTypeDetails?.name,
         freightAmount:
           this.biltiBillDetailsData.biltiBillProcessModel?.debitAmount,
@@ -170,7 +176,7 @@ export class DebitNoteDetailsModalComponent implements OnInit {
     };
 
     this.biltiBillService
-      .updateBiltiBillProcess(this.biltiBillDetailsData.biltiBillProcessModel?.id, payload)
+      .updateBiltiBillProcess(this.biltiProcess.locationId,this.biltiBillDetailsData.biltiBillProcessModel?.id, payload)
       .subscribe(
         (response: any) => {
           this.toastr.success('Debit Note Updated Successfully');

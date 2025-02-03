@@ -1,0 +1,53 @@
+<div class="custom-table">
+    <table #table>
+      <thead>
+        <tr>
+          <th>Batch Id</th>
+          <th>Employee No.</th>
+          <th>Approver Employee No.</th>
+          <th>Company Code</th>
+          <th>Category</th>
+          <th>Accounting date</th>
+          <th>Desc Text</th>
+          <th>Exchange Rate</th>
+          <th>Fixed Value AP</th>
+          <th>Invoice No.</th>
+          <th>Invoice No. With Supplier Code</th>
+          <th>Invoice Currency Code</th>
+          <th>Invoice Date</th>
+          <th>Source Name</th>
+          <th>System Code</th>
+          <th>Transaction Code</th>
+          <th>GL Taxation OutBound</th>
+          <th>GL TDS OutBound</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of reportData?.apGlOutBound">
+          <td>{{report?.batchId}}</td>
+          <td>{{report?.employeeNumber}}</td>
+          <td>{{report?.approverEmployeeNumber}}</td>
+          <td>{{report?.companyCode}}</td>
+          <td>{{report?.category}}</td>
+          <td>{{report?.accountingDate}}</td>
+          <td>{{report?.descText}}</td>
+          <td>{{report?.exchangeRate}}</td>
+          <td>{{report?.fixedValueAp}}</td>
+          <td>{{report?.invoiceNo}}</td>
+          <td>{{report?.invoiceNumberWithSupplierCode}}</td>
+          <td>{{report?.invoiceCurrencyCode}}</td>
+          <td>{{report?.invoiceDate}}</td>
+          <td>{{report?.sourceName}}</td>
+          <td>{{report?.systemCode}}</td>
+          <td>{{report?.transactionCode}}</td>
+          <td>
+            <img (click)="onPreviewGLTaxationBound(report)" src="assets/images/icons/link.svg" ngbTooltip="GL Taxation Bound" placement="top" alt="link" class="pointer">
+          </td>
+          <td>
+            <img (click)="onPreviewGLTdsOutBound(report)" src="assets/images/icons/link.svg" ngbTooltip="GL TDS Bound" placement="top" alt="link" class="pointer">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -12,31 +12,32 @@
       </div>
         <div class="ngmodal-body mt-4">
             <!-- <img src="assets/images/test-delivery-note.jpg" alt=""> -->
-            <p>Recycling Person Contact Number: <span class="fw-bold fs-6 phone">{{dispatch.suppliers.contactNumber}}</span></p>
+            <p>Recycling Contact Person: <span class="fw-bold fs-6 phone">{{dispatch?.locations?.attribute4}}</span></p>
             <div class="address">
-                <p>LG Electronics India Pvt. Ltd.</p>
-                <p>Surajpur, Greater NOIDA</p>
-                <p>Uttar Pradesh</p>
+                <p>{{dispatch?.locations?.attribute1}}</p>
+                <p>{{dispatch?.locations?.attribute2}}</p>
             </div>
 
             <p class="fw-bold">Supplier Name: <span class="fs-5">{{dispatch.suppliers.vendorName}}</span></p>
             <div class="more-information">
                 <div class="info">
-                    <div class="key fw-bold">Address: </div>
+                    <div class="key">Address 1: </div>
                     <div class="value">{{dispatch.suppliers.vendorAddress1}}</div>
                 </div>
                 <div class="info">
-                    <div class="key">Address: </div>
-                    <div class="value">{{dispatch.suppliers.vendorAddress2}}</div>
+                    <div class="key">Address 2: </div>
+                    <div class="value">{{dispatch?.suppliers?.city}}, {{dispatch?.suppliers?.state}},
+                        {{dispatch?.suppliers?.postalCode}}
+                    </div>
                 </div>
                 <div class="info">
                     <div class="key">GSTIN Number: </div>
-                    <div class="value">{{dispatch.suppliers.gstnNo}}</div>
+                    <div class="value">{{dispatch?.suppliers?.gstInNo}}</div>
                 </div>
             </div>
 
             <div class="part-details">
-                <p class="mb-0 dispatch-mode">Mode Of Dispatch: <span>Road</span></p>
+                <p class="mb-0 dispatch-mode">Mode Of Dispatch: <span>{{dispatch?.transporterMode}}</span></p>
                 <div class="dispatch-details">
                     <p>Gate Pass: <span>{{dispatch.dispatchNumber}}</span></p>
                     <p>Dispatch Date: <span>{{dispatch.creationDate | date}}</span></p>
@@ -85,8 +86,8 @@
                     <tbody>
                         <tr>
                             <td class="time-cell">
-                                <p>Time In: <span></span></p>
-                                <p>Date: <span></span></p>
+                                <p>Time In: <span> {{dispatch?.creationDate | date : "HH:mm:ss"}}</span></p>
+                                <p>Date:<span> {{dispatch?.creationDate | date : "yyyy-MM-dd"}}</span></p>
                             </td>
                             <td class="time-cell">
                                 <p>Reporting: <span></span></p>
@@ -98,8 +99,8 @@
                         </tr>
                         <tr>
                             <td class="time-cell">
-                                <p>Time Out: <span></span></p>
-                                <p>Date: <span></span></p>
+                                <p>Time Out: <span>{{ getDateTime(dispatch?.creationDate) | date: "HH:mm:ss" }}</span></p>
+                                <p>Date: <span>{{ getDateTime(dispatch?.creationDate) | date: "yyyy-MM-dd" }}</span></p>
                             </td>
                             <td class="time-cell">
                                 <p>Time In: <span></span></p>
@@ -137,3 +138,6 @@
         </div>
       
 </div>
+<div class="spinner" *ngIf="loadSpinner">
+    Downloading...
+  </div>

@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-bilti-filter',
@@ -15,19 +16,27 @@ export class BiltiFilterComponent implements OnInit {
   biltiNum!: any | null;
   biltisList: any = [];
   loadSpinner: boolean = true;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));
-  locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] = APIConstant.commonLocationsList;
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
+  status: any = undefined;
+  biltiStatus: any = undefined;
+  transactionTypeCode: any = undefined
 
-  constructor() { }
+  constructor(private lookupService: LookupService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   onBiltiSearch() {
     let obj = {
       "biltiNumber": this.biltiNum || "",
-      locationIds: this.locationIds
+      locationIds: this.locationIds,
+      status: this.status,
+      biltiStatus: this.biltiStatus,
+      transactionTypeCode: this.transactionTypeCode
     }
     this.getData.emit(obj)
   }
@@ -35,10 +44,16 @@ export class BiltiFilterComponent implements OnInit {
 
   onClearFilter() {
     this.biltiNum = null;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
+    this.status = undefined;
+    this.biltiStatus = undefined,
+    this.transactionTypeCode = undefined
     let obj = {
       biltiNum: null,
-      locationIds: []
+      locationIds: this.locationIds,
+      status: '',
+      biltiStatus: '',
+      transactionTypeCode: ''
     }
     this.getData.emit(obj)
   }

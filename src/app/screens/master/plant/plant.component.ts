@@ -17,13 +17,14 @@ export class PlantComponent implements OnInit {
   fullScreen: boolean = false;
   plantsList: any[] = [];
   headers: string[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  commonLocations: any[] = [];
   currentPage: number = 1;
   count: number = 10;
   totalPlants: number = 0;
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locationsDropdownData: any = APIConstant.commonLocationsList;
 
   constructor(
     private router: Router,
@@ -37,18 +38,12 @@ export class PlantComponent implements OnInit {
     this.getPlantsList();
   }
 
-  getPlantsList(
-    offset: number = 0,
-    count: number = this.count,
-    filters: any = this.appliedFilters
-  ) {
+  getPlantsList(offset: number = 0,count: number = this.count,filters: any = this.appliedFilters) {
+    this.loadSpinner = true;
     let data = {
       locationIds:
-        filters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        filters?.locations || [],
       plantCode: filters?.plantCode || '',
-      city: filters?.city || '',
-      state: filters?.state || '',
       auCode: filters?.auCode || '',
       siteCode: filters?.siteCode || '',
       status: filters?.status || '',
@@ -67,7 +62,6 @@ export class PlantComponent implements OnInit {
   }
 
   getData(e: any) {
-    console.log(e);
     this.appliedFilters = e;
     this.currentPage = 1;
     this.getPlantsList(0, this.count, this.appliedFilters);
@@ -81,7 +75,7 @@ export class PlantComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        [],
       plantCode: this.appliedFilters?.plantCode || '',
       city: this.appliedFilters?.city || '',
       state: this.appliedFilters?.state || '',
@@ -94,19 +88,16 @@ export class PlantComponent implements OnInit {
         const plantListToExport = response.plants;
 
         // Map the data to include only the necessary fields
-        const mappedPlantsList = plantListToExport.map((plant: any) => ({
-          plantCode: plant.plantCode,
-          plantDesc: plant.plantDesc,
-          plantAddress: plant.plantAddress,
-          state: plant.state.value,
-          city: plant.city.value,
-          panNo: plant.panNo,
-          gstnNo: plant.gstnNo,
-          siteCode: plant.siteCode,
-          locationCode: plant.locations.value,
-          dsc: plant.dsc,
-          dcp: plant.dcp,
-          status: plant.status,
+        const mappedPlantsList = plantListToExport?.map((plant: any) => ({
+          plantCode: plant?.plantCode,
+          plantDesc: plant?.plantDesc,
+          plantAddress: plant?.plantAddress,
+          state: plant?.state,
+          city: plant?.city,
+          panNo: plant?.panNo,
+          gstnNo: plant?.gstInNo,
+          siteCode: plant?.siteCode,
+          status: plant?.status,
         }));
         this.xlsxService.xlsxExport(mappedPlantsList, this.headers, fileName);
         this.loadSpinner = false;

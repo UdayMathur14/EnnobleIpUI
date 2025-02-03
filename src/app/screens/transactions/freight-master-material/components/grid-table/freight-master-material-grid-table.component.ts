@@ -5,6 +5,8 @@ import { FreightService } from '../../../../../core/service/freight.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../../../core/service/commonTransaction.service';
 import { FreightDataModel } from '../../../../../core/model/masterModels.model';
+import { LookupService } from '../../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-freight-master-material-grid-table',
@@ -23,12 +25,19 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
   totalFreight: number = 0;
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
 
-  constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
+  constructor(private freightService: FreightService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute,
+    private lookupService: LookupService
+  ) { }
 
   ngOnInit(): void {
     this.getAllFreightListInit();
   }
+
+  
 
   //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
@@ -43,7 +52,7 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
     let data = {
       "screenCode": 102, //Freight Material Screen Code
       "freightCode": filters?.freightCode || '',
-      locationIds: filters?.locationIds || []
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.freightService.getFreightsList(data, offset, count).subscribe((response: any) => {
       this.freightList = response.freights;
@@ -114,5 +123,38 @@ export class FreightMasterMaterialGridTableComponent implements OnInit {
       this.loadSpinner = false;
     });
   }
+
+  viewAttachment(data: any) {
+    this.loadSpinner = true;
+    this.freightService.getContractById(data?.locationId, data?.id).subscribe(
+        (response: any) => {
+            if (!response.fileData) {
+                this.toastr.error('No PDF is available to view', 'Error');
+                this.loadSpinner = false;
+                return;
+            }
+
+            const base64Prefix = 'data:application/pdf;base64,';
+            const base64Data = response.fileData.startsWith(base64Prefix) 
+                ? response.fileData.substring(base64Prefix.length) 
+                : response.fileData;
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+
+            window.open(url, '_blank');
+
+            setTimeout(() => window.URL.revokeObjectURL(url), 100);
+
+            this.loadSpinner = false;
+        },
+    );
+}
+
 
 }

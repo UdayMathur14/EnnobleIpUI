@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, createFreight, freight, freightData, updateFreight,getDropdownDatas } from "../constants";
+import { APIConstant, createFreight, freight, freightData, updateFreight,getDropdownDatas, freightContract } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -34,5 +34,9 @@ export class FreightService extends CRUDService<PlantRequest> {
 
     getDropdownData(data : object, type: string){
         return this.post( getDropdownDatas(type) ,data);
+    }
+
+    getContractById(locationId: number, freightId: number){
+        return this.get(freightContract(locationId, freightId));
     }
 }

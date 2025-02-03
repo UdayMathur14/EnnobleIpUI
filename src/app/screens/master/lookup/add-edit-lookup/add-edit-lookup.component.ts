@@ -19,6 +19,7 @@ export class AddEditLookupComponent implements OnInit {
   loadSpinner: boolean = true;
   lookupTypes: any;
   showFilledDetails: boolean = false;
+  selectedLookupType: any;
 
   constructor(
     private router: Router,
@@ -37,6 +38,15 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: [''],
       attribute3: [''],
       attribute4: [''],
+      attribute5: [''],
+      attribute6: [''],
+      attribute7: [''],
+      attribute8: [''],
+      attribute9: [''],
+      attribute11: [''],
+      attribute12: [''],
+      attribute13: [''],
+      attribute14: [''],
     })
   }
 
@@ -48,22 +58,30 @@ export class AddEditLookupComponent implements OnInit {
     } else {
       this.getLookupTypes();
     }
-    this.loadSpinner = false;
   }
 
-  //TO GET LOOKUP-TYPE DATA
   getLookupTypes() {
-    let data = {}
+    let data = {};
     this.lookupService.getLookupsType(data).subscribe((response: any) => {
-      this.lookupTypes = response.lookUpTypes;
+      if(this.lookupId == 0){
+        this.lookupTypes = response.lookUpTypes.filter((item: any) => 
+          !['GlAccount_RCM', 'GlAccount_Non_RCM', 'OutboundFixedValues'].includes(item.type)
+        );
+      }else {
+        this.lookupTypes = response.lookUpTypes;
+      }
+      this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.statusText, error.status)
-    })
+      this.toastr.error(error.statusText, error.status);
+      this.loadSpinner = false;
+    });
   }
+  
 
   //TO GET SELECTED LOOKUP DATA
   getLookupData(lookupId: number) {
     this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
+      this.selectedLookupType = response?.lookUpType?.value
       this.lookupForm.patchValue({
         typeId: response.typeId,
         code: response.code,
@@ -74,9 +92,18 @@ export class AddEditLookupComponent implements OnInit {
         attribute2: response.attribute2,
         attribute3: response.attribute3,
         attribute4: response.attribute4,
+        attribute11: response.attribute11,
+        attribute12: response.attribute12,
+        attribute5: response.attribute5,
+        attribute6: response.attribute6,
+        attribute7: response.attribute7,
+        attribute13: response.attribute13,
+        attribute14: response.attribute14,
       });
 
       this.lookupTypes = [response.lookUpType];
+      this.selectedLookupType = response?.lookUpType?.value
+      
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -97,6 +124,13 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: this.lookupForm.controls['attribute2'].value,
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
+      attribute5: parseInt(this.lookupForm.controls['attribute5'].value) || 0,
+      attribute6: parseInt(this.lookupForm.controls['attribute6'].value) || 0,
+      attribute7: parseInt(this.lookupForm.controls['attribute7'].value) || 0,
+      attribute11: this.lookupForm.controls['attribute11'].value,
+      attribute12: this.lookupForm.controls['attribute12'].value,
+      attribute13: parseInt(this.lookupForm.controls['attribute13'].value) || 0,
+      attribute14: parseInt(this.lookupForm.controls['attribute14'].value) || 0,
       actionBy: localStorage.getItem("userId")
     }
     if (this.lookupId > 0) {
@@ -153,11 +187,20 @@ export class AddEditLookupComponent implements OnInit {
       attribute2: this.lookupForm.controls['attribute2'].value,
       attribute3: this.lookupForm.controls['attribute3'].value,
       attribute4: this.lookupForm.controls['attribute4'].value,
+      attribute5: this.lookupForm.controls['attribute5'].value,
+      attribute6: this.lookupForm.controls['attribute6'].value,
+      attribute7: this.lookupForm.controls['attribute7'].value,
+      attribute11: this.lookupForm.controls['attribute11'].value,
+      attribute12: this.lookupForm.controls['attribute12'].value,
     };
   }
 
   onCancelPress() {
     this.router.navigate(['/master/lookup'])
+  }
+
+  selecetLookupType(e: any){
+      this.selectedLookupType = e?.target?.innerText
   }
 
 }

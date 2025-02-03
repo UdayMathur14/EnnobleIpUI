@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-point-filter',
@@ -8,16 +9,19 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './point-filter.component.scss'
 })
 export class PointFilterComponent implements OnInit {
-  @Input() locations : any[] = [];
   @Input() filters : any = [];
   @Output() getData : EventEmitter<object> = new EventEmitter();
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] = APIConstant.commonLocationsList;
   pointName : any = undefined;
   status: any = undefined;
   
-  constructor(){}
+  constructor(private lookupService: LookupService){}
 
   ngOnInit(): void {
+ 
   }
 
   onFreightSearch(){
@@ -31,11 +35,11 @@ export class PointFilterComponent implements OnInit {
 
   onClearFilter(){
     this.pointName = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
     let obj = {
       "pointName" : undefined,
-      "locationIds" : [],
+      "locationIds" : this.locationIds,
       "status": undefined
     }
     this.getData.emit(obj)

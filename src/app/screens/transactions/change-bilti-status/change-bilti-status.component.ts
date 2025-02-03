@@ -31,6 +31,8 @@ export class ChangeBiltiStatusComponent implements OnInit {
     totalBiltis: number = 0;
     filters: any = [];
     maxCount: number = Number.MAX_VALUE;
+    locations: any = [];
+
     
   constructor(private router: Router,
     private modalService: NgbModal,
@@ -38,8 +40,9 @@ export class ChangeBiltiStatusComponent implements OnInit {
     private biltiProcessService: BiltiBillProcessService) { }
 
   ngOnInit(): void {
-    this.getAllBiltiProcess()
+   this.getAllBiltiProcess();
   }
+
 
   getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     this.loadSpinner = true;
@@ -51,7 +54,7 @@ export class ChangeBiltiStatusComponent implements OnInit {
       batchNumber: filters?.batchNumber || '',
       biltiNumber: filters?.biltiNumber || '',
       status: filters?.status,
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     };
     this.biltiProcessService
       .getBiltiBillProcess(data, offset, count)

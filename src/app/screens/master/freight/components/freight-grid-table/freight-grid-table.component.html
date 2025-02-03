@@ -2,8 +2,8 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('freightCode')">Freight Code</th>
         <th (click)="sortData('locations.value')">Location Code</th>
+        <th (click)="sortData('freightCode')">Freight Code</th>
         <th (click)="sortData('source.value')">Source</th>
         <th (click)="sortData('destination.value')">Destination</th>
         <th (click)="sortData('vehicleSize.value')">Vehicle Size</th>
@@ -12,12 +12,14 @@
         <th (click)="sortData('materialRemarks')">Material Remarks</th>
         <th (click)="sortData('accountsRemarks')">Account Remarks</th>
         <th (click)="sortData('status')">Status</th>
+        <th class="text-center">Contract Attachment</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
     <tbody>
       @for (freight of freightList; track freight.id) {
       <tr>
+        <td>{{ freight?.locations?.value || '-' }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{freight?.freightCode || '-' }}</u>
@@ -59,15 +61,42 @@
             </div>
           </ng-template>
         </td>
-        <td>{{freight?.locations?.value || '-' }}</td>
         <td>{{freight?.source?.value || '-' }}</td>
         <td>{{freight?.destination?.value || '-' }}</td>
         <td>{{freight?.vehicleSize?.value || '-' }}</td>
-        <td>{{freight?.freightAmount || '-' }}</td>
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="historyData">
+            <u>{{freight?.freightAmount || '-' }}</u>
+          </span>
+          <ng-template #historyData>
+            <table class="popover-table">
+              <tr>
+                <th>Freight Amount</th>
+                <th style="padding-left: 15px;">Change Request Date</th>
+                <th style="padding-left: 15px;">Approved Date</th>
+              </tr>
+              <tr *ngFor="let historyData of freight.historyData">
+                <td>{{historyData?.freightAmount || '-'}}</td>
+                <td>{{historyData?.changeDate | date: 'yyyy-MM-dd' || '-'}}</td>
+                <td>{{historyData?.approvedDate | date: 'yyyy-MM-dd'  || '-'}}</td>
+              </tr>
+            </table>
+          </ng-template>
+        </td>
+        
+        
         <td>{{freight?.remarks || '-' }}</td>
         <td>{{freight?.materialRemarks || '-'}}</td>
         <td>{{freight?.accountsRemarks || '-'}}</td>
         <td>{{freight?.status}}</td>
+        <div class="d-flex justify-content-center">
+          <button class="icon-button mt-2"
+          (click)="viewAttachment(freight)" ngbTooltip="Contract Attachment" placement="top">
+          <div class="img-container">
+            <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" />
+          </div>
+        </button>
+        </div>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit"
             (click)="onGoToEditFreight(freight)" />
@@ -80,4 +109,7 @@
       }
     </tbody>
   </table>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

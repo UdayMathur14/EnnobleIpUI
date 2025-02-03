@@ -28,6 +28,7 @@ export class ApprovalAccountsComponent implements OnInit {
   totalBiltis: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
 
   constructor(
     private router: Router,
@@ -50,7 +51,7 @@ export class ApprovalAccountsComponent implements OnInit {
       adviceType: "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: filters?.biltiNumber || "",
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.biltiProcessService.getBiltiBillProcess(data).subscribe((response: any) => {
       this.loadSpinner = false;
@@ -60,7 +61,9 @@ export class ApprovalAccountsComponent implements OnInit {
           element.biltiBillProcessModel.biltiBillProcessDate = moment.utc(element.biltiBillProcessModel.biltiBillProcessDate).local().format("YYYY-MM-DD");
         }
       });
-      this.biltiBillProcess = response.biltiBillProcess;
+      this.biltiBillProcess = response.biltiBillProcess.filter((value: any, index: number, self: any[]) =>
+        index === self.findIndex((t) => t.id === value.id)
+      );;
       this.totalBiltis = response.paging.total;
         this.filters = response.filters;
       this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]

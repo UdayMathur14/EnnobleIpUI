@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../../core/service/vehicle.service';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-vehicle-filters',
@@ -9,10 +10,12 @@ import { APIConstant } from '../../../../../core/constants';
   styleUrl: './vehicle-filter.component.scss'
 })
 export class VehicleFiltersComponent implements OnInit {
-  @Input() locations : any[] = [];
   @Output() getData: EventEmitter<any> = new EventEmitter();
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   @Input() filters: any = [];
-  locationIds : any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] = APIConstant.commonLocationsList;
   vehicleNum : any = undefined;
   transporterNam : any = undefined;
   loadSpinner: boolean = true;
@@ -22,7 +25,7 @@ export class VehicleFiltersComponent implements OnInit {
   vehicleSize: any;
   status: any;
 
-  constructor(
+  constructor(private lookupService: LookupService
   ) { }
 
   ngOnInit(): void {
@@ -44,13 +47,13 @@ export class VehicleFiltersComponent implements OnInit {
     this.transporterNam = undefined;
     this.vehicleSize = undefined;
     this.status = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     let obj = {
       "vehicleNumber": undefined,
       "transporterNam": undefined,
       "status": undefined,
       "vehicleSize": undefined,
-      "locationIds" : []
+      "locationIds" : this.locationIds
     }
     this.getData.emit(obj)
   }

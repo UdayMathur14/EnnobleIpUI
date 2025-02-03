@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, 
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-rejection-bilti-detail-report-filter',
@@ -20,9 +21,12 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: any = undefined;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
-  locations:any[] = APIConstant.locationsListDropdown;
   status: any = undefined;
+  @Output() exportData: EventEmitter<any> = new EventEmitter();
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locations : any[] = APIConstant.commonLocationsList;
+  @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
 
   @Input() filters: any = [];
   @ViewChild('batchNameInput') batchNameInput!: ElementRef<HTMLInputElement>;
@@ -30,10 +34,11 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();
   constructor(
     private toastr: ToastrService,
+    private lookupService: LookupService
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   onDateSelect(type: string, e: any) {
@@ -64,12 +69,12 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
     this.fromDate = null,
     this.toDate = null,
     this.biltiNumber = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
-      locationIds:[],
+      locationIds:this.locationIds,
       status: ''
     }
     this.filterSearchObj.emit(filterObj)

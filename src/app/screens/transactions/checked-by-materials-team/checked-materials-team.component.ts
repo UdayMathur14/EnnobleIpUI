@@ -1,11 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import moment from 'moment';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../core/service/commonTransaction.service';
 import { APIConstant } from '../../../core/constants';
+import { ApprovalPdfComponent } from '../../modals/approval-pdf/approval-pdf.component';
+import { BiltiPdfModalComponent } from '../../modals/bilti-pdf/bilti-pdf.component';
 
 @Component({
   selector: 'app-checked-by-materials-team',
@@ -28,14 +30,23 @@ export class CheckedMaterialsTeamComponent implements OnInit {
   totalBiltis: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  userName: string = '';
+  @ViewChild(ApprovalPdfComponent) approvalPdfComponent!: ApprovalPdfComponent;
 
   constructor(private router : Router,
     private biltiProcessService: BiltiBillProcessService,
     private toastr: ToastrService,
-    private commonTransaction: CommonTransactionService
+    private commonTransaction: CommonTransactionService,
+    private modalService: NgbModal,
 ){}
 
   ngOnInit(): void {
+    const loginData = localStorage.getItem("logindata");
+    if(loginData){
+      const data = JSON.parse(loginData)
+      this.userName = data?.username
+    }
+    
     this.getAllBiltiProcess();
   }
 
@@ -48,9 +59,10 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       adviceType: "",
       batchNumber: filters?.batchNumber || "",
       biltiNumber: "",
-      locationIds: this.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id)
+      locationIds: this.locationIds || APIConstant.commonLocationsList.map((e: any) => e.id)
     }
     this.biltiProcessService.getBiltiBillProcess(data, offset, count).subscribe((response: any) => {
+      
       this.loadSpinner = false;
       response.biltiBillProcess.forEach((element: any) => {
         element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
@@ -91,7 +103,9 @@ export class CheckedMaterialsTeamComponent implements OnInit {
     this.loadSpinner = true;
     if (status === 'Rejected' && !remarks.trim()) {
       this.toastr.error('Remarks are required for rejection');
+      this.loadSpinner = false;
       return;
+      
     }
       const data = {
         approvalLevel: 'MaterialChecked',
@@ -99,8 +113,9 @@ export class CheckedMaterialsTeamComponent implements OnInit {
         remarks:  remarks,
         actionBy: localStorage.getItem("userId"),
         transactionCode: 203,
+        actionByName: this.userName
       };
-    this.commonTransaction.updateBiltiApprovalStatus(this.batchNumber, data).subscribe((response: any) => {
+    this.commonTransaction.updateBiltiApprovalStatus(this.biltiBillProcess[0]?.locationId, this.batchNumber, data).subscribe((response: any) => {
       this.toastr.success('Status Updated Successfully');
       this.loadSpinner = false;
       if (popover) {
@@ -123,6 +138,23 @@ export class CheckedMaterialsTeamComponent implements OnInit {
       this.count = data;
       this.currentPage = 1;
       this.getAllBiltiProcess(0, this.count, this.searchedData);
+    }
+
+    onPreviewPdf() {
+      let documentModal = this.modalService.open(ApprovalPdfComponent, {
+        size: 'xl',
+        backdrop: 'static',
+        windowClass: 'modal-width',
+      });
+      documentModal.componentInstance.title = 'Approval';
+      documentModal.componentInstance.biltiData = this.biltiBillProcess;
+  
+      documentModal.result.then(
+        (result) => {
+          if (result) {
+          }
+        },
+      );
     }
 
 }

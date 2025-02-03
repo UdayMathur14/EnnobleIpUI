@@ -1,0 +1,21 @@
+<div class="common-modal">
+    <div class="ngmodal-header">
+        <h3>
+            Temporary Max Bilti Number
+            <span class="float-right" (click)="activeModal.dismiss('Cross click')">
+                <img src="assets/images/icons/close.svg" alt="" />
+            </span>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="custom-form-input">
+                <label for="">Temporary Max Bilti No </label>
+                <input type="text" class="input-field" [(ngModel)]="temporaryMaxBiltiNumber" inputIntegerValidator/>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <button class="custom-button-regulr mt-4" (click)="onPressSubmit()">Submit</button>
+        </div>
+    </div>
+</div>

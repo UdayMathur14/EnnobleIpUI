@@ -1,6 +1,8 @@
 <div class="page-title">
   <h1>Dispatch Note</h1>
   <div class="action-buttons">
+    <button class="custom-button-export" (click)="exportData()">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
     <button class="custom-button-regulr" (click)="onCreateDispatchNote()">Create Note</button>
   </div>
 </div>
@@ -12,7 +14,7 @@
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
   <div class="grid-table">
     <div class="table-container">
-      <app-dispatch-note-grid-table [dispatchNotes]="dispatchNotes"></app-dispatch-note-grid-table>
+      <app-dispatch-note-grid-table [dispatchNotes]="dispatchNotes" (exportHeader)="onExportHeader($event)"></app-dispatch-note-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <ngb-pagination [collectionSize]="totaldispatchNotes" [(page)]="currentPage" [pageSize]="count"
@@ -28,7 +30,6 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

@@ -22,12 +22,19 @@ export class AddEditPlantComponent implements OnInit {
   plantsList: any = [];
   transactionTypesList: any = [];
   locationsDropdownData: any = [];
+  profitCenterDropdownData: any = [];
+  businessPlaceDropdownData: any = [];
+  sectionCodeDropdownData: any = [];
+  costCenterDropdownData: any = [];
   selectedTransactionCodes: string[] = [];
   deletedTransactions: any[] = [];
   plantLocationId: number = 0;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   offset: number = 0;
   count: number = Number.MAX_VALUE;
+  loadSpinner: boolean = false;
+  freightCity: any = [];
   constructor(
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -48,19 +55,35 @@ export class AddEditPlantComponent implements OnInit {
       panNo: [''],
       plantType: [''],
       siteCode: [''],
-      locationId: ['', Validators.required],
-      dsc: ['', Validators.required],
-      dcp: ['', Validators.required],
-      status: ['Active', Validators.required]
+      profitCenter: [''],
+      businessPlace: [''],
+      sectionCode: [''],
+      costCenter: [''],
+      auCode: [''],
+      status: ['Active', Validators.required],
+      freightCity: ['']
     });
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.loadSpinner = true;
     this.baseService.plantSpinner.next(true);
     this.queryData = this._Activatedroute.snapshot.paramMap.get("plantId");
-    this.getEditPlantData();
     this.getLocations();
+    this.getProfitCenters();
+    this.getBusinessPlaces();
+    this.getCostCenters();
+    this.getSectionCodes();
     this.getTransactionTypes();
+    this.getFreightCity();
+    setTimeout(() => {
+      this.getPlantData();
+    }, 1000);
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
   }
 
   getLocations() {
@@ -71,36 +94,111 @@ export class AddEditPlantComponent implements OnInit {
     };
     const type = 'Locations';
     this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locationsDropdownData = res.lookUps;
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+  getProfitCenters() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'ProfitCenter';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.profitCenterDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+      
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
     });
   }
 
-  getPlantData(plantId: string) {
-    this.plantService.getPlantData(this.plantLocationId,plantId).subscribe((response: any) => {
-      this.plantForm.setValue({
-        plantCode: response.plantCode,
-        plantDesc: response.plantDesc,
-        plantAddress: response.plantAddress,
-        city: response.city.value,
-        stateCode: response.state.value,
-        gstnNo: response.gstnNo,
-        panNo: response.panNo,
-        plantType: response.plantType,
-        siteCode: response.siteCode,
-        locationId: response.locations.id,
-        dsc: response.dsc,
-        dcp: response.dcp,
-        status: response.status,
+  getBusinessPlaces() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'BusinessPlace';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.businessPlaceDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');;
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+
+  getSectionCodes() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'SectionCode';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.sectionCodeDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+
+  getCostCenters() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'CostCenter';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.costCenterDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      this.baseService.plantSpinner.next(false);
+    });
+  }
+
+  getPlantData() {
+    this.loadSpinner = true;
+    const location = this.locationsDropdownData.find((loc: any) => loc.id === this.plantLocationId)
+    
+    this.plantService.getPlantData(this.queryData).subscribe((response: any) => {
+      this.plantForm.patchValue({
+        plantCode: response?.plantCode,
+        plantDesc: response?.plantDesc,
+        plantAddress: response?.plantAddress,
+        city: response?.city,
+        stateCode: response?.state,
+        gstnNo: response?.gstInNo,
+        panNo: response?.panNo,
+        plantType: response?.plantType,
+        siteCode: response?.siteCode,
+        profitCenter: response?.profitCenter,
+        businessPlace: response?.businessPlace,
+        sectionCode: response?.sectionCode,
+        costCenter: response?.costCenter,
+        status: response?.status,
+        auCode: response?.auCode,
+        freightCity: response?.freightCity
       });
       this.plantData = response;
       this.initializeSelectedTransactionCodes();
       this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 
@@ -110,6 +208,9 @@ export class AddEditPlantComponent implements OnInit {
     }
     this.transactionService.getTransactionTypes(data, this.offset, this.count).subscribe((response: any) => {
       this.transactionTypesList = response.transactionTypes
+      this.transactionTypesList = response.transactionTypes.filter(
+        (transactionType: any) => transactionType.status === 'Active'
+      );
     }, error => {
 
     })
@@ -120,14 +221,18 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   onPressSave() {
-    const locationCode = this.plantForm.controls['locationId']?.value
+    this.loadSpinner = true;
     this.baseService.plantSpinner.next(true);
     let transactionData: { id: number; transactionTypeId: number; status: string; }[] = [];
     this.plantData.transactionTypeMapping.forEach((e) => {
+      
       let transactionObj = {
-        id: e.id,
+        id: e.locations.id,
         transactionTypeId: e.transactionTypeId,
-        status: e.status
+        status: e.status,
+        locationId: e.locations.id || e.locations.value,
+        dsc: e.dsc,
+        dcp: e.dcp
       }
       transactionData.push(transactionObj);
     })
@@ -140,19 +245,24 @@ export class AddEditPlantComponent implements OnInit {
     let data = {
       status: this.plantForm.controls['status'].value,
       actionBy: localStorage.getItem("userId"),
-      locationId: (this.plantForm.controls['locationId'].value) || 0,
-      dsc: this.plantForm.controls['dsc'].value,
-      dcp: this.plantForm.controls['dcp'].value,
-      transactionTypeDetails: transactionData
+      profitCenter: this.plantForm.controls['profitCenter'].value,
+      businessPlace: this.plantForm.controls['businessPlace'].value,
+      sectionCode: this.plantForm.controls['sectionCode'].value,
+      costCenter: this.plantForm.controls['costCenter'].value,
+      transactionTypeDetails: transactionData,
+      freightCity: this.plantForm.controls['freightCity'].value
     }
-    this.plantService.updatePlant(locationCode,this.queryData, data).subscribe((response: any) => {
+    
+    this.plantService.updatePlant(this.queryData, data).subscribe((response: any) => {
       this.plantData = response;
-      this.toastr.success('Plant Update Successfully');
+      this.toastr.success('Plant Updated Successfully');
       this.baseService.plantSpinner.next(false);
       this.router.navigate(['master/plant']);
+      this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.baseService.plantSpinner.next(false);
+      this.loadSpinner = false;
     })
   }
 
@@ -167,7 +277,10 @@ export class AddEditPlantComponent implements OnInit {
       txnTypeId: null,
       name: '',
       code: null,
-      transactionTypeId: 0
+      transactionTypeId: 0,
+      locations: {id: 0, value: ''},
+      dcp: '',
+      dsc: ''
     }
     this.plantData.transactionTypeMapping.push(obj);
   }
@@ -182,11 +295,15 @@ export class AddEditPlantComponent implements OnInit {
   }
 
   getFilteredTransactionTypes(index: number): any[] {
-    return this.transactionTypesList.filter(
-      (transaction: any) =>
-        !this.selectedTransactionCodes.includes(transaction.code) ||
-        this.plantData.transactionTypeMapping[index].code === transaction.code
-    );
+    return this.transactionTypesList.filter((transaction: any) => {
+      const duplicateTransaction = this.plantData.transactionTypeMapping.some(
+        (t, i) =>
+          i !== index &&
+          t.locations.id === this.plantData.transactionTypeMapping[index].locations.id &&
+          t.code === transaction.code
+      );
+      return !duplicateTransaction || this.plantData.transactionTypeMapping[index].code === transaction.code;
+    });
   }
 
   initializeSelectedTransactionCodes() {
@@ -203,11 +320,13 @@ export class AddEditPlantComponent implements OnInit {
 
   onDeleteTransaction(transaction: any, index: number) {
     const deletedTransaction = {
-      id: transaction.id,
+      locationId: transaction.locationId,
       transactionTypeId: transaction.transactionTypeId,
-      status: 'Inactive'
+      status: 'Inactive',
+      dsc: transaction?.dsc,
+      dcp: transaction?.dcp
     };
-    if (deletedTransaction.id != 0 && deletedTransaction.transactionTypeId) {
+    if (deletedTransaction.locationId != 0 && deletedTransaction.transactionTypeId) {
       this.deletedTransactions.push(deletedTransaction);
     }
     this.selectedTransactionCodes = this.selectedTransactionCodes.filter(
@@ -216,23 +335,6 @@ export class AddEditPlantComponent implements OnInit {
   this.plantData.transactionTypeMapping.splice(index, 1);
   this.updateSelectedTransactionCodes();
   }
-
-  getEditPlantData() { 
-    let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e: any) => (e.id)),
-      "plantCode": "",
-      "city": "",
-      "state": "",
-      "auCode": "",
-      "siteCode": ""
-    }
-    this.plantService.getPlants(data).subscribe((response: any) => {
-      this.plantsList = response.plants;
-      this.getLocationId().then(() => {
-        this.getPlantData(this.queryData);
-      });
-    });
-  }
   
   getLocationId(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -240,7 +342,7 @@ export class AddEditPlantComponent implements OnInit {
         return plant.id == this.queryData
       });
       if (plant.length > 0) {
-        this.plantLocationId = plant[0].locations.id;
+        this.plantLocationId = plant[0]?.locations?.id;
         resolve();
       } else {
         reject('No matching plant found');
@@ -258,13 +360,27 @@ export class AddEditPlantComponent implements OnInit {
     );
   }
 
-  getLocationData(data: any){
+  getLocationData(e: any, index: any){
     const locationData = this.locations.find((item: any) => {
-    return item.id == data;
+    return item.id == e;
     })
-    this.plantForm.patchValue({
-      dsc: locationData.attribute1,
-      dcp: locationData.attribute2
-    })
+    this.plantData.transactionTypeMapping[index].locations.id = locationData?.id;
+    this.plantData.transactionTypeMapping[index].dsc = locationData?.attribute3;
+    this.plantData.transactionTypeMapping[index].dcp = locationData?.attribute4;
+  }
+
+  getFreightCity() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'FreightCity';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.freightCity = res.lookUps.filter(
+        (item: any) => item.status === 'Active');
+    }, error => {
+
+    });
   }
 }

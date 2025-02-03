@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section">
-  <app-advice-filter [filters]="filters" (getData)="getData($event)" [locations]="locations"></app-advice-filter>
+  <app-advice-filter [filters]="filters" (getData)="getData($event)"></app-advice-filter>
 </div>
 
 <div class="content-section" [ngClass]="{ isFilters: isFilters, fullScreen : fullScreen }">
@@ -34,7 +34,7 @@
     />
     <div class="grid-table">
       <div class="table-container">
-        <app-advice-grid-table [advicesList]="advicesList" (exportHeader)="onExportHeader($event)"></app-advice-grid-table>
+        <app-advice-grid-table [advicesList]="advicesList" (exportHeader)="onExportHeader($event)" [batchDetails]="batchDetails"></app-advice-grid-table>
       </div>
       <div class="d-flex justify-content-center mt-3">
         <ngb-pagination [collectionSize]="totalAdvices" [(page)]="currentPage" [pageSize]="count"
@@ -50,8 +50,6 @@
       </div>
     </div>
 </div>
-
-
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

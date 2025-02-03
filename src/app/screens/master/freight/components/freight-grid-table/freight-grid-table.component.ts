@@ -14,7 +14,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   @Input() freightList: any[] = [];
-  loadSpinner: boolean = true;
+  loadSpinner: boolean = false;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   
@@ -36,7 +36,7 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     const headers: string[] = [];
     const headerCells = this.table?.nativeElement?.querySelectorAll('thead th');
     headerCells?.forEach((cell: any) => {
-      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+      if (cell.innerText.trim() !== 'Action' && cell.innerText.trim() !== 'Contract Attachment') { // Exclude "Actions" header
         headers.push(cell.innerText.trim());
       }
     });
@@ -52,5 +52,37 @@ export class FreightGridTableComponent implements OnInit, OnChanges {
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.freightList);
   }
+
+  viewAttachment(data: any) {
+    this.loadSpinner = true;
+    this.freightService.getContractById(data?.locationId, data?.id).subscribe(
+        (response: any) => {
+            if (!response.fileData) {
+                this.toastr.error('No PDF is available to view', 'Error');
+                this.loadSpinner = false;
+                return;
+            }
+
+            const base64Prefix = 'data:application/pdf;base64,';
+            const base64Data = response.fileData.startsWith(base64Prefix) 
+                ? response.fileData.substring(base64Prefix.length) 
+                : response.fileData;
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+
+            window.open(url, '_blank');
+
+            setTimeout(() => window.URL.revokeObjectURL(url), 100);
+
+            this.loadSpinner = false;
+        },
+    );
+}
 
 }

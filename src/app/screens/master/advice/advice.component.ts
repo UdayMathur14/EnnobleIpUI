@@ -16,13 +16,14 @@ export class AdviceComponent implements OnInit{
   fullScreen : boolean = false;
   loadSpinner : boolean = true;
   headers: string[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any = [];
   currentPage: number = 1;
   count: number = 10;
   totalAdvices: number = 0;
   filters: any = [];
   appliedFilters: any = {};
   maxCount: number = Number.MAX_VALUE;
+  batchDetails: any = [];
   constructor(private router: Router,
     private adviceService : AdviceTypeService,
     private toastr : ToastrService,
@@ -35,17 +36,18 @@ export class AdviceComponent implements OnInit{
 
   getAdviceTypesList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
-      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": filters?.adviceType || '',
-      "status": filters?.status || ''
+      "status": filters?.status || '',
+      "batchName": filters?.batchName || ''
     }
     this.adviceService.getAdviceTypes(data, offset, count).subscribe((response: any) => {
       this.advicesList = response.advices;
       this.totalAdvices = response.paging.total;
       this.filters = response.filters;
+      this.batchDetails = response?.batchDetails
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -68,7 +70,7 @@ export class AdviceComponent implements OnInit{
 
   exportData(fileName: string = "Advice") {
     const data = {
-      "locationIds": this.appliedFilters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": this.appliedFilters?.adviceType || '',
       "status": this.appliedFilters?.status || ''
     }

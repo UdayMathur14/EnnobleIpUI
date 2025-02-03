@@ -1,0 +1,20 @@
+<div class="filters-box">
+    <div class="row">
+        <div class="col-3">
+            <div class="custom-form-input">
+                <label for="">Batch Number</label>
+                <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
+                    <ng-option *ngFor="let source of filters?.BatchNumber" [value]="source">{{source}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <button class="custom-button-filters mt-1 me-2" (click)="handleSearch()"
+                    [disabled]="!batchNumber">Search</button>
+                <button class="custom-button-filters mt-1 ms-1" (click)="onClearFilter()" [disabled]="!batchNumber">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

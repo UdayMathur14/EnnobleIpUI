@@ -4,18 +4,21 @@
       <table>
         <thead>
           <tr>
+            <th>Location Code</th>
             <th>Freight Code</th>
             <th>Source</th>
             <th>Destination</th>
             <th>Vehicle Size</th>
             <th>Freight Amount</th>
             <th>Remarks</th>
+            <th>Contract Attachment</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           @for(freight of freightList; track freight.id){
           <tr>
+            <td>{{ freight?.locations?.value }}</td>
             <td class="pointer">
               <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
                 <u>{{freight?.freightCode || '-'}}</u>
@@ -44,8 +47,17 @@
             <td>{{freight?.source?.value || '-' }}</td>
             <td>{{freight?.destination?.value || '-' }}</td>
             <td>{{freight?.vehicleSize?.value || '-' }}</td>
-            <td>{{freight?.freightAmount || '-' }}</td>
+            <td>{{freight?.newFreightAmount && freight?.newFreightAmount != 0 ? freight?.newFreightAmount : freight?.freightAmount || '-' }}</td>
             <td>{{freight?.remarks || '-' }}</td>
+            <td>
+              <button class="icon-button mt-2"
+              (click)="viewAttachment(freight)" ngbTooltip="Contract Attachment" placement="top">
+              <div class="img-container">
+                <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" />
+              </div>
+            </button>
+            </td>
+    
             <td class="text-center d-flex justify-content-center" (click)="selectFreight(freight.id)">
               <!-- Approve Button -->
               <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
@@ -63,7 +75,7 @@
               <!-- Approve Popover Content -->
               <ng-template #approvePopContent approveRemarks="ngbPopover">
                 <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
+                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks maxlength="150"></textarea>
                 </div>
                 <button class="custom-button-secondary"
                   (click)="approveFreight(approveRemarks.value, approvePopover, freight)">
@@ -74,7 +86,7 @@
               <!-- Reject Popover Content -->
               <ng-template #rejectPopContent rejectRemarks="ngbPopover">
                 <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
+                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks maxlength="150"></textarea>
                 </div>
                 <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''"
                   (click)="rejectFreight(rejectRemarks.value, rejectPopover, freight)">
@@ -106,6 +118,6 @@
     </select>
   </div>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

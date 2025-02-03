@@ -21,7 +21,6 @@ export class VehicleComponent implements OnInit{
   transportersList : any[] = [];
   headers: any [] = [];
   loadSpinner : boolean = true;
-  locations: any[] = APIConstant.locationsListDropdown;
   transporterOffset: number = 0;
   transporterCount: number = Number.MAX_VALUE;
   currentPage: number = 1;
@@ -30,6 +29,8 @@ export class VehicleComponent implements OnInit{
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
+
   constructor(private router: Router,
     private xlsxService: XlsxService,
     private vehicleService : VehicleService,
@@ -42,7 +43,7 @@ export class VehicleComponent implements OnInit{
 
   getVehicleList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "locationIds": filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": filters?.vehicleNumber ||  "",
       "transporter": filters?.transporterId ||  "",
       "vehicleSizeCode": filters?.vehcileSize ||  "",
@@ -54,7 +55,6 @@ export class VehicleComponent implements OnInit{
       this.filters = response.filters
       this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
   }
@@ -76,7 +76,7 @@ export class VehicleComponent implements OnInit{
 
   exportData(fileName: string = "Vehicle") {
     let data = {
-      "locationIds": this.appliedFilters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "vehicleNumber": this.appliedFilters?.vehicleNumber ||  "",
       "transporter": this.appliedFilters?.transporterId ||  "",
       "vehicleSizeCode": this.appliedFilters?.vehcileSize ||  "",
@@ -87,6 +87,7 @@ export class VehicleComponent implements OnInit{
 
       // Map the data to include only the necessary fields
     const mappedVehiclesList = vehicleListToExport.map((vehicle: any) => ({
+      locationCode: vehicle.locations.value,
       vehicleNumber: vehicle.vehicleNumber,
       vehicleSize: vehicle.vehicleSize.value,
       transporterName: vehicle.transporterEntity.transporterName,

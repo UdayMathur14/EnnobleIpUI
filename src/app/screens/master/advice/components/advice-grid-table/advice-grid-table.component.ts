@@ -12,6 +12,7 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 export class AdviceGridTableComponent implements OnInit {
   @Input() advicesList: any = [];
   @Input() filterKeyword!: string;
+  @Input() batchDetails: any = [];
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   sortField: string = '';
@@ -31,7 +32,7 @@ export class AdviceGridTableComponent implements OnInit {
     const headers: string[] = [];
     const headerCells = this.table?.nativeElement?.querySelectorAll('thead th');
     headerCells?.forEach((cell: any) => {
-      if (cell.innerText.trim() !== 'Action') { // Exclude "Actions" header
+      if (cell.innerText.trim() !== 'Action' && cell.innerText.trim() !== 'Batch Number') {
         headers.push(cell.innerText.trim());
       }
     });
@@ -46,5 +47,10 @@ export class AdviceGridTableComponent implements OnInit {
     this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
     this.sortField = field;
     CommonUtility.sortTableData(field, this.sortDirection, this.advicesList);
+  }
+
+  getBatchNumber(batchName: string): string {
+    const batch = this.batchDetails.find((batch: any) => batch.batchName === batchName);
+    return batch ? batch.batchNumber : '';
   }
 }

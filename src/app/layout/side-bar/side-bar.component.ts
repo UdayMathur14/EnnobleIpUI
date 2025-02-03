@@ -15,7 +15,7 @@ export class SideBarComponent {
         this.selectedAccordion = window.location.pathname.includes('/master/') ? 'master' : window.location.pathname.includes('/transaction/') ? 'transactions' : 'report';
     }
 
-    securityGroups(permission: String) {
+    securityGroups(permission: any) {
         return this.authGuard.securityGroups(permission);
     }
 
@@ -68,22 +68,36 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/approvalAccounts'])
         } else if (transaction === 'changeBiltiStatus') {
             this.router.navigate(['/transaction/changeBiltiStatus'])
+        } else if (transaction === 'apOutbound') {
+            this.router.navigate(['/transaction/apOutbound'])
+        } else if (transaction === 'glAccrualPosting') {
+            this.router.navigate(['/transaction/glAccrual-posting'])
         }
     }
 
     onreportChange(report: string){
         if (report === 'rejection-bilti-detail-report') {
             this.router.navigate(['/report/rejection-bilti-detail'])
-        } else if (report === 'processed-report') {
-            this.router.navigate(['/report/processed'])
+        } else if (report === 'provision-report') {
+            this.router.navigate(['/report/provision'])
         } else if (report === 'error-logging-report') {
             this.router.navigate(['/report/error-logging'])
         } else if (report === 'debit-note-report') {
             this.router.navigate(['/report/debit-note'])
-        } else if (report === 'provision-report') {
-            this.router.navigate(['/report/provision'])
-        }else if (report === 'adhoc-report') {
+        } else if (report === 'adhoc-report') {
             this.router.navigate(['/report/adhoc-report'])
+        } else if (report === 'processing-report') {
+            this.router.navigate(['/report/processed-report'])
         }
     }
+
+    hasPermission(key: string): boolean {
+        const profile: any = localStorage.getItem("profile");
+        const userData = JSON.parse(profile);
+        if (userData && userData.permissions) {
+          return userData.permissions.some((permission: string) => permission.startsWith(key));
+        }
+      
+        return false;
+      }
 }

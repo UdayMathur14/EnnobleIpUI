@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonTransactionService } from '../../../../../core/service/commonTransaction.service';
 import { PointChargeDataModel } from '../../../../../core/model/masterModels.model';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
+import { LookupService } from '../../../../../core/service/lookup.service';
+import { APIConstant } from '../../../../../core/constants';
 
 @Component({
   selector: 'app-point-master-accounts-grid-table',
@@ -12,7 +14,6 @@ import { PointChargeService } from '../../../../../core/service/point-charge.ser
   styleUrl: './point-master-accounts-grid-table.component.scss'
 })
 export class PointMasterAccountsGridTableComponent implements OnInit {
-  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute) { }
   
   @Input()
   searchedPoint!: any;
@@ -25,6 +26,13 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
   totalPointCharge: number = 0;
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  commonLocations: any = [];
+  locationIds : any[] = []
+  locations : any[] = [];
+
+  constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute,
+    private lookupService: LookupService
+  ) { }
   
   ngOnInit(): void {
     this.getAllPointChargesList();
@@ -36,14 +44,13 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       this.getAllPointChargesList();
     }
   }
-
   // GET ALL POINT CHARGE
   getAllPointChargesList(offset: number = 0, count: number = this.count, filters: any = this.searchedPoint) {
     this.loadSpinner = true;
     let data = {
       "screenCode": 103,
       "pointName": filters?.pointName || "",
-      locationIds: filters?.locationIds || []
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
     }
     this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
       this.pointChargesList = response.pointCharges;
@@ -113,5 +120,37 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       this.loadSpinner = false;
     });
   }
+
+  openPDF(data: any) {
+    this.loadSpinner = true;
+    this.pointChargeService.getContractById(data?.locationId, data?.id).subscribe(
+        (response: any) => {
+            if (!response.fileData) {
+                this.toastr.error('No PDF is available to view', 'Error');
+                this.loadSpinner = false;
+                return;
+            }
+
+            const base64Prefix = 'data:application/pdf;base64,';
+            const base64Data = response.fileData.startsWith(base64Prefix) 
+                ? response.fileData.substring(base64Prefix.length) 
+                : response.fileData;
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+
+            window.open(url, '_blank');
+
+            setTimeout(() => window.URL.revokeObjectURL(url), 100);
+
+            this.loadSpinner = false;
+        },
+    );
+}
 
 }

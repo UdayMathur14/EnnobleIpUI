@@ -1,0 +1,114 @@
+<div id="approval-content" class="container-fluid">
+  <div class="d-flex justify-content-end">
+    <img id="download-button" class="me-3 pointer" src="assets/images/icons/download.svg" alt="Download PDF"
+      (click)="downloadPDF()">
+    <img id="icon-button" src="assets/images/icons/close.svg" alt="close" class="pointer" (click)="onClose()" />
+  </div>
+  <div class="row">
+    <div class="approval-header">
+      <div class="col-12">
+        <p class="header">LG Electronics India Pvt Ltd.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="custom-table">
+        <table border="1" cellspacing="0" cellpadding="5">
+          <tr>
+            <td>Payment Advise No :</td>
+            <td>{{approvalData?.batchNumber}}</td>
+          </tr>
+          <tr>
+            <td>Payment Advise Date:</td>
+            <td>{{approvalData?.biltiBillProcessDate | date : "yyyy-MM-dd"}}</td>
+          </tr>
+          <tr>
+            <td>Payment TTL(Grand TTL):</td>
+            <td colspan="3">{{approvalData?.paymentTotal}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="custom-table">
+        <table>
+          <thead>
+            <tr>
+              <th colspan="2">Material</th>
+              <th colspan="1">Accounts</th>
+            </tr>
+            <tr>
+              <th>Checked By Material</th>
+              <th>Approved By</th>
+              <th>Approved By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{approvalData?.checkedByMaterial || '-'}}</td>
+              <td>{{approvalData?.approvedByMaterialHead || '-'}}</td>
+              <td>{{approvalData?.approvedByAccounts || '-'}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="custom-table mt-5">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Payment Advise No:</th>
+          <th colspan="2">{{approvalData?.batchNumber}}</th>
+          <th colspan="5">Additions</th>
+          <th colspan = "4"></th>
+        </tr>
+        <tr>
+          <th>No.</th>
+          <th>Supplier Code</th>
+          <th>Supplier Name</th>
+          <th>Bilti No.</th>
+          <th>Bilti Date</th>
+          <th>Basic Freight Charges</th>
+          <th>Point Charges</th>
+          <th>Unloading Charges</th>
+          <th>Detensio Charges</th>
+          <th>Overload Charges</th>
+          <th>Toll Tax</th>
+          <th>Net Amt.</th>
+          <th>SGST Amt.</th>
+          <th>CGST Amt.</th>
+          <th>IGST Amt.</th>
+          <th>Debit Note Amt.</th>
+          <th>Grand Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let approval of approvalData?.biltiDetails; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{approval?.transporterCode}}</td>
+          <td>{{approval?.transporterName}}</td>
+          <td>{{approval?.biltiNumber}}</td>
+          <td>{{approval?.creationDate | date : "yyyy-MM-dd"}}</td>
+          <td>{{approval?.basicFreightCharge}}</td>
+          <td>{{approval?.pointCharges}}</td>
+          <td>{{approval?.unloadingCharges}}</td>
+          <td>{{approval?.detentionCharges}}</td>
+          <td>{{approval?.overloadCharges}}</td>
+          <td>{{approval?.tollTaxCharges}}</td>
+          <td>{{approval?.netAmount}}</td>
+          <td>{{approval?.sgstAmount}}</td>
+          <td>{{approval?.cgstAmount}}</td>
+          <td>{{approval?.igstAmount}}</td>
+          <td>{{approval?.debitNoteAmount}}</td>
+          <td>{{approval?.grandTotal}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Downloading...
+</div>

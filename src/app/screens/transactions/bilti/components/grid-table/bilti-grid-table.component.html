@@ -2,6 +2,7 @@
     <table>
         <thead>
             <tr>
+              <th>Location Code</th>
                 <th>Bilti No.</th>
                 <th>Vehicle No.</th>
                 <th>Vehicle Size</th>
@@ -11,6 +12,7 @@
                 <th>Freight Amount</th>
                 <th>FRLR#</th>
                 <th>Loading Location</th>
+                <th>Status</th>
                 <th class="text-center">Bilti Details</th>
                 <th class="text-center">Action</th>
             </tr>
@@ -18,6 +20,7 @@
         <tbody>
           @for (bilti of biltisList; track bilti.id) {
             <tr>
+              <td>{{ bilti?.locationDetials?.value }}</td>
                 <td class="pointer" container="body">
                     <span
                       placement="end"
@@ -46,14 +49,15 @@
                       </div>
                     </ng-template>
                   </td>
-                  <td>{{bilti.vehicles.vehicleNumber}}</td>
-                  <td>{{bilti.vehicles.vehicleSize.value}}</td>
-                  <td>{{bilti.freights.code}}</td>
-                  <td>{{bilti.freights.source.value}}</td>
-                  <td>{{bilti.freights.destination.value}}</td>
-                  <td>{{bilti.freights.freightAmount}}</td>
-                  <td>{{bilti.frlrNumber}}</td>
-                  <td>{{bilti.loadingLocation.value}}</td>
+                  <td>{{bilti?.vehicles?.vehicleNumber}}</td>
+                  <td>{{bilti?.vehicleSize}}</td>
+                  <td>{{bilti?.freights?.code}}</td>
+                  <td>{{bilti?.freights?.source?.value}}</td>
+                  <td>{{bilti?.freights?.destination?.value}}</td>
+                  <td>{{bilti?.freights?.freightAmount}}</td>
+                  <td>{{bilti?.frlrNumber}}</td>
+                  <td>{{bilti?.loadingLocation?.value}}</td>
+                  <td>{{bilti?.status}}</td>
                 <td class="text-center">
                   <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewPdf(bilti)"
                   placement="top" ngbTooltip="Bilti PDF" />

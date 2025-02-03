@@ -1,8 +1,10 @@
 <div class="page-title">
-  <h1>Edit Transporter</h1>
+  <h1>{{queryData>0 ? 'Edit Transporter' : 'Create Transporter'}}</h1>
   <div class="action-buttons">
+    <!-- <button class="custom-button-regulr" (click)="onSavePress()"
+      [disabled]="transporterForm.invalid || transporterForm.get('transporterMailId')?.hasError('pattern') || disableSubmit">Save</button> -->
     <button class="custom-button-regulr" (click)="onSavePress()"
-      [disabled]="transporterForm.invalid || transporterForm.get('transporterMailId')?.hasError('pattern') || disableSubmit">Save</button>
+      [disabled]=" transporterForm.get('transporterMailId')?.hasError('pattern') || disableSubmit">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
     </button>
@@ -12,50 +14,29 @@
 <div class="content-section p-3">
   <form [formGroup]="transporterForm">
     <div class="row">
-      <div class="col-lg-2 col-md-2">
+      <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Location Code<span class="text-danger">*</span></label>
           <ng-select [searchable]="true" formControlName="locationCode" placeholder="Select location" (change)="getLocationData($event)">
-            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+            <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
+          </ng-select>
+        </div>
+      </div> -->
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Transporter Code</label>
+          <ng-select [searchable]="true" formControlName="transporterCode" placeholder="Select transporter" (change)="onTransporterChange($event)" [readonly]="queryData != 0">
+            <ng-option *ngFor="let transporter of vendorsList" [value]="transporter.id">{{transporter.vendorCode}} ({{transporter.vendorName}})</ng-option>
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Transporter Code</label>
-          <div class="input-with-icon">
-            <input type="text" class="input-field" formControlName="transporterCode" readonly />
-            <img src="assets/images/icons/search.svg" class="search-icon" alt="Search">
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
           <label for="">Transporter Name</label>
           <input type="text" class="input-field" formControlName="transporterName" readonly />
         </div>
       </div>
-
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Owner Name</label>
-          <input type="text" class="input-field" formControlName="ownerName" readonly />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Contact Number <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
-            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Transporter Email <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="transporterMailId" />
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
+      <div class="col-lg-6 col-md-6">
         <div class="custom-form-input">
           <label for="">Address 1</label>
           <input type="text" class="input-field" formControlName="address1" readonly />
@@ -65,12 +46,6 @@
         <div class="custom-form-input">
           <label for="">Address 2</label>
           <input type="text" class="input-field" formControlName="address2" readonly />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Contact Person</label>
-          <input type="text" class="input-field" formControlName="contactPerson" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -93,78 +68,76 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Regd. Details</label>
+          <label for="">Freight City<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" formControlName="freightCity" placeholder="Select Freight City">
+            <ng-option *ngFor="let city of freightCity" [value]="city.code">{{city.code}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Contact Number <span *ngIf="queryData" class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="contactNumber" minlength="10" maxlength="12"
+            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" [readonly]="queryData == 0" />
+          <div *ngIf="transporterForm.get('contactNumber')?.invalid">
+            <small class="text-danger" *ngIf="transporterForm.get('contactNumber')?.errors?.['minlength']">
+              Contact number must be at least 10 digits.
+            </small>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Transporter Email <span *ngIf="queryData" class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="transporterMailId" [readonly]="queryData == 0" />
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Owner Name <span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="ownerName" inputAlphabetValidator />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Contact Person <span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="contactPerson" inputAlphabetValidator />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Regd. Details <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="regdDetails" />
         </div>
       </div>
+
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Taxation Code <span class="text-danger">*</span></label>
-          <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
-            <ng-option *ngFor="let code of taxationCode" [value]="code.id">{{code.value}}</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">CGST</label>
-          <input type="text" class="input-field" formControlName="cgst" readonly />
+          <label for="">Transporter Payment Group</label>
+          <input type="text" class="input-field" formControlName="transporterPaymentGroup" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">SGST</label>
-          <input type="text" class="input-field" formControlName="sgst" readonly />
+          <label for="">Transporter Payterm Days</label>
+          <input type="text" class="input-field" formControlName="transporterPaytermDays" readonly />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-23 col-md-3">
         <div class="custom-form-input">
-          <label for="">IGST</label>
-          <input type="text" class="input-field" formControlName="igst" readonly />
+          <label for="">Transporter Payment Terms Name</label>
+          <input type="text" class="input-field" formControlName="transporterPaymentTermsName" readonly />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
-          <label for="">RCM/Non RCM</label>
-          <input type="text" class="input-field" formControlName="rcmNonRcm" readonly />
+          <label for="">Transporter Payterm Method Code</label>
+          <input type="text" class="input-field" formControlName="transporterPaytermMethodCode" readonly />
         </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Auto Bilti Required <span class="text-danger">*</span></label>
-          <select formControlName="autoBiltiReq">
-            <option value="Y">Yes</option>
-            <option value="N">No</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Auto Bilti Starting Char. <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="autoBiltiCharactor" readonly/>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="custom-form-input">
-          <label for="">Consigner Name</label>
-          <input type="text" class="input-field" formControlName="consignorName" />
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="custom-form-input">
-          <label for="">Consigner Contact</label>
-          <input type="text" class="input-field" formControlName="consignorContactInfo" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Mode of Transport <span class="text-danger">*</span></label>
-          <ng-select class="input-field" placeholder="Select Mode of Transport" formControlName="modeOfTransport">
-            <ng-option *ngFor="let mode of transportMode" [value]="mode.id">{{mode.value}}</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
+      </div> 
+      <div class="col-lg-2 col-md-2" *ngIf="queryData">
         <div class="custom-form-input">
           <label for="">Status <span class="text-danger">*</span></label>
           <select formControlName="status">
@@ -177,22 +150,175 @@
     <div class="row">
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Bilti Header Comments <span class="text-danger">*</span></label>
-          <textarea class="input-field" formControlName="biltiHeaderComment" rows="3"></textarea>
+          <label for="">Bilti Header Comments </label>
+          <textarea class="input-field" formControlName="biltiHeaderComment" rows="3"  maxlength="150"></textarea>
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Notes <span class="text-danger">*</span></label>
-          <textarea class="input-field" formControlName="note" rows="3"></textarea>
+          <label for="">Notes</label>
+          <textarea class="input-field" formControlName="note" rows="3"  maxlength="150"></textarea>
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Footer <span class="text-danger">*</span></label>
-          <textarea class="input-field" formControlName="footer" rows="3"></textarea>
+          <label for="">Footer</label>
+          <textarea class="input-field" formControlName="footer" rows="3"  maxlength="150"></textarea>
         </div>
       </div>
     </div>
   </form>
+
+  <div class="edit-screen-subTable">
+    <h4 class="">
+      Transaction Details
+      <button class="custom-button-regulr" (click)="onAddTransactionRow()">Add</button>
+    </h4>
+  </div>
+
+  <div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Location Code<span class="text-danger">*</span></th>
+          <th>Auto Bilti Required<span class="text-danger">*</span></th>
+          <th>Auto Bilti Starting Char<span class="text-danger">*</span></th>
+          <th>Consigner Name<span class="text-danger">*</span></th>
+          <th>Consigner Contact<span class="text-danger">*</span></th>
+          <th>Mode of Transport<span class="text-danger">*</span></th>
+          <th>RCM/Non-RCM Type<span class="text-danger">*</span></th>
+          <th>Tax Code<span class="text-danger">*</span></th>
+          <th>TDS Code<span class="text-danger">*</span></th>
+          <th>Status<span class="text-danger">*</span></th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="transporterMappings">
+        @for (transaction of transporterMappings; track transaction.transportationMode; let ind = $index) {
+        <tr>
+          <td>
+                  <div class="col-lg-9 col-md-9">
+                    <div class="custom-form-input biltiwidth">
+                      <ng-select [searchable]="true" placeholder="Select location" appendTo="body"
+                        (change)="getLocationData($event, ind)" [(ngModel)]="transaction.locationCode" [readonly]="transaction?.isLocationDisabled">
+                        <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id" >{{location.value}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+          </td>
+          <td>
+            <div class="col-lg-9 col-md-9">
+              <div class="custom-form-input biltiwidth">
+                <select  [(ngModel)]="transaction.autoBiltiReq" (change)="onAutoBiltiChange($event, ind)">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-9 col-md-9">
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" readonly [(ngModel)]="transaction.autoBilti" />
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-9 col-md-9">
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" readonly [(ngModel)]="transaction.consignerName"/>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-9 col-md-9">
+              <div class="custom-form-input biltiwidth">
+                <input type="text" class="input-field" readonly [(ngModel)]="transaction.consignerContact"/>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-9 col-md-9">
+              <div class="custom-form-input biltiwidth">
+                <ng-select class="input-field" [(ngModel)]="transaction.transportationMode"
+                  (change)="onTransporterModeSelect($event, ind)" 
+                  (clear)="onTransporterModeClear(ind)" appendTo="body">
+                  <ng-option *ngFor="let mode of getAvailableModes(ind)" [value]="mode">
+                    {{mode.value}} ({{mode.code}})
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+            
+          </td>
+          <td>
+            <div class="col-lg-9 col-md-9">
+              <div class="custom-form-input biltiwidth">
+                <ng-select class="input-field" [(ngModel)]="transaction.taxationType" appendTo="body"
+                  (change)="onRcmNonRcmSelect($event, ind)" 
+                  (clear)="onRcmNonRcmClear(ind)">
+                  <ng-option *ngFor="let type of rcmNonRcmType" [value]="type">
+                    {{type.code}}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div>
+              <div class="custom-form-input biltiwidth">
+                <ng-select class="input-field" [(ngModel)]="transaction.taxaCode"
+                  (change)="onTaxCodeSelect($event, ind)"  appendTo="body"
+                  (clear)="onTaxCodeClear(ind)">
+                  <ng-container *ngIf="transaction?.taxationType?.code === 'RCM'">
+                  <ng-option *ngFor="let code of taxCodesRcm" [value]="code">
+                    {{code.code}} ({{code?.description}})
+                  </ng-option>
+                </ng-container>
+                <ng-container *ngIf="transaction?.taxationType?.code === 'Non-RCM'">
+                  <ng-option *ngFor="let code of taxCodesNonRcm" [value]="code">
+                    {{code.code}} ({{code?.description}})
+                  </ng-option>
+                </ng-container>
+                </ng-select>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-lg-12 col-md-12">
+              <div class="custom-form-input biltiwidth">
+                <ng-select class="input-field" [(ngModel)]="transaction.tdsCode" appendTo="body"
+                  (change)="onTdsCodeSelect($event, ind)" 
+                  (clear)="onTdsCodeClear(ind)">
+                  <ng-option *ngFor="let code of tdsCodes" [value]="code">
+                    {{code.code}} ({{code?.description}})
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </td>
+          <td class="text-center">
+            <div class="custom-form-input biltiwidth">
+            <select name="" [(ngModel)]="transaction.status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+            </div>
+          </td>
+          <td class="text-center" *ngIf="transaction.isShow">
+            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
+              (click)="onDeleteTransaction(transaction, ind)" />
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td align="center" colspan="13">No Transaction Code Found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

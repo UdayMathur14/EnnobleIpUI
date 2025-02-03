@@ -6,8 +6,11 @@
     (filterSearchObj)="filteredData($event)"></app-approval-material-head-filter>
 </div>
 
-<div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}" *ngIf="(searchedData?.batchNumber && biltiBillProcess?.length > 0)
+<div class="filter-section d-flex justify-content-end" [ngClass]="{'d-none': !isFilters}" *ngIf="(searchedData?.batchNumber && biltiBillProcess?.length > 0 && !loadSpinner)
     || searchedData?.toDate && biltiBillProcess?.length > 0">
+      <div class="action-buttons me-2">
+        <button class="custom-button-regulr" (click)="onPreviewPdf()">Approval PDF</button>
+      </div>
   <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
     [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left" #approvePopover="ngbPopover"
     (click)="openPopover(approvePopover)">
@@ -22,7 +25,7 @@
   <!-- Approve Popover Content -->
   <ng-template #approvePopContent approveRemarks="ngbPopover">
     <div class="custom-form-input">
-      <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
+      <textarea name="" id="" rows="3" class="input-field" #approveRemarks maxlength="150"></textarea>
     </div>
     <button class="custom-button-secondary" (click)="updateStatus('Approved', approveRemarks.value, approvePopover)">
       Confirm Approve
@@ -32,7 +35,7 @@
   <!-- Reject Popover Content -->
   <ng-template #rejectPopContent rejectRemarks="ngbPopover">
     <div class="custom-form-input">
-      <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
+      <textarea name="" id="" rows="3" class="input-field" #rejectRemarks maxlength="150"></textarea>
     </div>
     <button class="custom-button-regulr" (click)="updateStatus('Rejected', rejectRemarks.value,rejectPopover)">
       Confirm Reject
@@ -42,7 +45,7 @@
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': biltiBillProcess?.length > 0}"
-  *ngIf="searchedData?.batchNumber || searchedData?.toDate">
+  *ngIf="searchedData?.batchNumber && !loadSpinner">
   <div class="grid-table">
     <div class="table-container">
       <app-approval-material-head-grid-table [biltiBillProcess]="biltiBillProcess"
@@ -61,4 +64,7 @@
       </select>
     </div>
   </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

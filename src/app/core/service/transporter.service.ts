@@ -21,11 +21,15 @@ export class TransporterService extends CRUDService<PlantRequest> {
     }
 
     getTransporterData(transporterId : string){
-        return this.get(transporterData(this.locationIds, transporterId));
+        return this.get(transporterData(transporterId));
     }
 
     updateTransporter(transporterId : string, data : object){
-        return this.put(updateTransporter(this.locationIds, transporterId), data);
+        return this.put(updateTransporter(transporterId), data);
+    }
+
+    createTransporter(data : any){
+        return this.post(APIConstant.createTransporter, data);
     }
 
     getDropdownData(data : object, type: string){

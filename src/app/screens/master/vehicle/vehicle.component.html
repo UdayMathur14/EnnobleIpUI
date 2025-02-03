@@ -20,7 +20,7 @@
 </div>
 
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-vehicle-filters [filters]="filters" (getData)="getData($event)" [locations]="locations"></app-vehicle-filters>
+  <app-vehicle-filters [filters]="filters" (getData)="getData($event)"></app-vehicle-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -51,7 +51,6 @@
       </div>
     </div>
 </div>
-
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

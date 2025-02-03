@@ -40,7 +40,7 @@ export class LookupComponent implements OnInit {
     let data = {
       code: filters?.code || '',
       lookUpType: filters?.lookUpType || '',
-      value: '',
+      value: filters?.value,
       status: filters?.status || '',
     };
     this.lookupService.getLookups(data, offset, count).subscribe(
@@ -51,11 +51,6 @@ export class LookupComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(
-          error.error.details
-            .map((detail: any) => detail.description)
-            .join('<br>')
-        );
         this.loadSpinner = false;
       }
     );

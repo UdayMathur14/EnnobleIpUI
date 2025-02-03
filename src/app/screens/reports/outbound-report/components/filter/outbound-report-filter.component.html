@@ -1,0 +1,110 @@
+<div class="filters-box">
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="custom-form-input">
+          <label for="">Batch Id</label>
+          <ng-select class="input-field" placeholder="Select Batch Id" [(ngModel)]="batchId">
+            <ng-option *ngFor="let batch of filters?.BatchId"
+              [value]="batch">{{batch}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+  
+      <div class="col-lg-2">
+        <div class="custom-form-input">
+            <label>Invoice Number</label>
+            <ng-select class="input-field" [(ngModel)]="invoiceNumber" placeholder="Select Invoice Number">
+                <ng-option *ngFor="let invoice of filters?.InvoiceNumber" [value]="invoice">{{invoice}}</ng-option>
+            </ng-select>
+        </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="custom-form-input">
+          <label>Transaction Code</label>
+          <ng-select class="input-field" [(ngModel)]="transactionCode" placeholder="Select Transaction Code">
+              <ng-option *ngFor="let transactionCode of filters?.TransactionCode" [value]="transactionCode">{{transactionCode}}</ng-option>
+          </ng-select>
+      </div>
+  </div> 
+  <div class="col-lg-2">
+    <div class="custom-form-input">
+        <label>Employeer Code</label>
+        <ng-select class="input-field" [(ngModel)]="employeerCode" placeholder="Select Employeer Code">
+            <ng-option *ngFor="let employeerCode of filters?.EmployeerCode" [value]="employeerCode">{{employeerCode}}</ng-option>
+        </ng-select>
+    </div>
+</div>
+<div class="col-lg-3">
+    <div class="custom-form-input">
+        <label>Approver Employeer Code</label>
+        <ng-select class="input-field" [(ngModel)]="approverEmployeerCode" placeholder="Select Approver Employeer Code">
+            <ng-option *ngFor="let approverEmployeerCode of filters?.ApproverEmployeerCode" [value]="approverEmployeerCode">{{approverEmployeerCode}}</ng-option>
+        </ng-select>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="custom-form-input">
+        <label for="">Invoice From Date</label>
+        <div class="input-group datepicker">
+            <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="fromDate"
+                [(ngModel)]="invoiceFromDate"  />
+        </div>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="custom-form-input">
+        <label for="">Invoice To Date</label>
+        <div class="input-group datepicker">
+            <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="fromDate"
+                [(ngModel)]="invoiceToDate"  />
+        </div>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="custom-form-input">
+        <label for="">Accounting From Date</label>
+        <div class="input-group datepicker">
+            <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="fromDate"
+                [(ngModel)]="accountingFromDate"  />
+        </div>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="custom-form-input">
+        <label for="">Accounting To Date</label>
+        <div class="input-group datepicker">
+            <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="fromDate"
+                [(ngModel)]="accountingToDate"  />
+        </div>
+    </div>
+</div>
+      <div class="col-auto">
+        <div class="custom-form-input">
+          <label for="" class="d-block">&nbsp;</label>
+          <button class="custom-button-filters" (click)="handleSearch()"
+            [disabled]="!batchId && !invoiceNumber && !transactionCode && !employeerCode && 
+            !approverEmployeerCode && !invoiceFromDate && !invoiceToDate && !accountingFromDate && !accountingToDate">
+            Search
+          </button>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="custom-form-input">
+          <label for="" class="d-block">&nbsp;</label>
+          <button class="custom-button-filters" (click)="onClearFilter()"
+          [disabled]="!batchId && !invoiceNumber && !transactionCode && !employeerCode && 
+            !approverEmployeerCode && !invoiceFromDate && !invoiceToDate && !accountingFromDate && !accountingToDate">
+            Clear
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-auto ms-2">
+        <div class="custom-form-input">
+            <label for="" class="d-block">&nbsp;</label>
+            <button class="custom-button-export excel-button" (click)="exportData.emit()">
+                Export
+            </button>
+        </div>
+    </div>
+    </div>
+  </div>

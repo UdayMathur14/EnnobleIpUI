@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PartService } from '../../../core/service/part.service';
 import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
+import { APIConstant } from '../../../core/constants';
 
 @Component({
   selector: 'app-part',
@@ -42,6 +43,7 @@ export class PartComponent implements OnInit {
       partNumber: filters?.partNumber || '',
       partName: filters?.partName || '',
       status: filters?.status || '',
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
     };
     this.partService.getParts(data, offset, count).subscribe(
       (response: any) => {
@@ -51,11 +53,6 @@ export class PartComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(
-          error.error.details
-            .map((detail: any) => detail.description)
-            .join('<br>')
-        );
         this.loadSpinner = false;
       }
     );
@@ -80,6 +77,7 @@ export class PartComponent implements OnInit {
       partNumber: this.appliedFilters?.partNumber || '',
       partName: this.appliedFilters?.partName || '',
       status: this.appliedFilters?.status || '',
+      locationIds: this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
     };
     this.partService.getParts(data, 0, this.totalParts).subscribe(
       (response: any) => {

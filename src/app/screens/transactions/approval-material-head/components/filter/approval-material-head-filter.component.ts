@@ -20,8 +20,8 @@ export class ApprovalMaterialHeadFilterComponent {
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
   batchNumber: string = '';
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locations:any[] = APIConstant.commonLocations;
+  locationIds:any[] = APIConstant.commonLocationsList.map((e: any) => (e.id));;
   @Input() filters: any = [];
 
   @Output() filterSearchObj: EventEmitter<any> = new EventEmitter();

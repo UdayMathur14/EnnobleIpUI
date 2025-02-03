@@ -25,10 +25,6 @@ export class VendorFilterComponent implements OnInit {
 
   onVendorSearch() {
     let filterData = {
-      "city": this.city || "",
-      "state": this.state || "",
-      "taxationType": this.taxationType || "",
-      "paidByDetail": this.paidByDetails || "",
       "vendorCode": this.vendorCod || "",
       "vendorName": this.vendorNam || "",
       "status": this.status || ""
@@ -37,18 +33,10 @@ export class VendorFilterComponent implements OnInit {
   }
 
   onClearFilter() {
-    this.city = undefined;
-    this.state = undefined;
-    this.taxationType = undefined;
-    this.paidByDetails = undefined;
     this.vendorCod = undefined;
     this.vendorNam = undefined;
     this.status = undefined;
     const filterData = {
-      "city": undefined,
-      "state": undefined,
-      "taxationType": undefined,
-      "paidByDetail": undefined,
       "vendorCode": undefined,
       "vendorName": undefined,
       "status": undefined

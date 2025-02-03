@@ -20,6 +20,7 @@ export class ErrorLoggingReportComponent {
   maxCount: number = Number.MAX_VALUE;
   appliedFilters: any = {};
   headers: string[] = [];
+  loadSpinner: boolean = true;
 
   constructor(
     private router: Router,
@@ -51,8 +52,11 @@ export class ErrorLoggingReportComponent {
         }));
         this.totalReports = res.paging.total;
         this.filters = res.filters;
+        this.loadSpinner = false;
       },
-      (error) => {}
+      (error) => {
+        this.loadSpinner = false;
+      }
     );
   }
 

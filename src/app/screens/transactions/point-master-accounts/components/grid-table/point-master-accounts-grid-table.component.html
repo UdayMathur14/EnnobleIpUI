@@ -4,15 +4,17 @@
       <table>
         <thead>
           <tr>
+            <th>Location Code</th>
             <th>Point Name</th>
             <th>Point Charge</th>
             <th>Same Location Charge</th>
-            <th>Remarks</th>
+            <th>Contract Attachment</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let pointchargeAcc of pointChargesList; let i = index">
+            <td>{{ pointchargeAcc?.locations?.value }}</td>
             <td class="pointer">
               <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
                 <u>{{pointchargeAcc.pointName}}</u>
@@ -38,9 +40,14 @@
                 </div>
               </ng-template>
             </td>
-            <td>{{pointchargeAcc?.pointCharge}}</td>
-            <td>{{pointchargeAcc?.sameLocationCharge}}</td>
-            <td>-</td>
+            <td>{{pointchargeAcc?.newPointCharge && pointchargeAcc?.newPointCharge != 0 ? pointchargeAcc?.newPointCharge : pointchargeAcc?.pointCharge || '-' }}</td>
+            <td>{{pointchargeAcc?.newSameLocationCharge && pointchargeAcc?.newSameLocationCharge != 0 ? pointchargeAcc?.newSameLocationCharge : pointchargeAcc?.sameLocationCharge || '-' }}</td>
+            <td> <button class="icon-button mt-2"
+              (click)="openPDF(pointchargeAcc)" ngbTooltip="Contract Attachment" placement="top">
+              <div class="img-container">
+                <img src="assets/images/icons/link.svg" alt="link" class="ms-5 pointer" />
+              </div>
+            </button></td>
             <td class="text-center d-flex justify-content-center" (click)="selectPoint(pointchargeAcc.id)">
               <!-- Approve Button -->
               <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
@@ -58,7 +65,7 @@
               <!-- Approve Popover Content -->
               <ng-template #approvePopContent approveRemarks="ngbPopover">
                 <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks></textarea>
+                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks maxlength="150"></textarea>
                 </div>
                 <button class="custom-button-secondary"
                   (click)="approvePoint(approveRemarks.value, approvePopover, pointchargeAcc)">
@@ -69,7 +76,7 @@
               <!-- Reject Popover Content -->
               <ng-template #rejectPopContent rejectRemarks="ngbPopover">
                 <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks></textarea>
+                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks maxlength="150"></textarea>
                 </div>
                 <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''"
                   (click)="rejectPoint(rejectRemarks.value, rejectPopover, pointchargeAcc)">
@@ -96,6 +103,6 @@
     </select>
   </div>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

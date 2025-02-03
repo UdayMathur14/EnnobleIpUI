@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TemporaryMaxBiltiNoComponent } from '../../../modals/temporary-max-bilti-no/temporary-max-bilti-no.component';
 
 @Component({
   selector: 'app-add-edit-advice',
@@ -24,9 +26,13 @@ export class AddEditAdviceComponent implements OnInit {
   locationsDropdownData: any = [];
   transactionTypeId: any;
   locationId!: Number;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   advicesList: any = [];
   adviceLocationId: number = 0;
+  transactionCode: string = '';
+  transactionId: number | null = null;
+  matchedLocationId: any;
 
   constructor(
     private router: Router,
@@ -35,7 +41,8 @@ export class AddEditAdviceComponent implements OnInit {
     private transactionTypesService: TransactionTypesService,
     private toastr: ToastrService,
     private lookupService: LookupService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.adviceForm = this.formBuilder.group({
       adviceType: ['', [Validators.required]],
@@ -48,14 +55,16 @@ export class AddEditAdviceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCommonLocations();
+    this.getLocations();
     this.adviceId = Number(this._Activatedroute.snapshot.paramMap.get('adviceId'));
     this.adviceId = this.adviceId === 0 ? 0 : this.adviceId;
-    if (this.adviceId != 0) {
-      this.getAdviceEditData();
-    } else {
-      //this.getLocations();
-    }
-    this.loadSpinner = false;
+    setTimeout(() => {
+      if (this.adviceId != 0) {
+        this.getAdviceEditData();
+      }
+    }, 1000);
+     
     this.getAllTransactionTypes();
     // Subscribe to changes in adviceType and locationCode form controls to autofill Batch Name
     this.adviceForm.get('adviceType')!.valueChanges.subscribe(value => {
@@ -70,6 +79,27 @@ export class AddEditAdviceComponent implements OnInit {
       }
     });
     this.setLocation();
+  }
+  
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
   // Function to get the values for advice type dropdown
@@ -93,17 +123,25 @@ export class AddEditAdviceComponent implements OnInit {
     this.adviceService.getAdviceTypeData(this.adviceLocationId,adviceId).subscribe(
       (response: any) => {
         this.locationCode = response.location.value;
+        this.matchedLocationId = response?.location?.id;
         this.transactionTypeId = response.transactionTypeId;
         this.adviceForm.patchValue({
           adviceType: response.adviceType,
           batchName: response.batchName,
           maxBiltiLimit: response.maxBiltiNumber,
-          locationCode: response.location.id,
+          locationCode: response.location.code,
           manualAllocReq: response.manualAllocationRequired,
           status: response.status
         });
+        const selectedAdviceType = this.adviceForm.controls['adviceType'].value;
+        const transactionData = this.transactionTypesList?.find((item: any) => item?.name == selectedAdviceType)
+        this.transactionCode = transactionData?.code,
+        this.transactionId = transactionData?.id
+
         this.loadSpinner = false;
       },
+
+      
       error => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
@@ -144,7 +182,7 @@ export class AddEditAdviceComponent implements OnInit {
       transactionTypeId: (adviceTypeValue && adviceTypeValue.id ? adviceTypeValue.id : null) || 0,
       batchName: this.adviceForm.controls['batchName']?.value || '',
       maxBiltiNumber: Number(this.adviceForm.controls['maxBiltiLimit']?.value),
-      manualAllocationRequired: this.adviceForm.controls['manualAllocReq']?.value,
+      manualAllocationRequired: 'No',
       actionBy: localStorage.getItem("userId")
     };
 
@@ -167,8 +205,7 @@ export class AddEditAdviceComponent implements OnInit {
 
   // Updating advice data
   updateAdviceType(data: any) {
-    const locationCode = this.adviceForm.controls['locationCode']?.value
-    this.adviceService.updateAdviceType(locationCode,this.adviceId, data).subscribe(
+    this.adviceService.updateAdviceType(this.matchedLocationId,this.adviceId, data).subscribe(
       (response: any) => {
         this.adviceForm.patchValue({
           adviceType: response.adviceType,
@@ -210,7 +247,7 @@ export class AddEditAdviceComponent implements OnInit {
     const locationCode = this.adviceId === 0
       ? this.adviceForm.get('locationCode')!.value
       : this.locationCodeInput.nativeElement.value;
-      const locationName = this.locations.find((item: any) => {
+      const locationName = this.commonLocations.find((item: any) => {
         return item?.id == locationCode
       })
     if (adviceType && adviceType.name && locationCode) {
@@ -227,22 +264,24 @@ export class AddEditAdviceComponent implements OnInit {
 
   setLocation(){
     if(!this.adviceId){
-      this.lookupService.setLocationId(this.adviceForm, this.locations, 'locationCode');
+      this.lookupService.setLocationId(this.adviceForm, this.commonLocations, 'locationCode');
     }
   }
 
   getAdviceEditData() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "adviceType": ""
     }
     this.adviceService.getAdviceTypes(data).subscribe((response: any) => {
       this.advicesList = response.advices;
+      
       this.getLocationId().then(() => {
         this.getAdviceTypeData(this.adviceId);
       });
     }, error => {
       this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
   }
 
@@ -258,5 +297,38 @@ export class AddEditAdviceComponent implements OnInit {
         reject('No matching advice found');
       }
     });
+  }
+
+  onManualAllocChange(event: any) {
+    const manualAllocationValue = event.target.value
+    if (manualAllocationValue === 'Yes') {
+      this.temporaryMaxBiltiNo();
+    }
+  }
+
+  temporaryMaxBiltiNo(){
+    let documentModal = this.modalService.open(TemporaryMaxBiltiNoComponent, {
+      size: 'md',
+      backdrop: 'static',
+      windowClass: 'modal-width',
+    });
+    documentModal.componentInstance.title = 'temporaryMaxBiltiNo';
+    documentModal.componentInstance.adviceType = this.adviceForm.get('adviceType')?.value;
+    documentModal.componentInstance.batchName = this.adviceForm.get('batchName')?.value;
+    documentModal.componentInstance.transactionCode = this.transactionCode;
+    documentModal.componentInstance.maxBiltiLimit = this.adviceForm.get('maxBiltiLimit')?.value;
+    documentModal.componentInstance.manualAllocReq = this.adviceForm.get('manualAllocReq')?.value;
+    documentModal.componentInstance.status = this.adviceForm.get('status')?.value;
+    documentModal.componentInstance.transactionId = this.transactionId;
+    documentModal.componentInstance.locationCode = this.matchedLocationId;
+    documentModal.componentInstance.adviceId = this.adviceId;
+
+    documentModal.result.then(
+      (result) => {
+        if (result) {
+          this.router.navigate(['master/advice']);
+        }
+      },
+    );
   }
 }

@@ -12,7 +12,7 @@ import { APIConstant } from '../../../core/constants';
   styleUrls: ['./point-charge.component.scss'],
 })
 export class PointChargeComponent implements OnInit {
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any = [];
   isFilters: boolean = true;
   fullScreen: boolean = false;
   loadSpinner: boolean = true;
@@ -43,7 +43,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         filters?.locationIds ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       screenCode: 101,
       pointName: filters?.pointName || '',
       status: filters?.status || '',
@@ -56,11 +56,6 @@ export class PointChargeComponent implements OnInit {
         this.loadSpinner = false;
       },
       (error) => {
-        this.toastr.error(
-          error.error.details
-            .map((detail: any) => detail.description)
-            .join('<br>')
-        );
         this.loadSpinner = false;
       }
     );
@@ -85,7 +80,7 @@ export class PointChargeComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locationIds ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       screenCode: 101,
       pointName: this.appliedFilters?.pointName || '',
       status: this.appliedFilters?.status || '',
@@ -98,10 +93,10 @@ export class PointChargeComponent implements OnInit {
           // Map the data to include only the necessary fields
           const mappedPointChargeList = pointChargesListToExport.map(
             (pointcharge: any) => ({
+              locations: pointcharge?.locations.value,
               pointName: pointcharge?.pointName,
               pointCharge: pointcharge?.pointCharge,
               sameLocationCharge: pointcharge?.sameLocationCharge,
-              locations: pointcharge?.locations.value,
               materialRemarks: pointcharge?.materialRemarks,
               accountsRemarks: pointcharge?.accountsRemarks,
               status: pointcharge?.status,

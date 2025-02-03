@@ -9,7 +9,7 @@
         <p class="header">Bilti</p>
         <p class="transporter-header">{{biltiData?.transport?.transporterName}}</p>
       </div>
-      <div class="d-flex justify-content-end col-8">
+      <div class="d-flex justify-content-center">
         <p><b>Mobile No : </b></p>
         <p>{{biltiData?.transport?.transporterContactNo}}</p>
       </div>
@@ -38,7 +38,7 @@
         <div class="col-auto">
           <b>Bilti Creation Date:</b>
         </div>
-        <div class="col-auto">{{biltiData.creationDate}}</div>
+        <div class="col-auto">{{ biltiData.creationDate | date : "dd-MMM-yyyy HH:mm:ss" }}</div>
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@
         <div class="col-auto">
           <b>Bilti Printing Date:</b>
         </div>
-        <div class="col-auto">28 Feb 2024 17:29:22</div>
+        <div class="col-auto">{{formatCurrentDate()}}</div>
       </div>
     </div>
   </div>
@@ -60,19 +60,19 @@
           <p><b>Consignor Name:</b></p>
         </div>
         <div class="col-auto">
-          <p>{{biltiData?.transport?.consignorName}}</p>
+          <p>{{biltiData?.locationDetials?.attribute1}}</p>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-6">
+    <div class="col-12">
       <div class="row">
         <div class="col-auto">
           <p><b>Consignee Name:</b></p>
         </div>
-        <div class="col-auto">
-          <p>STAR(NFSHHHKDHJKHK)</p>
+        <div class="col">
+          <p>{{ getUniqueVendorNames(biltiData?.lineItemDetail) }}</p>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
           <p><b>Source:</b></p>
         </div>
         <div class="col-auto">
-          <p>{{biltiData?.freights?.source?.value}}</p>
+          <p>{{biltiData?.freights?.source?.freightCity}}</p>
         </div>
       </div>
     </div>
@@ -127,14 +127,14 @@
       <tbody>
         <tr>
           <td>{{biltiData?.freights?.freightAmount}}</td>
-          <td>0</td>
+          <td>{{ calculateTotalPointCharges() }}</td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
+          <td>{{ calculateTotalPointCharges() + (+biltiData?.freights?.freightAmount || 0) }}</td>
         </tr>
       </tbody>
     </table>
@@ -143,21 +143,23 @@
     <table>
       <thead>
         <tr>
-          <th colspan="4">Point Details</th>
+          <th colspan="5">Point Details</th>
         </tr>
         <tr>
           <th>Vendor Name</th>
           <th>Ref. Doc. No</th>
           <th>Point</th>
           <th>Point Charge</th>
+          <th>Paid By Details</th>
         </tr>
       </thead>
       <tbody *ngFor="let biltiData of biltiData.lineItemDetail">
         <tr>
-          <td>{{biltiData?.vendor?.vendorName}}</td>
+          <td>{{biltiData?.vendorName}}</td>
           <td>{{biltiData?.documentReferenceNo}}</td>
-          <td>{{biltiData?.vendor?.cityDetail?.code}}</td>
+          <td>{{biltiData?.pointName}}</td>
           <td>{{biltiData?.pointCharge}}</td>
+          <td>{{biltiData?.paidByDetails}}</td>
         </tr>
       </tbody>
     </table>
@@ -198,4 +200,7 @@
   <div class="col-3">
     <p><b>Driver's Signature</b></p>
 </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Downloading...
 </div>

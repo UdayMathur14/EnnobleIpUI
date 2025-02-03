@@ -6,10 +6,10 @@ import { APIConstant } from '../../../../../core/constants';
   templateUrl: './plant-filter.component.html',
   styleUrls: ['./plant-filter.component.scss']
 })
-export class PlantFilterComponent {
+export class PlantFilterComponent implements OnInit {
   @Input() locations: any[] = [];
   @Input() filters: any = [];
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e: any) => (e.id));;
+  locationIds: any;
   @Output() getData: EventEmitter<any> = new EventEmitter();
   plantCode: any = undefined;
   stateCode: any = undefined;
@@ -18,11 +18,12 @@ export class PlantFilterComponent {
   auCode: any= undefined;
   siteCode: any= undefined;
 
+ngOnInit(): void {
+
+}
   onPlantSearch() {
     const filterData = {
       plantCode: this.plantCode,
-      city: this.cityCode,
-      state: this.stateCode,
       auCode: this.auCode,
       siteCode: this.siteCode,
       locations: this.locationIds,
@@ -33,20 +34,16 @@ export class PlantFilterComponent {
 
   onClearFilter() {
     this.plantCode = undefined;
-    this.cityCode = undefined
-    this.stateCode = undefined
     this.auCode = undefined
     this.siteCode = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     this.status = undefined;
 
     const filterData = {
       plantCode: undefined,
-      city: undefined,
-      state: undefined,
       auCode: undefined,
       siteCode: undefined,
-      locations: [],
+      locations: this.locationIds,
       status: undefined
     }
     this.getData.emit(filterData)

@@ -1,21 +1,21 @@
 <div class="page-title">
-  <h1>Processed Report</h1>
+  <h1>Provision Report</h1>
   <!-- <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onCreateBilti()">Create Bilti Bill</button>
   </div> -->
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
-  <app-processed-report-filter (filterSearchObj)="filteredData($event)"
-    [filters]="filters"></app-processed-report-filter>
+  <app-provisional-report-filter (getData)="filteredData($event)"
+    [filters]="filters" (exportData)="exportData()"></app-provisional-report-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters}">
   <div class="grid-table">
     <div class="table-container">
-      <app-processed-report-grid-table [biltiBillProcess]="biltiBillProcess"></app-processed-report-grid-table>
+      <app-provisional-report-grid-table [glAccrualList]="glAccrualList" (exportHeader)="onExportHeader($event)"></app-provisional-report-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <ngb-pagination [collectionSize]="totalBiltiBills" [(page)]="currentPage" [pageSize]="count"
+      <ngb-pagination [collectionSize]="totalglAccrualLists" [(page)]="currentPage" [pageSize]="count"
         (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
       <p class="mt-2 ms-3"> Items per page:</p>
       <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">
@@ -28,6 +28,6 @@
     </div>
   </div>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

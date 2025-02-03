@@ -37,14 +37,26 @@
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
-            <label for="">Penalty Amount</label>
-            <input type="text" class="input-field" readonly formControlName="penaltyAmount" />
+            <label for="">Point Charge</label>
+            <input type="text" class="input-field" readonly formControlName="pointCharges"/>
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
-            <label for="">Penalty Reason</label>
-            <input type="text" class="input-field" formControlName="penaltyReason" />
+            <label for="">Max Bilti Number</label>
+            <input type="text" class="input-field" readonly formControlName="maxBiltiNo"/>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <div class="custom-form-input">
+            <label for="">Penalty Amount</label>
+            <input type="text" class="input-field" readonly formControlName="penaltyAmount" />
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-10">
+          <div class="custom-form-input">
+            <label for="">Penalty Reason<span class="text-danger">*</span></label>
+            <input type="text" class="input-field" formControlName="penaltyReason" [readonly]="amountDisabled == true" />
           </div>
         </div>
       </div>
@@ -55,22 +67,10 @@
             <input type="text" class="input-field" readonly formControlName="excessAmount" />
           </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-10 col-md-10">
           <div class="custom-form-input">
-            <label for="">Excess Reason</label>
+            <label for="">Excess Reason<span class="text-danger">*</span></label>
             <input type="text" class="input-field" formControlName="excessReason" [readonly]="amountDisabled == true" />
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-          <div class="custom-form-input">
-            <label for="">Point Charge</label>
-            <input type="text" class="input-field" readonly formControlName="pointCharges"/>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-2">
-          <div class="custom-form-input">
-            <label for="">Max Bilti Number</label>
-            <input type="text" class="input-field" readonly formControlName="maxBiltiNo"/>
           </div>
         </div>
       </div>
@@ -84,6 +84,7 @@
             <tr>
               <th class="ps-0">Document Ref. Number</th>
               <th>Supplier Name</th>
+              <th>Freight City</th>
               <th>Freight Charge</th>
               <th>Point Charge</th>
               <th>Detention Charge</th>
@@ -109,20 +110,25 @@
               </td>
               <td>
                 <div class="custom-form-input">
+                  <input type="text" class="input-field" formControlName="freightCity" readonly />
+                </div>
+              </td>
+              <td>
+                <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="freightCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="pointCharge" (input)="calculateTotals()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true" />
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" formControlName="detentionCharge"
-                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                    (input)="calculateTotals()" (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByVendor == false"/>
                 </div>
               </td>
               <td>
@@ -151,13 +157,13 @@
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true" />
+                  <input type="text" class="input-field" formControlName="remarks" [readonly]="amountDisabled == true" maxlength="150"/>
                 </div>
               </td>
             </tr>
             <!-- Totals row -->
             <tr>
-              <td colspan="2" class="ps-0"><strong>Total:</strong></td>
+              <td colspan="3" class="ps-0"><strong>Total:</strong></td>
               <td><strong>{{ totalFreightCharge }}</strong></td>
               <td><strong>{{ totalPointCharge }}</strong></td>
               <td><strong>{{ totalDetentionCharge }}</strong></td>
@@ -200,48 +206,48 @@
                 <div class="custom-form-input">
                   <!-- <input type="text" class="input-field" value="0.00" /> -->
                   <input type="text" class="input-field" id="lgFreightCharge" formControlName="freightChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgPointCharge" formControlName="pointChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgDetentionCharge" formControlName="detentionChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgOverloadCharge" formControlName="overloadChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgTollTax" formControlName="tollTaxLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgUnloadingCharge" formControlName="unloadingChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true"/>
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false"/>
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
                   <input type="text" class="input-field" id="lgOtherCharges" formControlName="otherChargeLg" (input)="calculateTotalLGCharges()" 
-                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true" />
+                  (keypress)="validateNo($event)" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false" />
                 </div>
               </td>
               <td>
                 <div class="custom-form-input">
-                  <input type="text" class="input-field" formControlName="lgRemarks" [readonly]="amountDisabled == true"/>
+                  <input type="text" class="input-field" formControlName="lgRemarks" [readonly]="amountDisabled == true || this.biltiBillProcessData?.chargesByLG == false" maxlength="150"/>
                 </div>
               </td>
             </tr>
@@ -275,12 +281,12 @@
       <p class="text-danger mb-0">Grand Total cannot be less than Freight Amount</p>
     </div>
     <div class="text-center"  *ngIf="showSaveButton">
-      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="freightAmount > grandTotal">Save</button>
+      <button class="custom-button-regulr mt-4" (click)="onPressSave()" [disabled]="isSaveDisabled">Save</button>
     </div>
     <div class="row approve-button" *ngIf="showApproveRejectButtons">
       <div class="col-lg-6 col-md-6">
         <div class="custom-form-input">
-          <textarea name="" id="" cols="10" rows="3" placeholder="Action Remarks" formControlName="rejectRemarks"></textarea>
+          <textarea name="" id="" cols="10" rows="3" placeholder="Action Remarks" formControlName="rejectRemarks" maxlength="150"></textarea>
         </div>
       </div>
       <div class="col-lg-3 col-md-3">
@@ -292,6 +298,6 @@
     </div>
   </form>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

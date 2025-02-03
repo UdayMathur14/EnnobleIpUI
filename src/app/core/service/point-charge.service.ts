@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUDService } from './crud.service';
 import { PointChargeRequest } from '../models/point-charge';
 import { BaseService } from './base.service';
-import { APIConstant, pointCharge, pointChargeData, updatePointCharge, createPointCharge } from '../constants';
+import { APIConstant, pointCharge, pointChargeData, updatePointCharge, createPointCharge, pointMasterContract } from '../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -35,4 +35,8 @@ export class PointChargeService extends CRUDService<PointChargeRequest> {
     return this.get(
       APIConstant.lookupData + lookupId);
   }
+
+  getContractById(locationId: number, pointId: number){
+    return this.get(pointMasterContract(locationId, pointId));
+}
 }

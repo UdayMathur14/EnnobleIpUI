@@ -1,7 +1,7 @@
 <div class="page-title">
-  <h1>Bilti Bill Process View</h1>
+  <h1>Bilti Bill Process</h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onCreateBilti()">Create Bilti Bill</button>
+    <button class="custom-button-regulr" (click)="onCreateBilti()">Unprocessed Bilti Bill Process View</button>
   </div>
 </div>
 <div class="filter-section" [ngClass]="{'d-none': !isFilters}">
@@ -29,6 +29,6 @@
     </div>
   </div>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

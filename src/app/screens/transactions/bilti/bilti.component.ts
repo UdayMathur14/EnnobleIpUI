@@ -17,6 +17,8 @@ export class BiltiComponent implements OnInit {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  loadSpinner: boolean = true;
+  locations: any = [];
   
   constructor(private router: Router,
               private biltiService: BiltiService) { }
@@ -31,16 +33,21 @@ export class BiltiComponent implements OnInit {
 
   getAllBiltisList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      biltiNumber: filters?.biltiNumber,
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e: any) => e.id),
-      status: ""
+      biltiNumber: filters?.biltiNumber || "",
+      locationIds: filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      status: filters?.status,
+      biltiStatus: filters?.biltiStatus,
+      transactionTypeCode: filters?.transactionTypeCode
     };
     this.biltiService.getBiltis(data, offset, count).subscribe(
       (response: any) => {
         this.biltisList = response.biltiCreations;
         this.totalBiltis = response.paging.total;
         this.filters = response.filters;
-      },
+        this.loadSpinner = false;
+      },error => {
+        this.loadSpinner = false;
+      }
     );
   }
 

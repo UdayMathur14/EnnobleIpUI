@@ -15,7 +15,7 @@
                     <input type="text" class="input-field" *ngIf="adviceId > 0" [value]="locationCode" readonly
                         #locationCodeInput />
                     <ng-select *ngIf="adviceId == 0" formControlName="locationCode" [readonly]="adviceId > 0">
-                        <ng-option *ngFor="let location of locations"
+                        <ng-option *ngFor="let location of locationsDropdownData"
                             [value]="location.id">{{location.value}}</ng-option>
                     </ng-select>
                 </div>
@@ -39,13 +39,13 @@
             <div class="col-lg-2 col-md-2">
                 <div class="custom-form-input">
                     <label for="">Max Bilti No Limit <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="maxBiltiLimit" />
+                    <input type="text" class="input-field" formControlName="maxBiltiLimit" inputIntegerValidator/>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-2">
+            <div class="col-lg-2 col-md-2" *ngIf="adviceId">
                 <div class="custom-form-input">
                     <label for="">Manual Allocation Req. <span class="text-danger">*</span></label>
-                    <select name="" id="" formControlName="manualAllocReq">
+                    <select name="" id="" formControlName="manualAllocReq" (change)="onManualAllocChange($event)">
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>

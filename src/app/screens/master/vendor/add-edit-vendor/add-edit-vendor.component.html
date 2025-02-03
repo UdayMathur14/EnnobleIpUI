@@ -2,7 +2,7 @@
   <h1>Edit Vendor</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onPressSave()"
-      [disabled]="vendorForm.get('email')?.hasError('pattern') || disableSubmit|| !vendorForm.valid">Save</button>
+      [disabled]="disableSubmit|| !vendorForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
   </div>
 </div>
@@ -23,15 +23,28 @@
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Vendor Address</label>
-          <input type="text" class="input-field" formControlName="vendorAddress" readonly />
+          <label for="">Vendor Address 1</label>
+          <input type="text" class="input-field" formControlName="vendorAddress1" readonly />
         </div>
       </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Vendor Address 2</label>
+          <input type="text" class="input-field" formControlName="vendorAddress2" readonly />
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Phone <span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="phone" minlength="10" maxlength="12"
-            (keypress)="validateNo($event)" (input)="phoneNumberLength($event)" />
+             (input)="phoneNumberLength($event)" inputIntegerValidator />
+             <div *ngIf="vendorForm.get('phone')?.invalid">
+              <small class="text-danger" *ngIf="vendorForm.get('phone')?.errors?.['minlength']">
+                Contact number must be at least 10 digits.
+              </small>
+            </div>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -40,8 +53,14 @@
           <input type="text" class="input-field" formControlName="email" />
         </div>
       </div>
-    </div>
-    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Freight City<span class="text-danger">*</span></label>
+          <ng-select [searchable]="true" formControlName="freightCity" placeholder="Select Freight City">
+            <ng-option *ngFor="let city of freightCity" [value]="city.code">{{city.code}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">City</label>
@@ -56,6 +75,18 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
+          <label for="">Country</label>
+          <input type="text" class="input-field" formControlName="country" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Postal Code</label>
+          <input type="text" class="input-field" formControlName="postalCode" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
           <label for="">PAN</label>
           <input type="text" class="input-field" formControlName="pan" readonly />
         </div>
@@ -66,7 +97,7 @@
           <input type="text" class="input-field" formControlName="gstin" readonly />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Payment Term Code</label>
           <input type="text" class="input-field" formControlName="paymentTermCode" readonly />
@@ -85,15 +116,37 @@
             <ng-option *ngFor="let details of paidbyDetailsList" [value]="details.value">{{details.value}}</ng-option>
           </ng-select>
         </div>
-      </div>
+      </div> -->
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Taxation Code <span class="text-danger">*</span></label>
-          <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationCode">
-            <ng-option *ngFor="let code of taxationCode" [value]="code.id">{{code.value}}</ng-option>
+          <label for="">Taxation Type <span class="text-danger">*</span></label>
+          <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationTypeId">
+            <ng-option *ngFor="let code of rcmNonRcmType" [value]="code.id">{{code.code}}</ng-option>
           </ng-select>
         </div>
       </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Taxation Code <span class="text-danger">*</span></label>
+          <ng-select name="" id="" formControlName="taxCodeId" (change)="onChangeTaxationCode($event)">
+            <ng-option *ngFor="let code of taxCodes" [value]="code.id">{{code.code}} ({{code?.description}})</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <!-- <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Tds Code <span class="text-danger">*</span></label>
+          <ng-select (change)="onSelectTdsCode($event)" name="" id="" formControlName="tdsCodeId">
+            <ng-option *ngFor="let code of tdsCodes" [value]="code.id">{{code.code}}</ng-option>
+          </ng-select>
+        </div>
+      </div> -->
+      <!-- <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">TDS</label>
+          <input type="text" class="input-field" formControlName="tds" readonly />
+        </div>
+      </div> -->
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">CGST</label>
@@ -114,8 +167,26 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">RCM/Non RCM</label>
-          <input type="text" class="input-field" formControlName="rcmNonRcm" readonly />
+          <label for="">Vendor Payment Group</label>
+          <input type="text" class="input-field" formControlName="vendorPaymentGroup" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Vendor Payment Terms Name</label>
+          <input type="text" class="input-field" formControlName="vendorPaymentTermsName" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Vendor Payterm Method Code</label>
+          <input type="text" class="input-field" formControlName="vendorPaytermMethodCode" readonly />
+        </div>
+      </div> 
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vendor Payterm Days</label>
+          <input type="text" class="input-field" formControlName="vendorPaytermDays" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -129,4 +200,79 @@
       </div>
     </div>
   </form>
+
+  <div class="edit-screen-subTable">
+    <h4 class="">
+      Transaction Details
+      <button class="custom-button-regulr" (click)="onAddTransactionRow()">Add</button>
+    </h4>
+  </div>
+
+  <div class="custom-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Transaction Type</th>
+          <th>Paid By Details</th>
+          <th>Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="transactionMappings.length !== 0">
+        @for (transaction of transactionMappings; track ind; let ind = $index) {
+        <tr>
+          <td>
+            <div class="col-lg-6 col-md-6">
+              <div class="custom-form-input mb-0">
+                <ng-select class="input-field" [(ngModel)]="transaction.transactionType"
+                  (change)="onTransactionTypeSelect($event, ind)" 
+                  (clear)="onTransactionTypeClear(ind)"
+                  [disabled]="transaction.disabledTransaction">
+                  <ng-option *ngFor="let type of getAvailableTransactionTypes(ind)" [value]="type.code">
+                    {{type.code}} ({{type?.name}})
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+            
+          </td>
+          <td>
+            <div class="col-lg-6 col-md-6">
+              <div class="custom-form-input mb-0">
+                <ng-select class="input-field" [(ngModel)]="transaction.paidByDetails"
+                  (change)="onPaidByDetailsSelect($event, ind)" 
+                  (clear)="onPaidByDetailsClear(ind)"
+                  [disabled]="transaction.disabled">
+                  <ng-option *ngFor="let detail of paidByDetails" [value]="detail">
+                    {{detail.code}} ({{detail?.description}})
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </td>
+          <td class="text-center">
+            <div class="custom-form-input" style="width: 60%">
+            <select name="" [(ngModel)]="transaction.status" (ngModelChange)="onStatusChange($event, transaction)">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+            </div>
+          </td>
+
+          <td class="text-center" *ngIf="transaction.isShow">
+            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
+              (click)="onDeleteTransaction(transaction, ind)" />
+          </td>
+        </tr>
+        }@empty {
+        <tr>
+          <td align="center" colspan="13">No Transaction Code Found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

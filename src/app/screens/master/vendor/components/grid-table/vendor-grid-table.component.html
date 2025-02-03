@@ -7,12 +7,14 @@
         <th (click)="sortData('vendorAddress1')">Vendor Address</th>
         <th (click)="sortData('contactNumber')">Contact</th>
         <th (click)="sortData('email')">Email</th>
-        <th (click)="sortData('state.value')">State</th>
-        <th (click)="sortData('city.value')">City</th>
+        <th (click)="sortData('state')">State</th>
+        <th (click)="sortData('city')">City</th>
         <th (click)="sortData('gstnNo')">GSTIN</th>
         <th (click)="sortData('payTermCode')">Payment Term Code</th>
         <th (click)="sortData('payTermStatus')">Payment Term Status</th>
         <th (click)="sortData('status')">Status</th>
+        <th>Paid By Details</th>
+        <th>Transaction Type</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
@@ -48,25 +50,15 @@
         <td>{{vendor.vendorAddress1 || '-' }}</td>
         <td>{{vendor.contactNumber || '-' }}</td>
         <td>{{ vendor.email || '-' }}</td>
-        <td>{{ vendor.state.value || '-' }}</td>
-        <td>{{ vendor.city.value || '-' }}</td>
-        <td>{{vendor.gstnNo || '-' }}</td>
-        <td>{{vendor.payTermCode || '-' }}</td>
-        <td>{{vendor.payTermStatus || '-' }}</td>
+        <td>{{ vendor.state || '-' }}</td>
+        <td>{{ vendor.city || '-' }}</td>
+        <td>{{vendor.gstInNo || '-' }}</td>
+        <td>{{vendor.vendorPaytermMethodCode || '-' }}</td>
+        <td>{{vendor.vendorPaytermStatus || '-' }}</td>
         <td>{{vendor.status || '-'}}</td>
+        <td>{{getPaidByDetails(vendor) || '-'}}</td>
+        <td>{{getTransactionTypes(vendor) || '-'}}</td>
         <td class="text-center">
-          <img src="assets/images/icons/more.svg" class="me-3 pointer" alt="link" [ngbPopover]="popContent"
-            [autoClose]="'outside'" triggers="manual" #p="ngbPopover" placement="left" (click)="p.open()" />
-          <ng-template #popContent>
-            <div class="row" (click)="p.close()">
-              <div class="col">
-                <div class="custom-form-input">
-                  <label for="">Paid By Details</label>
-                  <input type="text" class="input-field" [(ngModel)]="vendor.paidByDetail.value" disabled />
-                </div>
-              </div>
-            </div>
-          </ng-template>
           <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditVendor(vendor)" />
         </td>
       </tr>

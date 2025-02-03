@@ -1,5 +1,14 @@
 <div class="filters-box">
     <div class="row">
+        <div class="col-lg-2" *ngIf="locations && locations.length>1">
+            <div class="">
+                <label for="">Location Code</label>
+                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                    placeholder="Select location">
+                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Part Number</label>
@@ -28,8 +37,8 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters" (click)="onPartSearch()"
-                [disabled]="!partName && !partNum && !status">Search</button>
-                <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                [disabled]="!locationIds.length && !partName && !partNum && !status">Search</button>
+                <button [disabled]="locationIds.length && !partNum && !partName  && !status" class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>
     </div>

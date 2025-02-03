@@ -1,6 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2" *ngIf="locations && locations.length>1">
+        <div class="col-lg-4" *ngIf="locations && locations.length>1">
             <div class="">
                 <label for="">Location Code</label>
                 <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
@@ -29,7 +29,7 @@
                 </ng-select>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-4">
             <div class="custom-form-input">
                 <label for="">Transporter Name</label>
                 <ng-select class="input-field" [(ngModel)]="transporterNam"
@@ -54,7 +54,7 @@
                     <button class="custom-button-filters" (click)="onVehicleSearch()"
                         [disabled]="!locationIds.length && !vehicleNum && !transporterNam && !vehicleSize && !status">Search</button>
                     <button class="custom-button-filters ms-2" (click)="onClearFilter()"
-                       > Clear</button>
+                    [disabled]="locationIds.length && !vehicleNum && !transporterNam && !vehicleSize && !status"> Clear</button>
                 </div>
             </div>
         </div>

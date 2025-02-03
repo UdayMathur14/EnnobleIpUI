@@ -32,17 +32,38 @@ export class LookupService extends CRUDService<LookupRequest> {
     const p: any = localStorage.getItem("profile");
     const profile: any = JSON.parse(p);
     const appLocation: any = profile?.mfgUnit?.au[0]?.location;
+    const allAppLocation: any = profile?.mfgUnit?.au;
     this.getLookupData({ type: 'Locations' }).subscribe((response: any) => {
 
       this.baseService.lookupData.next(response);
       const locations: any = [];//response.lookUps.filter((e: any) => e.code === 'HA');
+      const commonLocations: any = [];
       appLocation.forEach((el: any) => {
         const obj = response.lookUps.find((f: any) => f.typeId === 6 && f.code === el.name);
         if(obj){
           locations.push(obj);
         }
+        
       });
+      allAppLocation.forEach((el: any) => {
+        el.location.forEach((locationObj: any) => {
+          const obj = response.lookUps.find((f: any) => f.typeId === 6 && f.code === locationObj.name);
+          if (obj) {
+            commonLocations.push(obj);
+          }
+        });
+        
+        APIConstant.plantCodes = allAppLocation;
+      });
+      const uniqueCommonLocations = commonLocations.filter((location: any, index: number, item: any) => 
+        index === item.findIndex((l: any) => l.code === location.code)
+      );
+      
+      // const activeUniqueCommonLocations = uniqueCommonLocations.filter(
+      //   (item: any) => item.status === 'Active');
+        
       APIConstant.locationsListDropdown = locations;
+      APIConstant.commonLocationsList = uniqueCommonLocations;
       localStorage.setItem('locationId', locations[0]?.id)
       localStorage.setItem("userId",profile.userId);
     }, error => {

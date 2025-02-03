@@ -37,7 +37,8 @@ export class AddEditDispatchNoteComponent {
   dispatchId: number = 0;
   loadSpinner: boolean = false;
   locationId!: Number;
-  locations: any[] = APIConstant.locationsListDropdown;
+  locations: any[] = APIConstant.commonLocationsList;
+  commonLocations: any[] = [];
   selectedParts: any = [];
   deletedParts: any[] = [];
   activeSuppliersLists: any[] = [];
@@ -49,7 +50,16 @@ export class AddEditDispatchNoteComponent {
   activeTransportersList: any = [];
   // frlrDate!: NgbDateStruct | null;
   today = inject(NgbCalendar).getToday();
-  frlrDate: string = '';
+  frlrDate: any;
+  vehicleData: any = [];
+  transporterMode: any = [];
+  filteredTransporter: any = [];
+  filteredVehicles: any = [];
+  locationsDropdownData: any = [];
+  selectedLocationId: number = 0;
+  matchedvehicle: any = [];
+  selectedTransporterId: number = 0;
+  filteredParts: any = [];
 
   constructor(
     private router: Router,
@@ -66,6 +76,8 @@ export class AddEditDispatchNoteComponent {
   ) { }
 
   ngOnInit() {
+    this.getCommonLocations();
+    this.getLocations();
     this.initForm();
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
@@ -81,12 +93,17 @@ export class AddEditDispatchNoteComponent {
     this.getAllLookups();
     this.getTransportersList();
     this.setLocation();
+    if(this.dispatchId == 0){
+      this.setCurrentDate();
+    }
 
     setTimeout(() => {
       if (this.dispatchId > 0) {
         this.getEditData();
       }
     }, 1000);
+    this.selectedLocationId = this.addOrEditDispatchNoteFormGroup?.controls['locationId']?.value;
+    
   }
 
   initForm() {
@@ -97,13 +114,34 @@ export class AddEditDispatchNoteComponent {
       supplierAddress: [''],
       vehicleNumber: ['', [Validators.required]],
       vehicleSize: [''],
-      frlrNumber: ['', [Validators.required]],
+      frlrNumber: [''],
       status: ['Active'],
       transporterCode: ['', [Validators.required]],
       transporterName: [''],
       transporterMode: [''],
-      frlrDate: ['', [Validators.required]],
+      frlrDate: [''],
       partdetails: this.fb.array([], Validators.required),
+    });
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
     });
   }
 
@@ -131,14 +169,20 @@ export class AddEditDispatchNoteComponent {
     await this.dispatchNoteService
       .getDispatchNoteById(this.dispatchLocationId, dispatchId)
       .subscribe((response: any) => {
+        this.selectedTransporterId = response?.transporterId;
+        setTimeout(() => {
+          this.onTransporterSelection(this.selectedTransporterId);
+        }, 1000);
+        // this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == this.selectedTransporterId)
+        this.onLocationSelect(response.locationId);
         this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
         this.supplierId = suppliers.id;
         this.vehicleId = vehicles.id;
-        const frlrDate = this.convertToNgbDate(response.frlrDate);
-        this.frlrDate = response.frlrDate
-        this.dispatchNote.status = response.status;
+        const frlrDate = this?.convertToNgbDate(response?.frlrDate)
+        this.frlrDate = response?.frlrDate
+        this.dispatchNote.status = 'Active';
         this.addOrEditDispatchNoteFormGroup.patchValue({
           vehicleNumber: vehicles.vehicleNumber,
           vehicleSize: vehicles.vehicleSize.value,
@@ -147,11 +191,11 @@ export class AddEditDispatchNoteComponent {
           frlrNumber: response.frlrNumber,
           supplierAddress: suppliers.vendorAddress1,
           status: response.status,
-          locationId: response.locations.id,
+          locationId: response.locations.code,
           transporterCode: response.transporterId,
           transporterName: response.transporter.transporterName,
-          transporterMode: response.transporter.modeOfTransport.value,
-          frlrDate: frlrDate
+          transporterMode: response?.transporterMode,
+          frlrDate: frlrDate,
         });
 
         response?.dispatchNotePartItems?.forEach(
@@ -170,8 +214,16 @@ export class AddEditDispatchNoteComponent {
             });
             const selectedPartNumbers = this.partDetails.controls.map(control => control.value.partNumber);
             this.initializeSelectedParts(selectedPartNumbers)
+            const transporters = this.transportersList.find((item: any) => {
+              return item.id == response?.transporterId;
+             })
+             this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == response?.transporterId);
+             this.transporterMode = transporters?.transporterMappings?.map((item: any) => item.transportationMode)
           }
         );
+      }, error => {
+        // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
       });
   }
 
@@ -181,6 +233,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   private async getAllPartsListInit() {
+    this.loadSpinner = true;
     const data = {
       partNumber: '',
       partName: '',
@@ -191,14 +244,17 @@ export class AddEditDispatchNoteComponent {
         this.activePartsLists = this.partsList.filter(
           (parts: any) => parts.status === 'Active'
         );
+        this.loadSpinner = false;
       },
       (error) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
 
   private async getAllVehicles() {
+    this.loadSpinner = true;
     const data = {};
     await this.vehicleService.getVehicles(data).subscribe(
       (response: any) => {
@@ -206,14 +262,17 @@ export class AddEditDispatchNoteComponent {
         this.activeVehiclesLists = this.vehicleList.filter(
           (vehicle: any) => vehicle.status === 'Active'
         );
+        this.loadSpinner = false;
       },
       (error) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
 
   private async getAllVendors() {
+    this.loadSpinner = true;
     const data = {
       vendorCode: '',
       vendorName: '',
@@ -224,22 +283,28 @@ export class AddEditDispatchNoteComponent {
         this.activeSuppliersLists = this.supplierList.filter(
           (supplier: any) => supplier.status === 'Active' || supplier.status === 'ACTIVE'
         );
+        this.loadSpinner = false;
       },
       (error) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
 
   private async getAllLookups() {
+    this.loadSpinner = true;
     let data = {
       type: 'PartQuantity',
     };
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
-        this.lookupList = response.lookUps;
+        this.lookupList = response.lookUps.filter(
+          (item: any) => item.status === 'Active');
+        this.loadSpinner = false;
       },
       (error: any) => {
+        this.loadSpinner = false;
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
@@ -268,7 +333,8 @@ export class AddEditDispatchNoteComponent {
       partDetails: [],
       id: this.dispatchId,
       transporterId: 0,
-      frlrDate: ''
+      frlrDate: '',
+      transporterMode: ''
     };
   }
 
@@ -353,7 +419,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   getFilteredPartNumbers(index: number) {
-    return this.activePartsLists.filter(
+    return this.filteredParts.filter(
       (parts: any) =>
         !this.selectedParts.includes(parts.partNumber)
     );
@@ -379,15 +445,18 @@ export class AddEditDispatchNoteComponent {
   }
 
   async onSavePress() {
-    const locationCode = this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value
+    const locationCode = this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
+    const matchedLocation = this.locations?.find((item: any) => item?.code == locationCode);
+    const matchedLocationId = matchedLocation?.id
     this.loadSpinner = true;
     this.dispatchNote.supplierId = this.supplierId;
     this.dispatchNote.vehicleId = this.vehicleId;
     this.dispatchNote.frlrNumber = this.addOrEditDispatchNoteFormGroup.controls[
       'frlrNumber'
-    ].value as string;
+    ].value as string || '';
     this.dispatchNote.transporterId = this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value,
-    this.dispatchNote.frlrDate = this.frlrDate
+    this.dispatchNote.frlrDate = this.frlrDate || null,
+    this.dispatchNote.transporterMode = this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value
 
     const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
       'partdetails'
@@ -413,13 +482,14 @@ export class AddEditDispatchNoteComponent {
           partQty: parseInt(dg.controls['partQuantity'].value),
           status: dg.controls['status'].value,
           id: dg.controls['id'].value || 0,
+          dispatchNoteid: this.dispatchId
         };
         this.dispatchNote.partDetails.push(note);
       }
       this.dispatchNote.partDetails = [...this.dispatchNote.partDetails, ...this.deletedParts];
 
       this.dispatchNoteService
-        .updateDispatchNote(locationCode, this.dispatchId, this.dispatchNote)
+        .updateDispatchNote(matchedLocationId, this.dispatchId, this.dispatchNote)
         .subscribe(
           (response: any) => {
             this.toastr.success('Dispatch Note Updated Successfully');
@@ -449,7 +519,7 @@ export class AddEditDispatchNoteComponent {
           attribute10: new Date(),
           partId: dg.controls['partId'].value,
           partQty: parseInt(dg.controls['partQuantity'].value),
-          status: "Active",
+          // status: "Active",
         };
         this.dispatchNote.partDetails.push(note);
       }
@@ -480,12 +550,16 @@ export class AddEditDispatchNoteComponent {
   }
 
   isFormInvalid() {
-    return this.addOrEditDispatchNoteFormGroup.invalid || !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
+    return !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value 
+    || !this.addOrEditDispatchNoteFormGroup.controls['supplierCode']?.value ||
+    !this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value ||
+    !this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value ||
+    !this.addOrEditDispatchNoteFormGroup.controls['vehicleNumber']?.value
   }
 
   setLocation(){
     if(!this.vehicleId){
-      this.lookupService.setLocationId(this.addOrEditDispatchNoteFormGroup, this.locations, 'locationId');
+      this.lookupService.setLocationId(this.addOrEditDispatchNoteFormGroup, this.commonLocations, 'locationId');
     }
   }
 
@@ -502,7 +576,7 @@ export class AddEditDispatchNoteComponent {
   getLocationId(): Promise<void> {
     return new Promise((resolve, reject) => {
       const dispatchNote = this.dispatchNotes.filter((item: any) => {
-        return item.id == this.dispatchId
+        return item?.id == this.dispatchId
       });
       if (dispatchNote.length > 0) {
         this.dispatchLocationId = dispatchNote[0].locations.id;
@@ -515,7 +589,7 @@ export class AddEditDispatchNoteComponent {
 
   getTransportersList() {
     let data = {
-      "locationIds": APIConstant.locationsListDropdown.map((e:any)=>(e.id)),
+      "locationIds": APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       "transporterCode": "",
       "transporterName": "",
       "city": "",
@@ -523,12 +597,19 @@ export class AddEditDispatchNoteComponent {
       "taxationType": ""
     }
     this.transporterService.getTransporters(data).subscribe((response: any) => {
+      if (response && response.transporters) {
       this.transportersList = response.transporters;
       this.activeTransportersList = this.transportersList.filter(
         (items: any) => items.status === 'Active'
       );
+      if (this.transportersList.length > 0) {
+        this.onLocationSelect(this.selectedLocationId);
+      }
+    }
+      this.loadSpinner = false;
     }, error => {
-      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+      this.loadSpinner = false;
     })
   }
 
@@ -536,11 +617,31 @@ export class AddEditDispatchNoteComponent {
     const transporters = this.transportersList.find((item: any) => {
      return item.id == data;
     })
+    this.vehicleData = this.vehicleList?.filter((item: any) => item?.transporterEntity?.id == data);
+    const transporter = transporters?.transporterMappings?.filter((item: any) => item?.locationId == this.selectedLocationId && item?.status == 'Active');
+    this.transporterMode = transporter?.map((item: any) => item.transportationMode);
+    if(this.transporterMode.length <=1){
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        transporterMode: this.transporterMode[0]?.value
+      })
+    }
     this.addOrEditDispatchNoteFormGroup.patchValue({
-      transporterName: transporters?.transporterName,
-      transporterMode: transporters?.transporterMode.value
+      transporterName: transporters?.transporterName
     })
+    
+    this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == data)
+   
   }
+
+  setCurrentDate(): void {   
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      frlrDate: this.today,
+    });
+    const month = Number(this.today.month) < 10 ? '0' + this.today.month : this.today.month;
+    const day = Number(this.today.day) < 10 ? '0' + this.today.day : this.today.day;
+      this.frlrDate = this.today.year + '-' + month.toString() + '-' + day.toString();
+  }
+
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
@@ -548,12 +649,33 @@ export class AddEditDispatchNoteComponent {
       this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
   }
 
-  convertToNgbDate(dateString: string): NgbDate {
-    const dateParts = dateString?.split('-');
-    return new NgbDate(
-      parseInt(dateParts[0], 10),
-      parseInt(dateParts[1], 10),
-      parseInt(dateParts[2], 10)
-    );
-  }
+  convertToNgbDate(dateString: string): any {
+    if(dateString){
+      const dateParts = dateString?.split('-');
+      return new NgbDate(
+        parseInt(dateParts[0], 10),
+        parseInt(dateParts[1], 10),
+        parseInt(dateParts[2], 10)
+      );
+    }
+    }
+
+    onLocationSelect(event: any){
+      this.selectedLocationId = event;
+      this.filteredTransporter = this.activeTransportersList.filter((item: any) => {
+        return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
+      });
+      this.filteredVehicles = this.activeVehiclesLists.filter((item: any) => item?.locations?.id == event);
+      this.filteredParts = this.activePartsLists.filter((item: any) => item?.locations?.id == event);
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        transporterCode: null,
+        transporterName: null
+      })
+
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        vehicleNumber: null,
+        vehicleSize: null
+      })
+    }
+
 }

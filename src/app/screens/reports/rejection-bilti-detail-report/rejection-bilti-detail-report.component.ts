@@ -4,6 +4,7 @@ import moment from 'moment';
 import { BiltiBillProcessService } from '../../../core/service/biltiBillProcess.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../core/constants';
+import { XlsxService } from '../../../core/service/xlsx.service';
 
 @Component({
   selector: 'app-rejection-bilti-detail-report',
@@ -20,18 +21,21 @@ export class RejectionBiltiDetailReportComponent {
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
   toDate: any = moment().format('YYYY-MM-DD');
   currentPage: number = 1;
   count: number = 10;
   totalBiltiBills: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  headers: string[] = [];
+  locations: any = [];
 
   constructor(
     private router: Router,
     private biltiBIllProService: BiltiBillProcessService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private xlsxService: XlsxService,
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +51,7 @@ export class RejectionBiltiDetailReportComponent {
       adviceType: filters?.adviceType || '',
       batchNumber: filters?.batchNumber || '',
       biltiNumber: filters?.biltiNumber || '',
-      locationIds: filters?.locationIds || [],
+      locationIds: filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       status: filters?.status
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
@@ -93,5 +97,48 @@ export class RejectionBiltiDetailReportComponent {
 
   onCreateBilti() {
     this.router.navigate(['transaction/biltiBillProcess'])
+  }
+
+  onExportHeader(headers: string[]) {
+    this.headers = headers;
+  }
+
+  exportData(fileName: string = 'Rejection') {
+    const data = {
+      fromDate: this.searchedData?.fromDate || null,
+      toDate: this.searchedData?.toDate || null,
+      batchNumber: this.searchedData?.batchNumber || "",
+      biltiNumber: this.searchedData?.biltiNumber || "",
+      status: this.searchedData?.status,
+      screenCode: 307,
+      adviceType: this.searchedData?.adviceType || "",
+      locationIds: this.searchedData?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+    };
+
+    if (this.totalBiltiBills === 0) {
+      this.toastr.error('Can not export with 0 rows!');
+    }
+
+    this.biltiBIllProService.getBiltiBillProcess(data, 0, this.totalBiltiBills).subscribe(
+      (res: any) => {
+        
+        const processedReportToExport = res.biltiBillProcess;
+        const mappedAdviceList = processedReportToExport.map((row: any) => ({
+          biltiNumber: row?.biltiNumber,
+          creationDate: row?.creationDate,
+          biltiBillProcessDate: row?.biltiBillProcessModel?.biltiBillProcessDate,
+          frlrNumber: row?.frlrNumber,
+          transporterName: row?.transporterModel?.transporterName,
+          vehicleNumber: row?.vehicles?.vehicleNumber,
+          freightAmount: row?.freights?.freightAmount,
+          paidByAmount: row?.biltiBillProcessModel?.paidByAmount,
+          debitAmount: row?.biltiBillProcessModel?.debitAmount,
+          status: row?.biltiBillProcessModel?.status,
+          remarks: row?.biltiBillChangeStatusDetails?.remarks || "-"
+        }));
+        this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+      },
+      (error) => {}
+    );
   }
 }

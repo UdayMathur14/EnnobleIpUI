@@ -20,13 +20,14 @@ export class BiltiBillProcessViewComponent {
   biltiBillProcess = [];
   filteredBiltibillList: any = [];
   loadSpinner: boolean = false;
-  locationIds: any[] = APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
   toDate: any = moment().format('YYYY-MM-DD');
   currentPage: number = 1;
   count: number = 10;
   totalBiltiBills: number = 0;
   filters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
 
   constructor(
     private router: Router,
@@ -49,7 +50,8 @@ export class BiltiBillProcessViewComponent {
       biltiNumber: filters?.biltiNumber || "",
       batchName: filters?.batchName || "",
       status: filters?.status || "",
-      locationIds: filters?.locationIds || APIConstant.locationsListDropdown.map((e:any)=>(e.id))
+      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      paidByDetails: filters?.paidByDetails
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;

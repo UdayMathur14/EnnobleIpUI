@@ -14,18 +14,19 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Location Code<span class="text-danger">*</span></label>
-          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="dispatchId > 0">
-            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="dispatchId > 0"
+            (change)="onLocationSelect($event)">
+            <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Supplier Code <span class="text-danger">*</span></label>
           <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
-            placeholder="Select Part Number" (clear)="onSupplierCodeClear()">
+            placeholder="Select Supplier Code" (clear)="onSupplierCodeClear()">
             <ng-option *ngFor="let supplier of activeSuppliersLists"
-              [value]="supplier.vendorCode">{{supplier.vendorCode}}</ng-option>
+              [value]="supplier.vendorCode">{{supplier.vendorCode}} ({{supplier.vendorName}})</ng-option>
           </ng-select>
         </div>
       </div>
@@ -43,47 +44,13 @@
             value="LG Electronics Pvt. Ltd, Surajpur, Greater Noida" />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Vehicle Number <span class="text-danger">*</span></label>
-          <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
-            placeholder="Select Part Number" (clear)="onVehicleNumberClear()">
-            <ng-option *ngFor="let vehicle of activeVehiclesLists"
-              [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Vehicle Size</label>
-          <input formControlName="vehicleSize" type="text" class="input-field" readonly value="17" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">FRLR# <span class="text-danger">*</span></label>
-          <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">FRLR Date <span class="text-danger">*</span></label>
-          <div class="input-group datepicker">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
-              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
-            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
-              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for=""> Transporter Code <span class="text-danger">*</span></label>
           <ng-select (change)="onTransporterSelection($event)" formControlName="transporterCode" class="input-field"
             placeholder="Select Transporter Code">
-            <ng-option *ngFor="let transporter of activeTransportersList"
-              [value]="transporter.id">{{transporter.transporterCode}}</ng-option>
+            <ng-option *ngFor="let transporter of filteredTransporter"
+              [value]="transporter.id">{{transporter.transporterCode}} ({{transporter?.transporterName}})</ng-option>
           </ng-select>
         </div>
       </div>
@@ -96,7 +63,45 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Transporter Mode <span class="text-danger">*</span></label>
-          <input formControlName="transporterMode" type="text" class="input-field" readonly />
+          <ng-select formControlName="transporterMode" class="input-field"
+          placeholder="Select Transporter Code">
+          <ng-option *ngFor="let mode of transporterMode"
+            [value]="mode.value">{{mode.value}}</ng-option>
+        </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vehicle Number <span class="text-danger">*</span></label>
+          <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
+            placeholder="Select Vehicle Number" (clear)="onVehicleNumberClear()">
+            <ng-option *ngFor="let vehicle of matchedvehicle"
+              [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Vehicle Size</label>
+          <input formControlName="vehicleSize" type="text" class="input-field" readonly value="17" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">FRLR/MDN No </label>
+          <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">FRLR/MDN Date</label>
+          <div class="input-group datepicker">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
+              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -130,35 +135,35 @@
             <tr formGroupName={{ind}}>
               <td>{{ind+1}}</td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
                     (change)="onPartSelect($event, ind)">
-                    <ng-option *ngFor="let part of getFilteredPartNumbers(ind)" [value]="part">{{part.partNumber}}</ng-option>
+                    <ng-option *ngFor="let part of getFilteredPartNumbers(ind)" [value]="part">{{part.partNumber}} ({{part?.partName}})</ng-option>
                   </ng-select>
 
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <input formControlName="partName" type="text" class="input-field" placeholder="Part Name" readonly
                     [value]="" />
 
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidthsmall">
                   <input formControlName="partQuantity" class="input-field" type="text" placeholder="Select Quantity" (keypress)="validateNo($event)">
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidthsmall">
                   <input formControlName="partSize" type="text" class="input-field" placeholder="Part Size" readonly
                     [value]="" />
 
                 </div>
               </td>
               <td>
-                <div class="custom-form-input">
+                <div class="custom-form-input dispatchwidth">
                   <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks" readonly
                     [value]="" />
                 </div>
@@ -175,6 +180,6 @@
     </div>
   </form>
 </div>
-<!-- <div class="spinner" *ngIf="loadSpinner">
+<div class="spinner" *ngIf="loadSpinner">
   Loading...
-</div> -->
+</div>

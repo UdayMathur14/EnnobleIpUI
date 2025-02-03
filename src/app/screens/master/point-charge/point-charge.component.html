@@ -13,7 +13,7 @@
 </div>
 
 <div class="filter-section">
-  <app-point-filter [filters]="filters" (getData)="getData($event)" [locations]="locations"></app-point-filter>
+  <app-point-filter [filters]="filters" (getData)="getData($event)"></app-point-filter>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -37,4 +37,7 @@
       </select>
     </div>
   </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

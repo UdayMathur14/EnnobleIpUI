@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 export class DebitNoteReportFilterComponent {
 
   @Output() getData: EventEmitter<any> = new EventEmitter();
-  @Output() exportData: EventEmitter<any> = new EventEmitter();
+  @Output() exportExcel: EventEmitter<any> = new EventEmitter();
+  @Output() exportPdf: EventEmitter<any> = new EventEmitter();
 
   batchNumber!: string;
   @Input() reportFilter: any = [];
@@ -23,5 +24,13 @@ export class DebitNoteReportFilterComponent {
   onClearFilter() {
     this.batchNumber = '';
     this.getData.emit({ batchNumber: '' })
+  }
+
+  onExportPDF() {
+    this.exportPdf.emit();
+  }
+
+  onExportExcel() {
+    this.exportExcel.emit();
   }
 }

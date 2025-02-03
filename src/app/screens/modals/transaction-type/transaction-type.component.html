@@ -14,6 +14,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Location Code</th>
                             <th>Transaction Code</th>
                             <th>Transaction Name</th>
                             <th>Transaction Status</th>
@@ -22,6 +23,7 @@
                     <tbody>
                         @for (transaction of activeTransactionTypes; track transaction.id) {
                         <tr>
+                            <td>{{transaction.locations.code}}</td>
                             <td>{{transaction.code}}</td>
                             <td>{{transaction.name}}</td>
                             <td>{{transaction.status}}</td>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
+import { LookupService } from '../../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-point-master-accounts-filter',
@@ -12,12 +13,14 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
   @Output() pointFilterObj : EventEmitter<object> = new EventEmitter();
   pointName : any = undefined;
   filters : any = [];
-  locations:any[] = APIConstant.locationsListDropdown;
-  locationIds:any[]= APIConstant.locationsListDropdown.map((e:any)=>(e.id));
+  commonLocations: any = [];
+  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  locations : any[] = APIConstant.commonLocationsList;
   
   
   constructor(private pointChargeService : PointChargeService,
-    private toastr : ToastrService){}
+    private toastr : ToastrService,
+    private lookupService: LookupService){}
 
   ngOnInit(): void {
     this.getAllPointChargesList();
@@ -47,10 +50,10 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
 
   onClearFilter(){
     this.pointName = undefined;
-    this.locationIds = [];
+    this.locationIds = this.locationIds;
     let obj = {
       pointName : '',
-      locationIds:[]
+      locationIds: this.locationIds
     }
     this.pointFilterObj.emit(obj)
   }

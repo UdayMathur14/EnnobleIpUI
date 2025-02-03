@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../core/service/lookup.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { APIConstant } from '../../../core/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transporter',
@@ -20,20 +21,19 @@ export class TransporterComponent implements OnInit {
   cities: any[] = [];
   states: any[] = [];
   headers: any[] = [];
-  locations: any[] = APIConstant.locationsListDropdown;
   currentPage: number = 1;
   count: number = 10;
   totalTransporters: number = 0;
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  locations: any = [];
 
   constructor(
-    private exportService: ExportService,
     private transporterService: TransporterService,
-    private lookupService: LookupService,
     private toastr: ToastrService,
-    private xlsxService: XlsxService
+    private xlsxService: XlsxService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,16 +45,14 @@ export class TransporterComponent implements OnInit {
     count: number = this.count,
     filters: any = this.appliedFilters
   ) {
+    
     let data = {
       locationIds:
         filters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
-      transporterCode: filters?.transCode,
-      transporterName: filters?.transName,
-      city: '',
-      state: '',
-      taxationType: '',
-      status: filters?.status,
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      transporterCode: filters?.transCode || "",
+      transporterName: filters?.transName || "",
+      status: filters?.status || "",
     };
     this.transporterService.getTransporters(data, offset, count).subscribe(
       (response: any) => {
@@ -88,7 +86,7 @@ export class TransporterComponent implements OnInit {
     let data = {
       locationIds:
         this.appliedFilters?.locations ||
-        APIConstant.locationsListDropdown.map((e: any) => e.id),
+        APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       transporterCode: this.appliedFilters?.transCode || '',
       transporterName: this.appliedFilters?.transName || '',
       city: this.appliedFilters?.city || '',
@@ -101,24 +99,25 @@ export class TransporterComponent implements OnInit {
       .subscribe(
         (response: any) => {
           const transportersListToExport = response.transporters;
-          // Map the data to include only the necessary fields
+
           const mappedTransporterList = transportersListToExport.map(
             (transporter: any) => ({
+              // locationCode: transporter.locations.value,
               transporterCode: transporter.transporterCode,
               transporterName: transporter.transporterName,
-              locationId: transporter.locationId,
-              consignorName: transporter.consignorName,
-              ownerName: transporter.ownerName,
-              contactPerson: transporter.contactPerson,
               transporterAddress1:
                 transporter.transporterAddress1 +
                 ', ' +
                 transporter.transporterAddress2,
-              transporterContactNo: transporter.transporterContactNo,
+                transporterContactNo: transporter.transporterContactNo,
               transporterMailId: transporter.transporterMailId,
+              // consignorName: transporter?.consignorName,
+              ownerName: transporter?.ownerName,
+              contactPerson: transporter?.contactPerson,
               regdDetails: transporter.regdDetails,
+              // autoBiltiRequiredFlag: transporter.autoBiltiRequiredFlag,
               status: transporter.status,
-              autoBiltiRequiredFlag: transporter.autoBiltiRequiredFlag,
+
             })
           );
           this.xlsxService.xlsxExport(
@@ -149,5 +148,9 @@ export class TransporterComponent implements OnInit {
     this.count = data;
     this.currentPage = 1;
     this.getTransportersList(0, this.count, this.appliedFilters);
+  }
+
+  onCreateTransporter(){
+    this.router.navigate(['master/addEditTransporter/0'])
   }
 }

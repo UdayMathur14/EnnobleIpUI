@@ -73,10 +73,6 @@ export class VendorComponent implements OnInit{
     let data = {
       "vendorCode": this.appliedFilters?.vendorCode || "",
       "vendorName": this.appliedFilters?.vendorName || "",
-      "city": this.appliedFilters?.city || "",
-      "state": this.appliedFilters?.state || "",
-      "taxationType": this.appliedFilters?.taxationType || "",
-      "paidByDetail": this.appliedFilters?.paidByDetail || "",
       "status": this.appliedFilters?.status || ""
     }
     this.vendorService.getVendors(data, 0, this.totalVendors).subscribe((response: any) => {
@@ -89,10 +85,10 @@ export class VendorComponent implements OnInit{
       contactNumber: vendor.contactNumber,
       email: vendor.email,
       state: vendor.state.value,
-      city: vendor.city.value,
-      gstnNo: vendor.gstnNo,
-      payTermCode: vendor.payTermCode,
-      payTermStatus: vendor.payTermStatus,
+      city: vendor.city,
+      gstnNo: vendor.gstInNo,
+      payTermCode: vendor.vendorPaytermMethodCode,
+      payTermStatus: vendor.vendorPaytermStatus,
       status: vendor.status,
   
     }));

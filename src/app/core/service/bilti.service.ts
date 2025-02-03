@@ -6,6 +6,7 @@ import {
   APIConstant,
   bilti,
   biltiData,
+  calculatePointCharge,
   createBilti,
   freight,
   frlr,
@@ -49,5 +50,9 @@ export class BiltiService extends CRUDService<BiltiRequest> {
 
   updateBilti(locationId: Number, biltiId: number, data: object) {
     return this.put(updateBitli(locationId, biltiId), data);
+  }
+
+  calculatePointCharge(data: object) {
+    return this.post(calculatePointCharge(), data);
   }
 }

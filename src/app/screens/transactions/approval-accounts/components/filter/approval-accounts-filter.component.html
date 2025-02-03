@@ -1,6 +1,6 @@
 <div class="filters-box">
   <div class="row">
-    <div class="col-lg-2" *ngIf="locations && locations.length>1">
+    <div class="col-lg-4" *ngIf="locations && locations.length>1">
       <div class="">
         <label for="">Location Code</label>
         <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
@@ -8,7 +8,7 @@
         </ng-select>
       </div>
     </div>
-    <div class="col">
+    <div class="col-2">
       <div class="custom-form-input">
         <label for="">From Date</label>
         <div class="input-group datepicker">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col-2">
       <div class="custom-form-input">
         <label for="">To Date</label>
         <div class="input-group datepicker">
@@ -62,7 +62,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber">
+          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber">
           Clear
         </button>
       </div>

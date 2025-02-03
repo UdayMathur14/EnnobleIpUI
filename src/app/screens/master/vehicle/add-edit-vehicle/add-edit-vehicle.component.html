@@ -14,8 +14,8 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Location Code<span class="text-danger">*</span></label>
-          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="vehicleId > 0">
-            <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="vehicleId > 0" (change)="onLocationSelect($event)">
+            <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -27,17 +27,17 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Transporter Name <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Transporter Name" formControlName="transporterName"
             (change)="onOptionSelected($event)" [readonly]="vehicleId">
-            <ng-option *ngFor="let transporter of transportersList"
+            <ng-option *ngFor="let transporter of filteredTransporter"
               [value]="transporter?.id">{{transporter.transporterName}}</ng-option>
           </ng-select>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Vehicle Size <span class="text-danger">*</span></label>
           <ng-select class="input-field" placeholder="Select Vehicle Size" formControlName="vehicleSize"
@@ -53,12 +53,10 @@
           <input type="text" class="input-field" formControlName="address" readonly />
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Owner Name</label>
-          <input type="text" class="input-field" formControlName="ownerName" readonly />
+          <input type="text" class="input-field" formControlName="ownerName" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -75,14 +73,14 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Vehicle Condition <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="vehicleCondition" />
+          <label for="">Vehicle Condition</label>
+          <input type="text" class="input-field" formControlName="vehicleCondition" inputAlphabetValidator />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Remarks <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="remarks" />
+          <label for="">Remarks</label>
+          <input type="text" class="input-field" formControlName="remarks" maxlength="150" />
         </div>
       </div>
       <div class="col-lg-2 col-md-2" *ngIf="vehicleId">
@@ -96,4 +94,7 @@
       </div>
     </div>
   </form>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
 </div>

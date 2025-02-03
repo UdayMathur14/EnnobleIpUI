@@ -4,7 +4,7 @@
     </div>
     <div class="left-sidebar-inner">
       <div class="accordion" id="sidebarAccordion">
-        <div class="accordion-item" *ngIf="securityGroups('mfg-masters')">
+        <div class="accordion-item" *ngIf="hasPermission('MFG_MST')">
           <h2 class="accordion-header" id="masterHeading">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMasters" aria-expanded="true" aria-controls="collapseMasters">
               Masters
@@ -13,21 +13,21 @@
           <div id="collapseMasters" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'master' }" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onMasterChange('plant')" *ngIf="securityGroups('mfg-plant-master')">Plant Master</li>
-                <li (click)="onMasterChange('transactionType')" *ngIf="securityGroups('mfg-transaction-type-master')">Transaction Type Master</li>
-                <li (click)="onMasterChange('vendor')" *ngIf="securityGroups('mfg-vendor-master')">Vendor Master</li>
-                <li (click)="onMasterChange('transporter')" *ngIf="securityGroups('mfg-transporter-master')">Transporter Master</li>
-                <li (click)="onMasterChange('vehicle')" *ngIf="securityGroups('mfg-vehicle-master')">Vehicle Master</li>
-                <li (click)="onMasterChange('freight')" *ngIf="securityGroups('mfg-freight-master')">Freight Master</li>
-                <li (click)="onMasterChange('pointCharge')" *ngIf="securityGroups('mfg-point-charge-master')">Point Charge Master</li>
-                <li (click)="onMasterChange('part')" *ngIf="securityGroups('mfg-part-master')">Part Master</li>
-                <li (click)="onMasterChange('advice')" *ngIf="securityGroups('mfg-advice-master')">Advice Master</li>
-                <li (click)="onMasterChange('lookup')" *ngIf="securityGroups('mfg-lookup-master')">Lookup Master</li>
+                <li (click)="onMasterChange('plant')" *ngIf="securityGroups('MFG_MST_PLANT_MASTER')">Plant Master</li>
+                <li (click)="onMasterChange('transactionType')" *ngIf="securityGroups('MFG_MST_TRANSACTION_TYPE_MASTER')">Transaction Type Master</li>
+                <li (click)="onMasterChange('vendor')" *ngIf="securityGroups('MFG_MST_VENDOR_MASTER')">Vendor Master</li>
+                <li (click)="onMasterChange('transporter')" *ngIf="securityGroups('MFG_MST_TRANSPORTER_MASTER')">Transporter Master</li>
+                <li (click)="onMasterChange('vehicle')" *ngIf="securityGroups('MFG_MST_VEHICLE_MASTER')">Vehicle Master</li>
+                <li (click)="onMasterChange('freight')" *ngIf="securityGroups('MFG_MST_FREIGHT_MASTER')">Freight Master</li>
+                <li (click)="onMasterChange('pointCharge')" *ngIf="securityGroups('MFG_MST_POINT_CHARGE_MASTER')">Point Charge Master</li>
+                <li (click)="onMasterChange('part')" *ngIf="securityGroups('MFG_MST_PART_MASTER')">Part Master</li>
+                <li (click)="onMasterChange('advice')" *ngIf="securityGroups('MFG_MST_ADVICE_TYPE_MASTER')">Advice Type Master</li>
+                <li (click)="onMasterChange('lookup')" *ngIf="securityGroups('MFG_MST_LOOKUP_MASTER')">Lookup Master</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="accordion-item" *ngIf="securityGroups('mfg-transactions')">
+        <div class="accordion-item" *ngIf="securityGroups('MFG_TXN')">
           <h2 class="accordion-header" id="transactionsHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTransactions" aria-expanded="false" aria-controls="collapseTransactions">
               Transactions
@@ -36,23 +36,24 @@
           <div id="collapseTransactions" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'transactions' }" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('mfg-dispatch-note')">Dispatch Note</li>
-                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('mfg-bilti-creation')">Bilti Creation</li>
-                <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('mfg-bilti-bill-process-view')">Bilti Bill Process View</li>
-                <li (click)="onTransactionChange('pointMasterMaterial')" *ngIf="securityGroups('mfg-point-master-by-material')">Point Master by Material</li>
-                <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('mfg-point-master-accounts')">Point Master by Accounts</li>
-                <li (click)="onTransactionChange('freightMasterMaterial')" *ngIf="securityGroups('mfg-freight-master-material')">Freight Master by Material</li>
-                <li (click)="onTransactionChange('freightMasterAccounts')" *ngIf="securityGroups('mfg-freight-master-material')">Freight Master by Accounts</li>
-                <li (click)="onTransactionChange('checkedMaterialsTeam')" *ngIf="securityGroups('mfg-checked-by-material\'s-team')">Checked by Material's Team</li>
-                <li (click)="onTransactionChange('approvalMaterialHead')" *ngIf="securityGroups('mfg-approval-by-material\'s-head')">Approval by Material's Head</li>
-                <li (click)="onTransactionChange('approvalAccounts')" *ngIf="securityGroups('mfg-approval-by-accounts')">Approval by Accounts</li>
-                <li (click)="onTransactionChange('changeBiltiStatus')" *ngIf="securityGroups('mfg-change-bilti-status')">Change Bilti Status</li>
-                <!-- <li (click)="onTransactionChange('approvalMaterial')">Approval by Material</li> -->
+                <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('MFG_TXN_DISPATCH_NOTE')">Dispatch Note</li>
+                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('MFG_TXN_BILTI_CREATION')">Bilti Creation</li>
+                <li (click)="onTransactionChange('biltiBillProcessView')" *ngIf="securityGroups('MFG_TXN_BILTI_BILL_PROCESS')">Bilti Bill Process</li>
+                <li (click)="onTransactionChange('pointMasterMaterial')" *ngIf="securityGroups('MFG_TXN_POINT_MASTER_BY_MATERIAL')">Point Master by Material</li>
+                <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('MFG_TXN_POINT_MASTER_BY_ACCOUNTS')">Point Master by Accounts</li>
+                <li (click)="onTransactionChange('freightMasterMaterial')" *ngIf="securityGroups('MFG_TXN_FREIGHT_MASTER_BY_MATERIAL')">Freight Master by Material</li>
+                <li (click)="onTransactionChange('freightMasterAccounts')" *ngIf="securityGroups('MFG_TXN_FREIGHT_MASTER_BY_ACCOUNTS')">Freight Master by Accounts</li>
+                <li (click)="onTransactionChange('checkedMaterialsTeam')" *ngIf="securityGroups('MFG_TXN_CHECKED_BY_MATERIAL\'S_TEAM')">Checked by Material's Team</li>
+                <li (click)="onTransactionChange('approvalMaterialHead')" *ngIf="securityGroups('MFG_TXN_APPROVAL_BY_MATERIAL\'S_HEAD')">Approval by Material's Head</li>
+                <li (click)="onTransactionChange('approvalAccounts')" *ngIf="securityGroups('MFG_TXN_APPROVAL_BY_ACCOUNTS')">Approval by Accounts</li>
+                <li (click)="onTransactionChange('changeBiltiStatus')" *ngIf="securityGroups('MFG_TXN_CHANGE_BILTI_STATUS')">Change Bilti Status</li>
+                <li (click)="onTransactionChange('apOutbound')">AP Outbound</li>
+                <li (click)="onTransactionChange('glAccrualPosting')">GL Accrual Posting</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="accordion-item">
+        <div class="accordion-item" *ngIf="securityGroups('MFG_REPORT')">
           <h2 class="accordion-header" id="reportsHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsereports" aria-expanded="false" aria-controls="collapsereports">
               Reports
@@ -61,12 +62,13 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('provision-report')">Provision Report</li>
-                <li (click)="onreportChange('processed-report')">Processed Report</li>
-                <li (click)="onreportChange('error-logging-report')">Error Logging Report</li>
-                <li (click)="onreportChange('rejection-bilti-detail-report')">Rejection Bilti Detail Report</li>
-                <li (click)="onreportChange('debit-note-report')">Debit Note Report</li>
-                <li (click)="onreportChange('adhoc-report')">Adhoc Report</li>
+                <!-- <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROVISION_REPORT')">Provision Report</li> -->
+                <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROCESSED_REPORT')">Provision Report</li>
+                <li (click)="onreportChange('error-logging-report')" *ngIf="securityGroups('MFG_REPORT_ERROR_LOGGING_REPORT')">Error Logging Report</li>
+                <li (click)="onreportChange('rejection-bilti-detail-report')" *ngIf="securityGroups('MFG_REPORT_REJECTION_BILTI_DETAIL_REPORT')">Rejection Bilti Detail Report</li>
+                <li (click)="onreportChange('debit-note-report')" *ngIf="securityGroups('MFG_REPORT_DEBIT_NOTE_REPORT')">Debit Note Report</li>
+                <li (click)="onreportChange('adhoc-report')" *ngIf="securityGroups('MFG_REPORT_ADHOC_REPORT')">Adhoc Report</li>
+                <li (click)="onreportChange('processing-report')" *ngIf="securityGroups('MFG_REPORT_PROVISIONAL_REPORT')">Processing Report</li>
               </ul>
             </div>
           </div>
