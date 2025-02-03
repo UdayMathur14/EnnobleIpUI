@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { APIConstant } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,6 @@ export class AuthService {
   logout(): void {
     localStorage.clear();
     this.isAuthenticated = false;
+    window.location.href = APIConstant.Ums + `/auth/login`;
   }
 }
