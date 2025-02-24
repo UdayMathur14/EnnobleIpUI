@@ -126,6 +126,7 @@ import { ProvisionalReportComponent } from "./reports/processed-report/provision
 import { ProvisionalReportFilterComponent } from "./reports/processed-report/components/filter/provisional-report-filter.component";
 import { ProvisionalReportGridTableComponent } from "./reports/processed-report/components/grid-table/provisional-report-grid-table.component";
 import { StatusConfirmationComponent } from "./modals/status-confirmation/status-confirmation.component";
+import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
 
 @NgModule({
     declarations: [
@@ -248,7 +249,8 @@ import { StatusConfirmationComponent } from "./modals/status-confirmation/status
         GlAccrualPostingComponent,
         GlAccrualPostingFiltersComponent,
         GlAccrualPostingGridTableComponent,
-        StatusConfirmationComponent
+        StatusConfirmationComponent, 
+        RecycleBinPlantConfigurationComponent
     ],
     imports: [
         LayoutModule,
