@@ -48,6 +48,7 @@ import { OutboundReportComponent } from "./reports/outbound-report/outbound-repo
 import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.component";
 import { GlAccrualPostingComponent } from "./transactions/gl-accrual-posting/gl-accrual-posting.component";
 import { ProvisionalReportComponent } from "./reports/processed-report/provisional-report.component";
+import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
 
 const routes: Routes = [
     {
@@ -76,10 +77,12 @@ const routes: Routes = [
             { path: "master/addEditAdvice/:adviceId", component: AddEditAdviceComponent, canActivate: [AuthGuard] },
             { path: "master/pointCharge", component: PointChargeComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPointCharge", component: AddEditPointChargeComponent, canActivate: [AuthGuard] },
+            
             { path: "master/lookup", component: LookupComponent, canActivate: [AuthGuard] },
             { path: "master/addEditLookup/:lookupId", component: AddEditLookupComponent, canActivate: [AuthGuard] },
             { path: "master/editPointCharge/:pointChargeId", component: AddEditPointChargeComponent, canActivate: [AuthGuard] },
             { path: "master/addPointCharge", component: AddEditPointChargeComponent, canActivate: [AuthGuard] },
+            { path: "master/recycleBinPlantConfiguration", component: RecycleBinPlantConfigurationComponent, canActivate: [AuthGuard] },
             { path: "transaction/dispatchNote", component: DispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/addEditDispatchNote", component: AddEditDispatchNoteComponent, canActivate: [AuthGuard] },
             { path: "transaction/addEditDispatchNote/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [AuthGuard] },
