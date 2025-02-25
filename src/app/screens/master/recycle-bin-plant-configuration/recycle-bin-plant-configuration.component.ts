@@ -93,7 +93,6 @@ export class RecycleBinPlantConfigurationComponent {
     const selectedLocation = this.locations.find(
       (loc: any) => loc?.value === this.selectedLocationCode.value
     );
-console.log(this.createOrEdit);
 
     if (this.createOrEdit === 'create') {
       //create API
@@ -119,7 +118,7 @@ console.log(this.createOrEdit);
         this.plantPercentages.clear();
       },
       (error: any) => {
-        this.toastr.error('Failed to change Recycle Bin Configuration');
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
