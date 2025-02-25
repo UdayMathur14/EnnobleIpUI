@@ -4,6 +4,7 @@ import { PlantService } from '../../../core/service';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { RecycleBinService } from '../../../core/service/recycle-bin.service';
 import { ToastrService } from 'ngx-toastr';
+import { LookupService } from '../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-recycle-bin-plant-configuration',
@@ -14,6 +15,8 @@ export class RecycleBinPlantConfigurationComponent {
   locations: any[] = APIConstant.commonLocationsList;
   location: any;
   createOrEdit: 'create' | 'edit' = 'create';
+  locationsDropdownData: any = [];
+  commonLocations: any[] = [];
   ACTION_BY_VALUE: any = localStorage.getItem('userId');
   selectedLocationCode: FormControl = new FormControl('');
   private formBuilder = inject(FormBuilder);
@@ -25,10 +28,19 @@ export class RecycleBinPlantConfigurationComponent {
   constructor(
     private plantService: PlantService,
     private recycleBinService: RecycleBinService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+     private lookupService: LookupService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getCommonLocations();
+    this.getLocations();
+  }
+
+  getCommonLocations(){
+    this.commonLocations = APIConstant.commonLocationsList;
+    
+  }
 
   public get plantPercentages(): FormArray {
     return this.recycleBinForm.get('plantPercentages') as FormArray;
@@ -111,5 +123,22 @@ export class RecycleBinPlantConfigurationComponent {
         this.toastr.error('Failed to change Recycle Bin Configuration');
       }
     );
+  }
+
+  getLocations() {
+    let data = {
+      CreationDate: '',
+      LastUpdatedBy: '',
+      LastUpdateDate: '',
+    };
+    const type = 'Locations';
+    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
+      this.locationsDropdownData = res.lookUps.filter(
+        (item: any) => item.status === 'Active' && 
+        this.commonLocations.some((location: any) => location.id === item.id));
+
+    }, error => {
+      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 }

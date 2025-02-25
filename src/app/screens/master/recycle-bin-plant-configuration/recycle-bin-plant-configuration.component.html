@@ -10,7 +10,7 @@
             <div class="custom-dropdown">
                 <label for="">Location Code</label>
                 <ng-select name="locations" [searchable]="true" [(ngModel)]="location" placeholder="Select location">
-                    <ng-option *ngFor="let location of locations" [value]="location">{{location.code}}</ng-option>
+                    <ng-option *ngFor="let location of locationsDropdownData" [value]="location">{{location.value}}</ng-option>
                 </ng-select>
             </div>
         </div>
