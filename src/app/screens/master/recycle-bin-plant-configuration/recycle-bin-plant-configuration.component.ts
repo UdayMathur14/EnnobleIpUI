@@ -29,7 +29,7 @@ export class RecycleBinPlantConfigurationComponent {
     private plantService: PlantService,
     private recycleBinService: RecycleBinService,
     private toastr: ToastrService,
-     private lookupService: LookupService,
+    private lookupService: LookupService
   ) {}
 
   ngOnInit() {
@@ -37,9 +37,8 @@ export class RecycleBinPlantConfigurationComponent {
     this.getLocations();
   }
 
-  getCommonLocations(){
+  getCommonLocations() {
     this.commonLocations = APIConstant.commonLocationsList;
-    
   }
 
   public get plantPercentages(): FormArray {
@@ -55,18 +54,29 @@ export class RecycleBinPlantConfigurationComponent {
     );
   }
 
+  resetFormGroup() {
+    this.recycleBinForm.reset({
+      actionBy: this.ACTION_BY_VALUE,
+      plantPercentages: [],
+    });
+
+    this.plantPercentages.clear();
+  }
+
   getRecycleBinData() {
-    this.recycleBinService
-      .getrbData(this.location?.id)
-      .subscribe((res: any) => {
+    this.resetFormGroup();
+    this.recycleBinService.getrbData(this.location?.id).subscribe(
+      (res: any) => {
         const plants = res?.plants;
-        if (plants) {
-          this.createOrEdit = 'edit';
-          this.selectedLocationCode.setValue(this.location?.value);
-          for (let plant of plants) {
-            this.addPlantPercentages(plant?.plantCode, plant?.percentage);
-          }
-        } else {
+        this.createOrEdit = 'edit';
+        this.selectedLocationCode.setValue(this.location?.value);
+        for (let plant of plants) {
+          this.addPlantPercentages(plant?.plantCode, plant?.percentage);
+        }
+        this.location = null;
+      },
+      (error: any) => {
+        if (error?.status === 404) {
           this.createOrEdit = 'create';
           const payload = {
             locationIds: [this.location?.id],
@@ -81,10 +91,11 @@ export class RecycleBinPlantConfigurationComponent {
             for (let plant of newPlants) {
               this.addPlantPercentages(plant?.plantCode);
             }
+            this.location = null;
           });
         }
-        this.location = null;
-      });
+      }
+    );
   }
 
   saveRecycleBinConfiguration() {
@@ -93,7 +104,6 @@ export class RecycleBinPlantConfigurationComponent {
     const selectedLocation = this.locations.find(
       (loc: any) => loc?.value === this.selectedLocationCode.value
     );
-console.log(this.createOrEdit);
 
     if (this.createOrEdit === 'create') {
       //create API
@@ -111,12 +121,7 @@ console.log(this.createOrEdit);
     api.subscribe(
       (res: any) => {
         this.toastr.success('Recycle Bin Configuration Saved ');
-        this.recycleBinForm.reset({
-          actionBy: this.ACTION_BY_VALUE,
-          plantPercentages: [],
-        });
-
-        this.plantPercentages.clear();
+        this.resetFormGroup();
       },
       (error: any) => {
         this.toastr.error('Failed to change Recycle Bin Configuration');
@@ -131,13 +136,19 @@ console.log(this.createOrEdit);
       LastUpdateDate: '',
     };
     const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locationsDropdownData = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
+    this.lookupService.getLocationsLookup(data, type).subscribe(
+      (res: any) => {
+        this.locationsDropdownData = res.lookUps.filter(
+          (item: any) =>
+            item.status === 'Active' &&
+            this.commonLocations.some(
+              (location: any) => location.id === item.id
+            )
+        );
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+      }
+    );
   }
 }
