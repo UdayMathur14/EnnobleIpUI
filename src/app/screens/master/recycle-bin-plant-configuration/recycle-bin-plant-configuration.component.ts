@@ -62,14 +62,12 @@ export class RecycleBinPlantConfigurationComponent {
         const plants = res?.plants;
         if (plants) {
           this.createOrEdit = 'edit';
-
-          this.selectedLocationCode.setValue(this.location?.code);
+          this.selectedLocationCode.setValue(this.location?.value);
           for (let plant of plants) {
             this.addPlantPercentages(plant?.plantCode, plant?.percentage);
           }
         } else {
           this.createOrEdit = 'create';
-
           const payload = {
             locationIds: [this.location?.id],
             status: '',
@@ -79,7 +77,7 @@ export class RecycleBinPlantConfigurationComponent {
           };
           this.plantService.getPlants(payload).subscribe((resp: any) => {
             const newPlants = resp?.plants;
-            this.selectedLocationCode.setValue(this.location?.code);
+            this.selectedLocationCode.setValue(this.location?.value);
             for (let plant of newPlants) {
               this.addPlantPercentages(plant?.plantCode);
             }
@@ -93,8 +91,9 @@ export class RecycleBinPlantConfigurationComponent {
     const payload: any = this.recycleBinForm.value;
     let api;
     const selectedLocation = this.locations.find(
-      (loc: any) => loc?.code === this.selectedLocationCode.value
+      (loc: any) => loc?.value === this.selectedLocationCode.value
     );
+console.log(this.createOrEdit);
 
     if (this.createOrEdit === 'create') {
       //create API
