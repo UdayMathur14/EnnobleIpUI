@@ -124,7 +124,7 @@ export class RecycleBinPlantConfigurationComponent {
         this.resetFormGroup();
       },
       (error: any) => {
-        this.toastr.error('Failed to change Recycle Bin Configuration');
+        this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       }
     );
   }
