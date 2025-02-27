@@ -73,7 +73,7 @@ export class RecycleBinPlantConfigurationComponent {
         for (let plant of plants) {
           this.addPlantPercentages(plant?.plantCode, plant?.percentage);
         }
-        this.location = null;
+        // this.location = null;
       },
       (error: any) => {
         if (error?.status === 404) {
@@ -91,7 +91,7 @@ export class RecycleBinPlantConfigurationComponent {
             for (let plant of newPlants) {
               this.addPlantPercentages(plant?.plantCode);
             }
-            this.location = null;
+            // this.location = null;
           });
         }
       }
@@ -151,4 +151,11 @@ export class RecycleBinPlantConfigurationComponent {
       }
     );
   }
+  clearRecycleBinData() {
+    this.resetFormGroup();
+    this.selectedLocationCode.setValue('');
+    this.createOrEdit = 'create';
+    this.location = null;
+  }
+  
 }
