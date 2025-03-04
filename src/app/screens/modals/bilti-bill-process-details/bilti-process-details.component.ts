@@ -195,6 +195,10 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         pointCharges: this.biltiBillProcessData?.totalPointCharge,
         maxBiltiNo: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber
       });
+      const freightAmountLg = Number(this.biltiBillProcessData.freightDetails?.freightAmount) || 0;
+      const pointChargeLg = Number(this.biltiBillProcessData?.totalPointCharge) || 0;
+      this.grandTotalLG = freightAmountLg + pointChargeLg;
+      
       const biltiCreationLineItemDetailsData =
         this.biltiBillProcessData.biltiCreationLineItemDetails;
 
