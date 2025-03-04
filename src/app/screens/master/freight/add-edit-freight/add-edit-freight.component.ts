@@ -114,6 +114,7 @@ export class AddEditFreightComponent implements OnInit {
   getFreightData(freightId: number) {
     this.loadSpinner = true;
     this.freightService.getFreightData(this.freightLocationId,freightId).subscribe((response: any) => {
+      this.onChangeLocation(response?.locations?.id)
       this.statusValue = response.status
       this.loadSpinner = false;
       this.locationCode = response.locations.value;
