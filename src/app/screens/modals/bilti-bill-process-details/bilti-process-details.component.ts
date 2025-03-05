@@ -166,8 +166,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       const tollTaxLg = this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.tollTax;
       const unloadingChargeLg = this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.unloadingCharge;
       const otherChargeLg = this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.otherCharges;
-      this.grandTotalLG = freightChargeLg + pointChargeLg + detentionChargeLg +
-      overloadChargeLg + tollTaxLg + unloadingChargeLg + otherChargeLg;
+      // this.grandTotalLG = freightChargeLg + pointChargeLg + detentionChargeLg +
+      // overloadChargeLg + tollTaxLg + unloadingChargeLg + otherChargeLg;
     }
     if (this.biltiBillProcessData) {
       // this.calculateTotals();
@@ -184,8 +184,8 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         excessReason: this.biltiBillProcessData.biltiBillProcessModel?.excessReason,
         // freightChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.freightCharge,
         // pointChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.pointCharge,
-        freightChargeLg: this.biltiBillProcessData?.chargesByVendor == false ? this.biltiProcess?.freightAmount: '',
-      pointChargeLg: this.biltiBillProcessData?.chargesByVendor == false ? this.biltiBillProcessData?.totalPointCharge: '',
+        freightChargeLg: this.biltiBillProcessData?.chargesByVendor == false && this.showSaveButton ? this.biltiProcess?.freightAmount : this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.freightCharge,
+      pointChargeLg: this.biltiBillProcessData?.chargesByVendor == false && this.showSaveButton ? this.biltiBillProcessData?.totalPointCharge : this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.pointCharge,
         detentionChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.detentionCharge,
         overloadChargeLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.overloadCharge,
         tollTaxLg: this.biltiBillProcessData.biltiBillProcessModel?.biltiBillProcessChargesByLG?.tollTax,
@@ -195,9 +195,14 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
         pointCharges: this.biltiBillProcessData?.totalPointCharge,
         maxBiltiNo: this.biltiBillProcessData?.transactionTypeDetails?.adviceTypeDetails?.maxBiltiNumber
       });
-      const freightAmountLg = Number(this.biltiBillProcessData.freightDetails?.freightAmount) || 0;
-      const pointChargeLg = Number(this.biltiBillProcessData?.totalPointCharge) || 0;
-      this.grandTotalLG = freightAmountLg + pointChargeLg;
+      const freightAmountLg = Number(this.biltiBillProcess.controls['freightChargeLg'].value) || 0;
+      const pointChargeLg = Number(this.biltiBillProcess.controls['pointChargeLg'].value) || 0;
+      const detentionChargeLg = Number(this.biltiBillProcess.controls['detentionChargeLg'].value) || 0;
+      const overloadChargeLg = Number(this.biltiBillProcess.controls['overloadChargeLg'].value) || 0;
+      const tollTaxLg = Number(this.biltiBillProcess.controls['tollTaxLg'].value) || 0;
+      const unloadingChargeLg = Number(this.biltiBillProcess.controls['unloadingChargeLg'].value) || 0;
+      const otherChargeLg =  Number(this.biltiBillProcess.controls['otherChargeLg'].value) || 0;
+      this.grandTotalLG = freightAmountLg + pointChargeLg + detentionChargeLg + overloadChargeLg + tollTaxLg + unloadingChargeLg + otherChargeLg;
       
       const biltiCreationLineItemDetailsData =
         this.biltiBillProcessData.biltiCreationLineItemDetails;
@@ -233,6 +238,11 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
           this.totalOverloadCharge + this.totalTollTax + this.totalUnloadingCharge + this.totalOtherCharges
         });
         this.grandTotal = this.grandTotalLG + this.grandTotalVendor;
+        console.log(this.grandTotal);
+        console.log(this.grandTotalLG);
+        console.log(this.grandTotalVendor);
+        
+        
         this.amountInWords = '('+this.toWords.convert(this.grandTotal) + ' Rupees Only)';
       }
     }
@@ -450,15 +460,15 @@ export class BiltiProcessDetailsModalComponent implements OnInit {
       id: this.biltiBillProcessData?.biltiBillProcessModel?.biltiBillProcessChargesByLG?.id,
       actionBy: localStorage.getItem("userId"),
       status: 'Active',
-      freightCharge: this.biltiBillProcess.controls['freightChargeLg'].value,
-      pointCharge: this.biltiBillProcess.controls['pointChargeLg'].value,
-      detentionCharge: this.biltiBillProcess.controls['detentionChargeLg'].value,
-      overloadCharge: this.biltiBillProcess.controls['overloadChargeLg'].value,
-      tollTax: this.biltiBillProcess.controls['tollTaxLg'].value,
-      unloadingCharge: this.biltiBillProcess.controls['unloadingChargeLg'].value,
-      otherCharges: this.biltiBillProcess.controls['otherChargeLg'].value,
+      freightCharge: Number(this.biltiBillProcess.controls['freightChargeLg'].value) || 0,
+      pointCharge: Number(this.biltiBillProcess.controls['pointChargeLg'].value) || 0,
+      detentionCharge: Number(this.biltiBillProcess.controls['detentionChargeLg'].value) || 0,
+      overloadCharge: Number(this.biltiBillProcess.controls['overloadChargeLg'].value) || 0,
+      tollTax: Number(this.biltiBillProcess.controls['tollTaxLg'].value) || 0,
+      unloadingCharge:Number(this.biltiBillProcess.controls['unloadingChargeLg'].value) || 0,
+      otherCharges: Number(this.biltiBillProcess.controls['otherChargeLg'].value) || 0,
       remarks: this.biltiBillProcess.controls['lgRemarks'].value,
-      grandTotal: this.grandTotal,
+      // grandTotal: this.grandTotal,
     };
 
     const chargesByVendorDetails =
