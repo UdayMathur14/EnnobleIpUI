@@ -53,8 +53,7 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                 <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROVISION_REPORT')">Provision Report</li> 
-                <li (click)="onreportChange('provision-report')" *ngIf="securityGroups('MFG_REPORT_PROCESSED_REPORT')">Report</li>
+                <li (click)="onreportChange('')" *ngIf="securityGroups('MFG_REPORT_PROCESSED_REPORT')">Report</li>
                 <li (click)="onreportChange('error-logging-report')" *ngIf="securityGroups('MFG_REPORT_ERROR_LOGGING_REPORT')">Report 2</li>
               </ul>
             </div>

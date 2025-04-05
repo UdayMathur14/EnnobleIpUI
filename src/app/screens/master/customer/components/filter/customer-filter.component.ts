@@ -14,8 +14,6 @@ export class CustomerFiltersComponent implements OnInit {
   customerNum: any = undefined;
   customerName:any = undefined;
   status: any = undefined;
-  locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
-  locations : any[] = APIConstant.commonLocationsList;
 
   constructor(
     private toastr: ToastrService,
@@ -32,8 +30,7 @@ export class CustomerFiltersComponent implements OnInit {
     const obj = {
       "customerName": this.customerName,
       "customerNumber": this.customerNum,
-      "status": this.status,
-      "locationIds" : this.locationIds || [],
+      "status": this.status
     }
     this.getData.emit(obj)
   }
@@ -42,12 +39,10 @@ export class CustomerFiltersComponent implements OnInit {
     this.customerNum = undefined;
     this.customerName = undefined;
     this.status = undefined;
-    this.locationIds = this.locationIds;
     let obj = {
       "customerName": undefined,
       "customerNumber": undefined,
-      "status": undefined,
-      "locationIds" : this.locationIds
+      "status": undefined
     }
     this.getData.emit(obj)
   }

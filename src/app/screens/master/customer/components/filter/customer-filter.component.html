@@ -1,14 +1,6 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2" *ngIf="locations && locations.length>1">
-            <div class="">
-                <label for="">Customer Type</label>
-                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
-                    placeholder="Select location">
-                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
+        
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Customer Code</label>
@@ -37,8 +29,7 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters" (click)="onCustomerSearch()"
-                [disabled]="!locationIds.length && !customerName && !customerNum && !status">Search</button>
-                <button [disabled]="locationIds.length && !customerNum && !customerName  && !status" class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>
     </div>

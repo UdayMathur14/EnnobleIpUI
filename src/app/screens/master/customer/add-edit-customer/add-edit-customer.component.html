@@ -9,66 +9,189 @@
 <div class="content-section p-3">
     <form [formGroup]="customerForm">
         <div class="row">
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                  <label for="">Customer Type<span class="text-danger">*</span></label>
-                  <ng-select [searchable]="true" formControlName="locationId" placeholder="Select type" [readonly]="customerId > 0">
-                    <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                    <label for="">Customer Code <span class="text-danger" *ngIf="customerId == 0">*</span></label>
-                    <ng-select class="input-field" formControlName="customerNumber" *ngIf="customerId>0" [readonly]="true">
-                        <ng-option *ngFor="let customer of customersList"
-                            [value]="customer.customerNumber">{{customer.customerNumber}}</ng-option>
-                    </ng-select>
-                    <input type="text" class="input-field" formControlName="customerNumber" *ngIf="customerId == 0" />
-                </div>
+          <!-- Customer Type -->
+          <!-- <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Customer Type <span class="text-danger">*</span></label>
+              <ng-select [searchable]="true" formControlName="customerType" placeholder="Select type" [readonly]="customerId > 0">
+                <ng-option *ngFor="let type of " [value]="type">{{ type }}</ng-option>
+              </ng-select>
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                    <label for="">Customer Name <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="customerName" inputAlphabetValidator/>
-
-                </div>
+          </div> -->
+      
+          <!-- Customer Code -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Customer Code <span class="text-danger" *ngIf="customerId == 0">*</span></label>
+              <input type="text" class="input-field" formControlName="customerCode" > 
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                    <label for="">Email <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="description" inputAlphabetValidator/>
-                </div>
+          </div>
+      
+          <!-- Customer Name -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Customer Name <span class="text-danger">*</span></label>
+              <input type="text" class="input-field" formControlName="customerName" />
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                    <label for="">Mobile Number <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="customerSize">
-                </div>
+          </div>
+      
+          <!-- Billing Address Line 1 -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing Address Line 1</label>
+              <input type="text" class="input-field" formControlName="billingAddressLine1" />
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                    <label for="">Contact Person Name <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="customerPrice" inputDecimalValidator/>
-                </div>
+          </div>
+      
+          <!-- Billing Address Line 2 -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing Address Line 2</label>
+              <input type="text" class="input-field" formControlName="billingAddressLine2" />
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="custom-form-input">
-                    <label for="">Remarks <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="remarks" maxlength="150"/>
-                </div>
+          </div>
+      
+          <!-- Billing City -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing City</label>
+              <input type="text" class="input-field" formControlName="billingCity" />
             </div>
-            <div class="col-lg-3 col-md-3" *ngIf="customerId>0">
-                <div class="custom-form-input">
-                    <label for="">Status <span class="text-danger">*</span></label>
-                    <select name="" id="" formControlName="status">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
-                </div>
+          </div>
+      
+          <!-- Billing State -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing State</label>
+              <input type="text" class="input-field" formControlName="billingState" />
             </div>
+          </div>
+      
+          <!-- Billing Country -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing Country</label>
+              <input type="text" class="input-field" formControlName="billingCountry" />
+            </div>
+          </div>
+      
+          <!-- Billing Pin Code -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing Pin Code</label>
+              <input type="text" class="input-field" formControlName="billingPinCode" />
+            </div>
+          </div>
+      
+          <!-- Shipping Address Line 1 -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping Address Line 1</label>
+              <input type="text" class="input-field" formControlName="shippingAddressLine1" />
+            </div>
+          </div>
+      
+          <!-- Shipping Address Line 2 -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping Address Line 2</label>
+              <input type="text" class="input-field" formControlName="shippingAddressLine2" />
+            </div>
+          </div>
+      
+          <!-- Shipping City -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping City</label>
+              <input type="text" class="input-field" formControlName="shippingCity" />
+            </div>
+          </div>
+      
+          <!-- Shipping State -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping State</label>
+              <input type="text" class="input-field" formControlName="shippingState" />
+            </div>
+          </div>
+      
+          <!-- Shipping Country -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping Country</label>
+              <input type="text" class="input-field" formControlName="shippingCountry" />
+            </div>
+          </div>
+      
+          <!-- Shipping Pin Code -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping Pin Code</label>
+              <input type="text" class="input-field" formControlName="shippingPinCode" />
+            </div>
+          </div>
+      
+          <!-- Contact Person Name -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Contact Person Name</label>
+              <input type="text" class="input-field" formControlName="contactPersonName" />
+            </div>
+          </div>
+      
+          <!-- Designation -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Designation</label>
+              <input type="text" class="input-field" formControlName="designation" />
+            </div>
+          </div>
+      
+          <!-- Email -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Email</label>
+              <input type="email" class="input-field" formControlName="email" />
+            </div>
+          </div>
+      
+          <!-- Mobile Number -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Mobile Number</label>
+              <input type="text" class="input-field" formControlName="mobileNumber" />
+            </div>
+          </div>
+      
+          <!-- Currency -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Currency</label>
+              <input type="text" class="input-field" formControlName="currency" />
+            </div>
+          </div>
+      
+          <!-- Payment Terms -->
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Payment Terms</label>
+              <input type="text" class="input-field" formControlName="paymentTerms" />
+            </div>
+          </div>
+      
+          <!-- Status (only when editing) -->
+          <div class="col-lg-3 col-md-3" *ngIf="customerId > 0">
+            <div class="custom-form-input">
+              <label for="">Status</label>
+              <select class="input-field" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
         </div>
-    </form>
+      </form>
+      
 </div>
 
 <div class="spinner" *ngIf="loadSpinner">

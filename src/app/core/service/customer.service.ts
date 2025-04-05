@@ -20,8 +20,8 @@ export class CustomerService extends CRUDService<PlantRequest> {
         return this.post(customers(offset, count), data);
     }
 
-    getCustomerData(locationId: number = 0, customerId: number) {
-        return this.get(customerData(locationId, customerId));
+    getCustomerData( customerId: number) {
+        return this.get(customerData( customerId));
     }
 
     updateCustomer(locationId: number = 0, customerId: number, data: object) {

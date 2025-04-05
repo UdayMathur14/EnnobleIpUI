@@ -2,22 +2,38 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('customerNumber')">Customer Code</th>
-        <th (click)="sortData('customerNumber')">Customer Type</th>
+        <th (click)="sortData('customerType')">Customer Type</th>
+        <th (click)="sortData('customerCode')">Customer Code</th>
         <th (click)="sortData('customerName')">Customer Name</th>
-        <th (click)="sortData('description')">Address</th>
-        <th (click)="sortData('customerSize')">Email</th>
-        <th (click)="sortData('customerPrice')">Mobile Number</th>
+        <th (click)="sortData('billingAddressLine1')">Billing Address Line 1</th>
+        <th (click)="sortData('billingAddressLine2')">Billing Address Line 2</th>
+        <th (click)="sortData('billingCity')">Billing City</th>
+        <th (click)="sortData('billingState')">Billing State</th>
+        <th (click)="sortData('billingCountry')">Billing Country</th>
+        <th (click)="sortData('billingPinCode')">Billing Pin Code</th>
+        <th (click)="sortData('shippingAddressLine1')">Shipping Address Line 1</th>
+        <th (click)="sortData('shippingAddressLine2')">Shipping Address Line 2</th>
+        <th (click)="sortData('shippingCity')">Shipping City</th>
+        <th (click)="sortData('shippingState')">Shipping State</th>
+        <th (click)="sortData('shippingCountry')">Shipping Country</th>
+        <th (click)="sortData('shippingPinCode')">Shipping Pin Code</th>
+        <th (click)="sortData('contactPersonName')">Contact Person Name</th>
+        <th (click)="sortData('designation')">Designation</th>
+        <th (click)="sortData('email')">Email</th>
+        <th (click)="sortData('mobileNumber')">Mobile Number</th>
+        <th (click)="sortData('currency')">Currency</th>
+        <th (click)="sortData('paymentTerms')">Payment Terms</th>
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
+      
     </thead>
     <tbody>
       @for (customer of customersList; track customer.id) {
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{customer.customerCode}}</u>
+            <u>{{customer.customerType}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -40,12 +56,27 @@
             </div>
           </ng-template>
         </td>
-        <td>{{customer.customerType}}</td>
-        <td>{{customer.customerName}}</td>
-        <td>{{customer.billingAddressLine1}}</td>
-        <td>{{customer.email}}</td>
-        <td>{{customer.mobileNumber}}</td>
-        <td>{{customer.status}}</td>
+        <td>{{ customer.customerCode }}</td>
+        <td>{{ customer.customerName }}</td>
+        <td>{{ customer.billingAddressLine1 }}</td>
+        <td>{{ customer.billingAddressLine2 }}</td>
+        <td>{{ customer.billingCity }}</td>
+        <td>{{ customer.billingState }}</td>
+        <td>{{ customer.billingCountry }}</td>
+        <td>{{ customer.billingPinCode }}</td>
+        <td>{{ customer.shippingAddressLine1 }}</td>
+        <td>{{ customer.shippingAddressLine2 }}</td>
+        <td>{{ customer.shippingCity }}</td>
+        <td>{{ customer.shippingState }}</td>
+        <td>{{ customer.shippingCountry }}</td>
+        <td>{{ customer.shippingPinCode }}</td>
+        <td>{{ customer.contactPersonName }}</td>
+        <td>{{ customer.designation }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.mobileNumber }}</td>
+        <td>{{ customer.currency }}</td>
+        <td>{{ customer.paymentTerms }}</td>
+        <td>{{ customer.status }}</td>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditCustomer(customer)" />
         </td>

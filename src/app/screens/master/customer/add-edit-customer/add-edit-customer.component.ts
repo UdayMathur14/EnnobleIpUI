@@ -30,16 +30,36 @@ export class AddEditCustomerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private lookupService: LookupService,
     private activatedRoute: ActivatedRoute) {
-    this.customerForm = this.formBuilder.group({
-      locationId : ['', Validators.required],
-      customerNumber: ['', Validators.required],
-      customerName: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      customerSize: ['', [Validators.required]],
-      customerPrice: ['', [Validators.required]],
-      status: ['Active', [Validators.required]],
-      remarks: [''],
-    });
+      this.customerForm = this.formBuilder.group({
+        customerType: ['', Validators.required],
+        customerCode: ['', Validators.required],
+        customerName: ['', Validators.required],
+      
+        billingAddressLine1: [''],
+        billingAddressLine2: [''],
+        billingCity: [''],
+        billingState: [''],
+        billingCountry: [''],
+        billingPinCode: [''],
+      
+        shippingAddressLine1: [''],
+        shippingAddressLine2: [''],
+        shippingCity: [''],
+        shippingState: [''],
+        shippingCountry: [''],
+        shippingPinCode: [''],
+      
+        contactPersonName: [''],
+        designation: [''],
+        email: ['', [Validators.email]],
+        mobileNumber: [''],
+      
+        currency: [''],
+        paymentTerms: [''],
+      
+        status: ['Active', Validators.required]
+      });
+      
   }
 
   ngOnInit(): void {
@@ -49,24 +69,45 @@ export class AddEditCustomerComponent implements OnInit {
     this.customerId = Number(this.activatedRoute.snapshot.paramMap.get("customerId"));
     this.customerId = this.customerId == 0 ? 0 : this.customerId;
     if (this.customerId != 0) {
-      this.getAllCustomersListInit()
+      this.getCustomerData(this.customerId)
     }
   }
 
   //FETCHING SELECTED PART'S DATA FROM API
   getCustomerData(customerId: number) {
     this.loadSpinner = true;
-    this.customerService.getCustomerData(this.customerLocationId, customerId).subscribe((response: any) => {
+    this.customerService.getCustomerData( customerId).subscribe((response: any) => {
+      this.customerForm.patchValue(response);
       this.customerForm.setValue({
-        locationId: response?.locations?.code,
-        customerNumber: response.customerNumber,
+         customerType: response.customerType,
+        customerCode: response.customerCode,
         customerName: response.customerName,
-        description: response.description,
-        customerSize: response.customerSize,
-        customerPrice: response.customerPrice,
-        status: response.status,
-        remarks: response.remarks
+      
+        billingAddressLine1: response.billingAddressLine1,
+        billingAddressLine2: response.billingAddressLine2,
+        billingCity: response.billingCity,
+        billingState: response.billingState,
+        billingCountry: response.billingCountry,
+        billingPinCode: response.billingPinCode,
+      
+        shippingAddressLine1: response.shippingAddressLine1,
+        shippingAddressLine2: response.shippingAddressLine2,
+        shippingCity: response.shippingCity,
+        shippingState: response.shippingState,
+        shippingCountry: response.shippingCountry,
+        shippingPinCode: response.shippingPinCode,
+      
+        contactPersonName: response.contactPersonName,
+        designation: response.designation,
+        email: response.email,
+        mobileNumber: response.mobileNumber,
+      
+        currency: response.currency,
+        paymentTerms: response.paymentTerms,
+      
+        status: response.status
       });
+      
       this.loadSpinner = false;
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
@@ -175,7 +216,6 @@ export class AddEditCustomerComponent implements OnInit {
 
   //CREATING NEW PART
   createNewCustomer(data: any) {
-    this.locationCode = this.customerForm.controls['locationId']?.value;
     this.loadSpinner = true;
     this.customerService.createCustomer(this.locationCode,data).subscribe((response: any) => {
       this.customerData = response;
@@ -193,10 +233,10 @@ export class AddEditCustomerComponent implements OnInit {
   }
 
   disableSave(){
-    return !this.customerForm.controls['customerNumber'].value ||
-    !this.customerForm.controls['customerName'].value || 
-    !this.customerForm.controls['customerSize'].value || 
-    !this.customerForm.controls['customerPrice'].value ||
-    !this.customerForm.controls['remarks'].value
+    // return !this.customerForm.controls['customerNumber'].value ||
+    // !this.customerForm.controls['customerName'].value || 
+    // !this.customerForm.controls['customerSize'].value || 
+    // !this.customerForm.controls['customerPrice'].value ||
+    // !this.customerForm.controls['remarks'].value
   }
 }
