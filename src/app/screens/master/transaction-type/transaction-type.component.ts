@@ -32,13 +32,13 @@ export class TransactionTypeComponent implements OnInit {
 
   getAllTransactionTypes(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {
-      "transactionTypeCode": filters?.transactionTypeCode || "",
-      "transactionTypeName": filters?.transactionTypeName || "",
-      "glSubCategory": filters?.glSubCategory || "",
+      "bankCode": filters?.transactionTypeCode || "",
+      "bankName": filters?.transactionTypeName || "",
       "status": filters?.status || ""
     }
     this.transactionTypesService.getTransactionTypes(data, offset, count).subscribe((response:any) => {
-      this.transactionTypesList = response.transactionTypes;
+      console.log(response);
+      this.transactionTypesList = response.banks;
       this.totalTransactions = response.paging.total;
       this.filters = response.filters
       this.loadSpinner = false;

@@ -17,145 +17,146 @@ export const APIConstant: any = {
   commonURL: commonURL,
   locationsListDropdown: [],
   commonLocationsList: [],
-  generateToken: (appId: string) => `api/v1/login/generate-token/${appId}`,
+  generateToken: (appId: string) => `api//login/generate-token/${appId}`,
   lookup: `/lookup/`,
-  plantData: `v1/plant/`,
-  updatePlant: `v1/plant/update/`,
-  vendorData: `v1/vendor/`,
-  updateVendor: `v1/vendor/update/`,
-  partData: `v1/part/`,
-  updatePart: `v1/part/update/`,
-  lookupData: `v1/lookup/`,
-  updateLookup: `v1/lookup/update/`,
-  createLookup: `v1/lookup/create`,
-  createTransporter: `v1/transporter/create`,
-  lookupstype: `v1/lookup-type/search`,
-  createPart: `v1/part/create`,
-  transactionTypeData: `v1/transaction-type/`,
-  updateTransactionTypeData: `v1/transaction-type/update/`,
-  getLookupData: `v1/lookup/search`,
-  transactionTypeInterfaces: `v1/transactiontypeinterface/search`,
+  plantData: `/plant/`,
+  updatePlant: `/plant/update/`,
+  vendorData: `vendor/`,
+  updateVendor: `/vendor/update/`,
+  partData: `/search`,
+  updatePart: `/part/update/`,
+  lookupData: `lookup-type/`,
+  updateLookup: `/lookup/update/`,
+  createLookup: `/lookup/create`,
+  createTransporter: `/transporter/create`,
+  lookupstype: `lookup/search`,
+  createPart: `customer/create`,
+  transactionTypeData: `bank/`,
+  updateTransactionTypeData: `/transaction-type/update/`,
+  getLookupData: `lookup/search`,
+  transactionTypeInterfaces: `/transactiontypeinterface/search`,
+  // customer : `/customer/search`
 };
 
 export const freight = (offset: any, count: number) =>
-  `v1/freight/search?offset=${offset}&count=${count}`;
+  `/freight/search?offset=${offset}&count=${count}`;
 export const freightData = (locationId: any, freightId: any) =>
-  `v1/freight/${locationId}/${freightId}`;
+  `/freight/${locationId}/${freightId}`;
 export const createFreight = (locationId: any) =>
-  `v1/freight/create/${locationId}`;
+  `/freight/create/${locationId}`;
 export const updateFreight = (locationId: any, freightId: any) =>
-  `v1/freight/update/${locationId}/${freightId}`;
-export const plantData = (plantId: any) => `v1/plant/${plantId}`;
+  `/freight/update/${locationId}/${freightId}`;
+export const plantData = (plantId: any) => `/plant/${plantId}`;
 export const plant = (offset: any, count: number) =>
-  `v1/plant/search?offset=${offset}&count=${count}`;
+  `/plant/search?offset=${offset}&count=${count}`;
 export const updatePlant = (locationId: any, plantId: any) =>
-  `v1/plant/update/${locationId}/${plantId}`;
+  `/plant/update/${locationId}/${plantId}`;
 export const transactionTypes = (offset: any, count: number) =>
-  `v1/transaction-type/search?offset=${offset}&count=${count}`;
+  `bank/search?offset=${offset}&count=${count}`;
 export const vendors = (offset: any, count: number) =>
-  `v1/vendor/search?offset=${offset}&count=${count}`;
+  `vendor/search?offset=${offset}&count=${count}`;
 export const lookups = (offset: any, count: number) =>
-  `v1/lookup/search?offset=${offset}&count=${count}`;
+  `/lookup/search?offset=${offset}&count=${count}`;
 export const parts = (offset: any, count: number) =>
-  `v1/part/search?offset=${offset}&count=${count}`;
+  `customer/search?offset=${offset}&count=${count}`;
 export const vehicle = (offset: any, count: number) =>
-  `v1/vehicle/search?offset=${offset}&count=${count}`;
+  `/vehicle/search?offset=${offset}&count=${count}`;
 export const vehicleData = (locationId: any, vehicleId: any) =>
-  `v1/vehicle/${locationId}/${vehicleId}`;
+  `/vehicle/${locationId}/${vehicleId}`;
 export const createVehicle = (locationId: any) =>
-  `v1/vehicle/create/${locationId}`;
+  `/vehicle/create/${locationId}`;
 export const updateVehicle = (locationId: any, vehicleId: any) =>
-  `v1/vehicle/update/${locationId}/${vehicleId}`;
+  `/vehicle/update/${locationId}/${vehicleId}`;
 export const pointCharge = (offset: any, count: number) =>
-  `v1/point-charge/search?offset=${offset}&count=${count}`;
+  `/point-charge/search?offset=${offset}&count=${count}`;
 export const pointChargeData = (locationId: any, pointChargeId: any) =>
-  `v1/point-charge/${locationId}/${pointChargeId}`;
+  `/point-charge/${locationId}/${pointChargeId}`;
 export const createPointCharge = (locationId: any) =>
-  `v1/point-charge/create/${locationId}`;
+  `/point-charge/create/${locationId}`;
 export const updatePointCharge = (locationId: any, pointChargeId: any) =>
-  `v1/point-charge/update/${locationId}/${pointChargeId}`;
+  `/point-charge/update/${locationId}/${pointChargeId}`;
 export const adviceTypeData = (locationId: any, adviceId: any) =>
-  `v1/advice/${locationId}/${adviceId}`;
+  `/advice/${locationId}/${adviceId}`;
 export const adviceType = (offset: any, count: number) =>
-  `v1/advice/search?offset=${offset}&count=${count}`;
+  `/advice/search?offset=${offset}&count=${count}`;
 export const updateAdviceType = (locationId: any, adviceId: any) =>
-  `v1/advice/update/${locationId}/${adviceId}`;
+  `/advice/update/${locationId}/${adviceId}`;
 export const createAdviceType = (locationId: any) =>
-  `v1/advice/create/${locationId}`;
+  `/advice/create/${locationId}`;
 export const transporter = (offset: any, count: number) =>
-  `v1/transporter/search?offset=${offset}&count=${count}`;
+  `/transporter/search?offset=${offset}&count=${count}`;
 export const transporterData = (transporterId: any) =>
-  `v1/transporter/${transporterId}`;
+  `/transporter/${transporterId}`;
 export const updateTransporter = (transporterId: any) =>
-  `v1/transporter/update/${transporterId}`;
-// export const createTransporter = () => `v1/transporter/create}`;
+  `/transporter/update/${transporterId}`;
+// export const createTransporter = () => `/transporter/create}`;
 export const getDropdownDatas = (type: any) =>
-  `v1/lookup/search-type?type=${type}`;
-export const getrbData = (locationId: number) => `v1/rbDivMst/${locationId}`;
+  `/lookup/search-type?type=${type}`;
+export const getrbData = (locationId: number) => `/rbDivMst/${locationId}`;
 export const createConfiguration = (locationId: number) =>
-  `v1/rbDivMst/create/${locationId}`;
+  `/rbDivMst/create/${locationId}`;
 export const updateConfiguration = (locationId: number) =>
-  `v1/rbDivMst/update/${locationId}`;
+  `/rbDivMst/update/${locationId}`;
 export const commonTransaction = (locationId: any, id: any) =>
-  `v1/commonTransaction/updateStatus/${locationId}/${id}`;
+  `/commonTransaction/updateStatus/${locationId}/${id}`;
 export const bilti = (offset: any, count: number) =>
-  `v1/bilti-creation/search?offset=${offset}&count=${count}`;
+  `/bilti-creation/search?offset=${offset}&count=${count}`;
 export const frlr = (locationId: any) =>
-  `v1/frm-transactions/${locationId}/search`;
+  `/frm-transactions/${locationId}/search`;
 export const createBilti = (locationId: any) =>
-  `v1/bilti-creation/create/${locationId}`;
+  `/bilti-creation/create/${locationId}`;
 export const biltiData = (locationId: any, biltiId: any) =>
-  `v1/bilti-creation/${locationId}/${biltiId}`;
+  `/bilti-creation/${locationId}/${biltiId}`;
 export const updateBitli = (locationId: any, biltiId: any) =>
-  `v1/bilti-creation/update/${locationId}/${biltiId}`;
+  `/bilti-creation/update/${locationId}/${biltiId}`;
 export const createDispatchNote = (locationId: any) =>
-  `v1/dispatch-note/create/${locationId}`;
+  `/dispatch-note/create/${locationId}`;
 export const getDispatchNote = (offset: any, count: number) =>
-  `v1/dispatch-note/search?offset=${offset}&count=${count}`;
+  `/dispatch-note/search?offset=${offset}&count=${count}`;
 export const dispatchData = (locationId: any, dispatchId: any) =>
-  `v1/dispatch-note/${locationId}/${dispatchId}`;
+  `/dispatch-note/${locationId}/${dispatchId}`;
 export const updateDispatchNote = (locationId: any, dispatchId: any) =>
-  `v1/dispatch-note/update/${locationId}/${dispatchId}`;
+  `/dispatch-note/update/${locationId}/${dispatchId}`;
 export const biltiBillProcess = (offset: any, count: number) =>
-  `v1/bilti-process/search?offset=${offset}&count=${count}`;
+  `/bilti-process/search?offset=${offset}&count=${count}`;
 export const biltiBillProcessbyId = (locationId: any, biltiProcessId: any) =>
-  `v1/bilti-process/${locationId}/${biltiProcessId}`;
+  `/bilti-process/${locationId}/${biltiProcessId}`;
 export const createBiltiBillProcess = (locationId: any) =>
-  `v1/bilti-process/create/${locationId}`;
+  `/bilti-process/create/${locationId}`;
 export const updateBiltiBillProcess = (
   locationId: any,
   biltiBillProcessId: any
-) => `v1/bilti-process/update/${locationId}/${biltiBillProcessId}`;
+) => `/bilti-process/update/${locationId}/${biltiBillProcessId}`;
 export const updateBiltiStatus = (locationId: any, BatchNumber: any) =>
-  `v1/commonTransaction/updateBatchStatus/${locationId}/${BatchNumber}`;
+  `/commonTransaction/updateBatchStatus/${locationId}/${BatchNumber}`;
 export const changeBiltiStatus = (locationId: any) =>
-  `v1/bilti-bill-change-status/update/${locationId}`;
+  `/bilti-bill-change-status/update/${locationId}`;
 export const biltiApprovalData = (locationId: any) =>
-  `v1/bilti-process/searchApprovalData`;
+  `/bilti-process/searchApprovalData`;
 export const getNocPdf = (locationId: any, id: number) =>
-  `v1/bilti-bill-change-status/${locationId}/${id}`;
+  `/bilti-bill-change-status/${locationId}/${id}`;
 export const getOutboundData = (offset: any, count: number) =>
-  `v1/apGlOutBound/search?offset=${offset}&count=${count}`;
+  `/apGlOutBound/search?offset=${offset}&count=${count}`;
 
 export const errorLoggingReport = (offset: any, count: number) =>
-  `v1/errorLoggingReport/search?offset=${offset}&count=${count}`;
+  `/errorLoggingReport/search?offset=${offset}&count=${count}`;
 export const debitNoteReport = (offset: any, count: number) =>
-  `v1/biltiDebitNoteReport/search?offset=${offset}&count=${count}`;
+  `/biltiDebitNoteReport/search?offset=${offset}&count=${count}`;
 export const provisionalReport = (offset: any, count: number) =>
-  `v1/provisionalReport/search?offset=${offset}&count=${count}`;
-export const getAdhocDropdownsData = `v1/adHocReport/get`;
-export const generateAdhocData = `v1/adHocReport/search`;
-export const apOutboundData = () => `v1/intf/ApHeaderInterfaceTransfer`;
+  `/provisionalReport/search?offset=${offset}&count=${count}`;
+export const getAdhocDropdownsData = `/adHocReport/get`;
+export const generateAdhocData = `/adHocReport/search`;
+export const apOutboundData = () => `/intf/ApHeaderInterfaceTransfer`;
 export const glAccrualPosting = (offset: any, count: number) =>
-  `v1/glOutBound/search?offset=${offset}&count=${count}`;
-export const glOutboundTransfer = () => `v1/intf/GlOutboundTransfer`;
+  `/glOutBound/search?offset=${offset}&count=${count}`;
+export const glOutboundTransfer = () => `/intf/GlOutboundTransfer`;
 export const freightContract = (locationId: any, freightId: any) =>
-  `v1/freight/contracts/${locationId}/${freightId}`;
+  `/freight/contracts/${locationId}/${freightId}`;
 export const pointMasterContract = (locationId: any, pointId: any) =>
-  `v1/point-charge/contracts/${locationId}/${pointId}`;
-export const calculatePointCharge = () => `v1/bilti-creation/calculate`;
-export const createPart = (locationId: any) => `v1/part/create/${locationId}`;
+  `/point-charge/contracts/${locationId}/${pointId}`;
+export const calculatePointCharge = () => `/bilti-creation/calculate`;
+export const createPart = (locationId: any) => `/part/create/${locationId}`;
 export const updatePart = (locationId: any, partId: any) =>
-  `v1/part/update/${locationId}/${partId}`;
+  `/part/update/${locationId}/${partId}`;
 export const partData = (locationId: any, partId: any) =>
-  `v1/part/${locationId}/${partId}`;
+  `customer/${locationId}/${partId}`;

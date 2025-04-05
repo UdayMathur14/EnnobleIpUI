@@ -14,11 +14,21 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
   queryData: any = '';
   transactionTypeForm = new FormGroup({
-    name: new FormControl(''),
-    code: new FormControl(null),
-    glSubcategory: new FormControl('', [Validators.required]),
-    status: new FormControl('', [Validators.required]),
-    transactionTypeInterface: new FormControl('', [Validators.required]),
+    bankCode: new FormControl(''),
+    bankName: new FormControl(null),
+    bankAddress1 :new FormControl(null),
+    bankAddress2 :new FormControl(null),
+    city :new FormControl(null),
+    state :new FormControl(null),
+    country :new FormControl(null),
+    bankContactNo :new FormControl(null),
+    bankEmailId :new FormControl(null),
+    bankBranch :new FormControl(null),
+    ifscCode :new FormControl(null),
+    accountNumber :new FormControl(null),
+    accountHolderName :new FormControl(null),
+    accountType: new FormControl(null),
+    status: new FormControl(''),
   });
   loadSpinner: boolean = true;
   glSubcategoryCode: any = [];
@@ -52,21 +62,31 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
   patchTransactionForm(data: any) {
     this.transactionTypeForm.patchValue({
-      code: data?.code,
-      name: data?.name,
-      glSubcategory: data.glSubCategory.id,
-      status: data.status,
-      transactionTypeInterface: data.iTransactionTypeId
+      bankCode: data?.bankCode,
+      bankName: data?.bankName,
+      bankAddress1: data?.bankAddress1,
+      bankAddress2: data?.bankAddress2,
+      city: data?.city,
+      state: data?.state,
+      country: data?.country,
+      bankContactNo: data?.bankContactNo,
+      bankEmailId: data?.bankEmailId,
+      bankBranch: data?.bankBranch,
+      ifscCode: data?.ifscCode,
+      accountNumber: data?.accountNumber,
+      accountHolderName: data?.accountHolderName,
+      accountType: data?.accountType,
+      status: data.status
     });
   }
 
   onPressSave() {
     this.loadSpinner = true;
     const data = {
-      code: this.transactionTypeForm.controls['code']?.value,
-      name: this.transactionTypeForm.controls['name']?.value,
-      interfaceTxnTypeId: (this.transactionTypeForm.controls['transactionTypeInterface']?.value) || 0,
-      glSubCategoryId: (this.transactionTypeForm.controls['glSubcategory']?.value) || 0,
+      bankCode: this.transactionTypeForm.controls['bankCode']?.value,
+      bankName: this.transactionTypeForm.controls['bankName']?.value,
+      // interfaceTxnTypeId: (this.transactionTypeForm.controls['transactionTypeInterface']?.value) || 0,
+      // glSubCategoryId: (this.transactionTypeForm.controls['glSubcategory']?.value) || 0,
       status: this.transactionTypeForm.controls['status']?.value,
       actionBy: localStorage.getItem("userId")
     }

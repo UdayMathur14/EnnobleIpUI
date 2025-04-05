@@ -35,7 +35,7 @@ export class PlantComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getPlantsList();
+     this.getPlantsList();
   }
 
   getPlantsList(offset: number = 0,count: number = this.count,filters: any = this.appliedFilters) {

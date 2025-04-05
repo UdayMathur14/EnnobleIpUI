@@ -57,8 +57,8 @@ const routes: Routes = [
         children: [
             { path: "", redirectTo: "master", pathMatch: "full"},
             //{ path: '**', component: NotFound404Component },
-            { path: "master", component: MasterComponent, canActivate: [AuthGuard] },
-            { path: "master/plant", component: PlantComponent, canActivate: [AuthGuard] },
+            { path: "master", component: MasterComponent },
+            { path: "master/customer", component: PlantComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent, canActivate: [AuthGuard] },
             { path: "master/part", component: PartComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPart/:partId", component: AddEditPartComponent, canActivate: [AuthGuard] },

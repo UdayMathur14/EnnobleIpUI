@@ -21,13 +21,13 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Plant Name</label>
+          <label for="">Customer Name</label>
           <input type="text" class="input-field" formControlName="plantDesc" readonly />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Plant Address</label>
+          <label for="">Customer Address</label>
           <input type="text" class="input-field" formControlName="plantAddress" readonly />
         </div>
       </div>
@@ -59,7 +59,7 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Plant Type</label>
+          <label for="">Customer Type</label>
           <input type="text" class="input-field" formControlName="plantType" readonly />
           <!-- <select name="" id="" disabled>
           <option value="active">Manufacturing</option>
@@ -69,19 +69,19 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Site Code</label>
+          <label for="">Customer Code</label>
           <input type="text" class="input-field" formControlName="siteCode" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">AU Code<span class="text-danger">*</span></label>
+          <label for="">Attribute 1<span class="text-danger">*</span></label>
           <input type="text" class="input-field" formControlName="auCode" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Freight City<span class="text-danger">*</span></label>
+          <label for=""> Attribute 2<span class="text-danger">*</span></label>
           <ng-select [searchable]="true" formControlName="freightCity" placeholder="Select Freight City">
             <ng-option *ngFor="let city of freightCity" [value]="city.code">{{city.code}}</ng-option>
           </ng-select>
@@ -91,7 +91,7 @@
       <!-- new dropdowns. to be changed later -->
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Profit Center<span class="text-danger">*</span></label>
+          <label for=""> Attribute 2<span class="text-danger">*</span></label>
           <ng-select [searchable]="true" formControlName="profitCenter" placeholder="Select location">
             <ng-option *ngFor="let center of profitCenterDropdownData" [value]="center.code">{{center.code}} ({{center?.description}})</ng-option>
           </ng-select>
@@ -99,7 +99,7 @@
       </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
-            <label for="">Cost Center<span class="text-danger">*</span></label>
+            <label for="">Attr<span class="text-danger">*</span></label>
             <ng-select [searchable]="true" formControlName="costCenter" placeholder="Select Cost Center">
               <ng-option *ngFor="let center of costCenterDropdownData" [value]="center.code">{{center.code}} ({{center?.description}})</ng-option>
             </ng-select>
@@ -108,7 +108,7 @@
 
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
-            <label for="">Business Place<span class="text-danger">*</span></label>
+            <label for=""> Attr<span class="text-danger">*</span></label>
             <ng-select [searchable]="true" formControlName="businessPlace" placeholder="Select Business Place">
               <ng-option *ngFor="let place of businessPlaceDropdownData" [value]="place.code">{{place.code}} ({{place?.description}})</ng-option>
             </ng-select>
@@ -116,7 +116,7 @@
         </div>
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
-            <label for="">Section Code<span class="text-danger">*</span></label>
+            <label for="">Section <span class="text-danger">*</span></label>
             <ng-select [searchable]="true" formControlName="sectionCode" placeholder="Select Section Code">
               <ng-option *ngFor="let code of sectionCodeDropdownData" [value]="code.code">{{code.code}} ({{code?.description}})</ng-option>
             </ng-select>
@@ -145,11 +145,11 @@
     <table>
       <thead>
         <tr>
-          <th>Location Code</th>
-          <th style="padding-left: 40px">DSC</th>
+          <th> Code</th>
+          <th style="padding-left: 40px">abc</th>
           <th>DCP</th>
-          <th style="padding-right: 40px">Transaction Code</th>
-          <th>Transaction Name</th>
+          <th style="padding-right: 40px"> Customer Code</th>
+          <th>Customer Name</th>
           <th>Status</th>
           <th class="text-center">Action</th>
         </tr>

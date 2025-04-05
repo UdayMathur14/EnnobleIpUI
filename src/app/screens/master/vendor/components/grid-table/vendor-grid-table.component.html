@@ -3,20 +3,49 @@
     <thead>
       <tr>
         <th (click)="sortData('vendorCode')">Vendor Code</th>
+        <th (click)="sortData('vendorType')">Vendor Type</th>
         <th (click)="sortData('vendorName')">Vendor Name</th>
-        <th (click)="sortData('vendorAddress1')">Vendor Address</th>
-        <th (click)="sortData('contactNumber')">Contact</th>
-        <th (click)="sortData('email')">Email</th>
-        <th (click)="sortData('state')">State</th>
-        <th (click)="sortData('city')">City</th>
-        <th (click)="sortData('gstnNo')">GSTIN</th>
-        <th (click)="sortData('payTermCode')">Payment Term Code</th>
-        <th (click)="sortData('payTermStatus')">Payment Term Status</th>
+        <th (click)="sortData('billingAddressLine1')">Billing Address Line 1</th>
+        <th (click)="sortData('billingAddressLine2')">Billing Address Line 2</th>
+        <th (click)="sortData('billingCity')">Billing City</th>
+        <th (click)="sortData('billingState')">Billing State</th>
+        <th (click)="sortData('billingCountry')">Billing Country</th>
+        <th (click)="sortData('billingPinCode')">Billing Pin Code</th>
+        <th (click)="sortData('shippingAddressLine1')">Shipping Address Line 1</th>
+        <th (click)="sortData('shippingAddressLine2')">Shipping Address Line 2</th>
+        <th (click)="sortData('shippingCity')">Shipping City</th>
+        <th (click)="sortData('shippingState')">Shipping State</th>
+        <th (click)="sortData('shippingCountry')">Shipping Country</th>
+        <th (click)="sortData('shippingPinCode')">Shipping Pin Code</th>
+        <th (click)="sortData('pan')">PAN</th>
+        <th (click)="sortData('gst')">GST</th>
+        <th (click)="sortData('gstTreatment')">GST Treatment</th>
+        <th (click)="sortData('msmeRegistered')">MSME Registered</th>
+        <th (click)="sortData('msmeType')">MSME Type</th>
+        <th (click)="sortData('msmeNo')">MSME Number</th>
+        <th (click)="sortData('contactPersonName')">Contact Person</th>
+        <th (click)="sortData('designation')">Designation</th>
+        <th (click)="sortData('email1')">Email 1</th>
+        <th (click)="sortData('email2')">Email 2</th>
+        <th (click)="sortData('phoneMobileNo')">Phone Number</th>
+        <th (click)="sortData('currency')">Currency</th>
+        <th (click)="sortData('paymentTerms')">Payment Terms</th>
+        <th (click)="sortData('bankName')">Bank Name</th>
+        <th (click)="sortData('accountHolderName')">Account Holder Name</th>
+        <th (click)="sortData('accountNumber')">Account Number</th>
+        <th (click)="sortData('confirmAccountNumber')">Confirm Account Number</th>
+        <th (click)="sortData('ifscCode')">IFSC Code</th>
+        <th (click)="sortData('swiftCode')">SWIFT Code</th>
+        <th (click)="sortData('bankAddressLine1')">Bank Address Line 1</th>
+        <th (click)="sortData('bankAddressLine2')">Bank Address Line 2</th>
+        <th (click)="sortData('branch')">Branch</th>
+        <th (click)="sortData('bankCity')">Bank City</th>
+        <th (click)="sortData('bankState')">Bank State</th>
+        <th (click)="sortData('bankPinCode')">Bank Pin Code</th>
         <th (click)="sortData('status')">Status</th>
-        <th>Paid By Details</th>
-        <th>Transaction Type</th>
         <th class="text-center">Action</th>
-      </tr>
+    </tr>
+    
     </thead>
     <tbody>
       @for( vendor of vendorsList; track vendor.id){
@@ -29,7 +58,7 @@
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{vendor.creationDate | date: 'yyyy-MM-dd' || '-' }}</span>
+                <span>{{vendor.creationDate }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -37,7 +66,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{vendor.lastUpdateOn | date: 'yyyy-MM-dd' || '-' }}</span>
+                <span>{{vendor.lastUpdateOn }}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
@@ -46,18 +75,47 @@
             </div>
           </ng-template>
         </td>
-        <td>{{vendor.vendorName || '-' }}</td>
-        <td>{{vendor.vendorAddress1 || '-' }}</td>
-        <td>{{vendor.contactNumber || '-' }}</td>
-        <td>{{ vendor.email || '-' }}</td>
-        <td>{{ vendor.state || '-' }}</td>
-        <td>{{ vendor.city || '-' }}</td>
-        <td>{{vendor.gstInNo || '-' }}</td>
-        <td>{{vendor.vendorPaytermMethodCode || '-' }}</td>
-        <td>{{vendor.vendorPaytermStatus || '-' }}</td>
-        <td>{{vendor.status || '-'}}</td>
-        <td>{{getPaidByDetails(vendor) || '-'}}</td>
-        <td>{{getTransactionTypes(vendor) || '-'}}</td>
+        <td>{{ vendor.vendorType || '-' }}</td>
+        <td>{{ vendor.vendorCode || '-' }}</td>
+        <td>{{ vendor.vendorName || '-' }}</td>
+        <td>{{ vendor.billingAddressLine1 || '-' }}</td>
+        <td>{{ vendor.billingCity || '-' }}</td>
+        <td>{{ vendor.billingState || '-' }}</td>
+        <td>{{ vendor.billingCountry || '-' }}</td>
+        <td>{{ vendor.billingPinCode || '-' }}</td>
+        <td>{{ vendor.shippingAddressLine1 || '-' }}</td>
+        <td>{{ vendor.shippingAddressLine2 || '-' }}</td>
+        <td>{{ vendor.shippingCity || '-' }}</td>
+        <td>{{ vendor.shippingState || '-' }}</td>
+        <td>{{ vendor.shippingCountry || '-' }}</td>
+        <td>{{ vendor.shippingPinCode || '-' }}</td>
+        <td>{{ vendor.pan || '-' }}</td>
+        <td>{{ vendor.gst || '-' }}</td>
+        <td>{{ vendor.gstTreatment || '-' }}</td>
+        <td>{{ vendor.msmeRegistered || '-' }}</td>
+        <td>{{ vendor.msmeType || '-' }}</td>
+        <td>{{ vendor.msmeNo || '-' }}</td>
+        <td>{{ vendor.contactPersonName || '-' }}</td>
+        <td>{{ vendor.designation || '-' }}</td>
+        <td>{{ vendor.email1 || '-' }}</td>
+        <td>{{ vendor.email2 || '-' }}</td>
+        <td>{{ vendor.phoneMobileNo || '-' }}</td>
+        <td>{{ vendor.currency || '-' }}</td>
+        <td>{{ vendor.paymentTerms || '-' }}</td>
+        <td>{{ vendor.bankName || '-' }}</td>
+        <td>{{ vendor.accountHolderName || '-' }}</td>
+        <td>{{ vendor.accountNumber || '-' }}</td>
+        <td>{{ vendor.confirmAccountNumber || '-' }}</td>
+        <td>{{ vendor.ifscCode || '-' }}</td>
+        <td>{{ vendor.swiftCode || '-' }}</td>
+        <td>{{ vendor.bankAddressLine1 || '-' }}</td>
+        <td>{{ vendor.bankAddressLine2 || '-' }}</td>
+        <td>{{ vendor.branch || '-' }}</td>
+        <td>{{ vendor.bankCity || '-' }}</td>
+        <td>{{ vendor.bankState || '-' }}</td>
+        <td>{{ vendor.bankPinCode || '-' }}</td>
+        <td>{{ vendor.billingAddressLine2 || '-' }}</td>
+
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onGoToEditVendor(vendor)" />
         </td>

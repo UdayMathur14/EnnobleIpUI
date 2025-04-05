@@ -47,7 +47,8 @@ export class PartComponent implements OnInit {
     };
     this.partService.getParts(data, offset, count).subscribe(
       (response: any) => {
-        this.partsList = response.parts;
+        console.log(response);
+        this.partsList = response.customers;
         this.totalParts = response.paging.total;
         this.filters = response.filters;
         this.loadSpinner = false;

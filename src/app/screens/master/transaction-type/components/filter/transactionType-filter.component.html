@@ -2,29 +2,29 @@
     <div class="row">
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Transaction Type Code</label>
+                <label for="">Bank Code</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
-                    placeholder="Select Transaction Code" [readonly]="transactionTypeName || glCategory">
-                    <ng-option *ngFor="let transaction of filters?.TransactionTypeCode"
+                    placeholder="Select Code" [readonly]="transactionTypeName || glCategory">
+                    <ng-option *ngFor="let transaction of filters?.BankCode"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col">
             <div class="custom-form-input">
-                <label for="">Transaction Type Name</label>
+                <label for="">Bank Name</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeName"
-                    placeholder="Select Transaction Name">
-                    <ng-option *ngFor="let transaction of filters?.TransactionTypeName"
+                    placeholder="Select Bank Name">
+                    <ng-option *ngFor="let transaction of filters?.BankName"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label>GL Sub Category</label>
+                <label>Bank Category</label>
                 <ng-select class="input-field" [(ngModel)]="glCategory"
-                    placeholder="Select GL Category">
+                    placeholder="Category">
                     <ng-option *ngFor="let transaction of filters?.GlSubCategory"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>

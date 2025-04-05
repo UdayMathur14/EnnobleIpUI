@@ -42,15 +42,12 @@ export class VendorComponent implements OnInit{
 
   getVendorsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      "vendorCode": filters?.vendorCode || "",
       "vendorName": filters?.vendorName || "",
-      "city": filters?.city || "",
-      "state": filters?.state || "",
-      "taxationType": filters?.taxationType || "",
-      "paidByDetail": filters?.paidByDetail || "",
+      "country": filters?.country || "",
       "status": filters?.status || ""
     }
     this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {
+      console.log(response);
       this.vendorsList = response.vendors;
       this.totalVendors = response.paging.total;
       this.filters = response.filters

@@ -1,5 +1,5 @@
 <div class="page-title">
-  <h1>Edit Transaction Type</h1>
+  <h1>Edit Bank Details</h1>
   <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="!transactionTypeForm.valid">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
@@ -11,32 +11,94 @@
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Transaction Type Name</label>
-          <input type="text" class="input-field" formControlName="name" readonly />
+          <label for="">Bank Code</label>
+          <input type="text" class="input-field" formControlName="bankCode"  />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Transaction Code</label>
-          <input type="text" class="input-field" formControlName="code" readonly />
+          <label for="">Bank Name</label>
+          <input type="text" class="input-field" formControlName="bankName"  />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">GL Sub Category Code <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="glSubcategory">
-            <ng-option *ngFor="let glSubCategory of glSubcategoryCode"
-              [value]="glSubCategory.id">{{glSubCategory?.value}} ({{glSubCategory?.description}})</ng-option>
+          <label for="">Bank Address 1 <span class="text-danger">*</span></label>
+          <ng-select name="" id="" formControlName="bankAddress1">
           </ng-select>
         </div>
       </div>
       <div class="col-lg-3 col-md-2">
         <div class="custom-form-input">
-          <label for="">Transaction Type Interface <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="transactionTypeInterface">
-            <ng-option *ngFor="let transactionTypeInterface of transactionTypeInterfaceData"
-              [value]="transactionTypeInterface.id">{{transactionTypeInterface.transactionTypeName}}</ng-option>
+          <label for="">Bank Address 2<span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="bankAddress2"  />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">City</label>
+          <input type="text" class="input-field" formControlName="city"  />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">State </label>
+          <input type="text" class="input-field" formControlName="state"  />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Country<span class="text-danger">*</span></label>
+          <ng-select name="" id="" formControlName="country">
           </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Bank Contact No<span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="bankContactNo"  />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-2"> 
+        <div class="custom-form-input">
+          <label for="">Bank Email Id</label>
+          <input type="text" class="input-field" formControlName="bankEmailId"  />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Branch </label>
+          <input type="text" class="input-field" formControlName="bankBranch"  />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">IFSC Code<span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="ifscCode"  />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Account Number<span class="text-danger">*</span></label>
+          <input type="text" class="input-field" formControlName="accountNumber"  />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Acc Holder Name</label>
+          <input type="text" class="input-field" formControlName="accountHolderName"  />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Account Type </label>
+          <input type="text" class="input-field" formControlName="accountType"  />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

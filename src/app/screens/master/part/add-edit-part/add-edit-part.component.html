@@ -11,15 +11,15 @@
         <div class="row">
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                  <label for="">Location Code<span class="text-danger">*</span></label>
-                  <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="partId > 0">
+                  <label for="">Customer Type<span class="text-danger">*</span></label>
+                  <ng-select [searchable]="true" formControlName="locationId" placeholder="Select type" [readonly]="partId > 0">
                     <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
                   </ng-select>
                 </div>
               </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                    <label for="">Part Number <span class="text-danger" *ngIf="partId == 0">*</span></label>
+                    <label for="">Customer Code <span class="text-danger" *ngIf="partId == 0">*</span></label>
                     <ng-select class="input-field" formControlName="partNumber" *ngIf="partId>0" [readonly]="true">
                         <ng-option *ngFor="let part of partsList"
                             [value]="part.partNumber">{{part.partNumber}}</ng-option>
@@ -29,26 +29,26 @@
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                    <label for="">Part Name <span class="text-danger">*</span></label>
+                    <label for="">Customer Name <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="partName" inputAlphabetValidator/>
 
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                    <label for="">Description <span class="text-danger">*</span></label>
+                    <label for="">Email <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="description" inputAlphabetValidator/>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                    <label for="">Part Size <span class="text-danger">*</span></label>
+                    <label for="">Mobile Number <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="partSize">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                    <label for="">Part Price <span class="text-danger">*</span></label>
+                    <label for="">Contact Person Name <span class="text-danger">*</span></label>
                     <input type="text" class="input-field" formControlName="partPrice" inputDecimalValidator/>
                 </div>
             </div>

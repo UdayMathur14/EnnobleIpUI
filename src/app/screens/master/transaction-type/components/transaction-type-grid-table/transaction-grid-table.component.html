@@ -3,11 +3,20 @@
     <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
       <thead>
         <tr>
-          <th (click)="sortData('code')">Transaction Code</th>
-          <th (click)="sortData('name')">Transaction Type Name</th>
-          <th (click)="sortData('glSubCategory.value')">GL Sub Category Code</th>
-          <th (click)="sortData('transactionTypeInterface.transactionTypeCode')">Transaction Type Interface Code</th>
-          <th (click)="sortData('transactionTypeInterface.transactionTypeName')">Transaction Type Interface</th>
+          <th (click)="sortData('bankCode')">Bank Code</th>
+          <th (click)="sortData('bankName')">Bank Name</th>
+          <th (click)="sortData('bankAddress1')">Bank Address1</th>
+          <th (click)="sortData('bankAddress2')">Bank Address2 </th>
+          <th (click)="sortData('city')">City</th>
+          <th (click)="sortData('state')">State </th>
+          <th (click)="sortData('country')">Country</th>
+          <th (click)="sortData('bankContactNo')">Account Number</th>
+          <th (click)="sortData('bankEmailId')">Email</th>
+          <th (click)="sortData('bankBranch')">Branch</th>
+          <th (click)="sortData('ifscCode')">IFSC Code</th>
+          <th (click)="sortData('accountNumber')">Ac Number</th>
+          <th (click)="sortData('accountType')">Type</th>
+          <th (click)="sortData('accountHolderName')">Holder Name</th>
           <th (click)="sortData('status')">Status</th>
           <th class="text-center">Action</th>
         </tr>
@@ -17,7 +26,7 @@
         <tr>
           <td class="pointer" container="body">
             <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-              <u>{{transaction.code}}</u>
+              <u>{{transaction.bankCode}}</u>
             </span>
             <ng-template #tipContent>
               <div class="">
@@ -40,10 +49,22 @@
               </div>
             </ng-template>
           </td>
-          <td>{{transaction.name}}</td>
-          <td>{{transaction.glSubCategory.value}}</td>
-          <td>{{transaction?.transactionTypeInterface?.transactionTypeCode}}</td>
-          <td>{{transaction?.transactionTypeInterface?.transactionTypeName}}</td>
+          <td>{{transaction.bankName}}</td>
+          <td>{{transaction.bankAddress1}}</td>
+          <td>{{transaction.bankAddress2}}</td>
+          <td>{{transaction.city}}</td>
+          <td>{{transaction.state}}</td>
+          <td>{{transaction.country}}</td>
+          <td>{{transaction.bankContactNo}}</td>
+          <td>{{transaction.bankEmailId}}</td>
+          <td>{{transaction.bankBranch}}</td>
+          <td>{{transaction.ifscCode}}</td>
+          <td>{{transaction.accountNumber}}</td>
+          <td>{{transaction.accountType}}</td>
+          <td>{{transaction.accountHolderName}}</td>
+          <!-- <td>{{transaction.glSubCategory.value}}</td> -->
+          <!-- <td>{{transaction?.transactionTypeInterface?.transactionTypeCode}}</td>
+          <td>{{transaction?.transactionTypeInterface?.transactionTypeName}}</td> -->
           <td>{{transaction.status}}</td>
           <td class="text-center">
             <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"

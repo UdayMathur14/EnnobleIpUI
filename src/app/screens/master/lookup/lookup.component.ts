@@ -43,9 +43,11 @@ export class LookupComponent implements OnInit {
       value: filters?.value,
       status: filters?.status || '',
     };
-    this.lookupService.getLookups(data, offset, count).subscribe(
+    this.lookupService.getLookupsType(data).subscribe(
       (response: any) => {
         this.lookupsList = response.lookUps;
+        console.log(this.lookupsList);
+        
         this.totalLookups = response.paging.total;
         this.filters = response.filters;
         this.loadSpinner = false;

@@ -20,8 +20,8 @@ export class SideBarComponent {
     }
 
     onMasterChange(master: string) {
-        if (master === 'plant') {
-            this.router.navigate(['/master/plant'])
+        if (master === 'customer') {
+            this.router.navigate(['/master/customer'])
         } else if (master === 'part') {
             this.router.navigate(['/master/part'])
         } else if (master === 'vehicle') {

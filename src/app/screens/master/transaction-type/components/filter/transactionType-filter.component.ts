@@ -18,6 +18,7 @@ export class TransactionTypeFilterComponent implements OnInit {
 
   }
 
+
   onTransactionTypeSearch(){
     const filterData = {
       transactionTypeCode: this.transactionTypeCode, 

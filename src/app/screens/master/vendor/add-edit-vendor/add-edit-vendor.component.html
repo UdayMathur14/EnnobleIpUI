@@ -11,11 +11,17 @@
     <div class="row">
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
+          <label for="">Vendor Type</label>
+          <input type="text" class="input-field" formControlName="vendorType" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
           <label for="">Vendor Code</label>
           <input type="text" class="input-field" formControlName="vendorCode" readonly />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
           <label for="">Vendor Name</label>
           <input type="text" class="input-field" formControlName="vendorName" readonly />
@@ -23,68 +29,78 @@
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Vendor Address 1</label>
-          <input type="text" class="input-field" formControlName="vendorAddress1" readonly />
+          <label for="">Billing Address Line 1</label>
+          <input type="text" class="input-field" formControlName="billingAddressLine1" readonly />
         </div>
       </div>
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Vendor Address 2</label>
-          <input type="text" class="input-field" formControlName="vendorAddress2" readonly />
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Phone <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="phone" minlength="10" maxlength="12"
-             (input)="phoneNumberLength($event)" inputIntegerValidator />
-             <div *ngIf="vendorForm.get('phone')?.invalid">
-              <small class="text-danger" *ngIf="vendorForm.get('phone')?.errors?.['minlength']">
-                Contact number must be at least 10 digits.
-              </small>
-            </div>
+          <label for="">Billing Address Line 2</label>
+          <input type="text" class="input-field" formControlName="billingAddressLine2" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Email <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="email" />
+          <label for="">Billing City</label>
+          <input type="text" class="input-field" formControlName="billingCity" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Freight City<span class="text-danger">*</span></label>
-          <ng-select [searchable]="true" formControlName="freightCity" placeholder="Select Freight City">
-            <ng-option *ngFor="let city of freightCity" [value]="city.code">{{city.code}}</ng-option>
-          </ng-select>
+          <label for="">Billing State</label>
+          <input type="text" class="input-field" formControlName="billingState" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">City</label>
-          <input type="text" class="input-field" formControlName="city" readonly />
+          <label for="">Billing Country</label>
+          <input type="text" class="input-field" formControlName="billingCountry" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">State</label>
-          <input type="text" class="input-field" formControlName="state" readonly />
+          <label for="">Billing Pin Code</label>
+          <input type="text" class="input-field" formControlName="billingPinCode" readonly />
+        </div>
+      </div>
+  
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Shipping Address Line 1</label>
+          <input type="text" class="input-field" formControlName="shippingAddressLine1" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Shipping Address Line 2</label>
+          <input type="text" class="input-field" formControlName="shippingAddressLine2" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Country</label>
-          <input type="text" class="input-field" formControlName="country" readonly />
+          <label for="">Shipping City</label>
+          <input type="text" class="input-field" formControlName="shippingCity" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Postal Code</label>
-          <input type="text" class="input-field" formControlName="postalCode" readonly />
+          <label for="">Shipping State</label>
+          <input type="text" class="input-field" formControlName="shippingState" readonly />
         </div>
       </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Shipping Country</label>
+          <input type="text" class="input-field" formControlName="shippingCountry" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Shipping Pin Code</label>
+          <input type="text" class="input-field" formControlName="shippingPinCode" readonly />
+        </div>
+      </div>
+  
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">PAN</label>
@@ -93,115 +109,158 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">GSTIN</label>
-          <input type="text" class="input-field" formControlName="gstin" readonly />
-        </div>
-      </div>
-      <!-- <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Payment Term Code</label>
-          <input type="text" class="input-field" formControlName="paymentTermCode" readonly />
+          <label for="">GST</label>
+          <input type="text" class="input-field" formControlName="gst" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Payment Term Status</label>
-          <input type="text" class="input-field" formControlName="paymentStatus" readonly />
+          <label for="">GST Treatment</label>
+          <input type="text" class="input-field" formControlName="gstTreatment" readonly />
+        </div>
+      </div>
+  
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">MSME Registered</label>
+          <input type="text" class="input-field" formControlName="msmeRegistered" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Paid By Details <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="paidByDetail">
-            <ng-option *ngFor="let details of paidbyDetailsList" [value]="details.value">{{details.value}}</ng-option>
-          </ng-select>
-        </div>
-      </div> -->
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Taxation Type <span class="text-danger">*</span></label>
-          <ng-select (change)="onOptionSelected($event)" name="" id="" formControlName="taxationTypeId">
-            <ng-option *ngFor="let code of rcmNonRcmType" [value]="code.id">{{code.code}}</ng-option>
-          </ng-select>
+          <label for="">MSME Type</label>
+          <input type="text" class="input-field" formControlName="msmeType" readonly />
         </div>
       </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">MSME No</label>
+          <input type="text" class="input-field" formControlName="msmeNo" readonly />
+        </div>
+      </div>
+  
       <div class="col-lg-4 col-md-4">
         <div class="custom-form-input">
-          <label for="">Taxation Code <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="taxCodeId" (change)="onChangeTaxationCode($event)">
-            <ng-option *ngFor="let code of taxCodes" [value]="code.id">{{code.code}} ({{code?.description}})</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <!-- <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Tds Code <span class="text-danger">*</span></label>
-          <ng-select (change)="onSelectTdsCode($event)" name="" id="" formControlName="tdsCodeId">
-            <ng-option *ngFor="let code of tdsCodes" [value]="code.id">{{code.code}}</ng-option>
-          </ng-select>
-        </div>
-      </div> -->
-      <!-- <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">TDS</label>
-          <input type="text" class="input-field" formControlName="tds" readonly />
-        </div>
-      </div> -->
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">CGST</label>
-          <input type="text" class="input-field" formControlName="cgst" readonly />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">SGST</label>
-          <input type="text" class="input-field" formControlName="sgst" readonly />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">IGST</label>
-          <input type="text" class="input-field" formControlName="igst" readonly />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Vendor Payment Group</label>
-          <input type="text" class="input-field" formControlName="vendorPaymentGroup" readonly />
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="custom-form-input">
-          <label for="">Vendor Payment Terms Name</label>
-          <input type="text" class="input-field" formControlName="vendorPaymentTermsName" readonly />
+          <label for="">Contact Person Name</label>
+          <input type="text" class="input-field" formControlName="contactPersonName" readonly />
         </div>
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
-          <label for="">Vendor Payterm Method Code</label>
-          <input type="text" class="input-field" formControlName="vendorPaytermMethodCode" readonly />
+          <label for="">Designation</label>
+          <input type="text" class="input-field" formControlName="designation" readonly />
         </div>
-      </div> 
-      <div class="col-lg-2 col-md-2">
+      </div>
+  
+      <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
-          <label for="">Vendor Payterm Days</label>
-          <input type="text" class="input-field" formControlName="vendorPaytermDays" readonly />
+          <label for="">Email 1</label>
+          <input type="text" class="input-field" formControlName="email1" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Email 2</label>
+          <input type="text" class="input-field" formControlName="email2" readonly />
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Status <span class="text-danger">*</span></label>
-          <select name="" formControlName="status">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
+          <label for="">Mobile No</label>
+          <input type="text" class="input-field" formControlName="phoneMobileNo" readonly />
+        </div>
+      </div>
+  
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Currency</label>
+          <input type="text" class="input-field" formControlName="currency" readonly />
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Payment Terms</label>
+          <input type="text" class="input-field" formControlName="paymentTerms" readonly />
+        </div>
+      </div>
+  
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Bank Name</label>
+          <input type="text" class="input-field" formControlName="bankName" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Account Holder Name</label>
+          <input type="text" class="input-field" formControlName="accountHolderName" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Account Number</label>
+          <input type="text" class="input-field" formControlName="accountNumber" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Confirm Account Number</label>
+          <input type="text" class="input-field" formControlName="confirmAccountNumber" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">IFSC Code</label>
+          <input type="text" class="input-field" formControlName="ifscCode" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">SWIFT Code</label>
+          <input type="text" class="input-field" formControlName="swiftCode" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Bank Address Line 1</label>
+          <input type="text" class="input-field" formControlName="bankAddressLine1" readonly />
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="custom-form-input">
+          <label for="">Bank Address Line 2</label>
+          <input type="text" class="input-field" formControlName="bankAddressLine2" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Branch</label>
+          <input type="text" class="input-field" formControlName="branch" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Bank City</label>
+          <input type="text" class="input-field" formControlName="bankCity" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Bank State</label>
+          <input type="text" class="input-field" formControlName="bankState" readonly />
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Bank Pin Code</label>
+          <input type="text" class="input-field" formControlName="bankPinCode" readonly />
         </div>
       </div>
     </div>
   </form>
+  
 
-  <div class="edit-screen-subTable">
+  <!-- <div class="edit-screen-subTable">
     <h4 class="">
       Transaction Details
       <button class="custom-button-regulr" (click)="onAddTransactionRow()">Add</button>
@@ -272,7 +331,7 @@
       </tbody>
     </table>
   </div>
-</div>
+</div> -->
 <div class="spinner" *ngIf="loadSpinner">
   Loading...
 </div>

@@ -2,12 +2,12 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('partNumber')">Part#</th>
-        <th (click)="sortData('partName')">Part Name</th>
-        <th (click)="sortData('description')">Description</th>
-        <th (click)="sortData('partSize')">Part Size</th>
-        <th (click)="sortData('partPrice')">Part Price</th>
-        <th (click)="sortData('remarks')">Remarks</th>
+        <th (click)="sortData('partNumber')">Customer Code</th>
+        <th (click)="sortData('partNumber')">Customer Type</th>
+        <th (click)="sortData('partName')">Customer Name</th>
+        <th (click)="sortData('description')">Address</th>
+        <th (click)="sortData('partSize')">Email</th>
+        <th (click)="sortData('partPrice')">Mobile Number</th>
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
@@ -17,7 +17,7 @@
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{part.partNumber}}</u>
+            <u>{{part.customerCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -40,11 +40,11 @@
             </div>
           </ng-template>
         </td>
-        <td>{{part.partName}}</td>
-        <td>{{part.description}}</td>
-        <td>{{part.partSize}}</td>
-        <td>{{part.partPrice}}</td>
-        <td>{{part.remarks}}</td>
+        <td>{{part.customerType}}</td>
+        <td>{{part.customerName}}</td>
+        <td>{{part.billingAddressLine1}}</td>
+        <td>{{part.email}}</td>
+        <td>{{part.mobileNumber}}</td>
         <td>{{part.status}}</td>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPart(part)" />

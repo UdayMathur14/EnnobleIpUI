@@ -40,40 +40,68 @@ export class AddEditVendorComponent implements OnInit {
   freightCity: any = [];
   statusValue: string = '';
   vendorForm = new FormGroup({
+    vendorType: new FormControl(''),
     vendorCode: new FormControl(''),
     vendorName: new FormControl(''),
-    vendorAddress1: new FormControl(''),
-    vendorAddress2: new FormControl(''),
-    phone: new FormControl('', [
-      Validators.required, Validators.minLength(10), Validators.maxLength(12)
-    ]),
-    email: new FormControl('', [
-      Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-]),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    country: new FormControl(''),
-    postalCode: new FormControl(''),
+  
+    billingAddressLine1: new FormControl(''),
+    billingAddressLine2: new FormControl(''),
+    billingCity: new FormControl(''),
+    billingState: new FormControl(''),
+    billingCountry: new FormControl(''),
+    billingPinCode: new FormControl(''),
+  
+    shippingAddressLine1: new FormControl(''),
+    shippingAddressLine2: new FormControl(''),
+    shippingCity: new FormControl(''),
+    shippingState: new FormControl(''),
+    shippingCountry: new FormControl(''),
+    shippingPinCode: new FormControl(''),
+  
     pan: new FormControl(''),
-    gstin: new FormControl(''),
-    freightCity: new FormControl(''),
-    // paymentTermCode: new FormControl(''),
-    // paymentStatus: new FormControl(''),
-    // paidByDetail: new FormControl('', [Validators.required]),
-    taxationTypeId: new FormControl('', [Validators.required]),
-    taxCodeId: new FormControl('', [Validators.required]),
-    // tdsCodeId: new FormControl('', [Validators.required]),
-    cgst: new FormControl(''),
-    sgst: new FormControl(''),
-    igst: new FormControl(''),
-    tds: new FormControl(''),
-    vendorPaymentGroup: new FormControl(''),
-    vendorPaymentTermsName: new FormControl(''),
-    vendorPaytermDays: new FormControl(''),
-    vendorPaytermMethodCode: new FormControl(''),
-    // rcmNonRcm: new FormControl(''),
-    status: new FormControl('', [Validators.required]),
+    gst: new FormControl(''),
+    gstTreatment: new FormControl(''),
+    msmeRegistered: new FormControl(''),
+    msmeType: new FormControl(''),
+    msmeNo: new FormControl(''),
+  
+    contactPersonName: new FormControl(''),
+    designation: new FormControl(''),
+  
+    email1: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ]),
+    email2: new FormControl('', [
+      Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ]),
+  
+    phoneMobileNo: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(12)
+    ]),
+  
+    currency: new FormControl(''),
+    paymentTerms: new FormControl(''),
+  
+    bankName: new FormControl(''),
+    accountHolderName: new FormControl(''),
+    accountNumber: new FormControl(''),
+    confirmAccountNumber: new FormControl(''),
+    ifscCode: new FormControl(''),
+    swiftCode: new FormControl(''),
+  
+    bankAddressLine1: new FormControl(''),
+    bankAddressLine2: new FormControl(''),
+    branch: new FormControl(''),
+    bankCity: new FormControl(''),
+    bankState: new FormControl(''),
+    bankPinCode: new FormControl(''),
+  
+    status: new FormControl('', Validators.required)
   });
+  
 
   constructor(
     private _Activatedroute: ActivatedRoute,
@@ -231,37 +259,49 @@ export class AddEditVendorComponent implements OnInit {
     this.onSelectTdsCode(data?.tdsCodes?.id);
     this.selectedTransactionTypes.clear();
     this.vendorForm.patchValue({
+      vendorType: data?.vendorType,
       vendorCode: data?.vendorCode,
-      vendorName: data.vendorName,
-      vendorAddress1: data.vendorAddress1,
-      vendorAddress2: data.vendorAddress2,
-      phone: data.contactNumber,
-      email: data.email,
-      city: data.city,
-      state: data.state,
-      country: data.country,
-      postalCode: data.postalCode,
-      pan: data.panNo,
-      gstin: data.gstInNo,
-      taxationTypeId: data?.taxationTypeId,
-      taxCodeId: data?.taxCodeId,
-      // tdsCodeId: data?.tdsCodeId,
-      // paymentTermCode: data.payTermCode,
-      // paymentStatus: data.payTermStatus,
-      // paidByDetail: data.paidByDetail?.value,
-      // taxationCode: data.taxationType?.id,
-      cgst: data?.attribute5,
-      sgst: data?.attribute6,
-      igst: data?.attribute7,
-      status: data?.status,
-      vendorPaymentGroup: data?.vendorPaymentGroup,
-      vendorPaymentTermsName: data?.vendorPaymentTermsName,
-      vendorPaytermDays: data?.vendorPaytermDays,
-      vendorPaytermMethodCode: data?.vendorPaytermMethodCode,
-      freightCity: data?.freightCity
-      // rcmNonRcm: data.taxationType?.attribute8 === 1 ? 'RCM' : 'Non RCM' || '',
+      vendorName: data?.vendorName,
+      billingAddressLine1: data?.billingAddressLine1,
+      billingAddressLine2: data?.billingAddressLine2,
+      billingCity: data?.billingCity,
+      billingState: data?.billingState,
+      billingCountry: data?.billingCountry,
+      billingPinCode: data?.billingPinCode,
+      shippingAddressLine1: data?.shippingAddressLine1,
+      shippingAddressLine2: data?.shippingAddressLine2,
+      shippingCity: data?.shippingCity,
+      shippingState: data?.shippingState,
+      shippingCountry: data?.shippingCountry,
+      shippingPinCode: data?.shippingPinCode,
+      pan: data?.pan,
+      gst: data?.gst,
+      gstTreatment: data?.gstTreatment,
+      msmeRegistered: data?.msmeRegistered,
+      msmeType: data?.msmeType,
+      msmeNo: data?.msmeNo,
+      contactPersonName: data?.contactPersonName,
+      designation: data?.designation,
+      email1: data?.email1,
+      email2: data?.email2,
+      phoneMobileNo: data?.phoneMobileNo,
+      currency: data?.currency,
+      paymentTerms: data?.paymentTerms,
+      bankName: data?.bankName,
+      accountHolderName: data?.accountHolderName,
+      accountNumber: data?.accountNumber,
+      confirmAccountNumber: data?.confirmAccountNumber,
+      ifscCode: data?.ifscCode,
+      swiftCode: data?.swiftCode,
+      bankAddressLine1: data?.bankAddressLine1,
+      bankAddressLine2: data?.bankAddressLine2,
+      branch: data?.branch,
+      bankCity: data?.bankCity,
+      bankState: data?.bankState,
+      bankPinCode: data?.bankPinCode,
+      status: data?.status
     });
-
+    
     if (data?.vendorMappingModels) {
       this.transactionMappings = data.vendorMappingModels.map((mapping: any) => {
         this.selectedTransactionTypes.add(mapping.transactionType.code);
@@ -282,7 +322,7 @@ export class AddEditVendorComponent implements OnInit {
 
   onOptionSelected(event: any) {
     this.vendorForm.patchValue({
-      taxCodeId: null
+      // taxCodeId: null
     })
     const selectedLookup = this.rcmNonRcmType.find(
       (lookup: any) => lookup.id === event
@@ -297,9 +337,9 @@ export class AddEditVendorComponent implements OnInit {
   onChangeTaxationCode(event: any){
     const selectedTaxCode = this.taxCodes.find((item: any) => item.id == event)
       this.vendorForm.patchValue({
-      cgst: selectedTaxCode?.attribute5 || 0,
-      sgst: selectedTaxCode?.attribute6 || 0,
-      igst: selectedTaxCode?.attribute7 || 0,
+      // cgst: selectedTaxCode?.attribute5 || 0,
+      // sgst: selectedTaxCode?.attribute6 || 0,
+      // igst: selectedTaxCode?.attribute7 || 0,
     });
   }
 
@@ -309,7 +349,7 @@ export class AddEditVendorComponent implements OnInit {
     );
 
     this.vendorForm.patchValue({
-      tds: selectedLookup?.attribute5
+      // tds: selectedLookup?.attribute5
     })
   }
 
@@ -324,7 +364,7 @@ export class AddEditVendorComponent implements OnInit {
   phoneNumberLength(e: any) {
     const phoneControl = this.vendorForm.get('phone');
     if (phoneControl?.value) {
-      this.disableSubmit = phoneControl.value.length < 10 || phoneControl.value.length > 12 ? true : false;
+      // this.disableSubmit = phoneControl.value.length < 10 || phoneControl.value.length > 12 ? true : false;
     }
   }
 

@@ -2,14 +2,14 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('plantCode')">Plant Code</th>
-        <th (click)="sortData('plantDesc')">Plant Name</th>
+        <th (click)="sortData('plantCode')">Customer Code</th>
+        <th (click)="sortData('plantDesc')">Customer Name</th>
         <th (click)="sortData('plantAddress')">Address</th>
         <th (click)="sortData('state.value')">State</th>
         <th (click)="sortData('city.value')">City</th>
         <th (click)="sortData('panNo')">PAN</th>
         <th (click)="sortData('gstnNo')">GSTIN</th>
-        <th (click)="sortData('siteCode')">Site Code</th>
+        <th (click)="sortData('siteCode')"> Code</th>
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Actions</th>
       </tr>
@@ -57,7 +57,7 @@
       </tr>
       }@empty {
       <tr>
-        <td align="center" colspan="13">No Plant Found</td>
+        <td align="center" colspan="13">No Customer Found</td>
       </tr>
       }
     </tbody>

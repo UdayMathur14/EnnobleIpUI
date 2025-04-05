@@ -5,12 +5,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthInterceptor, ResponseInterceptor } from './core/interceptor';
 import { BootService } from './core/service/boot.service';
 import { initializeAppFactory } from './core/initializer/app.initializer';
 import { ExportAsModule, ExportAsService } from 'ngx-export-as';
-import { NgbDateCustomParserFormatterService } from './core/service/NgbDateCustomParserFormatter.service';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
@@ -40,16 +37,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
       deps: [BootService],
       multi: true,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ResponseInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true,
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ResponseInterceptor,
+    //   multi: true,
+    // },
   ],
   bootstrap: [AppComponent]
 })
