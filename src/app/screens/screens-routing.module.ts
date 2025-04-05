@@ -2,8 +2,8 @@ import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { ScreensComponent } from "./screens.component";
 import { PlantComponent } from "./master/plant/plant.component";
-import { PartComponent } from "./master/part/part.component";
-import { AddEditPartComponent } from "./master/part/add-edit-part/add-edit-part.component";
+import { CustomerComponent } from "./master/customer/customer.component";
+import { AddEditCustomerComponent } from "./master/customer/add-edit-customer/add-edit-customer.component";
 import { AddEditPlantComponent } from "./master/plant/add-edit-plant/add-edit-plant.component";
 import { VendorComponent } from "./master/vendor/vendor.component";
 import { AddEditVendorComponent } from "./master/vendor/add-edit-vendor/add-edit-vendor.component";
@@ -60,8 +60,8 @@ const routes: Routes = [
             { path: "master", component: MasterComponent },
             { path: "master/customer", component: PlantComponent, canActivate: [AuthGuard] },
             { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent, canActivate: [AuthGuard] },
-            { path: "master/part", component: PartComponent, canActivate: [AuthGuard] },
-            { path: "master/addEditPart/:partId", component: AddEditPartComponent, canActivate: [AuthGuard] },
+            { path: "master/customer", component: CustomerComponent, canActivate: [AuthGuard] },
+            { path: "master/addEditCustomer/:customerId", component: AddEditCustomerComponent, canActivate: [AuthGuard] },
             { path: "master/vendor", component: VendorComponent, canActivate: [AuthGuard] },
             { path: "master/addEditVendor/:vendorId", component: AddEditVendorComponent, canActivate: [AuthGuard] },
             { path: "master/vehicle", component: VehicleComponent, canActivate: [AuthGuard] },
@@ -129,7 +129,7 @@ export const ScreensComponents = [
     PlantComponent,
     AddEditVendorComponent,
     PointMasterMaterialComponent,
-    AddEditPartComponent,
+    AddEditCustomerComponent,
     TransactionTypeComponent,
     AddEditFreightComponent,
     AddEditAdviceComponent,

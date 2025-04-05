@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PartService } from '../../../../core/service/part.service';
+import { CustomerService } from '../../../../core/service/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../../core/service/vehicle.service';
 import { VendorService } from '../../../../core/service/vendor.service';
@@ -20,30 +20,30 @@ import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 export class AddEditDispatchNoteComponent {
   addOrEditDispatchNoteFormGroup!: FormGroup;
 
-  partNum: string | undefined;
-  partsList: any[] = [];
-  allPartsNames: string[] = [];
+  customerNum: string | undefined;
+  customersList: any[] = [];
+  allcustomersNames: string[] = [];
   vehicleList: any[] = [];
   allVehiclNumbers: string[] = [];
   dispatchNote!: any;
   supplierList: any[] = [];
-  partDetailsList: any[] = []; //just to show part data on table
+  customerDetailsList: any[] = []; //just to show customer data on table
   supplierId!: number;
   vehicleId!: number;
-  partQtyId: number = 0;
+  customerQtyId: number = 0;
   lookupList: any[] = [];
-  selectedPartNumber!: string;
+  selectedcustomerNumber!: string;
   selectedQuantity!: number;
   dispatchId: number = 0;
   loadSpinner: boolean = false;
   locationId!: Number;
   locations: any[] = APIConstant.commonLocationsList;
   commonLocations: any[] = [];
-  selectedParts: any = [];
-  deletedParts: any[] = [];
+  selectedcustomers: any = [];
+  deletedcustomers: any[] = [];
   activeSuppliersLists: any[] = [];
   activeVehiclesLists: any[] = [];
-  activePartsLists: any[] = [];
+  activecustomersLists: any[] = [];
   dispatchNotes: any = [];
   dispatchLocationId: number = 0;
   transportersList: any = [];
@@ -59,11 +59,11 @@ export class AddEditDispatchNoteComponent {
   selectedLocationId: number = 0;
   matchedvehicle: any = [];
   selectedTransporterId: number = 0;
-  filteredParts: any = [];
+  filteredcustomers: any = [];
 
   constructor(
     private router: Router,
-    private partService: PartService,
+    private customerService:CustomerService,
     private toastr: ToastrService,
     private vehicleService: VehicleService,
     private vendorService: VendorService,
@@ -86,7 +86,7 @@ export class AddEditDispatchNoteComponent {
     if(locationId){
       this.locationId = Number(locationId);
     }
-    this.getAllPartsListInit();
+    this.getAllcustomersListInit();
     this.getAllVehicles();
     this.getAllVendors();
     this.dispatchNoteInit();
@@ -120,7 +120,7 @@ export class AddEditDispatchNoteComponent {
       transporterName: [''],
       transporterMode: [''],
       frlrDate: [''],
-      partdetails: this.fb.array([], Validators.required),
+      customerdetails: this.fb.array([], Validators.required),
     });
   }
 
@@ -145,23 +145,23 @@ export class AddEditDispatchNoteComponent {
     });
   }
 
-  createPartDetailsGroup() {
+  createcustomerDetailsGroup() {
     const detail = this.fb.group({
-      partId: [''],
-      partNumber: ['', [Validators.required]],
-      partName: [''],
-      partSize: [''],
-      partQuantity: ['', [Validators.required]],
+      customerId: [''],
+      customerNumber: ['', [Validators.required]],
+      customerName: [''],
+      customerSize: [''],
+      customerQuantity: ['', [Validators.required]],
       remarks: [''],
       status: ['Active'],
       id: [0]
     });
 
-    this.partDetails.push(detail);
+    this.customerDetails.push(detail);
   }
 
-  get partDetails(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
+  get customerDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get('customerdetails') as FormArray;
   }
 
   async getDispatchData(dispatchId: number) {
@@ -198,22 +198,22 @@ export class AddEditDispatchNoteComponent {
           frlrDate: frlrDate,
         });
 
-        response?.dispatchNotePartItems?.forEach(
-          (partItem: any, index: number) => {
-            this.createPartDetailsGroup();
-            const partDetailsGroup = this.partDetails.at(index) as FormGroup;
-            partDetailsGroup.patchValue({
-              partNumber: partItem.parts.partNumber,
-              partName: partItem.parts.partName,
-              partId: partItem.parts.id,
-              partSize: partItem.parts.partSize,
-              remarks: partItem.parts.remarks,
-              partQuantity: partItem.partsQty,
-              status: partItem.status,
-              id: partItem.id
+        response?.dispatchNotecustomerItems?.forEach(
+          (customerItem: any, index: number) => {
+            this.createcustomerDetailsGroup();
+            const customerDetailsGroup = this.customerDetails.at(index) as FormGroup;
+            customerDetailsGroup.patchValue({
+              customerNumber: customerItem.customers.customerNumber,
+              customerName: customerItem.customers.customerName,
+              customerId: customerItem.customers.id,
+              customerSize: customerItem.customers.customerSize,
+              remarks: customerItem.customers.remarks,
+              customerQuantity: customerItem.customersQty,
+              status: customerItem.status,
+              id: customerItem.id
             });
-            const selectedPartNumbers = this.partDetails.controls.map(control => control.value.partNumber);
-            this.initializeSelectedParts(selectedPartNumbers)
+            const selectedcustomerNumbers = this.customerDetails.controls.map(control => control.value.customerNumber);
+            this.initializeSelectedcustomers(selectedcustomerNumbers)
             const transporters = this.transportersList.find((item: any) => {
               return item.id == response?.transporterId;
              })
@@ -232,17 +232,17 @@ export class AddEditDispatchNoteComponent {
     return lookupItem?.id;
   }
 
-  private async getAllPartsListInit() {
+  private async getAllcustomersListInit() {
     this.loadSpinner = true;
     const data = {
-      partNumber: '',
-      partName: '',
+      customerNumber: '',
+      customerName: '',
     };
-    await this.partService.getParts(data).subscribe(
+    await this.customerService.getCustomers(data).subscribe(
       (response: any) => {
-        this.partsList = response.parts;
-        this.activePartsLists = this.partsList.filter(
-          (parts: any) => parts.status === 'Active'
+        this.customersList = response.customers;
+        this.activecustomersLists = this.customersList.filter(
+          (customers: any) => customers.status === 'Active'
         );
         this.loadSpinner = false;
       },
@@ -295,7 +295,7 @@ export class AddEditDispatchNoteComponent {
   private async getAllLookups() {
     this.loadSpinner = true;
     let data = {
-      type: 'PartQuantity',
+      type: 'customerQuantity',
     };
     await this.lookupService.getDropdownData(data.type).subscribe(
       (response: any) => {
@@ -330,7 +330,7 @@ export class AddEditDispatchNoteComponent {
       frlrNumber: '',
       supplierId: 0,
       vehicleId: 0,
-      partDetails: [],
+      customerDetails: [],
       id: this.dispatchId,
       transporterId: 0,
       frlrDate: '',
@@ -380,67 +380,67 @@ export class AddEditDispatchNoteComponent {
     });
   }
 
-  onDeletePartDetail(part: any, i: number) {
-    const deletedPart = {
+  onDeletecustomerDetail(customer: any, i: number) {
+    const deletedcustomer = {
         actionBy: localStorage.getItem("userId"),
         attribute9: new Date(),
         attribute10: new Date(),
-        partId: part.value.partId,
-        partQty: part.value.partQuantity,
+        customerId: customer.value.customerId,
+        customerQty: customer.value.customerQuantity,
         status: 'Inactive',
-        id: part.value.id,
+        id: customer.value.id,
     };
-    if (this.dispatchId > 0 && deletedPart.id != 0) {
-        this.deletedParts.push(deletedPart);
+    if (this.dispatchId > 0 && deletedcustomer.id != 0) {
+        this.deletedcustomers.push(deletedcustomer);
     }
-    this.partDetails.removeAt(i);
-    const partNumber = part.value.partNumber;
-    const index = this.selectedParts.indexOf(partNumber);
+    this.customerDetails.removeAt(i);
+    const customerNumber = customer.value.customerNumber;
+    const index = this.selectedcustomers.indexOf(customerNumber);
     if (index > -1) {
-        this.selectedParts.splice(index, 1);
+        this.selectedcustomers.splice(index, 1);
     }
-    this.updateSelectedParts(this.selectedParts);
+    this.updateSelectedcustomers(this.selectedcustomers);
 }
 
 
-  onPartSelect(data: any, i: number) {
-    const detailsArray = this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
+  oncustomerSelect(data: any, i: number) {
+    const detailsArray = this.addOrEditDispatchNoteFormGroup.get('customerdetails') as FormArray;
     const detailsGroup = detailsArray.at(i) as FormGroup;
 
     detailsGroup.patchValue({
-      partId: data?.id,
-      partNumber: data?.partNumber,
-      partName: data?.partName,
-      partSize: data?.partSize,
+      customerId: data?.id,
+      customerNumber: data?.customerNumber,
+      customerName: data?.customerName,
+      customerSize: data?.customerSize,
       remarks: data?.remarks
     });
-    const selectedPartNumbers = detailsArray.controls.map(control => control.value.partNumber);
-    this.updateSelectedParts(selectedPartNumbers);
+    const selectedcustomerNumbers = detailsArray.controls.map(control => control.value.customerNumber);
+    this.updateSelectedcustomers(selectedcustomerNumbers);
   }
 
-  getFilteredPartNumbers(index: number) {
-    return this.filteredParts.filter(
-      (parts: any) =>
-        !this.selectedParts.includes(parts.partNumber)
+  getFilteredcustomerNumbers(index: number) {
+    return this.filteredcustomers.filter(
+      (customers: any) =>
+        !this.selectedcustomers.includes(customers.customerNumber)
     );
   }
 
-  updateSelectedParts(selectedPartNumbers: string[]) {
-    this.selectedParts = selectedPartNumbers;
+  updateSelectedcustomers(selectedcustomerNumbers: string[]) {
+    this.selectedcustomers = selectedcustomerNumbers;
   }
 
 
-  initializeSelectedParts(selectedPartNumbers: string[]) {
-    this.selectedParts = selectedPartNumbers;
+  initializeSelectedcustomers(selectedcustomerNumbers: string[]) {
+    this.selectedcustomers = selectedcustomerNumbers;
   }
 
   onQuantitySelection(quantity: any, i: number) {
     const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
-      'partdetails'
+      'customerdetails'
     ) as FormArray;
     const detailsGroup = detailsArray.at(i) as FormGroup;
     detailsGroup.patchValue({
-      partQuantity: quantity,
+      customerQuantity: quantity,
     });
   }
 
@@ -459,11 +459,11 @@ export class AddEditDispatchNoteComponent {
     this.dispatchNote.transporterMode = this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value
 
     const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
-      'partdetails'
+      'customerdetails'
     ) as FormArray;
 
     if (this.dispatchId > 0) {
-      this.dispatchNote.partDetails = [];
+      this.dispatchNote.customerDetails = [];
       for (let i = 0; i < detailsArray.length; i++) {
         const dg = detailsArray.at(i) as FormGroup;
         let note = {
@@ -478,15 +478,15 @@ export class AddEditDispatchNoteComponent {
           attribute8: 0,
           attribute9: new Date(),
           attribute10: new Date(),
-          partId: dg.controls['partId'].value,
-          partQty: parseInt(dg.controls['partQuantity'].value),
+          customerId: dg.controls['customerId'].value,
+          customerQty: parseInt(dg.controls['customerQuantity'].value),
           status: dg.controls['status'].value,
           id: dg.controls['id'].value || 0,
           dispatchNoteid: this.dispatchId
         };
-        this.dispatchNote.partDetails.push(note);
+        this.dispatchNote.customerDetails.push(note);
       }
-      this.dispatchNote.partDetails = [...this.dispatchNote.partDetails, ...this.deletedParts];
+      this.dispatchNote.customerDetails = [...this.dispatchNote.customerDetails, ...this.deletedcustomers];
 
       this.dispatchNoteService
         .updateDispatchNote(matchedLocationId, this.dispatchId, this.dispatchNote)
@@ -502,7 +502,7 @@ export class AddEditDispatchNoteComponent {
           }
         );
     } else {
-      this.dispatchNote.partDetails = [];
+      this.dispatchNote.customerDetails = [];
       for (let i = 0; i < detailsArray.length; i++) {
         const dg = detailsArray.at(i) as FormGroup;
         let note = {
@@ -517,11 +517,11 @@ export class AddEditDispatchNoteComponent {
           attribute8: 0,
           attribute9: new Date(),
           attribute10: new Date(),
-          partId: dg.controls['partId'].value,
-          partQty: parseInt(dg.controls['partQuantity'].value),
+          customerId: dg.controls['customerId'].value,
+          customerQty: parseInt(dg.controls['customerQuantity'].value),
           // status: "Active",
         };
-        this.dispatchNote.partDetails.push(note);
+        this.dispatchNote.customerDetails.push(note);
       }
 
       await this.dispatchNoteService
@@ -651,11 +651,11 @@ export class AddEditDispatchNoteComponent {
 
   convertToNgbDate(dateString: string): any {
     if(dateString){
-      const dateParts = dateString?.split('-');
+      const datecustomers = dateString?.split('-');
       return new NgbDate(
-        parseInt(dateParts[0], 10),
-        parseInt(dateParts[1], 10),
-        parseInt(dateParts[2], 10)
+        parseInt(datecustomers[0], 10),
+        parseInt(datecustomers[1], 10),
+        parseInt(datecustomers[2], 10)
       );
     }
     }
@@ -666,7 +666,7 @@ export class AddEditDispatchNoteComponent {
         return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
       });
       this.filteredVehicles = this.activeVehiclesLists.filter((item: any) => item?.locations?.id == event);
-      this.filteredParts = this.activePartsLists.filter((item: any) => item?.locations?.id == event);
+      this.filteredcustomers = this.activecustomersLists.filter((item: any) => item?.locations?.id == event);
       this.addOrEditDispatchNoteFormGroup.patchValue({
         transporterCode: null,
         transporterName: null

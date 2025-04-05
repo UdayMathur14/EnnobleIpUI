@@ -1,24 +1,23 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { PartService } from '../../../../../core/service/part.service';
+import { CustomerService } from '../../../../../core/service/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
 
 @Component({
-  selector: 'app-part-filters',
-  templateUrl: './part-filter.component.html',
-  styleUrl: './part-filter.component.scss'
+  selector: 'app-customer-filters',
+  templateUrl: './customer-filter.component.html',
+  styleUrl: './customer-filter.component.scss'
 })
-export class PartFiltersComponent implements OnInit {
+export class CustomerFiltersComponent implements OnInit {
   @Input() filters : any = [];
   @Output() getData: EventEmitter<object> = new EventEmitter();
-  partNum: any = undefined;
-  partName:any = undefined;
+  customerNum: any = undefined;
+  customerName:any = undefined;
   status: any = undefined;
   locationIds : any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id))
   locations : any[] = APIConstant.commonLocationsList;
 
   constructor(
-    private partService: PartService,
     private toastr: ToastrService,
     private elementRef: ElementRef,
   ) { }
@@ -29,10 +28,10 @@ export class PartFiltersComponent implements OnInit {
 
   // BINDING PART NUMBERS AND PART NAMES DROPDOWNS
 
-  onPartSearch(){
+  onCustomerSearch(){
     const obj = {
-      "partName": this.partName,
-      "partNumber": this.partNum,
+      "customerName": this.customerName,
+      "customerNumber": this.customerNum,
       "status": this.status,
       "locationIds" : this.locationIds || [],
     }
@@ -40,13 +39,13 @@ export class PartFiltersComponent implements OnInit {
   }
 
   onClearFilter() {
-    this.partNum = undefined;
-    this.partName = undefined;
+    this.customerNum = undefined;
+    this.customerName = undefined;
     this.status = undefined;
     this.locationIds = this.locationIds;
     let obj = {
-      "partName": undefined,
-      "partNumber": undefined,
+      "customerName": undefined,
+      "customerNumber": undefined,
       "status": undefined,
       "locationIds" : this.locationIds
     }

@@ -2,57 +2,57 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('partNumber')">Customer Code</th>
-        <th (click)="sortData('partNumber')">Customer Type</th>
-        <th (click)="sortData('partName')">Customer Name</th>
+        <th (click)="sortData('customerNumber')">Customer Code</th>
+        <th (click)="sortData('customerNumber')">Customer Type</th>
+        <th (click)="sortData('customerName')">Customer Name</th>
         <th (click)="sortData('description')">Address</th>
-        <th (click)="sortData('partSize')">Email</th>
-        <th (click)="sortData('partPrice')">Mobile Number</th>
+        <th (click)="sortData('customerSize')">Email</th>
+        <th (click)="sortData('customerPrice')">Mobile Number</th>
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
     <tbody>
-      @for (part of partsList; track part.id) {
+      @for (customer of customersList; track customer.id) {
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{part.customerCode}}</u>
+            <u>{{customer.customerCode}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Creation Date</span>
-                <span>{{part.creationDate | date: 'yyyy-MM-dd'}}</span>
+                <span>{{customer.creationDate | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
-                <span>{{part?.createdByDetails?.name}}</span>
+                <span>{{customer?.createdByDetails?.name}}</span>
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{part.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
+                <span>{{customer.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
-                <span>{{part?.lastUpdatedByDetails?.name}}</span>
+                <span>{{customer?.lastUpdatedByDetails?.name}}</span>
               </div>
             </div>
           </ng-template>
         </td>
-        <td>{{part.customerType}}</td>
-        <td>{{part.customerName}}</td>
-        <td>{{part.billingAddressLine1}}</td>
-        <td>{{part.email}}</td>
-        <td>{{part.mobileNumber}}</td>
-        <td>{{part.status}}</td>
+        <td>{{customer.customerType}}</td>
+        <td>{{customer.customerName}}</td>
+        <td>{{customer.billingAddressLine1}}</td>
+        <td>{{customer.email}}</td>
+        <td>{{customer.mobileNumber}}</td>
+        <td>{{customer.status}}</td>
         <td class="text-center">
-          <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditPart(part)" />
+          <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditCustomer(customer)" />
         </td>
       </tr>
       }@empty {
       <tr>
-        <td align="center" colspan="13">No Part Found</td>
+        <td align="center" colspan="13">No Customer Found</td>
       </tr>
       }
     </tbody>

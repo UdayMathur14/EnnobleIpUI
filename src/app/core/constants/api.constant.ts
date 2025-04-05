@@ -23,14 +23,14 @@ export const APIConstant: any = {
   updatePlant: `/plant/update/`,
   vendorData: `vendor/`,
   updateVendor: `/vendor/update/`,
-  partData: `/search`,
-  updatePart: `/part/update/`,
+  customerData: `/search`,
+  updateCustomer: `/customer/update/`,
   lookupData: `lookup-type/`,
   updateLookup: `/lookup/update/`,
   createLookup: `/lookup/create`,
   createTransporter: `/transporter/create`,
   lookupstype: `lookup/search`,
-  createPart: `customer/create`,
+  createCustomer: `customer/create`,
   transactionTypeData: `bank/`,
   updateTransactionTypeData: `/transaction-type/update/`,
   getLookupData: `lookup/search`,
@@ -57,7 +57,7 @@ export const vendors = (offset: any, count: number) =>
   `vendor/search?offset=${offset}&count=${count}`;
 export const lookups = (offset: any, count: number) =>
   `/lookup/search?offset=${offset}&count=${count}`;
-export const parts = (offset: any, count: number) =>
+export const customers = (offset: any, count: number) =>
   `customer/search?offset=${offset}&count=${count}`;
 export const vehicle = (offset: any, count: number) =>
   `/vehicle/search?offset=${offset}&count=${count}`;
@@ -155,8 +155,8 @@ export const freightContract = (locationId: any, freightId: any) =>
 export const pointMasterContract = (locationId: any, pointId: any) =>
   `/point-charge/contracts/${locationId}/${pointId}`;
 export const calculatePointCharge = () => `/bilti-creation/calculate`;
-export const createPart = (locationId: any) => `/part/create/${locationId}`;
-export const updatePart = (locationId: any, partId: any) =>
-  `/part/update/${locationId}/${partId}`;
-export const partData = (locationId: any, partId: any) =>
-  `customer/${locationId}/${partId}`;
+export const createCustomer = (locationId: any) => `/customer/create/${locationId}`;
+export const updateCustomer = (locationId: any, customerId: any) =>
+  `/customer/update/${locationId}/${customerId}`;
+export const customerData = (locationId: any, customerId: any) =>
+  `customer/${locationId}/${customerId}`;

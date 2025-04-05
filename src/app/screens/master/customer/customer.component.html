@@ -3,7 +3,7 @@
   <div class="action-buttons">
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
-    <button class="custom-button-regulr" (click)="onCreatePart()">Create Customer</button>
+    <button class="custom-button-regulr" (click)="onCreateCustomer()">Create Customer</button>
     <div container="body">
       <img src="assets/images/icons/fullScreen.svg" alt="" class="pointer" width="14px"
         (click)="fullScreen = !fullScreen" placement="start" [ngbTooltip]="tipContent" />
@@ -13,7 +13,7 @@
 </div>
 
 <div class="filter-section">
-  <app-part-filters [filters]="filters" (getData)="getData($event)"></app-part-filters>
+  <app-customer-filters [filters]="filters" (getData)="getData($event)"></app-customer-filters>
 </div>
 
 <div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
@@ -21,10 +21,10 @@
     width="14px" (click)="fullScreen = !fullScreen" />
   <div class="grid-table">
     <div class="table-container">
-      <app-part-grid-table [partsList]="partsList" (exportHeader)="onExportHeader($event)"></app-part-grid-table>
+      <app-customer-grid-table [customersList]="customersList" (exportHeader)="onExportHeader($event)"></app-customer-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
-      <ngb-pagination [collectionSize]="totalParts" [(page)]="currentPage" [pageSize]="count"
+      <ngb-pagination [collectionSize]="totalCustomers" [(page)]="currentPage" [pageSize]="count"
         (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
       <p class="mt-2 ms-3"> Items per page:</p>
       <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">

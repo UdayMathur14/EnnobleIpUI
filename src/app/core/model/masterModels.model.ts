@@ -189,32 +189,41 @@ export interface LookupTypeDataModel {
   messageStatus: null;
 }
 
-export interface PartDataModel {
+export interface CustomerDataModel {
   id: number;
-  partNumber?: string;
-  partName?: string;
-  description?: string;
-  partSize?: string;
-  remarks?: string;
-  partPrice?: string;
-  status?: string;
-  extraAttr1: null;
-  extraAttr2: null;
-  extraAttr3: null;
-  extraAttr4: null;
-  extraAttr5: null;
-  extraAttr6: null;
-  extraAttr7: null;
-  extraAttr8: null;
-  extraAttr9: null;
-  extraAttr10: null;
+  customerType: string;
+  customerCode: string;
+  customerName: string;
+
+  billingAddressLine1?: string;
+  billingAddressLine2?: string;
+  billingCity?: string;
+  billingState?: string;
+  billingCountry?: string;
+  billingPinCode?: string;
+
+  shippingAddressLine1?: string;
+  shippingAddressLine2?: string;
+  shippingCity?: string;
+  shippingState?: string;
+  shippingCountry?: string;
+  shippingPinCode?: string;
+
+  contactPersonName?: string;
+  designation?: string;
+
+  email?: string;
+  mobileNumber?: string;
+
+  currency?: string;
+  paymentTerms?: string;
+
   createdBy: string;
   createdOn: string;
   modifiedBy: string;
   modifiedOn: string;
   messageStatus: null;
 }
-
 export interface PlantDataModel {
   id: number;
   plantCode: string;

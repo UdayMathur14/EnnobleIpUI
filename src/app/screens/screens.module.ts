@@ -4,10 +4,10 @@ import { LayoutModule } from "../layout";
 import { PlantFilterComponent } from "./master/plant/components/filter/plant-filter.component";
 import { PlantGridTableComponent } from "./master/plant/components/plant-grid-table/plant-grid-table.component";
 import { CommonModule } from "@angular/common";
-import { PartFiltersComponent } from "./master/part/components/filter/part-filter.component";
-import { PartGridTableComponent } from "./master/part/components/grid-table/part-grid-table.component";
-import { PartComponent } from "./master/part/part.component";
-import { AddEditPartComponent } from "./master/part/add-edit-part/add-edit-part.component";
+import { CustomerFiltersComponent } from "./master/customer/components/filter/customer-filter.component";
+import { CustomerGridTableComponent } from "./master/customer/components/grid-table/customer-grid-table.component";
+import { CustomerComponent } from "./master/customer/customer.component";
+import { AddEditCustomerComponent } from "./master/customer/add-edit-customer/add-edit-customer.component";
 import { VendorComponent } from './master/vendor/vendor.component';
 import { VendorGridTableComponent } from "./master/vendor/components/grid-table/vendor-grid-table.component";
 import { VehicleComponent } from "./master/vehicle/vehicle.component";
@@ -134,10 +134,10 @@ import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plan
         ...ScreensEntryComponents,
         PlantFilterComponent, 
         PlantGridTableComponent, 
-        PartFiltersComponent, 
-        PartGridTableComponent, 
-        PartComponent, 
-        AddEditPartComponent,
+        CustomerFiltersComponent, 
+        CustomerGridTableComponent, 
+        CustomerComponent, 
+        AddEditCustomerComponent,
         VendorComponent,
         VendorFilterComponent,
         VendorGridTableComponent,

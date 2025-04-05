@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, createPart, partData, parts, updatePart } from "../constants";
+import { APIConstant, createCustomer, customerData, customers, updateCustomer } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -16,19 +16,19 @@ export class CustomerService extends CRUDService<PlantRequest> {
         super(baseService, APIConstant.basePath);
     }
 
-    getParts(data: any, offset: number = 0, count: number = this.maxCount) {
-        return this.post(customer(offset, count), data);
+    getCustomers(data: any, offset: number = 0, count: number = this.maxCount) {
+        return this.post(customers(offset, count), data);
     }
 
-    getPartData(locationId: number = 0, partId: number) {
-        return this.get(partData(locationId, partId));
+    getCustomerData(locationId: number = 0, customerId: number) {
+        return this.get(customerData(locationId, customerId));
     }
 
-    updatePart(locationId: number = 0, partId: number, data: object) {
-        return this.put(updatePart(locationId, partId), data);
+    updateCustomer(locationId: number = 0, customerId: number, data: object) {
+        return this.put(updateCustomer(locationId, customerId), data);
     }
 
-    createPart(locationId: number = 0, data: object) {
-        return this.post(createPart(locationId), data);
+    createCustomer(locationId: number = 0, data: object) {
+        return this.post(createCustomer(locationId), data);
     }
 }

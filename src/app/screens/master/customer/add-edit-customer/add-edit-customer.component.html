@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1>{{partId>0 ? 'Edit Part' : 'Create Part'}} Master</h1>
+    <h1>{{customerId>0 ? 'Edit Customer' : 'Create Customer'}} Master</h1>
     <div class="action-buttons">
         <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="disableSave()">Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
@@ -7,30 +7,30 @@
 </div>
 
 <div class="content-section p-3">
-    <form [formGroup]="partForm">
+    <form [formGroup]="customerForm">
         <div class="row">
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
                   <label for="">Customer Type<span class="text-danger">*</span></label>
-                  <ng-select [searchable]="true" formControlName="locationId" placeholder="Select type" [readonly]="partId > 0">
+                  <ng-select [searchable]="true" formControlName="locationId" placeholder="Select type" [readonly]="customerId > 0">
                     <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
                   </ng-select>
                 </div>
               </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
-                    <label for="">Customer Code <span class="text-danger" *ngIf="partId == 0">*</span></label>
-                    <ng-select class="input-field" formControlName="partNumber" *ngIf="partId>0" [readonly]="true">
-                        <ng-option *ngFor="let part of partsList"
-                            [value]="part.partNumber">{{part.partNumber}}</ng-option>
+                    <label for="">Customer Code <span class="text-danger" *ngIf="customerId == 0">*</span></label>
+                    <ng-select class="input-field" formControlName="customerNumber" *ngIf="customerId>0" [readonly]="true">
+                        <ng-option *ngFor="let customer of customersList"
+                            [value]="customer.customerNumber">{{customer.customerNumber}}</ng-option>
                     </ng-select>
-                    <input type="text" class="input-field" formControlName="partNumber" *ngIf="partId == 0" />
+                    <input type="text" class="input-field" formControlName="customerNumber" *ngIf="customerId == 0" />
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
                     <label for="">Customer Name <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partName" inputAlphabetValidator/>
+                    <input type="text" class="input-field" formControlName="customerName" inputAlphabetValidator/>
 
                 </div>
             </div>
@@ -43,13 +43,13 @@
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
                     <label for="">Mobile Number <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partSize">
+                    <input type="text" class="input-field" formControlName="customerSize">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="custom-form-input">
                     <label for="">Contact Person Name <span class="text-danger">*</span></label>
-                    <input type="text" class="input-field" formControlName="partPrice" inputDecimalValidator/>
+                    <input type="text" class="input-field" formControlName="customerPrice" inputDecimalValidator/>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3">
@@ -58,7 +58,7 @@
                     <input type="text" class="input-field" formControlName="remarks" maxlength="150"/>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3" *ngIf="partId>0">
+            <div class="col-lg-3 col-md-3" *ngIf="customerId>0">
                 <div class="custom-form-input">
                     <label for="">Status <span class="text-danger">*</span></label>
                     <select name="" id="" formControlName="status">

@@ -1,55 +1,55 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PartService } from '../../../core/service/part.service';
+import { CustomerService } from '../../../core/service/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { XlsxService } from '../../../core/service/xlsx.service';
 import { APIConstant } from '../../../core/constants';
 
 @Component({
-  selector: 'app-part',
-  templateUrl: './part.component.html',
-  styleUrl: './part.component.scss',
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrl: './customer.component.scss',
 })
-export class PartComponent implements OnInit {
-  partsList: any[] = [];
+export class CustomerComponent implements OnInit {
+  customersList: any[] = [];
   loadSpinner: boolean = true;
   isFilters: boolean = true;
-  searchedPart: string = '';
+  searchedCustomer: string = '';
   fullScreen: boolean = false;
   headers: any[] = [];
   currentPage: number = 1;
   count: number = 10;
-  totalParts: number = 0;
+  totalCustomers: number = 0;
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
   constructor(
     private router: Router,
-    private partService: PartService,
+    private customerService: CustomerService,
     private toastr: ToastrService,
     private xlsxService: XlsxService
   ) {}
 
   ngOnInit(): void {
-    this.getFilteredPartsList();
+    this.getFilteredCustomersList();
   }
 
-  getFilteredPartsList(
+  getFilteredCustomersList(
     offset: number = 0,
     count: number = this.count,
     filters: any = this.appliedFilters
   ) {
     let data = {
-      partNumber: filters?.partNumber || '',
-      partName: filters?.partName || '',
+      customerNumber: filters?.customerNumber || '',
+      customerName: filters?.customerName || '',
       status: filters?.status || '',
       locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
     };
-    this.partService.getParts(data, offset, count).subscribe(
+    this.customerService.getCustomers(data, offset, count).subscribe(
       (response: any) => {
         console.log(response);
-        this.partsList = response.customers;
-        this.totalParts = response.paging.total;
+        this.customersList = response.customers;
+        this.totalCustomers = response.paging.total;
         this.filters = response.filters;
         this.loadSpinner = false;
       },
@@ -62,38 +62,38 @@ export class PartComponent implements OnInit {
   getData(e: any) {
     this.appliedFilters = e;
     this.currentPage = 1;
-    this.getFilteredPartsList(0, this.count, this.appliedFilters);
+    this.getFilteredCustomersList(0, this.count, this.appliedFilters);
   }
 
-  onCreatePart() {
-    this.router.navigate(['master/addEditPart', '0']);
+  onCreateCustomer() {
+    this.router.navigate(['master/addEditCustomer', '0']);
   }
 
   onExportHeader(headers: string[]) {
     this.headers = headers;
   }
 
-  exportData(fileName: string = 'Part') {
+  exportData(fileName: string = 'Customer') {
     let data = {
-      partNumber: this.appliedFilters?.partNumber || '',
-      partName: this.appliedFilters?.partName || '',
+      customerNumber: this.appliedFilters?.customerNumber || '',
+      customerName: this.appliedFilters?.customerName || '',
       status: this.appliedFilters?.status || '',
       locationIds: this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
     };
-    this.partService.getParts(data, 0, this.totalParts).subscribe(
+    this.customerService.getCustomers(data, 0, this.totalCustomers).subscribe(
       (response: any) => {
-        const partsListToExport = response.parts;
+        const customersListToExport = response.customers;
         // Map the data to include only the necessary fields
-        const mappedPartsList = partsListToExport.map((part: any) => ({
-          partNumber: part.partNumber,
-          partName: part.partName,
-          description: part.description,
-          partSize: part.partSize,
-          partPrice: part.partPrice,
-          remarks: part.remarks,
-          status: part.status,
+        const mappedCustomersList = customersListToExport.map((customer: any) => ({
+          customerNumber: customer.customerNumber,
+          customerName: customer.customerName,
+          description: customer.description,
+          customerSize: customer.customerSize,
+          customerPrice: customer.customerPrice,
+          remarks: customer.remarks,
+          status: customer.status,
         }));
-        this.xlsxService.xlsxExport(mappedPartsList, this.headers, fileName);
+        this.xlsxService.xlsxExport(mappedCustomersList, this.headers, fileName);
         this.loadSpinner = false;
       },
       (error) => {
@@ -110,12 +110,12 @@ export class PartComponent implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     const offset = (this.currentPage - 1) * this.count;
-    this.getFilteredPartsList(offset, this.count, this.appliedFilters);
+    this.getFilteredCustomersList(offset, this.count, this.appliedFilters);
   }
 
   onPageSizeChange(data: any) {
     this.count = data;
     this.currentPage = 1;
-    this.getFilteredPartsList(0, this.count, this.appliedFilters);
+    this.getFilteredCustomersList(0, this.count, this.appliedFilters);
   }
 }

@@ -1,15 +1,15 @@
 import { Component, OnInit, Input, SimpleChanges, EventEmitter, ElementRef, ViewChild, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { PartService } from '../../../../../core/service/part.service';
+import { CustomerService } from '../../../../../core/service/customer.service';
 import { CommonUtility } from '../../../../../core/utilities/common';
 
 @Component({
-  selector: 'app-part-grid-table',
-  templateUrl: './part-grid-table.component.html',
-  styleUrl: './part-grid-table.component.scss'
+  selector: 'app-customer-grid-table',
+  templateUrl: './customer-grid-table.component.html',
+  styleUrl: './customer-grid-table.component.scss'
 })
-export class PartGridTableComponent implements OnInit {
-  @Input() partsList : any[] = [];
+export class CustomerGridTableComponent implements OnInit {
+  @Input() customersList : any[] = [];
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   constructor(private router: Router) { }
@@ -20,7 +20,7 @@ export class PartGridTableComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partsList']) {
+    if (changes['customersList']) {
       this.emitHeaders();
     }
   }
@@ -36,13 +36,13 @@ export class PartGridTableComponent implements OnInit {
     this.exportHeader.emit(headers);
   }
 
-  onGoToEditPart(partData : any) {
-    this.router.navigate(['master/addEditPart',  partData.id]);
+  onGoToEditCustomer(customerData : any) {
+    this.router.navigate(['master/addEditCustomer',  customerData.id]);
   }
 
   sortData(field: string) {
     this.sortDirection = (this.sortField === field && this.sortDirection === 'asc') ? 'desc' : 'asc';
     this.sortField = field;
-    CommonUtility.sortTableData(field, this.sortDirection, this.partsList);
+    CommonUtility.sortTableData(field, this.sortDirection, this.customersList);
   }
 }

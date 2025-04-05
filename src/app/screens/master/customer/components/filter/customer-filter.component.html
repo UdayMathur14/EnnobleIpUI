@@ -12,16 +12,16 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Customer Code</label>
-                <ng-select class="input-field" [(ngModel)]="partNum" placeholder="Select Code">
-                    <ng-option *ngFor="let part of filters?.CustomerCode" [value]="part">{{part}}</ng-option>
+                <ng-select class="input-field" [(ngModel)]="customerNum" placeholder="Select Code">
+                    <ng-option *ngFor="let customer of filters?.CustomerCode" [value]="customer">{{customer}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Customer Name</label>
-                <ng-select class="input-field" [(ngModel)]="partName" placeholder="Select Name">
-                    <ng-option *ngFor="let part of filters?.PartName" [value]="part">{{part}}</ng-option>
+                <ng-select class="input-field" [(ngModel)]="customerName" placeholder="Select Name">
+                    <ng-option *ngFor="let customer of filters?.CustomerName" [value]="customer">{{customer}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -36,9 +36,9 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
-                <button class="custom-button-filters" (click)="onPartSearch()"
-                [disabled]="!locationIds.length && !partName && !partNum && !status">Search</button>
-                <button [disabled]="locationIds.length && !partNum && !partName  && !status" class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
+                <button class="custom-button-filters" (click)="onCustomerSearch()"
+                [disabled]="!locationIds.length && !customerName && !customerNum && !status">Search</button>
+                <button [disabled]="locationIds.length && !customerNum && !customerName  && !status" class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>
         </div>
     </div>
