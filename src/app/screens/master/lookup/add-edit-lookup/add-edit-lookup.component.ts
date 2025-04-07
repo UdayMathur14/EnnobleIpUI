@@ -34,19 +34,6 @@ export class AddEditLookupComponent implements OnInit {
       value: ['', Validators.required],
       description: ['', Validators.required],
       status: ['Active', Validators.required],
-      attribute1: [''],
-      attribute2: [''],
-      attribute3: [''],
-      attribute4: [''],
-      attribute5: [''],
-      attribute6: [''],
-      attribute7: [''],
-      attribute8: [''],
-      attribute9: [''],
-      attribute11: [''],
-      attribute12: [''],
-      attribute13: [''],
-      attribute14: [''],
     })
   }
 
@@ -87,18 +74,7 @@ export class AddEditLookupComponent implements OnInit {
         code: response.code,
         value: response.value,
         description: response.description,
-        status: response.status,
-        attribute1: response.attribute1,
-        attribute2: response.attribute2,
-        attribute3: response.attribute3,
-        attribute4: response.attribute4,
-        attribute11: response.attribute11,
-        attribute12: response.attribute12,
-        attribute5: response.attribute5,
-        attribute6: response.attribute6,
-        attribute7: response.attribute7,
-        attribute13: response.attribute13,
-        attribute14: response.attribute14,
+        status: response.status
       });
 
       this.lookupTypes = [response.lookUpType];
@@ -120,17 +96,6 @@ export class AddEditLookupComponent implements OnInit {
       value: this.lookupForm.controls['value'].value,
       description: this.lookupForm.controls['description'].value,
       status: this.lookupForm.controls['status'].value,
-      attribute1: this.lookupForm.controls['attribute1'].value,
-      attribute2: this.lookupForm.controls['attribute2'].value,
-      attribute3: this.lookupForm.controls['attribute3'].value,
-      attribute4: this.lookupForm.controls['attribute4'].value,
-      attribute5: parseInt(this.lookupForm.controls['attribute5'].value) || 0,
-      attribute6: parseInt(this.lookupForm.controls['attribute6'].value) || 0,
-      attribute7: parseInt(this.lookupForm.controls['attribute7'].value) || 0,
-      attribute11: this.lookupForm.controls['attribute11'].value,
-      attribute12: this.lookupForm.controls['attribute12'].value,
-      attribute13: parseInt(this.lookupForm.controls['attribute13'].value) || 0,
-      attribute14: parseInt(this.lookupForm.controls['attribute14'].value) || 0,
       actionBy: localStorage.getItem("userId")
     }
     if (this.lookupId > 0) {
@@ -182,16 +147,7 @@ export class AddEditLookupComponent implements OnInit {
       code: this.lookupForm.controls['code'].value,
       value: this.lookupForm.controls['value'].value,
       description: this.lookupForm.controls['description'].value,
-      status: this.lookupForm.controls['status'].value,
-      attribute1: this.lookupForm.controls['attribute1'].value,
-      attribute2: this.lookupForm.controls['attribute2'].value,
-      attribute3: this.lookupForm.controls['attribute3'].value,
-      attribute4: this.lookupForm.controls['attribute4'].value,
-      attribute5: this.lookupForm.controls['attribute5'].value,
-      attribute6: this.lookupForm.controls['attribute6'].value,
-      attribute7: this.lookupForm.controls['attribute7'].value,
-      attribute11: this.lookupForm.controls['attribute11'].value,
-      attribute12: this.lookupForm.controls['attribute12'].value,
+      status: this.lookupForm.controls['status'].value
     };
   }
 
