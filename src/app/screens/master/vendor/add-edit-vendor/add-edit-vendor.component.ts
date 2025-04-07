@@ -168,24 +168,66 @@ export class AddEditVendorComponent implements OnInit {
   onPressSave() {
     this.loadSpinner = true;
 
+    // const data = {
+    //   actionBy: localStorage.getItem('userId'),
+    //   contactNumber: this.vendorForm.get('phone')?.value,
+    //   email: this.vendorForm.get('email')?.value,
+    //   // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
+    //   status: this.vendorForm.get('status')?.value,
+    //   // vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
+    //   //   const iTransactionTypeId = this.transactionTypes.find((item: any)=> item.code == mapping.transactionType)
+    //   //   return {                                                                          
+    //   //     transactionTypeId: iTransactionTypeId?.id || mapping?.id,                        
+    //   //     paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
+    //   //     status: mapping.status
+    //   //   }
+    //   // })
+    // };
     const data = {
       actionBy: localStorage.getItem('userId'),
-      contactNumber: this.vendorForm.get('phone')?.value,
-      email: this.vendorForm.get('email')?.value,
-      taxationTypeId: this.vendorForm.get('taxationTypeId')?.value || 0,
-      taxCodeId: this.vendorForm.get('taxCodeId')?.value || 0,
-      freightCity: this.vendorForm.get('freightCity')?.value,
-      // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
-      status: this.vendorForm.get('status')?.value,
-      vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
-        const iTransactionTypeId = this.transactionTypes.find((item: any)=> item.code == mapping.transactionType)
-        return {                                                                          
-          transactionTypeId: iTransactionTypeId?.id || mapping?.id,                        
-          paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
-          status: mapping.status
-        }
-      })
+      vendorType: this.vendorForm.get('vendorType')?.value,
+      vendorCode: this.vendorForm.get('vendorCode')?.value,
+      vendorName: this.vendorForm.get('vendorName')?.value,
+      billingAddressLine1: this.vendorForm.get('billingAddressLine1')?.value,
+      billingAddressLine2: this.vendorForm.get('billingAddressLine2')?.value,
+      billingCity: this.vendorForm.get('billingCity')?.value,
+      billingState: this.vendorForm.get('billingState')?.value,
+      billingCountry: this.vendorForm.get('billingCountry')?.value,
+      billingPinCode: this.vendorForm.get('billingPinCode')?.value,
+      shippingAddressLine1: this.vendorForm.get('shippingAddressLine1')?.value,
+      shippingAddressLine2: this.vendorForm.get('shippingAddressLine2')?.value,
+      shippingCity: this.vendorForm.get('shippingCity')?.value,
+      shippingState: this.vendorForm.get('shippingState')?.value,
+      shippingCountry: this.vendorForm.get('shippingCountry')?.value,
+      shippingPinCode: this.vendorForm.get('shippingPinCode')?.value,
+      pan: this.vendorForm.get('pan')?.value,
+      gst: this.vendorForm.get('gst')?.value,
+      gstTreatment: this.vendorForm.get('gstTreatment')?.value,
+      msmeRegistered: this.vendorForm.get('msmeRegistered')?.value,
+      msmeType: this.vendorForm.get('msmeType')?.value,
+      msmeNo: this.vendorForm.get('msmeNo')?.value,
+      contactPersonName: this.vendorForm.get('contactPersonName')?.value,
+      designation: this.vendorForm.get('designation')?.value,
+      email1: this.vendorForm.get('email1')?.value,
+      email2: this.vendorForm.get('email2')?.value,
+      phoneMobileNo: this.vendorForm.get('phoneMobileNo')?.value,
+      currency: this.vendorForm.get('currency')?.value,
+      paymentTerms: this.vendorForm.get('paymentTerms')?.value,
+      bankName: this.vendorForm.get('bankName')?.value,
+      accountHolderName: this.vendorForm.get('accountHolderName')?.value,
+      accountNumber: this.vendorForm.get('accountNumber')?.value,
+      confirmAccountNumber: this.vendorForm.get('confirmAccountNumber')?.value,
+      ifscCode: this.vendorForm.get('ifscCode')?.value,
+      swiftCode: this.vendorForm.get('swiftCode')?.value,
+      bankAddressLine1: this.vendorForm.get('bankAddressLine1')?.value,
+      bankAddressLine2: this.vendorForm.get('bankAddressLine2')?.value,
+      branch: this.vendorForm.get('branch')?.value,
+      bankCity: this.vendorForm.get('bankCity')?.value,
+      bankState: this.vendorForm.get('bankState')?.value,
+      bankPinCode: this.vendorForm.get('bankPinCode')?.value,
+      status: this.vendorForm.get('status')?.value
     };
+    
     this.vendorService.updateVendor(this.queryData, data).subscribe(
       (response: any) => {
         this.vendorData = response;

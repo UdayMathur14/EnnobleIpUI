@@ -24,8 +24,8 @@ export class CustomerService extends CRUDService<PlantRequest> {
         return this.get(customerData( customerId));
     }
 
-    updateCustomer(locationId: number = 0, customerId: number, data: object) {
-        return this.put(updateCustomer(locationId, customerId), data);
+    updateCustomer( customerId: number, data: object) {
+        return this.put(updateCustomer( customerId), data);
     }
 
     createCustomer(locationId: number = 0, data: object) {

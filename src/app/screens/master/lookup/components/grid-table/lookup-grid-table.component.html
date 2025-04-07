@@ -2,14 +2,10 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('lookUpType.value')">Type</th>
+        <th (click)="sortData('lookUpType.code')">Type</th>
         <th (click)="sortData('code')">Code</th>
         <th (click)="sortData('value')">Value</th>
         <th (click)="sortData('description')">Description</th>
-        <!-- <th (click)="sortData('attribute1')">Attribute 1</th>
-        <th (click)="sortData('attribute2')">Attribute 2</th>
-        <th (click)="sortData('attribute3')">Attribute 3</th>
-        <th (click)="sortData('attribute4')">Attribute 4</th> -->
         <th (click)="sortData('status')">Status</th>
         <th class="text-center">Action</th>
       </tr>
@@ -19,7 +15,7 @@
       <tr>
         <td class="pointer">
           <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{lookup?.lookUpType.value}}</u>
+            <u>{{lookup?.lookUpType.code}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -45,10 +41,6 @@
         <td>{{lookup.code}}</td>
         <td>{{lookup.value}}</td>
         <td>{{lookup.description}}</td>
-        <!-- <td>{{lookup.attribute1 || '-'}}</td>
-        <td>{{lookup.attribute2 || '-'}}</td>
-        <td>{{lookup.attribute3 || '-'}}</td>
-        <td>{{lookup.attribute4 || '-'}}</td> -->
         <td>{{lookup.status}}</td>
         <td class="text-center">
           <img src="assets/images/icons/editPencil.svg" class="pointer" alt="edit" (click)="onGoToEditLookup(lookup)">

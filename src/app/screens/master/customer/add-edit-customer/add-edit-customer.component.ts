@@ -151,17 +151,38 @@ export class AddEditCustomerComponent implements OnInit {
   //FUNCTION EXECUTED ON SAVE BUTTON CLICK
   onPressSave() {
     this.loadSpinner = true;
-    let data = {
-      customerNumber: this.customerForm.controls['customerNumber'].value,
-      customerName: this.customerForm.controls['customerName'].value,
-      description: this.customerForm.controls['description'].value,
-      customerSize: this.customerForm.controls['customerSize'].value,
-      remarks: this.customerForm.controls['remarks'].value,
-      customerPrice: Number(this.customerForm.controls['customerPrice'].value),
-      status: this.customerForm.controls['status'].value,
-      modifiedBy: "",
-      actionBy: localStorage.getItem("userId")
-    }
+    
+      const data = {
+        customerType: this.customerForm.controls['customerType']?.value,
+        customerCode: this.customerForm.controls['customerCode']?.value,
+        customerName: this.customerForm.controls['customerName']?.value,
+      
+        billingAddressLine1: this.customerForm.controls['billingAddressLine1']?.value,
+        billingAddressLine2: this.customerForm.controls['billingAddressLine2']?.value,
+        billingCity: this.customerForm.controls['billingCity']?.value,
+        billingState: this.customerForm.controls['billingState']?.value,
+        billingCountry: this.customerForm.controls['billingCountry']?.value,
+        billingPinCode: this.customerForm.controls['billingPinCode']?.value,
+      
+        shippingAddressLine1: this.customerForm.controls['shippingAddressLine1']?.value,
+        shippingAddressLine2: this.customerForm.controls['shippingAddressLine2']?.value,
+        shippingCity: this.customerForm.controls['shippingCity']?.value,
+        shippingState: this.customerForm.controls['shippingState']?.value,
+        shippingCountry: this.customerForm.controls['shippingCountry']?.value,
+        shippingPinCode: this.customerForm.controls['shippingPinCode']?.value,
+      
+        contactPersonName: this.customerForm.controls['contactPersonName']?.value,
+        designation: this.customerForm.controls['designation']?.value,
+        email: this.customerForm.controls['email']?.value,
+        mobileNumber: this.customerForm.controls['mobileNumber']?.value,
+      
+        currency: this.customerForm.controls['currency']?.value,
+        paymentTerms: this.customerForm.controls['paymentTerms']?.value,
+      
+        status: this.customerForm.controls['status']?.value,
+        actionBy: localStorage.getItem("userId")
+      };
+      
     if (this.customerId > 0) {
       this.updateCustomer(data);
     } else {
@@ -175,7 +196,7 @@ export class AddEditCustomerComponent implements OnInit {
     const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
     const matchedLocationId = matchedLocation?.id;
     this.loadSpinner = true;
-    this.customerService.updateCustomer(matchedLocationId,this.customerId, data).subscribe((response: any) => {
+    this.customerService.updateCustomer(this.customerId, data).subscribe((response: any) => {
       this.customerData = response;
       this.loadSpinner = false;
       this.toastr.success('Customer Updated Successfully');

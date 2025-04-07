@@ -83,13 +83,24 @@ export class AddEditTransactionTypeComponent implements OnInit {
   onPressSave() {
     this.loadSpinner = true;
     const data = {
-      bankCode: this.transactionTypeForm.controls['bankCode']?.value,
-      bankName: this.transactionTypeForm.controls['bankName']?.value,
-      // interfaceTxnTypeId: (this.transactionTypeForm.controls['transactionTypeInterface']?.value) || 0,
-      // glSubCategoryId: (this.transactionTypeForm.controls['glSubcategory']?.value) || 0,
-      status: this.transactionTypeForm.controls['status']?.value,
-      actionBy: localStorage.getItem("userId")
-    }
+  bankCode: this.transactionTypeForm.controls['bankCode']?.value,
+  bankName: this.transactionTypeForm.controls['bankName']?.value,
+  bankAddress1: this.transactionTypeForm.controls['bankAddress1']?.value,
+  bankAddress2: this.transactionTypeForm.controls['bankAddress2']?.value,
+  city: this.transactionTypeForm.controls['city']?.value,
+  state: this.transactionTypeForm.controls['state']?.value,
+  country: this.transactionTypeForm.controls['country']?.value,
+  bankContactNo: this.transactionTypeForm.controls['bankContactNo']?.value,
+  bankEmailId: this.transactionTypeForm.controls['bankEmailId']?.value,
+  bankBranch: this.transactionTypeForm.controls['bankBranch']?.value,
+  ifscCode: this.transactionTypeForm.controls['ifscCode']?.value,
+  accountNumber: this.transactionTypeForm.controls['accountNumber']?.value,
+  accountHolderName: this.transactionTypeForm.controls['accountHolderName']?.value,
+  accountType: this.transactionTypeForm.controls['accountType']?.value,
+  status: this.transactionTypeForm.controls['status']?.value,
+  actionBy: localStorage.getItem("userId")
+};
+
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
       this.transactionData = response;
       this.loadSpinner = false;
