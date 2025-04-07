@@ -22,10 +22,10 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label>Bank Category</label>
+                <label>Bank Type</label>
                 <ng-select class="input-field" [(ngModel)]="glCategory"
                     placeholder="Category">
-                    <ng-option *ngFor="let transaction of filters?.GlSubCategory"
+                    <ng-option *ngFor="let transaction of filters?.BankType"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>
