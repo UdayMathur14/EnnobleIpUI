@@ -8,8 +8,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class VendorFilterComponent implements OnInit {
   @Output() getData: EventEmitter<any> = new EventEmitter();
   @Input() filters: any = [];
-  vendorCod : any = undefined;
-  vendorNam : any = undefined;
+  vendorCode : any = undefined;
+  vendorName : any = undefined;
   city : any = undefined;
   state : any = undefined;
   taxationType : any = undefined;
@@ -25,16 +25,16 @@ export class VendorFilterComponent implements OnInit {
 
   onVendorSearch() {
     let filterData = {
-      "vendorCode": this.vendorCod || "",
-      "vendorName": this.vendorNam || "",
+      "vendorCode": this.vendorCode || "",
+      "vendorName": this.vendorName || "",
       "status": this.status || ""
     }
     this.getData.emit(filterData)
   }
 
   onClearFilter() {
-    this.vendorCod = undefined;
-    this.vendorNam = undefined;
+    this.vendorCode = undefined;
+    this.vendorName = undefined;
     this.status = undefined;
     const filterData = {
       "vendorCode": undefined,

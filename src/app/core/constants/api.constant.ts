@@ -25,7 +25,7 @@ export const APIConstant: any = {
   updateVendor: `vendor/update/`,
   customerData: `/search`,
   updateCustomer: `/customer/update/`,
-  lookupData: `lookup-type/`,
+  lookupData: `lookup/`,
   updateLookup: `/lookup/update/`,
   createLookup: `/lookup/create`,
   createTransporter: `/transporter/create`,

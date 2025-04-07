@@ -32,8 +32,8 @@ export class SideBarComponent {
             this.router.navigate(['/master/advice'])
         } else if (master === 'vendor') {
             this.router.navigate(['/master/vendor'])
-        } else if (master === 'transactionType') {
-            this.router.navigate(['/master/transactionTypes'])
+        } else if (master === 'bank') {
+            this.router.navigate(['/master/bank'])
         } else if (master === 'transporter') {
             this.router.navigate(['/master/transporter'])
         } else if (master === "pointCharge") {

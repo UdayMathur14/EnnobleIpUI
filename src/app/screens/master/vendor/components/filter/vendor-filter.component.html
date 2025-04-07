@@ -3,7 +3,7 @@
         <div class="col-2">
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
-                <ng-select class="input-field" [(ngModel)]="vendorCod" typeToSearchText
+                <ng-select class="input-field" [(ngModel)]="vendorCode" typeToSearchText
                     placeholder="Select Vendor Code">
                     <ng-option *ngFor="let vendor of filters?.VendorCode"
                         [value]="vendor">{{vendor}}</ng-option>
@@ -13,7 +13,7 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="">Vendor Name</label>
-                <ng-select class="input-field" [(ngModel)]="vendorNam" typeToSearchText
+                <ng-select class="input-field" [(ngModel)]="vendorName" typeToSearchText
                     placeholder="Select Vendor Name">
                     <ng-option *ngFor="let vendor of filters?.VendorName"
                         [value]="vendor">{{vendor}}</ng-option>
@@ -32,7 +32,7 @@
             <div class="d-flex mt-4">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters me-2" (click)="onVendorSearch()"
-                    [disabled]="!vendorCod && !vendorNam && !city && !state && !paidByDetails && !taxationType && !status" style="padding:4px 10px;">Search</button>
+                    [disabled]="!vendorCode && !vendorName && !status" style="padding:4px 10px;">Search</button>
                 <button class="custom-button-filters" (click)="onClearFilter()" style="padding:4px 10px;">Clear</button>
             </div>
         </div>

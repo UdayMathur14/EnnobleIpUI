@@ -66,7 +66,7 @@ const routes: Routes = [
             { path: "master/vehicle", component: VehicleComponent, canActivate: [AuthGuard] },
             { path: "master/editVehicle/:vehicleId", component: AddEditVehicleComponent, canActivate: [AuthGuard] },
             { path: "master/addVehicle", component: AddEditVehicleComponent, canActivate: [AuthGuard] },
-            { path: 'master/transactionTypes', component: TransactionTypeComponent, canActivate: [AuthGuard] },
+            { path: 'master/bank', component: TransactionTypeComponent, canActivate: [AuthGuard] },
             { path: 'master/addEditTransactionTypes/:transactionId', component: AddEditTransactionTypeComponent, canActivate: [AuthGuard] },
             { path: "master/freight", component: FreightComponent, canActivate: [AuthGuard] },
             { path: "master/addEditFreight/:freightId", component: AddEditFreightComponent, canActivate: [AuthGuard] },

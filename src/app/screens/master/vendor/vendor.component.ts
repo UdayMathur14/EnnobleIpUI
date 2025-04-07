@@ -43,7 +43,7 @@ export class VendorComponent implements OnInit{
   getVendorsList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
       "vendorName": filters?.vendorName || "",
-      "country": filters?.country || "",
+      "vendorCode": filters?.vendorCode || "",
       "status": filters?.status || ""
     }
     this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {

@@ -39,6 +39,7 @@ export class AddEditLookupComponent implements OnInit {
 
   ngOnInit(): void {
     this.lookupId = Number(this.activatedRoute.snapshot.paramMap.get("lookupId"));
+    console.log(this.lookupId);
     this.lookupId = this.lookupId == 0 ? 0 : this.lookupId;
     if (this.lookupId != 0) {
       this.getLookupData(this.lookupId);
