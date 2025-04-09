@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderBarComponent {
 
-    userName = JSON.parse(localStorage.getItem('profile') || '')?.userName;
+    // userName = JSON.parse(localStorage.getItem('profile') || '')?.userName;
 
     constructor(
         private authService: AuthService,

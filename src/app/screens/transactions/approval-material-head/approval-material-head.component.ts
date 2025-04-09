@@ -41,7 +41,7 @@ export class ApprovalMaterialHeadComponent {
     const loginData = localStorage.getItem("logindata");
     if(loginData){
       const data = JSON.parse(loginData)
-      this.userName = data?.username
+      // this.userName = data?.username
     }
     this.getAllBiltiProcess();
   }

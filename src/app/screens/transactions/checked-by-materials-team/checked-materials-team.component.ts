@@ -44,7 +44,7 @@ export class CheckedMaterialsTeamComponent implements OnInit {
     const loginData = localStorage.getItem("logindata");
     if(loginData){
       const data = JSON.parse(loginData)
-      this.userName = data?.username
+      // this.userName = data?.username
     }
     
     this.getAllBiltiProcess();
