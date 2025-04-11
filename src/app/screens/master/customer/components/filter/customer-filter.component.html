@@ -4,7 +4,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Customer Code</label>
-                <ng-select class="input-field" [(ngModel)]="customerNum" placeholder="Select Code">
+                <ng-select class="input-field" [(ngModel)]="customerCode" placeholder="Select Code">
                     <ng-option *ngFor="let customer of filters?.CustomerCode" [value]="customer">{{customer}}</ng-option>
                 </ng-select>
             </div>
@@ -28,6 +28,13 @@
         <div class="col">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
+                <label for="" class="d-block">&nbsp;</label>
+                <button class="custom-button-filters me-2" 
+                        (click)="onCustomerSearch()"
+                        [disabled]="!customerCode && !customerName && !status" 
+                        style="padding:4px 10px;">
+                    Search
+                </button>
                 <button class="custom-button-filters" (click)="onCustomerSearch()"
                 class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
             </div>

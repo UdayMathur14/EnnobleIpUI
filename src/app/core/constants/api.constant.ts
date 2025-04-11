@@ -155,7 +155,7 @@ export const freightContract = (locationId: any, freightId: any) =>
 export const pointMasterContract = (locationId: any, pointId: any) =>
   `/point-charge/contracts/${locationId}/${pointId}`;
 export const calculatePointCharge = () => `/bilti-creation/calculate`;
-export const createCustomer = (locationId: any) => `/customer/create/${locationId}`;
+export const createCustomer = () => `/customer/create/`;
 export const updateCustomer = (customerId: any) =>
   `customer/update/${customerId}`;
 export const customerData = ( customerId: any) =>

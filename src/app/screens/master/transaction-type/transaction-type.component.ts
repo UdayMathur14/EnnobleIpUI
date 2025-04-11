@@ -21,6 +21,7 @@ export class TransactionTypeComponent implements OnInit {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  router: any;
   constructor(
     private transactionTypesService : TransactionTypesService,
     private xlsxService : XlsxService
@@ -29,6 +30,10 @@ export class TransactionTypeComponent implements OnInit {
   ngOnInit() {
     this.getAllTransactionTypes()
   }
+  onCreateBank() {
+    this.router.navigate(['master/addEditVendor', '0']);
+  }
+
 
   getAllTransactionTypes(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters){
     let data = {

@@ -18,6 +18,7 @@ import { LookupService } from '../../../../core/service/lookup.service';
 })
 export class AddEditVendorComponent implements OnInit {
   queryData: any;
+  VendorId:number = 0;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
   loadSpinner: boolean = true;

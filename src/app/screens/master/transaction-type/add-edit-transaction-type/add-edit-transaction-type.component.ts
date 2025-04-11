@@ -36,7 +36,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   glSubcategoryCode: any = [];
   transactionData: any = [];
   transactionTypeInterfaceData: any = [];
-
+  bankId:number=0;
   constructor(
     private router: Router,
     private transactionTypesService: TransactionTypesService,
@@ -99,7 +99,9 @@ export class AddEditTransactionTypeComponent implements OnInit {
   accountNumber: this.transactionTypeForm.controls['accountNumber']?.value,
   accountHolderName: this.transactionTypeForm.controls['accountHolderName']?.value,
   accountType: this.transactionTypeForm.controls['accountType']?.value,
-  status: this.transactionTypeForm.controls['status']?.value
+  status: this.transactionTypeForm.controls['status']?.value,
+  actionBy: ""
+
 };
 
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {

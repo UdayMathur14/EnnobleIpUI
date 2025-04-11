@@ -11,7 +11,7 @@ import { APIConstant } from '../../../../../core/constants';
 export class CustomerFiltersComponent implements OnInit {
   @Input() filters : any = [];
   @Output() getData: EventEmitter<object> = new EventEmitter();
-  customerNum: any = undefined;
+  customerCode: any = undefined;
   customerName:any = undefined;
   status: any = undefined;
 
@@ -28,20 +28,20 @@ export class CustomerFiltersComponent implements OnInit {
 
   onCustomerSearch(){
     const obj = {
+      "customerCode": this.customerCode,
       "customerName": this.customerName,
-      "customerNumber": this.customerNum,
       "status": this.status
     }
     this.getData.emit(obj)
   }
 
   onClearFilter() {
-    this.customerNum = undefined;
     this.customerName = undefined;
+    this.customerCode = undefined;
     this.status = undefined;
     let obj = {
+      "customerCode": undefined,
       "customerName": undefined,
-      "customerNumber": undefined,
       "status": undefined
     }
     this.getData.emit(obj)

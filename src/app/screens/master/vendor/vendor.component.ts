@@ -25,6 +25,7 @@ export class VendorComponent implements OnInit{
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
+  router: any;
   constructor(
     private vendorService : VendorService,
     private toastr: ToastrService,
@@ -34,6 +35,9 @@ export class VendorComponent implements OnInit{
 
   ngOnInit(): void {
     this.getVendorsList();
+  }
+  onCreateVendor() {
+    this.router.navigate(['master/addEditVendor', '0']);
   }
 
   onExportHeader(headers: string[]) {

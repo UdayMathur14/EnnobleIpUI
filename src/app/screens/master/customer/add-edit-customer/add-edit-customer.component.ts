@@ -238,7 +238,7 @@ export class AddEditCustomerComponent implements OnInit {
   //CREATING NEW PART
   createNewCustomer(data: any) {
     this.loadSpinner = true;
-    this.customerService.createCustomer(this.locationCode,data).subscribe((response: any) => {
+    this.customerService.createCustomer(data).subscribe((response: any) => {
       this.customerData = response;
       this.loadSpinner = false;
       this.toastr.success('Customer Created Successfully');
