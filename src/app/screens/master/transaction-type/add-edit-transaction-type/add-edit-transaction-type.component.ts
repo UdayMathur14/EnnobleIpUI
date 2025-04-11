@@ -30,6 +30,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
     accountType: new FormControl(null),
     status: new FormControl(''),
   });
+
+  
   loadSpinner: boolean = true;
   glSubcategoryCode: any = [];
   transactionData: any = [];
@@ -97,8 +99,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   accountNumber: this.transactionTypeForm.controls['accountNumber']?.value,
   accountHolderName: this.transactionTypeForm.controls['accountHolderName']?.value,
   accountType: this.transactionTypeForm.controls['accountType']?.value,
-  status: this.transactionTypeForm.controls['status']?.value,
-  actionBy: localStorage.getItem("userId")
+  status: this.transactionTypeForm.controls['status']?.value
 };
 
     this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
