@@ -180,7 +180,7 @@ export class AddEditCustomerComponent implements OnInit {
         paymentTerms: this.customerForm.controls['paymentTerms']?.value,
       
         status: this.customerForm.controls['status']?.value,
-        actionBy: localStorage.getItem("userId")
+        actionBy: ""
       };
       
     if (this.customerId > 0) {
