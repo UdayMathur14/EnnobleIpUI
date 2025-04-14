@@ -38,8 +38,8 @@ export class TransactionGridTableComponent implements OnInit, OnChanges {
     this.exportHeader.emit(headers);
   }
 
-  onGoToEditTransaction(transactionData: TransactionTypeListModel) {
-    this.router.navigate(['master/addEditTransactionTypes', transactionData.id]);
+  onGoToEditTransaction(transactionData: any) {
+    this.router.navigate(['master/addEditBank', transactionData.id]);
   }
 
   sortData(field: string) {

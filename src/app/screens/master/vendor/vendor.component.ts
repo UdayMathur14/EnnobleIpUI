@@ -3,6 +3,7 @@ import { VendorService } from '../../../core/service/vendor.service';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../core/service/lookup.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendor',
@@ -25,10 +26,10 @@ export class VendorComponent implements OnInit{
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
-  router: any;
   constructor(
     private vendorService : VendorService,
     private toastr: ToastrService,
+    private router: Router,
     private lookupService : LookupService,
     private xlsxService : XlsxService
   ) { }

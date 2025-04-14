@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionTypesService } from '../../../core/service/transactionTypes.service';
 import { XlsxService } from '../../../core/service/xlsx.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transaction-type',
@@ -21,17 +22,17 @@ export class TransactionTypeComponent implements OnInit {
   filters: any = [];
   appliedFilters: any = [];
   maxCount: number = Number.MAX_VALUE;
-  router: any;
   constructor(
     private transactionTypesService : TransactionTypesService,
-    private xlsxService : XlsxService
+    private xlsxService : XlsxService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.getAllTransactionTypes()
   }
   onCreateBank() {
-    this.router.navigate(['master/addEditVendor', '0']);
+    this.router.navigate(['master/addEditTransactionTypes', '0']);
   }
 
 

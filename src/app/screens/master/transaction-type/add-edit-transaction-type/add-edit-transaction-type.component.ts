@@ -36,7 +36,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   glSubcategoryCode: any = [];
   transactionData: any = [];
   transactionTypeInterfaceData: any = [];
-  bankId:number=0;
+  bankId:any;
   constructor(
     private router: Router,
     private transactionTypesService: TransactionTypesService,
@@ -46,7 +46,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.queryData = this.activatedRoute.snapshot.paramMap.get("transactionId");
+    this.queryData = this.activatedRoute.snapshot.paramMap.get("bankId");
     this.getTransactionData(this.queryData);
     this.getGlSubCategoryDropdownData();
     this.getTransactionTypeInterfaceDropdownData();
@@ -108,7 +108,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
       this.transactionData = response;
       this.loadSpinner = false;
       this.toastr.success('Transaction Updated Successfully');
-      this.router.navigate(['/master/transactionTypes']);
+      this.router.navigate(['/master/bank']);
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
@@ -116,7 +116,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
   }
 
   onCancelPress() {
-    this.router.navigate(['/master/transactionTypes'])
+    this.router.navigate(['/master/bank'])
   }
 
   getGlSubCategoryDropdownData() {

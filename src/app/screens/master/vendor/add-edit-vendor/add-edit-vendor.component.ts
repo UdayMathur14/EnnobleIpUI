@@ -18,7 +18,7 @@ import { LookupService } from '../../../../core/service/lookup.service';
 })
 export class AddEditVendorComponent implements OnInit {
   queryData: any;
-  VendorId:number = 0;
+  vendorId : number = 0;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
   loadSpinner: boolean = true;
@@ -185,7 +185,7 @@ export class AddEditVendorComponent implements OnInit {
     //   // })
     // };
     const data = {
-      actionBy: localStorage.getItem('userId'),
+      actionBy: "",
       vendorType: this.vendorForm.get('vendorType')?.value,
       vendorCode: this.vendorForm.get('vendorCode')?.value,
       vendorName: this.vendorForm.get('vendorName')?.value,

@@ -67,7 +67,7 @@ const routes: Routes = [
             { path: "master/editVehicle/:vehicleId", component: AddEditVehicleComponent, canActivate: [] },
             { path: "master/addVehicle", component: AddEditVehicleComponent, canActivate: [] },
             { path: 'master/bank', component: TransactionTypeComponent, canActivate: [] },
-            { path: 'master/addEditTransactionTypes/:transactionId', component: AddEditTransactionTypeComponent, canActivate: [] },
+            { path: 'master/addEditBank/:bankId', component: AddEditTransactionTypeComponent },
             { path: "master/freight", component: FreightComponent, canActivate: [] },
             { path: "master/addEditFreight/:freightId", component: AddEditFreightComponent, canActivate: [] },
             { path: "master/transporter", component: TransporterComponent, canActivate: [] },
