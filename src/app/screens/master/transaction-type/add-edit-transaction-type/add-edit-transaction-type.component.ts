@@ -47,6 +47,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.queryData = this.activatedRoute.snapshot.paramMap.get("bankId");
+    // this.bankId = this.bankId == 0 ? 0 : this.bankId;
+    this.bankId = Number(this.activatedRoute.snapshot.paramMap.get("bankId")) || 0;
     this.getTransactionData(this.queryData);
     this.getGlSubCategoryDropdownData();
     this.getTransactionTypeInterfaceDropdownData();

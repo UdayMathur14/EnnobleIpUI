@@ -117,6 +117,7 @@ export class AddEditVendorComponent implements OnInit {
   ngOnInit(): void {
     this.loadSpinner = true;
     this.queryData = this._Activatedroute.snapshot.paramMap.get('vendorId');
+    this.vendorId = Number(this._Activatedroute.snapshot.paramMap.get("vendorId")) || 0;
     this.getVendorData(this.queryData);
     this.getAllPointChargesList();
     this.getTaxationCodeDropdownData();

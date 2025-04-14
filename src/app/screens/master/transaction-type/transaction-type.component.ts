@@ -32,7 +32,7 @@ export class TransactionTypeComponent implements OnInit {
     this.getAllTransactionTypes()
   }
   onCreateBank() {
-    this.router.navigate(['master/addEditTransactionTypes', '0']);
+    this.router.navigate(['master/addEditBank', '0']);
   }
 
 
