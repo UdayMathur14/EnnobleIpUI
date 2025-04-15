@@ -50,8 +50,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
     // this.bankId = this.bankId == 0 ? 0 : this.bankId;
     this.bankId = Number(this.activatedRoute.snapshot.paramMap.get("bankId")) || 0;
     this.getTransactionData(this.queryData);
-    this.getGlSubCategoryDropdownData();
-    this.getTransactionTypeInterfaceDropdownData();
+    // this.getGlSubCategoryDropdownData();
+    // this.getTransactionTypeInterfaceDropdownData();
   }
 
   getTransactionData(transactionId: string) {
@@ -106,15 +106,31 @@ export class AddEditTransactionTypeComponent implements OnInit {
 
 };
 
-    this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
-      this.transactionData = response;
-      this.loadSpinner = false;
-      this.toastr.success('Transaction Updated Successfully');
-      this.router.navigate(['/master/bank']);
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    if(this.bankId==0){
+      this.loadSpinner = true;
+      this.transactionTypesService.createBankId(data).subscribe((response: any) => {
+        this.transactionTypeInterfaceData = response;
+        this.loadSpinner = false;
+        this.toastr.success('Bank Created Successfully');
+        this.router.navigate(['/master/bank'])
+      }, () => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    )
+    }
+    else{
+      this.transactionTypesService.updateTransaction(this.queryData, data).subscribe((response: any) => {
+        this.transactionData = response;
+        this.loadSpinner = false;
+        this.toastr.success('Transaction Updated Successfully');
+        this.router.navigate(['/master/bank']);
+      }, error => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      })
+    }
+    
   }
 
   onCancelPress() {

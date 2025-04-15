@@ -2,7 +2,7 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('lookUpType.code')">Type</th>
+        <th (click)="sortData('lookUpType.type')">Type</th>
         <th (click)="sortData('code')">Code</th>
         <th (click)="sortData('value')">Value</th>
         <th (click)="sortData('description')">Description</th>
@@ -15,7 +15,7 @@
       <tr>
         <td class="pointer">
           <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{lookup?.lookUpType.code}}</u>
+            <u>{{lookup?.lookUpType.type}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">

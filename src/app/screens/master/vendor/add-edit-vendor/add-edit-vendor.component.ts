@@ -119,13 +119,13 @@ export class AddEditVendorComponent implements OnInit {
     this.queryData = this._Activatedroute.snapshot.paramMap.get('vendorId');
     this.vendorId = Number(this._Activatedroute.snapshot.paramMap.get("vendorId")) || 0;
     this.getVendorData(this.queryData);
-    this.getAllPointChargesList();
-    this.getTaxationCodeDropdownData();
-    this.getPaidByDetailsDropdownData();
-    this.getTransactionTypes();
-    this.getRCMNonRCMTypeDropdownData();
-    this.getTdsCodesDropdownData();
-    this.getFreightCity();
+    // this.getAllPointChargesList();
+    // this.getTaxationCodeDropdownData();
+    // this.getPaidByDetailsDropdownData();
+    // this.getTransactionTypes();
+    // this.getRCMNonRCMTypeDropdownData();
+    // this.getTdsCodesDropdownData();
+    // this.getFreightCity();
     this.vendorForm.get('paidByDetail')?.valueChanges.subscribe((value) => {
       const selectedDetail = this.paidbyDetailsList.find(
         (detail: any) => detail.value === value
@@ -230,6 +230,20 @@ export class AddEditVendorComponent implements OnInit {
       status: this.vendorForm.get('status')?.value
     };
     
+    if(this.vendorId==0){
+      this.loadSpinner = true;
+      this.vendorService.createVendor(data).subscribe((response: any) => {
+        this.vendorData = response;
+        this.loadSpinner = false;
+        this.toastr.success('Vendor Created Successfully');
+        this.router.navigate(['/master/vendor'])
+      }, () => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    )
+    }
+    else{
     this.vendorService.updateVendor(this.queryData, data).subscribe(
       (response: any) => {
         this.vendorData = response;
@@ -241,8 +255,12 @@ export class AddEditVendorComponent implements OnInit {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
         this.loadSpinner = false;
       }
+      
     );
   }
+  }
+  
+
 
   getTransactionTypes() {
     const data = {

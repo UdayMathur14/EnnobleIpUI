@@ -26,16 +26,17 @@ export const APIConstant: any = {
   customerData: `/search`,
   updateCustomer: `/customer/update/`,
   lookupData: `lookup/`,
-  updateLookup: `/lookup/update/`,
-  createLookup: `/lookup/create`,
+  updateLookup: `lookup/update/`,
+  createLookup: `lookup/create`,
   createTransporter: `/transporter/create`,
   lookupstype: `lookup/search`,
   createCustomer: `customer/create`,
   transactionTypeData: `bank/`,
   updateTransactionTypeData: `bank/update/`,
   getLookupData: `lookup/search`,
-  transactionTypeInterfaces: `/transactiontypeinterface/search`,
-  customer : `customer/`
+  transactionTypeInterfaces: `bank/create`,
+  customer : `customer/`,
+  lookUpTypes:'lookup-type/search'
 };
 
 export const freight = (offset: any, count: number) =>
@@ -155,8 +156,9 @@ export const freightContract = (locationId: any, freightId: any) =>
 export const pointMasterContract = (locationId: any, pointId: any) =>
   `/point-charge/contracts/${locationId}/${pointId}`;
 export const calculatePointCharge = () => `/bilti-creation/calculate`;
-export const createCustomer = () => `/customer/create/`;
+export const createCustomer = () => `customer/create/`;
 export const updateCustomer = (customerId: any) =>
   `customer/update/${customerId}`;
 export const customerData = ( customerId: any) =>
   `customer/${customerId}`;
+export const createVendors = () => `vendor/create`;

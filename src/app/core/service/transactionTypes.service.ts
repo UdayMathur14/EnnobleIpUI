@@ -35,4 +35,7 @@ export class TransactionTypesService extends CRUDService<PlantRequest> {
     getTransactionTypeInterface(data: any){
         return this.post(APIConstant.transactionTypeInterfaces, data);
     }
+    createBankId(data: any){
+        return this.post(APIConstant.transactionTypeInterfaces, data);
+    }
 }

@@ -40,7 +40,7 @@ export class CustomerComponent implements OnInit {
     filters: any = this.appliedFilters
   ) {
     let data = {
-      customerNumber: filters?.customerNumber || '',
+      customerCode: filters?.customerCode || '',
       customerName: filters?.customerName || '',
       status: filters?.status || '',
       locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),

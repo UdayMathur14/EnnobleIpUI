@@ -14,7 +14,7 @@
                     <label for="">Type <span class="text-danger" *ngIf="lookupId==0">*</span></label>
                     <ng-select (click)="selecetLookupType($event)" class="input-field" formControlName="typeId" *ngIf="lookupId>0" [readonly]="true">
                         <ng-option *ngFor="let lookupType of lookupTypes"
-                            [value]="lookupType.id">{{lookupType.value}}</ng-option>
+                            [value]="lookupType.id">{{lookupType.type}}</ng-option>
                     </ng-select>
                     <ng-select (click)="selecetLookupType($event)" class="input-field" formControlName="typeId" *ngIf="lookupId == 0">
                         <ng-option *ngFor="let lookupType of lookupTypes"
@@ -313,10 +313,6 @@
                     <th>Value</th>
                     <th>Description</th>
                     <th>Status</th>
-                    <th>Attribute 1</th>
-                    <th>Attribute 2</th>
-                    <th>Attribute 3</th>
-                    <th>Attribute 4</th>
                 </tr>
             </thead>
             <tbody>
@@ -326,10 +322,6 @@
                     <td>{{ filledDetails?.value }}</td>
                     <td>{{ filledDetails?.description }}</td>
                     <td>{{filledDetails?.status}}</td>
-                    <td>{{filledDetails?.attribute1}}</td>
-                    <td>{{filledDetails?.attribute2}}</td>
-                    <td>{{filledDetails?.attribute3}}</td>
-                    <td>{{filledDetails?.attribute4}}</td>
                 </tr>
             </tbody>
         </table>

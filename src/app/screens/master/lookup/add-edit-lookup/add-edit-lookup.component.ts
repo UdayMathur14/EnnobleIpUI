@@ -49,13 +49,11 @@ export class AddEditLookupComponent implements OnInit {
   }
 
   getLookupTypes() {
-    let data = {};
+    let data = {
+      type:""
+    };
     this.lookupService.getLookupsType(data).subscribe((response: any) => {
       if(this.lookupId == 0){
-        this.lookupTypes = response.lookUpTypes.filter((item: any) => 
-          !['GlAccount_RCM', 'GlAccount_Non_RCM', 'OutboundFixedValues'].includes(item.type)
-        );
-      }else {
         this.lookupTypes = response.lookUpTypes;
       }
       this.loadSpinner = false;
@@ -69,7 +67,7 @@ export class AddEditLookupComponent implements OnInit {
   //TO GET SELECTED LOOKUP DATA
   getLookupData(lookupId: number) {
     this.lookupService.getLookupDatas(lookupId).subscribe((response: any) => {
-      this.selectedLookupType = response?.lookUpType?.value
+      this.selectedLookupType = response?.lookUpType?.type
       this.lookupForm.patchValue({
         typeId: response.typeId,
         code: response.code,
@@ -97,7 +95,7 @@ export class AddEditLookupComponent implements OnInit {
       value: this.lookupForm.controls['value'].value,
       description: this.lookupForm.controls['description'].value,
       status: this.lookupForm.controls['status'].value,
-      actionBy: localStorage.getItem("userId")
+      actionBy: ""
     }
     if (this.lookupId > 0) {
       this.updateLookup(data);
