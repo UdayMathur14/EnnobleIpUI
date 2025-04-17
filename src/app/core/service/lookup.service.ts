@@ -82,6 +82,9 @@ export class LookupService extends CRUDService<LookupRequest> {
   getLookupsType(data: any) {
     return this.post(APIConstant.lookupstype, data);
   }
+  getLookupsTypeDropDown(data: any) {
+    return this.post(APIConstant.lookupstype, data);
+  }
 
   getDropdownData(data: string): any {
     return this.baseService.post(APIConstant.basePath + getDropdownDatas(data), {})
@@ -99,6 +102,10 @@ export class LookupService extends CRUDService<LookupRequest> {
     if (locations.length === 1) {
       form.controls[formControlName]?.patchValue(locations[0].id);
     }
+  }
+
+  getLookupTypeDrop(data:any){
+    return this.post(APIConstant.lookUpType, data);
   }
 
 }

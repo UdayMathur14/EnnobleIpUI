@@ -36,7 +36,8 @@ export const APIConstant: any = {
   getLookupData: `lookup/search`,
   transactionTypeInterfaces: `bank/create`,
   customer : `customer/`,
-  lookUpTypes:'lookup-type/search'
+  lookUpTypes:'lookup-type/search',
+  lookUpType:'lookup-type/search'
 };
 
 export const freight = (offset: any, count: number) =>

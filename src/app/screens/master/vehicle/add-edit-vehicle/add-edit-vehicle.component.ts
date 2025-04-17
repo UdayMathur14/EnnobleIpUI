@@ -77,9 +77,9 @@ export class AddEditVehicleComponent implements OnInit {
       this.getEditVehicleData();
     }
     this.getAllLookups();
-    this.getVehicleSizeDropdownData();
-    this.setLocation();
-    this.getAllTransportersList();
+    // this.getVehicleSizeDropdownData();
+    // this.setLocation();
+    // this.getAllTransportersList();
   }
 
   getCommonLocations(){

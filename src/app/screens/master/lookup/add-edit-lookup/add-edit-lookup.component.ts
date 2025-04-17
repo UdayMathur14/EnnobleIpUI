@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add-edit-lookup.component.scss'
 })
 export class AddEditLookupComponent implements OnInit {
-
   lookupForm: FormGroup;
   lookupData!: LookupDataModel;
   lookupId: number = 0;
@@ -52,9 +51,10 @@ export class AddEditLookupComponent implements OnInit {
     let data = {
       type:""
     };
-    this.lookupService.getLookupsType(data).subscribe((response: any) => {
+    this.lookupService.getLookupTypeDrop(data).subscribe((response: any) => {
       if(this.lookupId == 0){
         this.lookupTypes = response.lookUpTypes;
+        console.log("uday");
       }
       this.loadSpinner = false;
     }, error => {
