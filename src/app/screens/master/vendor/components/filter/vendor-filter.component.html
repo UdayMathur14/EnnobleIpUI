@@ -4,7 +4,7 @@
             <div class="custom-form-input">
                 <label for="">Vendor Code</label>
                 <ng-select class="input-field" [(ngModel)]="vendorCode" typeToSearchText
-                    placeholder="Select Vendor Code">
+                    placeholder="Select Code">
                     <ng-option *ngFor="let vendor of filters?.VendorCode"
                         [value]="vendor">{{vendor}}</ng-option>
                 </ng-select>
@@ -14,7 +14,7 @@
             <div class="custom-form-input">
                 <label for="">Vendor Name</label>
                 <ng-select class="input-field" [(ngModel)]="vendorName" typeToSearchText
-                    placeholder="Select Vendor Name">
+                    placeholder="Select Name">
                     <ng-option *ngFor="let vendor of filters?.VendorName"
                         [value]="vendor">{{vendor}}</ng-option>
                 </ng-select>

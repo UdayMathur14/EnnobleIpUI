@@ -4,7 +4,7 @@
             <div class="custom-form-input">
                 <label for="">Bank Code</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
-                    placeholder="Select Code" [readonly]="transactionTypeName || glCategory">
+                    placeholder="Select Code" [readonly]="transactionTypeName">
                     <ng-option *ngFor="let transaction of filters?.BankCode"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
@@ -24,7 +24,7 @@
             <div class="custom-form-input">
                 <label>Bank Type</label>
                 <ng-select class="input-field" [(ngModel)]="glCategory"
-                    placeholder="Category">
+                    placeholder="Type">
                     <ng-option *ngFor="let transaction of filters?.BankType"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
