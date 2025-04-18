@@ -37,7 +37,9 @@ export const APIConstant: any = {
   transactionTypeInterfaces: `bank/create`,
   customer : `customer/`,
   lookUpTypes:'lookup-type/search',
-  lookUpType:'lookup-type/search'
+  lookUpType:'lookup-type/search',
+  LookupTypeData:'lookup-type',
+  createLookupType: `lookup-type/create`,
 };
 
 export const freight = (offset: any, count: number) =>
@@ -163,3 +165,5 @@ export const updateCustomer = (customerId: any) =>
 export const customerData = ( customerId: any) =>
   `customer/${customerId}`;
 export const createVendors = () => `vendor/create`;
+export const LookupTypes = (offset: any, count: number) =>
+  `lookup-type/search?offset=${offset}&count=${count}`;

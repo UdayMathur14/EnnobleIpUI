@@ -13,6 +13,7 @@
           <div id="collapseMasters" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'master' }" aria-labelledby="masterHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
+                <li (click)="onMasterChange('lookupType')">LookupType Master</li>
                 <li (click)="onMasterChange('lookup')">Lookup Master</li>
                 <li (click)="onMasterChange('customer')">Customer Master</li>
                 <li (click)="onMasterChange('vendor')">Vendor Master</li> 

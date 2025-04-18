@@ -40,7 +40,10 @@ export class SideBarComponent {
             this.router.navigate(['/master/lookup'])
         } else if (master === "recycleBin") {
             this.router.navigate(['/master/recycleBinPlantConfiguration'])
+        }else if (master === "lookupType") {
+            this.router.navigate(['/master/lookupType'])
         }
+        
     }
 
     onTransactionChange(transaction: string) {

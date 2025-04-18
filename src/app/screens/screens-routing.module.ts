@@ -49,6 +49,8 @@ import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.comp
 import { GlAccrualPostingComponent } from "./transactions/gl-accrual-posting/gl-accrual-posting.component";
 import { ProvisionalReportComponent } from "./reports/processed-report/provisional-report.component";
 import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
+import { LookupTypeComponent } from "./master/lookupType/lookupType.component";
+import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupType/add-edit-lookupType.component";
 
 const routes: Routes = [
     {
@@ -58,7 +60,8 @@ const routes: Routes = [
             { path: "", redirectTo: "master", pathMatch: "full"},
             //{ path: '**', component: NotFound404Component },
             { path: "master", component: MasterComponent },
-            { path: "master/addEditPlant/:plantId", component: AddEditPlantComponent, canActivate: [] },
+            { path: "master/lookupType", component: LookupTypeComponent, canActivate: [] },
+            { path: "master/addEditlookupType/:lookupTypeId", component: AddEditLookupTypeComponent, canActivate: [] },
             { path: "master/customer", component: CustomerComponent, canActivate: [] },
             { path: "master/addEditCustomer/:customerId", component: AddEditCustomerComponent, canActivate: [] },
             { path: "master/vendor", component: VendorComponent, canActivate: [] },

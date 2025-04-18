@@ -127,6 +127,10 @@ import { ProvisionalReportFilterComponent } from "./reports/processed-report/com
 import { ProvisionalReportGridTableComponent } from "./reports/processed-report/components/grid-table/provisional-report-grid-table.component";
 import { StatusConfirmationComponent } from "./modals/status-confirmation/status-confirmation.component";
 import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
+import { LookupTypeComponent } from "./master/lookupType/lookupType.component";
+import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupType/add-edit-lookupType.component";
+import { LookupTypeFilterComponent } from "./master/lookupType/components/filter/lookupType-filter.component";
+import { LookupTypeGridTableComponent } from "./master/lookupType/components/grid-table/lookupType-grid-table.component";
 
 @NgModule({
     declarations: [
@@ -213,6 +217,10 @@ import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plan
         LookupGridTableComponent,
         AddEditLookupComponent,
         LookupFilterComponent,
+        LookupTypeComponent,
+        LookupTypeGridTableComponent,
+        AddEditLookupTypeComponent,
+        LookupTypeFilterComponent,
         AddEditBiltiComponent,
         AddEditDispatchNoteComponent,
         BiltiPdfModalComponent,

@@ -1,0 +1,81 @@
+<div class="page-title">
+    <h1>{{LookupTypeId>0 ? 'Edit' : 'Create' }} Lookup Type</h1>
+    <div class="action-buttons">
+        <button class="custom-button-regulr" (click)="onPressSubmit()" [disabled]="!LookupTypeForm.valid">Submit</button>
+        <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
+    </div>
+</div>
+
+<div class="content-section p-3">
+    <form [formGroup]="LookupTypeForm">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="custom-form-input">
+                    <label for="">Type 
+                        <span class="text-danger" *ngIf="LookupTypeId == 0">*</span>
+                    </label>
+                
+                    <!-- Show Input if LookupTypeId == 0 -->
+                    <input *ngIf="LookupTypeId == 0" 
+                           type="text" 
+                           class="input-field" 
+                           formControlName="type" 
+                           maxlength="100" />
+                
+                    <!-- Show ng-select if LookupTypeId > 0 -->
+                    <ng-select *ngIf="LookupTypeId > 0" 
+                               class="input-field" 
+                               formControlName="type" 
+                               [readonly]="true">
+                        <ng-option *ngFor="let lookupType of LookupTypes" 
+                                   [value]="lookupType.type">
+                            {{lookupType.type}}
+                        </ng-option>
+                    </ng-select>
+                </div>                
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="custom-form-input">
+                    <label for="">Description <span class="text-danger">*</span></label>
+                    <input type="text" class="input-field" formControlName="description" maxlength="100" />
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3" *ngIf="LookupTypeId>0">
+                <div class="custom-form-input">
+                    <label for="">Status <span class="text-danger">*</span></label>
+                    <select name="" id="" formControlName="status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="edit-screen-subTable" *ngIf="showFilledDetails">
+        <h4 class="">Filled Details</h4>
+    </div>
+
+    <div class="custom-table" *ngIf="showFilledDetails">
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ filledDetails?.typeId }}</td>
+                    <td>{{ filledDetails?.description }}</td>
+                    <td>{{filledDetails?.status}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+    Loading...
+  </div>
