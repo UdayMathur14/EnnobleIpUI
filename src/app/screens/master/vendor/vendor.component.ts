@@ -80,20 +80,49 @@ export class VendorComponent implements OnInit{
     this.vendorService.getVendors(data, 0, this.totalVendors).subscribe((response: any) => {
       const vendorListToExport = response.vendors;
       // Map the data to include only the necessary fields
-    const mappedVendorsList = vendorListToExport.map((vendor: any) => ({
-      vendorCode: vendor.vendorCode,
-      vendorName: vendor.vendorName,
-      vendorAddress1: vendor.vendorAddress1,
-      contactNumber: vendor.contactNumber,
-      email: vendor.email,
-      state: vendor.state.value,
-      city: vendor.city,
-      gstnNo: vendor.gstInNo,
-      payTermCode: vendor.vendorPaytermMethodCode,
-      payTermStatus: vendor.vendorPaytermStatus,
-      status: vendor.status,
-  
-    }));
+      const mappedVendorsList = vendorListToExport.map((vendor: any) => ({
+        vendorType: vendor.vendorType || '',
+        vendorCode: vendor.vendorCode || '',
+        vendorName: vendor.vendorName || '',
+        billingAddressLine1: vendor.billingAddressLine1 || '',
+        billingAddressLine2: vendor.billingAddressLine2 || '',
+        billingCity: vendor.billingCity || '',
+        billingState: vendor.billingState || '',
+        billingCountry: vendor.billingCountry || '',
+        billingPinCode: vendor.billingPinCode || '',
+        shippingAddressLine1: vendor.shippingAddressLine1 || '',
+        shippingAddressLine2: vendor.shippingAddressLine2 || '',
+        shippingCity: vendor.shippingCity || '',
+        shippingState: vendor.shippingState || '',
+        shippingCountry: vendor.shippingCountry || '',
+        shippingPinCode: vendor.shippingPinCode || '',
+        pan: vendor.pan || '',
+        gst: vendor.gst || '',
+        gstTreatment: vendor.gstTreatment || '',
+        msmeRegistered: vendor.msmeRegistered ? 'Yes' : 'No',
+        msmeType: vendor.msmeType || '',
+        msmeNo: vendor.msmeNo || '',
+        contactPersonName: vendor.contactPersonName || '',
+        designation: vendor.designation || '',
+        email1: vendor.email1 || '',
+        email2: vendor.email2 || '',
+        phoneMobileNo: vendor.phoneMobileNo || '',
+        currency: vendor.currency || '',
+        paymentTerms: vendor.paymentTerms || '',
+        bankName: vendor.bankName || '',
+        accountHolderName: vendor.accountHolderName || '',
+        accountNumber: vendor.accountNumber || '',
+        confirmAccountNumber: vendor.confirmAccountNumber || '',
+        ifscCode: vendor.ifscCode || '',
+        swiftCode: vendor.swiftCode || '',
+        bankAddressLine1: vendor.bankAddressLine1 || '',
+        bankAddressLine2: vendor.bankAddressLine2 || '',
+        branch: vendor.branch || '',
+        bankCity: vendor.bankCity || '',
+        bankState: vendor.bankState || '',
+        bankPinCode: vendor.bankPinCode || '',
+        status: vendor.status || '',
+      }));
     this.xlsxService.xlsxExport(mappedVendorsList, this.headers, fileName);
       this.loadSpinner = false;
     }, error => {

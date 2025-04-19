@@ -45,7 +45,7 @@ export class AddEditVendorComponent implements OnInit {
     vendorCode: new FormControl('', Validators.required),
     vendorName: new FormControl('', Validators.required),
   
-    billingAddressLine1: new FormControl('',Validators.required),
+    billingAddressLine1: new FormControl(''),
     billingAddressLine2: new FormControl(''),
     billingCity: new FormControl(''),
     billingState: new FormControl(''),
