@@ -41,28 +41,36 @@ export class AddEditVendorComponent implements OnInit {
   freightCity: any = [];
   statusValue: string = '';
   vendorForm = new FormGroup({
-    vendorType: new FormControl(''),
-    vendorCode: new FormControl(''),
-    vendorName: new FormControl(''),
+    vendorType: new FormControl('', Validators.required),
+    vendorCode: new FormControl('', Validators.required),
+    vendorName: new FormControl('', Validators.required),
   
-    billingAddressLine1: new FormControl(''),
+    billingAddressLine1: new FormControl('',Validators.required),
     billingAddressLine2: new FormControl(''),
     billingCity: new FormControl(''),
     billingState: new FormControl(''),
     billingCountry: new FormControl(''),
-    billingPinCode: new FormControl(''),
+    billingPinCode: new FormControl('', [
+      Validators.pattern(/^[0-9]{6}$/) // optional: only if 6-digit PIN
+    ]),
   
     shippingAddressLine1: new FormControl(''),
     shippingAddressLine2: new FormControl(''),
     shippingCity: new FormControl(''),
     shippingState: new FormControl(''),
     shippingCountry: new FormControl(''),
-    shippingPinCode: new FormControl(''),
+    shippingPinCode: new FormControl('', [
+      Validators.pattern(/^[0-9]{6}$/)
+    ]),
   
-    pan: new FormControl(''),
-    gst: new FormControl(''),
+    pan: new FormControl('', [
+      Validators.pattern(/[A-Z]{5}[0-9]{4}[A-Z]{1}/) // optional PAN format
+    ]),
+    gst: new FormControl('', [
+      Validators.pattern(/\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/) // optional GST format
+    ]),
     gstTreatment: new FormControl(''),
-    msmeRegistered: new FormControl(''),
+    msmeRegistered: new FormControl(true),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
   
@@ -71,16 +79,13 @@ export class AddEditVendorComponent implements OnInit {
   
     email1: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      Validators.email
     ]),
-    email2: new FormControl('', [
-      Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    ]),
+    email2: new FormControl('', Validators.email),
   
     phoneMobileNo: new FormControl('', [
       Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(12)
+      Validators.pattern(/^[6-9]\d{9}$/) // Indian mobile number pattern
     ]),
   
     currency: new FormControl(''),
@@ -88,9 +93,15 @@ export class AddEditVendorComponent implements OnInit {
   
     bankName: new FormControl(''),
     accountHolderName: new FormControl(''),
-    accountNumber: new FormControl(''),
-    confirmAccountNumber: new FormControl(''),
-    ifscCode: new FormControl(''),
+    accountNumber: new FormControl('', [
+      Validators.pattern(/^\d{9,18}$/)
+    ]),
+    confirmAccountNumber: new FormControl('', [
+      Validators.pattern(/^\d{9,18}$/)
+    ]),
+    ifscCode: new FormControl('', [
+      Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
+    ]),
     swiftCode: new FormControl(''),
   
     bankAddressLine1: new FormControl(''),
@@ -98,7 +109,9 @@ export class AddEditVendorComponent implements OnInit {
     branch: new FormControl(''),
     bankCity: new FormControl(''),
     bankState: new FormControl(''),
-    bankPinCode: new FormControl(''),
+    bankPinCode: new FormControl('', [
+      Validators.pattern(/^[0-9]{6}$/)
+    ]),
   
     status: new FormControl('', Validators.required)
   });
@@ -169,22 +182,6 @@ export class AddEditVendorComponent implements OnInit {
   //UPDATING THE VENDOR ON CLICK OF SAVE BUTTON
   onPressSave() {
     this.loadSpinner = true;
-
-    // const data = {
-    //   actionBy: localStorage.getItem('userId'),
-    //   contactNumber: this.vendorForm.get('phone')?.value,
-    //   email: this.vendorForm.get('email')?.value,
-    //   // tdsCodeId: this.vendorForm.get('tdsCodeId')?.value || 0,
-    //   status: this.vendorForm.get('status')?.value,
-    //   // vendorMappingUpdateModels: this.transactionMappings.map((mapping: any) => { 
-    //   //   const iTransactionTypeId = this.transactionTypes.find((item: any)=> item.code == mapping.transactionType)
-    //   //   return {                                                                          
-    //   //     transactionTypeId: iTransactionTypeId?.id || mapping?.id,                        
-    //   //     paidByDetailsId: mapping?.paidByDetails?.id || mapping?.id,
-    //   //     status: mapping.status
-    //   //   }
-    //   // })
-    // };
     const data = {
       actionBy: "",
       vendorType: this.vendorForm.get('vendorType')?.value,

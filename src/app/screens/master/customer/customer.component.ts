@@ -42,8 +42,7 @@ export class CustomerComponent implements OnInit {
     let data = {
       customerCode: filters?.customerCode || '',
       customerName: filters?.customerName || '',
-      status: filters?.status || '',
-      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      status: filters?.status || ''
     };
     this.customerService.getCustomers(data, offset, count).subscribe(
       (response: any) => {
@@ -77,21 +76,35 @@ export class CustomerComponent implements OnInit {
     let data = {
       customerNumber: this.appliedFilters?.customerNumber || '',
       customerName: this.appliedFilters?.customerName || '',
-      status: this.appliedFilters?.status || '',
-      locationIds: this.appliedFilters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      status: this.appliedFilters?.status || ''
     };
     this.customerService.getCustomers(data, 0, this.totalCustomers).subscribe(
       (response: any) => {
         const customersListToExport = response.customers;
         // Map the data to include only the necessary fields
         const mappedCustomersList = customersListToExport.map((customer: any) => ({
-          customerNumber: customer.customerNumber,
+          customerType: customer.customerType,
+          customerCode: customer.customerCode,
           customerName: customer.customerName,
-          description: customer.description,
-          customerSize: customer.customerSize,
-          customerPrice: customer.customerPrice,
-          remarks: customer.remarks,
-          status: customer.status,
+          billingAddressLine1: customer.billingAddressLine1,
+          billingAddressLine2: customer.billingAddressLine2,
+          billingCity: customer.billingCity,
+          billingState: customer.billingState,
+          billingCountry: customer.billingCountry,
+          billingPinCode: customer.billingPinCode,
+          shippingAddressLine1: customer.shippingAddressLine1,
+          shippingAddressLine2: customer.shippingAddressLine2,
+          shippingCity: customer.shippingCity,
+          shippingState:customer.shippingState,
+          shippingCountry:customer.shippingState,
+          shippingPinCode :customer.shippingPinCode ,
+          designation :customer.designation ,
+          contactPersonName :customer.contactPersonName ,
+          email :customer.email ,
+          mobileNumber :customer.mobileNumber ,
+          currency:customer.currency ,
+          paymentTerms :customer.paymentTerms ,
+          status: customer.status 
         }));
         this.xlsxService.xlsxExport(mappedCustomersList, this.headers, fileName);
         this.loadSpinner = false;

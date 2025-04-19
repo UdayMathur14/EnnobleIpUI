@@ -13,6 +13,11 @@
         <div class="custom-form-input">
           <label for="">Vendor Type</label>
           <input type="text" class="input-field" formControlName="vendorType"  />
+          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+              Vendor Type is required.
+            </small>
+          </div>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
@@ -260,7 +265,7 @@
         </div>
       </div>
       <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
+        <div class="custom-form-input"  *ngIf="vendorId">
           <label for="">Status <span class="text-danger">*</span></label>
           <select name="" id="" formControlName="status">
             <option value="Active">Active</option>
@@ -273,78 +278,7 @@
   </form>
   
 
-  <!-- <div class="edit-screen-subTable">
-    <h4 class="">
-      Transaction Details
-      <button class="custom-button-regulr" (click)="onAddTransactionRow()">Add</button>
-    </h4>
-  </div>
 
-  <div class="custom-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Transaction Type</th>
-          <th>Paid By Details</th>
-          <th>Status</th>
-          <th class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="transactionMappings.length !== 0">
-        @for (transaction of transactionMappings; track ind; let ind = $index) {
-        <tr>
-          <td>
-            <div class="col-lg-6 col-md-6">
-              <div class="custom-form-input mb-0">
-                <ng-select class="input-field" [(ngModel)]="transaction.transactionType"
-                  (change)="onTransactionTypeSelect($event, ind)" 
-                  (clear)="onTransactionTypeClear(ind)"
-                  [disabled]="transaction.disabledTransaction">
-                  <ng-option *ngFor="let type of getAvailableTransactionTypes(ind)" [value]="type.code">
-                    {{type.code}} ({{type?.name}})
-                  </ng-option>
-                </ng-select>
-              </div>
-            </div>
-            
-          </td>
-          <td>
-            <div class="col-lg-6 col-md-6">
-              <div class="custom-form-input mb-0">
-                <ng-select class="input-field" [(ngModel)]="transaction.paidByDetails"
-                  (change)="onPaidByDetailsSelect($event, ind)" 
-                  (clear)="onPaidByDetailsClear(ind)"
-                  [disabled]="transaction.disabled">
-                  <ng-option *ngFor="let detail of paidByDetails" [value]="detail">
-                    {{detail.code}} ({{detail?.description}})
-                  </ng-option>
-                </ng-select>
-              </div>
-            </div>
-          </td>
-          <td class="text-center">
-            <div class="custom-form-input" style="width: 60%">
-            <select name="" [(ngModel)]="transaction.status" (ngModelChange)="onStatusChange($event, transaction)">
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-            </div>
-          </td>
-
-          <td class="text-center" *ngIf="transaction.isShow">
-            <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
-              (click)="onDeleteTransaction(transaction, ind)" />
-          </td>
-        </tr>
-        }@empty {
-        <tr>
-          <td align="center" colspan="13">No Transaction Code Found</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div> -->
 <div class="spinner" *ngIf="loadSpinner">
   Loading...
 </div>
