@@ -24,8 +24,8 @@
         <div class="custom-form-input">
           <label for="">Vendor Code</label>
           <input type="text" class="input-field" formControlName="vendorCode"  />
-          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
-            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+          <div *ngIf="vendorForm.get('vendorCode')?.invalid && vendorForm.get('vendorCode')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('vendorCode')?.hasError('required')">
               Vendor Code is required.
             </small>
           </div>
@@ -35,8 +35,8 @@
         <div class="custom-form-input">
           <label for="">Vendor Name</label>
           <input type="text" class="input-field" formControlName="vendorName"  />
-          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
-            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+          <div *ngIf="vendorForm.get('vendorName')?.invalid && vendorForm.get('vendorName')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('vendorName')?.hasError('vendorName')">
               Vendor Name is required.
             </small>
           </div>
@@ -120,8 +120,8 @@
         <div class="custom-form-input">
           <label for="">PAN</label>
           <input type="text" class="input-field" formControlName="pan"  />
-          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
-            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+          <div *ngIf="vendorForm.get('pan')?.invalid && vendorForm.get('pan')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('pan')?.hasError('required')">
               Correct Pan No is required.
             </small>
           </div>
@@ -131,8 +131,8 @@
         <div class="custom-form-input">
           <label for="">GST</label>
           <input type="text" class="input-field" formControlName="gst"  />
-          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
-            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+          <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
               Correct GST No is required.
             </small>
           </div>
@@ -171,8 +171,8 @@
         <div class="custom-form-input">
           <label for="">Contact Person Name</label>
           <input type="text" class="input-field" formControlName="contactPersonName"  />
-          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
-            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+          <div *ngIf="vendorForm.get('contactPersonName')?.invalid && vendorForm.get('contactPersonName')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('contactPersonName')?.hasError('required')">
               Contact Name is required.
             </small>
           </div>
@@ -201,8 +201,8 @@
         <div class="custom-form-input">
           <label for="">Mobile No</label>
           <input type="text" class="input-field" formControlName="phoneMobileNo"  />
-          <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
-            <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
+          <div *ngIf="vendorForm.get('phoneMobileNo')?.invalid && vendorForm.get('phoneMobileNo')?.touched">
+            <small class="text-danger" *ngIf="vendorForm.get('phoneMobileNo')?.hasError('required')">
               No is required.
             </small>
           </div>

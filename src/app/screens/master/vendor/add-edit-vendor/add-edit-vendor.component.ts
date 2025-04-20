@@ -74,7 +74,7 @@ export class AddEditVendorComponent implements OnInit {
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
   
-    contactPersonName: new FormControl(''),
+    contactPersonName: new FormControl('',Validators.required),
     designation: new FormControl(''),
   
     email1: new FormControl('', [
