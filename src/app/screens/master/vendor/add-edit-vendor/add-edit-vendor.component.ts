@@ -10,6 +10,7 @@ import { PointChargeService } from '../../../../core/service/point-charge.servic
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { LookupService } from '../../../../core/service/lookup.service';
+import { CountryService } from '../../../../core/service/country.service';
 
 @Component({
   selector: 'app-add-edit-vendor',
@@ -21,6 +22,7 @@ export class AddEditVendorComponent implements OnInit {
   vendorId : number = 0;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
+  countryList: any = [];
   loadSpinner: boolean = true;
   pointChargeName: any = [];
   selectedPointName: undefined;
@@ -66,9 +68,8 @@ export class AddEditVendorComponent implements OnInit {
     pan: new FormControl('', [
       Validators.pattern(/[A-Z]{5}[0-9]{4}[A-Z]{1}/) // optional PAN format
     ]),
-    gst: new FormControl('', [
-      Validators.pattern(/\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/) // optional GST format
-    ]),
+    gst: new FormControl('', 
+    ),
     gstTreatment: new FormControl(''),
     msmeRegistered: new FormControl(true),
     msmeType: new FormControl(''),
@@ -85,9 +86,8 @@ export class AddEditVendorComponent implements OnInit {
   
     phoneMobileNo: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[6-9]\d{9}$/) // Indian mobile number pattern
+      Validators.pattern(/^\+?[1-9]\d{7,14}$/)
     ]),
-  
     currency: new FormControl(''),
     paymentTerms: new FormControl(''),
   
@@ -100,7 +100,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.pattern(/^\d{9,18}$/)
     ]),
     ifscCode: new FormControl('', [
-      Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
+      // Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
     ]),
     swiftCode: new FormControl(''),
   
@@ -113,7 +113,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.pattern(/^[0-9]{6}$/)
     ]),
   
-    status: new FormControl('', Validators.required)
+    status: new FormControl('', )
   });
   
 
@@ -125,6 +125,7 @@ export class AddEditVendorComponent implements OnInit {
     private toastr: ToastrService,
     private transactionTypeService: TransactionTypesService,
     private lookupService: LookupService,
+    private countryService:CountryService,
   ) {}
 
   ngOnInit(): void {
@@ -132,13 +133,7 @@ export class AddEditVendorComponent implements OnInit {
     this.queryData = this._Activatedroute.snapshot.paramMap.get('vendorId');
     this.vendorId = Number(this._Activatedroute.snapshot.paramMap.get("vendorId")) || 0;
     this.getVendorData(this.queryData);
-    // this.getAllPointChargesList();
-    // this.getTaxationCodeDropdownData();
-    // this.getPaidByDetailsDropdownData();
-    // this.getTransactionTypes();
-    // this.getRCMNonRCMTypeDropdownData();
-    // this.getTdsCodesDropdownData();
-    // this.getFreightCity();
+    this.AllcountryList();
     this.vendorForm.get('paidByDetail')?.valueChanges.subscribe((value) => {
       const selectedDetail = this.paidbyDetailsList.find(
         (detail: any) => detail.value === value
@@ -148,7 +143,30 @@ export class AddEditVendorComponent implements OnInit {
       }
     });
   }
-
+  AllcountryList(){
+    var data={};
+    this.countryService.getCountryData(data).subscribe(
+      (response: any) => {
+        this.countryList = response.countrys;
+        console.log(this.countryList);
+        this.loadSpinner = false;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    )
+  }
+   
+  onSelectbillingCountry(e: any){
+    this.vendorForm.get('billingCountry')?.setValue(e?.target?.innerText);
+  }
+  onSelectshippingCountry(e: any){
+    this.vendorForm.get('shippingCountry')?.setValue(e?.target?.innerText);
+  }
+  onSelectCurrency(e: any){
+    this.vendorForm.get('currency')?.setValue(e?.target?.innerText);
+  }
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe(
@@ -422,9 +440,7 @@ export class AddEditVendorComponent implements OnInit {
 
   phoneNumberLength(e: any) {
     const phoneControl = this.vendorForm.get('phone');
-    if (phoneControl?.value) {
-      // this.disableSubmit = phoneControl.value.length < 10 || phoneControl.value.length > 12 ? true : false;
-    }
+    
   }
 
   getAllPaidByDetails() {

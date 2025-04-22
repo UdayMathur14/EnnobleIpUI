@@ -56,22 +56,54 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
+          <label for="">Billing Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+        
+          <!-- Readonly ng-select -->
+          <ng-select
+            (click)="onSelectbillingCountry($event)"
+            class="input-field"
+            formControlName="billingCity"
+            *ngIf="vendorId > 0"
+            [readonly]="true">
+            <ng-option *ngFor="let country of countryList"
+                       [value]="country.countryName">
+              {{ country.countryName }}
+            </ng-option>
+          </ng-select>
+        
+          <!-- Editable ng-select -->
+          <ng-select
+            (click)="onSelectbillingCountry($event)"
+            class="input-field"
+            formControlName="billingCity"
+            *ngIf="vendorId == 0">
+            <ng-option *ngFor="let country of countryList"
+                       [value]="country.countryName">
+              {{ country.countryName }}
+            </ng-option>
+          </ng-select>
+        </div>
+        
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
           <label for="">Billing City</label>
           <input type="text" class="input-field" formControlName="billingCity"  />
         </div>
       </div>
+      
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Billing State</label>
           <input type="text" class="input-field" formControlName="billingState"  />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Billing Country</label>
           <input type="text" class="input-field" formControlName="billingCountry"  />
         </div>
-      </div>
+      </div> -->
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Billing Pin Code</label>
@@ -93,6 +125,37 @@
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
+          <label for="">Shipping Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+        
+          <!-- Readonly ng-select -->
+          <ng-select
+            (click)="onSelectshippingCountry($event)"
+            class="input-field"
+            formControlName="shippingCountry"
+            *ngIf="vendorId > 0"
+            [readonly]="true">
+            <ng-option *ngFor="let country of countryList"
+                       [value]="country.countryName">
+              {{ country.countryName }}
+            </ng-option>
+          </ng-select>
+        
+          <!-- Editable ng-select -->
+          <ng-select
+            (click)="onSelectshippingCountry($event)"
+            class="input-field"
+            formControlName="shippingCountry"
+            *ngIf="vendorId == 0">
+            <ng-option *ngFor="let country of countryList"
+                       [value]="country.countryName">
+              {{ country.countryName }}
+            </ng-option>
+          </ng-select>
+        </div>
+        
+      </div>
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
           <label for="">Shipping City</label>
           <input type="text" class="input-field" formControlName="shippingCity"  />
         </div>
@@ -103,12 +166,13 @@
           <input type="text" class="input-field" formControlName="shippingState"  />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Shipping Country</label>
           <input type="text" class="input-field" formControlName="shippingCountry"  />
         </div>
-      </div>
+      </div> -->
+     
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Shipping Pin Code</label>
@@ -209,11 +273,42 @@
         </div>
       </div>
   
-      <div class="col-lg-2 col-md-2">
+      <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Currency</label>
           <input type="text" class="input-field" formControlName="currency"  />
         </div>
+      </div> -->
+      <div class="col-lg-2 col-md-2">
+        <div class="custom-form-input">
+          <label for="">Currency <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+        
+          <!-- Readonly ng-select -->
+          <ng-select
+            (click)="onSelectCurrency($event)"
+            class="input-field"
+            formControlName="currency"
+            *ngIf="vendorId > 0"
+            [readonly]="true">
+            <ng-option *ngFor="let country of countryList"
+                       [value]="country.currencyName">
+              {{ country.currencyName }}
+            </ng-option>
+          </ng-select>
+        
+          <!-- Editable ng-select -->
+          <ng-select
+            (click)="onSelectCurrency($event)"
+            class="input-field"
+            formControlName="currency"
+            *ngIf="vendorId == 0">
+            <ng-option *ngFor="let country of countryList"
+                       [value]="country.currencyName">
+              {{ country.currencyName }}
+            </ng-option>
+          </ng-select>
+        </div>
+        
       </div>
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
