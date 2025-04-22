@@ -63,8 +63,7 @@
             (click)="onSelectbillingCountry($event)"
             class="input-field"
             formControlName="billingCity"
-            *ngIf="vendorId > 0"
-            [readonly]="true">
+            *ngIf="vendorId > 0">
             <ng-option *ngFor="let country of countryList"
                        [value]="country.countryName">
               {{ country.countryName }}
@@ -133,7 +132,7 @@
             class="input-field"
             formControlName="shippingCountry"
             *ngIf="vendorId > 0"
-            [readonly]="true">
+            >
             <ng-option *ngFor="let country of countryList"
                        [value]="country.countryName">
               {{ country.countryName }}
@@ -288,8 +287,7 @@
             (click)="onSelectCurrency($event)"
             class="input-field"
             formControlName="currency"
-            *ngIf="vendorId > 0"
-            [readonly]="true">
+            *ngIf="vendorId > 0">
             <ng-option *ngFor="let country of countryList"
                        [value]="country.currencyName">
               {{ country.currencyName }}
