@@ -44,7 +44,7 @@ export class AddEditVendorComponent implements OnInit {
   statusValue: string = '';
   vendorForm = new FormGroup({
     vendorType: new FormControl('', Validators.required),
-    vendorCode: new FormControl('', Validators.required),
+    vendorCode: new FormControl(''),
     vendorName: new FormControl('', Validators.required),
   
     billingAddressLine1: new FormControl(''),
