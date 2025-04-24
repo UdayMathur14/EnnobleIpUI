@@ -42,6 +42,8 @@ export class AddEditVendorComponent implements OnInit {
   isShow: boolean = false;
   freightCity: any = [];
   statusValue: string = '';
+  isBillingCountryDisabled: boolean = false;
+  msmeTypeSelected = false;
   vendorForm = new FormGroup({
     vendorType: new FormControl('', Validators.required),
     vendorCode: new FormControl(''),
@@ -66,27 +68,26 @@ export class AddEditVendorComponent implements OnInit {
     ]),
   
     pan: new FormControl('', [
-      Validators.pattern(/[A-Z]{5}[0-9]{4}[A-Z]{1}/) // optional PAN format
+      Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)// optional PAN format
     ]),
-    gst: new FormControl('', 
-    ),
-    gstTreatment: new FormControl(''),
+    gst: new FormControl('', [Validators.pattern(/^[A-Z]{2}[0-9]{10}[A-Z0-9]{1}[A-Z]{1}[0-9]{1}$/)]),
+    gstTreatment: new FormControl('',Validators.required),
     msmeRegistered: new FormControl(true),
     msmeType: new FormControl(''),
-    msmeNo: new FormControl(''),
+    msmeNo: new FormControl('', [
+      Validators.pattern(/^[A-Za-z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?/-]{19}$/)
+    ]),
   
-    contactPersonName: new FormControl('',Validators.required),
+    contactPersonName: new FormControl(''),
     designation: new FormControl(''),
   
     email1: new FormControl('', [
-      Validators.required,
       Validators.email
     ]),
     email2: new FormControl('', Validators.email),
   
     phoneMobileNo: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^\+?[1-9]\d{7,14}$/)
+      Validators.pattern(/^[0-9]{10}$/)  // 10-digit numeric validation
     ]),
     currency: new FormControl(''),
     paymentTerms: new FormControl(''),
@@ -94,13 +95,15 @@ export class AddEditVendorComponent implements OnInit {
     bankName: new FormControl(''),
     accountHolderName: new FormControl(''),
     accountNumber: new FormControl('', [
-      Validators.pattern(/^\d{9,18}$/)
+      Validators.pattern(/^\d{9,18}$/)  // Validates a 9 to 18 digit account number
     ]),
     confirmAccountNumber: new FormControl('', [
       Validators.pattern(/^\d{9,18}$/)
     ]),
+    
     ifscCode: new FormControl('', [
-      // Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
+      Validators.required,
+      Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
     ]),
     swiftCode: new FormControl(''),
   
@@ -112,9 +115,10 @@ export class AddEditVendorComponent implements OnInit {
     bankPinCode: new FormControl('', [
       Validators.pattern(/^[0-9]{6}$/)
     ]),
-  
-    status: new FormControl('', )
-  });
+    status: new FormControl('', ),
+    
+  }
+);
   
 
   constructor(
@@ -134,12 +138,29 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorId = Number(this._Activatedroute.snapshot.paramMap.get("vendorId")) || 0;
     this.getVendorData(this.queryData);
     this.AllcountryList();
+    
+    if (this.vendorId > 0) {
+      const vendorType = this.vendorForm.get('vendorType')?.value;
+      if (vendorType === 'EIPVDOM') {
+        this.isBillingCountryDisabled = true;
+      }
+    }
     this.vendorForm.get('paidByDetail')?.valueChanges.subscribe((value) => {
       const selectedDetail = this.paidbyDetailsList.find(
         (detail: any) => detail.value === value
       );
       if (selectedDetail) {
         this.paidByDetailId = selectedDetail.id;
+      }
+    });
+    this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
+      const accountNumber = this.vendorForm.get('accountNumber')?.value;
+      const confirmAccountNumber = this.vendorForm.get('confirmAccountNumber')?.value;
+    
+      if (accountNumber && confirmAccountNumber && accountNumber !== confirmAccountNumber) {
+        this.vendorForm.get('confirmAccountNumber')?.setErrors({ mismatch: true });
+      } else {
+        this.vendorForm.get('confirmAccountNumber')?.setErrors(null);
       }
     });
   }
@@ -157,7 +178,53 @@ export class AddEditVendorComponent implements OnInit {
       }
     )
   }
-   
+  onMsmeTypeChange(event: any) {
+    const selectedType = event.target.value;
+    
+    // If MSME Type is selected, make MSME No required
+    if (selectedType === 'MICRO' || selectedType === 'SMALL' || selectedType === 'MEDIUM') {
+      this.msmeTypeSelected = true;
+      this.vendorForm.get('msmeNo')?.setValidators([Validators.required, Validators.pattern(/^[A-Za-z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?/-]{19}$/)]);
+    } else {
+      this.msmeTypeSelected = false;
+      this.vendorForm.get('msmeNo')?.clearValidators();  // If MSME Type is cleared, MSME No is not required
+    }
+
+    this.vendorForm.get('msmeNo')?.updateValueAndValidity();
+  }
+  onGSTTreatmentChange(event: any): void {
+    const selectedGSTTreatment = event.target.value;
+    
+    // Update the GST field validation based on selected value
+    if (selectedGSTTreatment === 'Unregistered') {
+      // Make GST optional if Unregistered
+      this.vendorForm.get('gst')?.clearValidators();
+    } else {
+      // Make GST required for other cases
+      this.vendorForm.get('gst')?.setValidators([Validators.required]);
+    }
+  
+    // Revalidate the GST field
+    this.vendorForm.get('gst')?.updateValueAndValidity();
+  }
+  onVendorTypeChange(event: any) {
+    const selectedType = event.target.value;
+  
+    if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
+      this.vendorForm.patchValue({ billingCountry: 'India' });
+      this.vendorForm.patchValue({ shippingCountry: 'India' });
+      this.vendorForm.get('billingCountry')?.disable();
+      this.vendorForm.get('shippingCountry')?.disable();
+      this.isBillingCountryDisabled = true;
+    } else {
+      this.vendorForm.patchValue({ billingCountry: null });
+      this.isBillingCountryDisabled = false;
+      this.vendorForm.get('billingCountry')?.enable();
+      this.vendorForm.get('shippingCountry')?.enable();
+    }
+  }
+
+  
   onSelectbillingCountry(e: any){
     this.vendorForm.get('billingCountry')?.setValue(e?.target?.innerText);
   }
@@ -181,6 +248,7 @@ export class AddEditVendorComponent implements OnInit {
       }
     );
   }
+
 
   //TO GET THE POINT NAME FROM POINT CHARGE
   getAllPointChargesList() {

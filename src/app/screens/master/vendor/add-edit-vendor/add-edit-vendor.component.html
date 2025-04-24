@@ -31,8 +31,12 @@
         <div class="row">
           <div class="col-lg-2 col-md-2">
             <div class="custom-form-input">
-              <label for="">Vendor Type</label>
-              <input type="text" class="input-field" formControlName="vendorType" />
+              <label for="vendorType">Vendor Type</label>
+              <select class="input-field" formControlName="vendorType" aria-placeholder="selectType" (change)="onVendorTypeChange($event)">
+                <option value="" disabled selected>Select Type</option> <!-- Default placeholder -->
+                <option value="EIPVDOM">EIPVDOM</option>
+                <option value="EIPVIMP">EIPVIMP</option>
+              </select>
               <div *ngIf="vendorForm.get('vendorType')?.invalid && vendorForm.get('vendorType')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('vendorType')?.hasError('required')">
                   Vendor Type is required.
@@ -40,6 +44,7 @@
               </div>
             </div>
           </div>
+            
           <!-- <div class="col-lg-2 col-md-2">
             <div class="custom-form-input">
               <label for="">Vendor Code</label>
@@ -56,7 +61,7 @@
               <label for="">Vendor Name</label>
               <input type="text" class="input-field" formControlName="vendorName" />
               <div *ngIf="vendorForm.get('vendorName')?.invalid && vendorForm.get('vendorName')?.touched">
-                <small class="text-danger" *ngIf="vendorForm.get('vendorName')?.hasError('vendorName')">
+                <small class="text-danger" *ngIf="vendorForm.get('vendorName')?.hasError('required')">
                   Vendor Name is required.
                 </small>
               </div>
@@ -66,6 +71,11 @@
             <div class="custom-form-input">
               <label for="">Billing Address Line 1</label>
               <input type="text" class="input-field" formControlName="billingAddressLine1" />
+              <div *ngIf="vendorForm.get('billingAddressLine1')?.invalid && vendorForm.get('billingAddressLine1')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('billingAddressLine1')?.hasError('required')">
+                  Address is required.
+                </small>
+              </div>
             </div>
           </div>
           <div class="col-lg-4 col-md-4">
@@ -74,32 +84,28 @@
               <input type="text" class="input-field" formControlName="billingAddressLine2" />
             </div>
           </div>
-          <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-              <label for="">Billing Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
-
-              <!-- Readonly ng-select -->
-              <ng-select (click)="onSelectbillingCountry($event)" class="input-field" formControlName="billingCity"
-                *ngIf="vendorId > 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
-                </ng-option>
-              </ng-select>
-
-              <!-- Editable ng-select -->
-              <ng-select (click)="onSelectbillingCountry($event)" class="input-field" formControlName="billingCity"
-                *ngIf="vendorId == 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
-                </ng-option>
-              </ng-select>
-            </div>
-
+          <div class="col-lg-4 col-md-4">
+          <div class="custom-form-input">
+            <label for="">Billing Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+            <ng-select
+              class="input-field"
+              formControlName="billingCountry"
+              [disabled]="isBillingCountryDisabled"            >
+              <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                {{ country.countryName }}
+              </ng-option>
+            </ng-select>
           </div>
+        </div>
           <div class="col-lg-2 col-md-2">
             <div class="custom-form-input">
               <label for="">Billing City</label>
               <input type="text" class="input-field" formControlName="billingCity" />
+              <div *ngIf="vendorForm.get('billingCity')?.invalid && vendorForm.get('billingCity')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('billingCity')?.hasError('required')">
+                  City is required.
+                </small>
+              </div>
             </div>
           </div>
 
@@ -119,6 +125,12 @@
             <div class="custom-form-input">
               <label for="">Billing Pin Code</label>
               <input type="text" class="input-field" formControlName="billingPinCode" />
+              <div *ngIf="vendorForm.get('billingPinCode')?.invalid && vendorForm.get('billingPinCode')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('billingPinCode')?.hasError('required')">
+                  PinCode is required.
+                </small>
+              </div>
+              
             </div>
           </div>
 
@@ -290,6 +302,9 @@
           <div class="custom-form-input">
             <label for="">Confirm Account Number</label>
             <input type="text" class="input-field" formControlName="confirmAccountNumber" />
+            <small class="text-danger" *ngIf="vendorForm.get('confirmAccountNumber')?.hasError('mismatch') && vendorForm.get('confirmAccountNumber')?.touched">
+              Account numbers do not match.
+            </small>
           </div>
         </div>
         <div class="col-lg-3 col-md-3">
@@ -358,13 +373,32 @@
         <div class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">MSME Type</label>
-            <input type="text" class="input-field" formControlName="msmeType" />
+            <select class="input-field" formControlName="msmeType" (change)="onMsmeTypeChange($event)">
+              <option value="">Select MSME Type</option>
+              <option value="MICRO">MICRO</option>
+              <option value="SMALL">SMALL</option>
+              <option value="MEDIUM">MEDIUM</option>
+            </select>
+            <div *ngIf="vendorForm.get('msmeType')?.invalid && vendorForm.get('msmeType')?.touched">
+              <small class="text-danger" *ngIf="vendorForm.get('msmeType')?.hasError('required')">
+                MSME Type is required.
+              </small>
+            </div>
           </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        
+        <div *ngIf="msmeTypeSelected" class="col-lg-2 col-md-2">
           <div class="custom-form-input">
             <label for="">MSME No</label>
             <input type="text" class="input-field" formControlName="msmeNo" />
+            <div *ngIf="vendorForm.get('msmeNo')?.invalid && vendorForm.get('msmeNo')?.touched">
+              <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('required')">
+                MSME No is required.
+              </small>
+              <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('pattern')">
+                MSME No must be 19 characters long with alphanumeric and special characters.
+              </small>
+            </div>
           </div>
         </div>
         <div class="col-lg-2 col-md-2">
@@ -390,12 +424,23 @@
           </div>
         </div>
           
-          <div class="col-lg-2 col-md-2">
-            <div class="custom-form-input">
-              <label for="">GST Treatment</label>
-              <input type="text" class="input-field" formControlName="gstTreatment" />
+        <div class="col-lg-2 col-md-2">
+          <div class="custom-form-input">
+            <label for="">GST Treatment</label>
+            <select class="input-field" formControlName="gstTreatment" (change)="onGSTTreatmentChange($event)">
+              <option value="">-- Select --</option>
+              <option value="Registered">Registered</option>
+              <option value="Unregistered">Unregistered</option>
+              <option value="Consumer">Consumer</option>
+              <option value="RCM">RCM</option>
+            </select>
+            <div *ngIf="vendorForm.get('gstTreatment')?.invalid && vendorForm.get('gstTreatment')?.touched">
+              <small class="text-danger" *ngIf="vendorForm.get('gstTreatment')?.hasError('required')">
+                GST Treatment is required.
+              </small>
             </div>
           </div>
+        </div>
           <div class="col-lg-2 col-md-2">
             <div class="custom-form-input" *ngIf="vendorId">
               <label for="">Status <span class="text-danger">*</span></label>
