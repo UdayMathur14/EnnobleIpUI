@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorService } from '../../../../core/service/vendor.service';
 import {
-  TransporterDataModel,
   VendorDataModel,
 } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
-import { PointChargeService } from '../../../../core/service/point-charge.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { CountryService } from '../../../../core/service/country.service';
 
@@ -25,7 +22,10 @@ export class AddEditVendorComponent implements OnInit {
   countryList: any = [];
   loadSpinner: boolean = true;
   disableSubmit: boolean = false;
-  
+  vendorType: string = '';
+  showComplianceTab: boolean = true;
+  statusTab: boolean = false;
+  showExtraTab:boolean=false;
   selectedTransactionTypes: Set<string> = new Set();
   isShow: boolean = false;
   statusValue: string = '';
@@ -36,25 +36,28 @@ export class AddEditVendorComponent implements OnInit {
     vendorCode: new FormControl(''),
     vendorName: new FormControl('', Validators.required),
   
-    billingAddressLine1: new FormControl(''),
-    billingAddressLine2: new FormControl(''),
-    billingCity: new FormControl(''),
-    billingState: new FormControl(''),
-    billingCountry: new FormControl(''),
+    billingAddressLine1: new FormControl('', Validators.required),
+    billingAddressLine2: new FormControl('', Validators.required),
+    billingCity: new FormControl('', Validators.required),
+    billingState: new FormControl('', Validators.required),
+    billingCountry: new FormControl('', Validators.required),
     billingPinCode: new FormControl('', [
+      Validators.required,
       Validators.pattern(/^[0-9]{6}$/) // optional: only if 6-digit PIN
     ]),
   
-    shippingAddressLine1: new FormControl(''),
-    shippingAddressLine2: new FormControl(''),
-    shippingCity: new FormControl(''),
-    shippingState: new FormControl(''),
-    shippingCountry: new FormControl(''),
+    shippingAddressLine1: new FormControl('',Validators.required),
+    shippingAddressLine2: new FormControl('',Validators.required),
+    shippingCity: new FormControl('',Validators.required),
+    shippingState: new FormControl('',Validators.required),
+    shippingCountry: new FormControl('',Validators.required),
     shippingPinCode: new FormControl('', [
+      Validators.required,
       Validators.pattern(/^[0-9]{6}$/)
     ]),
   
     pan: new FormControl('', [
+      Validators.required,
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)// optional PAN format
     ]),
     gst: new FormControl('', [Validators.pattern(/^[A-Z]{2}[0-9]{10}[A-Z0-9]{1}[A-Z]{1}[0-9]{1}$/)]),
@@ -79,12 +82,14 @@ export class AddEditVendorComponent implements OnInit {
     currency: new FormControl(''),
     paymentTerms: new FormControl(''),
   
-    bankName: new FormControl(''),
-    accountHolderName: new FormControl(''),
+    bankName: new FormControl('',Validators.required),
+    accountHolderName: new FormControl('',Validators.required),
     accountNumber: new FormControl('', [
+      Validators.required,
       Validators.pattern(/^\d{9,18}$/)  // Validates a 9 to 18 digit account number
     ]),
     confirmAccountNumber: new FormControl('', [
+      Validators.required,
       Validators.pattern(/^\d{9,18}$/)
     ]),
     
@@ -102,6 +107,13 @@ export class AddEditVendorComponent implements OnInit {
     bankPinCode: new FormControl('', [
       Validators.pattern(/^[0-9]{6}$/)
     ]),
+    iban:new FormControl(''),
+    sortCode :  new FormControl(''),
+    routingNo :new FormControl(''),
+    bankCountry: new FormControl(''),
+    fCTCCharges:new FormControl(''),
+    complDocyear :new FormControl(''),
+    
     status: new FormControl('', ),
     
   }
@@ -112,10 +124,7 @@ export class AddEditVendorComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private router: Router,
     private vendorService: VendorService,
-    private pointChargeService: PointChargeService,
     private toastr: ToastrService,
-    private transactionTypeService: TransactionTypesService,
-    private lookupService: LookupService,
     private countryService:CountryService,
   ) {}
 
@@ -131,6 +140,9 @@ export class AddEditVendorComponent implements OnInit {
       if (vendorType === 'EIPVDOM') {
         this.isBillingCountryDisabled = true;
       }
+    }
+    if(this.vendorId==0){
+      this.statusTab= false; 
     }
     
     this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
@@ -189,7 +201,24 @@ export class AddEditVendorComponent implements OnInit {
   }
   onVendorTypeChange(event: any) {
     const selectedType = event.target.value;
-  
+    this.vendorType = selectedType;
+
+    // Show or hide the compliance tab based on vendor type
+    if (this.vendorType === 'EIPVIMP') {
+      this.showComplianceTab = false;  // Hide the tab if the vendor type is 'EIPVIMP'
+      this.vendorForm.get('billingPinCode')?.clearValidators();
+      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('shipingPinCode')?.clearValidators();
+      this.vendorForm.get('shipingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('bankPinCode')?.clearValidators();
+      this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('accountNumber')?.clearValidators();
+      this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+      this.vendorForm.get('confirmAccountNumber')?.clearValidators();
+      this.vendorForm.get('confirmAccountNumber')?.updateValueAndValidity();
+    } else {
+      this.showComplianceTab = true;   // Show the tab for any other vendor type
+    }
     if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
       this.vendorForm.patchValue({ billingCountry: 'India' });
       this.vendorForm.patchValue({ shippingCountry: 'India' });
