@@ -299,6 +299,20 @@
         </div>
         <div class="col-lg-3 col-md-3">
           <div class="custom-form-input">
+            <label for="">Country Code</label>
+            <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
+            <ng-select
+              class="input-field"
+              formControlName="countryCode"
+              [disabled]="isBillingCountryDisabled"            >
+              <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
+                {{ country.countryCode }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
             <label for="">Mobile No</label>
             <input type="text" class="input-field" formControlName="phoneMobileNo" />
             <div *ngIf="vendorForm.get('phoneMobileNo')?.invalid && vendorForm.get('phoneMobileNo')?.touched">

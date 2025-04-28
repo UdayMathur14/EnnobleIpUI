@@ -75,7 +75,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.email
     ]),
     email2: new FormControl('', Validators.email),
-  
+    countryCode : new FormControl(''),
     phoneMobileNo: new FormControl('', [
       Validators.pattern(/^[0-9]{10}$/)  // 10-digit numeric validation
     ]),
