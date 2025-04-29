@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-2">
             <div class="custom-form-input">
-                <label for="">Vendor Code</label>
-                <ng-select class="input-field" [(ngModel)]="vendorCode" typeToSearchText
-                    placeholder="Select Code">
-                    <ng-option *ngFor="let vendor of filters?.VendorCode"
+                <label for="">Vendor Type</label>
+                <ng-select class="input-field" [(ngModel)]="vendorType" typeToSearchText
+                    placeholder="Select type">
+                    <ng-option *ngFor="let vendor of filters?.VendorType"
                         [value]="vendor">{{vendor}}</ng-option>
                 </ng-select>
             </div>
@@ -32,7 +32,7 @@
             <div class="d-flex mt-4">
                 <label for="" class="d-block">&nbsp;</label>
                 <button class="custom-button-filters me-2" (click)="onVendorSearch()"
-                    [disabled]="!vendorCode && !vendorName && !status" style="padding:4px 10px;">Search</button>
+                    [disabled]="!vendorType && !vendorName && !status" style="padding:4px 10px;">Search</button>
                 <button class="custom-button-filters" (click)="onClearFilter()" style="padding:4px 10px;">Clear</button>
             </div>
         </div>
