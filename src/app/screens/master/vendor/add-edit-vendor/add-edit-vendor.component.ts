@@ -208,16 +208,19 @@ export class AddEditVendorComponent implements OnInit {
     if (this.vendorType === 'EIPVIMP') {
       this.showComplianceTab = false;  // Hide the tab if the vendor type is 'EIPVIMP'
       this.IfscInput= false;
+      this.showExtraTab = true;
       this.vendorForm.get('billingPinCode')?.setValidators(Validators.required);
       this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
       this.vendorForm.get('shippingPinCode')?.setValidators(Validators.required);
       this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
       this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
       this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('accountNumber')?.setValidators(Validators.required);
-      this.vendorForm.get('accountNumber')?.updateValueAndValidity();
-      this.vendorForm.get('confirmAccountNumber')?.setValidators(Validators.required);
-      this.vendorForm.get('confirmAccountNumber')?.updateValueAndValidity();
+      this.vendorForm.get('pan')?.clearValidators();
+      this.vendorForm.get('pan')?.updateValueAndValidity();
+      this.vendorForm.get('msmeRegistered')?.clearValidators();
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+      this.vendorForm.get('msmeRegistered')?.clearValidators();
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
       this.vendorForm.get('phoneMobileNo')?.clearValidators();
       this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
       this.vendorForm.get('ifscCode')?.clearValidators();
