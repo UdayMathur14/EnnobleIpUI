@@ -30,6 +30,7 @@ export class AddEditVendorComponent implements OnInit {
   isShow: boolean = false;
   statusValue: string = '';
   isBillingCountryDisabled: boolean = false;
+  IfscInput :boolean=true;
   msmeTypeSelected = false;
   vendorForm = new FormGroup({
     vendorType: new FormControl('', Validators.required),
@@ -206,16 +207,21 @@ export class AddEditVendorComponent implements OnInit {
     // Show or hide the compliance tab based on vendor type
     if (this.vendorType === 'EIPVIMP') {
       this.showComplianceTab = false;  // Hide the tab if the vendor type is 'EIPVIMP'
-      this.vendorForm.get('billingPinCode')?.clearValidators();
+      this.IfscInput= false;
+      this.vendorForm.get('billingPinCode')?.setValidators(Validators.required);
       this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('shipingPinCode')?.clearValidators();
-      this.vendorForm.get('shipingPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('bankPinCode')?.clearValidators();
+      this.vendorForm.get('shippingPinCode')?.setValidators(Validators.required);
+      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
       this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('accountNumber')?.clearValidators();
+      this.vendorForm.get('accountNumber')?.setValidators(Validators.required);
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
-      this.vendorForm.get('confirmAccountNumber')?.clearValidators();
+      this.vendorForm.get('confirmAccountNumber')?.setValidators(Validators.required);
       this.vendorForm.get('confirmAccountNumber')?.updateValueAndValidity();
+      this.vendorForm.get('phoneMobileNo')?.clearValidators();
+      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+      this.vendorForm.get('ifscCode')?.clearValidators();
+      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
     } else {
       this.showComplianceTab = true;   // Show the tab for any other vendor type
     }

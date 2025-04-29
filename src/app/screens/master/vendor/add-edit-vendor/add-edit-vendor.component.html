@@ -223,7 +223,7 @@
               <input type="text" class="input-field" formControlName="shippingPinCode" />
               <div *ngIf="vendorForm.get('shippingPinCode')?.invalid && vendorForm.get('shippingPinCode')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('shippingPinCode')?.hasError('required')">
-                  state is required.
+                  Pincode is required.
                 </small>
               </div>
             </div>
@@ -356,8 +356,8 @@
             </small>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
+        <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
+          <div class="custom-form-input" >
             <label for="">IFSC Code</label>
             <input type="text" class="input-field" formControlName="ifscCode" />
           </div>
@@ -380,10 +380,23 @@
             <input type="text" class="input-field" formControlName="bankAddressLine3" />
           </div>
         </div>
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
           <div class="custom-form-input">
             <label for="">Branch</label>
             <input type="text" class="input-field" formControlName="branch" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Bank Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+            <ng-select
+              class="input-field"
+              formControlName="bankCountry"
+              [disabled]="isBillingCountryDisabled"            >
+              <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                {{ country.countryName }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
         <div class="col-lg-3 col-md-3">
