@@ -44,11 +44,11 @@ export class AddEditVendorComponent implements OnInit {
     billingCountry: new FormControl('', Validators.required),
     billingPinCode: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[0-9]{6}$/) // optional: only if 6-digit PIN
+      Validators.pattern(/^[0-9]{6}$/)
     ]),
   
     shippingAddressLine1: new FormControl('',Validators.required),
-    shippingAddressLine2: new FormControl('',Validators.required),
+    shippingAddressLine2: new FormControl(''),
     shippingCity: new FormControl('',Validators.required),
     shippingState: new FormControl('',Validators.required),
     shippingCountry: new FormControl('',Validators.required),
@@ -62,7 +62,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)// optional PAN format
     ]),
     gst: new FormControl('', [Validators.pattern(/^[A-Z]{2}[0-9]{10}[A-Z0-9]{1}[A-Z]{1}[0-9]{1}$/)]),
-    gstTreatment: new FormControl('',Validators.required),
+    gstTreatment: new FormControl(''),
     msmeRegistered: new FormControl(true),
     msmeType: new FormControl(''),
     msmeNo: new FormControl('', [
@@ -228,6 +228,7 @@ export class AddEditVendorComponent implements OnInit {
     {
       this.showComplianceTab = true;   // Show the tab for any other vendor type
       this.showExtraTab=false;
+      this.IfscInput = true;
     }
 
 
