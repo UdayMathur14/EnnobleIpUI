@@ -135,7 +135,7 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorId = Number(this._Activatedroute.snapshot.paramMap.get("vendorId")) || 0;
     this.getVendorData(this.queryData);
     this.AllcountryList();
-    
+    console.log(this.vendorForm);
     if (this.vendorId > 0) {
       const vendorType = this.vendorForm.get('vendorType')?.value;
       if (vendorType === 'EIPVDOM') {
@@ -222,9 +222,15 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
       this.vendorForm.get('ifscCode')?.clearValidators();
       this.vendorForm.get('ifscCode')?.updateValueAndValidity();
-    } else {
+
+    }//if vendor type is EIPVDOM 
+    else
+    {
       this.showComplianceTab = true;   // Show the tab for any other vendor type
+      this.showExtraTab=false;
     }
+
+
     if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
       this.vendorForm.patchValue({ billingCountry: 'India' });
       this.vendorForm.patchValue({ shippingCountry: 'India' });

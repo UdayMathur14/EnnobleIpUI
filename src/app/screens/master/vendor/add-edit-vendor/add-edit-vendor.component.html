@@ -25,7 +25,7 @@
         <a class="nav-link" data-bs-toggle="tab" href="#complianceTab">Compliance Details
         </a>
       </li>
-      <li class="nav-item" >
+      <li class="nav-item" *ngIf="showExtraTab">
         <a class="nav-link" data-bs-toggle="tab" href="#extraDetails">Extra Details
         </a>
       </li>
@@ -90,7 +90,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Billing Address Line 2</label>
-              <input type="text" class="input-field" formControlName="billingAddressLine3" />
+              <input type="text" class="input-field" formControlName="billingAddressLine2" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -163,7 +163,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Shipping Address Line 2</label>
-              <input type="text" class="input-field" formControlName="shippingAddressLine3" />
+              <input type="text" class="input-field" formControlName="shippingAddressLine2" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -294,7 +294,7 @@
         <div class="col-lg-3 col-md-3">
           <div class="custom-form-input">
             <label for="">Email 2</label>
-            <input type="text" class="input-field" formControlName="email3" />
+            <input type="text" class="input-field" formControlName="email2" />
           </div>
         </div>
         <div class="col-lg-3 col-md-3">
@@ -377,7 +377,7 @@
         <div class="col-lg-3 col-md-3">
           <div class="custom-form-input">
             <label for="">Bank Address Line 2</label>
-            <input type="text" class="input-field" formControlName="bankAddressLine3" />
+            <input type="text" class="input-field" formControlName="bankAddressLine2" />
           </div>
         </div>
         <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
@@ -505,12 +505,12 @@
       </div>
     </div>
 
-    <div id="extraDetails" class="tab-pane fade">
+    <div id="extraDetails" class="tab-pane fade" >
       <div class="row">
         <div class="col-lg-3 col-md-3">
           <div class="custom-form-input">
             <label for="msmeRegistered">Iban</label>
-            <input type="text" class="input-field" formControlName="Iban" />
+            <input type="text" class="input-field" formControlName="iban" />
           </div>
         </div>
         <div class="col-lg-3 col-md-3">
