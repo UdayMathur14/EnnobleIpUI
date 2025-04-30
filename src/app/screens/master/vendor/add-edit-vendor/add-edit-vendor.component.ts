@@ -6,7 +6,6 @@ import {
 } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LookupService } from '../../../../core/service/lookup.service';
 import { CountryService } from '../../../../core/service/country.service';
 
 @Component({
@@ -38,7 +37,7 @@ export class AddEditVendorComponent implements OnInit {
     vendorName: new FormControl('', Validators.required),
   
     billingAddressLine1: new FormControl('', Validators.required),
-    billingAddressLine2: new FormControl('', Validators.required),
+    billingAddressLine2: new FormControl(''),
     billingCity: new FormControl('', Validators.required),
     billingState: new FormControl('', Validators.required),
     billingCountry: new FormControl('', Validators.required),
@@ -119,6 +118,7 @@ export class AddEditVendorComponent implements OnInit {
     
   }
 );
+ 
   
 
   constructor(
@@ -138,8 +138,30 @@ export class AddEditVendorComponent implements OnInit {
     console.log(this.vendorForm);
     if (this.vendorId > 0) {
       const vendorType = this.vendorForm.get('vendorType')?.value;
+      this.statusTab = true;
+      this.vendorForm.get('vendorType')?.disable();
+
       if (vendorType === 'EIPVDOM') {
         this.isBillingCountryDisabled = true;
+      }
+      else{
+        this.showComplianceTab = false;  // Hide the tab if the vendor type is 'EIPVIMP'
+      this.IfscInput= false;
+      this.showExtraTab = true;
+      this.vendorForm.get('billingPinCode')?.setValidators(Validators.required);
+      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('shippingPinCode')?.setValidators(Validators.required);
+      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
+      this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('pan')?.clearValidators();
+      this.vendorForm.get('pan')?.updateValueAndValidity();
+      this.vendorForm.get('msmeRegistered')?.clearValidators();
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+      this.vendorForm.get('phoneMobileNo')?.clearValidators();
+      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+      this.vendorForm.get('ifscCode')?.clearValidators();
+      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
       }
     }
     if(this.vendorId==0){
@@ -219,8 +241,6 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('pan')?.updateValueAndValidity();
       this.vendorForm.get('msmeRegistered')?.clearValidators();
       this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
-      this.vendorForm.get('msmeRegistered')?.clearValidators();
-      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
       this.vendorForm.get('phoneMobileNo')?.clearValidators();
       this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
       this.vendorForm.get('ifscCode')?.clearValidators();
@@ -232,6 +252,37 @@ export class AddEditVendorComponent implements OnInit {
       this.showComplianceTab = true;   // Show the tab for any other vendor type
       this.showExtraTab=false;
       this.IfscInput = true;
+
+      this.vendorForm.get('pan')?.setValidators([
+        Validators.required,
+        Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)
+      ]);
+      this.vendorForm.get('pan')?.updateValueAndValidity();
+  
+      this.vendorForm.get('msmeRegistered')?.setValidators([Validators.required]);
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+  
+      this.vendorForm.get('phoneMobileNo')?.setValidators([
+        Validators.pattern(/^[0-9]{10}$/)
+      ]);
+      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+  
+      this.vendorForm.get('ifscCode')?.setValidators([
+        Validators.required,
+        Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
+      ]);
+      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+      this.vendorForm.get('billingPinCode')?.setValidators([
+        Validators.required,
+        Validators.pattern(/^[0-9]{6}$/)
+      ]);
+      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+      
+      this.vendorForm.get('shippingPinCode')?.setValidators([
+        Validators.required,
+        Validators.pattern(/^[0-9]{6}$/)
+      ]);
+      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
     }
 
 
@@ -304,6 +355,7 @@ export class AddEditVendorComponent implements OnInit {
       designation: this.vendorForm.get('designation')?.value,
       email1: this.vendorForm.get('email1')?.value,
       email2: this.vendorForm.get('email2')?.value,
+      countryCode:this.vendorForm.get('countryCode')?.value,
       phoneMobileNo: this.vendorForm.get('phoneMobileNo')?.value,
       currency: this.vendorForm.get('currency')?.value,
       paymentTerms: this.vendorForm.get('paymentTerms')?.value,
@@ -319,7 +371,13 @@ export class AddEditVendorComponent implements OnInit {
       bankCity: this.vendorForm.get('bankCity')?.value,
       bankState: this.vendorForm.get('bankState')?.value,
       bankPinCode: this.vendorForm.get('bankPinCode')?.value,
-      status: this.vendorForm.get('status')?.value
+      iban:this.vendorForm.get('iban')?.value,
+      sortCode : this.vendorForm.get('sortCode')?.value,
+      routingNo :this.vendorForm.get('routingNo')?.value,
+      bankCountry: this.vendorForm.get('bankCountry')?.value,
+      fCTCCharges:this.vendorForm.get('fCTCCharges')?.value,
+      complDocyear :this.vendorForm.get('complDocyear')?.value,
+      status: this.vendorForm.get('status')?.value,
     };
     
     if(this.vendorId==0){
@@ -359,7 +417,8 @@ export class AddEditVendorComponent implements OnInit {
 
   patchVendorData(data: any) {
     if (data?.taxationType?.code === "RCM") {
-    }else{
+    }
+    else{
     }
     setTimeout(() => {
     },1000)
@@ -390,6 +449,7 @@ export class AddEditVendorComponent implements OnInit {
       designation: data?.designation,
       email1: data?.email1,
       email2: data?.email2,
+      countryCode: data?.countryCode,
       phoneMobileNo: data?.phoneMobileNo,
       currency: data?.currency,
       paymentTerms: data?.paymentTerms,
@@ -405,6 +465,12 @@ export class AddEditVendorComponent implements OnInit {
       bankCity: data?.bankCity,
       bankState: data?.bankState,
       bankPinCode: data?.bankPinCode,
+      iban:data?.bankPinCode,
+      sortCode :data?.sortCode,
+      routingNo :data?.routingNo,
+      bankCountry: data?.bankCountry,
+      fCTCCharges:data?.fCTCCharges,
+      complDocyear :data?.complDocyear,
       status: data?.status
     });
     
@@ -430,8 +496,6 @@ export class AddEditVendorComponent implements OnInit {
     const phoneControl = this.vendorForm.get('phone');
     
   }
-
-  
 
   onStatusChange(status: string, transaction: any) {
     transaction.disabled = status === 'Inactive';

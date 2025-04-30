@@ -41,7 +41,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="vendorType">Vendor Type</label>
-              <select class="input-field" formControlName="vendorType" aria-placeholder="selectType" (change)="onVendorTypeChange($event)">
+              <select class="input-field" formControlName="vendorType" aria-placeholder="selectType"
+                (change)="onVendorTypeChange($event)">
                 <option value="" disabled selected>Select Type</option> <!-- Default placeholder -->
                 <option value="EIPVDOM">EIPVDOM</option>
                 <option value="EIPVIMP">EIPVIMP</option>
@@ -53,7 +54,6 @@
               </div>
             </div>
           </div>
-            
           <!-- <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Vendor Code</label>
@@ -80,7 +80,8 @@
             <div class="custom-form-input">
               <label for="">Billing Address Line 1</label>
               <input type="text" class="input-field" formControlName="billingAddressLine1" />
-              <div *ngIf="vendorForm.get('billingAddressLine1')?.invalid && vendorForm.get('billingAddressLine1')?.touched">
+              <div
+                *ngIf="vendorForm.get('billingAddressLine1')?.invalid && vendorForm.get('billingAddressLine1')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('billingAddressLine1')?.hasError('required')">
                   Address is required.
                 </small>
@@ -94,18 +95,15 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Billing Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
-            <ng-select
-              class="input-field"
-              formControlName="billingCountry"
-              [disabled]="isBillingCountryDisabled"            >
-              <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                {{ country.countryName }}
-              </ng-option>
-            </ng-select>
+            <div class="custom-form-input">
+              <label for="">Billing Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+              <ng-select class="input-field" formControlName="billingCountry" [disabled]="isBillingCountryDisabled">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                  {{ country.countryName }}
+                </ng-option>
+              </ng-select>
+            </div>
           </div>
-        </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Billing City</label>
@@ -126,6 +124,7 @@
                 <small class="text-danger" *ngIf="vendorForm.get('billingState')?.hasError('required')">
                   state is required.
                 </small>
+
               </div>
             </div>
           </div>
@@ -143,8 +142,11 @@
                 <small class="text-danger" *ngIf="vendorForm.get('billingPinCode')?.hasError('required')">
                   PinCode is required.
                 </small>
+                <small class="text-danger" *ngIf="vendorForm.get('billingPinCode')?.hasError('pattern')">
+                  Invalid PinCode.
+                </small>
               </div>
-              
+
             </div>
           </div>
 
@@ -152,12 +154,13 @@
             <div class="custom-form-input">
               <label for="">Shipping Address Line 1</label>
               <input type="text" class="input-field" formControlName="shippingAddressLine1" />
-              <div *ngIf="vendorForm.get('shippingAddressLine1')?.invalid && vendorForm.get('shippingAddressLine1')?.touched">
+              <div
+                *ngIf="vendorForm.get('shippingAddressLine1')?.invalid && vendorForm.get('shippingAddressLine1')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('shippingAddressLine1')?.hasError('required')">
                   state is required.
                 </small>
               </div>
-              
+
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -225,340 +228,382 @@
                 <small class="text-danger" *ngIf="vendorForm.get('shippingPinCode')?.hasError('required')">
                   Pincode is required.
                 </small>
+                <small class="text-danger" *ngIf="vendorForm.get('shippingPinCode')?.hasError('pattern')">
+                  Invalid PinCode.
+                </small>
               </div>
             </div>
           </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Payment Terms</label>
-            <input type="text" class="input-field" formControlName="paymentTerms" />
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Payment Terms</label>
+              <input type="text" class="input-field" formControlName="paymentTerms" />
+            </div>
           </div>
-        </div>
-        <!-- <div class="col-lg-3 col-md-3">
+          <!-- <div class="col-lg-3 col-md-3">
         <div class="custom-form-input">
           <label for="">Currency</label>
           <input type="text" class="input-field" formControlName="currency"  />
         </div>
       </div> -->
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Currency <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Currency <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
 
-            <!-- Readonly ng-select -->
-            <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
-              *ngIf="vendorId > 0">
-              <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                {{ country.currencyName }}
-              </ng-option>
-            </ng-select>
+              <!-- Readonly ng-select -->
+              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+                *ngIf="vendorId > 0">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
 
-            <!-- Editable ng-select -->
-            <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
-              *ngIf="vendorId == 0">
-              <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                {{ country.currencyName }}
-              </ng-option>
-            </ng-select>
-          </div>
-        </div>
-        </div>
-
-      </div>
-    
-    <div id="contactTab" class="tab-pane fade">
-      <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Contact Person Name</label>
-            <input type="text" class="input-field" formControlName="contactPersonName" />
-            <div *ngIf="vendorForm.get('contactPersonName')?.invalid && vendorForm.get('contactPersonName')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('contactPersonName')?.hasError('required')">
-                Contact Name is required.
-              </small>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Designation</label>
-            <input type="text" class="input-field" formControlName="designation" />
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Email 1</label>
-            <input type="text" class="input-field" formControlName="email1" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Email 2</label>
-            <input type="text" class="input-field" formControlName="email2" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Country Code</label>
-            <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
-            <ng-select
-              class="input-field"
-              formControlName="countryCode"
-              [disabled]="isBillingCountryDisabled"            >
-              <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
-                {{ country.countryCode }}
-              </ng-option>
-            </ng-select>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Mobile No</label>
-            <input type="text" class="input-field" formControlName="phoneMobileNo" />
-            <div *ngIf="vendorForm.get('phoneMobileNo')?.invalid && vendorForm.get('phoneMobileNo')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('phoneMobileNo')?.hasError('required')">
-                No is required.
-              </small>
+              <!-- Editable ng-select -->
+              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+                *ngIf="vendorId == 0">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
             </div>
           </div>
         </div>
 
-
       </div>
-    </div>
-    
-    <div id="banktab" class="tab-pane fade">
-      <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank Name</label>
-            <input type="text" class="input-field" formControlName="bankName" />
+
+      <div id="contactTab" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Contact Person Name</label>
+              <input type="text" class="input-field" formControlName="contactPersonName" />
+              <div *ngIf="vendorForm.get('contactPersonName')?.invalid && vendorForm.get('contactPersonName')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('contactPersonName')?.hasError('required')">
+                  Contact Name is required.
+                </small>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Account Holder Name</label>
-            <input type="text" class="input-field" formControlName="accountHolderName" />
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Designation</label>
+              <input type="text" class="input-field" formControlName="designation" />
+            </div>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Account Number</label>
-            <input type="text" class="input-field" formControlName="accountNumber" />
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Email 1</label>
+              <input type="email" class="input-field" formControlName="email1" />
+              <div *ngIf="vendorForm.get('email1')?.invalid && vendorForm.get('email1')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('email1')?.hasError('email')">
+                  Please enter a valid email address.
+                </small>
+              </div>
+            </div>
           </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Email 2</label>
+              <input type="text" class="input-field" formControlName="email2" />
+              <div *ngIf="vendorForm.get('email2')?.invalid && vendorForm.get('email2')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('email2')?.hasError('email')">
+                  Enter a valid email address.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Country Code</label>
+              <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
+              <ng-select class="input-field" formControlName="countryCode" [disabled]="isBillingCountryDisabled">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
+                  {{ country.countryCode }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Mobile No</label>
+              <input type="text" class="input-field" formControlName="phoneMobileNo" />
+              <div *ngIf="vendorForm.get('phoneMobileNo')?.invalid && vendorForm.get('phoneMobileNo')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('phoneMobileNo')?.hasError('required')">
+                  No is required.
+                </small>
+                <small class="text-danger" *ngIf="vendorForm.get('phoneMobileNo')?.hasError('pattern')">
+                  Invalid Mobile No.
+                </small>
+              </div>
+            </div>
+          </div>
+
+
         </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Confirm Account Number</label>
-            <input type="text" class="input-field" formControlName="confirmAccountNumber" />
-            <small class="text-danger" *ngIf="vendorForm.get('confirmAccountNumber')?.hasError('mismatch') && vendorForm.get('confirmAccountNumber')?.touched">
+      </div>
+
+      <div id="banktab" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank Name</label>
+              <input type="text" class="input-field" formControlName="bankName" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Account Holder Name</label>
+              <input type="text" class="input-field" formControlName="accountHolderName" />
+
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Account Number</label>
+              <input type="text" class="input-field" formControlName="accountNumber" />
+              <div *ngIf="vendorForm.get('accountNumber')?.invalid && vendorForm.get('accountNumber')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('accountNumber')?.hasError('required')">
+                  Account No is required.
+                </small>
+                <small class="text-danger" *ngIf="vendorForm.get('accountNumber')?.hasError('pattern')">
+                  Invalid account No.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Confirm Account Number</label>
+              <input type="text" class="input-field" formControlName="confirmAccountNumber" />
+              <small class="text-danger"
+              *ngIf="vendorForm.get('confirmAccountNumber')?.hasError('required') && vendorForm.get('confirmAccountNumber')?.touched">
+              Confirm Account Number is required.
+            </small>
+            <small class="text-danger"
+              *ngIf="vendorForm.get('confirmAccountNumber')?.hasError('mismatch') && vendorForm.get('confirmAccountNumber')?.touched">
               Account numbers do not match.
             </small>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
-          <div class="custom-form-input" >
-            <label for="">IFSC Code</label>
-            <input type="text" class="input-field" formControlName="ifscCode" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">SWIFT Code</label>
-            <input type="text" class="input-field" formControlName="swiftCode" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank Address Line 1</label>
-            <input type="text" class="input-field" formControlName="bankAddressLine1" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank Address Line 2</label>
-            <input type="text" class="input-field" formControlName="bankAddressLine2" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
-          <div class="custom-form-input">
-            <label for="">Branch</label>
-            <input type="text" class="input-field" formControlName="branch" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
-            <ng-select
-              class="input-field"
-              formControlName="bankCountry"
-              [disabled]="isBillingCountryDisabled"            >
-              <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                {{ country.countryName }}
-              </ng-option>
-            </ng-select>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank City</label>
-            <input type="text" class="input-field" formControlName="bankCity" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank State</label>
-            <input type="text" class="input-field" formControlName="bankState" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">Bank Pin Code</label>
-            <input type="text" class="input-field" formControlName="bankPinCode" />
-          </div>
-        </div>
-      </div>
-    </div>
+          <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
+            <div class="custom-form-input">
+              <label for="">IFSC Code</label>
+              <input type="text" class="input-field" formControlName="ifscCode" />
+              <div *ngIf="vendorForm.get('ifscCode')?.invalid && vendorForm.get('ifscCode')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('ifscCode')?.hasError('pattern')">
+                  Invalid IFSC Code.
+                </small>
+              </div>
 
-
-    <div id="complianceTab" class="tab-pane fade">
-      <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="msmeRegistered">MSME Registered</label>
-            <select class="input-field" formControlName="msmeRegistered">
-              <option [ngValue]="true">Yes</option>
-              <option [ngValue]="false">No</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">MSME Type</label>
-            <select class="input-field" formControlName="msmeType" (change)="onMsmeTypeChange($event)">
-              <option value="">Select MSME Type</option>
-              <option value="MICRO">MICRO</option>
-              <option value="SMALL">SMALL</option>
-              <option value="MEDIUM">MEDIUM</option>
-            </select>
-            <div *ngIf="vendorForm.get('msmeType')?.invalid && vendorForm.get('msmeType')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('msmeType')?.hasError('required')">
-                MSME Type is required.
-              </small>
             </div>
           </div>
-        </div>
-        
-        <div *ngIf="msmeTypeSelected" class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">MSME No</label>
-            <input type="text" class="input-field" formControlName="msmeNo" />
-            <div *ngIf="vendorForm.get('msmeNo')?.invalid && vendorForm.get('msmeNo')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('required')">
-                MSME No is required.
-              </small>
-              <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('pattern')">
-                MSME No must be 19 characters long with alphanumeric and special characters.
-              </small>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">SWIFT Code</label>
+              <input type="text" class="input-field" formControlName="swiftCode" />
             </div>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">PAN</label>
-            <input type="text" class="input-field" formControlName="pan" />
-            <div *ngIf="vendorForm.get('pan')?.invalid && vendorForm.get('pan')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('pan')?.hasError('required')">
-                Correct Pan No is required.
-              </small>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank Address Line 1</label>
+              <input type="text" class="input-field" formControlName="bankAddressLine1" />
             </div>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">GST Treatment</label>
-            <select class="input-field" formControlName="gstTreatment" (change)="onGSTTreatmentChange($event)">
-              <option value="">-- Select --</option>
-              <option value="Registered">Registered</option>
-              <option value="Unregistered">Unregistered</option>
-              <option value="Consumer">Consumer</option>
-              <option value="RCM">RCM</option>
-            </select>
-            <div *ngIf="vendorForm.get('gstTreatment')?.invalid && vendorForm.get('gstTreatment')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('gstTreatment')?.hasError('required')">
-                GST Treatment is required.
-              </small>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank Address Line 2</label>
+              <input type="text" class="input-field" formControlName="bankAddressLine2" />
             </div>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="">GST</label>
-            <input type="text" class="input-field" formControlName="gst" />
-            <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
-              <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
-                Correct GST No is required.
+          <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
+            <div class="custom-form-input">
+              <label for="">Branch</label>
+              <input type="text" class="input-field" formControlName="branch" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+              <ng-select class="input-field" formControlName="bankCountry" [disabled]="isBillingCountryDisabled">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                  {{ country.countryName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank City</label>
+              <input type="text" class="input-field" formControlName="bankCity" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank State</label>
+              <input type="text" class="input-field" formControlName="bankState" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank Pin Code</label>
+              <input type="text" class="input-field" formControlName="bankPinCode" />
+              <small class="text-danger" *ngIf="vendorForm.get('bankPinCode')?.hasError('pattern')">
+                Invalid Pin Code.
               </small>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div id="extraDetails" class="tab-pane fade" >
-      <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="msmeRegistered">Iban</label>
-            <input type="text" class="input-field" formControlName="iban" />
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="msmeRegistered">Sort Code</label>
-            <input type="text" class="input-field" formControlName="sortCode" />
-          </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="msmeRegistered">Routing No</label>
-            <input type="text" class="input-field" formControlName="routingNo" />
-          </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="msmeRegistered">fcTcCharges</label>
-            <input type="text" class="input-field" formControlName="fCTCCharges" />
-          </div>
-        </div>
 
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input">
-            <label for="msmeRegistered">ComplDocyear</label>
-            <input type="text" class="input-field" formControlName="complDocyear" />
+      <div id="complianceTab" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="msmeRegistered">MSME Registered</label>
+              <select class="input-field" formControlName="msmeRegistered">
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">MSME Type</label>
+              <select class="input-field" formControlName="msmeType" (change)="onMsmeTypeChange($event)">
+                <option value="">Select MSME Type</option>
+                <option value="MICRO">MICRO</option>
+                <option value="SMALL">SMALL</option>
+                <option value="MEDIUM">MEDIUM</option>
+              </select>
+              <div *ngIf="vendorForm.get('msmeType')?.invalid && vendorForm.get('msmeType')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('msmeType')?.hasError('required')">
+                  MSME Type is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="msmeTypeSelected" class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">MSME No</label>
+              <input type="text" class="input-field" formControlName="msmeNo" />
+              <div *ngIf="vendorForm.get('msmeNo')?.invalid && vendorForm.get('msmeNo')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('required')">
+                  MSME No is required.
+                </small>
+                <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('pattern')">
+                  MSME No must be 19 characters long with alphanumeric and special characters.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">PAN</label>
+              <input type="text" class="input-field" formControlName="pan" />
+              <div *ngIf="vendorForm.get('pan')?.invalid && vendorForm.get('pan')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('pan')?.hasError('required')">
+                  Correct Pan No is required.
+                </small>
+                <small class="text-danger" *ngIf="vendorForm.get('pan')?.hasError('pattern')">
+                  Invalid Pan.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">GST Treatment</label>
+              <select class="input-field" formControlName="gstTreatment" (change)="onGSTTreatmentChange($event)">
+                <option value="">-- Select --</option>
+                <option value="Registered">Registered</option>
+                <option value="Unregistered">Unregistered</option>
+                <option value="Consumer">Consumer</option>
+                <option value="RCM">RCM</option>
+              </select>
+              <div *ngIf="vendorForm.get('gstTreatment')?.invalid && vendorForm.get('gstTreatment')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('gstTreatment')?.hasError('required')">
+                  GST Treatment is required.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">GST</label>
+              <input type="text" class="input-field" formControlName="gst" />
+              <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
+                  Correct GST No is required.
+                </small>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
+      <div id="extraDetails" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="msmeRegistered">Iban</label>
+              <input type="text" class="input-field" formControlName="iban" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="msmeRegistered">Sort Code</label>
+              <input type="text" class="input-field" formControlName="sortCode" />
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="msmeRegistered">Routing No</label>
+              <input type="text" class="input-field" formControlName="routingNo" />
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="fCTCCharges">FcTcCharges</label>
+              <select class="input-field" formControlName="fCTCCharges">
+                <option value="">-- Select --</option>
+                <option value="EIP">EIP</option>
+                <option value="Vendor">Vendor</option>
+                <option value="Both">Both</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="msmeRegistered">ComplDocyear</label>
+              <input type="text" class="input-field" formControlName="complDocyear" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="status" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input" *ngIf="vendorId">
+              <label for="">Status <span class="text-danger">*</span></label>
+              <select name="" id="" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div id="status" class="tab-pane fade">
-      <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="custom-form-input" *ngIf="vendorId">
-            <label for="">Status <span class="text-danger">*</span></label>
-            <select name="" id="" formControlName="status">
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </div>  
-      </div>
-    </div>
-  </div>
-</div>
-</form>
+  </form>
 
 
 
