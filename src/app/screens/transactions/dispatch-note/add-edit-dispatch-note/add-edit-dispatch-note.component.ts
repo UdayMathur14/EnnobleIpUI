@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../../core/service/customer.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,8 @@ import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
 import { TransporterService } from '../../../../core/service/transporter.service';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { CountryService } from '../../../../core/service/country.service';
+import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 
 @Component({
   selector: 'app-add-edit-dispatch-note',
@@ -18,8 +20,13 @@ import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './add-edit-dispatch-note.component.scss',
 })
 export class AddEditDispatchNoteComponent {
-  addOrEditDispatchNoteFormGroup!: FormGroup;
 
+  countryList: any = [];
+  transactionTypesList: any=[];
+  partDetails: any;
+  selectedVendorCountry: string = '';
+  addOrEditDispatchNoteFormGroup!: FormGroup;
+  vendorsList : any[] = [];
   customerNum: string | undefined;
   customersList: any[] = [];
   allcustomersNames: string[] = [];
@@ -61,23 +68,27 @@ export class AddEditDispatchNoteComponent {
   selectedTransporterId: number = 0;
   filteredcustomers: any = [];
 
+  
+
   constructor(
     private router: Router,
     private customerService:CustomerService,
     private toastr: ToastrService,
-    private vehicleService: VehicleService,
+ 
     private vendorService: VendorService,
     private dispatchNoteService: DispatchNoteService,
-    private baseService: BaseService,
+
     private lookupService: LookupService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private transporterService: TransporterService
+    private transporterService: TransporterService,
+    private countryService:CountryService,
+    private transactionType: TransactionTypesService
   ) { }
 
   ngOnInit() {
-    this.getCommonLocations();
-    this.getLocations();
+    this.getVendorsList();
+    this.createFeesGroup();
     this.initForm();
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
@@ -86,9 +97,10 @@ export class AddEditDispatchNoteComponent {
     if(locationId){
       this.locationId = Number(locationId);
     }
-    this.getAllcustomersListInit();
-    this.getAllVehicles();
+    this.getAllcountyListInit();
+    this.getAllTransactionTypes();
     this.getAllVendors();
+    this.getFilteredCustomersList();
     this.dispatchNoteInit();
     this.getAllLookups();
     this.getTransportersList();
@@ -108,42 +120,60 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
-      locationId: '',
-      supplierCode: ['', [Validators.required]],
-      supplierName: [''],
-      supplierAddress: [''],
-      vehicleNumber: ['', [Validators.required]],
-      vehicleSize: [''],
-      frlrNumber: [''],
-      status: ['Active'],
-      transporterCode: ['', [Validators.required]],
-      transporterName: [''],
-      transporterMode: [''],
-      frlrDate: [''],
-      customerdetails: this.fb.array([], Validators.required),
+      vendorID: ['', Validators.required],              // Maps to [VendorID]
+      invoiceDate: ['', Validators.required],           // Maps to [InvoiceDate]
+      fy: [''],                                         // Maps to [FY]
+      clientInvoiceNo: ['', Validators.required],       // Maps to [ClientInvoiceNo]
+      dueDateAsPerInvoice: [''],                        // Maps to [DueDateAsPerInvoice]
+      creditDaysAsPerContract: [''],                    // Maps to [CreditDaysAsPerContract]
+      dueDaysAsPerContract: [''],                    // Maps to [CreditDaysAsPerContract]
+      customerID: [''],                                 // Maps to [CustomerID]
+      description: [''],                                // Maps to [Description]
+      title: [''],                                      // Maps to [Title]
+      applicationNumber: [''],                          // Maps to [ApplicationNumber]
+      clientRefNo: [''],                                // Maps to [ClientRefNo]
+      ourRefNo: [''],                                   // Maps to [OurRefNo]
+      officialFilingReceiptSupporting: [''],            // Maps to [OfficialFilingReceiptSupporting]
+      workDeliveryDateOrMonth: [''],                    // Maps to [WorkDeliveryDateOrMonth]
+      currencyPID: [''],                                // Maps to [CurrencyPID]
+      professionalFeeAmt: [''],                         // Maps to [ProfessionalFeeAmt]
+      govtOrOfficialFeeAmt: [''],                       // Maps to [GovtOrOfficialFeeAmt]
+      otherChargesAmt: [''],                            // Maps to [OtherChargesAmt]
+      discountAmt: [''],                                // Maps to [DiscountAmt]
+      discountCreditNoteAmt: [''],                      // Maps to [DiscountCreditNoteAmt]
+      paymentDate: [''],                                // Maps to [PaymentDate]
+      bankID: [''],                                     // Maps to [BankID]
+      owrmNo: [''],                                     // Maps to [OWRMNo]
+      customerPONo: [''],                               // Maps to [CustomerPONo]
+      poDate: [''],                                     // Maps to [PODate]
+      poValueInclusiveTaxes: [''],                      // Maps to [POValueInclusiveTaxes]
+      ourInvoiceNo: [''],                               // Maps to [OurInvoiceNo]
+      currencySID: [''],                                // Maps to [CurrencySID]
+      invoiceAmt: [''],                                 // Maps to [InvoiceAmt]
+      govtFeeInvoiceNo: [''],                           // Maps to [GovtFeeInvoiceNo]
+      officialFeeInvAmount: [''],                       // Maps to [OfficialFeeInvAmount]
+      estimateNoProfFee: [''],                          // Maps to [EstimateNoProfFee]
+      estimateNoGovtFee: [''],                          // Maps to [EstimateNoGovtFee]
+      remarks: [''],                                    // Maps to [Remarks]
+      postedInTally: [''],                              // Maps to [PostedInTally]
+      status: ['', Validators.required], 
     });
   }
+  
+ 
+  onVendorSelect(selectedVendorCode: string) {
+  // Find vendor details from vendorsList
+  const vendorDetail = this.vendorsList.find(v => v.vendorCode === selectedVendorCode);
 
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
+  if (vendorDetail) {
+    // Pick billingCountry from the vendor detail
+    this.selectedVendorCountry = vendorDetail.billingCountry;
+  } else {
+    this.selectedVendorCountry = '';
   }
+}
 
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
-    };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locationsDropdownData = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
 
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    });
-  }
 
   createcustomerDetailsGroup() {
     const detail = this.fb.group({
@@ -158,6 +188,27 @@ export class AddEditDispatchNoteComponent {
     });
 
     this.customerDetails.push(detail);
+  }
+  getFilteredCustomersList(
+    offset: number = 0,
+    count: number = 0,
+    filters: any = ""
+  ) {
+    let data = {
+      customerCode: filters?.customerCode || '',
+      customerName: filters?.customerName || '',
+      status: filters?.status || ''
+    };
+    this.customerService.getCustomers(data, offset, count).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.customersList = response.customers;
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
+      }
+    );
   }
 
   get customerDetails(): FormArray {
@@ -231,45 +282,80 @@ export class AddEditDispatchNoteComponent {
     const lookupItem = this.lookupList.find((lookup) => qtyId === lookup.id);
     return lookupItem?.id;
   }
-
-  private async getAllcustomersListInit() {
-    this.loadSpinner = true;
-    const data = {
-      customerNumber: '',
-      customerName: '',
-    };
-    await this.customerService.getCustomers(data).subscribe(
-      (response: any) => {
-        this.customersList = response.customers;
-        this.activecustomersLists = this.customersList.filter(
-          (customers: any) => customers.status === 'Active'
-        );
-        this.loadSpinner = false;
-      },
-      (error) => {
-        this.loadSpinner = false;
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      }
-    );
+  getVendorsList(offset: number = 0, count: number = 0, filters: any = "") {
+    let data = {
+      "vendorName": filters?.vendorName || "",
+      "vendorCode": filters?.vendorCode || "",
+      "vendorType": filters?.vendorType || "",
+      "status": filters?.status || ""
+    }
+    this.vendorService.getVendors(data, offset, count).subscribe((response: any) => {
+      console.log(response);
+      this.vendorsList = response.vendors;
+      this.loadSpinner = false;
+      // this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
+    }, error => {
+      this.loadSpinner = false;
+      this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+    });
   }
 
-  private async getAllVehicles() {
-    this.loadSpinner = true;
-    const data = {};
-    await this.vehicleService.getVehicles(data).subscribe(
+  private async getAllcountyListInit() {
+    var data={};
+    this.countryService.getCountryData(data).subscribe(
       (response: any) => {
-        this.vehicleList = response.vehicles;
-        this.activeVehiclesLists = this.vehicleList.filter(
-          (vehicle: any) => vehicle.status === 'Active'
-        );
+        this.countryList = response.countrys;
+        console.log(this.countryList);
         this.loadSpinner = false;
       },
-      (error) => {
-        this.loadSpinner = false;
+      () => {
         //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
       }
-    );
+    )
   }
+
+  
+    getAllTransactionTypes(offset: number = 0, count: number = 0, filters: any = ""){
+      let data = {
+        "bankCode": filters?.transactionTypeCode || "",
+        "bankName": filters?.transactionTypeName || "",
+        "status": filters?.status || ""
+      }
+      this.transactionType.getTransactionTypes(data, offset, count).subscribe((response:any) => {
+        console.log(response);
+        this.transactionTypesList = response.banks;
+      }, error => {
+        // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      })
+    }
+    // Example function - call this whenever invoice date or due days change
+calculateDueDate() {
+  const invoiceDate = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value; // assume this is in yyyy-mm-dd format
+  const dueDays = this.addOrEditDispatchNoteFormGroup.get('creditDaysAsPerContract')?.value; // assume this is a number
+
+  if (invoiceDate && dueDays != null) {
+    const invoiceDt = new Date(invoiceDate);
+    invoiceDt.setDate(invoiceDt.getDate() + Number(dueDays));
+
+    // Format date to yyyy-mm-dd
+    const dueDate = invoiceDt.toISOString().split('T')[0];
+
+    // Set the calculated due date into the readonly field
+    this.addOrEditDispatchNoteFormGroup.get('dueDaysAsPerContract')?.setValue(dueDate);
+  }
+}
+onInvoiceDateChange(event: any) {
+  this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.setValue(event);  // set the selected date
+  this.calculateDueDate();
+}
+
+onCreditDaysChange() {
+  this.calculateDueDate();
+}
+
+  
 
   private async getAllVendors() {
     this.loadSpinner = true;
@@ -311,7 +397,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   onCancelPress() {
-    this.router.navigate(['transaction/dispatchNote']);
+    this.router.navigate(['transaction/VendorInvoiceTxn']);
   }
 
   private dispatchNoteInit() {
@@ -550,11 +636,11 @@ export class AddEditDispatchNoteComponent {
   }
 
   isFormInvalid() {
-    return !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value 
-    || !this.addOrEditDispatchNoteFormGroup.controls['supplierCode']?.value ||
-    !this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value ||
-    !this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value ||
-    !this.addOrEditDispatchNoteFormGroup.controls['vehicleNumber']?.value
+    // return !this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value 
+    // || !this.addOrEditDispatchNoteFormGroup.controls['supplierCode']?.value ||
+    // !this.addOrEditDispatchNoteFormGroup.controls['transporterCode']?.value ||
+    // !this.addOrEditDispatchNoteFormGroup.controls['transporterMode']?.value ||
+    // !this.addOrEditDispatchNoteFormGroup.controls['vehicleNumber']?.value
   }
 
   setLocation(){
@@ -677,5 +763,63 @@ export class AddEditDispatchNoteComponent {
         vehicleSize: null
       })
     }
+
+    // Sample Arrays
+feeTypes = ['Professional Fee ', 'Govt or Offical Fee', 'Other Charges'];
+countries = ['India', 'USA', 'UK'];
+languages = ['English', 'Hindi', 'French', 'German'];
+
+// Main Form
+feesForm = this.fb.group({
+  feesDetails: this.fb.array([])
+});
+
+get feesDetails() {
+  return this.feesForm.get('feesDetails') as FormArray;
+}
+
+// Create Row
+createFeesGroup() {
+  const group = this.fb.group({
+    feeType: [''],
+    country: [''],
+    language: [''],
+    amount: [''],
+    remarks: ['']
+  });
+  this.feesDetails.push(group);
+}
+
+// Delete Row
+onDeleteFeeDetail(group: AbstractControl, index: number) {
+  this.feesDetails.removeAt(index);
+}
+
+// On FeeType Change
+onFeeTypeSelect(event: any, index: number) {
+  const selectedFee = event;
+  const row = this.feesDetails.at(index);
+  if (selectedFee === 'Translation Fee') {
+    row.get('language')?.enable();
+  } else {
+    row.get('language')?.setValue('');
+    row.get('language')?.disable();
+  }
+}
+
+// Show Language Conditionally
+showLanguageDropdown(index: number): boolean {
+  return this.feesDetails.at(index).get('feeType')?.value === 'Translation Fee';
+}
+
+// Allow only numbers
+validateNo1(event: any) {
+  const pattern = /[0-9\+\-\ ]/;
+  let inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
+
 
 }

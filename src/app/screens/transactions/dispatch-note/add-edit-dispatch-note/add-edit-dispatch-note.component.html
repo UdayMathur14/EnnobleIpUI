@@ -1,5 +1,5 @@
-<!-- <div class="page-title">
-  <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Dispatch Note</h1>
+<div class="page-title">
+  <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Vendor Invoice </h1>
   <div class="action-buttons">
     <button class="custom-button-regulr" (click)="onSavePress()" [disabled]="isFormInvalid()">Save</button>
     <button class="custom-button-secondary" (click)="onCancelPress()">
@@ -10,89 +10,402 @@
 
 <div class="content-section p-3">
   <form [formGroup]="addOrEditDispatchNoteFormGroup">
-    <div class="row">
-      <div class="col-lg-2 col-md-2">
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#vendorInvoiceTab">Details
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#feetab">Fee Details
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="vendorInvoiceTab" class="tab-pane fade show active">
+      <div class="row">
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Vendor Name<span class="text-danger">*</span></label>
+            <ng-select [searchable]="true" formControlName="vendorId" [readonly]="dispatchId > 0"
+              (change)="onVendorSelect($event)">
+              <ng-option *ngFor="let vendor of vendorsList" [value]="vendor.id">
+                {{ vendor.vendorName }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Vendor Country <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" [value]="selectedVendorCountry" placeholder="Vendor country "
+              readonly>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">InvoiceDate</label>
+            <div class="input-group datepicker">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true"
+                formControlName="invoiceDate" [maxDate]="today" (dateSelect)="onInvoiceDateChange($event)" ngbDatepicker
+                #fromDt="ngbDatepicker" readonly />
+              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+                <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">FY</label>
+            <input formControlName="fy" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for=""> ClientInvoiceNo <span class="text-danger">*</span></label>
+            <input formControlName="clientInvoiceNo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">DueDateAsPerInvoice <span class="text-danger">*</span></label>
+            <div class="input-group datepicker">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerInvoice" [autoClose]="true"
+                formControlName="dueDateAsPerInvoice" [maxDate]="today"
+                (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)" ngbDatepicker #dueDt="ngbDatepicker"
+                readonly />
+              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDt.toggle()" type="button">
+                <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for=""> CreditDaysAsPerCont <span class="text-danger">*</span></label>
+            <input formControlName="creditDaysAsPerContract" type="text" class="input-field"
+              (input)="onCreditDaysChange()" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">DueDateAsPerContract <span class="text-danger">*</span></label>
+            <div class="input-group datepicker">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract"
+                formControlName="dueDateAsPerContract" readonly />
+              <button class="btn btn-outline-secondary bi bi-calendar3" type="button">
+                <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
-          <label for="">Location Code<span class="text-danger">*</span></label>
-          <ng-select [searchable]="true" formControlName="locationId" placeholder="Select location" [readonly]="dispatchId > 0"
-            (change)="onLocationSelect($event)">
-            <ng-option *ngFor="let location of locationsDropdownData" [value]="location.id">{{location.value}}</ng-option>
-          </ng-select>
+          <label for="">DueDateAsPerInvoice <span class="text-danger">*</span></label>
+          <div class="input-group datepicker">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
+              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" />
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+            </button>
+          </div>
+        </div>
+      </div> -->
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Customer Name</label>
+            <select formControlName="customerID" class="input-field">
+              <option value="">Select Customer</option>
+              <option *ngFor="let customers of customersList" [value]="customers.customerCode">
+                {{ customers.customerName }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Description </label>
+            <input formControlName="description" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Title </label>
+            <input formControlName="title" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">ApplicationNumber </label>
+            <input formControlName="applicationNumber" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">ClientRefNo</label>
+            <input formControlName="clientRefNo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">OurRefNo </label>
+            <input formControlName="ourRefNo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">FilingReceiptSupporting</label>
+            <!-- <input formControlName="officialFilingReceiptSupporting" type="text" class="input-field"  /> -->
+            <ng-select formControlName="officialFilingReceiptSupporting" class="input-field"
+              placeholder="Select Yes or No">
+              <ng-option [value]="'Yes'">Yes</ng-option>
+              <ng-option [value]="'No'">No</ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">WorkDeliveryDateOrMonth</label>
+            <div class="input-group datepicker">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="workDeliveryDateOrMonth" [autoClose]="true"
+                formControlName="workDeliveryDateOrMonth" [maxDate]="today"
+                (dateSelect)="onDateSelect('workDeliveryDateOrMonth', $event)" ngbDatepicker
+                #workDeliveryDateOrMonthDt="ngbDatepicker" readonly />
+              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="workDeliveryDateOrMonthDt.toggle()"
+                type="button">
+                <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">ProfessionalFeeAmt</label>
+            <input formControlName="professionalFeeAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">GovtOrOfficialFeeAmt</label>
+            <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">OtherChargesAmt</label>
+            <input formControlName="otherChargesAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">DiscountAmt</label>
+            <input formControlName="discountAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">DiscountCreditNoteAmt</label>
+            <input formControlName="discountCreditNoteAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">TotalAmt</label>
+            <input formControlName="TotalAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">PaymentDate</label>
+            <input formControlName="paymentDate" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Bank Name</label>
+            <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
+              <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.bankName">
+                {{ bank.bankName }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">OWRMNo</label>
+            <input formControlName="owrmNo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">CustomerPONo</label>
+            <input formControlName="customerPONo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">PODate</label>
+            <input formControlName="poDate" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">POValueInclusiveTaxes</label>
+            <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">OurInvoiceNo</label>
+            <input formControlName="ourInvoiceNo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Currency Name</label>
+            <ng-select formControlName="currencyPID" class="input-field" placeholder="Select Currency">
+              <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                {{ country.currencyName }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">InvoiceAmt</label>
+            <input formControlName="invoiceAmt" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">GovtFeeInvoiceNo</label>
+            <input formControlName="govtFeeInvoiceNo" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">OfficialFeeInvAmount</label>
+            <input formControlName="officialFeeInvAmount" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">EstimateNoProfFee</label>
+            <input formControlName="estimateNoProfFee" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">Remarks</label>
+            <input formControlName="remarks" type="text" class="input-field" />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="custom-form-input">
+            <label for="">PostedInTally</label>
+            <ng-select formControlName="postedInTally" class="input-field">
+              <ng-option [value]="'Yes'">Yes</ng-option>
+              <ng-option [value]="'No'">No</ng-option>
+            </ng-select>
+          </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="custom-form-input">
-          <label for="">Supplier Code <span class="text-danger">*</span></label>
-          <ng-select formControlName="supplierCode" (change)="onSupplierCodeSelection($event)" class="input-field"
-            placeholder="Select Supplier Code" (clear)="onSupplierCodeClear()">
-            <ng-option *ngFor="let supplier of activeSuppliersLists"
-              [value]="supplier.vendorCode">{{supplier.vendorCode}} ({{supplier.vendorName}})</ng-option>
-          </ng-select>
+      </div>
+
+      <div id="feetab" class="tab-pane fade">
+        <div class="edit-screen-subTable mt-0">
+          <h4>
+            Fees Details
+            <button (click)="createFeesGroup()" class="custom-button-regulr">Add</button>
+          </h4>
+        </div>
+
+        <div class="custom-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Prof fees</th>
+                <th>Country</th>
+                <th>Language</th>
+                <th>Amount</th>
+                <th>Remarks</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngFor="let feeGroup of feesDetails.controls; let ind = index">
+                <tr [formGroupName]="ind">
+
+                  <!-- Prof Fees -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Select Fee Type" formControlName="feeType"
+                        (change)="onFeeTypeSelect($event, ind)">
+                        <ng-option *ngFor="let fee of feeTypes" [value]="fee">{{fee}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- Country -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Select Country" formControlName="country">
+                        <ng-option *ngFor="let country of countries" [value]="country">{{country}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- Language -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Select Language" formControlName="language"
+                        *ngIf="showLanguageDropdown(ind)">
+                        <ng-option *ngFor="let lang of languages" [value]="lang">{{lang}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- Amount -->
+                  <td>
+                    <div class="custom-form-input dispatchwidthsmall">
+                      <input formControlName="amount" class="input-field" type="text" placeholder="Enter Amount"
+                        (keypress)="validateNo1($event)">
+                    </div>
+                  </td>
+
+                  <!-- Remarks -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks">
+                    </div>
+                  </td>
+
+                  <!-- Action -->
+                  <td class="text-center">
+                    <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
+                      (click)="onDeleteFeeDetail(feeGroup, ind)" />
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Supplier Name</label>
-          <input formControlName="supplierName" type="text" class="input-field" readonly
-            value="Sunplast Electronics Pvt Ltd" />
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="custom-form-input">
-          <label for="">Supplier Address</label>
-          <input formControlName="supplierAddress" type="text" class="input-field" readonly
-            value="LG Electronics Pvt. Ltd, Surajpur, Greater Noida" />
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4">
-        <div class="custom-form-input">
-          <label for=""> Transporter Code <span class="text-danger">*</span></label>
-          <ng-select (change)="onTransporterSelection($event)" formControlName="transporterCode" class="input-field"
-            placeholder="Select Transporter Code">
-            <ng-option *ngFor="let transporter of filteredTransporter"
-              [value]="transporter.id">{{transporter.transporterCode}} ({{transporter?.transporterName}})</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Transporter Name <span class="text-danger">*</span></label>
-          <input formControlName="transporterName" type="text" class="input-field" readonly />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Transporter Mode <span class="text-danger">*</span></label>
-          <ng-select formControlName="transporterMode" class="input-field"
-          placeholder="Select Transporter Code">
-          <ng-option *ngFor="let mode of transporterMode"
-            [value]="mode.value">{{mode.value}}</ng-option>
-        </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Vehicle Number <span class="text-danger">*</span></label>
-          <ng-select (change)="onVehicleNumberSelection($event)" formControlName="vehicleNumber" class="input-field"
-            placeholder="Select Vehicle Number" (clear)="onVehicleNumberClear()">
-            <ng-option *ngFor="let vehicle of matchedvehicle"
-              [value]="vehicle.vehicleNumber">{{vehicle.vehicleNumber}}</ng-option>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">Vehicle Size</label>
-          <input formControlName="vehicleSize" type="text" class="input-field" readonly value="17" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">FRLR/MDN No </label>
-          <input formControlName="frlrNumber" type="text" class="input-field" value="FRLR1" />
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-2">
+    </div>
+  </form>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>
+
+
+
+<!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">FRLR/MDN Date</label>
           <div class="input-group datepicker">
@@ -103,83 +416,4 @@
             </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="edit-screen-subTable">
-      <h4 class="">
-        Part Details
-        <button (click)="createPartDetailsGroup()" class="custom-button-regulr">Add</button>
-      </h4>
-    </div>
-
-    <div class="custom-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Line#</th>
-            <th>Part Number</th>
-            <th>Part Name</th>
-            <th>Part Qty</th>
-            <th>Part Size</th>
-            <th>Remarks</th>
-            <th class="text-center">Action</th>
-          </tr>
-        </thead>
-        <!-- <tbody *ngIf="dispatchNote.partDetails"> -->
-        <!-- <tbody *ngIf="partDetails.controls.length "> -->
-        <!-- <tbody formArrayName="partdetails">
-
-          <ng-container *ngFor="let vendorGroup of partDetails.controls; let ind = index">
-
-            <tr formGroupName={{ind}}>
-              <td>{{ind+1}}</td>
-              <td>
-                <div class="custom-form-input dispatchwidth">
-                  <ng-select class="input-field" placeholder="Select Part Number" formControlName="partNumber"
-                    (change)="onPartSelect($event, ind)">
-                    <ng-option *ngFor="let part of getFilteredPartNumbers(ind)" [value]="part">{{part.partNumber}} ({{part?.partName}})</ng-option>
-                  </ng-select>
-
-                </div>
-              </td>
-              <td>
-                <div class="custom-form-input dispatchwidth">
-                  <input formControlName="partName" type="text" class="input-field" placeholder="Part Name" readonly
-                    [value]="" />
-
-                </div>
-              </td>
-              <td>
-                <div class="custom-form-input dispatchwidthsmall">
-                  <input formControlName="partQuantity" class="input-field" type="text" placeholder="Select Quantity" (keypress)="validateNo($event)">
-                </div>
-              </td>
-              <td>
-                <div class="custom-form-input dispatchwidthsmall">
-                  <input formControlName="partSize" type="text" class="input-field" placeholder="Part Size" readonly
-                    [value]="" />
-
-                </div>
-              </td>
-              <td>
-                <div class="custom-form-input dispatchwidth">
-                  <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks" readonly
-                    [value]="" />
-                </div>
-              </td>
-              <td class="text-center">
-                <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="link"
-                  (click)="onDeletePartDetail(vendorGroup, ind)" />
-              </td>
-            </tr>
-          </ng-container>
-
-        </tbody>
-      </table>
-    </div>
-  </form>
-</div> -->
-<!-- <div class="spinner" *ngIf="loadSpinner">
-  Loading...
-</div> --> 
+      </div> -->

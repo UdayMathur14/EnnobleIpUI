@@ -69,7 +69,7 @@ export class DispatchNoteComponent {
   }
 
   onCreateDispatchNote() {
-    this.router.navigate(['transaction/addEditDispatchNote/0'])
+    this.router.navigate(['transaction/addEditVendorInvoice/0'])
   }
 
   onPageChange(page: number) {

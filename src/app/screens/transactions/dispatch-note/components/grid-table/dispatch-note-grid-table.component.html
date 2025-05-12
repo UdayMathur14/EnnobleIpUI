@@ -2,18 +2,38 @@
   <table #table>
     <thead>
       <tr>
-        <th>Location Code</th>
-        <th>Dispatch Number</th>
-        <th>FRLR/MDN No</th>
-        <th>FRLR/MDN Date</th>
-        <th>Transporter Code</th>
-        <th>Transporter Name</th>
-        <th>Supplier Code</th>
-        <th>Supplier Name</th>
-        <th>Vehicle Number</th>
-        <th>Vehicle Size</th>
+        <th>Vendor Name</th>
+        <th>Invoice Date</th>
+        <th>FY</th>
+        <th>DueDateAsPerInvoice</th>
+        <th>CreditDaysAsPerContract</th>
+        <th>Customer Name</th>
+        <th>Description</th>
+        <th>Title</th>
+        <th>ApplicationNumber</th>
+        <th>ClientRefNo</th>
+        <th>OfficialFilingReceiptSupporting</th>
+        <th>WorkDeliveryDateOrMonth</th>
+        <th>CurrencyPID</th>
+        <th>ProfessionalFeeAmt</th>
+        <th>GovtOrOfficialFeeAmt</th>
+        <th>OtherChargesAmt</th>
+        <th>DiscountAmt</th>
+        <th>DiscountCreditNoteAmt</th>
+        <th>TotalAmt</th>
+        <th>CustomerPONo</th>
+        <th>PODate</th>
+        <th>POValueInclusiveTaxes</th>
+        <th>OurInvoiceNo</th>
+        <th>CurrencySID</th>
+        <th>InvoiceAmt</th>
+        <th>GovtFeeInvoiceNo</th>
+        <th>OfficialFeeInvAmount</th>
+        <th>EstimateNoProfFee</th>
+        <th>Remarks</th>
+        <th>PostedInTally</th>
         <th>Status</th>
-        <th>Dispatch Note Status</th>
+        <!-- <th>Dispatch Note Status</th> -->
         <th class="text-center">Actions</th>
       </tr>
     </thead>
@@ -25,7 +45,7 @@
             container="body"
             placement="end"
             tooltipClass="table-datetime-popover"
-            [ngbTooltip]="tipContent"
+            ngbTooltip="tipContent"
           >
             <u>{{dispatchNote?.dispatchNumber}}</u>
             <ng-template #tipContent>
@@ -51,7 +71,7 @@
           </span>
         </td>
         <td>{{dispatchNote?.frlrNumber || '-'}}</td>
-        <td>{{dispatchNote?.frlrDate | date: 'yyyy-MM-dd' || '-'}}</td>
+        <td>{{dispatchNote?.frlrDate | date: 'yyyy-MM-dd' }}</td>
         <td>{{dispatchNote?.transporter?.transporterCode || '-'}}</td>
         <td>{{dispatchNote?.transporter?.transporterName || '-'}}</td>
         <td>{{dispatchNote?.suppliers?.vendorCode || '-'}}</td>
@@ -70,7 +90,7 @@
             ngbTooltip="Dispatch Note"
           />
           <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)" ngbTooltip="Edit" 
-          placement="top" [disabled]="dispatchNote?.openFlag == 'Close'">
+          placement="top" disabled="dispatchNote?.openFlag == 'Close'">
           <img
             src="assets/images/icons/editPencil.svg"
             alt="edit"
