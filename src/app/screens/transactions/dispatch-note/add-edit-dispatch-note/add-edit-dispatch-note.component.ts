@@ -8,7 +8,7 @@ import { DispatchNoteService } from '../../../../core/service/dispatch-note.serv
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
 import { TransporterService } from '../../../../core/service/transporter.service';
-import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CountryService } from '../../../../core/service/country.service';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 
@@ -331,20 +331,27 @@ export class AddEditDispatchNoteComponent {
     }
     // Example function - call this whenever invoice date or due days change
 calculateDueDate() {
-  const invoiceDate = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
+  const invoiceDateStruct = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
   const creditDays = this.addOrEditDispatchNoteFormGroup.get('creditDaysAsPerContract')?.value;
 
-  if (invoiceDate && creditDays != null && !isNaN(creditDays)) {
-    const invoiceDt = new Date(invoiceDate);
-    invoiceDt.setDate(invoiceDt.getDate() + Number(creditDays));
+  if (invoiceDateStruct && creditDays != null && !isNaN(creditDays)) {
+    const invoiceDate = new Date(invoiceDateStruct.year, invoiceDateStruct.month - 1, invoiceDateStruct.day);
 
-    const dueDate = invoiceDt.toISOString().split('T')[0];
+    invoiceDate.setDate(invoiceDate.getDate() + Number(creditDays));
+
+    // Local time formatting (avoid UTC offset issues)
+    const yyyy = invoiceDate.getFullYear();
+    const mm = String(invoiceDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(invoiceDate.getDate()).padStart(2, '0');
+    const dueDate = `${yyyy}-${mm}-${dd}`;
 
     this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(dueDate);
   } else {
     this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue('');
   }
 }
+
+
 
 
 onInvoiceDateChange(event: any) {
