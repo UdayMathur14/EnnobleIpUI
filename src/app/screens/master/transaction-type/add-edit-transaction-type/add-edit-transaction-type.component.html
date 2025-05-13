@@ -24,8 +24,7 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Bank Address 1 <span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="bankAddress1">
-          </ng-select>
+          <input type="text" class="input-field" formControlName="bankAddress1"  />
         </div>
       </div>
       <div class="col-lg-3 col-md-2">
@@ -53,8 +52,11 @@
       <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Country<span class="text-danger">*</span></label>
-          <ng-select name="" id="" formControlName="country">
-          </ng-select>
+          <ng-select class="input-field" formControlName="country" >
+                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                  {{ country.countryName }}
+                </ng-option>
+              </ng-select>
         </div>
       </div>
       <div class="col-lg-2 col-md-2">

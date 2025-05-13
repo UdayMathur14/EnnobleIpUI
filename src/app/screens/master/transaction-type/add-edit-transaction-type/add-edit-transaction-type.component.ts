@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 import { ToastrService } from 'ngx-toastr';
-import { TransactionTypeListModel } from '../../../../core/model/masterModels.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CountryService } from '../../../../core/service/country.service';
 
 @Component({
   selector: 'app-add-edit-transaction-type',
@@ -31,7 +31,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
     status: new FormControl(''),
   });
 
-  
+   countryList: any = [];
   loadSpinner: boolean = true;
   glSubcategoryCode: any = [];
   transactionData: any = [];
@@ -41,7 +41,8 @@ export class AddEditTransactionTypeComponent implements OnInit {
     private router: Router,
     private transactionTypesService: TransactionTypesService,
     private toastr: ToastrService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private countryService:CountryService) {
 
   }
 
@@ -49,6 +50,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
     this.queryData = this.activatedRoute.snapshot.paramMap.get("bankId");
     // this.bankId = this.bankId == 0 ? 0 : this.bankId;
     this.bankId = Number(this.activatedRoute.snapshot.paramMap.get("bankId")) || 0;
+    this.AllcountryList();
     this.getTransactionData(this.queryData);
     // this.getGlSubCategoryDropdownData();
     // this.getTransactionTypeInterfaceDropdownData();
@@ -62,6 +64,20 @@ export class AddEditTransactionTypeComponent implements OnInit {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     })
+  }
+    AllcountryList(){
+    var data={};
+    this.countryService.getCountryData(data).subscribe(
+      (response: any) => {
+        this.countryList = response.countrys;
+        console.log(this.countryList);
+        this.loadSpinner = false;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    )
   }
 
   patchTransactionForm(data: any) {

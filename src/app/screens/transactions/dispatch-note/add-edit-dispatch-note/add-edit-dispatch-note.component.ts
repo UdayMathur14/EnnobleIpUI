@@ -3,10 +3,8 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../../core/service/customer.service';
 import { ToastrService } from 'ngx-toastr';
-import { VehicleService } from '../../../../core/service/vehicle.service';
 import { VendorService } from '../../../../core/service/vendor.service';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
-import { BaseService } from '../../../../core/service/base.service';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
 import { TransporterService } from '../../../../core/service/transporter.service';
@@ -20,7 +18,7 @@ import { TransactionTypesService } from '../../../../core/service/transactionTyp
   styleUrl: './add-edit-dispatch-note.component.scss',
 })
 export class AddEditDispatchNoteComponent {
-
+  subFeeOptionsList: any[] = [];
   countryList: any = [];
   transactionTypesList: any=[];
   partDetails: any;
@@ -126,7 +124,7 @@ export class AddEditDispatchNoteComponent {
       clientInvoiceNo: ['', Validators.required],       // Maps to [ClientInvoiceNo]
       dueDateAsPerInvoice: [''],                        // Maps to [DueDateAsPerInvoice]
       creditDaysAsPerContract: [''],                    // Maps to [CreditDaysAsPerContract]
-      dueDaysAsPerContract: [''],                    // Maps to [CreditDaysAsPerContract]
+      dueDateAsPerContract: [''],                    // Maps to [CreditDaysAsPerContract]
       customerID: [''],                                 // Maps to [CustomerID]
       description: [''],                                // Maps to [Description]
       title: [''],                                      // Maps to [Title]
@@ -140,7 +138,8 @@ export class AddEditDispatchNoteComponent {
       govtOrOfficialFeeAmt: [''],                       // Maps to [GovtOrOfficialFeeAmt]
       otherChargesAmt: [''],                            // Maps to [OtherChargesAmt]
       discountAmt: [''],                                // Maps to [DiscountAmt]
-      discountCreditNoteAmt: [''],                      // Maps to [DiscountCreditNoteAmt]
+      discountCreditNoteAmt: [''], 
+      TotalAmt : [''],                     // Maps to [DiscountCreditNoteAmt]
       paymentDate: [''],                                // Maps to [PaymentDate]
       bankID: [''],                                     // Maps to [BankID]
       owrmNo: [''],                                     // Maps to [OWRMNo]
@@ -163,7 +162,7 @@ export class AddEditDispatchNoteComponent {
  
   onVendorSelect(selectedVendorCode: string) {
   // Find vendor details from vendorsList
-  const vendorDetail = this.vendorsList.find(v => v.vendorCode === selectedVendorCode);
+  const vendorDetail = this.vendorsList.find(v => v.id === selectedVendorCode);
 
   if (vendorDetail) {
     // Pick billingCountry from the vendor detail
@@ -332,22 +331,23 @@ export class AddEditDispatchNoteComponent {
     }
     // Example function - call this whenever invoice date or due days change
 calculateDueDate() {
-  const invoiceDate = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value; // assume this is in yyyy-mm-dd format
-  const dueDays = this.addOrEditDispatchNoteFormGroup.get('creditDaysAsPerContract')?.value; // assume this is a number
+  const invoiceDate = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
+  const creditDays = this.addOrEditDispatchNoteFormGroup.get('creditDaysAsPerContract')?.value;
 
-  if (invoiceDate && dueDays != null) {
+  if (invoiceDate && creditDays != null && !isNaN(creditDays)) {
     const invoiceDt = new Date(invoiceDate);
-    invoiceDt.setDate(invoiceDt.getDate() + Number(dueDays));
+    invoiceDt.setDate(invoiceDt.getDate() + Number(creditDays));
 
-    // Format date to yyyy-mm-dd
     const dueDate = invoiceDt.toISOString().split('T')[0];
 
-    // Set the calculated due date into the readonly field
-    this.addOrEditDispatchNoteFormGroup.get('dueDaysAsPerContract')?.setValue(dueDate);
+    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(dueDate);
+  } else {
+    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue('');
   }
 }
+
+
 onInvoiceDateChange(event: any) {
-  this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.setValue(event);  // set the selected date
   this.calculateDueDate();
 }
 
@@ -765,9 +765,7 @@ onCreditDaysChange() {
     }
 
     // Sample Arrays
-feeTypes = ['Professional Fee ', 'Govt or Offical Fee', 'Other Charges'];
-countries = ['India', 'USA', 'UK'];
-languages = ['English', 'Hindi', 'French', 'German'];
+feeTypes = ['Professional Fee', 'Govt or Offical Fee', 'Other Charges'];
 
 // Main Form
 feesForm = this.fb.group({
@@ -782,34 +780,31 @@ get feesDetails() {
 createFeesGroup() {
   const group = this.fb.group({
     feeType: [''],
+    subFeeValue: [''],
     country: [''],
-    language: [''],
     amount: [''],
     remarks: ['']
   });
+
   this.feesDetails.push(group);
+  this.subFeeOptionsList.push([]); // initialize sub fee options for this index
 }
 
 // Delete Row
 onDeleteFeeDetail(group: AbstractControl, index: number) {
   this.feesDetails.removeAt(index);
+  this.subFeeOptionsList.splice(index, 1); // remove corresponding subFee list
 }
 
 // On FeeType Change
-onFeeTypeSelect(event: any, index: number) {
-  const selectedFee = event;
+onFeeTypeSelect(feeType: string, index: number) {
   const row = this.feesDetails.at(index);
-  if (selectedFee === 'Translation Fee') {
-    row.get('language')?.enable();
-  } else {
-    row.get('language')?.setValue('');
-    row.get('language')?.disable();
-  }
+  this.getAllLookupsList(0, feeType, index, row);  // pass just the string
 }
 
 // Show Language Conditionally
 showLanguageDropdown(index: number): boolean {
-  return this.feesDetails.at(index).get('feeType')?.value === 'Translation Fee';
+  return this.feesDetails.at(index).get('feeType')?.value === 'Govt or Offical Fee';
 }
 
 // Allow only numbers
@@ -820,6 +815,38 @@ validateNo1(event: any) {
     event.preventDefault();
   }
 }
+getAllLookupsList(
+  offset: number = 0,
+  filters: any = '',
+  rowIndex?: number,
+  rowControl?: AbstractControl
+) {
+  // Handle both string (feeType) and object (filters) input
+  const data = {
+    code: typeof filters === 'object' ? filters.code || '' : '',
+    lookUpType: typeof filters === 'object' ? filters.lookUpType || '' : filters || '', // if filters is string, it's lookUpType
+    value: typeof filters === 'object' ? filters.value || '' : '',
+    status: typeof filters === 'object' ? filters.status || '' : '',
+  };
 
+  this.lookupService.getLookupsType(data).subscribe(
+    (response: any) => {
+      const lookups = response.lookUps || [];
+
+      if (rowIndex !== undefined && rowControl) {
+        // Called from FeeType selection
+        this.subFeeOptionsList[rowIndex] = lookups;
+        rowControl.get('subFeeValue')?.setValue('');  // Clear old value
+      } else {
+        // Called from general lookup fetch
+      }
+
+      this.loadSpinner = false;
+    },
+    (error) => {
+      this.loadSpinner = false;
+    }
+  );
+}
 
 }
