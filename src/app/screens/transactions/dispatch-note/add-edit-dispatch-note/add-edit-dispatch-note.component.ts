@@ -431,85 +431,7 @@ onCreditDaysChange() {
     };
   }
 
-  onVehicleNumberSelection(event: any) {
-    const vehicleNumber = event;
-    if (!!vehicleNumber) {
-      this.vehicleList.forEach((vehicle) => {
-        if (vehicle.vehicleNumber === vehicleNumber) {
-          this.addOrEditDispatchNoteFormGroup.patchValue({
-            vehicleSize: vehicle?.vehicleSize?.value,
-          });
-          this.vehicleId = vehicle.id;
-        }
-      });
-    }
-  }
 
-  onVehicleNumberClear() {
-    this.addOrEditDispatchNoteFormGroup.patchValue({
-      vehicleSize: null,
-    });
-  }
-
-  onSupplierCodeSelection(event: any) {
-    const supplierCode = event;
-    if (!!supplierCode) {
-      this.supplierList.forEach((supplier) => {
-        if (supplier.vendorCode === supplierCode) {
-          this.addOrEditDispatchNoteFormGroup.patchValue({
-            supplierName: supplier.vendorName,
-            supplierAddress: supplier.vendorAddress1,
-          });
-          this.supplierId = supplier.id;
-        }
-      });
-    }
-  }
-
-  onSupplierCodeClear() {
-    this.addOrEditDispatchNoteFormGroup.patchValue({
-      supplierName: null,
-      supplierAddress: null,
-    });
-  }
-
-  onDeletecustomerDetail(customer: any, i: number) {
-    const deletedcustomer = {
-        actionBy: localStorage.getItem("userId"),
-        attribute9: new Date(),
-        attribute10: new Date(),
-        customerId: customer.value.customerId,
-        customerQty: customer.value.customerQuantity,
-        status: 'Inactive',
-        id: customer.value.id,
-    };
-    if (this.dispatchId > 0 && deletedcustomer.id != 0) {
-        this.deletedcustomers.push(deletedcustomer);
-    }
-    this.customerDetails.removeAt(i);
-    const customerNumber = customer.value.customerNumber;
-    const index = this.selectedcustomers.indexOf(customerNumber);
-    if (index > -1) {
-        this.selectedcustomers.splice(index, 1);
-    }
-    this.updateSelectedcustomers(this.selectedcustomers);
-}
-
-
-  oncustomerSelect(data: any, i: number) {
-    const detailsArray = this.addOrEditDispatchNoteFormGroup.get('customerdetails') as FormArray;
-    const detailsGroup = detailsArray.at(i) as FormGroup;
-
-    detailsGroup.patchValue({
-      customerId: data?.id,
-      customerNumber: data?.customerNumber,
-      customerName: data?.customerName,
-      customerSize: data?.customerSize,
-      remarks: data?.remarks
-    });
-    const selectedcustomerNumbers = detailsArray.controls.map(control => control.value.customerNumber);
-    this.updateSelectedcustomers(selectedcustomerNumbers);
-  }
 
   getFilteredcustomerNumbers(index: number) {
     return this.filteredcustomers.filter(
@@ -518,24 +440,13 @@ onCreditDaysChange() {
     );
   }
 
-  updateSelectedcustomers(selectedcustomerNumbers: string[]) {
-    this.selectedcustomers = selectedcustomerNumbers;
-  }
 
 
   initializeSelectedcustomers(selectedcustomerNumbers: string[]) {
     this.selectedcustomers = selectedcustomerNumbers;
   }
 
-  onQuantitySelection(quantity: any, i: number) {
-    const detailsArray = this.addOrEditDispatchNoteFormGroup.get(
-      'customerdetails'
-    ) as FormArray;
-    const detailsGroup = detailsArray.at(i) as FormGroup;
-    detailsGroup.patchValue({
-      customerQuantity: quantity,
-    });
-  }
+ 
 
   async onSavePress() {
     const locationCode = this.addOrEditDispatchNoteFormGroup.controls['locationId']?.value;
@@ -660,25 +571,12 @@ onCreditDaysChange() {
     this.loadSpinner = true;
     this.dispatchNoteService.getDispatchNote({ dispatchNumber, locationIds }).subscribe((res: any) => {
       this.dispatchNotes = res.dispatchNotes;
-      this.getLocationId().then(() => {
-        this.getDispatchData(this.dispatchId);
-      });
+      // this.getLocationId().then(() => {
+      //   this.getDispatchData(this.dispatchId);
+      // });
     })
   }
 
-  getLocationId(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const dispatchNote = this.dispatchNotes.filter((item: any) => {
-        return item?.id == this.dispatchId
-      });
-      if (dispatchNote.length > 0) {
-        this.dispatchLocationId = dispatchNote[0].locations.id;
-        resolve();
-      } else {
-        reject('No matching dispatch note found');
-      }
-    });
-  }
 
   getTransportersList() {
     let data = {

@@ -12,7 +12,7 @@
   <form [formGroup]="addOrEditDispatchNoteFormGroup">
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" href="#vendorInvoiceTab">Details
+        <a class="nav-link active" data-bs-toggle="tab" href="#vendorInvoiceTab">Vendor Invoice
         </a>
       </li>
       <li class="nav-item">
@@ -326,8 +326,9 @@
 
         <div class="custom-table">
           <table>
-            <thead>
+            <thead class="table table-bordered">
               <tr>
+                <th>Line</th>
                 <th>Fees Type</th>
                 <th>Type</th>
                 <th>Country</th>
@@ -341,6 +342,7 @@
               <ng-container *ngFor="let feeGroup of feesDetails.controls; let ind = index">
                 <tr [formGroupName]="ind">
 
+                  <td>{{ind+1}}</td>
                   <!-- Prof Fees -->
                   <td>
                     <div class="custom-form-input dispatchwidth">
