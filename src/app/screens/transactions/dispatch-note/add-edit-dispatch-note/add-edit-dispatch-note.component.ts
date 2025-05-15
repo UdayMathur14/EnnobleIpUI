@@ -224,7 +224,7 @@ export class AddEditDispatchNoteComponent {
           this.onTransporterSelection(this.selectedTransporterId);
         }, 1000);
         // this.matchedvehicle = this.filteredVehicles.filter((item:any) => item?.transporterId == this.selectedTransporterId)
-        this.onLocationSelect(response.locationId);
+        // this.onLocationSelect(response.locationId);
         this.loadSpinner = false;
         const vehicles = response.vehicles;
         const suppliers = response.suppliers;
@@ -594,7 +594,7 @@ onCreditDaysChange() {
         (items: any) => items.status === 'Active'
       );
       if (this.transportersList.length > 0) {
-        this.onLocationSelect(this.selectedLocationId);
+        // this.onLocationSelect(this.selectedLocationId);
       }
     }
       this.loadSpinner = false;
@@ -651,23 +651,7 @@ onCreditDaysChange() {
     }
     }
 
-    onLocationSelect(event: any){
-      this.selectedLocationId = event;
-      this.filteredTransporter = this.activeTransportersList.filter((item: any) => {
-        return item.transporterMappings.some((mapping: any) => mapping.locationId === event);
-      });
-      this.filteredVehicles = this.activeVehiclesLists.filter((item: any) => item?.locations?.id == event);
-      this.filteredcustomers = this.activecustomersLists.filter((item: any) => item?.locations?.id == event);
-      this.addOrEditDispatchNoteFormGroup.patchValue({
-        transporterCode: null,
-        transporterName: null
-      })
-
-      this.addOrEditDispatchNoteFormGroup.patchValue({
-        vehicleNumber: null,
-        vehicleSize: null
-      })
-    }
+    
 
     // Sample Arrays
 feeTypes = ['Professional Fee', 'Govt or Offical Fee', 'Other Charges'];
