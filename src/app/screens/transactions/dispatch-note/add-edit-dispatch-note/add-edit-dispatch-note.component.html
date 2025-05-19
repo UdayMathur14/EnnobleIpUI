@@ -85,7 +85,7 @@
             <div class="custom-form-input">
               <label for=""> CreditDaysAsPerCont <span class="text-danger">*</span></label>
               <input formControlName="creditDaysAsPerContract" type="text" class="input-field"
-                 (input)="onCreditDaysChange()"/>
+                (input)="onCreditDaysChange()" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -182,34 +182,36 @@
           </div>
 
 
-          <div class="col-lg-3 col-md-3">
+          <!-- <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">ProfessionalFeeAmt</label>
-              <input formControlName="professionalFeeAmt" type="text" class="input-field" />
+              <input formControlName="professionalFeeAmt" type="text" class="input-field" readonly />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">GovtOrOfficialFeeAmt</label>
-              <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" />
+              <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" readonly />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">OtherChargesAmt</label>
-              <input formControlName="otherChargesAmt" type="text" class="input-field" />
+              <input formControlName="otherChargesAmt" type="text" class="input-field" readonly/>
             </div>
-          </div>
+          </div> -->
+              
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">DiscountAmt</label>
-              <input formControlName="discountAmt" type="text" class="input-field" />
+              <input formControlName="discountAmt" type="text" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">DiscountCreditNoteAmt</label>
-              <input formControlName="discountCreditNoteAmt" type="text" class="input-field" />
+              <input formControlName="discountCreditNoteAmt" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -221,7 +223,15 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">PaymentDate</label>
-              <input formControlName="paymentDate" type="text" class="input-field" />
+              <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
+                  formControlName="paymentDate" [maxDate]="today" (dateSelect)="onDateSelect('paymentDate', $event)"
+                  ngbDatepicker #paymentDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="paymentDate.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -249,7 +259,15 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">PODate</label>
-              <input formControlName="poDate" type="text" class="input-field" />
+              <!-- <input formControlName="poDate" type="text" class="input-field" /> -->
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="poDate" [autoClose]="true"
+                  formControlName="poDate" [maxDate]="today" (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
+                  #poDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="poDate.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -289,13 +307,15 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">OfficialFeeInvAmount</label>
-              <input formControlName="officialFeeInvAmount" type="text" class="input-field" />
+              <input formControlName="officialFeeInvAmount" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">EstimateNoProfFee</label>
-              <input formControlName="estimateNoProfFee" type="text" class="input-field" />
+              <input formControlName="estimateNoProfFee" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -378,7 +398,7 @@
                   <!-- Amount -->
                   <td>
                     <div class="custom-form-input dispatchwidthsmall">
-                      <input formControlName="amount" class="input-field" type="text" placeholder="Enter Amount"
+                      <input formControlName="amount" class="input-field" type="text" placeholder="Enter Amt"
                         (keypress)="validateNo1($event)">
                     </div>
                   </td>
@@ -400,6 +420,28 @@
             </tbody>
           </table>
         </div>
+        <!-- Totals Section -->
+<div class="row mt-4" [formGroup]="feesForm">
+  <div class="col-lg-3 col-md-4">
+    <div class="custom-form-input">
+      <label for="">Professional Fee total Amt</label>
+      <input formControlName="professionalFeeAmt" type="text" class="input-field" readonly />
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-4">
+    <div class="custom-form-input">
+      <label for="">Govt/Official Fee total Amt</label>
+      <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" readonly />
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-4">
+    <div class="custom-form-input">
+      <label for="">Other Charges Total Amout</label>
+      <input formControlName="otherChargesAmt" type="text" class="input-field" readonly />
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </form>

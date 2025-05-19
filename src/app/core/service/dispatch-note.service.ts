@@ -20,15 +20,15 @@ export class DispatchNoteService extends CRUDService<DispatchNoteRequest>{
         return this.post(getDispatchNote(offset, count),data);
     }
 
-    createDispatchNote(locationId: number = 0, data : object){
-        return this.baseService.post(APIConstant.basePath+createDispatchNote(locationId), data);
+    createDispatchNote( data : object){
+        return this.baseService.post(APIConstant.basePath+createDispatchNote(), data);
     }
 
-    getDispatchNoteById(locationId: number = 0,dispatchId: number){
-        return this.get(dispatchData(locationId, dispatchId));
+    getDispatchNoteById(dispatchId: number){
+        return this.get(dispatchData( dispatchId));
     }
 
-    updateDispatchNote(locationId:Number,dispatchId: number, data: any){
-        return this.put(updateDispatchNote(locationId, dispatchId), data);
+    updateDispatchNote(dispatchId: number, data: any){
+        return this.put(updateDispatchNote(dispatchId), data);
     }
 }

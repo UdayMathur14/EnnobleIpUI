@@ -113,14 +113,14 @@ export const biltiData = (locationId: any, biltiId: any) =>
   `/bilti-creation/${locationId}/${biltiId}`;
 export const updateBitli = (locationId: any, biltiId: any) =>
   `/bilti-creation/update/${locationId}/${biltiId}`;
-export const createDispatchNote = (locationId: any) =>
-  `/dispatch-note/create/${locationId}`;
+export const createDispatchNote = () =>
+  `/VendorInvoiceTxn/create/`;
 export const getDispatchNote = (offset: any, count: number) =>
-  `/dispatch-note/search?offset=${offset}&count=${count}`;
-export const dispatchData = (locationId: any, dispatchId: any) =>
-  `/dispatch-note/${locationId}/${dispatchId}`;
-export const updateDispatchNote = (locationId: any, dispatchId: any) =>
-  `/dispatch-note/update/${locationId}/${dispatchId}`;
+  `VendorInvoiceTxn/search?offset=${offset}&count=${count}`;
+export const dispatchData = ( dispatchId: any) =>
+  `/VendorInvoiceTxn/${dispatchId}`;
+export const updateDispatchNote = ( dispatchId: any) =>
+  `/vendorinvoiceTxn/update/${dispatchId}`;
 export const biltiBillProcess = (offset: any, count: number) =>
   `/bilti-process/search?offset=${offset}&count=${count}`;
 export const biltiBillProcessbyId = (locationId: any, biltiProcessId: any) =>
