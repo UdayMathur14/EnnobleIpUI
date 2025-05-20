@@ -167,7 +167,7 @@
               </div>
             </div>
           </div>
-              
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">DiscountAmt</label>
@@ -306,8 +306,8 @@
       <div id="feetab" class="tab-pane fade">
         <div class="edit-screen-subTable mt-0">
           <h4>
-            Fees Details
-            <button (click)="createFeesGroup()" class="custom-button-regulr">Add</button>
+            Fee Details
+            <button (click)="createPartDetailsGroup()" class="custom-button-regulr">Add</button>
           </h4>
         </div>
 
@@ -325,25 +325,32 @@
               </tr>
             </thead>
 
-            <tbody>
-              <ng-container *ngFor="let feeGroup of feesDetails.controls; let ind = index">
-                <tr [formGroupName]="ind">
+            <tbody formArrayName="partdetails">
+              <ng-container *ngFor="let vendorGroup of partDetails.controls; let ind = index">
+
+
+                <tr formGroupName={{ind}}>
 
                   <td>{{ind+1}}</td>
                   <!-- Prof Fees -->
                   <td>
                     <div class="custom-form-input dispatchwidth">
-                      <ng-select class="input-field" placeholder="Select Fee Type" [items]="feeTypes" bindLabel="label"
-                        bindValue="value" formControlName="feeType" (change)="onFeeTypeSelect($event, ind)">
-                      </ng-select>
+                      <select class="form-control input-field" formControlName="feeType"
+                        (change)="onFeeTypeSelect(getSelectedValue($event), ind)">
+                        <option value="">Select Fee Type</option>
+                        <option value="Professional Fee">Professional Fee</option>
+                        <option value="Govt or Offical Fee">Govt or Offical Fee</option>
+                        <option value="Other Charges">Other Charges</option>
+                      </select>
                     </div>
                   </td>
+
 
                   <!-- SubItem -->
 
                   <td>
                     <div class="custom-form-input dispatchwidth">
-                      <ng-select class="input-field" placeholder="Select Sub Fee Type" [items]="subFeeOptionsList[ind]"
+                      <ng-select class="input-field" placeholder="Add Sub Fee" [items]="subFeeOptionsList[ind]"
                         bindLabel="value" bindValue="value" formControlName="subFeeValue">
                       </ng-select>
                     </div>
@@ -353,8 +360,7 @@
 
                   <td>
                     <div class="custom-form-input dispatchwidth">
-                      <ng-select *ngIf="countryList?.length > 0" class="input-field" placeholder="Select Country"
-                        formControlName="country">
+                      <ng-select class="input-field" placeholder="Select Country" formControlName="country">
                         <ng-option *ngFor="let country of countryList" [value]="country.countryName">
                           {{ country.countryName }}
                         </ng-option>
@@ -380,7 +386,7 @@
                   <!-- Action -->
                   <td class="text-center">
                     <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
-                      (click)="onDeleteFeeDetail(feeGroup, ind)" />
+                      (click)="onDeletePartDetail(vendorGroup, ind)" />
                   </td>
                 </tr>
               </ng-container>
@@ -388,46 +394,34 @@
           </table>
         </div>
         <!-- Totals Section -->
-<div class="row mt-4" [formGroup]="feesForm">
-  <div class="col-lg-3 col-md-4">
-    <div class="custom-form-input">
-      <label for="">Professional Fee total Amt</label>
-      <input formControlName="professionalFeeAmt" type="text" class="input-field" readonly />
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-4">
-    <div class="custom-form-input">
-      <label for="">Govt/Official Fee total Amt</label>
-      <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" readonly />
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-4">
-    <div class="custom-form-input">
-      <label for="">Other Charges Total Amout</label>
-      <input formControlName="otherChargesAmt" type="text" class="input-field" readonly />
-    </div>
-  </div>
-</div>
+        <div class="row mt-4">
+          <div class="col-lg-3 col-md-4">
+            <div class="custom-form-input">
+              <label for="">Professional Fee total Amt</label>
+              <input formControlName="professionalFeeAmt" type="text" class="input-field" readonly />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4">
+            <div class="custom-form-input">
+              <label for="">Govt/Official Fee total Amt</label>
+              <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" readonly />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4">
+            <div class="custom-form-input">
+              <label for="">Other Charges Total Amout</label>
+              <input formControlName="otherChargesAmt" type="text" class="input-field" readonly />
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
   </form>
 </div>
+
+
+
 <div class="spinner" *ngIf="loadSpinner">
   Loading...
 </div>
-
-
-
-<!-- <div class="col-lg-2 col-md-2">
-        <div class="custom-form-input">
-          <label for="">FRLR/MDN Date</label>
-          <div class="input-group datepicker">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" formControlName="frlrDate"
-              [maxDate]="today" (dateSelect)="onDateSelect('frlrDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly/>
-            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
-              <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-            </button>
-          </div>
-        </div>
-      </div> -->

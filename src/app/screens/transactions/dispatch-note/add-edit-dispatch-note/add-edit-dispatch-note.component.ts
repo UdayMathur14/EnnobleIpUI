@@ -52,6 +52,10 @@ export class AddEditDispatchNoteComponent {
   today = inject(NgbCalendar).getToday();
 
   filteredcustomers: any = [];
+  partDetailsList: any[] = []; 
+
+    selectedParts: any = [];
+  deletedParts: any[] = [];
 
   constructor(
     private router: Router,
@@ -68,11 +72,9 @@ export class AddEditDispatchNoteComponent {
 
   ngOnInit() {
     this.getVendorsList();
-    this.createFeesGroup();
+    // this.createFeesGroup();
     this.initForm();
-    this.feesDetails.valueChanges.subscribe(() => {
-      this.updateFeeSummaryAmounts();
-    });
+   
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
@@ -91,7 +93,7 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
-      vendorID: ['', Validators.required], // Maps to [VendorID]
+      vendorId: ['', Validators.required], // Maps to [VendorID]
       invoiceDate: ['', Validators.required], // Maps to [InvoiceDate]
       fy: [''], // Maps to [FY]
       clientInvoiceNo: ['', Validators.required], // Maps to [ClientInvoiceNo]
@@ -129,6 +131,7 @@ export class AddEditDispatchNoteComponent {
       remarks: [''], // Maps to [Remarks]
       postedInTally: [''], // Maps to [PostedInTally]
       status: ['', Validators.required],
+      partdetails: this.fb.array([], Validators.required),
     });
   }
 
@@ -306,6 +309,7 @@ export class AddEditDispatchNoteComponent {
       transporterId: 0,
       frlrDate: '',
       transporterMode: '',
+      partDetails: [],
     };
   }
 
@@ -473,39 +477,23 @@ export class AddEditDispatchNoteComponent {
     // this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
   }
 
-  feeTypes = ['Professional Fee', 'Govt or Offical Fee', 'Other Charges'];
 
-  // Main Form
-  feesForm = this.fb.group({
-    feesDetails: this.fb.array([]),
-    professionalFeeAmt: [{ value: '', disabled: true }],
-    govtOrOfficialFeeAmt: [{ value: '', disabled: true }],
-    otherChargesAmt: [{ value: '', disabled: true }],
-  });
 
-  get feesDetails(): FormArray {
-    return this.feesForm.get('feesDetails') as FormArray;
-  }
   // Create Row
-  createFeesGroup() {
-    const group = this.fb.group({
-      feeType: [''],
-      subFeeValue: [''],
-      country: [''],
-      amount: [''],
+  createPartDetailsGroup() {
+    const detail = this.fb.group({
+      feeType: ['',],
+      subFeeValue: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
       remarks: [''],
     });
 
-    group.get('amount')?.valueChanges.subscribe(() => {
-      this.updateFeeSummaryAmounts();
-    });
+    this.partDetails.push(detail);
+  }
 
-    group.get('feeType')?.valueChanges.subscribe(() => {
-      this.updateFeeSummaryAmounts();
-    });
-
-    this.feesDetails.push(group);
-    this.subFeeOptionsList.push([]); // initialize sub fee options for this index
+    get partDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
   }
 
   updateFeeSummaryAmounts(): void {
@@ -513,7 +501,7 @@ export class AddEditDispatchNoteComponent {
     let govtOrOfficialTotal = 0;
     let otherChargesTotal = 0;
 
-    this.feesDetails.controls.forEach((control) => {
+    this.partDetails.controls.forEach((control) => {
       const group = control as FormGroup;
       const feeType = group.get('feeType')?.value;
       const amount = parseFloat(group.get('amount')?.value) || 0;
@@ -528,29 +516,32 @@ export class AddEditDispatchNoteComponent {
         otherChargesTotal += amount;
       }
     });
-
-    this.feesForm.patchValue(
-      {
-        professionalFeeAmt: professionalTotal.toFixed(2),
-        govtOrOfficialFeeAmt: govtOrOfficialTotal.toFixed(2),
-        otherChargesAmt: otherChargesTotal.toFixed(2),
-      },
-      { emitEvent: false }
-    ); // Avoid circular triggering
   }
 
   // Delete Row
-  onDeleteFeeDetail(group: AbstractControl, index: number) {
+  onDeletePartDetail(part: any, i: number) {
     this.loadSpinner = true;
-    this.feesDetails.removeAt(index);
+    this.partDetails.removeAt(i);
+    const partNumber = part.value.partNumber;
+    const index = this.selectedParts.indexOf(partNumber);
+    if (index > -1) {
+        this.selectedParts.splice(index, 1);
+    }
     this.subFeeOptionsList.splice(index, 1);
     this.loadSpinner = false; // remove corresponding subFee list
   }
+    updateSelectedParts(selectedPartNumbers: string[]) {
+    this.selectedParts = selectedPartNumbers;
+  }
+getSelectedValue(event: Event): string {
+  const target = event.target as HTMLSelectElement | null;
+  return target?.value || '';
+}
 
   // On FeeType Change
   onFeeTypeSelect(feeType: string, index: number) {
     this.loadSpinner = true;
-    const row = this.feesDetails.at(index);
+    const row = this.partDetails.at(index);
     this.getAllLookupsList(0, feeType, index, row);
     this.loadSpinner = false; // pass just the string
   }
@@ -558,7 +549,7 @@ export class AddEditDispatchNoteComponent {
   // Show Language Conditionally
   showLanguageDropdown(index: number): boolean {
     return (
-      this.feesDetails.at(index).get('feeType')?.value === 'Govt or Offical Fee'
+      this.partDetails.at(index).get('feeType')?.value === 'Govt or Offical Fee'
     );
   }
 
