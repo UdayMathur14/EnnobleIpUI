@@ -13,20 +13,20 @@
 .dispatchwidthsmall{
     max-width:100px;
 }
-.custom-table {
-  max-height: 300px; /* Set your preferred height */
-  overflow-y: auto;  /* Enable vertical scrolling */
-}
+// .custom-table {
+//   max-height: 300px; /* Set your preferred height */
+//   overflow-y: auto;  /* Enable vertical scrolling */
+// }
 
-.custom-table table {
-  border-collapse: collapse;
-  width: 100%;
-}
+// .custom-table table {
+//   border-collapse: collapse;
+//   width: 100%;
+// }
 
-.custom-table thead th {
-  position: sticky;
-  top: 0;
-   /* Or any background color to cover rows behind */
-  z-index: 10;             /* Keep header on top */
-   /* Optional: better separation */
-}
+// .custom-table thead th {
+//   position: sticky;
+//   top: 0;
+//    /* Or any background color to cover rows behind */
+//   z-index: 10;             /* Keep header on top */
+//    /* Optional: better separation */
+// }
