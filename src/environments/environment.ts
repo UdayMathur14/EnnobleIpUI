@@ -5,13 +5,18 @@
 export const environment = {
   production: false,
   // apiPath: window.location.origin,
-  apiPath : 'http://192.168.29.100:5253/api/', //set the path 
+   apiPath : 'http://192.168.29.100:84/api/',//set the path 
   commonAPI: "http://111.93.61.251:8086/",
   umsURL: "http://111.93.61.253:3252",
   mfgURL: "http://111.93.61.253:9090",
   svcURL: "http://111.93.61.253:9091",
   gtmURL: "http://111.93.61.253:9092",
 };
+
+
+// mfgAPIURL : 'http://http://192.168.29.100:84/api/',
+// mfgAPIURL : 'http://localhost:84/api/',
+// mfgAPIURL : 'http://localhost:5253/api/',
 
 // export const environment = {
 //   production: false,

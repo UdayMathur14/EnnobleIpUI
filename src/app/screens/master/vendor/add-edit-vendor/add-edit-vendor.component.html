@@ -42,8 +42,8 @@
             <div class="custom-form-input">
               <label for="vendorType">Vendor Type <span class="text-danger">*</span></label>
               <select class="input-field" formControlName="vendorType" aria-placeholder="selectType"
-                (change)="onVendorTypeChange($event)">
-                <option value="" disabled selected>Select Type</option> <!-- Default placeholder -->
+                (change)="onVendorTypeChange($event)" >
+                <option value="" selected>Select Type</option> <!-- Default placeholder -->
                 <option value="EIPVDOM">EIPVDOM</option>
                 <option value="EIPVIMP">EIPVIMP</option>
               </select>
@@ -408,9 +408,9 @@
 
             </div>
           </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">SWIFT Code</label>
+          <div *ngIf="showSwiftfield" class="col-lg-3 col-md-3" >
+            <div class="custom-form-input" >
+              <label for="">Swift Code</label>
               <input type="text" class="input-field" formControlName="swiftCode" />
             </div>
           </div>
