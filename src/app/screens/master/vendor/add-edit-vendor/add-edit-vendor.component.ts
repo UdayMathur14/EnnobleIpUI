@@ -31,6 +31,7 @@ export class AddEditVendorComponent implements OnInit {
   isBillingCountryDisabled: boolean = false;
   IfscInput :boolean=true;
   msmeTypeSelected = false;
+  isMsmeTypeHidden = true;
   vendorForm = new FormGroup({
     vendorType: new FormControl('', Validators.required),
     vendorCode: new FormControl(''),
@@ -90,7 +91,6 @@ export class AddEditVendorComponent implements OnInit {
     ]),
     confirmAccountNumber: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^\d{9,18}$/)
     ]),
     
     ifscCode: new FormControl('', [
@@ -135,7 +135,22 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorId = Number(this._Activatedroute.snapshot.paramMap.get("vendorId")) || 0;
     this.getVendorData(this.queryData);
     this.AllcountryList();
+     this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
+    this.isMsmeTypeHidden = !value; // hide if value is false (No)
+    if (!value) {
+      this.vendorForm.get('msmeType')?.reset();
+    }
+  });
     console.log(this.vendorForm);
+    this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
+  if (value === true) {
+    this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
+  } else {
+    this.vendorForm.get('msmeType')?.clearValidators();
+    this.vendorForm.get('msmeType')?.reset();
+  }
+  this.vendorForm.get('msmeType')?.updateValueAndValidity();
+});
     if (this.vendorId > 0) {
       const vendorType = this.vendorForm.get('vendorType')?.value;
       this.statusTab = true;
@@ -162,6 +177,8 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
       this.vendorForm.get('ifscCode')?.clearValidators();
       this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+      this.vendorForm.get('accountNumber')?.clearValidators();
+      this.vendorForm.get('accountNumber')?.setValidators(Validators.required);
       }
     }
     if(this.vendorId==0){
@@ -179,6 +196,7 @@ export class AddEditVendorComponent implements OnInit {
       }
     });
   }
+  
   AllcountryList(){
     var data={};
     this.countryService.getCountryData(data).subscribe(
@@ -289,14 +307,17 @@ export class AddEditVendorComponent implements OnInit {
     if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
       this.vendorForm.patchValue({ billingCountry: 'India' });
       this.vendorForm.patchValue({ shippingCountry: 'India' });
+      this.vendorForm.patchValue({ bankCountry: 'India' });
       this.vendorForm.get('billingCountry')?.disable();
       this.vendorForm.get('shippingCountry')?.disable();
+      this.vendorForm.get('bankCountry')?.disable();
       this.isBillingCountryDisabled = true;
     } else {
       this.vendorForm.patchValue({ billingCountry: null });
       this.isBillingCountryDisabled = false;
       this.vendorForm.get('billingCountry')?.enable();
       this.vendorForm.get('shippingCountry')?.enable();
+      this.vendorForm.get('bankCountry')?.disable();
     }
   }
 
@@ -500,4 +521,49 @@ export class AddEditVendorComponent implements OnInit {
   onStatusChange(status: string, transaction: any) {
     transaction.disabled = status === 'Inactive';
   }
+
+  copyBillingToShipping(event: any) {
+  const isChecked = event.target.checked;
+
+  if (isChecked) {
+    this.vendorForm.patchValue({
+      shippingAddressLine1: this.vendorForm.value.billingAddressLine1,
+      shippingAddressLine2: this.vendorForm.value.billingAddressLine2,
+      shippingCountry: this.vendorForm.value.billingCountry,
+      shippingCity: this.vendorForm.value.billingCity,
+      shippingState: this.vendorForm.value.billingState,
+      shippingPinCode: this.vendorForm.value.billingPinCode
+    });
+
+    this.vendorForm.get('shippingAddressLine1')?.disable();
+    this.vendorForm.get('shippingAddressLine2')?.disable();
+    this.vendorForm.get('shippingCountry')?.disable();
+    this.vendorForm.get('shippingCity')?.disable();
+    this.vendorForm.get('shippingState')?.disable();
+    this.vendorForm.get('shippingPinCode')?.disable();
+  } else {
+    this.vendorForm.get('shippingAddressLine1')?.enable();
+    this.vendorForm.get('shippingAddressLine2')?.enable();
+    this.vendorForm.get('shippingCountry')?.enable();
+    this.vendorForm.get('shippingCity')?.enable();
+    this.vendorForm.get('shippingState')?.enable();
+    this.vendorForm.get('shippingPinCode')?.enable();
+
+    this.vendorForm.patchValue({
+      shippingAddressLine1: '',
+      shippingAddressLine2: '',
+      shippingCountry: '',
+      shippingCity: '',
+      shippingState: '',
+      shippingPinCode:'',
+    });
+  }
+}
+
+HideMsmeType(event: any){
+  console.log(event.target.value);
+  
+  this.isMsmeTypeHidden = event.target.value
+}
+
 }
