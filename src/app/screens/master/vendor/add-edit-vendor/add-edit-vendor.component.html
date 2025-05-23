@@ -257,7 +257,7 @@
       </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Currency <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+              <label for="">Currency </label>
 
               <!-- Readonly ng-select -->
               <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
@@ -398,7 +398,7 @@
           </div>
           <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
             <div class="custom-form-input">
-              <label for="">IFSC Code</label>
+              <label for="">IFSC Code <span class="text-danger">*</span></label>
               <input type="text" class="input-field" formControlName="ifscCode" />
               <div *ngIf="vendorForm.get('ifscCode')?.invalid && vendorForm.get('ifscCode')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('ifscCode')?.hasError('pattern')">
@@ -456,7 +456,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Pin Code</label>
+              <label for="">Bank Pin Code <span class="text-danger">*</span></label>
               <input type="text" class="input-field" formControlName="bankPinCode" />
               <small class="text-danger" *ngIf="vendorForm.get('bankPinCode')?.hasError('pattern')">
                 Invalid Pin Code.
@@ -543,12 +543,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">GST No</label>
-              <input type="text" class="input-field" formControlName="gst" />
-              <!-- <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
-                <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
-                  Correct GST No is required.
-                </small>
-              </div> -->
+              <input type="text" class="input-field" formControlName="gst"  />
                <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
                   Gst No is required.
