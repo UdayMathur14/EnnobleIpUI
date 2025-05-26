@@ -42,7 +42,7 @@
             <div class="custom-form-input">
               <label for="vendorType">Vendor Type <span class="text-danger">*</span></label>
               <select class="input-field" formControlName="vendorType" aria-placeholder="selectType"
-                (change)="onVendorTypeChange($event)" >
+                (change)="onVendorTypeChange($event)">
                 <option value="" selected>Select Type</option> <!-- Default placeholder -->
                 <option value="EIPVDOM">EIPVDOM</option>
                 <option value="EIPVIMP">EIPVIMP</option>
@@ -151,8 +151,8 @@
           </div>
           <div class="col-12 mb-3 mt-3">
             <div class="col-lg-3 col-md-3">
-              <input type="checkbox" class="form-check-input" id="sameAsBilling" style="outline: 1px solid black; margin-right: 10px"
-                (change)="copyBillingToShipping($event)">
+              <input type="checkbox" class="form-check-input" id="sameAsBilling"
+                style="outline: 1px solid black; margin-right: 10px" (change)="copyBillingToShipping($event)">
               <label class="form-check-label" for="sameAsBilling">
                 Same as Billing Address
               </label>
@@ -257,7 +257,7 @@
       </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Currency </label>
+              <label for="">Currency <span class="text-danger">*</span> </label>
 
               <!-- Readonly ng-select -->
               <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
@@ -325,7 +325,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Country Code</label>
+              <label for="">Country Code <span class="text-danger">*</span></label>
               <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
               <ng-select class="input-field" formControlName="countryCode" [disabled]="isBillingCountryDisabled">
                 <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
@@ -408,12 +408,6 @@
 
             </div>
           </div>
-          <div *ngIf="showSwiftfield" class="col-lg-3 col-md-3" >
-            <div class="custom-form-input" >
-              <label for="">Swift Code</label>
-              <input type="text" class="input-field" formControlName="swiftCode" />
-            </div>
-          </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Bank Address Line 1</label>
@@ -434,7 +428,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
+              <label for="">Bank Country </label>
               <ng-select class="input-field" formControlName="bankCountry" [disabled]="isBillingCountryDisabled">
                 <ng-option *ngFor="let country of countryList" [value]="country.countryName">
                   {{ country.countryName }}
@@ -456,7 +450,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Pin Code <span class="text-danger">*</span></label>
+              <label for="">Bank Pin Code </label>
               <input type="text" class="input-field" formControlName="bankPinCode" />
               <small class="text-danger" *ngIf="vendorForm.get('bankPinCode')?.hasError('pattern')">
                 Invalid Pin Code.
@@ -498,7 +492,7 @@
           <div *ngIf="msmeTypeSelected" class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">MSME No</label>
-              <input type="text" class="input-field" formControlName="msmeNo"  />
+              <input type="text" class="input-field" formControlName="msmeNo" />
               <div *ngIf="vendorForm.get('msmeNo')?.invalid && vendorForm.get('msmeNo')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('required')">
                   MSME No is required.
@@ -511,7 +505,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">PAN <span class="text-danger">*</span></label>
+              <label for="">PAN </label>
               <input type="text" class="input-field" formControlName="pan" />
               <div *ngIf="vendorForm.get('pan')?.invalid && vendorForm.get('pan')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('pan')?.hasError('required')">
@@ -525,7 +519,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">GST Treatment</label>
+              <label for="">GST Treatment <span class="text-danger">*</span></label>
               <select class="input-field" formControlName="gstTreatment" (change)="onGSTTreatmentChange($event)">
                 <option value="">-- Select --</option>
                 <option value="Registered">Registered</option>
@@ -543,8 +537,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">GST No</label>
-              <input type="text" class="input-field" formControlName="gst"  />
-               <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
+              <input type="text" class="input-field" formControlName="gst" />
+              <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
                   Gst No is required.
                 </small>
@@ -563,6 +557,12 @@
             <div class="custom-form-input">
               <label for="msmeRegistered">IBAN</label>
               <input type="text" class="input-field" formControlName="iban" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Swift Code</label>
+              <input type="text" class="input-field" formControlName="swiftCode" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">

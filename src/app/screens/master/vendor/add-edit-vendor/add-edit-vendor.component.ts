@@ -39,25 +39,24 @@ export class AddEditVendorComponent implements OnInit {
     billingAddressLine1: new FormControl('', Validators.required),
     billingAddressLine2: new FormControl(''),
     billingCity: new FormControl('', Validators.required),
-    billingState: new FormControl(''),
+    billingState: new FormControl('', Validators.required),
     billingCountry: new FormControl('', Validators.required),
     billingPinCode: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[0-9]{6}$/),
+      // Validators.pattern(/^[0-9]{6}$/),
     ]),
 
     shippingAddressLine1: new FormControl('', Validators.required),
     shippingAddressLine2: new FormControl(''),
     shippingCity: new FormControl('', Validators.required),
-    shippingState: new FormControl(''),
+    shippingState: new FormControl('', Validators.required),
     shippingCountry: new FormControl('', Validators.required),
     shippingPinCode: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[0-9]{6}$/),
+      // Validators.pattern(/^[0-9]{6}$/),
     ]),
 
     pan: new FormControl('', [
-      Validators.required,
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), // optional PAN format
     ]),
     gst: new FormControl('', [
@@ -65,33 +64,29 @@ export class AddEditVendorComponent implements OnInit {
         /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
       ),
     ]),
-    gstTreatment: new FormControl(''),
-    msmeRegistered: new FormControl(true),
+    gstTreatment: new FormControl('',Validators.required),
+    msmeRegistered: new FormControl(true,Validators.required),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
 
     contactPersonName: new FormControl(''),
     designation: new FormControl(''),
-
     email1: new FormControl('', [Validators.email]),
     email2: new FormControl('', Validators.email),
-    countryCode: new FormControl(''),
-    phoneMobileNo: new FormControl('', [
-      Validators.pattern(/^[0-9]{10}$/), 
-    ]),
-    currency: new FormControl(''),
+    countryCode: new FormControl('', Validators.required),
+    phoneMobileNo: new FormControl(''),
+    currency: new FormControl('', Validators.required),
     paymentTerms: new FormControl(''),
 
     bankName: new FormControl('', Validators.required),
     accountHolderName: new FormControl('', Validators.required),
     accountNumber: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^\d{9,18}$/), // Validates a 9 to 18 digit account number
+      // Validators.pattern(/^\d{9,18}$/), // Validates a 9 to 18 digit account number
     ]),
     confirmAccountNumber: new FormControl('', [Validators.required]),
 
     ifscCode: new FormControl('', [
-      Validators.required,
       Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/),
     ]),
     swiftCode: new FormControl(''),
@@ -99,9 +94,10 @@ export class AddEditVendorComponent implements OnInit {
     bankAddressLine1: new FormControl(''),
     bankAddressLine2: new FormControl(''),
     branch: new FormControl(''),
-    bankCity: new FormControl(''),
+    bankCity: new FormControl('', ),
     bankState: new FormControl(''),
-    bankPinCode: new FormControl('', [Validators.pattern(/^[0-9]{6}$/)]),
+    bankPinCode: new FormControl(''),
+
     iban: new FormControl(''),
     sortCode: new FormControl(''),
     routingNo: new FormControl(''),
@@ -125,9 +121,11 @@ export class AddEditVendorComponent implements OnInit {
     this.queryData = this._Activatedroute.snapshot.paramMap.get('vendorId');
     this.vendorId =
       Number(this._Activatedroute.snapshot.paramMap.get('vendorId')) || 0;
-    this.getVendorData(this.queryData);
-    this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+
+    this.getVendorData(this.queryData); // fetch the full vendor data
     this.AllcountryList();
+
+    //hide the type when selected no
     this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
       this.isMsmeTypeHidden = !value; // hide if value is false (No)
       if (!value) {
@@ -135,6 +133,7 @@ export class AddEditVendorComponent implements OnInit {
       }
     });
 
+    //if true then set the validators else remove it
     this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
       if (value === true) {
         this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
@@ -144,12 +143,32 @@ export class AddEditVendorComponent implements OnInit {
       }
       this.vendorForm.get('msmeType')?.updateValueAndValidity();
     });
+
+    //check that account no matches with confirm account number
+    this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
+      const accountNumber = this.vendorForm.get('accountNumber')?.value;
+      const confirmAccountNumber = this.vendorForm.get(
+        'confirmAccountNumber'
+      )?.value;
+
+      if (
+        accountNumber &&
+        confirmAccountNumber &&
+        accountNumber !== confirmAccountNumber
+      ) {
+        this.vendorForm
+          .get('confirmAccountNumber')
+          ?.setErrors({ mismatch: true });
+      } else {
+        this.vendorForm.get('confirmAccountNumber')?.setErrors(null);
+      }
+    });
+
     if (this.vendorId > 0) {
       const vendorType = this.vendorForm.get('vendorType')?.value;
       this.statusTab = true;
       this.showSwiftfield = false;
       this.vendorForm.get('vendorType')?.disable();
-      console.log(vendorType);
 
       if (vendorType === 'EIPVDOM') {
         this.isBillingCountryDisabled = true;
@@ -186,27 +205,9 @@ export class AddEditVendorComponent implements OnInit {
     if (this.vendorId == 0) {
       this.statusTab = false;
     }
-
-    this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
-      const accountNumber = this.vendorForm.get('accountNumber')?.value;
-      const confirmAccountNumber = this.vendorForm.get(
-        'confirmAccountNumber'
-      )?.value;
-
-      if (
-        accountNumber &&
-        confirmAccountNumber &&
-        accountNumber !== confirmAccountNumber
-      ) {
-        this.vendorForm
-          .get('confirmAccountNumber')
-          ?.setErrors({ mismatch: true });
-      } else {
-        this.vendorForm.get('confirmAccountNumber')?.setErrors(null);
-      }
-    });
   }
 
+  //get all the country list
   AllcountryList() {
     var data = {};
     this.countryService.getCountryData(data).subscribe(
@@ -221,6 +222,7 @@ export class AddEditVendorComponent implements OnInit {
       }
     );
   }
+
   onMsmeTypeChange(event: any) {
     const selectedType = event.target.value;
 
@@ -231,12 +233,7 @@ export class AddEditVendorComponent implements OnInit {
       selectedType === 'MEDIUM'
     ) {
       this.msmeTypeSelected = true;
-      this.vendorForm
-        .get('msmeNo')
-        ?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[A-Za-z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?/-]{19}$/),
-        ]);
+      this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
     } else {
       this.msmeTypeSelected = false;
       this.vendorForm.get('msmeNo')?.clearValidators(); // If MSME Type is cleared, MSME No is not required
@@ -244,6 +241,7 @@ export class AddEditVendorComponent implements OnInit {
 
     this.vendorForm.get('msmeNo')?.updateValueAndValidity();
   }
+
   onGSTTreatmentChange(event: any): void {
     const selectedGSTTreatment = event.target.value;
 
@@ -259,108 +257,110 @@ export class AddEditVendorComponent implements OnInit {
     // Revalidate the GST field
     this.vendorForm.get('gst')?.updateValueAndValidity();
   }
-  onVendorTypeChange(event: any) {
-    const selectedType = event.target.value;
-    this.vendorType = selectedType;
 
-    // Show or hide the compliance tab based on vendor type
-    if (this.vendorType === 'EIPVIMP') {
-      this.showComplianceTab = false; // Hide the tab if the vendor type is 'EIPVIMP'
-      this.IfscInput = false;
-      this.showExtraTab = true;
-      this.showSwiftfield = true;
-      this.vendorForm.get('billingPinCode')?.setValidators(Validators.required);
-      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
-      this.vendorForm
-        .get('shippingPinCode')
-        ?.setValidators(Validators.required);
-      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
-      this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('pan')?.clearValidators();
-      this.vendorForm.get('pan')?.updateValueAndValidity();
-      this.vendorForm.get('msmeRegistered')?.clearValidators();
-      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
-      this.vendorForm.get('phoneMobileNo')?.clearValidators();
-      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
-      this.vendorForm.get('ifscCode')?.clearValidators();
-      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
-      this.vendorForm.get('accountNumber')?.setValidators(Validators.required);
-      this.vendorForm.get('accountNumber')?.updateValueAndValidity();
-      
-    } //if vendor type is EIPVDOM
-    else {
-      this.showComplianceTab = true; // Show the tab for any other vendor type
-      this.showExtraTab = false;
-      this.IfscInput = true;
-      this.showSwiftfield = false;
-      this.vendorForm
-        .get('pan')
-        ?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/),
-        ]);
-      this.vendorForm.get('pan')?.updateValueAndValidity();
+ onVendorTypeChange(event: any) {
+  const selectedType = event.target.value;
+  this.vendorType = selectedType;
 
-      this.vendorForm
-        .get('msmeRegistered')
-        ?.setValidators([Validators.required]);
-      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+  if (this.vendorType === 'EIPVIMP') {
+    this.showComplianceTab = false;
+    this.IfscInput = false;
+    this.showExtraTab = true;
 
-      this.vendorForm
-        .get('phoneMobileNo')
-        ?.setValidators([Validators.pattern(/^[0-9]{10}$/)]);
-      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+    this.vendorForm.get('billingPinCode')?.setValidators([Validators.required]);
+    this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
 
-      this.vendorForm
-        .get('ifscCode')
-        ?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/),
-        ]);
-      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
-      this.vendorForm
-        .get('billingPinCode')
-        ?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[0-9]{6}$/),
-        ]);
-      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+    this.vendorForm.get('shippingPinCode')?.setValidators([Validators.required]);
+    this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
 
-      this.vendorForm
-        .get('shippingPinCode')
-        ?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[0-9]{6}$/),
-        ]);
-      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
-      this.vendorForm.get('accountNumber')?.updateValueAndValidity();
-      this.vendorForm.get('accountnumber')?.setValidators([
-          Validators.required,
-          Validators.pattern(/^\d{9,18}$/),
-        ]);
-        
-    }
+    this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
+    this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
 
-    if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
-      this.vendorForm.patchValue({ billingCountry: 'India' });
-      this.vendorForm.patchValue({ shippingCountry: 'India' });
-      this.vendorForm.patchValue({ bankCountry: 'India' });
-      this.vendorForm.patchValue({ currency: 'Indian Rupee' });
-      this.vendorForm.get('billingCountry')?.disable();
-      this.vendorForm.get('shippingCountry')?.disable();
-      this.vendorForm.get('bankCountry')?.disable();
-      this.vendorForm.get('currency')?.disable();
-      this.isBillingCountryDisabled = true;
-    } else {
-      this.vendorForm.patchValue({ billingCountry: null });
-      this.isBillingCountryDisabled = false;
-      this.vendorForm.get('billingCountry')?.enable();
-      this.vendorForm.get('shippingCountry')?.enable();
-      this.vendorForm.get('bankCountry')?.enable();
-      this.vendorForm.get('currency')?.enable();
-    }
+    this.vendorForm.get('pan')?.clearValidators();
+    this.vendorForm.get('pan')?.updateValueAndValidity();
+
+    this.vendorForm.get('msmeRegistered')?.clearValidators();
+    this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+
+    this.vendorForm.get('phoneMobileNo')?.clearValidators();
+    this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+
+    this.vendorForm.get('ifscCode')?.clearValidators();
+    this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+
+    this.vendorForm.get('accountNumber')?.setValidators([Validators.required]);
+    this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+
+  } else {
+    this.showComplianceTab = true;
+    this.showExtraTab = false;
+    this.IfscInput = true;
+
+    this.vendorForm.get('msmeRegistered')?.setValidators([Validators.required]);
+    this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+
+    this.vendorForm.get('phoneMobileNo')?.setValidators([Validators.pattern(/^[0-9]{10}$/)]);
+    this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+
+    this.vendorForm.get('ifscCode')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
+    ]);
+    this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+
+    this.vendorForm.get('billingPinCode')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[0-9]{6}$/)
+    ]);
+    this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+
+    this.vendorForm.get('shippingPinCode')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[0-9]{6}$/)
+    ]);
+    this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+
+    this.vendorForm.get('bankPinCode')?.setValidators([
+      Validators.pattern(/^[0-9]{6}$/)
+    ]);
+    this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
+
+    this.vendorForm.get('pan')?.setValidators([
+      Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)
+    ]);
+    this.vendorForm.get('pan')?.updateValueAndValidity();
+
+    this.vendorForm.get('accountNumber')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{9,18}$/)
+    ]);
+    this.vendorForm.get('accountNumber')?.updateValueAndValidity();
   }
+
+  if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
+    this.vendorForm.patchValue({ billingCountry: 'India' });
+    this.vendorForm.patchValue({ shippingCountry: 'India' });
+    this.vendorForm.patchValue({ bankCountry: 'India' });
+    this.vendorForm.patchValue({ currency: 'Indian Rupee' });
+    this.vendorForm.patchValue({ countryCode: '+91' });
+    this.vendorForm.get('billingCountry')?.disable();
+    this.vendorForm.get('shippingCountry')?.disable();
+    this.vendorForm.get('bankCountry')?.disable();
+    this.vendorForm.get('currency')?.disable();
+    this.vendorForm.get('countryCode')?.disable();
+    
+    this.isBillingCountryDisabled = true;
+  } else {
+    this.vendorForm.patchValue({ billingCountry: null });
+    this.isBillingCountryDisabled = false;
+    this.vendorForm.get('billingCountry')?.enable();
+    this.vendorForm.get('shippingCountry')?.enable();
+    this.vendorForm.get('bankCountry')?.enable();
+    this.vendorForm.get('currency')?.enable();
+    this.vendorForm.get('countryCode')?.enable();
+  }
+}
+
 
   onSelectbillingCountry(e: any) {
     this.vendorForm.get('billingCountry')?.setValue(e?.target?.innerText);
@@ -589,11 +589,5 @@ export class AddEditVendorComponent implements OnInit {
         shippingPinCode: '',
       });
     }
-  }
-
-  HideMsmeType(event: any) {
-    console.log(event.target.value);
-
-    this.isMsmeTypeHidden = event.target.value;
   }
 }
