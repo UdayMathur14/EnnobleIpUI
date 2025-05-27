@@ -328,12 +328,16 @@ export class AddEditVendorComponent implements OnInit {
       this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
         (f) => f !== 'gst'
       );
+      this.currentRequiredFields = [...this.requiredFieldsForDOM];
     } else {
       if (!this.requiredFieldsForDOM.includes('gst')) {
         this.requiredFieldsForDOM.push('gst');
       }
       // Make GST required for other cases
       this.vendorForm.get('gst')?.setValidators([Validators.required]);
+      if (this.vendorType === 'EIPVDOM') {
+        this.currentRequiredFields = [...this.requiredFieldsForDOM];
+      }
     }
 
     // Revalidate the GST field
