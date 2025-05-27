@@ -64,8 +64,8 @@ export class AddEditVendorComponent implements OnInit {
         /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
       ),
     ]),
-    gstTreatment: new FormControl('',Validators.required),
-    msmeRegistered: new FormControl(true,Validators.required),
+    gstTreatment: new FormControl('', Validators.required),
+    msmeRegistered: new FormControl(true, Validators.required),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
 
@@ -74,7 +74,9 @@ export class AddEditVendorComponent implements OnInit {
     email1: new FormControl('', [Validators.email]),
     email2: new FormControl('', Validators.email),
     countryCode: new FormControl('', Validators.required),
-    phoneMobileNo: new FormControl(''),
+    phoneMobileNo: new FormControl('', [
+      Validators.pattern('^[0-9]*$'), // allows only digits (0-9)
+    ]),
     currency: new FormControl('', Validators.required),
     paymentTerms: new FormControl(''),
 
@@ -94,7 +96,7 @@ export class AddEditVendorComponent implements OnInit {
     bankAddressLine1: new FormControl(''),
     bankAddressLine2: new FormControl(''),
     branch: new FormControl(''),
-    bankCity: new FormControl('', ),
+    bankCity: new FormControl(''),
     bankState: new FormControl(''),
     bankPinCode: new FormControl(''),
 
@@ -258,109 +260,145 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorForm.get('gst')?.updateValueAndValidity();
   }
 
- onVendorTypeChange(event: any) {
-  const selectedType = event.target.value;
-  this.vendorType = selectedType;
+  onVendorTypeChange(event: any) {
+    const selectedType = event.target.value;
+    this.vendorType = selectedType;
 
-  if (this.vendorType === 'EIPVIMP') {
-    this.showComplianceTab = false;
-    this.IfscInput = false;
-    this.showExtraTab = true;
+    if (this.vendorType === 'EIPVIMP') {
+      this.showComplianceTab = false;
+      this.IfscInput = false;
+      this.showExtraTab = true;
 
-    this.vendorForm.get('billingPinCode')?.setValidators([Validators.required]);
-    this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+      this.vendorForm
+        .get('billingPinCode')
+        ?.setValidators([Validators.required]);
+      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
 
-    this.vendorForm.get('shippingPinCode')?.setValidators([Validators.required]);
-    this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+      this.vendorForm
+        .get('shippingPinCode')
+        ?.setValidators([Validators.required]);
+      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
 
-    this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
-    this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
+      this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
 
-    this.vendorForm.get('pan')?.clearValidators();
-    this.vendorForm.get('pan')?.updateValueAndValidity();
+      this.vendorForm.get('bankAddressLine1')?.setValidators([Validators.required]);
+      this.vendorForm.get('bankAddressLine1')?.updateValueAndValidity();
 
-    this.vendorForm.get('msmeRegistered')?.clearValidators();
-    this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+      this.vendorForm.get('bankCity')?.setValidators([Validators.required]);
+      this.vendorForm.get('bankCity')?.updateValueAndValidity();
 
-    this.vendorForm.get('phoneMobileNo')?.clearValidators();
-    this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+      this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
+      this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
 
-    this.vendorForm.get('ifscCode')?.clearValidators();
-    this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+      this.vendorForm.get('bankCountry')?.setValidators([Validators.required]);
+      this.vendorForm.get('bankCountry')?.updateValueAndValidity();
 
-    this.vendorForm.get('accountNumber')?.setValidators([Validators.required]);
-    this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+      this.vendorForm.get('pan')?.clearValidators();
+      this.vendorForm.get('pan')?.updateValueAndValidity();
 
-  } else {
-    this.showComplianceTab = true;
-    this.showExtraTab = false;
-    this.IfscInput = true;
+      this.vendorForm.get('billingState')?.clearValidators();
+      this.vendorForm.get('billingState')?.updateValueAndValidity();
 
-    this.vendorForm.get('msmeRegistered')?.setValidators([Validators.required]);
-    this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+      this.vendorForm.get('shippingState')?.clearValidators();
+      this.vendorForm.get('shippingState')?.updateValueAndValidity();
 
-    this.vendorForm.get('phoneMobileNo')?.setValidators([Validators.pattern(/^[0-9]{10}$/)]);
-    this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+      this.vendorForm.get('msmeRegistered')?.clearValidators();
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
 
-    this.vendorForm.get('ifscCode')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)
-    ]);
-    this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+      this.vendorForm.get('phoneMobileNo')?.clearValidators();
+      this.vendorForm.get('phoneMobileNo')?.setValidators([Validators.pattern('^[0-9]*$')]);
+      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
 
-    this.vendorForm.get('billingPinCode')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^[0-9]{6}$/)
-    ]);
-    this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('ifscCode')?.clearValidators();
+      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
 
-    this.vendorForm.get('shippingPinCode')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^[0-9]{6}$/)
-    ]);
-    this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+      this.vendorForm.get('accountNumber')?.setValidators([Validators.required]);
+      this.vendorForm.get('accountNumber')?.updateValueAndValidity();
 
-    this.vendorForm.get('bankPinCode')?.setValidators([
-      Validators.pattern(/^[0-9]{6}$/)
-    ]);
-    this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
 
-    this.vendorForm.get('pan')?.setValidators([
-      Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)
-    ]);
-    this.vendorForm.get('pan')?.updateValueAndValidity();
 
-    this.vendorForm.get('accountNumber')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^\d{9,18}$/)
-    ]);
-    this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+    } else {
+      this.showComplianceTab = true;
+      this.showExtraTab = false;
+      this.IfscInput = true;
+
+      this.vendorForm
+        .get('msmeRegistered')
+        ?.setValidators([Validators.required]);
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('phoneMobileNo')
+        ?.setValidators([Validators.pattern(/^[0-9]{10}$/)]);
+      this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('ifscCode')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/),
+        ]);
+      this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('billingPinCode')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]{6}$/),
+        ]);
+      this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('shippingPinCode')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]{6}$/),
+        ]);
+      this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('bankPinCode')
+        ?.setValidators([Validators.pattern(/^[0-9]{6}$/)]);
+      this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('pan')
+        ?.setValidators([Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]);
+      this.vendorForm.get('pan')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('accountNumber')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^\d{9,18}$/),
+        ]);
+      this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+    }
+
+    if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
+      this.vendorForm.patchValue({ billingCountry: 'India' });
+      this.vendorForm.patchValue({ shippingCountry: 'India' });
+      this.vendorForm.patchValue({ bankCountry: 'India' });
+      this.vendorForm.patchValue({ currency: 'Indian Rupee' });
+      this.vendorForm.patchValue({ countryCode: '+91' });
+      this.vendorForm.get('billingCountry')?.disable();
+      this.vendorForm.get('shippingCountry')?.disable();
+      this.vendorForm.get('bankCountry')?.disable();
+      this.vendorForm.get('currency')?.disable();
+      this.vendorForm.get('countryCode')?.disable();
+
+      this.isBillingCountryDisabled = true;
+    } else {
+      this.vendorForm.patchValue({ billingCountry: null });
+      this.isBillingCountryDisabled = false;
+      this.vendorForm.get('billingCountry')?.enable();
+      this.vendorForm.get('shippingCountry')?.enable();
+      this.vendorForm.get('bankCountry')?.enable();
+      this.vendorForm.get('currency')?.enable();
+      this.vendorForm.get('countryCode')?.enable();
+    }
   }
-
-  if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
-    this.vendorForm.patchValue({ billingCountry: 'India' });
-    this.vendorForm.patchValue({ shippingCountry: 'India' });
-    this.vendorForm.patchValue({ bankCountry: 'India' });
-    this.vendorForm.patchValue({ currency: 'Indian Rupee' });
-    this.vendorForm.patchValue({ countryCode: '+91' });
-    this.vendorForm.get('billingCountry')?.disable();
-    this.vendorForm.get('shippingCountry')?.disable();
-    this.vendorForm.get('bankCountry')?.disable();
-    this.vendorForm.get('currency')?.disable();
-    this.vendorForm.get('countryCode')?.disable();
-    
-    this.isBillingCountryDisabled = true;
-  } else {
-    this.vendorForm.patchValue({ billingCountry: null });
-    this.isBillingCountryDisabled = false;
-    this.vendorForm.get('billingCountry')?.enable();
-    this.vendorForm.get('shippingCountry')?.enable();
-    this.vendorForm.get('bankCountry')?.enable();
-    this.vendorForm.get('currency')?.enable();
-    this.vendorForm.get('countryCode')?.enable();
-  }
-}
-
 
   onSelectbillingCountry(e: any) {
     this.vendorForm.get('billingCountry')?.setValue(e?.target?.innerText);

@@ -337,7 +337,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Mobile No</label>
-              <input type="text" class="input-field" formControlName="phoneMobileNo" />
+              <input type="text" class="input-field" formControlName="phoneMobileNo" pattern="[0-9]*" inputmode="numeric" />
               <div *ngIf="vendorForm.get('phoneMobileNo')?.invalid && vendorForm.get('phoneMobileNo')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('phoneMobileNo')?.hasError('required')">
                   No is required.
@@ -405,7 +405,6 @@
                   Invalid IFSC Code.
                 </small>
               </div>
-
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
