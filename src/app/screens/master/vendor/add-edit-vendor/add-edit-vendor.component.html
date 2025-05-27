@@ -473,7 +473,7 @@
           </div>
           <div *ngIf="!isMsmeTypeHidden" class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">MSME Type</label>
+              <label for="">MSME Type<span class="text-danger">*</span></label>
               <select class="input-field" formControlName="msmeType" (change)="onMsmeTypeChange($event)">
                 <option value="">Select MSME Type</option>
                 <option value="MICRO">MICRO</option>
