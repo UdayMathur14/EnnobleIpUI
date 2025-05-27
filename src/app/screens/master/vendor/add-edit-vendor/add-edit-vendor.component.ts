@@ -66,8 +66,6 @@ export class AddEditVendorComponent implements OnInit {
     'shippingCity',
     'shippingCountry',
     'shippingPinCode',
-    'gstTreatment',
-    'msmeRegistered',
     'currency',
     'bankName',
     'accountHolderName',
@@ -89,7 +87,7 @@ export class AddEditVendorComponent implements OnInit {
     billingAddressLine1: new FormControl('', Validators.required),
     billingAddressLine2: new FormControl(''),
     billingCity: new FormControl('', Validators.required),
-    billingState: new FormControl('', Validators.required),
+    billingState: new FormControl('', ),
     billingCountry: new FormControl('', Validators.required),
     billingPinCode: new FormControl('', [
       Validators.required,
@@ -99,7 +97,7 @@ export class AddEditVendorComponent implements OnInit {
     shippingAddressLine1: new FormControl('', Validators.required),
     shippingAddressLine2: new FormControl(''),
     shippingCity: new FormControl('', Validators.required),
-    shippingState: new FormControl('', Validators.required),
+    shippingState: new FormControl(''),
     shippingCountry: new FormControl('', Validators.required),
     shippingPinCode: new FormControl('', [
       Validators.required,
@@ -114,16 +112,16 @@ export class AddEditVendorComponent implements OnInit {
         /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
       ),
     ]),
-    gstTreatment: new FormControl('', Validators.required),
-    msmeRegistered: new FormControl(true, Validators.required),
+    gstTreatment: new FormControl('', ),
+    msmeRegistered: new FormControl(true, ),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
 
     contactPersonName: new FormControl(''),
     designation: new FormControl(''),
     email1: new FormControl('', [Validators.email]),
-    email2: new FormControl('', Validators.email),
-    countryCode: new FormControl('', Validators.required),
+    email2: new FormControl('', [Validators.email]),
+    countryCode: new FormControl('',),
     phoneMobileNo: new FormControl('', [
       Validators.pattern('^[0-9]*$'), // allows only digits (0-9)
     ]),
@@ -381,17 +379,14 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('bankCountry')?.setValidators([Validators.required]);
       this.vendorForm.get('bankCountry')?.updateValueAndValidity();
 
-      this.vendorForm.get('pan')?.clearValidators();
-      this.vendorForm.get('pan')?.updateValueAndValidity();
-
       this.vendorForm.get('billingState')?.clearValidators();
       this.vendorForm.get('billingState')?.updateValueAndValidity();
 
       this.vendorForm.get('shippingState')?.clearValidators();
       this.vendorForm.get('shippingState')?.updateValueAndValidity();
 
-      this.vendorForm.get('msmeRegistered')?.clearValidators();
-      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+      // this.vendorForm.get('msmeRegistered')?.clearValidators();
+      // this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
 
       this.vendorForm.get('phoneMobileNo')?.clearValidators();
       this.vendorForm
@@ -406,6 +401,8 @@ export class AddEditVendorComponent implements OnInit {
         .get('accountNumber')
         ?.setValidators([Validators.required]);
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+
+
     } else {
       this.currentRequiredFields = this.requiredFieldsForDOM;
       this.showComplianceTab = true;
