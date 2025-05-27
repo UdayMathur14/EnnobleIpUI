@@ -40,7 +40,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="vendorType">Vendor Type <span class="text-danger">*</span></label>
+              <label for="vendorType">Vendor Type <span class="text-danger" *ngIf="currentRequiredFields.includes('vendorType')">*</span></label>
               <select class="input-field" formControlName="vendorType" aria-placeholder="selectType"
                 (change)="onVendorTypeChange($event)">
                 <option value="" selected>Select Type</option> <!-- Default placeholder -->
@@ -67,7 +67,7 @@
           </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Vendor Name <span class="text-danger">*</span></label>
+              <label for="">Vendor Name <span class="text-danger" *ngIf="currentRequiredFields.includes('vendorName')">*</span></label>
               <input type="text" class="input-field" formControlName="vendorName" />
               <div *ngIf="vendorForm.get('vendorName')?.invalid && vendorForm.get('vendorName')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('vendorName')?.hasError('required')">
@@ -78,7 +78,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing Address Line 1 <span class="text-danger">*</span></label>
+              <label for="">Billing Address Line 1 <span class="text-danger" *ngIf="currentRequiredFields.includes('billingAddressLine1')">*</span></label>
               <input type="text" class="input-field" formControlName="billingAddressLine1" />
               <div
                 *ngIf="vendorForm.get('billingAddressLine1')?.invalid && vendorForm.get('billingAddressLine1')?.touched">
@@ -106,7 +106,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing City <span class="text-danger">*</span></label>
+              <label for="">Billing City <span class="text-danger" *ngIf="currentRequiredFields.includes('billingCity')">*</span></label>
               <input type="text" class="input-field" formControlName="billingCity" />
               <div *ngIf="vendorForm.get('billingCity')?.invalid && vendorForm.get('billingCity')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('billingCity')?.hasError('required')">
@@ -118,7 +118,7 @@
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing State</label>
+              <label for="">Billing State <span class="text-danger" *ngIf="currentRequiredFields.includes('billingState')">*</span></label>
               <input type="text" class="input-field" formControlName="billingState" />
               <div *ngIf="vendorForm.get('billingState')?.invalid && vendorForm.get('billingState')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('billingState')?.hasError('required')">
@@ -136,7 +136,7 @@
     </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing Pin Code <span class="text-danger">*</span></label>
+              <label for="">Billing Pin Code <span class="text-danger" *ngIf="currentRequiredFields.includes('billingPinCode')">*</span></label>
               <input type="text" class="input-field" formControlName="billingPinCode" />
               <div *ngIf="vendorForm.get('billingPinCode')?.invalid && vendorForm.get('billingPinCode')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('billingPinCode')?.hasError('required')">
@@ -161,7 +161,7 @@
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping Address Line 1 <span class="text-danger">*</span></label>
+              <label for="">Shipping Address Line 1 <span class="text-danger" *ngIf="currentRequiredFields.includes('shippingAddressLine1')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingAddressLine1" />
               <div
                 *ngIf="vendorForm.get('shippingAddressLine1')?.invalid && vendorForm.get('shippingAddressLine1')?.touched">
@@ -174,7 +174,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping Address Line 2</label>
+              <label for="">Shipping Address Line 2 <span class="text-danger" *ngIf="currentRequiredFields.includes('shippingAddressLine2')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingAddressLine2" />
             </div>
           </div>
@@ -202,7 +202,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping City <span class="text-danger">*</span></label>
+              <label for="">Shipping City <span class="text-danger" *ngIf="currentRequiredFields.includes('shippingCity')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingCity" />
               <div *ngIf="vendorForm.get('shippingCity')?.invalid && vendorForm.get('shippingCity')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('shippingCity')?.hasError('required')">
@@ -213,7 +213,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping State</label>
+              <label for="">Shipping State <span class="text-danger" *ngIf="currentRequiredFields.includes('shippingState')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingState" />
               <div *ngIf="vendorForm.get('shippingState')?.invalid && vendorForm.get('shippingState')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('shippingState')?.hasError('required')">
@@ -231,7 +231,7 @@
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping Pin Code <span class="text-danger">*</span></label>
+              <label for="">Shipping Pin Code <span class="text-danger" *ngIf="currentRequiredFields.includes('shippingPinCode')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingPinCode" />
               <div *ngIf="vendorForm.get('shippingPinCode')?.invalid && vendorForm.get('shippingPinCode')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('shippingPinCode')?.hasError('required')">
@@ -245,7 +245,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Payment Terms</label>
+              <label for="">Payment Terms <span class="text-danger" *ngIf="currentRequiredFields.includes('paymentTerms')">*</span></label>
               <input type="text" class="input-field" formControlName="paymentTerms" />
             </div>
           </div>
@@ -257,7 +257,7 @@
       </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Currency <span class="text-danger">*</span> </label>
+              <label for="">Currency <span class="text-danger" *ngIf="currentRequiredFields.includes('currency')">*</span> </label>
 
               <!-- Readonly ng-select -->
               <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
@@ -284,7 +284,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Contact Person Name</label>
+              <label for="">Contact Person Name <span class="text-danger" *ngIf="currentRequiredFields.includes('contactPersonName')">*</span></label>
               <input type="text" class="input-field" formControlName="contactPersonName" />
               <div *ngIf="vendorForm.get('contactPersonName')?.invalid && vendorForm.get('contactPersonName')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('contactPersonName')?.hasError('required')">
@@ -295,14 +295,14 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Designation</label>
+              <label for="">Designation <span class="text-danger" *ngIf="currentRequiredFields.includes('designation')">*</span></label>
               <input type="text" class="input-field" formControlName="designation" />
             </div>
           </div>
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Email 1</label>
+              <label for="">Email 1 <span class="text-danger" *ngIf="currentRequiredFields.includes('email1')">*</span></label>
               <input type="email" class="input-field" formControlName="email1" />
               <div *ngIf="vendorForm.get('email1')?.invalid && vendorForm.get('email1')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('email1')?.hasError('email')">
@@ -314,7 +314,7 @@
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Email 2</label>
+              <label for="">Email 2 <span class="text-danger" *ngIf="currentRequiredFields.includes('email2')">*</span></label>
               <input type="text" class="input-field" formControlName="email2" />
               <div *ngIf="vendorForm.get('email2')?.invalid && vendorForm.get('email2')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('email2')?.hasError('email')">
@@ -325,7 +325,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Country Code <span class="text-danger">*</span></label>
+              <label for="">Country Code <span class="text-danger" *ngIf="currentRequiredFields.includes('countryCode')">*</span></label>
               <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
               <ng-select class="input-field" formControlName="countryCode" [disabled]="isBillingCountryDisabled">
                 <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
@@ -336,7 +336,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Mobile No</label>
+              <label for="">Mobile No <span class="text-danger" *ngIf="currentRequiredFields.includes('phoneMobileNo')">*</span></label>
               <input type="text" class="input-field" formControlName="phoneMobileNo" pattern="[0-9]*" inputmode="numeric" />
               <div *ngIf="vendorForm.get('phoneMobileNo')?.invalid && vendorForm.get('phoneMobileNo')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('phoneMobileNo')?.hasError('required')">
@@ -357,20 +357,20 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Name <span class="text-danger">*</span></label>
+              <label for="">Bank Name <span class="text-danger" *ngIf="currentRequiredFields.includes('bankName')">*</span></label>
               <input type="text" class="input-field" formControlName="bankName" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Account Holder Name <span class="text-danger">*</span></label>
+              <label for="">Account Holder Name <span class="text-danger" *ngIf="currentRequiredFields.includes('accountHolderName')">*</span></label>
               <input type="text" class="input-field" formControlName="accountHolderName" />
 
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Account Number <span class="text-danger">*</span></label>
+              <label for="">Account Number <span class="text-danger" *ngIf="currentRequiredFields.includes('accountNumber')">*</span></label>
               <input type="text" class="input-field" formControlName="accountNumber" />
               <div *ngIf="vendorForm.get('accountNumber')?.invalid && vendorForm.get('accountNumber')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('accountNumber')?.hasError('required')">
@@ -384,7 +384,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Confirm Account Number <span class="text-danger">*</span></label>
+              <label for="">Confirm Account Number <span class="text-danger" *ngIf="currentRequiredFields.includes('confirmAccountNumber')">*</span></label>
               <input type="text" class="input-field" formControlName="confirmAccountNumber" />
               <small class="text-danger"
                 *ngIf="vendorForm.get('confirmAccountNumber')?.hasError('required') && vendorForm.get('confirmAccountNumber')?.touched">
@@ -398,7 +398,7 @@
           </div>
           <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
             <div class="custom-form-input">
-              <label for="">IFSC Code <span class="text-danger">*</span></label>
+              <label for="">IFSC Code <span class="text-danger" *ngIf="currentRequiredFields.includes('ifscCode')">*</span></label>
               <input type="text" class="input-field" formControlName="ifscCode" />
               <div *ngIf="vendorForm.get('ifscCode')?.invalid && vendorForm.get('ifscCode')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('ifscCode')?.hasError('pattern')">
@@ -409,25 +409,25 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Address Line 1</label>
+              <label for="">Bank Address Line 1 <span class="text-danger" *ngIf="currentRequiredFields.includes('bankAddressLine1')">*</span></label>
               <input type="text" class="input-field" formControlName="bankAddressLine1" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Address Line 2</label>
+              <label for="">Bank Address Line 2 <span class="text-danger" *ngIf="currentRequiredFields.includes('bankAddressLine2')">*</span></label>
               <input type="text" class="input-field" formControlName="bankAddressLine2" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3" *ngIf="IfscInput">
             <div class="custom-form-input">
-              <label for="">Branch</label>
+              <label for="">Branch <span class="text-danger" *ngIf="currentRequiredFields.includes('branch')">*</span></label>
               <input type="text" class="input-field" formControlName="branch" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Country </label>
+              <label for="">Bank Country <span class="text-danger" *ngIf="currentRequiredFields.includes('bankCountry')">*</span></label>
               <ng-select class="input-field" formControlName="bankCountry" [disabled]="isBillingCountryDisabled">
                 <ng-option *ngFor="let country of countryList" [value]="country.countryName">
                   {{ country.countryName }}
@@ -437,19 +437,19 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank City</label>
+              <label for="">Bank City <span class="text-danger" *ngIf="currentRequiredFields.includes('bankCity')">*</span></label>
               <input type="text" class="input-field" formControlName="bankCity" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank State</label>
+              <label for="">Bank State <span class="text-danger" *ngIf="currentRequiredFields.includes('bankState')">*</span></label>
               <input type="text" class="input-field" formControlName="bankState" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Pin Code </label>
+              <label for="">Bank Pin Code <span class="text-danger" *ngIf="currentRequiredFields.includes('bankPinCode')">*</span> </label>
               <input type="text" class="input-field" formControlName="bankPinCode" />
               <small class="text-danger" *ngIf="vendorForm.get('bankPinCode')?.hasError('pattern')">
                 Invalid Pin Code.
@@ -464,7 +464,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="msmeRegistered">MSME Registered <span class="text-danger">*</span></label>
+              <label for="msmeRegistered">MSME Registered <span class="text-danger" *ngIf="currentRequiredFields.includes('msmeRegistered')">*</span></label>
               <select class="input-field" formControlName="msmeRegistered">
                 <option [ngValue]="true">Yes</option>
                 <option [ngValue]="false">No</option>
@@ -473,7 +473,7 @@
           </div>
           <div *ngIf="!isMsmeTypeHidden" class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">MSME Type</label>
+              <label for="">MSME Type <span class="text-danger" *ngIf="currentRequiredFields.includes('msmeType')">*</span></label>
               <select class="input-field" formControlName="msmeType" (change)="onMsmeTypeChange($event)">
                 <option value="">Select MSME Type</option>
                 <option value="MICRO">MICRO</option>
@@ -490,7 +490,7 @@
 
           <div *ngIf="msmeTypeSelected" class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">MSME No</label>
+              <label for="">MSME No <span class="text-danger" *ngIf="currentRequiredFields.includes('msmeNo')">*</span></label>
               <input type="text" class="input-field" formControlName="msmeNo" />
               <div *ngIf="vendorForm.get('msmeNo')?.invalid && vendorForm.get('msmeNo')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('msmeNo')?.hasError('required')">
@@ -504,7 +504,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">PAN </label>
+              <label for="">PAN  <span class="text-danger" *ngIf="currentRequiredFields.includes('pan')">*</span></label>
               <input type="text" class="input-field" formControlName="pan" />
               <div *ngIf="vendorForm.get('pan')?.invalid && vendorForm.get('pan')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('pan')?.hasError('required')">
@@ -518,7 +518,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">GST Treatment <span class="text-danger">*</span></label>
+              <label for="">GST Treatment <span class="text-danger" *ngIf="currentRequiredFields.includes('gstTreatment')">*</span></label>
               <select class="input-field" formControlName="gstTreatment" (change)="onGSTTreatmentChange($event)">
                 <option value="">-- Select --</option>
                 <option value="Registered">Registered</option>
@@ -535,7 +535,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">GST No</label>
+              <label for="">GST No <span class="text-danger" *ngIf="currentRequiredFields.includes('gst')">*</span></label>
               <input type="text" class="input-field" formControlName="gst" />
               <div *ngIf="vendorForm.get('gst')?.invalid && vendorForm.get('gst')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('gst')?.hasError('required')">
@@ -554,33 +554,33 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="msmeRegistered">IBAN</label>
+              <label for="iban">IBAN <span class="text-danger" *ngIf="currentRequiredFields.includes('iban')">*</span></label>
               <input type="text" class="input-field" formControlName="iban" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Swift Code</label>
+              <label for="swiftCode">Swift Code <span class="text-danger" *ngIf="currentRequiredFields.includes('swiftCode')">*</span></label>
               <input type="text" class="input-field" formControlName="swiftCode" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="msmeRegistered">Sort Code</label>
+              <label for="sortCode">Sort Code <span class="text-danger" *ngIf="currentRequiredFields.includes('sortCode')">*</span></label>
               <input type="text" class="input-field" formControlName="sortCode" />
             </div>
           </div>
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="msmeRegistered">Routing No</label>
+              <label for="routingNo">Routing No <span class="text-danger" *ngIf="currentRequiredFields.includes('routingNo')">*</span></label>
               <input type="text" class="input-field" formControlName="routingNo" />
             </div>
           </div>
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="fCTCCharges">FC TC Charges</label>
+              <label for="fCTCCharges">FC TC Charges <span class="text-danger" *ngIf="currentRequiredFields.includes('fCTCCharges')">*</span></label>
               <select class="input-field" formControlName="fCTCCharges">
                 <option value="">-- Select --</option>
                 <option value="EIP">EIP</option>
@@ -592,7 +592,7 @@
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="msmeRegistered">Compl Doc Year</label>
+              <label for="complDocyear">Compl Doc Year <span class="text-danger" *ngIf="currentRequiredFields.includes('iban')">*</span></label>
               <input type="text" class="input-field" formControlName="complDocyear" />
             </div>
           </div>
@@ -604,7 +604,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input" *ngIf="vendorId">
-              <label for="">Status <span class="text-danger">*</span></label>
+              <label for="">Status <span class="text-danger" *ngIf="currentRequiredFields.includes('status')">*</span></label>
               <select name="" id="" formControlName="status">
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>

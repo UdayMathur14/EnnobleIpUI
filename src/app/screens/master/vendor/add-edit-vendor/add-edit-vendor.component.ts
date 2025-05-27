@@ -31,6 +31,56 @@ export class AddEditVendorComponent implements OnInit {
   msmeTypeSelected = false;
   isMsmeTypeHidden = false;
   showSwiftfield: boolean = true;
+
+  requiredFieldsForDOM = [
+    'vendorType',
+    'vendorName',
+    'billingAddressLine1',
+    'billingCity',
+    'billingState',
+    'billingCountry',
+    'billingPinCode',
+    'shippingAddressLine1',
+    'shippingCity',
+    'shippingState',
+    'shippingCountry',
+    'shippingPinCode',
+    'gstTreatment',
+    'msmeRegistered',
+    'currency',
+    'bankName',
+    'accountHolderName',
+    'accountNumber',
+    'confirmAccountNumber',
+    'ifscCode',
+  ];
+
+  requiredFieldsForVIM = [
+    'vendorType',
+    'vendorName',
+    'billingAddressLine1',
+    'billingCity',
+    'billingCountry',
+    'billingPinCode',
+    'shippingAddressLine1',
+    'shippingCity',
+    'shippingCountry',
+    'shippingPinCode',
+    'gstTreatment',
+    'msmeRegistered',
+    'currency',
+    'bankName',
+    'accountHolderName',
+    'accountNumber',
+    'confirmAccountNumber',
+    'bankAddressLine1',
+    'bankCity',
+    'bankPinCode',
+    'bankCountry',
+  ];
+
+  currentRequiredFields: string[] = [];
+
   vendorForm = new FormGroup({
     vendorType: new FormControl('', Validators.required),
     vendorCode: new FormControl(''),
@@ -133,6 +183,24 @@ export class AddEditVendorComponent implements OnInit {
       if (!value) {
         this.vendorForm.get('msmeType')?.reset();
       }
+      if (value === true) {
+        this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
+
+        // ✅ Add to requiredFieldsForDOM
+        if (!this.requiredFieldsForDOM.includes('msmeType')) {
+          this.requiredFieldsForDOM.push('msmeType');
+        }
+      } else {
+        this.vendorForm.get('msmeType')?.clearValidators();
+        this.vendorForm.get('msmeType')?.reset();
+
+        // ❌ Remove from requiredFieldsForDOM
+        this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+          (f) => f !== 'msmeType'
+        );
+      }
+
+      this.vendorForm.get('msmeType')?.updateValueAndValidity();
     });
 
     //if true then set the validators else remove it
@@ -236,9 +304,15 @@ export class AddEditVendorComponent implements OnInit {
     ) {
       this.msmeTypeSelected = true;
       this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
+      if (!this.requiredFieldsForDOM.includes('msmeNo')) {
+        this.requiredFieldsForDOM.push('msmeNo');
+      }
     } else {
       this.msmeTypeSelected = false;
       this.vendorForm.get('msmeNo')?.clearValidators(); // If MSME Type is cleared, MSME No is not required
+      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+        (f) => f !== 'msmeNo'
+      );
     }
 
     this.vendorForm.get('msmeNo')?.updateValueAndValidity();
@@ -251,7 +325,13 @@ export class AddEditVendorComponent implements OnInit {
     if (selectedGSTTreatment === 'Unregistered') {
       // Make GST optional if Unregistered
       this.vendorForm.get('gst')?.clearValidators();
+      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+        (f) => f !== 'gst'
+      );
     } else {
+      if (!this.requiredFieldsForDOM.includes('gst')) {
+        this.requiredFieldsForDOM.push('gst');
+      }
       // Make GST required for other cases
       this.vendorForm.get('gst')?.setValidators([Validators.required]);
     }
@@ -265,6 +345,7 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorType = selectedType;
 
     if (this.vendorType === 'EIPVIMP') {
+      this.currentRequiredFields = this.requiredFieldsForVIM;
       this.showComplianceTab = false;
       this.IfscInput = false;
       this.showExtraTab = true;
@@ -282,7 +363,9 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
       this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
 
-      this.vendorForm.get('bankAddressLine1')?.setValidators([Validators.required]);
+      this.vendorForm
+        .get('bankAddressLine1')
+        ?.setValidators([Validators.required]);
       this.vendorForm.get('bankAddressLine1')?.updateValueAndValidity();
 
       this.vendorForm.get('bankCity')?.setValidators([Validators.required]);
@@ -307,18 +390,20 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
 
       this.vendorForm.get('phoneMobileNo')?.clearValidators();
-      this.vendorForm.get('phoneMobileNo')?.setValidators([Validators.pattern('^[0-9]*$')]);
+      this.vendorForm
+        .get('phoneMobileNo')
+        ?.setValidators([Validators.pattern('^[0-9]*$')]);
       this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
 
       this.vendorForm.get('ifscCode')?.clearValidators();
       this.vendorForm.get('ifscCode')?.updateValueAndValidity();
 
-      this.vendorForm.get('accountNumber')?.setValidators([Validators.required]);
+      this.vendorForm
+        .get('accountNumber')
+        ?.setValidators([Validators.required]);
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
-
-
-
     } else {
+      this.currentRequiredFields = this.requiredFieldsForDOM;
       this.showComplianceTab = true;
       this.showExtraTab = false;
       this.IfscInput = true;
@@ -387,11 +472,7 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('bankCountry')?.disable();
       this.vendorForm.get('currency')?.disable();
       this.vendorForm.get('countryCode')?.disable();
-
-      this.isBillingCountryDisabled = true;
     } else {
-      this.vendorForm.patchValue({ billingCountry: null });
-      this.isBillingCountryDisabled = false;
       this.vendorForm.get('billingCountry')?.enable();
       this.vendorForm.get('shippingCountry')?.enable();
       this.vendorForm.get('bankCountry')?.enable();
@@ -596,12 +677,12 @@ export class AddEditVendorComponent implements OnInit {
 
     if (isChecked) {
       this.vendorForm.patchValue({
-        shippingAddressLine1: this.vendorForm.value.billingAddressLine1,
-        shippingAddressLine2: this.vendorForm.value.billingAddressLine2,
-        shippingCountry: this.vendorForm.value.billingCountry,
-        shippingCity: this.vendorForm.value.billingCity,
-        shippingState: this.vendorForm.value.billingState,
-        shippingPinCode: this.vendorForm.value.billingPinCode,
+        shippingAddressLine1: this.vendorForm.get('billingAddressLine1')?.value,
+        shippingAddressLine2: this.vendorForm.get('billingAddressLine2')?.value,
+        shippingCountry: this.vendorForm.get('billingCountry')?.value,
+        shippingCity: this.vendorForm.get('billingCity')?.value,
+        shippingState: this.vendorForm.get('billingState')?.value,
+        shippingPinCode: this.vendorForm.get('billingPinCode')?.value,
       });
 
       this.vendorForm.get('shippingAddressLine1')?.disable();
@@ -621,10 +702,10 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.patchValue({
         shippingAddressLine1: '',
         shippingAddressLine2: '',
-        shippingCountry: '',
         shippingCity: '',
         shippingState: '',
         shippingPinCode: '',
+        shippingCountry: '',
       });
     }
   }
