@@ -113,7 +113,7 @@ export class AddEditVendorComponent implements OnInit {
       ),
     ]),
     gstTreatment: new FormControl(''),
-    msmeRegistered: new FormControl(true),
+    msmeRegistered: new FormControl(''),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
 
@@ -175,41 +175,31 @@ export class AddEditVendorComponent implements OnInit {
     this.getVendorData(this.queryData); // fetch the full vendor data
     this.AllcountryList();
 
-    //hide the type when selected no
     this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
-      this.isMsmeTypeHidden = !value; // hide if value is false (No)
-      if (!value) {
-        this.vendorForm.get('msmeType')?.reset();
-      }
-      if (value === true) {
-        this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
+      const isTrue = value === 'true'; // convert string to boolean
 
-        // ✅ Add to requiredFieldsForDOM
-        if (!this.requiredFieldsForDOM.includes('msmeType')) {
-          this.requiredFieldsForDOM.push('msmeType');
-        }
-      } else {
-        this.vendorForm.get('msmeType')?.clearValidators();
-        this.vendorForm.get('msmeType')?.reset();
+      this.isMsmeTypeHidden = !isTrue;
+
+      const msmeTypeControl = this.vendorForm.get('msmeType');
+
+      if (!isTrue) {
+        msmeTypeControl?.reset();
+        msmeTypeControl?.clearValidators();
 
         // ❌ Remove from requiredFieldsForDOM
         this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
           (f) => f !== 'msmeType'
         );
-      }
-
-      this.vendorForm.get('msmeType')?.updateValueAndValidity();
-    });
-
-    //if true then set the validators else remove it
-    this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
-      if (value === true) {
-        this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
       } else {
-        this.vendorForm.get('msmeType')?.clearValidators();
-        this.vendorForm.get('msmeType')?.reset();
+        msmeTypeControl?.setValidators([Validators.required]);
+
+        // ✅ Add to requiredFieldsForDOM if not present
+        if (!this.requiredFieldsForDOM.includes('msmeType')) {
+          this.requiredFieldsForDOM.push('msmeType');
+        }
       }
-      this.vendorForm.get('msmeType')?.updateValueAndValidity();
+
+      msmeTypeControl?.updateValueAndValidity();
     });
 
     //check that account no matches with confirm account number
@@ -231,12 +221,6 @@ export class AddEditVendorComponent implements OnInit {
         this.vendorForm.get('confirmAccountNumber')?.setErrors(null);
       }
     });
-
-     if (this.vendorId > 0) {
-      const fakeEvent = { target: { value: this.vendorData } };
-      this.onVendorTypeChange(fakeEvent);
-      this.vendorForm.get('vendorType')?.disable();
-    }
     // if (this.vendorId > 0) {
     //   const vendorType = this.vendorForm.get('vendorType');
     //   this.statusTab = true;
@@ -336,9 +320,7 @@ export class AddEditVendorComponent implements OnInit {
     if (selectedGSTTreatment === 'Unregistered') {
       // Make GST optional if Unregistered
       this.vendorForm.get('gst')?.clearValidators();
-       this.vendorForm
-        .get('gst')
-        ?.setValidators( gstPattern);
+      this.vendorForm.get('gst')?.setValidators(gstPattern);
 
       this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
         (f) => f !== 'gst'
@@ -514,6 +496,11 @@ export class AddEditVendorComponent implements OnInit {
       (response: any) => {
         this.vendorData = response;
         this.patchVendorData(response);
+        const selectedType = this.vendorForm.get('vendorType')?.value;
+        if (selectedType) {
+          this.onVendorTypeChange({ target: { value: selectedType } });
+          this.vendorForm.get('vendorType')?.disable();
+        }
         this.loadSpinner = false;
       },
       (error) => {
