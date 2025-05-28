@@ -87,7 +87,7 @@ export class AddEditVendorComponent implements OnInit {
     billingAddressLine1: new FormControl('', Validators.required),
     billingAddressLine2: new FormControl(''),
     billingCity: new FormControl('', Validators.required),
-    billingState: new FormControl('', ),
+    billingState: new FormControl(''),
     billingCountry: new FormControl('', Validators.required),
     billingPinCode: new FormControl('', [
       Validators.required,
@@ -112,8 +112,8 @@ export class AddEditVendorComponent implements OnInit {
         /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
       ),
     ]),
-    gstTreatment: new FormControl('', ),
-    msmeRegistered: new FormControl(true, ),
+    gstTreatment: new FormControl(''),
+    msmeRegistered: new FormControl(true),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
 
@@ -121,7 +121,7 @@ export class AddEditVendorComponent implements OnInit {
     designation: new FormControl(''),
     email1: new FormControl('', [Validators.email]),
     email2: new FormControl('', [Validators.email]),
-    countryCode: new FormControl('',),
+    countryCode: new FormControl(''),
     phoneMobileNo: new FormControl('', [
       Validators.pattern('^[0-9]*$'), // allows only digits (0-9)
     ]),
@@ -232,46 +232,55 @@ export class AddEditVendorComponent implements OnInit {
       }
     });
 
-    if (this.vendorId > 0) {
-      const vendorType = this.vendorForm.get('vendorType')?.value;
-      this.statusTab = true;
-      this.showSwiftfield = false;
+     if (this.vendorId > 0) {
+      const fakeEvent = { target: { value: this.vendorData } };
+      this.onVendorTypeChange(fakeEvent);
       this.vendorForm.get('vendorType')?.disable();
-
-      if (vendorType === 'EIPVDOM') {
-        this.isBillingCountryDisabled = true;
-        this.showSwiftfield = false;
-      } else {
-        this.showComplianceTab = false;
-        this.showSwiftfield = true;
-        this.IfscInput = false;
-        this.showExtraTab = true;
-        this.vendorForm
-          .get('billingPinCode')
-          ?.setValidators(Validators.required);
-        this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
-        this.vendorForm
-          .get('shippingPinCode')
-          ?.setValidators(Validators.required);
-        this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
-        this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
-        this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-        this.vendorForm.get('pan')?.clearValidators();
-        this.vendorForm.get('pan')?.updateValueAndValidity();
-        this.vendorForm.get('msmeRegistered')?.clearValidators();
-        this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
-        this.vendorForm.get('phoneMobileNo')?.clearValidators();
-        this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
-        this.vendorForm.get('ifscCode')?.clearValidators();
-        this.vendorForm.get('ifscCode')?.updateValueAndValidity();
-        this.vendorForm.get('accountNumber')?.clearValidators();
-        this.vendorForm
-          .get('accountNumber')
-          ?.setValidators(Validators.required);
-      }
     }
+    // if (this.vendorId > 0) {
+    //   const vendorType = this.vendorForm.get('vendorType');
+    //   this.statusTab = true;
+    //   this.vendorForm.get('vendorType')?.disable();
+
+    //   if (vendorType === 'EIPVDOM') {
+    //     this.isBillingCountryDisabled = true;
+    //     this.showSwiftfield = false;
+    //     this.showExtraTab = false;
+    //     this.showComplianceTab = true;
+    //   } else {
+    //     this.showComplianceTab = false;
+    //     this.showSwiftfield = true;
+    //     this.IfscInput = false;
+    //     this.showExtraTab = true;
+    //     this.vendorForm
+    //       .get('billingPinCode')
+    //       ?.setValidators(Validators.required);
+    //     this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
+    //     this.vendorForm
+    //       .get('shippingPinCode')
+    //       ?.setValidators(Validators.required);
+    //     this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
+    //     this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
+    //     this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
+    //     this.vendorForm.get('pan')?.clearValidators();
+    //     this.vendorForm.get('pan')?.updateValueAndValidity();
+    //     this.vendorForm.get('msmeRegistered')?.clearValidators();
+    //     this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+    //     this.vendorForm.get('phoneMobileNo')?.clearValidators();
+    //     this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
+    //     this.vendorForm.get('ifscCode')?.clearValidators();
+    //     this.vendorForm.get('ifscCode')?.updateValueAndValidity();
+    //     this.vendorForm.get('accountNumber')?.clearValidators();
+    //     this.vendorForm
+    //       .get('accountNumber')
+    //       ?.setValidators(Validators.required);
+    //   }
+    // }
     if (this.vendorId == 0) {
       this.statusTab = false;
+    }
+    if (this.vendorId > 0) {
+      this.statusTab = true;
     }
   }
 
@@ -319,10 +328,18 @@ export class AddEditVendorComponent implements OnInit {
   onGSTTreatmentChange(event: any): void {
     const selectedGSTTreatment = event.target.value;
 
+    const gstPattern = Validators.pattern(
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+    );
+
     // Update the GST field validation based on selected value
     if (selectedGSTTreatment === 'Unregistered') {
       // Make GST optional if Unregistered
       this.vendorForm.get('gst')?.clearValidators();
+       this.vendorForm
+        .get('gst')
+        ?.setValidators( gstPattern);
+
       this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
         (f) => f !== 'gst'
       );
@@ -332,7 +349,9 @@ export class AddEditVendorComponent implements OnInit {
         this.requiredFieldsForDOM.push('gst');
       }
       // Make GST required for other cases
-      this.vendorForm.get('gst')?.setValidators([Validators.required]);
+      this.vendorForm
+        .get('gst')
+        ?.setValidators([Validators.required, gstPattern]);
       if (this.vendorType === 'EIPVDOM') {
         this.currentRequiredFields = [...this.requiredFieldsForDOM];
       }
@@ -401,8 +420,6 @@ export class AddEditVendorComponent implements OnInit {
         .get('accountNumber')
         ?.setValidators([Validators.required]);
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
-
-
     } else {
       this.currentRequiredFields = this.requiredFieldsForDOM;
       this.showComplianceTab = true;
@@ -495,6 +512,7 @@ export class AddEditVendorComponent implements OnInit {
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe(
       (response: any) => {
+        this.vendorData = response;
         this.patchVendorData(response);
         this.loadSpinner = false;
       },
