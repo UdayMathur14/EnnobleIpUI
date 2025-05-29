@@ -83,7 +83,7 @@
                   formControlName="dueDateAsPerInvoice" [maxDate]="today"
                   (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)" ngbDatepicker #dueDt="ngbDatepicker"
                   readonly />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDt.toggle()" type="button">
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fillingDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
               </div>
@@ -140,7 +140,15 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Filling Date </label>
-              <input formControlName="applicationNumber" type="text" class="input-field" />
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fillingDate" [autoClose]="true"
+                  formControlName="fillingDate" [maxDate]="today" (dateSelect)="onDateSelect('fillingDate', $event)"
+                  ngbDatepicker #fillingDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar6" (click)="fillingDate.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -183,175 +191,11 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Currency Name</label>
+              <label for="">Currency</label>
               <ng-select formControlName="currencyPID" class="input-field" placeholder="Select Currency">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
                 </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div id="Tab3" class="tab-pane fade show ">
-        <div class="row">
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Payment Date</label>
-              <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
-              <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
-                  formControlName="paymentDate" [maxDate]="today" (dateSelect)="onDateSelect('paymentDate', $event)"
-                  ngbDatepicker #paymentDate="ngbDatepicker" readonly />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="paymentDate.toggle()" type="button">
-                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Bank Name</label>
-              <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
-                <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.bankName">
-                  {{ bank.bankName }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">OWRM No</label>
-              <input formControlName="owrmNo" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Currency</label>
-              <input formControlName="owrmNo" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Payment Amount</label>
-              <input formControlName="owrmNo" type="text" class="input-field" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="Tab4" class="tab-pane fade show ">
-        <div class="row">
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Customer PO Number</label>
-              <input formControlName="customerPONo" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">PO Date</label>
-              <!-- <input formControlName="poDate" type="text" class="input-field" /> -->
-              <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="poDate" [autoClose]="true"
-                  formControlName="poDate" [maxDate]="today" (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
-                  #poDate="ngbDatepicker" readonly />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="poDate.toggle()" type="button">
-                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">PO Value Inclusive Taxes</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Professional Fee Invoice No</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Currency</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Professional Fee Invoice Amount</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Govt Fees Invoice No</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Official Fee Invoice Amount </label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Our Invoice No</label>
-              <input formControlName="ourInvoiceNo" type="text" class="input-field" />
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Invoice Amount</label>
-              <input formControlName="invoiceAmt" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Govt Fee Invoice No</label>
-              <input formControlName="govtFeeInvoiceNo" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Official Fee Inv Amount</label>
-              <input formControlName="officialFeeInvAmount" type="text" class="input-field"
-                (keypress)="validateNo1($event)" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Estimate No Prof Fee</label>
-              <input formControlName="estimateNoProfFee" type="text" class="input-field"
-                (keypress)="validateNo1($event)" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Estimate No Govt Fee</label>
-              <input formControlName="estimateNoProfFee" type="text" class="input-field"
-                (keypress)="validateNo1($event)" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Remarks</label>
-              <input formControlName="remarks" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Posted In Tally</label>
-              <ng-select formControlName="postedInTally" class="input-field">
-                <ng-option [value]="'Yes'">Yes</ng-option>
-                <ng-option [value]="'No'">No</ng-option>
               </ng-select>
             </div>
           </div>
@@ -489,6 +333,183 @@
           </div>
         </div>
 
+      </div>
+
+      <div id="Tab3" class="tab-pane fade show ">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Payment Date</label>
+              <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
+                  formControlName="paymentDate" [maxDate]="today" (dateSelect)="onDateSelect('paymentDate', $event)"
+                  ngbDatepicker #paymentDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="paymentDate.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Bank Name</label>
+              <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
+                <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.bankName">
+                  {{ bank.bankName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">OWRM No 1</label>
+              <input formControlName="owrmNo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">OWRM No 2</label>
+              <input formControlName="owrmNo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Currency</label>
+              <ng-select formControlName="currencyPID" class="input-field" placeholder="Select Currency">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Payment Amount</label>
+              <input formControlName="owrmNo" type="text" class="input-field" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="Tab4" class="tab-pane fade show ">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Customer PO Number</label>
+              <input formControlName="customerPONo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">PO Date</label>
+              <!-- <input formControlName="poDate" type="text" class="input-field" /> -->
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="poDate" [autoClose]="true"
+                  formControlName="poDate" [maxDate]="today" (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
+                  #poDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="poDate.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">PO Value Inclusive Taxes</label>
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Professional Fee Invoice No</label>
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Currency</label>
+              <ng-select formControlName="currencyPID" class="input-field" placeholder="Select Currency">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Professional Fee Invoice Amount</label>
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Govt Fees Invoice No</label>
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Official Fee Invoice Amount </label>
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Our Invoice No</label>
+              <input formControlName="ourInvoiceNo" type="text" class="input-field" />
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Invoice Amount</label>
+              <input formControlName="invoiceAmt" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Govt Fee Invoice No</label>
+              <input formControlName="govtFeeInvoiceNo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Official Fee Inv Amount</label>
+              <input formControlName="officialFeeInvAmount" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Estimate No Prof Fee</label>
+              <input formControlName="estimateNoProfFee" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Estimate No Govt Fee</label>
+              <input formControlName="estimateNoProfFee" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Remarks</label>
+              <input formControlName="remarks" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Posted In Tally</label>
+              <ng-select formControlName="postedInTally" class="input-field">
+                <ng-option [value]="'Yes'">Yes</ng-option>
+                <ng-option [value]="'No'">No</ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
