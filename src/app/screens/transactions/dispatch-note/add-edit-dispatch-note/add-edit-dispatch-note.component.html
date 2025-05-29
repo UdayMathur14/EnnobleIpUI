@@ -328,7 +328,14 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Estimate No ProfFee</label>
+              <label for="">Estimate No Prof Fee</label>
+              <input formControlName="estimateNoProfFee" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Estimate No Govt Fee</label>
               <input formControlName="estimateNoProfFee" type="text" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
