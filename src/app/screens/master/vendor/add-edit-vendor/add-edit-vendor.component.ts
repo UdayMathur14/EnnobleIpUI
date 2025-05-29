@@ -28,8 +28,6 @@ export class AddEditVendorComponent implements OnInit {
   statusValue: string = '';
   isBillingCountryDisabled: boolean = false;
   IfscInput: boolean = true;
-  msmeTypeSelected = false;
-  isMsmeTypeHidden = false;
   showSwiftfield: boolean = true;
 
   requiredFieldsForDOM = [
@@ -112,7 +110,7 @@ export class AddEditVendorComponent implements OnInit {
         /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
       ),
     ]),
-    gstTreatment: new FormControl(''),
+    gstTreatment: new FormControl('',Validators.required),
     msmeRegistered: new FormControl(''),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
@@ -175,32 +173,32 @@ export class AddEditVendorComponent implements OnInit {
     this.getVendorData(this.queryData); // fetch the full vendor data
     this.AllcountryList();
 
-    this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
-      const isTrue = value === 'true'; // convert string to boolean
+    // this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
+    //   const isTrue = value === 'true'; // convert string to boolean
 
-      this.isMsmeTypeHidden = !isTrue;
+    //   this.isMsmeTypeHidden = !isTrue;
 
-      const msmeTypeControl = this.vendorForm.get('msmeType');
+    //   const msmeTypeControl = this.vendorForm.get('msmeType');
 
-      if (!isTrue) {
-        msmeTypeControl?.reset();
-        msmeTypeControl?.clearValidators();
+    //   if (!isTrue) {
+    //     msmeTypeControl?.reset();
+    //     msmeTypeControl?.clearValidators();
 
-        // ❌ Remove from requiredFieldsForDOM
-        this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
-          (f) => f !== 'msmeType'
-        );
-      } else {
-        msmeTypeControl?.setValidators([Validators.required]);
+    //     // ❌ Remove from requiredFieldsForDOM
+    //     this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+    //       (f) => f !== 'msmeType'
+    //     );
+    //   } else {
+    //     msmeTypeControl?.setValidators([Validators.required]);
 
-        // ✅ Add to requiredFieldsForDOM if not present
-        if (!this.requiredFieldsForDOM.includes('msmeType')) {
-          this.requiredFieldsForDOM.push('msmeType');
-        }
-      }
+    //     // ✅ Add to requiredFieldsForDOM if not present
+    //     if (!this.requiredFieldsForDOM.includes('msmeType')) {
+    //       this.requiredFieldsForDOM.push('msmeType');
+    //     }
+    //   }
 
-      msmeTypeControl?.updateValueAndValidity();
-    });
+    //   msmeTypeControl?.updateValueAndValidity();
+    // });
 
     //check that account no matches with confirm account number
     this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
@@ -284,30 +282,46 @@ export class AddEditVendorComponent implements OnInit {
     );
   }
 
-  onMsmeTypeChange(event: any) {
-    const selectedType = event.target.value;
 
-    // If MSME Type is selected, make MSME No required
-    if (
-      selectedType === 'MICRO' ||
-      selectedType === 'SMALL' ||
-      selectedType === 'MEDIUM'
-    ) {
-      this.msmeTypeSelected = true;
-      this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
+onMsmeRegisterChange() {
+  const value = this.vendorForm.get('msmeRegistered')?.value;
+  const isTrue = value === 'true'; // ✅ Compare as string
+
+  if (isTrue) {
+    this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
+    this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
+
+    if (!this.requiredFieldsForDOM.includes('msmeType')) {
+        this.requiredFieldsForDOM.push('msmeType');
+      }
       if (!this.requiredFieldsForDOM.includes('msmeNo')) {
         this.requiredFieldsForDOM.push('msmeNo');
       }
-    } else {
-      this.msmeTypeSelected = false;
-      this.vendorForm.get('msmeNo')?.clearValidators(); // If MSME Type is cleared, MSME No is not required
-      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+
+      this.currentRequiredFields = [...this.requiredFieldsForDOM];
+
+  } else {
+    this.vendorForm.get('msmeType')?.clearValidators();
+    this.vendorForm.get('msmeNo')?.clearValidators();
+
+    this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
         (f) => f !== 'msmeNo'
       );
-    }
 
-    this.vendorForm.get('msmeNo')?.updateValueAndValidity();
+      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+        (f) => f !== 'msmeType'
+      );
+
+ this.currentRequiredFields = [...this.requiredFieldsForDOM];
+    
   }
+
+  this.vendorForm.get('msmeType')?.updateValueAndValidity();
+  this.vendorForm.get('msmeNo')?.updateValueAndValidity();
+}
+
+
+
 
   onGSTTreatmentChange(event: any): void {
     const selectedGSTTreatment = event.target.value;
@@ -330,15 +344,11 @@ export class AddEditVendorComponent implements OnInit {
       if (!this.requiredFieldsForDOM.includes('gst')) {
         this.requiredFieldsForDOM.push('gst');
       }
-      // Make GST required for other cases
-      this.vendorForm
-        .get('gst')
-        ?.setValidators([Validators.required, gstPattern]);
-      if (this.vendorType === 'EIPVDOM') {
-        this.currentRequiredFields = [...this.requiredFieldsForDOM];
-      }
-    }
 
+      this.vendorForm.get('gst')?.setValidators([Validators.required]);
+      this.currentRequiredFields = [...this.requiredFieldsForDOM];
+
+    }
     // Revalidate the GST field
     this.vendorForm.get('gst')?.updateValueAndValidity();
   }
@@ -386,8 +396,14 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.get('shippingState')?.clearValidators();
       this.vendorForm.get('shippingState')?.updateValueAndValidity();
 
-      // this.vendorForm.get('msmeRegistered')?.clearValidators();
-      // this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+      this.vendorForm.get('msmeType')?.clearValidators();
+      this.vendorForm.get('msmeType')?.updateValueAndValidity();
+
+      this.vendorForm.get('msmeRegistered')?.clearValidators();
+      this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
+
+      this.vendorForm.get('msmeNo')?.clearValidators();
+      this.vendorForm.get('msmeNo')?.updateValueAndValidity();
 
       this.vendorForm.get('phoneMobileNo')?.clearValidators();
       this.vendorForm
