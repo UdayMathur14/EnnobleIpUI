@@ -111,9 +111,9 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Customer Name</label>
-              <select formControlName="customerID" class="input-field">
+              <select formControlName="customerId" class="input-field">
                 <option value="">Select Customer</option>
-                <option *ngFor="let customers of customersList" [value]="customers.customerCode">
+                <option *ngFor="let customers of customersList" [value]="customers.id">
                   {{ customers.customerName }}
                 </option>
               </select>
@@ -364,19 +364,19 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">OWRM No 1</label>
-              <input formControlName="owrmNo" type="text" class="input-field" />
+              <input formControlName="owrmNo1" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">OWRM No 2</label>
-              <input formControlName="owrmNo" type="text" class="input-field" />
+              <input formControlName="owrmNo2" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Currency</label>
-              <ng-select formControlName="currencyPID" class="input-field" placeholder="Select Currency">
+              <ng-select formControlName="currency2" class="input-field" placeholder="Select Currency">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
                 </ng-option>
@@ -386,7 +386,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Payment Amount</label>
-              <input formControlName="owrmNo" type="text" class="input-field" />
+              <input formControlName="paymentAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
         </div>
@@ -417,19 +417,19 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">PO Value Inclusive Taxes</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Professional Fee Invoice No</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+              <input formControlName="professionalFeeInvoiceNo" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Currency</label>
-              <ng-select formControlName="currencyPID" class="input-field" placeholder="Select Currency">
+              <ng-select formControlName="currency3" class="input-field" placeholder="Select Currency">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
                 </ng-option>
@@ -439,19 +439,19 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Professional Fee Invoice Amount</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+              <input formControlName="professionalFeeInvoiceAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Govt Fees Invoice No</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+              <input formControlName="govtFeesInvoiceNo" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Official Fee Invoice Amount </label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" />
+              <input formControlName="officialFeeInvoiceAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -464,7 +464,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Invoice Amount</label>
-              <input formControlName="invoiceAmt" type="text" class="input-field" />
+              <input formControlName="invoiceAmount" type="text" class="input-field"  (keypress)="validateNo1($event)"/>
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -476,7 +476,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Official Fee Inv Amount</label>
-              <input formControlName="officialFeeInvAmount" type="text" class="input-field"
+              <input formControlName="officialFeeInvoiceAmount" type="text" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
@@ -490,7 +490,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Estimate No Govt Fee</label>
-              <input formControlName="estimateNoProfFee" type="text" class="input-field"
+              <input formControlName="estimateNoGovtFee" type="text" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
@@ -511,7 +511,7 @@
           </div>
         </div>
       </div>
-
+      
     </div>
   </form>
 </div>

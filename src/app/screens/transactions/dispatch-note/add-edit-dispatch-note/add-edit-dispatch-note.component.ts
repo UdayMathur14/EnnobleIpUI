@@ -73,14 +73,12 @@ export class AddEditDispatchNoteComponent {
     // this.createFeesGroup();
     this.initForm();
 
-    
-
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
 
     this.partDetails.valueChanges.subscribe(() => {
-        this.calculateTotals();
+      this.calculateTotals();
     });
 
     this.getAllcountyListInit();
@@ -97,6 +95,7 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
+      //tab1
       vendorId: ['', Validators.required], // Maps to [VendorID]
       invoiceDate: ['', Validators.required], // Maps to [InvoiceDate]
       fy: [''], // Maps to [FY]
@@ -104,10 +103,11 @@ export class AddEditDispatchNoteComponent {
       dueDateAsPerInvoice: [''], // Maps to [DueDateAsPerInvoice]
       creditDaysAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
       dueDateAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
-      customerID: [''], // Maps to [CustomerID]
+      customerId: [''], // Maps to [CustomerID]
       description: [''], // Maps to [Description]
       title: [''], // Maps to [Title]
       applicationNumber: [''], // Maps to [ApplicationNumber]
+      fillingDate: [''],
       clientRefNo: [''], // Maps to [ClientRefNo]
       ourRefNo: [''], // Maps to [OurRefNo]
       officialFilingReceiptSupporting: [''], // Maps to [OfficialFilingReceiptSupporting]
@@ -119,44 +119,62 @@ export class AddEditDispatchNoteComponent {
       // discountAmt: [''], // Maps to [DiscountAmt]
       // discountCreditNoteAmt: [''],
       // TotalAmt: [''], // Maps to [DiscountCreditNoteAmt]
+
+      //tab2
+
       paymentDate: [''], // Maps to [PaymentDate]
       bankID: [''], // Maps to [BankID]
       owrmNo: [''], // Maps to [OWRMNo]
-      customerPONo: [''], // Maps to [CustomerPONo]
+      owrmNo2: [''],
+      currency2: [''],
+      paymentAmount: [''], // Maps to [CustomerPONo]
+
+      //tab4
+      customerPONo: [''],
       poDate: [''], // Maps to [PODate]
-      poValueInclusiveTaxes: [''], // Maps to [POValueInclusiveTaxes]
+      poValueInclusiveTaxes: [''],
+      professionalFeeInvoiceNo: [''],
+      currency3: [''],
+      professionalFeeInvoiceAmount: [''],
+      govtFeesInvoiceNo: [''], // Maps to [POValueInclusiveTaxes]
       ourInvoiceNo: [''], // Maps to [OurInvoiceNo]
-      currencySID: [''], // Maps to [CurrencySID]
-      invoiceAmt: [''], // Maps to [InvoiceAmt]
+      invoiceAmount: [''], // Maps to [CurrencySID]
+
       govtFeeInvoiceNo: [''], // Maps to [GovtFeeInvoiceNo]
-      officialFeeInvAmount: [''], // Maps to [OfficialFeeInvAmount]
+      officialFeeInvoiceAmount: [''], // Maps to [OfficialFeeInvAmount]
       estimateNoProfFee: [''], // Maps to [EstimateNoProfFee]
       estimateNoGovtFee: [''], // Maps to [EstimateNoGovtFee]
       remarks: [''], // Maps to [Remarks]
       postedInTally: [''], // Maps to [PostedInTally]
-      status: ['', Validators.required],
+      status: [''],
+
       partdetails: this.fb.array([], Validators.required),
       professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
-      otherChargesAmt: [{ value: 0, disabled: true }], 
+      otherChargesAmt: [{ value: 0, disabled: true }],
 
       discountAmt: [0, [Validators.required]], // Initialize with 0, user enters
-  discountCreditNoteAmt: [0, [Validators.required]], // Initialize with 0, user enters
-  TotalAmt: [{ value: 0, disabled: true }],
+      discountCreditNoteAmt: [0, [Validators.required]], // Initialize with 0, user enters
+      TotalAmt: [{ value: 0, disabled: true }],
     });
-      this.partDetails.valueChanges.subscribe(() => {
-    this.calculateTotals();
-  });
 
-  // Subscribe to changes in discountAmt
-  this.addOrEditDispatchNoteFormGroup.get('discountAmt')?.valueChanges.subscribe(() => {
-    this.calculateTotals();
-  });
+    this.partDetails.valueChanges.subscribe(() => {
+      this.calculateTotals();
+    });
 
-  // Subscribe to changes in discountCreditNoteAmt
-  this.addOrEditDispatchNoteFormGroup.get('discountCreditNoteAmt')?.valueChanges.subscribe(() => {
-    this.calculateTotals();
-  });
+    // Subscribe to changes in discountAmt
+    this.addOrEditDispatchNoteFormGroup
+      .get('discountAmt')
+      ?.valueChanges.subscribe(() => {
+        this.calculateTotals();
+      });
+
+    // Subscribe to changes in discountCreditNoteAmt
+    this.addOrEditDispatchNoteFormGroup
+      .get('discountCreditNoteAmt')
+      ?.valueChanges.subscribe(() => {
+        this.calculateTotals();
+      });
   }
 
   onVendorSelect(selectedVendorCode: string) {
@@ -509,20 +527,17 @@ export class AddEditDispatchNoteComponent {
       remarks: [''],
     });
 
-    
     this.partDetails.push(detail);
-     detail.get('feeType')?.valueChanges.subscribe(() => this.calculateTotals());
-     detail.get('amount')?.valueChanges.subscribe(() => this.calculateTotals());
+    detail.get('feeType')?.valueChanges.subscribe(() => this.calculateTotals());
+    detail.get('amount')?.valueChanges.subscribe(() => this.calculateTotals());
 
     this.calculateTotals();
   }
-
 
   get partDetails(): FormArray {
     return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
   }
 
-  
   // Delete Row
   onDeletePartDetail(part: any, i: number) {
     this.loadSpinner = true;
@@ -536,6 +551,7 @@ export class AddEditDispatchNoteComponent {
     this.calculateTotals();
     this.loadSpinner = false; // remove corresponding subFee list
   }
+  
   updateSelectedParts(selectedPartNumbers: string[]) {
     this.selectedParts = selectedPartNumbers;
   }
@@ -545,7 +561,6 @@ export class AddEditDispatchNoteComponent {
     return target?.value || '';
   }
 
-  
   // On FeeType Change
   onFeeTypeSelect(feeType: string, index: number) {
     this.loadSpinner = true;
@@ -555,43 +570,57 @@ export class AddEditDispatchNoteComponent {
   }
 
   // In your component class
-calculateTotals() {
-  let professionalFeeTotal = 0;
-  let govtOrOfficialFeeTotal = 0;
-  let otherChargesTotal = 0;
+  calculateTotals() {
+    let professionalFeeTotal = 0;
+    let govtOrOfficialFeeTotal = 0;
+    let otherChargesTotal = 0;
 
-  this.partDetails.controls.forEach((group: AbstractControl) => {
-    const feeType = group.get('feeType')?.value;
-    const amount = parseFloat(group.get('amount')?.value) || 0; // Convert to number, default to 0 if invalid
+    this.partDetails.controls.forEach((group: AbstractControl) => {
+      const feeType = group.get('feeType')?.value;
+      const amount = parseFloat(group.get('amount')?.value) || 0; // Convert to number, default to 0 if invalid
 
-    switch (feeType) {
-      case 'Professional Fee':
-        professionalFeeTotal += amount;
-        break;
-      case 'Govt or Offical Fee':
-        govtOrOfficialFeeTotal += amount;
-        break;
-      case 'Other Charges':
-        otherChargesTotal += amount;
-        break;
-    }
-  });
+      switch (feeType) {
+        case 'Professional Fee':
+          professionalFeeTotal += amount;
+          break;
+        case 'Govt or Offical Fee':
+          govtOrOfficialFeeTotal += amount;
+          break;
+        case 'Other Charges':
+          otherChargesTotal += amount;
+          break;
+      }
+    });
 
-  this.addOrEditDispatchNoteFormGroup.get('professionalFeeAmt')?.patchValue(professionalFeeTotal.toFixed(2)); // Format to 2 decimal places
-  this.addOrEditDispatchNoteFormGroup.get('govtOrOfficialFeeAmt')?.patchValue(govtOrOfficialFeeTotal.toFixed(2));
-  this.addOrEditDispatchNoteFormGroup.get('otherChargesAmt')?.patchValue(otherChargesTotal.toFixed(2));
-   const discountAmt = parseFloat(this.addOrEditDispatchNoteFormGroup.get('discountAmt')?.value) || 0;
-  const discountCreditNoteAmt = parseFloat(this.addOrEditDispatchNoteFormGroup.get('discountCreditNoteAmt')?.value) || 0;
+    this.addOrEditDispatchNoteFormGroup
+      .get('professionalFeeAmt')
+      ?.patchValue(professionalFeeTotal.toFixed(2)); // Format to 2 decimal places
+    this.addOrEditDispatchNoteFormGroup
+      .get('govtOrOfficialFeeAmt')
+      ?.patchValue(govtOrOfficialFeeTotal.toFixed(2));
+    this.addOrEditDispatchNoteFormGroup
+      .get('otherChargesAmt')
+      ?.patchValue(otherChargesTotal.toFixed(2));
+    const discountAmt =
+      parseFloat(
+        this.addOrEditDispatchNoteFormGroup.get('discountAmt')?.value
+      ) || 0;
+    const discountCreditNoteAmt =
+      parseFloat(
+        this.addOrEditDispatchNoteFormGroup.get('discountCreditNoteAmt')?.value
+      ) || 0;
 
-  const totalCalculatedAmount =
-    professionalFeeTotal +
-    govtOrOfficialFeeTotal +
-    otherChargesTotal -
-    discountAmt -
-    discountCreditNoteAmt;
+    const totalCalculatedAmount =
+      professionalFeeTotal +
+      govtOrOfficialFeeTotal +
+      otherChargesTotal -
+      discountAmt -
+      discountCreditNoteAmt;
 
-    this.addOrEditDispatchNoteFormGroup.get('TotalAmt')?.patchValue(totalCalculatedAmount.toFixed(2));
-}
+    this.addOrEditDispatchNoteFormGroup
+      .get('TotalAmt')
+      ?.patchValue(totalCalculatedAmount.toFixed(2));
+  }
 
   // Show Language Conditionally
   showLanguageDropdown(index: number): boolean {
