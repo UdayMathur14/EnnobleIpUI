@@ -496,11 +496,13 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="msmeRegistered">MSME Registered <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('msmeRegistered')">*</span></label>
+              <label for="msmeRegistered">
+                MSME Registered
+                <span class="text-danger" *ngIf="currentRequiredFields.includes('msmeRegistered')">*</span>
+              </label>
               <select class="input-field" formControlName="msmeRegistered" (change)="onMsmeRegisterChange()">
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
               </select>
             </div>
           </div>

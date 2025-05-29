@@ -105,11 +105,7 @@ export class AddEditVendorComponent implements OnInit {
     pan: new FormControl('', [
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), // optional PAN format
     ]),
-    gst: new FormControl('', [
-      Validators.pattern(
-        /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
-      ),
-    ]),
+    gst: new FormControl(''),
     gstTreatment: new FormControl('',Validators.required),
     msmeRegistered: new FormControl(''),
     msmeType: new FormControl(''),
@@ -285,9 +281,8 @@ export class AddEditVendorComponent implements OnInit {
 
 onMsmeRegisterChange() {
   const value = this.vendorForm.get('msmeRegistered')?.value;
-  const isTrue = value === 'true'; // ✅ Compare as string
 
-  if (isTrue) {
+  if (value) {
     this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
     this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
 
@@ -323,35 +318,32 @@ onMsmeRegisterChange() {
 
 
 
-  onGSTTreatmentChange(event: any): void {
-    const selectedGSTTreatment = event.target.value;
+ onGSTTreatmentChange(event: any): void {
+  const selectedGSTTreatment = event.target.value;
 
-    const gstPattern = Validators.pattern(
-      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
-    );
+  const gstControl = this.vendorForm.get('gst');
+  const gstPattern = Validators.pattern(
+    /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+  );
 
-    // Update the GST field validation based on selected value
-    if (selectedGSTTreatment === 'Unregistered') {
-      // Make GST optional if Unregistered
-      this.vendorForm.get('gst')?.clearValidators();
-      this.vendorForm.get('gst')?.setValidators(gstPattern);
+  if (selectedGSTTreatment === 'Unregistered') {
+    // GST is optional, only pattern applies
+    gstControl?.setValidators([gstPattern]);
 
-      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
-        (f) => f !== 'gst'
-      );
-      this.currentRequiredFields = [...this.requiredFieldsForDOM];
-    } else {
-      if (!this.requiredFieldsForDOM.includes('gst')) {
-        this.requiredFieldsForDOM.push('gst');
-      }
+    this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(f => f !== 'gst');
+  } else {
+    // GST is required and must match the pattern
+    gstControl?.setValidators([Validators.required, gstPattern]);
 
-      this.vendorForm.get('gst')?.setValidators([Validators.required]);
-      this.currentRequiredFields = [...this.requiredFieldsForDOM];
-
+    if (!this.requiredFieldsForDOM.includes('gst')) {
+      this.requiredFieldsForDOM.push('gst');
     }
-    // Revalidate the GST field
-    this.vendorForm.get('gst')?.updateValueAndValidity();
   }
+
+  this.currentRequiredFields = [...this.requiredFieldsForDOM];
+  gstControl?.updateValueAndValidity();
+}
+
 
   onVendorTypeChange(event: any) {
     const selectedType = event.target.value;
