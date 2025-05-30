@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CRUDService } from "./crud.service";
 import { BaseService } from "./base.service";
-import { APIConstant, countries, customerData } from "../constants";
+import { APIConstant, countries, customerData, states } from "../constants";
 import { PlantRequest } from "../models/plant";
 import { map, BehaviorSubject } from 'rxjs';
 
@@ -18,6 +18,10 @@ export class CountryService extends CRUDService<PlantRequest> {
 
     getCountryData(data: any, offset: number = 0, count: number = this.maxCount) {
         return this.post(countries(offset, count), data);
+    }
+
+    getStateData(data: any, offset: number = 0, count: number = this.maxCount) {
+        return this.post(states(offset, count), data);
     }
 
     // getCountryData( data:any, offset: number = 0, count: number = this.maxCount) {

@@ -17,6 +17,7 @@ export class AddEditVendorComponent implements OnInit {
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
   countryList: any = [];
+  stateList: any = [];
   loadSpinner: boolean = true;
   disableSubmit: boolean = false;
   vendorType: string = '';
@@ -106,7 +107,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), // optional PAN format
     ]),
     gst: new FormControl(''),
-    gstTreatment: new FormControl('',Validators.required),
+    gstTreatment: new FormControl('', Validators.required),
     msmeRegistered: new FormControl<boolean | null>(null),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
@@ -168,6 +169,7 @@ export class AddEditVendorComponent implements OnInit {
 
     this.getVendorData(this.queryData); // fetch the full vendor data
     this.AllcountryList();
+    this.AllstateList();
 
     //check that account no matches with confirm account number
     this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
@@ -212,15 +214,32 @@ export class AddEditVendorComponent implements OnInit {
     );
   }
 
+   AllstateList() {
+    var data = {
+      "CountryName":""
+    };
+    this.countryService.getStateData(data).subscribe(
+      (response: any) => {
+        this.stateList = response.states;
+        console.log(this.stateList);
+        this.loadSpinner = false;
+      },
+      (error) => {
+        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.loadSpinner = false;
+      }
+    );
+  }
 
-onMsmeRegisterChange() {
-  const value = this.vendorForm.get('msmeRegistered')?.value;
 
-  if (value) {
-    this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
-    this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
+  onMsmeRegisterChange() {
+    const value = this.vendorForm.get('msmeRegistered')?.value;
 
-    if (!this.requiredFieldsForDOM.includes('msmeType')) {
+    if (value) {
+      this.vendorForm.get('msmeType')?.setValidators([Validators.required]);
+      this.vendorForm.get('msmeNo')?.setValidators([Validators.required]);
+
+      if (!this.requiredFieldsForDOM.includes('msmeType')) {
         this.requiredFieldsForDOM.push('msmeType');
       }
       if (!this.requiredFieldsForDOM.includes('msmeNo')) {
@@ -228,12 +247,11 @@ onMsmeRegisterChange() {
       }
 
       this.currentRequiredFields = [...this.requiredFieldsForDOM];
+    } else {
+      this.vendorForm.get('msmeType')?.clearValidators();
+      this.vendorForm.get('msmeNo')?.clearValidators();
 
-  } else {
-    this.vendorForm.get('msmeType')?.clearValidators();
-    this.vendorForm.get('msmeNo')?.clearValidators();
-
-    this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
         (f) => f !== 'msmeNo'
       );
 
@@ -241,43 +259,40 @@ onMsmeRegisterChange() {
         (f) => f !== 'msmeType'
       );
 
- this.currentRequiredFields = [...this.requiredFieldsForDOM];
-    
-  }
-
-  this.vendorForm.get('msmeType')?.updateValueAndValidity();
-  this.vendorForm.get('msmeNo')?.updateValueAndValidity();
-}
-
-
-
-
- onGSTTreatmentChange(event: any): void {
-  const selectedGSTTreatment = event.target.value;
-
-  const gstControl = this.vendorForm.get('gst');
-  const gstPattern = Validators.pattern(
-    /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
-  );
-
-  if (selectedGSTTreatment === 'Unregistered') {
-    // GST is optional, only pattern applies
-    gstControl?.setValidators([gstPattern]);
-
-    this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(f => f !== 'gst');
-  } else {
-    // GST is required and must match the pattern
-    gstControl?.setValidators([Validators.required, gstPattern]);
-
-    if (!this.requiredFieldsForDOM.includes('gst')) {
-      this.requiredFieldsForDOM.push('gst');
+      this.currentRequiredFields = [...this.requiredFieldsForDOM];
     }
+
+    this.vendorForm.get('msmeType')?.updateValueAndValidity();
+    this.vendorForm.get('msmeNo')?.updateValueAndValidity();
   }
 
-  this.currentRequiredFields = [...this.requiredFieldsForDOM];
-  gstControl?.updateValueAndValidity();
-}
+  onGSTTreatmentChange(event: any): void {
+    const selectedGSTTreatment = event.target.value;
 
+    const gstControl = this.vendorForm.get('gst');
+    const gstPattern = Validators.pattern(
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+    );
+
+    if (selectedGSTTreatment === 'Unregistered') {
+      // GST is optional, only pattern applies
+      gstControl?.setValidators([gstPattern]);
+
+      this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+        (f) => f !== 'gst'
+      );
+    } else {
+      // GST is required and must match the pattern
+      gstControl?.setValidators([Validators.required, gstPattern]);
+
+      if (!this.requiredFieldsForDOM.includes('gst')) {
+        this.requiredFieldsForDOM.push('gst');
+      }
+    }
+
+    this.currentRequiredFields = [...this.requiredFieldsForDOM];
+    gstControl?.updateValueAndValidity();
+  }
 
   onVendorTypeChange(event: any) {
     const selectedType = event.target.value;

@@ -169,3 +169,5 @@ export const LookupTypes = (offset: any, count: number) =>
   `lookup-type/search?offset=${offset}&count=${count}`;
 export const countries = (offset: any, count: number) =>
   `country/search?offset=${offset}&count=${count}`;
+export const states = (offset: any, count: number) =>
+  `state/search?offset=${offset}&count=${count}`;

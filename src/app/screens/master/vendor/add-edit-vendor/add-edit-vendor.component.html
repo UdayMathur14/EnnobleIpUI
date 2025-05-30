@@ -124,7 +124,15 @@
             <div class="custom-form-input">
               <label for="">Billing State <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('billingState')">*</span></label>
-              <input type="text" class="input-field" formControlName="billingState" />
+              <!-- <input type="text" class="input-field" formControlName="billingState" /> -->
+              <input *ngIf="vendorType !== 'EIPVDOM'" type="text" class="input-field" formControlName="billingState" />
+
+              <!-- If DOM type: Show dropdown -->
+              <ng-select *ngIf="vendorType === 'EIPVDOM'" class="input-field" formControlName="billingState">
+                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
+                  {{ state.stateName }}
+                </ng-option>
+              </ng-select>
               <div *ngIf="vendorForm.get('billingState')?.invalid && vendorForm.get('billingState')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('billingState')?.hasError('required')">
                   state is required.
@@ -224,11 +232,20 @@
             <div class="custom-form-input">
               <label for="">Shipping State <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('shippingState')">*</span></label>
-              <input type="text" class="input-field" formControlName="shippingState" />
+              <input *ngIf="vendorType !== 'EIPVDOM'" type="text" class="input-field" formControlName="shippingState" />
+
+              <!-- If DOM type: Show dropdown -->
+              <ng-select *ngIf="vendorType === 'EIPVDOM'" class="input-field" formControlName="shippingState">
+                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
+                  {{ state.stateName }}
+                </ng-option>
+              </ng-select>
+              <!-- <input type="text" class="input-field" formControlName="shippingState" /> -->
               <div *ngIf="vendorForm.get('shippingState')?.invalid && vendorForm.get('shippingState')?.touched">
                 <small class="text-danger" *ngIf="vendorForm.get('shippingState')?.hasError('required')">
                   state is required.
                 </small>
+
               </div>
             </div>
           </div>
