@@ -107,7 +107,7 @@ export class AddEditVendorComponent implements OnInit {
     ]),
     gst: new FormControl(''),
     gstTreatment: new FormControl('',Validators.required),
-    msmeRegistered: new FormControl(''),
+    msmeRegistered: new FormControl<boolean | null>(null),
     msmeType: new FormControl(''),
     msmeNo: new FormControl(''),
 
@@ -169,33 +169,6 @@ export class AddEditVendorComponent implements OnInit {
     this.getVendorData(this.queryData); // fetch the full vendor data
     this.AllcountryList();
 
-    // this.vendorForm.get('msmeRegistered')?.valueChanges.subscribe((value) => {
-    //   const isTrue = value === 'true'; // convert string to boolean
-
-    //   this.isMsmeTypeHidden = !isTrue;
-
-    //   const msmeTypeControl = this.vendorForm.get('msmeType');
-
-    //   if (!isTrue) {
-    //     msmeTypeControl?.reset();
-    //     msmeTypeControl?.clearValidators();
-
-    //     // ❌ Remove from requiredFieldsForDOM
-    //     this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
-    //       (f) => f !== 'msmeType'
-    //     );
-    //   } else {
-    //     msmeTypeControl?.setValidators([Validators.required]);
-
-    //     // ✅ Add to requiredFieldsForDOM if not present
-    //     if (!this.requiredFieldsForDOM.includes('msmeType')) {
-    //       this.requiredFieldsForDOM.push('msmeType');
-    //     }
-    //   }
-
-    //   msmeTypeControl?.updateValueAndValidity();
-    // });
-
     //check that account no matches with confirm account number
     this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
       const accountNumber = this.vendorForm.get('accountNumber')?.value;
@@ -215,45 +188,6 @@ export class AddEditVendorComponent implements OnInit {
         this.vendorForm.get('confirmAccountNumber')?.setErrors(null);
       }
     });
-    // if (this.vendorId > 0) {
-    //   const vendorType = this.vendorForm.get('vendorType');
-    //   this.statusTab = true;
-    //   this.vendorForm.get('vendorType')?.disable();
-
-    //   if (vendorType === 'EIPVDOM') {
-    //     this.isBillingCountryDisabled = true;
-    //     this.showSwiftfield = false;
-    //     this.showExtraTab = false;
-    //     this.showComplianceTab = true;
-    //   } else {
-    //     this.showComplianceTab = false;
-    //     this.showSwiftfield = true;
-    //     this.IfscInput = false;
-    //     this.showExtraTab = true;
-    //     this.vendorForm
-    //       .get('billingPinCode')
-    //       ?.setValidators(Validators.required);
-    //     this.vendorForm.get('billingPinCode')?.updateValueAndValidity();
-    //     this.vendorForm
-    //       .get('shippingPinCode')
-    //       ?.setValidators(Validators.required);
-    //     this.vendorForm.get('shippingPinCode')?.updateValueAndValidity();
-    //     this.vendorForm.get('bankPinCode')?.setValidators(Validators.required);
-    //     this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-    //     this.vendorForm.get('pan')?.clearValidators();
-    //     this.vendorForm.get('pan')?.updateValueAndValidity();
-    //     this.vendorForm.get('msmeRegistered')?.clearValidators();
-    //     this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
-    //     this.vendorForm.get('phoneMobileNo')?.clearValidators();
-    //     this.vendorForm.get('phoneMobileNo')?.updateValueAndValidity();
-    //     this.vendorForm.get('ifscCode')?.clearValidators();
-    //     this.vendorForm.get('ifscCode')?.updateValueAndValidity();
-    //     this.vendorForm.get('accountNumber')?.clearValidators();
-    //     this.vendorForm
-    //       .get('accountNumber')
-    //       ?.setValidators(Validators.required);
-    //   }
-    // }
     if (this.vendorId == 0) {
       this.statusTab = false;
     }
@@ -391,6 +325,7 @@ onMsmeRegisterChange() {
       this.vendorForm.get('msmeType')?.clearValidators();
       this.vendorForm.get('msmeType')?.updateValueAndValidity();
 
+      this.vendorForm.get('msmeRegistered')?.setValue(false);
       this.vendorForm.get('msmeRegistered')?.clearValidators();
       this.vendorForm.get('msmeRegistered')?.updateValueAndValidity();
 
@@ -406,6 +341,9 @@ onMsmeRegisterChange() {
       this.vendorForm.get('ifscCode')?.clearValidators();
       this.vendorForm.get('ifscCode')?.updateValueAndValidity();
 
+      this.vendorForm.get('gstTreatment')?.clearValidators();
+      this.vendorForm.get('gstTreatment')?.updateValueAndValidity();
+
       this.vendorForm
         .get('accountNumber')
         ?.setValidators([Validators.required]);
@@ -415,7 +353,7 @@ onMsmeRegisterChange() {
       this.showComplianceTab = true;
       this.showExtraTab = false;
       this.IfscInput = true;
-
+      this.onMsmeRegisterChange();
       this.vendorForm
         .get('msmeRegistered')
         ?.setValidators([Validators.required]);
@@ -469,7 +407,7 @@ onMsmeRegisterChange() {
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
     }
 
-    if (selectedType === 'EIPVDOM' && this.vendorId === 0) {
+    if (selectedType === 'EIPVDOM') {
       this.vendorForm.patchValue({ billingCountry: 'India' });
       this.vendorForm.patchValue({ shippingCountry: 'India' });
       this.vendorForm.patchValue({ bankCountry: 'India' });
