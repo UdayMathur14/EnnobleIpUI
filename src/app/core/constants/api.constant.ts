@@ -114,7 +114,7 @@ export const biltiData = (locationId: any, biltiId: any) =>
 export const updateBitli = (locationId: any, biltiId: any) =>
   `/bilti-creation/update/${locationId}/${biltiId}`;
 export const createDispatchNote = () =>
-  `/VendorInvoiceTxn/create/`;
+  `VendorInvoiceTxn/create/`;
 export const getDispatchNote = (offset: any, count: number) =>
   `VendorInvoiceTxn/search?offset=${offset}&count=${count}`;
 export const dispatchData = ( dispatchId: any) =>
