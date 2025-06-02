@@ -1,7 +1,7 @@
 <div class="page-title">
   <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Vendor Invoice </h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onSavePress()">Save</button> 
+    <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
     <!-- [disabled]="isFormInvalid() -->
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
@@ -82,9 +82,10 @@
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerInvoice" [autoClose]="true"
                   formControlName="dueDateAsPerInvoice" [maxDate]="today"
-                  (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)" ngbDatepicker #dueDateAsPerInvoice="ngbDatepicker"
-                  readonly />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDateAsPerInvoice.toggle()"  type="button">
+                  (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)" ngbDatepicker
+                  #dueDateAsPerInvoice="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDateAsPerInvoice.toggle()"
+                  type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
               </div>
@@ -167,11 +168,9 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Filing Receipt Supporting</label>
-              <!-- <input formControlName="officialFilingReceiptSupporting" type="text" class="input-field"  /> -->
-              <ng-select formControlName="officialFilingReceiptSupporting" class="input-field"
-                placeholder="Select Yes or No">
-                <ng-option [value]="'Yes'">Yes</ng-option>
-                <ng-option [value]="'No'">No</ng-option>
+              <ng-select [items]="[{ label: 'Yes', value: true }, { label: 'No', value: false }]" bindLabel="label"
+                bindValue="value" formControlName="officialFilingReceiptSupporting" placeholder="Select Yes or No"
+                class="input-field">
               </ng-select>
             </div>
           </div>
@@ -356,7 +355,7 @@
             <div class="custom-form-input">
               <label for="">Bank Name</label>
               <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
-                <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.bankName">
+                <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
                   {{ bank.bankName }}
                 </ng-option>
               </ng-select>
@@ -418,7 +417,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">PO Value Inclusive Taxes</label>
-              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field" (keypress)="validateNo1($event)" />
+              <input formControlName="poValueInclusiveTaxes" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -440,7 +440,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Professional Fee Invoice Amount</label>
-              <input formControlName="professionalFeeInvoiceAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
+              <input formControlName="professionalFeeInvoiceAmount" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -452,7 +453,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Official Fee Invoice Amount </label>
-              <input formControlName="officialFeeInvoiceAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
+              <input formControlName="officialFeeInvoiceAmount" type="text" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -465,7 +467,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Invoice Amount</label>
-              <input formControlName="invoiceAmount" type="text" class="input-field"  (keypress)="validateNo1($event)"/>
+              <input formControlName="invoiceAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -512,7 +514,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </form>
 </div>

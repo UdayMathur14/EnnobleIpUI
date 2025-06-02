@@ -96,10 +96,10 @@ export class AddEditDispatchNoteComponent {
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
       //tab1
-      vendorId: ['', ], // Maps to [VendorID]
-      invoiceDate: ['', ], // Maps to [InvoiceDate]
+      vendorId: [''], // Maps to [VendorID]
+      invoiceDate: [''], // Maps to [InvoiceDate]
       fy: [''], // Maps to [FY]
-      clientInvoiceNo: ['', ], // Maps to [ClientInvoiceNo]
+      clientInvoiceNo: [''], // Maps to [ClientInvoiceNo]
       dueDateAsPerInvoice: [''], // Maps to [DueDateAsPerInvoice]
       creditDaysAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
       dueDateAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
@@ -364,64 +364,133 @@ export class AddEditDispatchNoteComponent {
     this.selectedcustomers = selectedcustomerNumbers;
   }
 
+  formatDate(dateObj: any): string | null {
+    if (!dateObj || !dateObj.year || !dateObj.month || !dateObj.day)
+      return null;
+
+    const year = dateObj.year;
+    const month = ('0' + dateObj.month).slice(-2); // Ensure two digits
+    const day = ('0' + dateObj.day).slice(-2);
+
+    return `${year}-${month}-${day}`;
+  }
+
   async onSavePress() {
     this.loadSpinner = true;
 
     // Build invoice object from form values
-   const invoiceData: any = {
-  vendorId: this.addOrEditDispatchNoteFormGroup.controls['vendorId'].value,
-  invoiceDate: this.addOrEditDispatchNoteFormGroup.controls['invoiceDate'].value,
-  fy: this.addOrEditDispatchNoteFormGroup.controls['fy'].value,
-  clientInvoiceNo: this.addOrEditDispatchNoteFormGroup.controls['clientInvoiceNo'].value,
-  dueDateAsPerInvoice: this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerInvoice'].value,
-  creditDaysAsPerContract: this.addOrEditDispatchNoteFormGroup.controls['creditDaysAsPerContract'].value,
-  dueDateAsPerContract: this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract'].value,
-  customerId: this.addOrEditDispatchNoteFormGroup.controls['customerId'].value,
-  description: this.addOrEditDispatchNoteFormGroup.controls['description'].value,
-  title: this.addOrEditDispatchNoteFormGroup.controls['title'].value,
-  applicationNumber: this.addOrEditDispatchNoteFormGroup.controls['applicationNumber'].value,
-  fillingDate: this.addOrEditDispatchNoteFormGroup.controls['fillingDate'].value,
-  clientRefNo: this.addOrEditDispatchNoteFormGroup.controls['clientRefNo'].value,
-  ourRefNo: this.addOrEditDispatchNoteFormGroup.controls['ourRefNo'].value,
-  officialFilingReceiptSupporting: this.addOrEditDispatchNoteFormGroup.controls['officialFilingReceiptSupporting'].value,
-  workDeliveryDateOrMonth: this.addOrEditDispatchNoteFormGroup.controls['workDeliveryDateOrMonth'].value,
-  currencyPID: this.addOrEditDispatchNoteFormGroup.controls['currencyPID'].value,
-  professionalFeeAmt: this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']?.value,
-  govtOrOfficialFeeAmt: this.addOrEditDispatchNoteFormGroup.controls['govtOrOfficialFeeAmt']?.value,
-  otherChargesAmt: this.addOrEditDispatchNoteFormGroup.controls['otherChargesAmt']?.value,
-  discountAmt: this.addOrEditDispatchNoteFormGroup.controls['discountAmt']?.value,
-  discountCreditNoteAmt: this.addOrEditDispatchNoteFormGroup.controls['discountCreditNoteAmt']?.value,
-  totalAmt: this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value,
+    const invoiceData: any = {
+      vendorId:
+        this.addOrEditDispatchNoteFormGroup.controls['vendorId'].value || 0,
+      invoiceDate: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['invoiceDate'].value
+      ),
+      fy: this.addOrEditDispatchNoteFormGroup.controls['fy'].value,
+      clientInvoiceNo:
+        this.addOrEditDispatchNoteFormGroup.controls['clientInvoiceNo'].value,
+      dueDateAsPerInvoice: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerInvoice']
+          .value
+      ),
 
-  // tab2
-  paymentDate: this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value,
-  bankID: this.addOrEditDispatchNoteFormGroup.controls['bankID'].value,
-  owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
-  owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
-  currency2: this.addOrEditDispatchNoteFormGroup.controls['currency2'].value,
-  paymentAmount: this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value,
+      creditDaysAsPerContract:
+        this.addOrEditDispatchNoteFormGroup.controls['creditDaysAsPerContract']
+          .value,
+      dueDateAsPerContract: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
+          .value
+      ),
+      customerId:
+        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value,
+      description:
+        this.addOrEditDispatchNoteFormGroup.controls['description'].value,
+      title: this.addOrEditDispatchNoteFormGroup.controls['title'].value,
+      applicationNumber:
+        this.addOrEditDispatchNoteFormGroup.controls['applicationNumber'].value,
+      fillingDate: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['fillingDate'].value
+      ),
+      clientRefNo:
+        this.addOrEditDispatchNoteFormGroup.controls['clientRefNo'].value,
+      ourRefNo: this.addOrEditDispatchNoteFormGroup.controls['ourRefNo'].value,
+      officialFilingReceiptSupporting:
+        this.addOrEditDispatchNoteFormGroup.controls[
+          'officialFilingReceiptSupporting'
+        ].value,
+      workDeliveryDateOrMonth: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['workDeliveryDateOrMonth']
+          .value
+      ),
+      currencyPID:
+        this.addOrEditDispatchNoteFormGroup.controls['currencyPID'].value,
+      professionalFeeAmt:
+        this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']
+          ?.value,
+      govtOrOfficialFeeAmt:
+        this.addOrEditDispatchNoteFormGroup.controls['govtOrOfficialFeeAmt']
+          ?.value,
+      otherChargesAmt:
+        this.addOrEditDispatchNoteFormGroup.controls['otherChargesAmt']?.value,
+      discountAmt:
+        this.addOrEditDispatchNoteFormGroup.controls['discountAmt']?.value,
+      discountCreditNoteAmt:
+        this.addOrEditDispatchNoteFormGroup.controls['discountCreditNoteAmt']
+          ?.value,
+      totalAmt: this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value,
 
-  // tab4
-  customerPONo: this.addOrEditDispatchNoteFormGroup.controls['customerPONo'].value,
-  poDate: this.addOrEditDispatchNoteFormGroup.controls['poDate'].value,
-  poValueInclusiveTaxes: this.addOrEditDispatchNoteFormGroup.controls['poValueInclusiveTaxes'].value,
-  professionalFeeInvoiceNo: this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo'].value,
-  currency3: this.addOrEditDispatchNoteFormGroup.controls['currency3'].value,
-  professionalFeeInvoiceAmount: this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceAmount'].value,
-  govtFeesInvoiceNo: this.addOrEditDispatchNoteFormGroup.controls['govtFeesInvoiceNo'].value,
-  ourInvoiceNo: this.addOrEditDispatchNoteFormGroup.controls['ourInvoiceNo'].value,
-  invoiceAmount: this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value,
-  govtFeeInvoiceNo: this.addOrEditDispatchNoteFormGroup.controls['govtFeeInvoiceNo'].value,
-  officialFeeInvoiceAmount: this.addOrEditDispatchNoteFormGroup.controls['officialFeeInvoiceAmount'].value,
-  estimateNoProfFee: this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value,
-  estimateNoGovtFee: this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value,
-  remarks: this.addOrEditDispatchNoteFormGroup.controls['remarks'].value,
-  postedInTally: this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
-  status: this.addOrEditDispatchNoteFormGroup.controls['status'].value,
+      // tab2
+      paymentDate: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
+      ),
 
-  createdBy: '', // Add dynamically if required
-};
+      bankID: this.addOrEditDispatchNoteFormGroup.controls['bankID'].value,
+      owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
+      owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
+      currency2:
+        this.addOrEditDispatchNoteFormGroup.controls['currency2'].value,
+      paymentAmount:
+        this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value,
 
+      // tab4
+      customerPONo:
+        this.addOrEditDispatchNoteFormGroup.controls['customerPONo'].value,
+      poDate: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['poDate'].value
+      ),
+      poValueInclusiveTaxes:
+        this.addOrEditDispatchNoteFormGroup.controls['poValueInclusiveTaxes']
+          .value,
+      professionalFeeInvoiceNo:
+        this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo']
+          .value,
+      currency3:
+        this.addOrEditDispatchNoteFormGroup.controls['currency3'].value,
+      professionalFeeInvoiceAmount:
+        this.addOrEditDispatchNoteFormGroup.controls[
+          'professionalFeeInvoiceAmount'
+        ].value,
+      govtFeesInvoiceNo:
+        this.addOrEditDispatchNoteFormGroup.controls['govtFeesInvoiceNo'].value,
+      ourInvoiceNo:
+        this.addOrEditDispatchNoteFormGroup.controls['ourInvoiceNo'].value,
+      invoiceAmount:
+        this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value,
+      govtFeeInvoiceNo:
+        this.addOrEditDispatchNoteFormGroup.controls['govtFeeInvoiceNo'].value,
+      officialFeeInvoiceAmount:
+        this.addOrEditDispatchNoteFormGroup.controls['officialFeeInvoiceAmount']
+          .value,
+      estimateNoProfFee:
+        this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value,
+      estimateNoGovtFee:
+        this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value,
+      remarks: this.addOrEditDispatchNoteFormGroup.controls['remarks'].value,
+      postedInTally:
+        this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
+      status: this.addOrEditDispatchNoteFormGroup.controls['status'].value,
+
+      createdBy: '', // Add dynamically if required
+    };
 
     // Check if it's an update or create
     if (this.dispatchId > 0) {
@@ -432,7 +501,7 @@ export class AddEditDispatchNoteComponent {
           (response: any) => {
             this.toastr.success('Invoice Updated Successfully');
             this.loadSpinner = false;
-            this.router.navigate(['transaction/invoice']);
+            this.router.navigate(['transaction/VendorInvoiceTxn']);
           },
           (error) => {
             this.loadSpinner = false;
@@ -446,7 +515,7 @@ export class AddEditDispatchNoteComponent {
         (response: any) => {
           this.toastr.success('Invoice Created Successfully');
           this.loadSpinner = false;
-          this.router.navigate(['transaction/invoice']);
+          this.router.navigate(['transaction/VendorInvoiceTxn']);
         },
         (error) => {
           this.loadSpinner = false;
