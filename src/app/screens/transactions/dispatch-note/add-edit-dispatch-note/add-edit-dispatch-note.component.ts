@@ -41,6 +41,8 @@ export class AddEditDispatchNoteComponent {
   dispatchId: number = 0;
   loadSpinner: boolean = false;
   selectedcustomers: any = [];
+  languageList:any[] = [];
+  isTranslationFeeSelected: boolean = false;
 
   dispatchNotes: any = [];
   dispatchLocationId: number = 0;
@@ -569,6 +571,7 @@ export class AddEditDispatchNoteComponent {
       country: ['', [Validators.required]],
       amount: ['', [Validators.required]],
       remarks: [''],
+      language:['']
     });
 
     this.partDetails.push(detail);
@@ -667,11 +670,18 @@ export class AddEditDispatchNoteComponent {
   }
 
   // Show Language Conditionally
-  showLanguageDropdown(index: number): boolean {
-    return (
-      this.partDetails.at(index).get('feeType')?.value === 'Govt or Offical Fee'
-    );
-  }
+  // showLanguageDropdown(index: number): boolean {
+  //   return (
+  //     this.partDetails.at(index).get('feeType')?.value === 'Govt or Offical Fee'
+  //   );
+  // }
+
+  onFeeTypeChange(index: number) {
+  const anyTranslationSelected = this.partDetails.controls.some(
+    (group) => group.get('subFeeValue')?.value === 'Translation Fee'
+  );
+  this.isTranslationFeeSelected = anyTranslationSelected;
+}
 
   // Allow only numbers
   validateNo1(event: any) {

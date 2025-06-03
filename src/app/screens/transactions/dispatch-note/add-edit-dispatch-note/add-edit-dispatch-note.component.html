@@ -81,9 +81,8 @@
               <label for="">Due Date As Per Invoice <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerInvoice" [autoClose]="true"
-                  formControlName="dueDateAsPerInvoice" 
-                  (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)" ngbDatepicker
-                  #dueDateAsPerInvoice="ngbDatepicker" readonly />
+                  formControlName="dueDateAsPerInvoice" (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)"
+                  ngbDatepicker #dueDateAsPerInvoice="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDateAsPerInvoice.toggle()"
                   type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
@@ -144,8 +143,8 @@
               <label for="">Filling Date </label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="fillingDate" [autoClose]="true"
-                  formControlName="fillingDate" (dateSelect)="onDateSelect('fillingDate', $event)"
-                  ngbDatepicker #fillingDate="ngbDatepicker" readonly />
+                  formControlName="fillingDate" (dateSelect)="onDateSelect('fillingDate', $event)" ngbDatepicker
+                  #fillingDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar6" (click)="fillingDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
@@ -179,7 +178,7 @@
               <label for="">Work Delivery Date Or Month</label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="workDeliveryDateOrMonth" [autoClose]="true"
-                  formControlName="workDeliveryDateOrMonth" 
+                  formControlName="workDeliveryDateOrMonth"
                   (dateSelect)="onDateSelect('workDeliveryDateOrMonth', $event)" ngbDatepicker
                   #workDeliveryDateOrMonthDt="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="workDeliveryDateOrMonthDt.toggle()"
@@ -218,6 +217,7 @@
                 <th>Fees Type</th>
                 <th>Type</th>
                 <th>Country</th>
+                <th *ngIf="isTranslationFeeSelected">Language</th>
                 <th>Amount</th>
                 <th>Remarks</th>
                 <th class="text-center">Action</th>
@@ -250,7 +250,7 @@
                   <td>
                     <div class="custom-form-input dispatchwidth">
                       <ng-select class="input-field" placeholder="Add Sub Fee" [items]="subFeeOptionsList[ind]"
-                        bindLabel="value" bindValue="value" formControlName="subFeeValue">
+                        bindLabel="value" bindValue="value" formControlName="subFeeValue" (change)="onFeeTypeChange(ind)">
                       </ng-select>
                     </div>
                   </td>
@@ -265,6 +265,19 @@
                         </ng-option>
                       </ng-select>
                     </div>
+                  </td>
+
+                  <td *ngIf="isTranslationFeeSelected">
+                    <ng-container *ngIf="vendorGroup.get('subFeeValue')?.value === 'Translation Fee'; else emptyLang">
+                      <div class="custom-form-input dispatchwidth">
+                        <ng-select class="input-field" placeholder="Select Language" [items]="languageList"
+                          bindLabel="name" bindValue="code" formControlName="language">
+                        </ng-select>
+                      </div>
+                    </ng-container>
+                    <ng-template #emptyLang>
+                      <!-- empty cell to align columns -->
+                    </ng-template>
                   </td>
 
                   <!-- Amount -->
@@ -293,45 +306,52 @@
           </table>
         </div>
         <!-- Totals Section -->
-        <div class="row mt-4">
-          <div class="col-lg-3 col-md-4">
+        <div class="row mt-4 gx-4 gy-3">
+          <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
-              <label for="">Professional Fee Total Amount</label>
-              <input formControlName="professionalFeeAmt" type="number" class="input-field" readonly />
+              <label class="fw-bold">Professional Fee Total Amount</label>
+              <input formControlName="professionalFeeAmt" type="number" class="input-field form-control" readonly />
             </div>
           </div>
-          <div class="col-lg-3 col-md-4">
+
+          <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
-              <label for="">Govt/Official Fee Total Amount</label>
-              <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field" readonly />
+              <label class="fw-bold">Govt/Official Fee Total Amount</label>
+              <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field form-control" readonly />
             </div>
           </div>
-          <div class="col-lg-3 col-md-4">
+
+          <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
-              <label for="">Other Charges Total Amount</label>
-              <input formControlName="otherChargesAmt" type="number" class="input-field" readonly />
+              <label class="fw-bold">Other Charges Total Amount</label>
+              <input formControlName="otherChargesAmt" type="number" class="input-field form-control" readonly />
             </div>
           </div>
-          <div class="col-lg-3 col-md-3">
+
+          <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
-              <label for="">Discount Amount</label>
-              <input formControlName="discountAmt" type="number" class="input-field" (keypress)="validateNo1($event)" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Discount CreditNote Amount</label>
-              <input formControlName="discountCreditNoteAmt" type="number" class="input-field"
+              <label class="fw-bold">Discount Amount</label>
+              <input formControlName="discountAmt" type="number" class="input-field form-control"
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
-          <div class="col-lg-3 col-md-3">
+
+          <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
-              <label for="">Total Amount</label>
-              <input formControlName="TotalAmt" type="number" class="input-field" readonly />
+              <label class="fw-bold">Discount CreditNote Amount</label>
+              <input formControlName="discountCreditNoteAmt" type="number" class="input-field form-control"
+                (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Total Amount</label>
+              <input formControlName="TotalAmt" type="number" class="input-field form-control" readonly />
             </div>
           </div>
         </div>
+
 
       </div>
 
@@ -343,8 +363,8 @@
               <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
-                  formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)"
-                  ngbDatepicker #paymentDate="ngbDatepicker" readonly />
+                  formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker
+                  #paymentDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="paymentDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
@@ -386,7 +406,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Payment Amount</label>
-              <input formControlName="paymentAmount" type="number" class="input-field" (keypress)="validateNo1($event)" />
+              <input formControlName="paymentAmount" type="number" class="input-field"
+                (keypress)="validateNo1($event)" />
             </div>
           </div>
         </div>
@@ -406,7 +427,7 @@
               <!-- <input formControlName="poDate" type="text" class="input-field" /> -->
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="poDate" [autoClose]="true"
-                  formControlName="poDate"  (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
+                  formControlName="poDate" (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
                   #poDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="poDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
