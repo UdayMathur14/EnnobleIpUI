@@ -263,7 +263,7 @@ export class AddEditVendorComponent implements OnInit {
       /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
     );
 
-    if (selectedGSTTreatment === 'Unregistered') {
+    if (selectedGSTTreatment === 'Unregistered' || selectedGSTTreatment === 'Consumer' ) {
       // GST is optional, only pattern applies
       gstControl?.setValidators([gstPattern]);
 
