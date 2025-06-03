@@ -113,7 +113,7 @@ export class AddEditDispatchNoteComponent {
       officialFilingReceiptSupporting: [''], // Maps to [OfficialFilingReceiptSupporting]
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
       currencyPID: [''], // Maps to [CurrencyPID]
-      // professionalFeeAmt: [''], // Maps to [ProfessionalFeeAmt]
+      //professionalFeeAmt: [''], // Maps to [ProfessionalFeeAmt]
       // govtOrOfficialFeeAmt: [''], // Maps to [GovtOrOfficialFeeAmt]
       // otherChargesAmt: [''], // Maps to [OtherChargesAmt]
       // discountAmt: [''], // Maps to [DiscountAmt]
@@ -393,9 +393,9 @@ export class AddEditDispatchNoteComponent {
           .value
       ),
 
-      creditDaysAsPerContract:
+      creditDaysAsPerContract:Number(
         this.addOrEditDispatchNoteFormGroup.controls['creditDaysAsPerContract']
-          .value,
+          .value),
       dueDateAsPerContract: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
           .value
@@ -423,20 +423,20 @@ export class AddEditDispatchNoteComponent {
       ),
       currencyPID:
         this.addOrEditDispatchNoteFormGroup.controls['currencyPID'].value,
-      professionalFeeAmt:
+      professionalFeeAmt:Number(
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']
-          ?.value,
-      govtOrOfficialFeeAmt:
+          ?.value),
+      govtOrOfficialFeeAmt:Number(
         this.addOrEditDispatchNoteFormGroup.controls['govtOrOfficialFeeAmt']
-          ?.value,
-      otherChargesAmt:
-        this.addOrEditDispatchNoteFormGroup.controls['otherChargesAmt']?.value,
-      discountAmt:
-        this.addOrEditDispatchNoteFormGroup.controls['discountAmt']?.value,
-      discountCreditNoteAmt:
+          ?.value),
+      otherChargesAmt:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['otherChargesAmt']?.value),
+      discountAmt:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['discountAmt']?.value),
+      discountCreditNoteAmt:Number(
         this.addOrEditDispatchNoteFormGroup.controls['discountCreditNoteAmt']
-          ?.value,
-      totalAmt: this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value,
+          ?.value),
+      totalAmt: Number(this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value),
 
       // tab2
       paymentDate: this.formatDate(
@@ -448,8 +448,8 @@ export class AddEditDispatchNoteComponent {
       owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
       currency2:
         this.addOrEditDispatchNoteFormGroup.controls['currency2'].value,
-      paymentAmount:
-        this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value,
+      paymentAmount:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value),
 
       // tab4
       customerPONo:
@@ -457,38 +457,39 @@ export class AddEditDispatchNoteComponent {
       poDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['poDate'].value
       ),
-      poValueInclusiveTaxes:
+      poValueInclusiveTaxes:Number(
         this.addOrEditDispatchNoteFormGroup.controls['poValueInclusiveTaxes']
-          .value,
-      professionalFeeInvoiceNo:
+          .value),
+      professionalFeeInvoiceNo: Number(
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo']
-          .value,
+          .value
+      ),
       currency3:
         this.addOrEditDispatchNoteFormGroup.controls['currency3'].value,
-      professionalFeeInvoiceAmount:
+      professionalFeeInvoiceAmount:Number(
         this.addOrEditDispatchNoteFormGroup.controls[
           'professionalFeeInvoiceAmount'
-        ].value,
+        ].value),
       govtFeesInvoiceNo:
         this.addOrEditDispatchNoteFormGroup.controls['govtFeesInvoiceNo'].value,
       ourInvoiceNo:
         this.addOrEditDispatchNoteFormGroup.controls['ourInvoiceNo'].value,
-      invoiceAmount:
-        this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value,
+      invoiceAmount:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value),
       govtFeeInvoiceNo:
         this.addOrEditDispatchNoteFormGroup.controls['govtFeeInvoiceNo'].value,
-      officialFeeInvoiceAmount:
+      officialFeeInvoiceAmount:Number(
         this.addOrEditDispatchNoteFormGroup.controls['officialFeeInvoiceAmount']
-          .value,
-      estimateNoProfFee:
-        this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value,
-      estimateNoGovtFee:
-        this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value,
+          .value),
+      estimateNoProfFee:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value),
+      estimateNoGovtFee:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value),
       remarks: this.addOrEditDispatchNoteFormGroup.controls['remarks'].value,
       postedInTally:
         this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
       status: this.addOrEditDispatchNoteFormGroup.controls['status'].value,
-
+      feeDetails: this.addOrEditDispatchNoteFormGroup.get('partdetails')?.value || [],
       createdBy: '', // Add dynamically if required
     };
 

@@ -81,7 +81,7 @@
               <label for="">Due Date As Per Invoice <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerInvoice" [autoClose]="true"
-                  formControlName="dueDateAsPerInvoice" [maxDate]="today"
+                  formControlName="dueDateAsPerInvoice" 
                   (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)" ngbDatepicker
                   #dueDateAsPerInvoice="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDateAsPerInvoice.toggle()"
@@ -94,7 +94,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for=""> Credit Days As Per Contract <span class="text-danger">*</span></label>
-              <input formControlName="creditDaysAsPerContract" type="text" class="input-field"
+              <input formControlName="creditDaysAsPerContract" type="number" class="input-field"
                 (input)="onCreditDaysChange()" (keypress)="validateNo1($event)" />
             </div>
           </div>
@@ -144,7 +144,7 @@
               <label for="">Filling Date </label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="fillingDate" [autoClose]="true"
-                  formControlName="fillingDate" [maxDate]="today" (dateSelect)="onDateSelect('fillingDate', $event)"
+                  formControlName="fillingDate" (dateSelect)="onDateSelect('fillingDate', $event)"
                   ngbDatepicker #fillingDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar6" (click)="fillingDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
@@ -179,7 +179,7 @@
               <label for="">Work Delivery Date Or Month</label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="workDeliveryDateOrMonth" [autoClose]="true"
-                  formControlName="workDeliveryDateOrMonth" [maxDate]="today"
+                  formControlName="workDeliveryDateOrMonth" 
                   (dateSelect)="onDateSelect('workDeliveryDateOrMonth', $event)" ngbDatepicker
                   #workDeliveryDateOrMonthDt="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="workDeliveryDateOrMonthDt.toggle()"
@@ -270,7 +270,7 @@
                   <!-- Amount -->
                   <td>
                     <div class="custom-form-input dispatchwidthsmall">
-                      <input formControlName="amount" class="input-field" type="text" placeholder="Enter Amt"
+                      <input formControlName="amount" class="input-field" type="number" placeholder="Enter Amt"
                         (keypress)="validateNo1($event)">
                     </div>
                   </td>
@@ -297,38 +297,38 @@
           <div class="col-lg-3 col-md-4">
             <div class="custom-form-input">
               <label for="">Professional Fee Total Amount</label>
-              <input formControlName="professionalFeeAmt" type="text" class="input-field" readonly />
+              <input formControlName="professionalFeeAmt" type="number" class="input-field" readonly />
             </div>
           </div>
           <div class="col-lg-3 col-md-4">
             <div class="custom-form-input">
               <label for="">Govt/Official Fee Total Amount</label>
-              <input formControlName="govtOrOfficialFeeAmt" type="text" class="input-field" readonly />
+              <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field" readonly />
             </div>
           </div>
           <div class="col-lg-3 col-md-4">
             <div class="custom-form-input">
               <label for="">Other Charges Total Amount</label>
-              <input formControlName="otherChargesAmt" type="text" class="input-field" readonly />
+              <input formControlName="otherChargesAmt" type="number" class="input-field" readonly />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Discount Amount</label>
-              <input formControlName="discountAmt" type="text" class="input-field" (keypress)="validateNo1($event)" />
+              <input formControlName="discountAmt" type="number" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Discount CreditNote Amount</label>
-              <input formControlName="discountCreditNoteAmt" type="text" class="input-field"
+              <input formControlName="discountCreditNoteAmt" type="number" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Total Amount</label>
-              <input formControlName="TotalAmt" type="text" class="input-field" readonly />
+              <input formControlName="TotalAmt" type="number" class="input-field" readonly />
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@
               <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
-                  formControlName="paymentDate" [maxDate]="today" (dateSelect)="onDateSelect('paymentDate', $event)"
+                  formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)"
                   ngbDatepicker #paymentDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="paymentDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
@@ -386,7 +386,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Payment Amount</label>
-              <input formControlName="paymentAmount" type="text" class="input-field" (keypress)="validateNo1($event)" />
+              <input formControlName="paymentAmount" type="number" class="input-field" (keypress)="validateNo1($event)" />
             </div>
           </div>
         </div>
@@ -406,7 +406,7 @@
               <!-- <input formControlName="poDate" type="text" class="input-field" /> -->
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="poDate" [autoClose]="true"
-                  formControlName="poDate" [maxDate]="today" (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
+                  formControlName="poDate"  (dateSelect)="onDateSelect('poDate', $event)" ngbDatepicker
                   #poDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="poDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
@@ -440,7 +440,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Professional Fee Invoice Amount</label>
-              <input formControlName="professionalFeeInvoiceAmount" type="text" class="input-field"
+              <input formControlName="professionalFeeInvoiceAmount" type="number" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
@@ -453,7 +453,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Official Fee Invoice Amount </label>
-              <input formControlName="officialFeeInvoiceAmount" type="text" class="input-field"
+              <input formControlName="officialFeeInvoiceAmount" type="number" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
