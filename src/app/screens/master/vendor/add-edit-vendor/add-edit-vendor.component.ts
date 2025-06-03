@@ -44,10 +44,12 @@ export class AddEditVendorComponent implements OnInit {
     'shippingState',
     'shippingCountry',
     'shippingPinCode',
+    'bankAddressLine1',
     'gstTreatment',
     'msmeRegistered',
     'currency',
     'bankName',
+    'bankCountry',
     'accountHolderName',
     'accountNumber',
     'confirmAccountNumber',
@@ -125,10 +127,7 @@ export class AddEditVendorComponent implements OnInit {
 
     bankName: new FormControl('', Validators.required),
     accountHolderName: new FormControl('', Validators.required),
-    accountNumber: new FormControl('', [
-      Validators.required,
-      // Validators.pattern(/^\d{9,18}$/), // Validates a 9 to 18 digit account number
-    ]),
+    accountNumber: new FormControl('', [Validators.required]),
     confirmAccountNumber: new FormControl('', [Validators.required]),
 
     ifscCode: new FormControl('', [
@@ -171,25 +170,16 @@ export class AddEditVendorComponent implements OnInit {
     this.AllcountryList();
     this.AllstateList();
 
-    //check that account no matches with confirm account number
-    this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
-      const accountNumber = this.vendorForm.get('accountNumber')?.value;
-      const confirmAccountNumber = this.vendorForm.get(
-        'confirmAccountNumber'
-      )?.value;
-
-      if (
-        accountNumber &&
-        confirmAccountNumber &&
-        accountNumber !== confirmAccountNumber
-      ) {
-        this.vendorForm
-          .get('confirmAccountNumber')
-          ?.setErrors({ mismatch: true });
-      } else {
-        this.vendorForm.get('confirmAccountNumber')?.setErrors(null);
-      }
+    this.vendorForm.get('accountNumber')?.valueChanges.subscribe(() => {
+      this.checkAccountMatch();
     });
+
+    this.vendorForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
+      this.checkAccountMatch();
+    });
+
+    //check that account no matches with confirm account number
+
     if (this.vendorId == 0) {
       this.statusTab = false;
     }
@@ -214,9 +204,9 @@ export class AddEditVendorComponent implements OnInit {
     );
   }
 
-   AllstateList() {
+  AllstateList() {
     var data = {
-      "CountryName":""
+      CountryName: '',
     };
     this.countryService.getStateData(data).subscribe(
       (response: any) => {
@@ -230,7 +220,6 @@ export class AddEditVendorComponent implements OnInit {
       }
     );
   }
-
 
   onMsmeRegisterChange() {
     const value = this.vendorForm.get('msmeRegistered')?.value;
@@ -294,6 +283,29 @@ export class AddEditVendorComponent implements OnInit {
     gstControl?.updateValueAndValidity();
   }
 
+  checkAccountMatch(): void {
+    const accountNumber = this.vendorForm.get('accountNumber')?.value;
+    const confirmAccountNumber = this.vendorForm.get(
+      'confirmAccountNumber'
+    )?.value;
+
+    if (
+      accountNumber &&
+      confirmAccountNumber &&
+      accountNumber !== confirmAccountNumber
+    ) {
+      this.vendorForm
+        .get('confirmAccountNumber')
+        ?.setErrors({ mismatch: true });
+    } else {
+      // Preserve other errors like 'required' or 'pattern'
+      const confirmCtrl = this.vendorForm.get('confirmAccountNumber');
+      if (confirmCtrl?.hasError('required') || confirmCtrl?.hasError('pattern'))
+        return;
+
+      confirmCtrl?.setErrors(null);
+    }
+  }
   onVendorTypeChange(event: any) {
     const selectedType = event.target.value;
     this.vendorType = selectedType;
@@ -303,7 +315,6 @@ export class AddEditVendorComponent implements OnInit {
       this.showComplianceTab = false;
       this.IfscInput = false;
       this.showExtraTab = true;
-
       this.vendorForm
         .get('billingPinCode')
         ?.setValidators([Validators.required]);
@@ -363,12 +374,18 @@ export class AddEditVendorComponent implements OnInit {
         .get('accountNumber')
         ?.setValidators([Validators.required]);
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('confirmAccountNumber')
+        ?.setValidators([Validators.required]);
+      this.vendorForm.get('confirmAccountNumber')?.updateValueAndValidity();
     } else {
       this.currentRequiredFields = this.requiredFieldsForDOM;
       this.showComplianceTab = true;
       this.showExtraTab = false;
       this.IfscInput = true;
       this.onMsmeRegisterChange();
+
       this.vendorForm
         .get('msmeRegistered')
         ?.setValidators([Validators.required]);
@@ -420,6 +437,14 @@ export class AddEditVendorComponent implements OnInit {
           Validators.pattern(/^\d{9,18}$/),
         ]);
       this.vendorForm.get('accountNumber')?.updateValueAndValidity();
+
+      this.vendorForm
+        .get('confirmAccountNumber')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^\d{9,18}$/),
+        ]);
+      this.vendorForm.get('confirmAccountNumber')?.updateValueAndValidity();
     }
 
     if (selectedType === 'EIPVDOM') {
@@ -562,9 +587,6 @@ export class AddEditVendorComponent implements OnInit {
   }
 
   patchVendorData(data: any) {
-    if (data?.taxationType?.code === 'RCM') {
-    } else {
-    }
     setTimeout(() => {}, 1000);
     this.selectedTransactionTypes.clear();
     this.vendorForm.patchValue({
@@ -609,7 +631,7 @@ export class AddEditVendorComponent implements OnInit {
       bankCity: data?.bankCity,
       bankState: data?.bankState,
       bankPinCode: data?.bankPinCode,
-      iban: data?.bankPinCode,
+      iban: data?.iban,
       sortCode: data?.sortCode,
       routingNo: data?.routingNo,
       bankCountry: data?.bankCountry,
@@ -617,6 +639,7 @@ export class AddEditVendorComponent implements OnInit {
       complDocyear: data?.complDocyear,
       status: data?.status,
     });
+    this.checkAccountMatch();
   }
 
   onOptionSelected(event: any) {

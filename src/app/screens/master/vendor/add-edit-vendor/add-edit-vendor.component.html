@@ -492,7 +492,21 @@
             <div class="custom-form-input">
               <label for="">Bank State <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('bankState')">*</span></label>
-              <input type="text" class="input-field" formControlName="bankState" />
+              <input *ngIf="vendorType !== 'EIPVDOM'" type="text" class="input-field" formControlName="bankState" />
+
+              <!-- If DOM type: Show dropdown -->
+              <ng-select *ngIf="vendorType === 'EIPVDOM'" class="input-field" formControlName="bankState">
+                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
+                  {{ state.stateName }}
+                </ng-option>
+              </ng-select>
+              <div *ngIf="vendorForm.get('bankState')?.invalid && vendorForm.get('bankState')?.touched">
+                <small class="text-danger" *ngIf="vendorForm.get('bankState')?.hasError('required')">
+                  state is required.
+                </small>
+
+              </div>
+
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -654,7 +668,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="complDocyear">Compl Doc Year <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('iban')">*</span></label>
+                  *ngIf="currentRequiredFields.includes('complDocyear')">*</span></label>
               <input type="text" class="input-field" formControlName="complDocyear" />
             </div>
           </div>

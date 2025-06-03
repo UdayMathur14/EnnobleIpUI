@@ -320,6 +320,7 @@ export class AddEditDispatchNoteComponent {
 
   onInvoiceDateChange(event: any) {
     this.calculateDueDate();
+    
   }
 
   onCreditDaysChange() {
@@ -402,8 +403,8 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
           .value
       ),
-      customerId:
-        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value,
+      customerId:Number(
+        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value),
       description:
         this.addOrEditDispatchNoteFormGroup.controls['description'].value,
       title: this.addOrEditDispatchNoteFormGroup.controls['title'].value,
@@ -462,10 +463,10 @@ export class AddEditDispatchNoteComponent {
       poValueInclusiveTaxes:Number(
         this.addOrEditDispatchNoteFormGroup.controls['poValueInclusiveTaxes']
           .value),
-      professionalFeeInvoiceNo: Number(
+      professionalFeeInvoiceNo: 
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo']
           .value
-      ),
+      ,
       currency3:
         this.addOrEditDispatchNoteFormGroup.controls['currency3'].value,
       professionalFeeInvoiceAmount:Number(
