@@ -14,22 +14,17 @@
         <th>ClientRefNo</th>
         <th>OfficialFilingReceiptSupporting</th>
         <th>WorkDeliveryDateOrMonth</th>
-        <th>CurrencyPID</th>
         <th>ProfessionalFeeAmt</th>
         <th>GovtOrOfficialFeeAmt</th>
         <th>OtherChargesAmt</th>
         <th>DiscountAmt</th>
         <th>DiscountCreditNoteAmt</th>
         <th>TotalAmt</th>
-        <th>CustomerPONo</th>
-        <th>PODate</th>
         <th>POValueInclusiveTaxes</th>
         <th>OurInvoiceNo</th>
         <th>CurrencySID</th>
+        <th>CurrencySID</th>
         <th>InvoiceAmt</th>
-        <th>GovtFeeInvoiceNo</th>
-        <th>OfficialFeeInvAmount</th>
-        <th>EstimateNoProfFee</th>
         <th>Remarks</th>
         <th>PostedInTally</th>
         <th>Status</th>
@@ -38,66 +33,74 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let dispatchNote of dispatchNotes">
-        <td>{{ dispatchNote?.locations?.value }}</td>
-        <td class="pointer">
-          <span
-            container="body"
-            placement="end"
-            tooltipClass="table-datetime-popover"
-            ngbTooltip="tipContent"
-          >
-            <u>{{dispatchNote?.dispatchNumber}}</u>
-            <ng-template #tipContent>
-              <div class="">
-                <div class="content-row">
-                  <span>Created On</span>
-                  <span>{{dispatchNote.creationDate | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Created By</span>
-                  <span>{{dispatchNote?.createdByDetails?.name}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Update Date</span>
-                  <span>{{dispatchNote.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-                </div>
-                <div class="content-row">
-                  <span>Last Updated By</span>
-                  <span>{{dispatchNote?.lastUpdatedByDetails?.name}}</span>
-              </div>
-              </div>
-            </ng-template>
+      @for (dispatchNote of dispatchNotes; track dispatchNote.id) {
+      <tr>
+        <td>{{ dispatchNote?.id || '-' }}</td>
+
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{ dispatchNote?.Id || '-' }}</u>
           </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Created On</span>
+                <span>{{ dispatchNote?.creationDate | date: 'yyyy-MM-dd' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{ dispatchNote?.createdByDetails?.name }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{ dispatchNote?.lastUpdateOn | date: 'yyyy-MM-dd' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{ dispatchNote?.lastUpdatedByDetails?.name }}</span>
+              </div>
+            </div>
+          </ng-template>
         </td>
-        <td>{{dispatchNote?.frlrNumber || '-'}}</td>
-        <td>{{dispatchNote?.frlrDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{dispatchNote?.transporter?.transporterCode || '-'}}</td>
-        <td>{{dispatchNote?.transporter?.transporterName || '-'}}</td>
-        <td>{{dispatchNote?.suppliers?.vendorCode || '-'}}</td>
-        <td>{{dispatchNote?.suppliers?.vendorName || '-'}}</td>
-        <td>{{dispatchNote?.vehicles?.vehicleNumber || '-'}}</td>
-        <td>{{dispatchNote?.vehicles?.vehicleSize?.value || '-'}}</td>
-        <td>{{dispatchNote?.openFlag || '-'}}</td>
-        <td>{{dispatchNote?.status || '-'}}</td>
+
+        <td>{{ dispatchNote?.vendorID || '-' }}</td>
+        <td>{{ dispatchNote?.invoiceDate }}</td>
+        <td>{{ dispatchNote?.fy || '-' }}</td>
+        <td>{{ dispatchNote?.clientInvoiceNo || '-' }}</td>
+        <td>{{ dispatchNote?.dueDateAsPerInvoice || '-' }}</td>
+        <td>{{ dispatchNote?.description || '-' }}</td>
+        <td>{{ dispatchNote?.title || '-' }}</td>
+        <td>{{ dispatchNote?.applicationNumber || '-' }}</td>
+        <td>{{ dispatchNote?.fillingDate || '-' }}</td>
+        <td>{{ dispatchNote?.ourRefNo || '-' }}</td>
+        <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
+        <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
+        <td>{{ dispatchNote?.discountAmt || '-' }}</td>
+        <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
+        <td>{{ dispatchNote?.totalAmount || '-' }}</td>
+        <td>{{ dispatchNote?.paymentDate || '-' }}</td>
+        <td>{{ dispatchNote?.owrmNo1 || '-' }}</td>
+        <td>{{ dispatchNote?.owrmNo2 || '-' }}</td>
+        <td>{{ dispatchNote?.currency2 || '-' }}</td>
+        <td>{{ dispatchNote?.paymentAmount || '-' }}</td>
+        <td>{{ dispatchNote?.customerPONo || '-' }}</td>
+        <td>{{ dispatchNote?.status || '-' }}</td>
+
         <td class="text-center">
-          <img
-            src="assets/images/icons/link.svg"
-            alt="link"
-            class="me-2 pointer"
-            (click)="onPreviewDispatchNote(dispatchNote)"
-            placement="top"
-            ngbTooltip="Dispatch Note"
-          />
-          <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)" ngbTooltip="Edit" 
-          placement="top" disabled="dispatchNote?.openFlag == 'Close'">
-          <img
-            src="assets/images/icons/editPencil.svg"
-            alt="edit"
-          />
-        </button>
+          <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer"
+            (click)="onPreviewDispatchNote(dispatchNote)" placement="top" ngbTooltip="Vendor Invoice" />
+          <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)"
+            [disabled]="dispatchNote?.openFlag == 'Close'" ngbTooltip="Edit" placement="top">
+            <img src="assets/images/icons/editPencil.svg" alt="edit" />
+          </button>
         </td>
       </tr>
+      }
+      @empty {
+      }
+
       <tr *ngIf="dispatchNotes.length==0">
         <td align="center" colspan="13">No Result Found</td>
       </tr>

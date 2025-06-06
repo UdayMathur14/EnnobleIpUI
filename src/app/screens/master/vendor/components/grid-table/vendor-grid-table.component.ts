@@ -52,10 +52,6 @@ export class VendorGridTableComponent implements OnInit, OnChanges {
   getPaidByDetails(vendor: any) {
     return vendor.vendorMappingModels.map((m: any) => m.paidByDetails.code).join(', ');
   }
-
-  getTransactionTypes(vendor: any) {
-    return vendor.vendorMappingModels.map((m: any) => m.transactionType.code).join(', ');
-  }
   
   
 }

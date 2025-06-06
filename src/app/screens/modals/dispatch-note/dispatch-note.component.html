@@ -7,18 +7,18 @@
             alt="Close" (click)="onClose()">
         </div>
         <h3>
-          Dispatch Note
+          Vendor Invoice
         </h3>
       </div>
         <div class="ngmodal-body mt-4">
             <!-- <img src="assets/images/test-delivery-note.jpg" alt=""> -->
-            <p>Recycling Contact Person: <span class="fw-bold fs-6 phone">{{dispatch?.locations?.attribute4}}</span></p>
+            <p> Contact Person: <span class="fw-bold fs-6 phone">{{dispatch?.locations?.attribute4}}</span></p>
             <div class="address">
                 <p>{{dispatch?.locations?.attribute1}}</p>
                 <p>{{dispatch?.locations?.attribute2}}</p>
             </div>
 
-            <p class="fw-bold">Supplier Name: <span class="fs-5">{{dispatch.suppliers.vendorName}}</span></p>
+            <p class="fw-bold">Customer Name: <span class="fs-5">{{dispatch.suppliers.vendorName}}</span></p>
             <div class="more-information">
                 <div class="info">
                     <div class="key">Address 1: </div>
@@ -37,19 +37,19 @@
             </div>
 
             <div class="part-details">
-                <p class="mb-0 dispatch-mode">Mode Of Dispatch: <span>{{dispatch?.transporterMode}}</span></p>
+                <p class="mb-0 dispatch-mode"> Fees: <span>{{dispatch?.transporterMode}}</span></p>
                 <div class="dispatch-details">
-                    <p>Gate Pass: <span>{{dispatch.dispatchNumber}}</span></p>
-                    <p>Dispatch Date: <span>{{dispatch.creationDate | date}}</span></p>
+                    <p>Fee Details: <span>{{dispatch.dispatchNumber}}</span></p>
+                    <p>Date: <span>{{dispatch.creationDate | date}}</span></p>
                 </div>
                 @if (dispatch.dispatchNotePartItems) {
 
                     <table>
                         <thead>
                             <th>S. No.</th>
-                            <th>Part No.</th>
-                            <th>Part Description</th>
-                            <th>Dispatch(Qty/Kg)</th>
+                            <th>Total Amount</th>
+                            <th>Description</th>
+                            <th></th>
                             <th>Remarks</th>
                         </thead>
                         @for (part of parts; track i; let i = $index) {
@@ -67,20 +67,20 @@
             </div>
 
             <div class="acknowledgement">
-                <h3 class="fw-bold">Acknowledgement Copy</h3>
+                <h3 class="fw-bold">Fees Details</h3>
                 <div class="vehicle-details mb-0">
-                    <p>Vehicle Size: <span>{{dispatch.vehicles.vehicleSize.value}}</span></p>
-                    <p>Vehicle No.: <span>{{dispatch.vehicles.vehicleNumber}}</span></p>
-                    <p>Vehicle Owner Name: <span>{{dispatch?.vehicles.transporterEntity?.ownerName}}</span></p>
+                    <p>Details: <span>{{dispatch.vehicles.vehicleSize.value}}</span></p>
+                    <p>Client No: <span>{{dispatch.vehicles.vehicleNumber}}</span></p>
+                    <p>Vendor Name: <span>{{dispatch?.vehicles.transporterEntity?.ownerName}}</span></p>
                     <p>Mobile No.: <span>{{dispatch?.vehicles.transporterEntity?.transporterContactNo}}</span></p>
                 </div>
 
                 <table class="acknowledgement-details">
                     <thead>
                         <tr>
-                            <th class="lgeil-column">LGEIL</th>
+                            <th class="lgeil-column"></th>
                             <th>{{dispatch.suppliers.vendorName}}</th>
-                            <th>At LG Gate</th>
+                            <th>At Noida</th>
                         </tr>
                     </thead>
                     <tbody>
