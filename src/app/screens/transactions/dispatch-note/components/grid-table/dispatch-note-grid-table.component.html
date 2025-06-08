@@ -93,7 +93,8 @@
             (click)="onPreviewDispatchNote(dispatchNote)" placement="top" ngbTooltip="Vendor Invoice" />
           <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)"
             [disabled]="dispatchNote?.openFlag == 'Close'" ngbTooltip="Edit" placement="top">
-            <img src="assets/images/icons/editPencil.svg" alt="edit" />
+            <!-- <img src="assets/images/icons/editPencil.svg" alt="edit" /> -->
+            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditDispatchNote(dispatchNote)" />
           </button>
         </td>
       </tr>

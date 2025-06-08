@@ -65,7 +65,7 @@ export class DispatchNoteModelComponent {
         }
       }
   
-      pdf.save('dispatch-note');
+      pdf.save('Customer-Invoice');
       this.onClose();
     })
   }

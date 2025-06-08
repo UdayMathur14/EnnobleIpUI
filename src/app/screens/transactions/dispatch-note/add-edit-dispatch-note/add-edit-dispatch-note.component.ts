@@ -41,7 +41,7 @@ export class AddEditDispatchNoteComponent {
   dispatchId: number = 0;
   loadSpinner: boolean = false;
   selectedcustomers: any = [];
-  languageList:any[] = [];
+  languageList: any[] = [];
   isTranslationFeeSelected: boolean = false;
 
   dispatchNotes: any = [];
@@ -90,7 +90,7 @@ export class AddEditDispatchNoteComponent {
 
     setTimeout(() => {
       if (this.dispatchId > 0) {
-        this.getEditData();
+        this.getDispatchData(this.dispatchId);
       }
     }, 1000);
   }
@@ -215,10 +215,87 @@ export class AddEditDispatchNoteComponent {
     );
   }
 
-  async getDispatchData(dispatchId: number) {
-    this.loadSpinner = true;
-    await this.dispatchNoteService.getDispatchNoteById(dispatchId);
-  }
+getDispatchData(dispatchId: number): void {
+  this.loadSpinner = true;
+  this.dispatchNoteService.getDispatchNoteById(dispatchId).subscribe(
+    (res: any) => {
+      // Save the result to a class variable
+      this.patchInvoiceData(res);
+      this.loadSpinner = false;
+    },
+    (err) => {
+      console.error('Error fetching dispatch data', err);
+      this.loadSpinner = false;
+    }
+  );
+}
+
+patchInvoiceData(data: any): void {
+  this.addOrEditDispatchNoteFormGroup.patchValue({
+    // Tab 1
+    vendorId: data?.vendorId,
+    invoiceDate: data?.invoiceDate,
+    fy: data?.fy,
+    clientInvoiceNo: data?.clientInvoiceNo,
+    dueDateAsPerInvoice: data?.dueDateAsPerInvoice,
+    creditDaysAsPerContract: data?.creditDaysAsPerContract,
+    dueDateAsPerContract: data?.dueDateAsPerContract,
+    customerId: data?.customerId,
+    description: data?.description,
+    title: data?.title,
+    applicationNumber: data?.applicationNumber,
+    fillingDate: data?.fillingDate,
+    clientRefNo: data?.clientRefNo,
+    ourRefNo: data?.ourRefNo,
+    officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
+    workDeliveryDateOrMonth: data?.workDeliveryDateOrMonth,
+    currencyPID: data?.currencyPID,
+
+    // Tab 2
+    paymentDate: data?.paymentDate,
+    bankID: data?.bankID,
+    owrmNo1: data?.owrmNo1,
+    owrmNo2: data?.owrmNo2,
+    currency2: data?.currency2,
+    paymentAmount: data?.paymentAmount,
+
+    // Tab 4
+    customerPONo: data?.customerPONo,
+    poDate: data?.poDate,
+    poValueInclusiveTaxes: data?.poValueInclusiveTaxes,
+    professionalFeeInvoiceNo: data?.professionalFeeInvoiceNo,
+    currency3: data?.currency3,
+    professionalFeeInvoiceAmount: data?.professionalFeeInvoiceAmount,
+    govtFeesInvoiceNo: data?.govtFeesInvoiceNo,
+    ourInvoiceNo: data?.ourInvoiceNo,
+    invoiceAmount: data?.invoiceAmount,
+    govtFeeInvoiceNo: data?.govtFeeInvoiceNo,
+    officialFeeInvoiceAmount: data?.officialFeeInvoiceAmount,
+    estimateNoProfFee: data?.estimateNoProfFee,
+    estimateNoGovtFee: data?.estimateNoGovtFee,
+    remarks: data?.remarks,
+    postedInTally: data?.postedInTally,
+    status: data?.status,
+
+    // Charges tab
+    discountAmt: data?.discountAmt ?? 0,
+    discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
+
+    // Total is calculated, not patched
+  });
+
+  // Optional: Patch totals (only if you store them)
+  this.addOrEditDispatchNoteFormGroup.patchValue({
+    professionalFeeAmt: data?.professionalFeeAmt ?? 0,
+    govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
+    otherChargesAmt: data?.otherChargesAmt ?? 0,
+    TotalAmt: data?.TotalAmt ?? 0
+  });
+
+  
+}
+
+
 
   mapQuantities(qtyId: any) {
     const lookupItem = this.lookupList.find((lookup) => qtyId === lookup.id);
@@ -320,7 +397,6 @@ export class AddEditDispatchNoteComponent {
 
   onInvoiceDateChange(event: any) {
     this.calculateDueDate();
-    
   }
 
   onCreditDaysChange() {
@@ -396,15 +472,17 @@ export class AddEditDispatchNoteComponent {
           .value
       ),
 
-      creditDaysAsPerContract:Number(
+      creditDaysAsPerContract: Number(
         this.addOrEditDispatchNoteFormGroup.controls['creditDaysAsPerContract']
-          .value),
+          .value
+      ),
       dueDateAsPerContract: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
           .value
       ),
-      customerId:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value),
+      customerId: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value
+      ),
       description:
         this.addOrEditDispatchNoteFormGroup.controls['description'].value,
       title: this.addOrEditDispatchNoteFormGroup.controls['title'].value,
@@ -426,20 +504,27 @@ export class AddEditDispatchNoteComponent {
       ),
       currencyPID:
         this.addOrEditDispatchNoteFormGroup.controls['currencyPID'].value,
-      professionalFeeAmt:Number(
+      professionalFeeAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']
-          ?.value),
-      govtOrOfficialFeeAmt:Number(
+          ?.value
+      ),
+      govtOrOfficialFeeAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['govtOrOfficialFeeAmt']
-          ?.value),
-      otherChargesAmt:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['otherChargesAmt']?.value),
-      discountAmt:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['discountAmt']?.value),
-      discountCreditNoteAmt:Number(
+          ?.value
+      ),
+      otherChargesAmt: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['otherChargesAmt']?.value
+      ),
+      discountAmt: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['discountAmt']?.value
+      ),
+      discountCreditNoteAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['discountCreditNoteAmt']
-          ?.value),
-      totalAmt: Number(this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value),
+          ?.value
+      ),
+      totalAmt: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value
+      ),
 
       // tab2
       paymentDate: this.formatDate(
@@ -451,8 +536,9 @@ export class AddEditDispatchNoteComponent {
       owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
       currency2:
         this.addOrEditDispatchNoteFormGroup.controls['currency2'].value,
-      paymentAmount:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value),
+      paymentAmount: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value
+      ),
 
       // tab4
       customerPONo:
@@ -460,39 +546,45 @@ export class AddEditDispatchNoteComponent {
       poDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['poDate'].value
       ),
-      poValueInclusiveTaxes:Number(
+      poValueInclusiveTaxes: Number(
         this.addOrEditDispatchNoteFormGroup.controls['poValueInclusiveTaxes']
-          .value),
-      professionalFeeInvoiceNo: 
-        this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo']
           .value
-      ,
+      ),
+      professionalFeeInvoiceNo:
+        this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo']
+          .value,
       currency3:
         this.addOrEditDispatchNoteFormGroup.controls['currency3'].value,
-      professionalFeeInvoiceAmount:Number(
+      professionalFeeInvoiceAmount: Number(
         this.addOrEditDispatchNoteFormGroup.controls[
           'professionalFeeInvoiceAmount'
-        ].value),
+        ].value
+      ),
       govtFeesInvoiceNo:
         this.addOrEditDispatchNoteFormGroup.controls['govtFeesInvoiceNo'].value,
       ourInvoiceNo:
         this.addOrEditDispatchNoteFormGroup.controls['ourInvoiceNo'].value,
-      invoiceAmount:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value),
+      invoiceAmount: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value
+      ),
       govtFeeInvoiceNo:
         this.addOrEditDispatchNoteFormGroup.controls['govtFeeInvoiceNo'].value,
-      officialFeeInvoiceAmount:Number(
+      officialFeeInvoiceAmount: Number(
         this.addOrEditDispatchNoteFormGroup.controls['officialFeeInvoiceAmount']
-          .value),
-      estimateNoProfFee:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value),
-      estimateNoGovtFee:Number(
-        this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value),
+          .value
+      ),
+      estimateNoProfFee: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value
+      ),
+      estimateNoGovtFee: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value
+      ),
       remarks: this.addOrEditDispatchNoteFormGroup.controls['remarks'].value,
       postedInTally:
         this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
       status: this.addOrEditDispatchNoteFormGroup.controls['status'].value,
-      feeDetails: this.addOrEditDispatchNoteFormGroup.get('partdetails')?.value || [],
+      feeDetails:
+        this.addOrEditDispatchNoteFormGroup.get('partdetails')?.value || [],
       createdBy: '', // Add dynamically if required
     };
 
@@ -546,17 +638,13 @@ export class AddEditDispatchNoteComponent {
     // !this.addOrEditDispatchNoteFormGroup.controls['vehicleNumber']?.value
   }
 
-  getEditData(dispatchNumber: string = '', locationIds: any[] = []) {
-    this.loadSpinner = true;
-    this.dispatchNoteService
-      .getDispatchNote({ dispatchNumber, locationIds })
-      .subscribe((res: any) => {
-        this.dispatchNotes = res.dispatchNotes;
-        // this.getLocationId().then(() => {
-        //   this.getDispatchData(this.dispatchId);
-        // });
-      });
-  }
+getEditData(dispatchNumber: string = ''): void {
+  this.loadSpinner = true;
+  this.dispatchNoteService.getDispatchNote({ dispatchNumber }).subscribe((res: any) => {
+    this.dispatchNotes = res.dispatchNotes;
+    this.getDispatchData(this.dispatchId);
+  });
+}
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
@@ -572,7 +660,7 @@ export class AddEditDispatchNoteComponent {
       country: ['', [Validators.required]],
       amount: ['', [Validators.required]],
       remarks: [''],
-      language:['']
+      language: [''],
     });
 
     this.partDetails.push(detail);
@@ -678,11 +766,11 @@ export class AddEditDispatchNoteComponent {
   // }
 
   onFeeTypeChange(index: number) {
-  const anyTranslationSelected = this.partDetails.controls.some(
-    (group) => group.get('subFeeValue')?.value === 'Translation Fee'
-  );
-  this.isTranslationFeeSelected = anyTranslationSelected;
-}
+    const anyTranslationSelected = this.partDetails.controls.some(
+      (group) => group.get('subFeeValue')?.value === 'Translation Fee'
+    );
+    this.isTranslationFeeSelected = anyTranslationSelected;
+  }
 
   // Allow only numbers
   validateNo1(event: any) {

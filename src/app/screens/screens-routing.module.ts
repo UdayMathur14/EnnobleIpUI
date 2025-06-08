@@ -86,9 +86,9 @@ const routes: Routes = [
             { path: "master/addPointCharge", component: AddEditPointChargeComponent, canActivate: [] },
             { path: "master/recycleBinPlantConfiguration", component: RecycleBinPlantConfigurationComponent, canActivate: [] },
             { path: "transaction/VendorInvoiceTxn", component: DispatchNoteComponent, canActivate: [] },
-            { path: "transaction/addEditVendorInvoice", component: AddEditDispatchNoteComponent, canActivate: [] },
+            // { path: "transaction/addEditVendorInvoice", component: AddEditDispatchNoteComponent, canActivate: [] },
             { path: "transaction/addEditVendorInvoice/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [] },
-            { path: "transaction/addEditVendorInvoice/:locationId/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [] },
+            
             { path: "transaction/bilti", component: BiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:locationId/:biltiId", component: AddEditBiltiComponent, canActivate: [] },

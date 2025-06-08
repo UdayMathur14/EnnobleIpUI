@@ -118,7 +118,7 @@ export const createDispatchNote = () =>
 export const getDispatchNote = (offset: any, count: number) =>
   `VendorInvoiceTxn/search?offset=${offset}&count=${count}`;
 export const dispatchData = ( dispatchId: any) =>
-  `/VendorInvoiceTxn/${dispatchId}`;
+  `VendorInvoiceTxn/${dispatchId}`;
 export const updateDispatchNote = ( dispatchId: any) =>
   `/vendorinvoiceTxn/update/${dispatchId}`;
 export const biltiBillProcess = (offset: any, count: number) =>
