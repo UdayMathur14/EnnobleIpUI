@@ -2,14 +2,11 @@
   <table #table>
     <thead>
       <tr>
-        <th>Id</th>
-        <th>Code</th>
-        <th>Vendor Name</th>
         <th>Vendor Name</th>
         <th>Invoice Date</th>
         <th>FY</th>
-        <th>Due Date (As per Invoice)</th>
-        <th>Credit Days (As per Contract)</th>
+        <th>Due Date </th>
+        <th>Credit Days </th>
         <th>Customer Name</th>
         <th>Description</th>
         <th>Title</th>
@@ -25,8 +22,6 @@
         <th>Total Amt</th>
         <th>PO Value Inclusive Taxes</th>
         <th>Our Invoice No</th>
-        <th>Currency</th>
-        <th>Invoice Amount</th>
         <th>Remarks</th>
         <th>Posted In Tally</th>
         <th>Status</th>
@@ -37,11 +32,10 @@
     <tbody>
       @for (dispatchNote of dispatchNotes; track dispatchNote.id) {
       <tr>
-        <td>{{ dispatchNote?.id || '-' }}</td>
 
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{ dispatchNote?.Id || '-' }}</u>
+            <u>{{ dispatchNote?.vendorDetails.vendorName || '-' }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -64,19 +58,17 @@
             </div>
           </ng-template>
         </td>
-        <td>{{ dispatchNote?.vendorName || '-' }}</td>
-        <td>{{ dispatchNote?.vendorName || '-' }}</td>
-        <td>{{ dispatchNote?.invoiceDate || '-' }}</td>
+        <td>{{ dispatchNote?.invoiceDate | date:'yyyy-MM-dd' }}</td>
         <td>{{ dispatchNote?.fy || '-' }}</td>
-        <td>{{ dispatchNote?.dueDateAsPerInvoice || '-' }}</td>
+        <td>{{ dispatchNote?.dueDateAsPerInvoice | date:'yyyy-MM-dd'}}</td>
         <td>{{ dispatchNote?.creditDaysAsPerContract || '-' }}</td>
-        <td>{{ dispatchNote?.customerName || '-' }}</td>
+        <td>{{ dispatchNote?.customerDetials.customerName || '-' }}</td>
         <td>{{ dispatchNote?.description || '-' }}</td>
         <td>{{ dispatchNote?.title || '-' }}</td>
         <td>{{ dispatchNote?.applicationNumber || '-' }}</td>
         <td>{{ dispatchNote?.clientRefNo || '-' }}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
-        <td>{{ dispatchNote?.workDeliveryDateOrMonth || '-' }}</td>
+        <td>{{ dispatchNote?.workDeliveryDateOrMonth | date:'yyyy-MM-dd'}}</td>
         <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
         <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
         <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
@@ -85,8 +77,6 @@
         <td>{{ dispatchNote?.totalAmt || '-' }}</td>
         <td>{{ dispatchNote?.poValueInclusiveTaxes || '-' }}</td>
         <td>{{ dispatchNote?.ourInvoiceNo || '-' }}</td>
-        <td>{{ dispatchNote?.currencySID || '-' }}</td>
-        <td>{{ dispatchNote?.invoiceAmt || '-' }}</td>
         <td>{{ dispatchNote?.remarks || '-' }}</td>
         <td>{{ dispatchNote?.postedInTally || '-' }}</td>
         <td>{{ dispatchNote?.status || '-' }}</td>

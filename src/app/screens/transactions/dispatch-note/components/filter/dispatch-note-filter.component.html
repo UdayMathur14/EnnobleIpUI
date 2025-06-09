@@ -3,7 +3,7 @@
         <div class="col-lg-3" >
             <div class="">
                 <label for="">Vendor Name</label>
-                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
+                <ng-select [searchable]="true" [multiple]="true"
                     placeholder="Select vendor">
                     <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
                 </ng-select>
