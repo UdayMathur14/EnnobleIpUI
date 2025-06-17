@@ -104,7 +104,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.required,
       // Validators.pattern(/^[0-9]{6}$/),
     ]),
-
+    sameAsBilling: new FormControl(false),
     pan: new FormControl('', [
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), // optional PAN format
     ]),
@@ -263,7 +263,10 @@ export class AddEditVendorComponent implements OnInit {
       /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
     );
 
-    if (selectedGSTTreatment === 'Unregistered' || selectedGSTTreatment === 'Consumer' ) {
+    if (
+      selectedGSTTreatment === 'Unregistered' ||
+      selectedGSTTreatment === 'Consumer'
+    ) {
       // GST is optional, only pattern applies
       gstControl?.setValidators([gstPattern]);
 
@@ -482,6 +485,9 @@ export class AddEditVendorComponent implements OnInit {
       (response: any) => {
         this.vendorData = response;
         this.patchVendorData(response);
+        if (response.shippingAddressLine1 == response.billingAddressLine1) {
+          this.copyBillingToShipping(true);
+        }
         const selectedType = this.vendorForm.get('vendorType')?.value;
         if (selectedType) {
           this.onVendorTypeChange({ target: { value: selectedType } });
@@ -663,7 +669,15 @@ export class AddEditVendorComponent implements OnInit {
   }
 
   copyBillingToShipping(event: any) {
-    const isChecked = event.target.checked;
+    let isChecked: boolean;
+
+    if (typeof event === 'boolean') {
+      isChecked = event; // coming from code
+      this.vendorForm.get('sameAsBilling')?.setValue(true);
+    } else {
+      isChecked = event.target.checked; // coming from checkbox event
+    }
+    
 
     if (isChecked) {
       this.vendorForm.patchValue({
