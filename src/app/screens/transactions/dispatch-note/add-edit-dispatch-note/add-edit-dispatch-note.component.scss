@@ -13,6 +13,20 @@
 .dispatchwidthsmall{
     max-width:100px;
 }
+
+
+/* Ensure each cell has bottom border */
+.table-bordered td, 
+.table-bordered th {
+  vertical-align: top;
+}
+
+/* Optional: Rounded bottom corners */
+.custom-table {
+  border: 1px solid black !important;
+  border-radius: 2px 2px 10px 10px;
+  overflow: hidden;
+}
 // .custom-table {
 //   max-height: 300px; /* Set your preferred height */
 //   overflow-y: auto;  /* Enable vertical scrolling */
@@ -30,3 +44,41 @@
 //   z-index: 10;             /* Keep header on top */
 //    /* Optional: better separation */
 // }
+.table-bordered > :not(caption) > * > * {
+  border-color: #dee2e6 !important; /* soft grey border between cells */
+}
+
+/* Red border for inputs */
+.input-field-sm {
+  border: 1px solid #dc3545 !important;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Small label styling */
+.label-small {
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* Delete icon hover effect */
+.pointer {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.pointer:hover {
+  transform: scale(1.1);
+}
+
+.ng-select-sm .ng-select-container {
+  height: calc(1.8125rem + 2px); /* like input-sm */
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #dc3545 !important;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}

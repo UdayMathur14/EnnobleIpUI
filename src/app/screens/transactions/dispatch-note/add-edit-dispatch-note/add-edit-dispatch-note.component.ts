@@ -53,9 +53,13 @@ export class AddEditDispatchNoteComponent {
 
   filteredcustomers: any = [];
   partDetailsList: any[] = [];
+  salesDetailsList: any[] = [];
 
   selectedParts: any = [];
   deletedParts: any[] = [];
+  
+  selectedSales: any = [];
+  deletedSales: any[] = [];
 
   constructor(
     private router: Router,
@@ -132,25 +136,25 @@ export class AddEditDispatchNoteComponent {
       paymentAmount: [''], // Maps to [CustomerPONo]
 
       //tab4
-      customerPONo: [''],
-      poDate: [''], // Maps to [PODate]
-      poValueInclusiveTaxes: [''],
-      professionalFeeInvoiceNo: [''],
-      currency3: [''],
-      professionalFeeInvoiceAmount: [''],
-      govtFeesInvoiceNo: [''], // Maps to [POValueInclusiveTaxes]
-      ourInvoiceNo: [''], // Maps to [OurInvoiceNo]
-      invoiceAmount: [''], // Maps to [CurrencySID]
-
-      govtFeeInvoiceNo: [''], // Maps to [GovtFeeInvoiceNo]
-      officialFeeInvoiceAmount: [''], // Maps to [OfficialFeeInvAmount]
-      estimateNoProfFee: [''], // Maps to [EstimateNoProfFee]
-      estimateNoGovtFee: [''], // Maps to [EstimateNoGovtFee]
-      remarks: [''], // Maps to [Remarks]
-      postedInTally: [''], // Maps to [PostedInTally]
+      // customerPONo: [''],
+      // poDate: [''], // Maps to [PODate]
+      // poValueInclusiveTaxes: [''],
+      // currency3: [''],
+      // professionalFeeInvoiceNo: [''],
+      // professionalFeeInvoiceAmount: [''],
+      // govtFeesInvoiceNo: [''], // Maps to [POValueInclusiveTaxes]
+      // govtFeesInvoiceAmount:[''],
+      // officialFeeInvoiceAmount:[''],
+      // ourInvoiceNo: [''], // Maps to [OurInvoiceNo]
+      // invoiceAmount: [''], //  
+      // estimateNoProfFee: [''], // Maps to [EstimateNoProfFee]
+      // estimateNoGovtFee: [''], // Maps to [EstimateNoGovtFee]
+      // remarks: [''], // Maps to [Remarks]
+      // postedInTally: [''], // Maps to [PostedInTally]
       status: [''],
 
       partdetails: this.fb.array([]),
+      salesdetails: this.fb.array([]),
       professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       otherChargesAmt: [{ value: 0, disabled: true }],
@@ -215,87 +219,83 @@ export class AddEditDispatchNoteComponent {
     );
   }
 
-getDispatchData(dispatchId: number): void {
-  this.loadSpinner = true;
-  this.dispatchNoteService.getDispatchNoteById(dispatchId).subscribe(
-    (res: any) => {
-      // Save the result to a class variable
-      this.patchInvoiceData(res);
-      this.loadSpinner = false;
-    },
-    (err) => {
-      console.error('Error fetching dispatch data', err);
-      this.loadSpinner = false;
-    }
-  );
-}
+  getDispatchData(dispatchId: number): void {
+    this.loadSpinner = true;
+    this.dispatchNoteService.getDispatchNoteById(dispatchId).subscribe(
+      (res: any) => {
+        // Save the result to a class variable
+        this.patchInvoiceData(res);
+        this.loadSpinner = false;
+      },
+      (err) => {
+        console.error('Error fetching dispatch data', err);
+        this.loadSpinner = false;
+      }
+    );
+  }
 
-patchInvoiceData(data: any): void {
-  this.addOrEditDispatchNoteFormGroup.patchValue({
-    // Tab 1
-    vendorId: data?.vendorId,
-    invoiceDate: data?.invoiceDate,
-    fy: data?.fy,
-    clientInvoiceNo: data?.clientInvoiceNo,
-    dueDateAsPerInvoice: data?.dueDateAsPerInvoice,
-    creditDaysAsPerContract: data?.creditDaysAsPerContract,
-    dueDateAsPerContract: data?.dueDateAsPerContract,
-    customerId: data?.customerId,
-    description: data?.description,
-    title: data?.title,
-    applicationNumber: data?.applicationNumber,
-    fillingDate: data?.fillingDate,
-    clientRefNo: data?.clientRefNo,
-    ourRefNo: data?.ourRefNo,
-    officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
-    workDeliveryDateOrMonth: data?.workDeliveryDateOrMonth,
-    currencyPID: data?.currencyPID,
+  patchInvoiceData(data: any): void {
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      // Tab 1
+      vendorId: data?.vendorId,
+      invoiceDate: data?.invoiceDate,
+      fy: data?.fy,
+      clientInvoiceNo: data?.clientInvoiceNo,
+      dueDateAsPerInvoice: data?.dueDateAsPerInvoice,
+      creditDaysAsPerContract: data?.creditDaysAsPerContract,
+      dueDateAsPerContract: data?.dueDateAsPerContract,
+      customerId: data?.customerId,
+      description: data?.description,
+      title: data?.title,
+      applicationNumber: data?.applicationNumber,
+      fillingDate: data?.fillingDate,
+      clientRefNo: data?.clientRefNo,
+      ourRefNo: data?.ourRefNo,
+      officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
+      workDeliveryDateOrMonth: data?.workDeliveryDateOrMonth,
+      currencyPID: data?.currencyPID,
 
-    // Tab 2
-    paymentDate: data?.paymentDate,
-    bankID: data?.bankID,
-    owrmNo1: data?.owrmNo1,
-    owrmNo2: data?.owrmNo2,
-    currency2: data?.currency2,
-    paymentAmount: data?.paymentAmount,
+      // Tab 2
+      paymentDate: data?.paymentDate,
+      bankID: data?.bankID,
+      owrmNo1: data?.owrmNo1,
+      owrmNo2: data?.owrmNo2,
+      currency2: data?.currency2,
+      paymentAmount: data?.paymentAmount,
 
-    // Tab 4
-    customerPONo: data?.customerPONo,
-    poDate: data?.poDate,
-    poValueInclusiveTaxes: data?.poValueInclusiveTaxes,
-    professionalFeeInvoiceNo: data?.professionalFeeInvoiceNo,
-    currency3: data?.currency3,
-    professionalFeeInvoiceAmount: data?.professionalFeeInvoiceAmount,
-    govtFeesInvoiceNo: data?.govtFeesInvoiceNo,
-    ourInvoiceNo: data?.ourInvoiceNo,
-    invoiceAmount: data?.invoiceAmount,
-    govtFeeInvoiceNo: data?.govtFeeInvoiceNo,
-    officialFeeInvoiceAmount: data?.officialFeeInvoiceAmount,
-    estimateNoProfFee: data?.estimateNoProfFee,
-    estimateNoGovtFee: data?.estimateNoGovtFee,
-    remarks: data?.remarks,
-    postedInTally: data?.postedInTally,
-    status: data?.status,
+      // Tab 4
+      customerPONo: data?.customerPONo,
+      poDate: data?.poDate,
+      poValueInclusiveTaxes: data?.poValueInclusiveTaxes,
+      professionalFeeInvoiceNo: data?.professionalFeeInvoiceNo,
+      currency3: data?.currency3,
+      professionalFeeInvoiceAmount: data?.professionalFeeInvoiceAmount,
+      govtFeesInvoiceNo: data?.govtFeesInvoiceNo,
+      ourInvoiceNo: data?.ourInvoiceNo,
+      invoiceAmount: data?.invoiceAmount,
+      govtFeeInvoiceNo: data?.govtFeeInvoiceNo,
+      officialFeeInvoiceAmount: data?.officialFeeInvoiceAmount,
+      estimateNoProfFee: data?.estimateNoProfFee,
+      estimateNoGovtFee: data?.estimateNoGovtFee,
+      remarks: data?.remarks,
+      postedInTally: data?.postedInTally,
+      status: data?.status,
 
-    // Charges tab
-    discountAmt: data?.discountAmt ?? 0,
-    discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
+      // Charges tab
+      discountAmt: data?.discountAmt ?? 0,
+      discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
 
-    // Total is calculated, not patched
-  });
+      // Total is calculated, not patched
+    });
 
-  // Optional: Patch totals (only if you store them)
-  this.addOrEditDispatchNoteFormGroup.patchValue({
-    professionalFeeAmt: data?.professionalFeeAmt ?? 0,
-    govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
-    otherChargesAmt: data?.otherChargesAmt ?? 0,
-    TotalAmt: data?.TotalAmt ?? 0
-  });
-
-  
-}
-
-
+    // Optional: Patch totals (only if you store them)
+    this.addOrEditDispatchNoteFormGroup.patchValue({
+      professionalFeeAmt: data?.professionalFeeAmt ?? 0,
+      govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
+      otherChargesAmt: data?.otherChargesAmt ?? 0,
+      TotalAmt: data?.TotalAmt ?? 0,
+    });
+  }
 
   mapQuantities(qtyId: any) {
     const lookupItem = this.lookupList.find((lookup) => qtyId === lookup.id);
@@ -318,9 +318,6 @@ patchInvoiceData(data: any): void {
       (error) => {
         this.loadSpinner = false;
         this.toastr.error(
-          error.error.details
-            .map((detail: any) => detail.description)
-            .join('<br>')
         );
       }
     );
@@ -429,6 +426,7 @@ patchInvoiceData(data: any): void {
       frlrDate: '',
       transporterMode: '',
       partDetails: [],
+      salesDetails: [],
     };
   }
 
@@ -585,6 +583,8 @@ patchInvoiceData(data: any): void {
       status: this.addOrEditDispatchNoteFormGroup.controls['status'].value,
       feeDetails:
         this.addOrEditDispatchNoteFormGroup.get('partdetails')?.value || [],
+      SalesDetails:
+        this.addOrEditDispatchNoteFormGroup.get('salesdetails')?.value || [],
       createdBy: '', // Add dynamically if required
     };
 
@@ -638,13 +638,15 @@ patchInvoiceData(data: any): void {
     // !this.addOrEditDispatchNoteFormGroup.controls['vehicleNumber']?.value
   }
 
-getEditData(dispatchNumber: string = ''): void {
-  this.loadSpinner = true;
-  this.dispatchNoteService.getDispatchNote({ dispatchNumber }).subscribe((res: any) => {
-    this.dispatchNotes = res.dispatchNotes;
-    this.getDispatchData(this.dispatchId);
-  });
-}
+  getEditData(dispatchNumber: string = ''): void {
+    this.loadSpinner = true;
+    this.dispatchNoteService
+      .getDispatchNote({ dispatchNumber })
+      .subscribe((res: any) => {
+        this.dispatchNotes = res.dispatchNotes;
+        this.getDispatchData(this.dispatchId);
+      });
+  }
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
@@ -652,6 +654,28 @@ getEditData(dispatchNumber: string = ''): void {
     // this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
   }
 
+  createSalesDetailsGroup() {
+    const detail1 = this.fb.group({
+      
+       customerPONo: [''],
+       poDate: [''], // Maps to [PODate]
+       poValueInclusiveTaxes: [''],
+       currency3: [''],
+       professionalFeeInvoiceNo: [''],
+       professionalFeeInvoiceAmount: [''],
+       govtFeesInvoiceNo: [''], // Maps to [POValueInclusiveTaxes]
+       govtFeesInvoiceAmount:[''],
+       officialFeeInvoiceAmount:[''],
+       ourInvoiceNo: [''], // Maps to [OurInvoiceNo]
+       invoiceAmount: [''], //  
+       estimateNoProfFee: [''], // Maps to [EstimateNoProfFee]
+       estimateNoGovtFee: [''], // Maps to [EstimateNoGovtFee]
+       remarks: [''], // Maps to [Remarks]
+       postedInTally: [''], // Maps to [PostedInTally]
+    });
+
+    this.salesDetails.push(detail1);
+  }
   // Create Row
   createPartDetailsGroup() {
     const detail = this.fb.group({
@@ -674,6 +698,10 @@ getEditData(dispatchNumber: string = ''): void {
     return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
   }
 
+  get salesDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get('salesdetails') as FormArray;
+  }
+
   // Delete Row
   onDeletePartDetail(part: any, i: number) {
     this.loadSpinner = true;
@@ -688,7 +716,23 @@ getEditData(dispatchNumber: string = ''): void {
     this.loadSpinner = false; // remove corresponding subFee list
   }
 
+  onDeleteSalesDetail(part: any, i: number) {
+    this.loadSpinner = true;
+    this.salesDetails.removeAt(i);
+    const partNumber = part.value.partNumber;
+    const index = this.selectedParts.indexOf(partNumber);
+    if (index > -1) {
+      this.selectedParts.splice(index, 1);
+    }
+    this.subFeeOptionsList.splice(index, 1);
+    this.loadSpinner = false; // remove corresponding subFee list
+  }
+
   updateSelectedParts(selectedPartNumbers: string[]) {
+    this.selectedParts = selectedPartNumbers;
+  }
+
+  updateSelectedSales(selectedPartNumbers: string[]) {
     this.selectedParts = selectedPartNumbers;
   }
 
@@ -757,13 +801,6 @@ getEditData(dispatchNumber: string = ''): void {
       .get('TotalAmt')
       ?.patchValue(totalCalculatedAmount.toFixed(2));
   }
-
-  // Show Language Conditionally
-  // showLanguageDropdown(index: number): boolean {
-  //   return (
-  //     this.partDetails.at(index).get('feeType')?.value === 'Govt or Offical Fee'
-  //   );
-  // }
 
   onFeeTypeChange(index: number) {
     const anyTranslationSelected = this.partDetails.controls.some(
