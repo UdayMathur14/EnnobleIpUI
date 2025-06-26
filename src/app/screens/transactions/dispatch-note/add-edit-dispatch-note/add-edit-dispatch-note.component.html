@@ -416,96 +416,134 @@
 
       <div id="Tab4" class="tab-pane fade show ">
 
+        <!-- Fixed (non-repeating) Fields -->
+        <div class="row g-2 mb-3">
+          <div class="col-md-3">
+            <label class="label-small">Customer PO Number</label>
+            <input formControlName="customerPONo" type="text" class="form-control form-control-sm input-field-sm" />
+          </div>
+
+          <div class="col-md-3">
+            <label class="label-small">PO Value Inclusive Taxes</label>
+            <input formControlName="poValueInclusiveTaxes" type="text"
+              class="form-control form-control-sm input-field-sm" />
+          </div>
+
+          <div class="col-sm-3">
+            <label class="label-small">PO Date</label>
+            <div class="input-group input-group-sm">
+              <input placeholder="yyyy-mm-dd" formControlName="poDate" class="form-control input-field-sm" ngbDatepicker
+                #poDate="ngbDatepicker" (dateSelect)="onDateSelect('poDate', $event)" readonly />
+              <button class="btn btn-outline-secondary" (click)="poDate.toggle()" type="button">
+                <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+              </button>
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <label class="label-small">Currency</label>
+            <ng-select formControlName="currency3" class="ng-select-custom" [items]="countryList"
+              bindLabel="currencyName" placeholder="Select Currency" style="width: 100%;">
+            </ng-select>
+          </div>
+        </div>
 
         <div class="edit-screen-subTable mt-0">
-          <h5>
-            Sales Invoice
-            <button (click)="createSalesDetailsGroup()" class="btn btn-sm btn-danger ms-2">Add</button>
-          </h5>
-        </div>
+  <h5>
+    <button class="btn btn-outline-primary btn-sm me-2"
+      [class.active]="activeSection === 'professional'" (click)="activeSection = 'professional'">
+      Professional Sales Invoice
+    </button>
 
-        <div class="custom-table">
-          <table class="table table-sm table-bordered">
-            <thead class="table-light text-center">
-              <tr>
-                <th style="width: 40px;">#</th>
-                <th>Invoice Details</th>
-                <th style="width: 50px;">Action</th>
-              </tr>
-            </thead>
-            <tbody formArrayName="salesdetails">
-              <ng-container *ngFor="let vendorGroup of salesDetails.controls; let ind = index">
-                <tr [formGroupName]="ind">
-                  <td class="align-top text-center">{{ ind + 1 }}</td>
+    <button class="btn btn-outline-success btn-sm"
+      [class.active]="activeSection === 'govt'" (click)="activeSection = 'govt'">
+      Govt/Official Sales Invoice
+    </button>
+  </h5>
+</div>
 
-                  <td>
-                    <div class="row g-2">
-                      <div class="col-md-3" *ngFor="let field of [
-                  { label: 'Customer PO Number', name: 'customerPONo' },
-                  { label: 'PO Value Inclusive Taxes', name: 'poValueInclusiveTaxes' },
-                  { label: 'Professional Fee Invoice No', name: 'professionalFeeInvoiceNo' },
-                  { label: 'Professional Fee Invoice Amount', name: 'professionalFeeInvoiceAmount' },
-                  { label: 'Govt Fees Invoice No', name: 'govtFeesInvoiceNo' },
-                  { label: 'Govt Fees Invoice Amount', name: 'govtFeesInvoiceAmount' },
-                  { label: 'Official Fee Invoice Amount', name: 'officialFeeInvoiceAmount' },
-                  { label: 'Our Invoice Number', name: 'ourInvoiceNo' },
-                  { label: 'Invoice Amount', name: 'invoiceAmount' },
-                  { label: 'Estimate No Prof Fee', name: 'estimateNoProfFee' },
-                  { label: 'Estimate No Govt Fee', name: 'estimateNoGovtFee' },
-                  { label: 'Remarks', name: 'remarks' }
-                ]; let i = index">
-                        <label class="label-small">{{ field.label }}</label>
-                        <input [formControlName]="field.name" type="text"
-                          class="form-control form-control-sm input-field-sm"  />
-                      </div>
+<!-- PROFESSIONAL SALES INVOICE SECTION -->
+<div *ngIf="activeSection === 'professional'">
+  <div class="d-flex justify-content-between align-items-center">
+    <h6>Professional Fee Details</h6>
+    <button (click)="addProfessional()" class="btn btn-sm btn-danger">+ Add</button>
+  </div>
 
-                      <!-- PO Date -->
-                      <div class="col-sm-3">
-                        <label class="label-small">PO Date</label>
-                        <div class="input-group input-group-sm">
-                          <input placeholder="yyyy-mm-dd" formControlName="poDate" class="form-control input-field-sm"
-                            ngbDatepicker #poDate="ngbDatepicker" (dateSelect)="onDateSelect('poDate', $event)"
-                            readonly />
-                          <button class="btn btn-outline-secondary" (click)="poDate.toggle()" type="button">
-                            <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-                          </button>
-                        </div>
-                      </div>
+  <table class="table table-sm table-bordered mt-2">
+    <thead class="table-light text-center">
+      <tr>
+        <th style="width: 40px;">#</th>
+        <th>Invoice Number</th>
+        <th>Invoice Amount</th>
+        <th>Estimate Amount</th>
+        <th>Remarks</th>
+        <th>Posted In Tally</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="professionalInvoices">
+      <tr *ngFor="let group of professionalInvoices.controls; let i = index" [formGroupName]="i">
+        <td class="text-center align-middle">{{ i + 1 }}</td>
+        <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
+        <td><input formControlName="amount" class="form-control form-control-sm" /></td>
+        <td><input formControlName="estimateNo" class="form-control form-control-sm" /></td>
+        <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
+        <td>
+          <ng-select formControlName="postedInTally" class="ng-select-custom" placeholder="Select Option">
+            <ng-option [value]="'Yes'">Yes</ng-option>
+            <ng-option [value]="'No'">No</ng-option>
+          </ng-select>
+        </td>
+        <td class="text-center">
+          <img src="assets/images/icons/trash.svg" class="pointer" width="18px"
+            (click)="removeProfessional(i)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-                      <!-- Currency -->
-                      <div class="col-sm-3">
-                        <label class="label-small">Currency</label>
-                        <div class="input-group input-group-sm">
-                          <ng-select formControlName="currency3" class="ng-select-custom" [items]="countryList"
-                            bindLabel="currencyName" placeholder="Select Currency" style="width: 100%;">
-                          </ng-select>
-                        </div>
-                      </div>
+<!-- GOVT SALES INVOICE SECTION -->
+<div *ngIf="activeSection === 'govt'">
+  <div class="d-flex justify-content-between align-items-center">
+    <h6>Govt/Official Fee Details</h6>
+    <button (click)="addGovt()" class="btn btn-sm btn-danger">+ Add</button>
+  </div>
 
-                      <!-- Posted In Tally -->
-                      <div class="col-sm-3">
-                        <label class="label-small">Posted In Tally</label>
-                        <div class="input-group input-group-sm">
-                          <ng-select formControlName="postedInTally" class="ng-select-custom"
-                            placeholder="Select Option" style="width: 100%;">
-                            <ng-option [value]="'Yes'">Yes</ng-option>
-                            <ng-option [value]="'No'">No</ng-option>
-                          </ng-select>
-                        </div>
-                      </div>
+  <table class="table table-sm table-bordered mt-2">
+    <thead class="table-light text-center">
+      <tr>
+        <th style="width: 40px;">#</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Estimate No</th>
+        <th>Remarks</th>
+        <th>Posted In Tally</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="govtInvoices">
+      <tr *ngFor="let group of govtInvoices.controls; let i = index" [formGroupName]="i">
+        <td class="text-center align-middle">{{ i + 1 }}</td>
+        <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
+        <td><input formControlName="amount" class="form-control form-control-sm" /></td>
+        <td><input formControlName="estimateNo" class="form-control form-control-sm" /></td>
+        <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
+        <td>
+          <ng-select formControlName="postedInTally" class="ng-select-custom" placeholder="Select Option">
+            <ng-option [value]="'Yes'">Yes</ng-option>
+            <ng-option [value]="'No'">No</ng-option>
+          </ng-select>
+        </td>
+        <td class="text-center">
+          <img src="assets/images/icons/trash.svg" class="pointer" width="18px"
+            (click)="removeGovt(i)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-                    </div>
-                  </td>
-
-                  <td class="text-center align-top">
-                    <img src="assets/images/icons/trash.svg" alt="Delete"
-                      (click)="onDeleteSalesDetail(vendorGroup, ind)" class="pointer" width="18px" />
-                  </td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
 
 
       </div>

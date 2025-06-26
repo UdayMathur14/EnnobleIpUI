@@ -23,6 +23,7 @@ import { TransactionTypesService } from '../../../../core/service/transactionTyp
   styleUrl: './add-edit-dispatch-note.component.scss',
 })
 export class AddEditDispatchNoteComponent {
+  activeSection = 'professional'; // or 'govt'
   subFeeOptionsList: any[] = [];
   countryList: any = [];
   transactionTypesList: any = [];
@@ -155,6 +156,8 @@ export class AddEditDispatchNoteComponent {
 
       partdetails: this.fb.array([]),
       salesdetails: this.fb.array([]),
+      professionalInvoices: this.fb.array([]),
+      govtInvoices: this.fb.array([]),
       professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       otherChargesAmt: [{ value: 0, disabled: true }],
@@ -701,6 +704,40 @@ export class AddEditDispatchNoteComponent {
   get salesDetails(): FormArray {
     return this.addOrEditDispatchNoteFormGroup.get('salesdetails') as FormArray;
   }
+
+  get professionalInvoices(): FormArray {
+  return this.addOrEditDispatchNoteFormGroup.get('professionalInvoices') as FormArray;
+}
+
+get govtInvoices(): FormArray {
+  return this.addOrEditDispatchNoteFormGroup.get('govtInvoices') as FormArray;
+}
+
+createInvoiceGroup(): FormGroup {
+  return this.fb.group({
+    invoiceNo: [''],
+    amount: [''],
+    estimateNo: [''],
+    remarks: [''],
+    postedInTally: ['']
+  });
+}
+
+addProfessional() {
+  this.professionalInvoices.push(this.createInvoiceGroup());
+}
+
+removeProfessional(index: number) {
+  this.professionalInvoices.removeAt(index);
+}
+
+addGovt() {
+  this.govtInvoices.push(this.createInvoiceGroup());
+}
+
+removeGovt(index: number) {
+  this.govtInvoices.removeAt(index);
+}
 
   // Delete Row
   onDeletePartDetail(part: any, i: number) {
