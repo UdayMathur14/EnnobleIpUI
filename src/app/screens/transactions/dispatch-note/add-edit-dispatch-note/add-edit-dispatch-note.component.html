@@ -485,9 +485,9 @@
       <tr *ngFor="let group of professionalInvoices.controls; let i = index" [formGroupName]="i">
         <td class="text-center align-middle">{{ i + 1 }}</td>
         <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
-        <td><input formControlName="amount" class="form-control form-control-sm" /></td>
-        <td><input formControlName="estimateNo" class="form-control form-control-sm" /></td>
-        <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
+        <td><input formControlName="amount" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
+        <td><input formControlName="estimateNo" class="form-control form-control-sm" (keypress)="validateNo1($event)"/></td>
+        <td><input formControlName="remarks" class="form-control form-control-sm"  /></td>
         <td>
           <ng-select formControlName="postedInTally" class="ng-select-custom" placeholder="Select Option">
             <ng-option [value]="'Yes'">Yes</ng-option>
@@ -514,9 +514,9 @@
     <thead class="table-light text-center">
       <tr>
         <th style="width: 40px;">#</th>
-        <th>Invoice No</th>
-        <th>Amount</th>
-        <th>Estimate No</th>
+        <th>Invoice Number</th>
+        <th>Invoice Amount</th>
+        <th>Estimate Amount</th>
         <th>Remarks</th>
         <th>Posted In Tally</th>
         <th>Action</th>
@@ -526,8 +526,8 @@
       <tr *ngFor="let group of govtInvoices.controls; let i = index" [formGroupName]="i">
         <td class="text-center align-middle">{{ i + 1 }}</td>
         <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
-        <td><input formControlName="amount" class="form-control form-control-sm" /></td>
-        <td><input formControlName="estimateNo" class="form-control form-control-sm" /></td>
+        <td><input formControlName="amount" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
+        <td><input formControlName="estimateNo" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
         <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
         <td>
           <ng-select formControlName="postedInTally" class="ng-select-custom" placeholder="Select Option">
