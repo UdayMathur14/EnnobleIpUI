@@ -191,7 +191,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Purchase Currency</label>
-              <input type="text" formControlName="currencyPID" class="form-control form-control-sm"
+              <input type="text" formControlName="purchaseCurrency" class="form-control form-control-sm"
                 placeholder="Currency" readonly />
             </div>
           </div>
@@ -202,7 +202,7 @@
         <div class="edit-screen-subTable mt-0">
           <h4>
             Invoice Fee Details
-            <button (click)="createPartDetailsGroup()" class="custom-button-regulr">Add</button>
+            <button (click)="createInvoiceFeeDetailsGroup()" class="custom-button-regulr">Add</button>
           </h4>
         </div>
 
@@ -221,8 +221,8 @@
               </tr>
             </thead>
 
-            <tbody formArrayName="partdetails">
-              <ng-container *ngFor="let vendorGroup of partDetails.controls; let ind = index">
+            <tbody formArrayName="invoiceFeeDetails">
+              <ng-container *ngFor="let vendorGroup of invoiceFeeDetails.controls; let ind = index">
 
 
                 <tr formGroupName={{ind}}>
@@ -296,7 +296,7 @@
                   <!-- Action -->
                   <td class="text-center">
                     <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
-                      (click)="onDeletePartDetail(vendorGroup, ind)" />
+                      (click)="onDeleteInvoiceFeeDetail(vendorGroup, ind)" />
                   </td>
                 </tr>
               </ng-container>
@@ -394,7 +394,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Payment Currency</label>
-              <ng-select formControlName="currency2" class="input-field" placeholder="Select Currency">
+              <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
                 </ng-option>
@@ -439,7 +439,7 @@
 
           <div class="col-sm-3">
             <label class="label-small">Sales Currency</label>
-            <ng-select formControlName="currency3" class="ng-select-custom" [items]="countryList"
+            <ng-select formControlName="saleCurrency" class="ng-select-custom" [items]="countryList"
               bindLabel="currencyName" placeholder="Select Currency" style="width: 100%;">
             </ng-select>
           </div>
@@ -478,8 +478,8 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody formArrayName="professionalInvoices">
-              <tr *ngFor="let group of professionalInvoices.controls; let i = index" [formGroupName]="i">
+            <tbody formArrayName="saleProfessionalInvoices">
+              <tr *ngFor="let group of saleProfessionalInvoices.controls; let i = index" [formGroupName]="i">
                 <td class="text-center align-middle">{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
                 <td><input formControlName="amount" class="form-control form-control-sm"
@@ -521,8 +521,8 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody formArrayName="govtInvoices">
-              <tr *ngFor="let group of govtInvoices.controls; let i = index" [formGroupName]="i">
+            <tbody formArrayName="saleGovtInvoices">
+              <tr *ngFor="let group of saleGovtInvoices.controls; let i = index" [formGroupName]="i">
                 <td class="text-center align-middle">{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
                 <td><input formControlName="amount" class="form-control form-control-sm"

@@ -12,7 +12,6 @@ import { ToastrService } from 'ngx-toastr';
 import { VendorService } from '../../../../core/service/vendor.service';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { LookupService } from '../../../../core/service/lookup.service';
-import { TransporterService } from '../../../../core/service/transporter.service';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { CountryService } from '../../../../core/service/country.service';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
@@ -53,7 +52,7 @@ export class AddEditDispatchNoteComponent {
   today = inject(NgbCalendar).getToday();
 
   filteredcustomers: any = [];
-  partDetailsList: any[] = [];
+  invoiceFeeDetailsList: any[] = [];
   salesDetailsList: any[] = [];
 
   selectedParts: any = [];
@@ -84,7 +83,7 @@ export class AddEditDispatchNoteComponent {
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
 
-    this.partDetails.valueChanges.subscribe(() => {
+    this.invoiceFeeDetails.valueChanges.subscribe(() => {
       this.calculateTotals();
     });
 
@@ -102,6 +101,7 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
+
       //tab1
       vendorId: [''], // Maps to [VendorID]
       invoiceDate: [''], // Maps to [InvoiceDate]
@@ -119,55 +119,39 @@ export class AddEditDispatchNoteComponent {
       ourRefNo: [''], // Maps to [OurRefNo]
       officialFilingReceiptSupporting: [''], // Maps to [OfficialFilingReceiptSupporting]
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
-      currencyPID: [''], // Maps to [CurrencyPID]
-      //professionalFeeAmt: [''], // Maps to [ProfessionalFeeAmt]
-      // govtOrOfficialFeeAmt: [''], // Maps to [GovtOrOfficialFeeAmt]
-      // otherChargesAmt: [''], // Maps to [OtherChargesAmt]
-      // discountAmt: [''], // Maps to [DiscountAmt]
-      // discountCreditNoteAmt: [''],
-      // TotalAmt: [''], // Maps to [DiscountCreditNoteAmt]
+      purchaseCurrency: [''], // Maps to [CurrencyPID]
 
-      //tab2
+
+       //tab2
+      invoiceFeeDetails: this.fb.array([]),
+      professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
+      govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
+      otherChargesAmt: [{ value: 0, disabled: true }],
+      discountAmt: [0, [Validators.required]], // Initialize with 0, user enters
+      discountCreditNoteAmt: [0, [Validators.required]], // Initialize with 0, user enters
+      TotalAmt: [{ value: 0, disabled: true }],
+
+      //Tab 3 
 
       paymentDate: [''], // Maps to [PaymentDate]
       bankID: [''], // Maps to [BankID]
       owrmNo1: [''], // Maps to [OWRMNo]
       owrmNo2: [''],
-      currency2: [''],
+      paymentCurrency: [''],
       paymentAmount: [''], // Maps to [CustomerPONo]
 
       //tab4
-      // customerPONo: [''],
-      // poDate: [''], // Maps to [PODate]
-      // poValueInclusiveTaxes: [''],
-      // currency3: [''],
-      // professionalFeeInvoiceNo: [''],
-      // professionalFeeInvoiceAmount: [''],
-      // govtFeesInvoiceNo: [''], // Maps to [POValueInclusiveTaxes]
-      // govtFeesInvoiceAmount:[''],
-      // officialFeeInvoiceAmount:[''],
-      // ourInvoiceNo: [''], // Maps to [OurInvoiceNo]
-      // invoiceAmount: [''], //  
-      // estimateNoProfFee: [''], // Maps to [EstimateNoProfFee]
-      // estimateNoGovtFee: [''], // Maps to [EstimateNoGovtFee]
-      // remarks: [''], // Maps to [Remarks]
-      // postedInTally: [''], // Maps to [PostedInTally]
-      status: [''],
-
-      partdetails: this.fb.array([]),
-      salesdetails: this.fb.array([]),
-      professionalInvoices: this.fb.array([]),
-      govtInvoices: this.fb.array([]),
-      professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
-      govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
-      otherChargesAmt: [{ value: 0, disabled: true }],
-
-      discountAmt: [0, [Validators.required]], // Initialize with 0, user enters
-      discountCreditNoteAmt: [0, [Validators.required]], // Initialize with 0, user enters
-      TotalAmt: [{ value: 0, disabled: true }],
+       customerPONo: [''],
+       poDate: [''], // Maps to [PODate]
+       poValueInclusiveTaxes: [''],
+       saleCurrency: [''],
+       saleProfessionalInvoices: this.fb.array([]),
+       saleGovtInvoices: this.fb.array([]),
+       status: [''],
+      
     });
 
-    this.partDetails.valueChanges.subscribe(() => {
+    this.invoiceFeeDetails.valueChanges.subscribe(() => {
       this.calculateTotals();
     });
 
@@ -196,12 +180,12 @@ export class AddEditDispatchNoteComponent {
       // Pick billingCountry from the vendor detail
       this.selectedVendorCountry = vendorDetail.billingCountry;
         this.addOrEditDispatchNoteFormGroup.patchValue({
-      currencyPID: vendorDetail.currency 
+      purchaseCurrency: vendorDetail.currency 
     });
     } else {
       this.selectedVendorCountry = '';
       this.addOrEditDispatchNoteFormGroup.patchValue({
-      currencyPID: null
+      purchaseCurrency: null
     });
     }
   }
@@ -262,14 +246,14 @@ export class AddEditDispatchNoteComponent {
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
       workDeliveryDateOrMonth: data?.workDeliveryDateOrMonth,
-      currencyPID: data?.currencyPID,
+      purchaseCurrency: data?.purchaseCurrency,
 
-      // Tab 2
+      // Tab 3
       paymentDate: data?.paymentDate,
       bankID: data?.bankID,
       owrmNo1: data?.owrmNo1,
       owrmNo2: data?.owrmNo2,
-      currency2: data?.currency2,
+      paymentCurrency: data?.paymentCurrency,
       paymentAmount: data?.paymentAmount,
 
       // Tab 4
@@ -277,7 +261,7 @@ export class AddEditDispatchNoteComponent {
       poDate: data?.poDate,
       poValueInclusiveTaxes: data?.poValueInclusiveTaxes,
       professionalFeeInvoiceNo: data?.professionalFeeInvoiceNo,
-      currency3: data?.currency3,
+      saleCurrency: data?.saleCurrency,
       professionalFeeInvoiceAmount: data?.professionalFeeInvoiceAmount,
       govtFeesInvoiceNo: data?.govtFeesInvoiceNo,
       ourInvoiceNo: data?.ourInvoiceNo,
@@ -434,8 +418,9 @@ export class AddEditDispatchNoteComponent {
       transporterId: 0,
       frlrDate: '',
       transporterMode: '',
-      partDetails: [],
-      salesDetails: [],
+      invoiceFeeDetails: [],
+      saleProfessionalInvoices: [],
+       saleGovtInvoices: [],
     };
   }
 
@@ -466,6 +451,8 @@ export class AddEditDispatchNoteComponent {
 
     // Build invoice object from form values
     const invoiceData: any = {
+
+      //tab 1
       vendorId:
         this.addOrEditDispatchNoteFormGroup.controls['vendorId'].value || 0,
       invoiceDate: this.formatDate(
@@ -509,8 +496,15 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['workDeliveryDateOrMonth']
           .value
       ),
-      currencyPID:
-        this.addOrEditDispatchNoteFormGroup.controls['currencyPID'].value,
+      purchaseCurrency:
+        this.addOrEditDispatchNoteFormGroup.controls['purchaseCurrency'].value,
+
+
+
+      //tab2
+      invoiceFeeDetails:
+        this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails')?.value || [],
+
       professionalFeeAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']
           ?.value
@@ -533,16 +527,15 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value
       ),
 
-      // tab2
+      // tab3
       paymentDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
       ),
-
       bankID: this.addOrEditDispatchNoteFormGroup.controls['bankID'].value,
       owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
       owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
-      currency2:
-        this.addOrEditDispatchNoteFormGroup.controls['currency2'].value,
+      paymentCurrency:
+        this.addOrEditDispatchNoteFormGroup.controls['paymentCurrency'].value,
       paymentAmount: Number(
         this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value
       ),
@@ -557,43 +550,13 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['poValueInclusiveTaxes']
           .value
       ),
-      professionalFeeInvoiceNo:
-        this.addOrEditDispatchNoteFormGroup.controls['professionalFeeInvoiceNo']
-          .value,
-      currency3:
-        this.addOrEditDispatchNoteFormGroup.controls['currency3'].value,
-      professionalFeeInvoiceAmount: Number(
-        this.addOrEditDispatchNoteFormGroup.controls[
-          'professionalFeeInvoiceAmount'
-        ].value
-      ),
-      govtFeesInvoiceNo:
-        this.addOrEditDispatchNoteFormGroup.controls['govtFeesInvoiceNo'].value,
-      ourInvoiceNo:
-        this.addOrEditDispatchNoteFormGroup.controls['ourInvoiceNo'].value,
-      invoiceAmount: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['invoiceAmount'].value
-      ),
-      govtFeeInvoiceNo:
-        this.addOrEditDispatchNoteFormGroup.controls['govtFeeInvoiceNo'].value,
-      officialFeeInvoiceAmount: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['officialFeeInvoiceAmount']
-          .value
-      ),
-      estimateNoProfFee: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['estimateNoProfFee'].value
-      ),
-      estimateNoGovtFee: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['estimateNoGovtFee'].value
-      ),
-      remarks: this.addOrEditDispatchNoteFormGroup.controls['remarks'].value,
-      postedInTally:
-        this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
-      status: this.addOrEditDispatchNoteFormGroup.controls['status'].value,
-      feeDetails:
-        this.addOrEditDispatchNoteFormGroup.get('partdetails')?.value || [],
-      SalesDetails:
-        this.addOrEditDispatchNoteFormGroup.get('salesdetails')?.value || [],
+
+      saleProfessionalInvoices:
+        this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices')?.value || [],
+      
+      saleGovtInvoices:
+        this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices')?.value || [],
+
       createdBy: '', // Add dynamically if required
     };
 
@@ -663,30 +626,8 @@ export class AddEditDispatchNoteComponent {
     // this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
   }
 
-  createSalesDetailsGroup() {
-    const detail1 = this.fb.group({
-      
-       customerPONo: [''],
-       poDate: [''], // Maps to [PODate]
-       poValueInclusiveTaxes: [''],
-       currency3: [''],
-       professionalFeeInvoiceNo: [''],
-       professionalFeeInvoiceAmount: [''],
-       govtFeesInvoiceNo: [''], // Maps to [POValueInclusiveTaxes]
-       govtFeesInvoiceAmount:[''],
-       officialFeeInvoiceAmount:[''],
-       ourInvoiceNo: [''], // Maps to [OurInvoiceNo]
-       invoiceAmount: [''], //  
-       estimateNoProfFee: [''], // Maps to [EstimateNoProfFee]
-       estimateNoGovtFee: [''], // Maps to [EstimateNoGovtFee]
-       remarks: [''], // Maps to [Remarks]
-       postedInTally: [''], // Maps to [PostedInTally]
-    });
-
-    this.salesDetails.push(detail1);
-  }
   // Create Row
-  createPartDetailsGroup() {
+  createInvoiceFeeDetailsGroup() {
     const detail = this.fb.group({
       feeType: [''],
       subFeeValue: ['', [Validators.required]],
@@ -696,27 +637,23 @@ export class AddEditDispatchNoteComponent {
       language: [''],
     });
 
-    this.partDetails.push(detail);
+    this.invoiceFeeDetails.push(detail);
     detail.get('feeType')?.valueChanges.subscribe(() => this.calculateTotals());
     detail.get('amount')?.valueChanges.subscribe(() => this.calculateTotals());
 
     this.calculateTotals();
   }
 
-  get partDetails(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get('partdetails') as FormArray;
+  get invoiceFeeDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails') as FormArray;
   }
 
-  get salesDetails(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get('salesdetails') as FormArray;
-  }
-
-  get professionalInvoices(): FormArray {
-  return this.addOrEditDispatchNoteFormGroup.get('professionalInvoices') as FormArray;
+  get saleProfessionalInvoices(): FormArray {
+  return this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices') as FormArray;
 }
 
-get govtInvoices(): FormArray {
-  return this.addOrEditDispatchNoteFormGroup.get('govtInvoices') as FormArray;
+get saleGovtInvoices(): FormArray {
+  return this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices') as FormArray;
 }
 
 createInvoiceGroup(): FormGroup {
@@ -730,27 +667,27 @@ createInvoiceGroup(): FormGroup {
 }
 
 addProfessional() {
-  this.professionalInvoices.push(this.createInvoiceGroup());
+  this.saleProfessionalInvoices.push(this.createInvoiceGroup());
 }
 
 removeProfessional(index: number) {
-  this.professionalInvoices.removeAt(index);
+  this.saleProfessionalInvoices.removeAt(index);
 }
 
 addGovt() {
-  this.govtInvoices.push(this.createInvoiceGroup());
+  this.saleGovtInvoices.push(this.createInvoiceGroup());
 }
 
 removeGovt(index: number) {
-  this.govtInvoices.removeAt(index);
+  this.saleGovtInvoices.removeAt(index);
 }
 
   // Delete Row
-  onDeletePartDetail(part: any, i: number) {
+  onDeleteInvoiceFeeDetail(InvoiceFeeDetail: any, i: number) {
     this.loadSpinner = true;
-    this.partDetails.removeAt(i);
-    const partNumber = part.value.partNumber;
-    const index = this.selectedParts.indexOf(partNumber);
+    this.invoiceFeeDetails.removeAt(i);
+    const InvoiceFeeDetailNumber = InvoiceFeeDetail.value.InvoiceFeeDetailNumber;
+    const index = this.selectedParts.indexOf(InvoiceFeeDetailNumber);
     if (index > -1) {
       this.selectedParts.splice(index, 1);
     }
@@ -759,24 +696,12 @@ removeGovt(index: number) {
     this.loadSpinner = false; // remove corresponding subFee list
   }
 
-  onDeleteSalesDetail(part: any, i: number) {
-    this.loadSpinner = true;
-    this.salesDetails.removeAt(i);
-    const partNumber = part.value.partNumber;
-    const index = this.selectedParts.indexOf(partNumber);
-    if (index > -1) {
-      this.selectedParts.splice(index, 1);
-    }
-    this.subFeeOptionsList.splice(index, 1);
-    this.loadSpinner = false; // remove corresponding subFee list
+  updateSelectedInvoice(selectedInvoiceFeeNumbers: string[]) {
+    this.selectedParts = selectedInvoiceFeeNumbers;
   }
 
-  updateSelectedParts(selectedPartNumbers: string[]) {
-    this.selectedParts = selectedPartNumbers;
-  }
-
-  updateSelectedSales(selectedPartNumbers: string[]) {
-    this.selectedParts = selectedPartNumbers;
+  updateSelectedSales(selectedInvoiceFeeNumbers: string[]) {
+    this.selectedParts = selectedInvoiceFeeNumbers;
   }
 
   getSelectedValue(event: Event): string {
@@ -787,7 +712,7 @@ removeGovt(index: number) {
   // On FeeType Change
   onFeeTypeSelect(feeType: string, index: number) {
     this.loadSpinner = true;
-    const row = this.partDetails.at(index);
+    const row = this.invoiceFeeDetails.at(index);
     this.getAllLookupsList(0, feeType, index, row);
     this.loadSpinner = false; // pass just the string
   }
@@ -798,7 +723,7 @@ removeGovt(index: number) {
     let govtOrOfficialFeeTotal = 0;
     let otherChargesTotal = 0;
 
-    this.partDetails.controls.forEach((group: AbstractControl) => {
+    this.invoiceFeeDetails.controls.forEach((group: AbstractControl) => {
       const feeType = group.get('feeType')?.value;
       const amount = parseFloat(group.get('amount')?.value) || 0; // Convert to number, default to 0 if invalid
 
@@ -846,7 +771,7 @@ removeGovt(index: number) {
   }
 
   onFeeTypeChange(index: number) {
-    const anyTranslationSelected = this.partDetails.controls.some(
+    const anyTranslationSelected = this.invoiceFeeDetails.controls.some(
       (group) => group.get('subFeeValue')?.value === 'Translation Fee'
     );
     this.isTranslationFeeSelected = anyTranslationSelected;
