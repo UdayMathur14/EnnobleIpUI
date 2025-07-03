@@ -195,8 +195,14 @@ export class AddEditDispatchNoteComponent {
     if (vendorDetail) {
       // Pick billingCountry from the vendor detail
       this.selectedVendorCountry = vendorDetail.billingCountry;
+        this.addOrEditDispatchNoteFormGroup.patchValue({
+      currencyPID: vendorDetail.currency 
+    });
     } else {
       this.selectedVendorCountry = '';
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+      currencyPID: null
+    });
     }
   }
 
