@@ -466,8 +466,8 @@
             <thead class="table-light text-center">
               <tr>
                 <th>#</th>
-                <th>Invoice No</th>
-                <th>Amount</th>
+                <th>Professional Inv No</th>
+                <th>Professional Amount</th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
                 <th>Posted In Tally</th>
@@ -477,9 +477,9 @@
             <tbody [formGroup]="addOrEditDispatchNoteFormGroup">
               <tr *ngFor="let group of filteredSalesInvoices('Professional'); let i = index" [formGroup]="group">
                 <td>{{ i + 1 }}</td>
-                <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
-                <td><input formControlName="amount" class="form-control form-control-sm" /></td>
-                <td><input formControlName="estimateNo" class="form-control form-control-sm" /></td>
+                <td><input formControlName="invoiceNo" class="form-control form-control-sm"  /></td>
+                <td><input formControlName="amount" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
+                <td><input formControlName="estimateNo" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
                 <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
@@ -495,7 +495,7 @@
 
         <div *ngIf="activeSection === 'govt'">
           <div class="d-flex justify-content-between align-items-center">
-            <h6>Govt Fee Details</h6>
+            <h6>Govt/Official Fee Details</h6>
             <button (click)="addSaleInvoice('Govt')" class="btn btn-sm btn-danger">+ Add</button>
           </div>
 
@@ -503,8 +503,8 @@
             <thead class="table-light text-center">
               <tr>
                 <th>#</th>
-                <th>Invoice No</th>
-                <th>Amount</th>
+                <th>Govt/official Inv No</th>
+                <th>Govt/Official Amount</th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
                 <th>Posted In Tally</th>
@@ -515,8 +515,8 @@
               <tr *ngFor="let group of filteredSalesInvoices('Govt'); let i = index" [formGroup]="group">
                 <td>{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
-                <td><input formControlName="amount" class="form-control form-control-sm" /></td>
-                <td><input formControlName="estimateNo" class="form-control form-control-sm" /></td>
+                <td><input formControlName="amount" class="form-control form-control-sm" (keypress)="validateNo1($event)"/></td>
+                <td><input formControlName="estimateNo" class="form-control form-control-sm" (keypress)="validateNo1($event)"/></td>
                 <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
