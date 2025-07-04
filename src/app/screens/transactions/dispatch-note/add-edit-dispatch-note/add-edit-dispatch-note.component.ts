@@ -54,10 +54,11 @@ export class AddEditDispatchNoteComponent {
   filteredcustomers: any = [];
   invoiceFeeDetailsList: any[] = [];
   salesDetailsList: any[] = [];
+  govtDetailsList: any[] = [];
 
   selectedParts: any = [];
   deletedParts: any[] = [];
-  
+
   selectedSales: any = [];
   deletedSales: any[] = [];
 
@@ -101,7 +102,6 @@ export class AddEditDispatchNoteComponent {
 
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
-
       //tab1
       vendorId: [''], // Maps to [VendorID]
       invoiceDate: [''], // Maps to [InvoiceDate]
@@ -121,18 +121,16 @@ export class AddEditDispatchNoteComponent {
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
       purchaseCurrency: [''], // Maps to [CurrencyPID]
 
-
-       //tab2
+      //tab2
       invoiceFeeDetails: this.fb.array([]),
       professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       otherChargesAmt: [{ value: 0, disabled: true }],
       discountAmt: [0, [Validators.required]], // Initialize with 0, user enters
       discountCreditNoteAmt: [0, [Validators.required]], // Initialize with 0, user enters
-      TotalAmt: [{ value: 0, disabled: true }],
+      totalAmount: [{ value: 0, disabled: true }],
 
-      //Tab 3 
-
+      //Tab 3
       paymentDate: [''], // Maps to [PaymentDate]
       bankID: [''], // Maps to [BankID]
       owrmNo1: [''], // Maps to [OWRMNo]
@@ -141,14 +139,14 @@ export class AddEditDispatchNoteComponent {
       paymentAmount: [''], // Maps to [CustomerPONo]
 
       //tab4
-       customerPONo: [''],
-       poDate: [''], // Maps to [PODate]
-       poValueInclusiveTaxes: [''],
-       saleCurrency: [''],
-       saleProfessionalInvoices: this.fb.array([]),
-       saleGovtInvoices: this.fb.array([]),
-       status: [''],
-      
+      customerPONo: [''],
+      poDate: [''], // Maps to [PODate]
+      poValueInclusiveTaxes: [''],
+      saleCurrency: [''],
+      saleProfessionalInvoices: this.fb.array([]),
+      saleGovtInvoices: this.fb.array([]),
+      salesInvoiceDetails: this.fb.array([]),
+      status: [''],
     });
 
     this.invoiceFeeDetails.valueChanges.subscribe(() => {
@@ -179,14 +177,14 @@ export class AddEditDispatchNoteComponent {
     if (vendorDetail) {
       // Pick billingCountry from the vendor detail
       this.selectedVendorCountry = vendorDetail.billingCountry;
-        this.addOrEditDispatchNoteFormGroup.patchValue({
-      purchaseCurrency: vendorDetail.currency 
-    });
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        purchaseCurrency: vendorDetail.currency,
+      });
     } else {
       this.selectedVendorCountry = '';
       this.addOrEditDispatchNoteFormGroup.patchValue({
-      purchaseCurrency: null
-    });
+        purchaseCurrency: null,
+      });
     }
   }
 
@@ -286,7 +284,7 @@ export class AddEditDispatchNoteComponent {
       professionalFeeAmt: data?.professionalFeeAmt ?? 0,
       govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
       otherChargesAmt: data?.otherChargesAmt ?? 0,
-      TotalAmt: data?.TotalAmt ?? 0,
+      totalAmount: data?.totalAmount ?? 0,
     });
   }
 
@@ -310,8 +308,7 @@ export class AddEditDispatchNoteComponent {
       },
       (error) => {
         this.loadSpinner = false;
-        this.toastr.error(
-        );
+        this.toastr.error();
       }
     );
   }
@@ -420,7 +417,7 @@ export class AddEditDispatchNoteComponent {
       transporterMode: '',
       invoiceFeeDetails: [],
       saleProfessionalInvoices: [],
-       saleGovtInvoices: [],
+      saleGovtInvoices: [],
     };
   }
 
@@ -451,7 +448,6 @@ export class AddEditDispatchNoteComponent {
 
     // Build invoice object from form values
     const invoiceData: any = {
-
       //tab 1
       vendorId:
         this.addOrEditDispatchNoteFormGroup.controls['vendorId'].value || 0,
@@ -482,7 +478,7 @@ export class AddEditDispatchNoteComponent {
       title: this.addOrEditDispatchNoteFormGroup.controls['title'].value,
       applicationNumber:
         this.addOrEditDispatchNoteFormGroup.controls['applicationNumber'].value,
-      fillingDate: this.formatDate(
+      filingDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['fillingDate'].value
       ),
       clientRefNo:
@@ -499,11 +495,10 @@ export class AddEditDispatchNoteComponent {
       purchaseCurrency:
         this.addOrEditDispatchNoteFormGroup.controls['purchaseCurrency'].value,
 
-
-
       //tab2
       invoiceFeeDetails:
-        this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails')?.value || [],
+        this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails')?.value ||
+        [],
 
       professionalFeeAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']
@@ -523,8 +518,8 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['discountCreditNoteAmt']
           ?.value
       ),
-      totalAmt: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['TotalAmt']?.value
+      totalAmount: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['totalAmount']?.value
       ),
 
       // tab3
@@ -551,11 +546,24 @@ export class AddEditDispatchNoteComponent {
           .value
       ),
 
-      saleProfessionalInvoices:
-        this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices')?.value || [],
+      saleCurrency: Number(
+        this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value
+      ),
+
+      // saleProfessionalInvoiceDetails:
+      //   this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices')
+      //     ?.value || [],
+
+      // govtSaleInvoiceDetails:
+      //   this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices')?.value ||
+      //   [],
+
       
-      saleGovtInvoices:
-        this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices')?.value || [],
+      salesInvoiceDetails:
+        this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
+        [],
+
+
 
       createdBy: '', // Add dynamically if required
     };
@@ -645,48 +653,82 @@ export class AddEditDispatchNoteComponent {
   }
 
   get invoiceFeeDetails(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails') as FormArray;
+    return this.addOrEditDispatchNoteFormGroup.get(
+      'invoiceFeeDetails'
+    ) as FormArray;
   }
 
   get saleProfessionalInvoices(): FormArray {
-  return this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices') as FormArray;
-}
+    return this.addOrEditDispatchNoteFormGroup.get(
+      'saleProfessionalInvoices'
+    ) as FormArray;
+  }
 
-get saleGovtInvoices(): FormArray {
-  return this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices') as FormArray;
-}
+  get saleGovtInvoices(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get(
+      'saleGovtInvoices'
+    ) as FormArray;
+  }
+  get salesInvoiceDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails') as FormArray;
+  }
 
-createInvoiceGroup(): FormGroup {
-  return this.fb.group({
+  createInvoiceGroup(type: string): FormGroup {
+    return this.fb.group({
+      type: [type],
+      invoiceNo: [''],
+      amount: [''],
+      estimateNo: [''],
+      remarks: [''],
+      postedInTally: [''],
+    });
+  }
+  addSaleInvoice(type: string) {
+  const group = this.fb.group({
+    type: [type], // 'Professional' or 'Govt'
     invoiceNo: [''],
     amount: [''],
     estimateNo: [''],
     remarks: [''],
     postedInTally: ['']
   });
+
+  this.salesInvoiceDetails.push(group);
+}
+filteredSalesInvoices(type: string): FormGroup[] {
+  return this.salesInvoiceDetails.controls
+    .filter(ctrl => ctrl.get('type')?.value === type) as FormGroup[];
 }
 
-addProfessional() {
-  this.saleProfessionalInvoices.push(this.createInvoiceGroup());
+removeSaleInvoice(group: FormGroup) {
+  const index = this.salesInvoiceDetails.controls.indexOf(group);
+  if (index >= 0) {
+    this.salesInvoiceDetails.removeAt(index);
+  }
 }
 
-removeProfessional(index: number) {
-  this.saleProfessionalInvoices.removeAt(index);
-}
+  addProfessional() {
+    this.saleProfessionalInvoices.push(this.createInvoiceGroup('professional'));
+  }
 
-addGovt() {
-  this.saleGovtInvoices.push(this.createInvoiceGroup());
-}
+  removeProfessional(index: number) {
+    this.saleProfessionalInvoices.removeAt(index);
+  }
 
-removeGovt(index: number) {
-  this.saleGovtInvoices.removeAt(index);
-}
+  addGovt() {
+    this.saleGovtInvoices.push(this.createInvoiceGroup('govt'));
+  }
+
+  removeGovt(index: number) {
+    this.saleGovtInvoices.removeAt(index);
+  }
 
   // Delete Row
   onDeleteInvoiceFeeDetail(InvoiceFeeDetail: any, i: number) {
     this.loadSpinner = true;
     this.invoiceFeeDetails.removeAt(i);
-    const InvoiceFeeDetailNumber = InvoiceFeeDetail.value.InvoiceFeeDetailNumber;
+    const InvoiceFeeDetailNumber =
+      InvoiceFeeDetail.value.InvoiceFeeDetailNumber;
     const index = this.selectedParts.indexOf(InvoiceFeeDetailNumber);
     if (index > -1) {
       this.selectedParts.splice(index, 1);
@@ -766,7 +808,7 @@ removeGovt(index: number) {
       discountCreditNoteAmt;
 
     this.addOrEditDispatchNoteFormGroup
-      .get('TotalAmt')
+      .get('totalAmount')
       ?.patchValue(totalCalculatedAmount.toFixed(2));
   }
 
