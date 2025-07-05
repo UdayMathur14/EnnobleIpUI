@@ -14,16 +14,7 @@
         <th>Client Ref No</th>
         <th>Official Filing Receipt Supporting</th>
         <th>Work Delivery Date / Month</th>
-        <th>Professional Fee Amt</th>
-        <th>Govt / Official Fee Amt</th>
-        <th>Other Charges Amt</th>
-        <th>Discount Amt</th>
-        <th>Discount Credit Note Amt</th>
         <th>Total Amt</th>
-        <th>PO Value Inclusive Taxes</th>
-        <th>Our Invoice No</th>
-        <th>Remarks</th>
-        <th>Posted In Tally</th>
         <th>Status</th>
         <!-- <th>Dispatch Note Status</th> -->
         <th class="text-center">Actions</th>
@@ -69,16 +60,7 @@
         <td>{{ dispatchNote?.clientRefNo || '-' }}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
         <td>{{ dispatchNote?.workDeliveryDateOrMonth | date:'yyyy-MM-dd'}}</td>
-        <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
-        <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
-        <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
-        <td>{{ dispatchNote?.discountAmt || '-' }}</td>
-        <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
         <td>{{ dispatchNote?.totalAmt || '-' }}</td>
-        <td>{{ dispatchNote?.poValueInclusiveTaxes || '-' }}</td>
-        <td>{{ dispatchNote?.ourInvoiceNo || '-' }}</td>
-        <td>{{ dispatchNote?.remarks || '-' }}</td>
-        <td>{{ dispatchNote?.postedInTally || '-' }}</td>
         <td>{{ dispatchNote?.status || '-' }}</td>
 
 

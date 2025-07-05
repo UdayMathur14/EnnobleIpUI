@@ -546,7 +546,7 @@ export class AddEditDispatchNoteComponent {
           .value
       ),
 
-      saleCurrency: Number(
+      saleCurrency: (
         this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value
       ),
 

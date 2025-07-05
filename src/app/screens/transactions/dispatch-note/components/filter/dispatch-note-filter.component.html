@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-3" >
             <div class="">
-                <label for="">Vendor Name</label>
+                <label for="">Application Number</label>
                 <ng-select [searchable]="true" [multiple]="true"
                     placeholder="Select vendor">
                     <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
@@ -11,15 +11,7 @@
         </div>
         <div class="col-lg-3">
             <div class="custom-form-input">
-                <label for="">Invoice Date</label>
-                <ng-select class="input-field" [(ngModel)]="dispatchNumber" placeholder="Select Date">
-                    <ng-option *ngFor="let dispatch of filters?.DispatchNumber" [value]="dispatch">{{dispatch}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="custom-form-input">
-                <label for="">Customer Name</label>
+                <label for="">Client Inv Number</label>
                 <ng-select class="input-field" [(ngModel)]="frlrNo" placeholder="Select Customer">
                     <ng-option *ngFor="let frlr of filters?.FrlrNumber" [value]="frlr">{{frlr}}</ng-option>
                 </ng-select>
