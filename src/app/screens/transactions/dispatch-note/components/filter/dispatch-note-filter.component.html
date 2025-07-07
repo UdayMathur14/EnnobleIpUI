@@ -1,19 +1,18 @@
 <div class="filters-box">
     <div class="row">
         <div class="col-lg-3" >
-            <div class="">
+            <div class="custom-form-input">
                 <label for="">Application Number</label>
-                <ng-select [searchable]="true" [multiple]="true"
-                    placeholder="Select vendor">
-                    <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
+                <ng-select class="input-field" [(ngModel)]="applicationNumber" placeholder="Select Invoice No">
+                    <ng-option *ngFor="let appl of filters?.ApplicationNumber" [value]="appl">{{appl}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col-lg-3">
             <div class="custom-form-input">
                 <label for="">Client Inv Number</label>
-                <ng-select class="input-field" [(ngModel)]="frlrNo" placeholder="Select Customer">
-                    <ng-option *ngFor="let frlr of filters?.FrlrNumber" [value]="frlr">{{frlr}}</ng-option>
+                <ng-select class="input-field" [(ngModel)]="clientInvoiceNumber" placeholder="Select Invoice">
+                    <ng-option *ngFor="let number of filters?.ClientInvoiceNo" [value]="number">{{number}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -37,8 +36,8 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]="locationIds.length==0 && !dispatchNumber && !status && !frlrNo">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !dispatchNumber && !frlrNo && !status && !dispatchStatus"> Clear</button>
+                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]=" !dispatchNumber && !status && !frlrNo">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]=" !dispatchNumber && !frlrNo && !status && !dispatchStatus"> Clear</button>
                 </div>
             </div>
         </div>

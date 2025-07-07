@@ -228,63 +228,57 @@ export class AddEditDispatchNoteComponent {
   patchInvoiceData(data: any): void {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
-      vendorId: data?.vendorId,
+      vendorId: data?.vendorID,
       invoiceDate: data?.invoiceDate,
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,
       dueDateAsPerInvoice: data?.dueDateAsPerInvoice,
       creditDaysAsPerContract: data?.creditDaysAsPerContract,
       dueDateAsPerContract: data?.dueDateAsPerContract,
-      customerId: data?.customerId,
+      customerId: data?.customerID,
       description: data?.description,
       title: data?.title,
       applicationNumber: data?.applicationNumber,
-      fillingDate: data?.fillingDate,
+      fillingDate: data?.filingDate,
       clientRefNo: data?.clientRefNo,
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
       workDeliveryDateOrMonth: data?.workDeliveryDateOrMonth,
       purchaseCurrency: data?.purchaseCurrency,
 
+      //Tab 2
+     professionalFeeAmt: data?.professionalFeeAmt ?? 0,
+      govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
+      otherChargesAmt: data?.otherChargesAmt ?? 0,
+      totalAmount: data?.totalAmount ?? 0,
+      discountAmt: data?.discountAmt ?? 0,
+      discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
       // Tab 3
       paymentDate: data?.paymentDate,
       bankID: data?.bankID,
-      owrmNo1: data?.owrmNo1,
-      owrmNo2: data?.owrmNo2,
+      owrmNo1: data?.oWRMNo1,
+      owrmNo2: data?.oWRMNo2,
       paymentCurrency: data?.paymentCurrency,
       paymentAmount: data?.paymentAmount,
 
       // Tab 4
       customerPONo: data?.customerPONo,
-      poDate: data?.poDate,
-      poValueInclusiveTaxes: data?.poValueInclusiveTaxes,
-      professionalFeeInvoiceNo: data?.professionalFeeInvoiceNo,
+      poDate: data?.pODate,
+      poValueInclusiveTaxes: data?.pOValueInclusiveTaxes,
       saleCurrency: data?.saleCurrency,
-      professionalFeeInvoiceAmount: data?.professionalFeeInvoiceAmount,
-      govtFeesInvoiceNo: data?.govtFeesInvoiceNo,
-      ourInvoiceNo: data?.ourInvoiceNo,
-      invoiceAmount: data?.invoiceAmount,
-      govtFeeInvoiceNo: data?.govtFeeInvoiceNo,
-      officialFeeInvoiceAmount: data?.officialFeeInvoiceAmount,
-      estimateNoProfFee: data?.estimateNoProfFee,
-      estimateNoGovtFee: data?.estimateNoGovtFee,
-      remarks: data?.remarks,
-      postedInTally: data?.postedInTally,
-      status: data?.status,
 
       // Charges tab
-      discountAmt: data?.discountAmt ?? 0,
-      discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
+     
 
       // Total is calculated, not patched
     });
 
     // Optional: Patch totals (only if you store them)
     this.addOrEditDispatchNoteFormGroup.patchValue({
-      professionalFeeAmt: data?.professionalFeeAmt ?? 0,
-      govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
-      otherChargesAmt: data?.otherChargesAmt ?? 0,
-      totalAmount: data?.totalAmount ?? 0,
+      // professionalFeeAmt: data?.professionalFeeAmt ?? 0,
+      // govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
+      // otherChargesAmt: data?.otherChargesAmt ?? 0,
+      // totalAmount: data?.totalAmount ?? 0,
     });
   }
 

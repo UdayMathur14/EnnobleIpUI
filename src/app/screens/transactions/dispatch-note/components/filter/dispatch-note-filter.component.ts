@@ -18,6 +18,8 @@ export class DispatchNoteFiltersComponent implements OnInit {
   locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => e.id);
   locations: any[] = APIConstant.commonLocationsList;
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
+  applicationNumber: undefined;
+  clientInvoiceNumber: undefined;
 
   constructor(private lookupService: LookupService) {}
 
@@ -25,9 +27,9 @@ export class DispatchNoteFiltersComponent implements OnInit {
   handleSearch() {
     this.getData.emit({
       dispatchNumber: this.dispatchNumber,
-      locationIds: this.locationIds,
+      clientInvoiceNumber: this.clientInvoiceNumber,
       status: this.status,
-      frlrNo: this.frlrNo,
+      applicationNumber: this.applicationNumber,
       dispatchStatus: this.dispatchStatus
     });
   }
@@ -35,8 +37,8 @@ export class DispatchNoteFiltersComponent implements OnInit {
   onClearFilter() {
     this.dispatchNumber = null;
     this.status = undefined;
-    this.frlrNo = undefined;
-    this.dispatchStatus = undefined;
+    this.applicationNumber = undefined;
+    this.clientInvoiceNumber = undefined;
     this.locationIds = this.locationIds;
     this.getData.emit({
       dispatchNumber: null,

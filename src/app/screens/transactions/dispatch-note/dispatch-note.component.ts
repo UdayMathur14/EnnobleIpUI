@@ -41,15 +41,9 @@ export class DispatchNoteComponent {
 
   getDispatchData(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     const data = {
-      // "locationIds": filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
-      "ApplicationNumber": filters?.dispatchNumber || "",
-      // "frlrNumber": filters?.frlrNo || "",
-      "ClientInvoiceNumber": filters?.dispatchStatus,
+      "ApplicationNumber": filters?.ApplicationNumber || "",
+      "ClientInvoiceNumber": filters?.ClientInvoiceNumber,
        "status": filters?.status || "",
-      // "transporterCode": "",
-      // "transporterName": "",
-      // "vendorCodes": [],
-      // "vendorNames": [],
     }
     this.loadSpinner = true;
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe((res: any) => {

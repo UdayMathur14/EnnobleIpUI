@@ -439,9 +439,11 @@
 
           <div class="col-sm-3">
             <label class="label-small">Sales Currency</label>
-            <ng-select formControlName="saleCurrency" class="ng-select-custom" [items]="countryList"
-              bindLabel="currencyName" placeholder="Select Currency" style="width: 100%;">
-            </ng-select>
+            <ng-select formControlName="saleCurrency" class="input-field" placeholder="Select Currency">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
           </div>
         </div>
 
