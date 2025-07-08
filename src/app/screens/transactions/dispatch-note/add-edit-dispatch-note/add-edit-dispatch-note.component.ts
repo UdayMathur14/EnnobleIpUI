@@ -143,8 +143,7 @@ export class AddEditDispatchNoteComponent {
       poDate: [''], // Maps to [PODate]
       poValueInclusiveTaxes: [''],
       saleCurrency: [''],
-      saleProfessionalInvoices: this.fb.array([]),
-      saleGovtInvoices: this.fb.array([]),
+
       salesInvoiceDetails: this.fb.array([]),
       status: [''],
     });
@@ -233,7 +232,7 @@ export class AddEditDispatchNoteComponent {
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,
       dueDateAsPerInvoice: this.convertToNgbDate(data?.dueDateAsPerInvoice),
-      creditDaysAsPerContract:  data?.creditDaysAsPerContract,
+      creditDaysAsPerContract: data?.creditDaysAsPerContract,
       dueDateAsPerContract: this.convertToNgbDate(data?.dueDateAsPerContract),
       customerId: data?.customerID,
       description: data?.description,
@@ -243,12 +242,16 @@ export class AddEditDispatchNoteComponent {
       clientRefNo: data?.clientRefNo,
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
-      workDeliveryDateOrMonth: this.convertToNgbDate(data?.workDeliveryDateOrMonth),
+      workDeliveryDateOrMonth: this.convertToNgbDate(
+        data?.workDeliveryDateOrMonth
+      ),
       purchaseCurrency: data?.purchaseCurrency,
 
       //Tab 2
+      invoiceFeeDetails: data?.feeDetails,
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
+
       // Tab 3
       paymentDate: this.convertToNgbDate(data?.paymentDate),
       bankID: data?.bankID,
@@ -262,13 +265,38 @@ export class AddEditDispatchNoteComponent {
       poDate: this.convertToNgbDate(data?.pODate),
       poValueInclusiveTaxes: data?.pOValueInclusiveTaxes,
       saleCurrency: data?.saleCurrency,
-
+      salesInvoiceDetails: data?.saleDetails,
       // Charges tab
-     
 
       // Total is calculated, not patched
     });
+    this.invoiceFeeDetails.clear();
+    data.feeDetails?.forEach((fee: any) => {
+      this.invoiceFeeDetails.push(
+        this.fb.group({
+          feeType: [fee.feeType],
+          subFeeValue: [fee.subFeeValue],
+          country: [fee.country],
+          language: [fee.language],
+          amount: [fee.amount],
+          remarks: [fee.remarks],
+        })
+      );
+    });
 
+    this.salesInvoiceDetails.clear();
+    data.saleDetails?.forEach((sale: any) => {
+      this.salesInvoiceDetails.push(
+        this.fb.group({
+          type: [sale.type],
+          invoiceNo: [sale.invoiceNo],
+          amount: [sale.amount],
+          estimateNo: [sale.estimateNo],
+          remarks: [sale.remarks],
+          postedInTally: [sale.postedInTally],
+        })
+      );
+    });
     // Optional: Patch totals (only if you store them)
     this.addOrEditDispatchNoteFormGroup.patchValue({
       professionalFeeAmt: data?.professionalFeeAmt ?? 0,
@@ -385,14 +413,14 @@ export class AddEditDispatchNoteComponent {
   }
 
   convertToNgbDate(dateString: string): NgbDateStruct | null {
-  if (!dateString) return null;
-  const date = new Date(dateString);
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1, // 0-based month in JS
-    day: date.getDate()
-  };
-}
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1, // 0-based month in JS
+      day: date.getDate(),
+    };
+  }
   private dispatchNoteInit() {
     this.dispatchNote = {
       actionBy: localStorage.getItem('userId'),
@@ -545,9 +573,8 @@ export class AddEditDispatchNoteComponent {
           .value
       ),
 
-      saleCurrency: (
-        this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value
-      ),
+      saleCurrency:
+        this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value,
 
       // saleProfessionalInvoiceDetails:
       //   this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices')
@@ -557,12 +584,9 @@ export class AddEditDispatchNoteComponent {
       //   this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices')?.value ||
       //   [],
 
-      
       salesInvoiceDetails:
         this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
         [],
-
-
 
       createdBy: '', // Add dynamically if required
     };
@@ -657,19 +681,10 @@ export class AddEditDispatchNoteComponent {
     ) as FormArray;
   }
 
-  get saleProfessionalInvoices(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get(
-      'saleProfessionalInvoices'
-    ) as FormArray;
-  }
-
-  get saleGovtInvoices(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get(
-      'saleGovtInvoices'
-    ) as FormArray;
-  }
   get salesInvoiceDetails(): FormArray {
-    return this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails') as FormArray;
+    return this.addOrEditDispatchNoteFormGroup.get(
+      'salesInvoiceDetails'
+    ) as FormArray;
   }
 
   createInvoiceGroup(type: string): FormGroup {
@@ -683,43 +698,28 @@ export class AddEditDispatchNoteComponent {
     });
   }
   addSaleInvoice(type: string) {
-  const group = this.fb.group({
-    type: [type], // 'Professional' or 'Govt'
-    invoiceNo: [''],
-    amount: [''],
-    estimateNo: [''],
-    remarks: [''],
-    postedInTally: ['']
-  });
+    const group = this.fb.group({
+      type: [type], // 'Professional' or 'Govt'
+      invoiceNo: [''],
+      amount: [''],
+      estimateNo: [''],
+      remarks: [''],
+      postedInTally: [''],
+    });
 
-  this.salesInvoiceDetails.push(group);
-}
-filteredSalesInvoices(type: string): FormGroup[] {
-  return this.salesInvoiceDetails.controls
-    .filter(ctrl => ctrl.get('type')?.value === type) as FormGroup[];
-}
-
-removeSaleInvoice(group: FormGroup) {
-  const index = this.salesInvoiceDetails.controls.indexOf(group);
-  if (index >= 0) {
-    this.salesInvoiceDetails.removeAt(index);
+    this.salesInvoiceDetails.push(group);
   }
-}
-
-  addProfessional() {
-    this.saleProfessionalInvoices.push(this.createInvoiceGroup('professional'));
+  filteredSalesInvoices(type: string): FormGroup[] {
+    return this.salesInvoiceDetails.controls.filter(
+      (ctrl) => ctrl.get('type')?.value === type
+    ) as FormGroup[];
   }
 
-  removeProfessional(index: number) {
-    this.saleProfessionalInvoices.removeAt(index);
-  }
-
-  addGovt() {
-    this.saleGovtInvoices.push(this.createInvoiceGroup('govt'));
-  }
-
-  removeGovt(index: number) {
-    this.saleGovtInvoices.removeAt(index);
+  removeSaleInvoice(group: FormGroup) {
+    const index = this.salesInvoiceDetails.controls.indexOf(group);
+    if (index >= 0) {
+      this.salesInvoiceDetails.removeAt(index);
+    }
   }
 
   // Delete Row

@@ -437,7 +437,7 @@
             </div>
           </div>
 
-          <div class="col-sm-3">
+          <div class="col-sm-3 custom-form-input">
             <label class="label-small">Sales Currency</label>
             <ng-select formControlName="saleCurrency" class="input-field" placeholder="Select Currency">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
@@ -450,10 +450,10 @@
         <div class="edit-screen-subTable mt-0">
           <h5>
             <button class="btn btn-outline-primary btn-sm me-2" [class.active]="activeSection === 'professional'"
-              (click)="activeSection = 'professional'">Professional</button>
+              (click)="activeSection = 'professional'">Professional Fee Deatils</button>
 
             <button class="btn btn-outline-success btn-sm" [class.active]="activeSection === 'govt'"
-              (click)="activeSection = 'govt'">Govt</button>
+              (click)="activeSection = 'govt'">Govt/Official Fee Details</button>
           </h5>
         </div>
 
@@ -479,10 +479,10 @@
             <tbody [formGroup]="addOrEditDispatchNoteFormGroup">
               <tr *ngFor="let group of filteredSalesInvoices('Professional'); let i = index" [formGroup]="group">
                 <td>{{ i + 1 }}</td>
-                <td><input formControlName="invoiceNo" class="form-control form-control-sm"  /></td>
-                <td><input formControlName="amount" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
-                <td><input formControlName="estimateNo" class="form-control form-control-sm" (keypress)="validateNo1($event)" /></td>
-                <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
+                <td><input formControlName="invoiceNo" class="form-control form-control"  /></td>
+                <td><input formControlName="amount" class="form-control form-control" (keypress)="validateNo1($event)" /></td>
+                <td><input formControlName="estimateNo" class="form-control form-control" (keypress)="validateNo1($event)" /></td>
+                <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
                     <ng-option [value]="'Yes'">Yes</ng-option>
