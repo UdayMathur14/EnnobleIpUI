@@ -50,10 +50,10 @@
 
 /* Red border for inputs */
 .input-field-sm {
-  border: 1px solid #dc3545 !important;
   border-radius: 4px;
   font-size: 0.875rem;
   padding: 0.25rem 0.5rem;
+  border-color: black;
 }
 
 /* Small label styling */
@@ -97,4 +97,7 @@ table tbody input.form-control {
   color: red;
   font-weight: bold;
   margin-left: 2px;
+}
+.shetty.ng-touch{
+border: 1px solid re;
 }

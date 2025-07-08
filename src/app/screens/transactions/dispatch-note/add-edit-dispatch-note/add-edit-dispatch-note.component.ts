@@ -109,7 +109,7 @@ export class AddEditDispatchNoteComponent {
       clientInvoiceNo: [''], // Maps to [ClientInvoiceNo]
       dueDateAsPerInvoice: [''], // Maps to [DueDateAsPerInvoice]
       creditDaysAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
-      dueDateAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
+      dueDateAsPerContract: [{ value: null, disabled: true }], // Maps to [CreditDaysAsPerContract]
       customerId: [''], // Maps to [CustomerID]
       description: [''], // Maps to [Description]
       title: [''], // Maps to [Title]
@@ -298,6 +298,7 @@ export class AddEditDispatchNoteComponent {
         })
       );
     });
+    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(this.convertToNgbDate(data?.dueDateAsPerContract));
     // Optional: Patch totals (only if you store them)
     this.addOrEditDispatchNoteFormGroup.patchValue({
       professionalFeeAmt: data?.professionalFeeAmt ?? 0,
@@ -369,37 +370,31 @@ export class AddEditDispatchNoteComponent {
     );
   }
   // Example function - call this whenever invoice date or due days change
-  calculateDueDate() {
-    const invoiceDateStruct =
-      this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
-    const creditDays = this.addOrEditDispatchNoteFormGroup.get(
-      'creditDaysAsPerContract'
-    )?.value;
+ calculateDueDate() {
+  const invoiceDateStruct = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
+  const creditDays = this.addOrEditDispatchNoteFormGroup.get('creditDaysAsPerContract')?.value;
 
-    if (invoiceDateStruct && creditDays != null && !isNaN(creditDays)) {
-      const invoiceDate = new Date(
-        invoiceDateStruct.year,
-        invoiceDateStruct.month - 1,
-        invoiceDateStruct.day
-      );
+  if (invoiceDateStruct && creditDays != null && !isNaN(creditDays)) {
+    const invoiceDate = new Date(
+      invoiceDateStruct.year,
+      invoiceDateStruct.month - 1,
+      invoiceDateStruct.day
+    );
 
-      invoiceDate.setDate(invoiceDate.getDate() + Number(creditDays));
+    invoiceDate.setDate(invoiceDate.getDate() + Number(creditDays));
 
-      // Local time formatting (avoid UTC offset issues)
-      const yyyy = invoiceDate.getFullYear();
-      const mm = String(invoiceDate.getMonth() + 1).padStart(2, '0');
-      const dd = String(invoiceDate.getDate()).padStart(2, '0');
-      const dueDate = `${yyyy}-${mm}-${dd}`;
+    const dueDateStruct = {
+      year: invoiceDate.getFullYear(),
+      month: invoiceDate.getMonth() + 1,
+      day: invoiceDate.getDate()
+    };
 
-      this.addOrEditDispatchNoteFormGroup
-        .get('dueDateAsPerContract')
-        ?.setValue(dueDate);
-    } else {
-      this.addOrEditDispatchNoteFormGroup
-        .get('dueDateAsPerContract')
-        ?.setValue('');
-    }
+    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(dueDateStruct);
+  } else {
+    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(null);
   }
+}
+
 
   onInvoiceDateChange(event: any) {
     this.calculateDueDate();

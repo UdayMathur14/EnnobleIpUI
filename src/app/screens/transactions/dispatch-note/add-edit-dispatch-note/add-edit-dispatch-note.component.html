@@ -102,7 +102,7 @@
               <label for="">Due Date As Per Contract <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract"
-                  formControlName="dueDateAsPerContract" readonly />
+                  ngbDatepicker formControlName="dueDateAsPerContract" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
@@ -349,8 +349,6 @@
             </div>
           </div>
         </div>
-
-
       </div>
 
       <div id="Tab3" class="tab-pane fade show ">
@@ -414,7 +412,7 @@
       <div id="Tab4" class="tab-pane fade show ">
 
         <!-- Fixed (non-repeating) Fields -->
-        <div class="row g-2 mb-3">
+        <div class="row g-2 mb-3 d-flex align-items-center">
           <div class="col-md-3">
             <label class="label-small">Customer PO Number <span class="text-danger">*</span></label>
             <input formControlName="customerPONo" type="text" class="form-control form-control-sm input-field-sm" />
@@ -437,9 +435,9 @@
             </div>
           </div>
 
-          <div class="col-sm-3 custom-form-input">
+          <div class="col-sm-3">
             <label class="label-small">Sales Currency <span class="text-danger">*</span></label>
-            <ng-select formControlName="saleCurrency" class="input-field" placeholder="Select Currency">
+            <ng-select formControlName="saleCurrency" class="shetty" placeholder="Select Currency">
               <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                 {{ country.currencyName }}
               </ng-option>
@@ -467,18 +465,18 @@
           <table class="table table-sm table-bordered mt-2">
             <thead class="table-light text-center">
               <tr>
-                <th>#</th>
+                <th class="text-center">#</th>
                 <th class="required-label">Professional Inv No</th>
                 <th class="required-label">Professional Amount</th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
                 <th class="required-label">Posted In Tally</th>
-                <th>Action</th>
+                <th class="text-center">Action</th>
               </tr>
             </thead>
             <tbody [formGroup]="addOrEditDispatchNoteFormGroup">
-              <tr *ngFor="let group of filteredSalesInvoices('Professional'); let i = index" [formGroup]="group">
-                <td>{{ i + 1 }}</td>
+              <tr class="border" *ngFor="let group of filteredSalesInvoices('Professional'); let i = index" [formGroup]="group">
+                <td class="text-center">{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
                 <td><input formControlName="amount" class="form-control form-control"
                     (keypress)="validateNo1($event)" /></td>
@@ -491,7 +489,7 @@
                     <ng-option [value]="'No'">No</ng-option>
                   </ng-select>
                 </td>
-                <td><img src="assets/images/icons/trash.svg" width="18px" (click)="removeSaleInvoice(group)" /></td>
+                <td class="text-center"><img class="me-2 pointer"  src="assets/images/icons/trash.svg" width="18px" (click)="removeSaleInvoice(group)" /></td>
               </tr>
             </tbody>
           </table>
@@ -502,7 +500,6 @@
             <h6>Govt/Official Fee Details</h6>
             <button (click)="addSaleInvoice('Govt')" class="btn btn-sm btn-danger">+ Add</button>
           </div>
-
           <table class="table table-sm table-bordered mt-2">
             <thead class="table-light text-center">
               <tr>
