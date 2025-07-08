@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { VendorService } from '../../../../core/service/vendor.service';
 import { DispatchNoteService } from '../../../../core/service/dispatch-note.service';
 import { LookupService } from '../../../../core/service/lookup.service';
-import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CountryService } from '../../../../core/service/country.service';
 import { TransactionTypesService } from '../../../../core/service/transactionTypes.service';
 
@@ -114,7 +114,7 @@ export class AddEditDispatchNoteComponent {
       description: [''], // Maps to [Description]
       title: [''], // Maps to [Title]
       applicationNumber: [''], // Maps to [ApplicationNumber]
-      fillingDate: [''],
+      filingDate: [''],
       clientRefNo: [''], // Maps to [ClientRefNo]
       ourRefNo: [''], // Maps to [OurRefNo]
       officialFilingReceiptSupporting: [''], // Maps to [OfficialFilingReceiptSupporting]
@@ -229,32 +229,28 @@ export class AddEditDispatchNoteComponent {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
       vendorId: data?.vendorID,
-      invoiceDate: data?.invoiceDate,
+      invoiceDate: this.convertToNgbDate(data?.invoiceDate),
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,
-      dueDateAsPerInvoice: data?.dueDateAsPerInvoice,
-      creditDaysAsPerContract: data?.creditDaysAsPerContract,
-      dueDateAsPerContract: data?.dueDateAsPerContract,
+      dueDateAsPerInvoice: this.convertToNgbDate(data?.dueDateAsPerInvoice),
+      creditDaysAsPerContract:  data?.creditDaysAsPerContract,
+      dueDateAsPerContract: this.convertToNgbDate(data?.dueDateAsPerContract),
       customerId: data?.customerID,
       description: data?.description,
       title: data?.title,
       applicationNumber: data?.applicationNumber,
-      fillingDate: data?.filingDate,
+      filingDate: this.convertToNgbDate(data?.filingDate),
       clientRefNo: data?.clientRefNo,
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
-      workDeliveryDateOrMonth: data?.workDeliveryDateOrMonth,
+      workDeliveryDateOrMonth: this.convertToNgbDate(data?.workDeliveryDateOrMonth),
       purchaseCurrency: data?.purchaseCurrency,
 
       //Tab 2
-     professionalFeeAmt: data?.professionalFeeAmt ?? 0,
-      govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
-      otherChargesAmt: data?.otherChargesAmt ?? 0,
-      totalAmount: data?.totalAmount ?? 0,
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
       // Tab 3
-      paymentDate: data?.paymentDate,
+      paymentDate: this.convertToNgbDate(data?.paymentDate),
       bankID: data?.bankID,
       owrmNo1: data?.oWRMNo1,
       owrmNo2: data?.oWRMNo2,
@@ -263,7 +259,7 @@ export class AddEditDispatchNoteComponent {
 
       // Tab 4
       customerPONo: data?.customerPONo,
-      poDate: data?.pODate,
+      poDate: this.convertToNgbDate(data?.pODate),
       poValueInclusiveTaxes: data?.pOValueInclusiveTaxes,
       saleCurrency: data?.saleCurrency,
 
@@ -275,10 +271,10 @@ export class AddEditDispatchNoteComponent {
 
     // Optional: Patch totals (only if you store them)
     this.addOrEditDispatchNoteFormGroup.patchValue({
-      // professionalFeeAmt: data?.professionalFeeAmt ?? 0,
-      // govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
-      // otherChargesAmt: data?.otherChargesAmt ?? 0,
-      // totalAmount: data?.totalAmount ?? 0,
+      professionalFeeAmt: data?.professionalFeeAmt ?? 0,
+      govtOrOfficialFeeAmt: data?.govtOrOfficialFeeAmt ?? 0,
+      otherChargesAmt: data?.otherChargesAmt ?? 0,
+      totalAmount: data?.totalAmount ?? 0,
     });
   }
 
@@ -388,6 +384,15 @@ export class AddEditDispatchNoteComponent {
     this.router.navigate(['transaction/VendorInvoiceTxn']);
   }
 
+  convertToNgbDate(dateString: string): NgbDateStruct | null {
+  if (!dateString) return null;
+  const date = new Date(dateString);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1, // 0-based month in JS
+    day: date.getDate()
+  };
+}
   private dispatchNoteInit() {
     this.dispatchNote = {
       actionBy: localStorage.getItem('userId'),
@@ -473,7 +478,7 @@ export class AddEditDispatchNoteComponent {
       applicationNumber:
         this.addOrEditDispatchNoteFormGroup.controls['applicationNumber'].value,
       filingDate: this.formatDate(
-        this.addOrEditDispatchNoteFormGroup.controls['fillingDate'].value
+        this.addOrEditDispatchNoteFormGroup.controls['filingDate'].value
       ),
       clientRefNo:
         this.addOrEditDispatchNoteFormGroup.controls['clientRefNo'].value,

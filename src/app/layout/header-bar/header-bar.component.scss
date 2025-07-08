@@ -1,6 +1,6 @@
 header {
     height: 80px;
-    background-color: var(--primaryColor);
+    background-color: #36454f;
     padding: 19px 15px;
 
     .header-wrapper{
@@ -10,7 +10,6 @@ header {
                 margin-bottom: 0;
                 font-weight: 600;
                 text-align: right;
-
                 span{
                     cursor: pointer;
                 }

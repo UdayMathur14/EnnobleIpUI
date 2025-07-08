@@ -23,7 +23,7 @@ export class DispatchNoteGridTableComponent {
 
   onPreviewDispatchNote(dispatch: any){
     let dispatchNoteModal = this.modalService.open(DispatchNoteModelComponent, {
-      size: "lg",
+      size: "",
       backdrop: "static",
     });
     dispatchNoteModal.componentInstance.dispatch = dispatch;

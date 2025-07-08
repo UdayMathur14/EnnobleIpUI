@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Lookup Type</label>
+                <label for="">Master Type</label>
                 <ng-select class="input-field" [(ngModel)]="LookupType" placeholder="Select lookup type">
                     <ng-option *ngFor="let lookupType of filters?.LookUpType" [value]="lookupType">{{lookupType}}</ng-option>
                 </ng-select>
