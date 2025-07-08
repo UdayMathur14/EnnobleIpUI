@@ -228,6 +228,7 @@ export class AddEditDispatchNoteComponent {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
       vendorId: data?.vendorID,
+      selectedVendorCountry:data?.vendorDetails?.billingCountry,
       invoiceDate: this.convertToNgbDate(data?.invoiceDate),
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,

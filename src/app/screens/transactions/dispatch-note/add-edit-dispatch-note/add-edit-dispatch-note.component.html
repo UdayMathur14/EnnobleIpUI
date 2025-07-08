@@ -35,7 +35,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Vendor Name</label>
+              <label for="">Vendor Name <span class="text-danger">*</span></label>
               <ng-select [searchable]="true" formControlName="vendorId" [readonly]="dispatchId > 0"
                 (change)="onVendorSelect($event)">
                 <ng-option *ngFor="let vendor of vendorsList" [value]="vendor.id">
@@ -46,14 +46,14 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Vendor Country </label>
+              <label for="">Vendor Country <span class="text-danger">*</span></label>
               <input type="text" class="form-control" [value]="selectedVendorCountry" placeholder="Vendor country "
                 readonly>
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Invoice Date</label>
+              <label for="">Invoice Date <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true"
                   formControlName="invoiceDate" (dateSelect)="onInvoiceDateChange($event)" ngbDatepicker
@@ -66,7 +66,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">FY</label>
+              <label for="">FY <span class="text-danger">*</span></label>
               <input formControlName="fy" type="text" class="input-field" />
             </div>
           </div>
@@ -99,7 +99,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Due Date As Per Contract </label>
+              <label for="">Due Date As Per Contract <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract"
                   formControlName="dueDateAsPerContract" readonly />
@@ -111,7 +111,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Customer Name</label>
+              <label for="">Customer Name <span class="text-danger">*</span></label>
               <select formControlName="customerId" class="input-field">
                 <option value="">Select Customer</option>
                 <option *ngFor="let customers of customersList" [value]="customers.id">
@@ -128,13 +128,13 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Title </label>
+              <label for="">Title <span class="text-danger">*</span></label>
               <input formControlName="title" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Application Number </label>
+              <label for="">Application Number <span class="text-danger">*</span></label>
               <input formControlName="applicationNumber" type="text" class="input-field" />
             </div>
           </div>
@@ -154,19 +154,19 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Client Ref No</label>
+              <label for="">Client Ref No <span class="text-danger">*</span></label>
               <input formControlName="clientRefNo" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Our Ref No </label>
+              <label for="">Our Ref No <span class="text-danger">*</span></label>
               <input formControlName="ourRefNo" type="text" class="input-field" />
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Filing Receipt Supporting</label>
+              <label for="">Filing Receipt Supporting <span class="text-danger">*</span></label>
               <ng-select [items]="[{ label: 'Yes', value: true }, { label: 'No', value: false }]" bindLabel="label"
                 bindValue="value" formControlName="officialFilingReceiptSupporting" placeholder="Select Yes or No"
                 class="input-field">
@@ -175,7 +175,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Work Delivery Date Or Month</label>
+              <label for="">Work Delivery Date </label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="workDeliveryDateOrMonth" [autoClose]="true"
                   formControlName="workDeliveryDateOrMonth"
@@ -190,7 +190,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Purchase Currency</label>
+              <label for="">Purchase Currency <span class="text-danger">*</span></label>
               <input type="text" formControlName="purchaseCurrency" class="form-control form-control-sm"
                 placeholder="Currency" readonly />
             </div>
@@ -211,11 +211,11 @@
             <thead class="table table-bordered">
               <tr>
                 <th>Line</th>
-                <th>Fees Type</th>
-                <th>Type</th>
-                <th>Country</th>
-                <th *ngIf="isTranslationFeeSelected">Language</th>
-                <th>Amount</th>
+                <th class="required-label">Fees Type</th>
+                <th class="required-label">Type</th>
+                <th class="required-label">Country</th>
+                <th *ngIf="isTranslationFeeSelected" class="required-label">Language</th>
+                <th class="required-label">Amount</th>
                 <th>Remarks</th>
                 <th class="text-center">Action</th>
               </tr>
@@ -357,7 +357,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Payment Date</label>
+              <label for="">Payment Date <span class="text-danger">*</span></label>
               <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
@@ -371,7 +371,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Bank Name</label>
+              <label for="">Bank Name <span class="text-danger">*</span></label>
               <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
                 <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
                   {{ bank.bankName }}
@@ -381,7 +381,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">OWRM No 1</label>
+              <label for="">OWRM No 1 <span class="text-danger">*</span></label>
               <input formControlName="owrmNo1" type="text" class="input-field" />
             </div>
           </div>
@@ -393,7 +393,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Payment Currency</label>
+              <label for="">Payment Currency <span class="text-danger">*</span></label>
               <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
@@ -403,7 +403,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Payment Amount</label>
+              <label for="">Payment Amount <span class="text-danger">*</span></label>
               <input formControlName="paymentAmount" type="number" class="input-field"
                 (keypress)="validateNo1($event)" />
             </div>
@@ -416,18 +416,18 @@
         <!-- Fixed (non-repeating) Fields -->
         <div class="row g-2 mb-3">
           <div class="col-md-3">
-            <label class="label-small">Customer PO Number</label>
+            <label class="label-small">Customer PO Number <span class="text-danger">*</span></label>
             <input formControlName="customerPONo" type="text" class="form-control form-control-sm input-field-sm" />
           </div>
 
           <div class="col-md-3">
-            <label class="label-small">PO Value Inclusive Taxes</label>
+            <label class="label-small">PO Value Inclusive Taxes <span class="text-danger">*</span></label>
             <input formControlName="poValueInclusiveTaxes" type="text"
               class="form-control form-control-sm input-field-sm" (keypress)="validateNo1($event)" />
           </div>
 
           <div class="col-sm-3">
-            <label class="label-small">PO Date</label>
+            <label class="label-small">PO Date <span class="text-danger">*</span></label>
             <div class="input-group input-group-sm">
               <input placeholder="yyyy-mm-dd" formControlName="poDate" class="form-control input-field-sm" ngbDatepicker
                 #poDate="ngbDatepicker" (dateSelect)="onDateSelect('poDate', $event)" readonly />
@@ -438,12 +438,12 @@
           </div>
 
           <div class="col-sm-3 custom-form-input">
-            <label class="label-small">Sales Currency</label>
+            <label class="label-small">Sales Currency <span class="text-danger">*</span></label>
             <ng-select formControlName="saleCurrency" class="input-field" placeholder="Select Currency">
-                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                  {{ country.currencyName }}
-                </ng-option>
-              </ng-select>
+              <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                {{ country.currencyName }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
 
@@ -468,20 +468,22 @@
             <thead class="table-light text-center">
               <tr>
                 <th>#</th>
-                <th>Professional Inv No</th>
-                <th>Professional Amount</th>
+                <th class="required-label">Professional Inv No</th>
+                <th class="required-label">Professional Amount</th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
-                <th>Posted In Tally</th>
+                <th class="required-label">Posted In Tally</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody [formGroup]="addOrEditDispatchNoteFormGroup">
               <tr *ngFor="let group of filteredSalesInvoices('Professional'); let i = index" [formGroup]="group">
                 <td>{{ i + 1 }}</td>
-                <td><input formControlName="invoiceNo" class="form-control form-control"  /></td>
-                <td><input formControlName="amount" class="form-control form-control" (keypress)="validateNo1($event)" /></td>
-                <td><input formControlName="estimateNo" class="form-control form-control" (keypress)="validateNo1($event)" /></td>
+                <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
+                <td><input formControlName="amount" class="form-control form-control"
+                    (keypress)="validateNo1($event)" /></td>
+                <td><input formControlName="estimateNo" class="form-control form-control"
+                    (keypress)="validateNo1($event)" /></td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
@@ -505,11 +507,11 @@
             <thead class="table-light text-center">
               <tr>
                 <th>#</th>
-                <th>Govt/official Inv No</th>
-                <th>Govt/Official Amount</th>
+                <th class="required-label">Govt/official Inv No</th>
+                <th class="required-label">Govt/Official Amount<span class="text-danger">*</span></th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
-                <th>Posted In Tally</th>
+                <th class="required-label">Posted In Tally</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -517,8 +519,10 @@
               <tr *ngFor="let group of filteredSalesInvoices('Govt'); let i = index" [formGroup]="group">
                 <td>{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
-                <td><input formControlName="amount" class="form-control form-control" (keypress)="validateNo1($event)"/></td>
-                <td><input formControlName="estimateNo" class="form-control form-control" (keypress)="validateNo1($event)"/></td>
+                <td><input formControlName="amount" class="form-control form-control"
+                    (keypress)="validateNo1($event)" /></td>
+                <td><input formControlName="estimateNo" class="form-control form-control"
+                    (keypress)="validateNo1($event)" /></td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">

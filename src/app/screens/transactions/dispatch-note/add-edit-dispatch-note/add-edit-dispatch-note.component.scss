@@ -91,3 +91,10 @@
 table tbody input.form-control {
   border: 0.5px solid black !important;
 }
+
+.required-label::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+  margin-left: 2px;
+}
