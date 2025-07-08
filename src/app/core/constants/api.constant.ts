@@ -120,7 +120,7 @@ export const getDispatchNote = (offset: any, count: number) =>
 export const dispatchData = ( dispatchId: any) =>
   `VendorInvoiceTxn/${dispatchId}`;
 export const updateDispatchNote = ( dispatchId: any) =>
-  `/vendorinvoiceTxn/update/${dispatchId}`;
+  `vendorinvoiceTxn/update/${dispatchId}`;
 export const biltiBillProcess = (offset: any, count: number) =>
   `/bilti-process/search?offset=${offset}&count=${count}`;
 export const biltiBillProcessbyId = (locationId: any, biltiProcessId: any) =>
