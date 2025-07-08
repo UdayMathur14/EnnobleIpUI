@@ -223,7 +223,7 @@ export class AddEditDispatchNoteComponent {
       }
     );
   }
-
+ 
   patchInvoiceData(data: any): void {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
@@ -477,7 +477,7 @@ export class AddEditDispatchNoteComponent {
     const invoiceData: any = {
       //tab 1
       vendorId:
-        this.addOrEditDispatchNoteFormGroup.controls['vendorId'].value || 0,
+        this.addOrEditDispatchNoteFormGroup.controls['vendorId'].value || null,
       invoiceDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['invoiceDate'].value
       ),
@@ -493,12 +493,12 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['creditDaysAsPerContract']
           .value
       ),
-      dueDateAsPerContract: this.formatDate(
-        this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
-          .value
-      ),
+      // dueDateAsPerContract: this.formatDate(
+      //   this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
+      //     .value
+      // ),
       customerId: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value
+        this.addOrEditDispatchNoteFormGroup.controls['customerId'].value || null
       ),
       description:
         this.addOrEditDispatchNoteFormGroup.controls['description'].value,
@@ -553,7 +553,8 @@ export class AddEditDispatchNoteComponent {
       paymentDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
       ),
-      bankID: this.addOrEditDispatchNoteFormGroup.controls['bankID'].value,
+      
+      bankID: this.addOrEditDispatchNoteFormGroup.controls['bankID'].value || null,
       owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
       owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
       paymentCurrency:
