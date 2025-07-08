@@ -516,10 +516,10 @@
             <tbody [formGroup]="addOrEditDispatchNoteFormGroup">
               <tr *ngFor="let group of filteredSalesInvoices('Govt'); let i = index" [formGroup]="group">
                 <td>{{ i + 1 }}</td>
-                <td><input formControlName="invoiceNo" class="form-control form-control-sm" /></td>
-                <td><input formControlName="amount" class="form-control form-control-sm" (keypress)="validateNo1($event)"/></td>
-                <td><input formControlName="estimateNo" class="form-control form-control-sm" (keypress)="validateNo1($event)"/></td>
-                <td><input formControlName="remarks" class="form-control form-control-sm" /></td>
+                <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
+                <td><input formControlName="amount" class="form-control form-control" (keypress)="validateNo1($event)"/></td>
+                <td><input formControlName="estimateNo" class="form-control form-control" (keypress)="validateNo1($event)"/></td>
+                <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
                     <ng-option [value]="'Yes'">Yes</ng-option>
