@@ -10,7 +10,7 @@ import { LookupService } from '../../../../../core/service/lookup.service';
 export class DispatchNoteFiltersComponent implements OnInit {
   @Output() getData: EventEmitter<any> = new EventEmitter();
   dispatchNumber: any = undefined;
-  status: any = undefined;
+  Status: any = undefined;
   frlrNo: any = undefined;
   dispatchStatus: any = undefined;
   @Input() filters: any = [];
@@ -28,15 +28,14 @@ export class DispatchNoteFiltersComponent implements OnInit {
     this.getData.emit({
       dispatchNumber: this.dispatchNumber,
       clientInvoiceNumber: this.clientInvoiceNumber,
-      status: this.status,
+      status: this.Status,
       applicationNumber: this.applicationNumber,
-      dispatchStatus: this.dispatchStatus
     });
   }
 
   onClearFilter() {
     this.dispatchNumber = null;
-    this.status = undefined;
+    this.Status = undefined;
     this.applicationNumber = undefined;
     this.clientInvoiceNumber = undefined;
     this.locationIds = this.locationIds;

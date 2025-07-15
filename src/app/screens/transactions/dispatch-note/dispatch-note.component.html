@@ -4,6 +4,11 @@
     <button class="custom-button-export" (click)="exportData()">
       <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
     <button class="custom-button-regulr" (click)="onCreateDispatchNote()">Create Vendor Invoice</button>
+    <div container="body">
+      <img src="assets/images/icons/fullScreen.svg" alt="" class="pointer" width="14px"
+        (click)="fullScreen = !fullScreen" placement="start" [ngbTooltip]="tipContent" />
+      <ng-template #tipContent> Full Screen </ng-template>
+    </div>
   </div>
 </div>
 

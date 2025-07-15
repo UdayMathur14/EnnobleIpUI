@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class DispatchNoteComponent {
-
+  fullScreen: boolean = false;
   isFilters: boolean = true;
   dispatchNumber: string = "";
   dispatchNotes = [];
