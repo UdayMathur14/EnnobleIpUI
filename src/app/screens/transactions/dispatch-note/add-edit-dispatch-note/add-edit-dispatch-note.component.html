@@ -1,7 +1,8 @@
 <div class="page-title">
   <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Vendor Invoice </h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
+    <button class="custom-button-regulr"
+        (click)="onSavePress()">Save</button>
     <!-- [disabled]="isFormInvalid() -->
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
@@ -99,7 +100,7 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Due Date As Per Contract <span class="text-danger">*</span></label>
+              <label for="">Due Date As Per Contract </label>
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract"
                   ngbDatepicker formControlName="dueDateAsPerContract" readonly />
@@ -167,7 +168,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Filing Receipt Supporting <span class="text-danger">*</span></label>
-              <ng-select [items]="[{ label: 'Yes', value: true }, { label: 'No', value: false }]" bindLabel="label"
+              <ng-select [items]="[{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' }]" bindLabel="label"
                 bindValue="value" formControlName="officialFilingReceiptSupporting" placeholder="Select Yes or No"
                 class="input-field">
               </ng-select>

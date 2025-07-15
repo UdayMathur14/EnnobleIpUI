@@ -79,7 +79,7 @@ export class AddEditDispatchNoteComponent {
     this.getVendorsList();
     // this.createFeesGroup();
     this.initForm();
-
+    this.markTab1FieldsTouched();
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
@@ -103,31 +103,31 @@ export class AddEditDispatchNoteComponent {
   initForm() {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
       //tab1
-      vendorId: [''], // Maps to [VendorID]
-      invoiceDate: [''], // Maps to [InvoiceDate]
-      fy: [''], // Maps to [FY]
-      clientInvoiceNo: [''], // Maps to [ClientInvoiceNo]
-      dueDateAsPerInvoice: [''], // Maps to [DueDateAsPerInvoice]
+      vendorId: ['', Validators.required], // Maps to [VendorID]
+      invoiceDate: ['', Validators.required], // Maps to [InvoiceDate]
+      fy: ['', Validators.required], // Maps to [FY]
+      clientInvoiceNo: ['', Validators.required], // Maps to [ClientInvoiceNo]
+      dueDateAsPerInvoice: ['', Validators.required], // Maps to [DueDateAsPerInvoice]
       creditDaysAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
       dueDateAsPerContract: [{ value: null, disabled: true }], // Maps to [CreditDaysAsPerContract]
-      customerId: [''], // Maps to [CustomerID]
+      customerId: ['', Validators.required], // Maps to [CustomerID]
       description: [''], // Maps to [Description]
-      title: [''], // Maps to [Title]
-      applicationNumber: [''], // Maps to [ApplicationNumber]
+      title: ['', Validators.required], // Maps to [Title]
+      applicationNumber: ['', Validators.required], // Maps to [ApplicationNumber]
       filingDate: [''],
-      clientRefNo: [''], // Maps to [ClientRefNo]
-      ourRefNo: [''], // Maps to [OurRefNo]
-      officialFilingReceiptSupporting: [''], // Maps to [OfficialFilingReceiptSupporting]
+      clientRefNo: ['', Validators.required], // Maps to [ClientRefNo]
+      ourRefNo: ['', Validators.required], // Maps to [OurRefNo]
+      officialFilingReceiptSupporting: ['', Validators.required], // Maps to [OfficialFilingReceiptSupporting]
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
-      purchaseCurrency: [''], // Maps to [CurrencyPID]
+      purchaseCurrency: ['', Validators.required], // Maps to [CurrencyPID]
 
       //tab2
       invoiceFeeDetails: this.fb.array([]),
       professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       otherChargesAmt: [{ value: 0, disabled: true }],
-      discountAmt: [0, [Validators.required]], // Initialize with 0, user enters
-      discountCreditNoteAmt: [0, [Validators.required]], // Initialize with 0, user enters
+      discountAmt: [0], // Initialize with 0, user enters
+      discountCreditNoteAmt: [0], // Initialize with 0, user enters
       totalAmount: [{ value: 0, disabled: true }],
 
       //Tab 3
@@ -223,12 +223,12 @@ export class AddEditDispatchNoteComponent {
       }
     );
   }
- 
+
   patchInvoiceData(data: any): void {
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
       vendorId: data?.vendorID,
-      selectedVendorCountry:data?.vendorDetails?.billingCountry,
+      selectedVendorCountry: data?.vendorDetails?.billingCountry,
       invoiceDate: this.convertToNgbDate(data?.invoiceDate),
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,
@@ -298,7 +298,9 @@ export class AddEditDispatchNoteComponent {
         })
       );
     });
-    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(this.convertToNgbDate(data?.dueDateAsPerContract));
+    this.addOrEditDispatchNoteFormGroup
+      .get('dueDateAsPerContract')
+      ?.setValue(this.convertToNgbDate(data?.dueDateAsPerContract));
     // Optional: Patch totals (only if you store them)
     this.addOrEditDispatchNoteFormGroup.patchValue({
       professionalFeeAmt: data?.professionalFeeAmt ?? 0,
@@ -370,31 +372,37 @@ export class AddEditDispatchNoteComponent {
     );
   }
   // Example function - call this whenever invoice date or due days change
- calculateDueDate() {
-  const invoiceDateStruct = this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
-  const creditDays = this.addOrEditDispatchNoteFormGroup.get('creditDaysAsPerContract')?.value;
+  calculateDueDate() {
+    const invoiceDateStruct =
+      this.addOrEditDispatchNoteFormGroup.get('invoiceDate')?.value;
+    const creditDays = this.addOrEditDispatchNoteFormGroup.get(
+      'creditDaysAsPerContract'
+    )?.value;
 
-  if (invoiceDateStruct && creditDays != null && !isNaN(creditDays)) {
-    const invoiceDate = new Date(
-      invoiceDateStruct.year,
-      invoiceDateStruct.month - 1,
-      invoiceDateStruct.day
-    );
+    if (invoiceDateStruct && creditDays != null && !isNaN(creditDays)) {
+      const invoiceDate = new Date(
+        invoiceDateStruct.year,
+        invoiceDateStruct.month - 1,
+        invoiceDateStruct.day
+      );
 
-    invoiceDate.setDate(invoiceDate.getDate() + Number(creditDays));
+      invoiceDate.setDate(invoiceDate.getDate() + Number(creditDays));
 
-    const dueDateStruct = {
-      year: invoiceDate.getFullYear(),
-      month: invoiceDate.getMonth() + 1,
-      day: invoiceDate.getDate()
-    };
+      const dueDateStruct = {
+        year: invoiceDate.getFullYear(),
+        month: invoiceDate.getMonth() + 1,
+        day: invoiceDate.getDate(),
+      };
 
-    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(dueDateStruct);
-  } else {
-    this.addOrEditDispatchNoteFormGroup.get('dueDateAsPerContract')?.setValue(null);
+      this.addOrEditDispatchNoteFormGroup
+        .get('dueDateAsPerContract')
+        ?.setValue(dueDateStruct);
+    } else {
+      this.addOrEditDispatchNoteFormGroup
+        .get('dueDateAsPerContract')
+        ?.setValue(null);
+    }
   }
-}
-
 
   onInvoiceDateChange(event: any) {
     this.calculateDueDate();
@@ -466,9 +474,174 @@ export class AddEditDispatchNoteComponent {
     return `${year}-${month}-${day}`;
   }
 
+  get tab1Controls() {
+    return this.addOrEditDispatchNoteFormGroup.controls;
+  }
+
+  get tab2Controls() {
+    return (
+      this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails') as FormArray
+    ).controls;
+  }
+
+  get tab3Controls() {
+    return this.addOrEditDispatchNoteFormGroup.controls; // pick specific tab3 fields in check
+  }
+
+  get tab4Controls() {
+    return this.addOrEditDispatchNoteFormGroup.controls; // pick tab4 related fields
+  }
+
+  isTab1Touched(): boolean {
+    const tab1Fields = [
+      'vendorId',
+      'invoiceDate',
+      'fy',
+      'clientInvoiceNo',
+      'customerId',
+      'title',
+      'applicationNumber',
+      'clientRefNo',
+      'ourRefNo',
+      'officialFilingReceiptSupporting',
+      'purchaseCurrency',
+    ];
+    return tab1Fields.some(
+      (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.value
+    );
+  }
+
+  isTab1Invalid(): boolean {
+  const tab1Fields = [
+    'vendorId', 'invoiceDate', 'fy', 'clientInvoiceNo',
+    'customerId', 'title', 'applicationNumber', 'clientRefNo',
+    'ourRefNo', 'officialFilingReceiptSupporting', 'purchaseCurrency'
+  ];
+  return tab1Fields.some(field =>
+    this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
+  );
+}
+  isTab2Touched(): boolean {
+    return this.invoiceFeeDetails.length > 0;
+  }
+
+  isTab2Invalid(): boolean {
+    return (
+      this.isTab2Touched() &&
+      (
+        this.addOrEditDispatchNoteFormGroup.get(
+          'invoiceFeeDetails'
+        ) as FormArray
+      ).controls.some((group) => group.invalid)
+    );
+  }
+  isTab3Touched(): boolean {
+    const tab3Fields = [
+      'paymentDate',
+      'bankID',
+      'owrmNo1',
+      'paymentCurrency',
+      'paymentAmount',
+    ];
+    return tab3Fields.some(
+      (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.value
+    );
+  }
+
+  isTab3Invalid(): boolean {
+    const tab3Fields = [
+      'paymentDate',
+      'bankID',
+      'owrmNo1',
+      'paymentCurrency',
+      'paymentAmount',
+    ];
+    return (
+      this.isTab3Touched() &&
+      tab3Fields.some(
+        (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
+      )
+    );
+  }
+
+  isTab4Touched(): boolean {
+    const tab4Fields = [
+      'customerPONo',
+      'poDate',
+      'poValueInclusiveTaxes',
+      'saleCurrency',
+    ];
+    return tab4Fields.some(
+      (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.value
+    );
+  }
+
+  isTab4Invalid(): boolean {
+    const tab4Fields = [
+      'customerPONo',
+      'poDate',
+      'poValueInclusiveTaxes',
+      'saleCurrency',
+    ];
+    return (
+      this.isTab4Touched() &&
+      tab4Fields.some(
+        (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
+      )
+    );
+  }
+
+  markTab1FieldsTouched() {
+    console.log('Marking Tab 1 fields as touched');
+    const tab1Fields = [
+      'vendorId',
+      'invoiceDate',
+      'fy',
+      'clientInvoiceNo',
+      'customerId',
+      'title',
+      'applicationNumber',
+      'clientRefNo',
+      'ourRefNo',
+      'officialFilingReceiptSupporting',
+      'purchaseCurrency',
+    ];
+
+    tab1Fields.forEach((field) => {
+      const control = this.addOrEditDispatchNoteFormGroup.get(field);
+      if (control) {
+        control.markAsTouched(); // 👈 Required
+        control.updateValueAndValidity();
+      }
+    });
+  }
+
   async onSavePress() {
     this.loadSpinner = true;
 
+    if (this.isTab1Invalid()) {
+      this.toastr.warning('Please complete all required fields in Tab 1');
+      this.loadSpinner = false;
+      return;
+    }
+
+    if (this.isTab2Invalid()) {
+      this.toastr.warning('Please complete all Invoice Fee fields in Tab 2');
+      this.loadSpinner = false;
+      return;
+    }
+
+    if (this.isTab3Invalid()) {
+      this.toastr.warning('Please complete all fields in Tab 3');
+      this.loadSpinner = false;
+      return;
+    }
+
+    if (this.isTab4Invalid()) {
+      this.toastr.warning('Please complete all fields in Tab 4');
+      this.loadSpinner = false;
+      return;
+    }
     // Build invoice object from form values
     const invoiceData: any = {
       //tab 1
@@ -549,8 +722,9 @@ export class AddEditDispatchNoteComponent {
       paymentDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
       ),
-      
-      bankID: this.addOrEditDispatchNoteFormGroup.controls['bankID'].value || null,
+
+      bankID:
+        this.addOrEditDispatchNoteFormGroup.controls['bankID'].value || null,
       owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
       owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
       paymentCurrency:
