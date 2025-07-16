@@ -10,10 +10,10 @@
         <th>Customer Name</th>
         <th>Description</th>
         <th>Title</th>
-        <th>Application Number</th>
-        <th>Client Ref No</th>
-        <th>Official Filing Receipt Supporting</th>
-        <th>Work Delivery Date / Month</th>
+        <th>Application No</th>
+        <th>Client Invoice No</th>
+        <th>Receipt Supporting</th>
+        <th>Work Delivery Date </th>
         <th>Total Amt</th>
         <th>Status</th>
         <!-- <th>Dispatch Note Status</th> -->
@@ -57,7 +57,7 @@
         <td>{{ dispatchNote?.description || '-' }}</td>
         <td>{{ dispatchNote?.title || '-' }}</td>
         <td>{{ dispatchNote?.applicationNumber || '-' }}</td>
-        <td>{{ dispatchNote?.clientRefNo || '-' }}</td>
+        <td>{{ dispatchNote?.clientInvoiceNo || '-' }}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
         <td>{{ dispatchNote?.workDeliveryDateOrMonth | date:'yyyy-MM-dd'}}</td>
         <td>{{ dispatchNote?.totalAmount || '-' }}</td>

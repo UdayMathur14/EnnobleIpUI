@@ -25,26 +25,22 @@ export class DispatchNoteFiltersComponent implements OnInit {
 
   ngOnInit(): void {}
   handleSearch() {
-    this.getData.emit({
-      dispatchNumber: this.dispatchNumber,
-      clientInvoiceNumber: this.clientInvoiceNumber,
-      status: this.Status,
-      applicationNumber: this.applicationNumber,
-    });
+    let filterData = {
+      "ApplicationNumber": this.applicationNumber,
+      "ClientInvoiceNumber": this.clientInvoiceNumber,
+      "Status": this.Status,
+    }
+    this.getData.emit(filterData)
   }
 
   onClearFilter() {
-    this.dispatchNumber = null;
     this.Status = undefined;
     this.applicationNumber = undefined;
     this.clientInvoiceNumber = undefined;
-    this.locationIds = this.locationIds;
     this.getData.emit({
-      dispatchNumber: null,
-      locationIds: this.locationIds,
-      status: '',
-      frlrNo: '',
-      dispatchStatus: ''
+      clientInvoiceNumber:undefined ,
+      Status: undefined,
+      applicationNumber: undefined
     });
   }
 }
