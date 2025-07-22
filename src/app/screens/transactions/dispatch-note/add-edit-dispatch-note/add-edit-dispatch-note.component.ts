@@ -92,6 +92,10 @@ export class AddEditDispatchNoteComponent {
     this.getAllTransactionTypes();
     this.getFilteredCustomersList();
     this.dispatchNoteInit();
+    this.tab1Controls;
+    this.tab2Controls;
+    this.tab3Controls;
+    this.tab4Controls;
 
     setTimeout(() => {
       if (this.dispatchId > 0) {
@@ -108,7 +112,7 @@ export class AddEditDispatchNoteComponent {
       fy: ['', Validators.required], // Maps to [FY]
       clientInvoiceNo: ['', Validators.required], // Maps to [ClientInvoiceNo]
       dueDateAsPerInvoice: ['', Validators.required], // Maps to [DueDateAsPerInvoice]
-      creditDaysAsPerContract: [''], // Maps to [CreditDaysAsPerContract]
+      creditDaysAsPerContract: [0], // Maps to [CreditDaysAsPerContract]
       dueDateAsPerContract: [{ value: null, disabled: true }], // Maps to [CreditDaysAsPerContract]
       customerId: ['', Validators.required], // Maps to [CustomerID]
       description: [''], // Maps to [Description]
@@ -566,10 +570,7 @@ export class AddEditDispatchNoteComponent {
 
   isTab4Touched(): boolean {
     const tab4Fields = [
-      'customerPONo',
-      'poDate',
-      'poValueInclusiveTaxes',
-      'saleCurrency',
+      "nk",
     ];
     return tab4Fields.some(
       (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.value
@@ -578,10 +579,7 @@ export class AddEditDispatchNoteComponent {
 
   isTab4Invalid(): boolean {
     const tab4Fields = [
-      'customerPONo',
-      'poDate',
-      'poValueInclusiveTaxes',
-      'saleCurrency',
+      "nk",
     ];
     return (
       this.isTab4Touched() &&
@@ -662,10 +660,6 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls['creditDaysAsPerContract']
           .value
       ),
-      // dueDateAsPerContract: this.formatDate(
-      //   this.addOrEditDispatchNoteFormGroup.controls['dueDateAsPerContract']
-      //     .value
-      // ),
       customerId: Number(
         this.addOrEditDispatchNoteFormGroup.controls['customerId'].value || null
       ),
@@ -746,15 +740,6 @@ export class AddEditDispatchNoteComponent {
 
       saleCurrency:
         this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value,
-
-      // saleProfessionalInvoiceDetails:
-      //   this.addOrEditDispatchNoteFormGroup.get('saleProfessionalInvoices')
-      //     ?.value || [],
-
-      // govtSaleInvoiceDetails:
-      //   this.addOrEditDispatchNoteFormGroup.get('saleGovtInvoices')?.value ||
-      //   [],
-
       salesInvoiceDetails:
         this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
         [],
@@ -868,18 +853,18 @@ export class AddEditDispatchNoteComponent {
       postedInTally: [''],
     });
   }
-  addSaleInvoice(type: string) {
-    const group = this.fb.group({
-      type: [type], // 'Professional' or 'Govt'
-      invoiceNo: [''],
-      amount: [''],
-      estimateNo: [''],
-      remarks: [''],
-      postedInTally: [''],
-    });
+ addSaleInvoice(type: string) {
+  const group = this.fb.group({
+    type: [type], // 'Professional' or 'Govt'
+    invoiceNo: [''],
+    amount: [0], // Default 0
+    estimateNo: [0], // Default 0
+    remarks: [''],
+    postedInTally: [''],
+  });
 
-    this.salesInvoiceDetails.push(group);
-  }
+  this.salesInvoiceDetails.push(group);
+}
   filteredSalesInvoices(type: string): FormGroup[] {
     return this.salesInvoiceDetails.controls.filter(
       (ctrl) => ctrl.get('type')?.value === type
