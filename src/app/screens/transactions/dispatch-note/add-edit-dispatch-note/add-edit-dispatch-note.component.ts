@@ -137,12 +137,12 @@ export class AddEditDispatchNoteComponent {
       totalAmount: [{ value: 0, disabled: true }],
 
       //Tab 3
-      paymentDate: [''], // Maps to [PaymentDate]
-      bankID: [''], // Maps to [BankID]
-      owrmNo1: [''], // Maps to [OWRMNo]
+      paymentDate: ['', Validators.required], // Maps to [PaymentDate]
+      bankID: ['', Validators.required], // Maps to [BankID]
+      owrmNo1: ['', Validators.required], // Maps to [OWRMNo]
       owrmNo2: [''],
-      paymentCurrency: [''],
-      paymentAmount: [''], // Maps to [CustomerPONo]
+      paymentCurrency: ['', Validators.required],
+      paymentAmount: ['', Validators.required], // Maps to [CustomerPONo]
 
       //tab4
       customerPONo: [''],
