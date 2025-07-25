@@ -108,6 +108,7 @@ export class AddEditDispatchNoteComponent {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
       //tab1
       vendorId: ['', Validators.required], // Maps to [VendorID]
+      selectedVendorCountry: [''], 
       invoiceDate: ['', Validators.required], // Maps to [InvoiceDate]
       fy: ['', Validators.required], // Maps to [FY]
       clientInvoiceNo: ['', Validators.required], // Maps to [ClientInvoiceNo]
@@ -127,6 +128,7 @@ export class AddEditDispatchNoteComponent {
 
       //tab2
       invoiceFeeDetails: this.fb.array([]),
+
       professionalFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       govtOrOfficialFeeAmt: [{ value: 0, disabled: true }], // Initialize with 0 and disable
       otherChargesAmt: [{ value: 0, disabled: true }],
@@ -279,12 +281,12 @@ export class AddEditDispatchNoteComponent {
     data.feeDetails?.forEach((fee: any) => {
       this.invoiceFeeDetails.push(
         this.fb.group({
-          feeType: [fee.feeType],
-          subFeeValue: [fee.subFeeValue],
-          country: [fee.country],
+          feeType: [fee.feeType, Validators.required],
+          subFeeValue: [fee.subFeeValue, Validators.required],
+          country: [fee.country, Validators.required],
           language: [fee.language],
-          amount: [fee.amount],
-          remarks: [fee.remarks],
+          amount: [fee.amount, Validators.required],
+          remarks: [fee.remarks]
         })
       );
     });
@@ -616,6 +618,7 @@ export class AddEditDispatchNoteComponent {
 
   async onSavePress() {
     this.loadSpinner = true;
+    
 
     if (this.isTab1Invalid()) {
       this.toastr.warning('Please complete all required fields in Tab 1');
