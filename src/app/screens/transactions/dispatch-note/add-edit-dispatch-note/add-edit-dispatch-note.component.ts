@@ -53,6 +53,7 @@ export class AddEditDispatchNoteComponent {
 
   filteredcustomers: any = [];
   invoiceFeeDetailsList: any[] = [];
+  paymentFeeDetailsList: any[] = [];
   salesDetailsList: any[] = [];
   govtDetailsList: any[] = [];
 
@@ -61,6 +62,9 @@ export class AddEditDispatchNoteComponent {
 
   selectedSales: any = [];
   deletedSales: any[] = [];
+
+  selectedPayment: any = [];
+  deletedPayment: any[] = [];
 
   constructor(
     private router: Router,
@@ -108,7 +112,7 @@ export class AddEditDispatchNoteComponent {
     this.addOrEditDispatchNoteFormGroup = this.fb.group({
       //tab1
       vendorId: ['', Validators.required], // Maps to [VendorID]
-      selectedVendorCountry: [''], 
+      selectedVendorCountry: [''],
       invoiceDate: ['', Validators.required], // Maps to [InvoiceDate]
       fy: ['', Validators.required], // Maps to [FY]
       clientInvoiceNo: ['', Validators.required], // Maps to [ClientInvoiceNo]
@@ -122,10 +126,10 @@ export class AddEditDispatchNoteComponent {
       filingDate: [''],
       clientRefNo: ['', Validators.required], // Maps to [ClientRefNo]
       ourRefNo: ['', Validators.required], // Maps to [OurRefNo]
-      officialFilingReceiptSupporting: ['', Validators.required], // 
+      officialFilingReceiptSupporting: ['', Validators.required], //
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
-      purchaseCurrency: ['', Validators.required], 
-      postedInTally: ['', Validators.required],// Maps to [CurrencyPID]
+      purchaseCurrency: ['', Validators.required],
+      postedInTally: ['', Validators.required], // Maps to [CurrencyPID]
 
       //tab2
       invoiceFeeDetails: this.fb.array([]),
@@ -138,12 +142,13 @@ export class AddEditDispatchNoteComponent {
       totalAmount: [{ value: 0, disabled: true }],
 
       //Tab 3
-      paymentDate: ['', Validators.required], // Maps to [PaymentDate]
-      bankID: ['', Validators.required], // Maps to [BankID]
-      owrmNo1: ['', Validators.required], // Maps to [OWRMNo]
-      owrmNo2: [''],
-      paymentCurrency: ['', Validators.required],
-      paymentAmount: ['', Validators.required], // Maps to [CustomerPONo]
+      paymentFeeDetails: this.fb.array([]),
+      // paymentDate: ['', Validators.required], // Maps to [PaymentDate]
+      // bankID: ['', Validators.required], // Maps to [BankID]
+      // owrmNo1: ['', Validators.required], // Maps to [OWRMNo]
+      // owrmNo2: [''],
+      // paymentCurrency: ['', Validators.required],
+      // paymentAmount: ['', Validators.required], // Maps to [CustomerPONo]
 
       //tab4
       customerPONo: [''],
@@ -258,16 +263,17 @@ export class AddEditDispatchNoteComponent {
 
       //Tab 2
       invoiceFeeDetails: data?.feeDetails,
+      paymentFeeDetails: data?.paymentDetails,
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
 
       // Tab 3
-      paymentDate: this.convertToNgbDate(data?.paymentDate),
-      bankID: data?.bankID,
-      owrmNo1: data?.oWRMNo1,
-      owrmNo2: data?.oWRMNo2,
-      paymentCurrency: data?.paymentCurrency,
-      paymentAmount: data?.paymentAmount,
+      // paymentDate: this.convertToNgbDate(data?.paymentDate),
+      // bankID: data?.bankID,
+      // owrmNo1: data?.oWRMNo1,
+      // owrmNo2: data?.oWRMNo2,
+      // paymentCurrency: data?.paymentCurrency,
+      // paymentAmount: data?.paymentAmount,
 
       // Tab 4
       customerPONo: data?.customerPONo,
@@ -288,7 +294,22 @@ export class AddEditDispatchNoteComponent {
           country: [fee.country, Validators.required],
           language: [fee.language],
           amount: [fee.amount, Validators.required],
-          remarks: [fee.remarks]
+          remarks: [fee.remarks],
+        })
+      );
+    });
+
+
+    this.paymentFeeDetails.clear();
+    data.paymentDetails?.forEach((fee: any) => {
+      this.paymentFeeDetails.push(
+        this.fb.group({
+          paymentDate: [fee.paymentDate, Validators.required],
+          bankID: [fee.bankID, Validators.required],
+          owrmNo1: [fee.owrmNo1, Validators.required],
+          owrmNo2: [fee.owrmNo2],
+          paymentCurrency: [fee.paymentCurrency, Validators.required],
+          paymentAmount: [fee.paymentAmount, Validators.required],
         })
       );
     });
@@ -455,6 +476,7 @@ export class AddEditDispatchNoteComponent {
       frlrDate: '',
       transporterMode: '',
       invoiceFeeDetails: [],
+      paymentFeeDetails: [],
       saleProfessionalInvoices: [],
       saleGovtInvoices: [],
     };
@@ -493,7 +515,9 @@ export class AddEditDispatchNoteComponent {
   }
 
   get tab3Controls() {
-    return this.addOrEditDispatchNoteFormGroup.controls; // pick specific tab3 fields in check
+    return (
+      this.addOrEditDispatchNoteFormGroup.get('paymentFeeDetails') as FormArray
+    ).controls;// pick specific tab3 fields in check
   }
 
   get tab4Controls() {
@@ -521,15 +545,24 @@ export class AddEditDispatchNoteComponent {
   }
 
   isTab1Invalid(): boolean {
-  const tab1Fields = [
-    'vendorId', 'invoiceDate', 'fy', 'clientInvoiceNo',
-    'customerId', 'title', 'applicationNumber', 'clientRefNo',
-    'ourRefNo', 'officialFilingReceiptSupporting', 'purchaseCurrency','postedInTally'
-  ];
-  return tab1Fields.some(field =>
-    this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
-  );
-}
+    const tab1Fields = [
+      'vendorId',
+      'invoiceDate',
+      'fy',
+      'clientInvoiceNo',
+      'customerId',
+      'title',
+      'applicationNumber',
+      'clientRefNo',
+      'ourRefNo',
+      'officialFilingReceiptSupporting',
+      'purchaseCurrency',
+      'postedInTally',
+    ];
+    return tab1Fields.some(
+      (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
+    );
+  }
   isTab2Touched(): boolean {
     return this.invoiceFeeDetails.length > 0;
   }
@@ -545,47 +578,29 @@ export class AddEditDispatchNoteComponent {
     );
   }
   isTab3Touched(): boolean {
-    const tab3Fields = [
-      'paymentDate',
-      'bankID',
-      'owrmNo1',
-      'paymentCurrency',
-      'paymentAmount',
-    ];
-    return tab3Fields.some(
-      (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.value
-    );
+   return this.invoiceFeeDetails.length > 0;
   }
 
   isTab3Invalid(): boolean {
-    const tab3Fields = [
-      'paymentDate',
-      'bankID',
-      'owrmNo1',
-      'paymentCurrency',
-      'paymentAmount',
-    ];
-    return (
-      this.isTab3Touched() &&
-      tab3Fields.some(
-        (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
-      )
+   return (
+      this.isTab2Touched() &&
+      (
+        this.addOrEditDispatchNoteFormGroup.get(
+          'paymentFeeDetails'
+        ) as FormArray
+      ).controls.some((group) => group.invalid)
     );
   }
 
   isTab4Touched(): boolean {
-    const tab4Fields = [
-      "nk",
-    ];
+    const tab4Fields = ['nk'];
     return tab4Fields.some(
       (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.value
     );
   }
 
   isTab4Invalid(): boolean {
-    const tab4Fields = [
-      "nk",
-    ];
+    const tab4Fields = ['nk'];
     return (
       this.isTab4Touched() &&
       tab4Fields.some(
@@ -621,7 +636,6 @@ export class AddEditDispatchNoteComponent {
 
   async onSavePress() {
     this.loadSpinner = true;
-    
 
     if (this.isTab1Invalid()) {
       this.toastr.warning('Please complete all required fields in Tab 1');
@@ -684,10 +698,8 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.controls[
           'officialFilingReceiptSupporting'
         ].value,
-        postedInTally:
-        this.addOrEditDispatchNoteFormGroup.controls[
-          'postedInTally'
-        ].value,
+      postedInTally:
+        this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
       workDeliveryDateOrMonth: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['workDeliveryDateOrMonth']
           .value
@@ -698,6 +710,9 @@ export class AddEditDispatchNoteComponent {
       //tab2
       invoiceFeeDetails:
         this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails')?.value ||
+        [],
+      paymentFeeDetails:
+        this.addOrEditDispatchNoteFormGroup.get('paymentFeeDetails')?.value ||
         [],
 
       professionalFeeAmt: Number(
@@ -723,19 +738,19 @@ export class AddEditDispatchNoteComponent {
       ),
 
       // tab3
-      paymentDate: this.formatDate(
-        this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
-      ),
+      // paymentDate: this.formatDate(
+      //   this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
+      // ),
 
-      bankID:
-        this.addOrEditDispatchNoteFormGroup.controls['bankID'].value || null,
-      owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
-      owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
-      paymentCurrency:
-        this.addOrEditDispatchNoteFormGroup.controls['paymentCurrency'].value,
-      paymentAmount: Number(
-        this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value
-      ),
+      // bankID:
+      //   this.addOrEditDispatchNoteFormGroup.controls['bankID'].value || null,
+      // owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
+      // owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
+      // paymentCurrency:
+      //   this.addOrEditDispatchNoteFormGroup.controls['paymentCurrency'].value,
+      // paymentAmount: Number(
+      //   this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value
+      // ),
 
       // tab4
       customerPONo:
@@ -841,6 +856,12 @@ export class AddEditDispatchNoteComponent {
     this.calculateTotals();
   }
 
+  get paymentFeeDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get(
+      'paymentFeeDetails'
+    ) as FormArray;
+  }
+
   get invoiceFeeDetails(): FormArray {
     return this.addOrEditDispatchNoteFormGroup.get(
       'invoiceFeeDetails'
@@ -853,28 +874,32 @@ export class AddEditDispatchNoteComponent {
     ) as FormArray;
   }
 
-  createInvoiceGroup(type: string): FormGroup {
-    return this.fb.group({
-      type: [type],
+  addSaleInvoice(type: string) {
+    const group = this.fb.group({
+      type: [type], // 'Professional' or 'Govt'
       invoiceNo: [''],
-      amount: [''],
-      estimateNo: [''],
+      amount: [0], // Default 0
+      estimateNo: [0], // Default 0
       remarks: [''],
       postedInTally: [''],
     });
-  }
- addSaleInvoice(type: string) {
-  const group = this.fb.group({
-    type: [type], // 'Professional' or 'Govt'
-    invoiceNo: [''],
-    amount: [0], // Default 0
-    estimateNo: [0], // Default 0
-    remarks: [''],
-    postedInTally: [''],
-  });
 
-  this.salesInvoiceDetails.push(group);
-}
+    this.salesInvoiceDetails.push(group);
+  }
+
+  createPaymentFeeDetailsGroup() {
+    const detail = this.fb.group({
+      paymentDate: ['', [Validators.required]],
+      bankID: ['', [Validators.required]],
+      owrmNo1: ['', [Validators.required]],
+      owrmNo2: [''],
+      paymentCurrency: ['', [Validators.required]],
+      paymentAmount: ['', [Validators.required]],
+    });
+
+    this.paymentFeeDetails.push(detail);
+  }
+
   filteredSalesInvoices(type: string): FormGroup[] {
     return this.salesInvoiceDetails.controls.filter(
       (ctrl) => ctrl.get('type')?.value === type
@@ -901,6 +926,19 @@ export class AddEditDispatchNoteComponent {
     this.subFeeOptionsList.splice(index, 1);
     this.calculateTotals();
     this.loadSpinner = false; // remove corresponding subFee list
+  }
+  onDeletePaymentFeeDetail(PaymentFeeDetail: any, i: number) {
+    this.loadSpinner = true;
+
+    this.loadSpinner = true;
+    this.paymentFeeDetails.removeAt(i);
+    const PaymentFeeDetailNumber =
+      PaymentFeeDetail.value.InvoiceFeeDetailNumber;
+    const index = this.selectedPayment.indexOf(PaymentFeeDetailNumber);
+    if (index > -1) {
+      this.selectedPayment.splice(index, 1);
+    }
+    this.loadSpinner = false;
   }
 
   updateSelectedInvoice(selectedInvoiceFeeNumbers: string[]) {

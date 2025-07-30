@@ -1,8 +1,7 @@
 <div class="page-title">
   <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Vendor Invoice </h1>
   <div class="action-buttons">
-    <button class="custom-button-regulr"
-        (click)="onSavePress()">Save</button>
+    <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
     <!-- [disabled]="isFormInvalid() -->
     <button class="custom-button-secondary" (click)="onCancelPress()">
       Cancel
@@ -48,8 +47,8 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Vendor Country <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" formControlName="selectedVendorCountry" [value]="selectedVendorCountry" placeholder="Vendor country "
-                readonly>
+              <input type="text" class="form-control" formControlName="selectedVendorCountry"
+                [value]="selectedVendorCountry" placeholder="Vendor country " readonly>
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -102,8 +101,8 @@
             <div class="custom-form-input">
               <label for="">Due Date As Per Contract </label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract"
-                  ngbDatepicker formControlName="dueDateAsPerContract" readonly />
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract" ngbDatepicker
+                  formControlName="dueDateAsPerContract" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
@@ -196,12 +195,11 @@
                 placeholder="Currency" readonly />
             </div>
           </div>
-           <div class="col-lg-3 col-md-3">
+          <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Posted In Tally <span class="text-danger">*</span></label>
               <ng-select [items]="[{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' }]" bindLabel="label"
-                bindValue="value" formControlName="postedInTally" placeholder="Select Yes or No"
-                class="input-field">
+                bindValue="value" formControlName="postedInTally" placeholder="Select Yes or No" class="input-field">
               </ng-select>
             </div>
           </div>
@@ -362,11 +360,11 @@
       </div>
 
       <div id="Tab3" class="tab-pane fade show ">
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Payment Date <span class="text-danger">*</span></label>
-              <!-- <input formControlName="paymentDate" type="text" class="input-field" /> -->
+               <input formControlName="paymentDate" type="text" class="input-field" /> 
               <div class="input-group datepicker">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
                   formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker
@@ -416,7 +414,106 @@
                 (keypress)="validateNo1($event)" />
             </div>
           </div>
+        </div> -->
+
+        <div class="edit-screen-subTable mt-0">
+          <h4>
+            Payment Fee Details
+            <button (click)="createPaymentFeeDetailsGroup()" class="custom-button-regulr">Add</button>
+          </h4>
         </div>
+
+        <div class="custom-table">
+          <table>
+            <thead class="table table-bordered">
+              <tr>
+                <th style="width: 5%;">Line</th>
+                <th class="required-label">Payment Date</th>
+                <th class="required-label">Bank</th>
+                <th class="required-label">OWRMNo1</th>
+                <th>OWRMNo2</th>
+                <th class="required-label">PaymentCurrency</th>
+                <th class="required-label">PaymentAmount</th>
+                <th style="width: 5%;" class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody formArrayName="paymentFeeDetails">
+              <ng-container *ngFor="let payment of paymentFeeDetails.controls; let ind = index">
+                <tr [formGroupName]="ind">
+                  <!-- Line -->
+                  <td>{{ ind + 1 }}</td>
+
+                  <!-- Payment Date -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <div class="input-group datepicker">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
+                          formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker
+                          #dp="ngbDatepicker" readonly />
+                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                          <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Bank -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
+                        <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
+                          {{ bank.bankName }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- OWRM No 1 -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="owrmNo1" type="text" class="input-field" placeholder="OWRM No 1" />
+                    </div>
+                  </td>
+
+                  <!-- OWRM No 2 -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="owrmNo2" type="text" class="input-field" placeholder="OWRM No 2" />
+                    </div>
+                  </td>
+
+                  <!-- Payment Currency -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency">
+                        <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                          {{ country.currencyName }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- Payment Amount -->
+                  <td>
+                    <div class="custom-form-input dispatchwidthsmall">
+                      <input formControlName="paymentAmount" type="number" class="input-field" placeholder="Enter Amt"
+                        (keypress)="validateNo1($event)" />
+                    </div>
+                  </td>
+
+                  <!-- Action -->
+                  <td class="text-center">
+                    <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
+                      (click)="onDeletePaymentFeeDetail(payment, ind)" />
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+
       </div>
 
       <div id="Tab4" class="tab-pane fade show ">
@@ -476,16 +573,17 @@
             <thead class="table-light text-center">
               <tr>
                 <th class="text-center">#</th>
-                <th >Professional Inv No</th>
-                <th >Professional Amount</th>
+                <th>Professional Inv No</th>
+                <th>Professional Amount</th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
-                <th >Posted In Tally</th>
+                <th>Posted In Tally</th>
                 <th class="text-center">Action</th>
               </tr>
             </thead>
             <tbody [formGroup]="addOrEditDispatchNoteFormGroup">
-              <tr class="border" *ngFor="let group of filteredSalesInvoices('Professional'); let i = index" [formGroup]="group">
+              <tr class="border" *ngFor="let group of filteredSalesInvoices('Professional'); let i = index"
+                [formGroup]="group">
                 <td class="text-center">{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
                 <td><input formControlName="amount" class="form-control form-control"
@@ -499,7 +597,8 @@
                     <ng-option [value]="'No'">No</ng-option>
                   </ng-select>
                 </td>
-                <td class="text-center"><img class="me-2 pointer"  src="assets/images/icons/trash.svg" width="18px" (click)="removeSaleInvoice(group)" /></td>
+                <td class="text-center"><img class="me-2 pointer" src="assets/images/icons/trash.svg" width="18px"
+                    (click)="removeSaleInvoice(group)" /></td>
               </tr>
             </tbody>
           </table>
@@ -514,11 +613,11 @@
             <thead class="table-light text-center">
               <tr>
                 <th>#</th>
-                <th >Govt/official Inv No</th>
-                <th >Govt/Official Amount</th>
+                <th>Govt/official Inv No</th>
+                <th>Govt/Official Amount</th>
                 <th>Estimate No</th>
                 <th>Remarks</th>
-                <th >Posted In Tally</th>
+                <th>Posted In Tally</th>
                 <!-- <th class="required-label">Posted In Tally</th> -->
                 <th>Action</th>
               </tr>
