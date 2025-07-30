@@ -122,9 +122,10 @@ export class AddEditDispatchNoteComponent {
       filingDate: [''],
       clientRefNo: ['', Validators.required], // Maps to [ClientRefNo]
       ourRefNo: ['', Validators.required], // Maps to [OurRefNo]
-      officialFilingReceiptSupporting: ['', Validators.required], // Maps to [OfficialFilingReceiptSupporting]
+      officialFilingReceiptSupporting: ['', Validators.required], // 
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
-      purchaseCurrency: ['', Validators.required], // Maps to [CurrencyPID]
+      purchaseCurrency: ['', Validators.required], 
+      postedInTally: ['', Validators.required],// Maps to [CurrencyPID]
 
       //tab2
       invoiceFeeDetails: this.fb.array([]),
@@ -249,6 +250,7 @@ export class AddEditDispatchNoteComponent {
       clientRefNo: data?.clientRefNo,
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
+      postedInTally: data?.postedInTally,
       workDeliveryDateOrMonth: this.convertToNgbDate(
         data?.workDeliveryDateOrMonth
       ),
@@ -510,6 +512,7 @@ export class AddEditDispatchNoteComponent {
       'clientRefNo',
       'ourRefNo',
       'officialFilingReceiptSupporting',
+      'postedInTally',
       'purchaseCurrency',
     ];
     return tab1Fields.some(
@@ -521,7 +524,7 @@ export class AddEditDispatchNoteComponent {
   const tab1Fields = [
     'vendorId', 'invoiceDate', 'fy', 'clientInvoiceNo',
     'customerId', 'title', 'applicationNumber', 'clientRefNo',
-    'ourRefNo', 'officialFilingReceiptSupporting', 'purchaseCurrency'
+    'ourRefNo', 'officialFilingReceiptSupporting', 'purchaseCurrency','postedInTally'
   ];
   return tab1Fields.some(field =>
     this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
@@ -680,6 +683,10 @@ export class AddEditDispatchNoteComponent {
       officialFilingReceiptSupporting:
         this.addOrEditDispatchNoteFormGroup.controls[
           'officialFilingReceiptSupporting'
+        ].value,
+        postedInTally:
+        this.addOrEditDispatchNoteFormGroup.controls[
+          'postedInTally'
         ].value,
       workDeliveryDateOrMonth: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['workDeliveryDateOrMonth']

@@ -196,6 +196,15 @@
                 placeholder="Currency" readonly />
             </div>
           </div>
+           <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Posted In Tally <span class="text-danger">*</span></label>
+              <ng-select [items]="[{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' }]" bindLabel="label"
+                bindValue="value" formControlName="postedInTally" placeholder="Select Yes or No"
+                class="input-field">
+              </ng-select>
+            </div>
+          </div>
         </div>
       </div>
 
