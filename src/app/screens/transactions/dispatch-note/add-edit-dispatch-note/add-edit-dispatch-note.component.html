@@ -112,12 +112,12 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Customer Name <span class="text-danger">*</span></label>
-              <select formControlName="customerId" class="input-field">
-                <option value="">Select Customer</option>
-                <option *ngFor="let customers of customersList" [value]="customers.id">
+              <ng-select [searchable]="true" formControlName="customerId" [readonly]="dispatchId > 0"
+                (change)="onCustomerSelect($event)">
+                <ng-option *ngFor="let customers of customersList" [value]="customers.id">
                   {{ customers.customerName }}
-                </option>
-              </select>
+                </ng-option>
+              </ng-select>
             </div>
           </div>
           <div class="col-lg-3 col-md-3">
@@ -371,7 +371,7 @@
           <table>
             <thead class="table table-bordered">
               <tr>
-                <th >Line</th>
+                <th>Line</th>
                 <th class="required-label">Payment Date</th>
                 <th class="required-label">Bank</th>
                 <th class="required-label">OWRMNo1</th>
@@ -479,8 +479,8 @@
 
           <div class="col-sm-3">
             <label class="label-small">Sales Currency </label>
-            <ng-select formControlName="saleCurrency" class="shetty" placeholder="Select Currency">
-              <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+            <ng-select formControlName="saleCurrency" class="shetty" placeholder="Select Currency" [disabled]="true" >
+              <ng-option *ngFor="let country of countryList" [value]="country.currencyName" readonly>
                 {{ country.currencyName }}
               </ng-option>
             </ng-select>
@@ -579,10 +579,10 @@
         </div>
 
       </div>
-</div>
+    </div>
 
 
 
-<div class="spinner" *ngIf="loadSpinner">
-  Loading...
-</div>
+    <div class="spinner" *ngIf="loadSpinner">
+      Loading...
+    </div>

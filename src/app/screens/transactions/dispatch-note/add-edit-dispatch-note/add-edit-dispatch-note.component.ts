@@ -27,6 +27,7 @@ export class AddEditDispatchNoteComponent {
   countryList: any = [];
   transactionTypesList: any = [];
   selectedVendorCountry: string = '';
+   selectedCustomerCountry: string = '';
   addOrEditDispatchNoteFormGroup!: FormGroup;
   vendorsList: any[] = [];
   customerNum: string | undefined;
@@ -189,6 +190,26 @@ export class AddEditDispatchNoteComponent {
       this.selectedVendorCountry = '';
       this.addOrEditDispatchNoteFormGroup.patchValue({
         purchaseCurrency: null,
+      });
+    }
+  }
+
+    onCustomerSelect(selectedcustomerCode: string) {
+    // Find vendor details from vendorsList
+    const customerDetail = this.customersList.find(
+      (v) => v.id === selectedcustomerCode
+    );
+
+    if (customerDetail) {
+      // Pick billingCountry from the vendor detail
+      this.selectedCustomerCountry = customerDetail.billingCountry;
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        saleCurrency: customerDetail.currency,
+      });
+    } else {
+      this.selectedCustomerCountry = '';
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        saleCurrency: null,
       });
     }
   }
