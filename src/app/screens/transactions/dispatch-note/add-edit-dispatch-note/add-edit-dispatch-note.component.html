@@ -360,62 +360,6 @@
       </div>
 
       <div id="Tab3" class="tab-pane fade show ">
-        <!-- <div class="row">
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Payment Date <span class="text-danger">*</span></label>
-               <input formControlName="paymentDate" type="text" class="input-field" /> 
-              <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
-                  formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker
-                  #paymentDate="ngbDatepicker" readonly />
-                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="paymentDate.toggle()" type="button">
-                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Bank Name <span class="text-danger">*</span></label>
-              <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
-                <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
-                  {{ bank.bankName }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">OWRM No 1 <span class="text-danger">*</span></label>
-              <input formControlName="owrmNo1" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">OWRM No 2</label>
-              <input formControlName="owrmNo2" type="text" class="input-field" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Payment Currency <span class="text-danger">*</span></label>
-              <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency">
-                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                  {{ country.currencyName }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Payment Amount <span class="text-danger">*</span></label>
-              <input formControlName="paymentAmount" type="number" class="input-field"
-                (keypress)="validateNo1($event)" />
-            </div>
-          </div>
-        </div> -->
-
         <div class="edit-screen-subTable mt-0">
           <h4>
             Payment Fee Details
@@ -427,11 +371,10 @@
           <table>
             <thead class="table table-bordered">
               <tr>
-                <th style="width: 5%;">Line</th>
+                <th >Line</th>
                 <th class="required-label">Payment Date</th>
                 <th class="required-label">Bank</th>
                 <th class="required-label">OWRMNo1</th>
-                <th>OWRMNo2</th>
                 <th class="required-label">PaymentCurrency</th>
                 <th class="required-label">PaymentAmount</th>
                 <th style="width: 5%;" class="text-center">Action</th>
@@ -475,14 +418,6 @@
                       <input formControlName="owrmNo1" type="text" class="input-field" placeholder="OWRM No 1" />
                     </div>
                   </td>
-
-                  <!-- OWRM No 2 -->
-                  <td>
-                    <div class="custom-form-input dispatchwidth">
-                      <input formControlName="owrmNo2" type="text" class="input-field" placeholder="OWRM No 2" />
-                    </div>
-                  </td>
-
                   <!-- Payment Currency -->
                   <td>
                     <div class="custom-form-input dispatchwidth">
@@ -644,9 +579,6 @@
         </div>
 
       </div>
-
-    </div>
-  </form>
 </div>
 
 

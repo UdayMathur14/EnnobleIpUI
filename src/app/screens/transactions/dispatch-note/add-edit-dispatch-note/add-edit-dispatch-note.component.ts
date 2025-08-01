@@ -143,12 +143,6 @@ export class AddEditDispatchNoteComponent {
 
       //Tab 3
       paymentFeeDetails: this.fb.array([]),
-      // paymentDate: ['', Validators.required], // Maps to [PaymentDate]
-      // bankID: ['', Validators.required], // Maps to [BankID]
-      // owrmNo1: ['', Validators.required], // Maps to [OWRMNo]
-      // owrmNo2: [''],
-      // paymentCurrency: ['', Validators.required],
-      // paymentAmount: ['', Validators.required], // Maps to [CustomerPONo]
 
       //tab4
       customerPONo: [''],
@@ -267,14 +261,6 @@ export class AddEditDispatchNoteComponent {
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
 
-      // Tab 3
-      // paymentDate: this.convertToNgbDate(data?.paymentDate),
-      // bankID: data?.bankID,
-      // owrmNo1: data?.oWRMNo1,
-      // owrmNo2: data?.oWRMNo2,
-      // paymentCurrency: data?.paymentCurrency,
-      // paymentAmount: data?.paymentAmount,
-
       // Tab 4
       customerPONo: data?.customerPONo,
       poDate: this.convertToNgbDate(data?.pODate),
@@ -299,14 +285,16 @@ export class AddEditDispatchNoteComponent {
       );
     });
 
-
     this.paymentFeeDetails.clear();
     data.paymentDetails?.forEach((fee: any) => {
       this.paymentFeeDetails.push(
         this.fb.group({
-          paymentDate: [fee.paymentDate, Validators.required],
+          paymentDate: [
+            fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
+            Validators.required,
+          ],
           bankID: [fee.bankID, Validators.required],
-          owrmNo1: [fee.owrmNo1, Validators.required],
+          owrmNo1: [fee.oWRMNo1, Validators.required],
           owrmNo2: [fee.owrmNo2],
           paymentCurrency: [fee.paymentCurrency, Validators.required],
           paymentAmount: [fee.paymentAmount, Validators.required],
@@ -316,16 +304,53 @@ export class AddEditDispatchNoteComponent {
 
     this.salesInvoiceDetails.clear();
     data.saleDetails?.forEach((sale: any) => {
-      this.salesInvoiceDetails.push(
-        this.fb.group({
-          type: [sale.type],
-          invoiceNo: [sale.invoiceNo],
-          amount: [sale.amount],
-          estimateNo: [sale.estimateNo],
-          remarks: [sale.remarks],
-          postedInTally: [sale.postedInTally],
-        })
-      );
+      const group = this.fb.group({
+        type: [sale.type],
+        invoiceNo: [sale.invoiceNo],
+        amount: [sale.amount],
+        estimateNo: [sale.estimateNo],
+        remarks: [sale.remarks],
+        postedInTally: [sale.postedInTally],
+      });
+
+      const amountCtrl = group.get('amount');
+      const estimateCtrl = group.get('estimateNo');
+
+      let isProgrammaticChange = false;
+
+      // === Value change listeners ===
+      amountCtrl?.valueChanges.subscribe((value) => {
+        if (isProgrammaticChange) return;
+        if (value && parseFloat(value) > 0) {
+          isProgrammaticChange = true;
+          estimateCtrl?.reset();
+          estimateCtrl?.disable();
+          isProgrammaticChange = false;
+        } else {
+          estimateCtrl?.enable();
+        }
+      });
+
+      estimateCtrl?.valueChanges.subscribe((value) => {
+        if (isProgrammaticChange) return;
+        if (value && parseFloat(value) > 0) {
+          isProgrammaticChange = true;
+          amountCtrl?.reset();
+          amountCtrl?.disable();
+          isProgrammaticChange = false;
+        } else {
+          amountCtrl?.enable();
+        }
+      });
+
+      // === Apply disable logic based on existing values ===
+      if (sale.amount && parseFloat(sale.amount) > 0) {
+        estimateCtrl?.disable({ emitEvent: false });
+      } else if (sale.estimateNo && parseFloat(sale.estimateNo) > 0) {
+        amountCtrl?.disable({ emitEvent: false });
+      }
+
+      this.salesInvoiceDetails.push(group);
     });
     this.addOrEditDispatchNoteFormGroup
       .get('dueDateAsPerContract')
@@ -517,7 +542,7 @@ export class AddEditDispatchNoteComponent {
   get tab3Controls() {
     return (
       this.addOrEditDispatchNoteFormGroup.get('paymentFeeDetails') as FormArray
-    ).controls;// pick specific tab3 fields in check
+    ).controls; // pick specific tab3 fields in check
   }
 
   get tab4Controls() {
@@ -578,11 +603,11 @@ export class AddEditDispatchNoteComponent {
     );
   }
   isTab3Touched(): boolean {
-   return this.invoiceFeeDetails.length > 0;
+    return this.invoiceFeeDetails.length > 0;
   }
 
   isTab3Invalid(): boolean {
-   return (
+    return (
       this.isTab2Touched() &&
       (
         this.addOrEditDispatchNoteFormGroup.get(
@@ -711,14 +736,22 @@ export class AddEditDispatchNoteComponent {
       invoiceFeeDetails:
         this.addOrEditDispatchNoteFormGroup.get('invoiceFeeDetails')?.value ||
         [],
-      paymentFeeDetails:
-        this.addOrEditDispatchNoteFormGroup.get('paymentFeeDetails')?.value ||
-        [],
+      // paymentFeeDetails:
+      //   this.addOrEditDispatchNoteFormGroup.get('paymentFeeDetails')?.value ||
+      //   [],
 
       professionalFeeAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['professionalFeeAmt']
           ?.value
       ),
+      paymentFeeDetails:
+        this.addOrEditDispatchNoteFormGroup.value.paymentFeeDetails?.map(
+          (fee: any) => ({
+            ...fee,
+            paymentDate: this.formatDate(fee.paymentDate),
+          })
+        ) || [],
+
       govtOrOfficialFeeAmt: Number(
         this.addOrEditDispatchNoteFormGroup.controls['govtOrOfficialFeeAmt']
           ?.value
@@ -873,20 +906,51 @@ export class AddEditDispatchNoteComponent {
       'salesInvoiceDetails'
     ) as FormArray;
   }
-
   addSaleInvoice(type: string) {
     const group = this.fb.group({
       type: [type], // 'Professional' or 'Govt'
       invoiceNo: [''],
-      amount: [0], // Default 0
-      estimateNo: [0], // Default 0
+      amount: [null],
+      estimateNo: [null],
       remarks: [''],
       postedInTally: [''],
     });
 
+    const amountCtrl = group.get('amount');
+    const estimateCtrl = group.get('estimateNo');
+
+    let isProgrammaticChange = false;
+
+    // Professional Amount listener
+    amountCtrl?.valueChanges.subscribe((value) => {
+      if (isProgrammaticChange) return;
+
+      if (value && parseFloat(value) > 0) {
+        isProgrammaticChange = true;
+        estimateCtrl?.reset();
+        estimateCtrl?.disable();
+        isProgrammaticChange = false;
+      } else {
+        estimateCtrl?.enable();
+      }
+    });
+
+    // Estimate No listener
+    estimateCtrl?.valueChanges.subscribe((value) => {
+      if (isProgrammaticChange) return;
+
+      if (value && parseFloat(value) > 0) {
+        isProgrammaticChange = true;
+        amountCtrl?.reset();
+        amountCtrl?.disable();
+        isProgrammaticChange = false;
+      } else {
+        amountCtrl?.enable();
+      }
+    });
+
     this.salesInvoiceDetails.push(group);
   }
-
   createPaymentFeeDetailsGroup() {
     const detail = this.fb.group({
       paymentDate: ['', [Validators.required]],

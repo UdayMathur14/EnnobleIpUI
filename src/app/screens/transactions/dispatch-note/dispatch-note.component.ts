@@ -118,8 +118,6 @@ export class DispatchNoteComponent {
               Discount: item?.discountAmt,
               'Total Amt': item?.totalAmount,
               'Discount (Credit Note)': item?.discountCreditNoteAmt,
-              'Payment Date': item?.paymentDate,
-              'From Bank': item?.vendorDetails?.bankName,
               'Total Outstanding Amount': item?.paymentAmount,
               'Application No': item?.applicationNumber,
               'EPO Filing Received or Not':
