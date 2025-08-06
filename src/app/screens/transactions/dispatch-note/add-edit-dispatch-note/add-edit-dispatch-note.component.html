@@ -120,6 +120,38 @@
               </ng-select>
             </div>
           </div>
+         <div class="col-lg-12 mt-3">
+  <label class="mb-2">Applicant Names</label>
+
+  <button type="button" class="btn btn-sm btn-success mb-2" (click)="addApplicantField()">
+    + Add Applicant
+  </button>
+
+  <table class="table table-bordered table-sm">
+    <tbody>
+      <ng-container *ngFor="let row of getApplicantsRows(); let rowIndex = index; trackBy: trackByRowIndex">
+        <tr>
+          <ng-container *ngFor="let applicantGroup of row; let colIndex = index; trackBy: trackByControlIndex">
+            <td class="applicant-cell">
+              <div class="d-flex align-items-center w-100">
+                <span class="me-2">{{ rowIndex * 4 + colIndex + 1 }}.</span>
+               <input type="text" class="form-control form-control-sm flex-grow-1"
+       [formControl]="getApplicantNameControl(applicantGroup)"
+       placeholder="Applicant name *" />
+                <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                        (click)="removeApplicant(rowIndex * 4 + colIndex)">
+                  &times;
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Description </label>
@@ -479,7 +511,7 @@
 
           <div class="col-sm-3">
             <label class="label-small">Sales Currency </label>
-            <ng-select formControlName="saleCurrency" class="shetty" placeholder="Select Currency" [disabled]="true" >
+            <ng-select formControlName="saleCurrency" class="shetty" placeholder="Select Currency" [disabled]="true">
               <ng-option *ngFor="let country of countryList" [value]="country.currencyName" readonly>
                 {{ country.currencyName }}
               </ng-option>

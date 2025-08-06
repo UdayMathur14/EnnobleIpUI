@@ -3,6 +3,7 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -27,7 +28,7 @@ export class AddEditDispatchNoteComponent {
   countryList: any = [];
   transactionTypesList: any = [];
   selectedVendorCountry: string = '';
-   selectedCustomerCountry: string = '';
+  selectedCustomerCountry: string = '';
   addOrEditDispatchNoteFormGroup!: FormGroup;
   vendorsList: any[] = [];
   customerNum: string | undefined;
@@ -92,6 +93,9 @@ export class AddEditDispatchNoteComponent {
     this.invoiceFeeDetails.valueChanges.subscribe(() => {
       this.calculateTotals();
     });
+    if (this.dispatchId === 0) {
+      this.createInvoiceFeeDetailsGroup();
+    }
 
     this.getAllcountyListInit();
     this.getAllTransactionTypes();
@@ -121,6 +125,7 @@ export class AddEditDispatchNoteComponent {
       creditDaysAsPerContract: [0], // Maps to [CreditDaysAsPerContract]
       dueDateAsPerContract: [{ value: null, disabled: true }], // Maps to [CreditDaysAsPerContract]
       customerId: ['', Validators.required], // Maps to [CustomerID]
+      applicantDetails: this.fb.array([]),
       description: [''], // Maps to [Description]
       title: ['', Validators.required], // Maps to [Title]
       applicationNumber: ['', Validators.required], // Maps to [ApplicationNumber]
@@ -194,7 +199,7 @@ export class AddEditDispatchNoteComponent {
     }
   }
 
-    onCustomerSelect(selectedcustomerCode: string) {
+  onCustomerSelect(selectedcustomerCode: string) {
     // Find vendor details from vendorsList
     const customerDetail = this.customersList.find(
       (v) => v.id === selectedcustomerCode
@@ -212,6 +217,50 @@ export class AddEditDispatchNoteComponent {
         saleCurrency: null,
       });
     }
+  }
+
+  get applicantDetails(): FormArray {
+    return this.addOrEditDispatchNoteFormGroup.get(
+      'applicantDetails'
+    ) as FormArray;
+  }
+  getApplicantNameControl(applicantGroup: FormGroup): FormControl {
+    return applicantGroup.get('applicantName') as FormControl;
+  }
+
+  // This method now adds a FormGroup to the FormArray
+  addApplicantField(): void {
+    const applicantGroup = this.fb.group({
+      id: [0],
+      applicantName: ['', Validators.required], // Added a required validator for demonstration
+    });
+    this.applicantDetails.push(applicantGroup);
+  }
+
+  removeApplicant(index: number): void {
+    this.applicantDetails.removeAt(index);
+  }
+
+  // This method now returns a 2D array of FormGroups
+  getApplicantsRows(): FormGroup[][] {
+    const rows: FormGroup[][] = [];
+    const controls = this.applicantDetails.controls as FormGroup[];
+
+    for (let i = 0; i < controls.length; i += 4) {
+      rows.push(controls.slice(i, i + 4));
+    }
+
+    return rows;
+  }
+
+  // TrackBy functions for better performance
+  trackByRowIndex(index: number, row: FormGroup[]): number {
+    return index;
+  }
+
+  trackByControlIndex(index: number, applicantGroup: FormGroup): number {
+    // You can use the form control object itself as a stable identifier
+    return index;
   }
 
   getFilteredCustomersList(
@@ -277,7 +326,6 @@ export class AddEditDispatchNoteComponent {
       purchaseCurrency: data?.purchaseCurrency,
 
       //Tab 2
-      invoiceFeeDetails: data?.feeDetails,
       paymentFeeDetails: data?.paymentDetails,
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
@@ -292,6 +340,17 @@ export class AddEditDispatchNoteComponent {
 
       // Total is calculated, not patched
     });
+
+    this.applicantDetails.clear();
+    data.nameDetails?.forEach((name: any) => {
+      this.applicantDetails.push(
+        this.fb.group({
+          id: name.id,
+          applicantName: [name.applicantName, Validators.required],
+        })
+      );
+    });
+
     this.invoiceFeeDetails.clear();
     data.feeDetails?.forEach((fee: any) => {
       this.invoiceFeeDetails.push(
@@ -328,7 +387,7 @@ export class AddEditDispatchNoteComponent {
     this.salesInvoiceDetails.clear();
     data.saleDetails?.forEach((sale: any) => {
       const group = this.fb.group({
-        id : [sale.id],
+        id: [sale.id],
         type: [sale.type],
         invoiceNo: [sale.invoiceNo],
         amount: [sale.amount],
@@ -528,6 +587,7 @@ export class AddEditDispatchNoteComponent {
       paymentFeeDetails: [],
       saleProfessionalInvoices: [],
       saleGovtInvoices: [],
+      applicantDetails: [],
     };
   }
 
@@ -607,6 +667,7 @@ export class AddEditDispatchNoteComponent {
       'officialFilingReceiptSupporting',
       'purchaseCurrency',
       'postedInTally',
+      'applicantDetails'
     ];
     return tab1Fields.some(
       (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
@@ -732,6 +793,9 @@ export class AddEditDispatchNoteComponent {
       customerId: Number(
         this.addOrEditDispatchNoteFormGroup.controls['customerId'].value || null
       ),
+      VendorApplicantNames:
+        this.addOrEditDispatchNoteFormGroup.get('applicantDetails')?.value ||
+        [],
       description:
         this.addOrEditDispatchNoteFormGroup.controls['description'].value,
       title: this.addOrEditDispatchNoteFormGroup.controls['title'].value,
@@ -826,7 +890,8 @@ export class AddEditDispatchNoteComponent {
         this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
         [],
 
-      createdBy: '', // Add dynamically if required
+      createdBy: '',
+      status: 'Active', // Add dynamically if required
     };
 
     // Check if it's an update or create
