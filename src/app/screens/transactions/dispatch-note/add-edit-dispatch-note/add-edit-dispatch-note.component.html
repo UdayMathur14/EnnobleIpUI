@@ -120,36 +120,36 @@
               </ng-select>
             </div>
           </div>
-         <div class="col-lg-12 mt-3">
-  <label class="mb-2">Applicant Names</label>
+          <div class="col-lg-12 mt-3">
+            <label class="mb-2">Applicant Names</label>
 
-  <button type="button" class="btn btn-sm btn-success mb-2" (click)="addApplicantField()">
-    + Add Applicant
-  </button>
+            <button type="button" class="btn btn-sm btn-success mb-2" (click)="addApplicantField()">
+              + Add Applicant
+            </button>
 
-  <table class="table table-bordered table-sm">
-    <tbody>
-      <ng-container *ngFor="let row of getApplicantsRows(); let rowIndex = index; trackBy: trackByRowIndex">
-        <tr>
-          <ng-container *ngFor="let applicantGroup of row; let colIndex = index; trackBy: trackByControlIndex">
-            <td class="applicant-cell">
-              <div class="d-flex align-items-center w-100">
-                <span class="me-2">{{ rowIndex * 4 + colIndex + 1 }}.</span>
-               <input type="text" class="form-control form-control-sm flex-grow-1"
-       [formControl]="getApplicantNameControl(applicantGroup)"
-       placeholder="Applicant name *" />
-                <button type="button" class="btn btn-sm btn-outline-danger ms-2"
-                        (click)="removeApplicant(rowIndex * 4 + colIndex)">
-                  &times;
-                </button>
-              </div>
-            </td>
-          </ng-container>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
+            <table class="table table-bordered table-sm">
+              <tbody>
+                <ng-container *ngFor="let row of getApplicantsRows(); let rowIndex = index; trackBy: trackByRowIndex">
+                  <tr>
+                    <ng-container
+                      *ngFor="let applicantGroup of row; let colIndex = index; trackBy: trackByControlIndex">
+                      <td class="applicant-cell">
+                        <div class="d-flex align-items-center w-100">
+                          <span class="me-2">{{ rowIndex * 4 + colIndex + 1 }}.</span>
+                          <input type="text" class="form-control form-control-sm flex-grow-1"
+                            [formControl]="getApplicantNameControl(applicantGroup)" placeholder="Applicant name *" />
+                          <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                            (click)="removeApplicant(rowIndex * 4 + colIndex)">
+                            &times;
+                          </button>
+                        </div>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
 
 
           <div class="col-lg-3 col-md-3">
@@ -174,7 +174,7 @@
             <div class="custom-form-input">
               <label for="">Filing Date </label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="filingDate" [autoClose]="true"
+                <input class="form-control" placeholder="yyyy-mm-dd" name="filingDate" 
                   formControlName="filingDate" (dateSelect)="onDateSelect('filingDate', $event)" ngbDatepicker
                   #filingDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar6" (click)="filingDate.toggle()" type="button">
