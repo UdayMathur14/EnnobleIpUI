@@ -404,7 +404,7 @@ export class AddEditDispatchNoteComponent {
       // === Value change listeners ===
       amountCtrl?.valueChanges.subscribe((value) => {
         if (isProgrammaticChange) return;
-        if (value && parseFloat(value) > 0) {
+        if (value!='' ) {
           isProgrammaticChange = true;
           estimateCtrl?.reset();
           estimateCtrl?.disable();
@@ -416,7 +416,7 @@ export class AddEditDispatchNoteComponent {
 
       estimateCtrl?.valueChanges.subscribe((value) => {
         if (isProgrammaticChange) return;
-        if (value && parseFloat(value) > 0) {
+        if (value !='') {
           isProgrammaticChange = true;
           amountCtrl?.reset();
           amountCtrl?.disable();
@@ -427,9 +427,9 @@ export class AddEditDispatchNoteComponent {
       });
 
       // === Apply disable logic based on existing values ===
-      if (sale.amount && parseFloat(sale.amount) > 0) {
+      if (sale.amount ) {
         estimateCtrl?.disable({ emitEvent: false });
-      } else if (sale.estimateNo && parseFloat(sale.estimateNo) > 0) {
+      } else if (sale.estimateNo ) {
         amountCtrl?.disable({ emitEvent: false });
       }
 
@@ -1000,14 +1000,14 @@ export class AddEditDispatchNoteComponent {
     const group = this.fb.group({
       id: [0],
       type: [type], // 'Professional' or 'Govt'
-      invoiceNo: [''],
+      invoiceNo: [],
       amount: [null],
       estimateNo: [null],
       remarks: [''],
       postedInTally: [''],
     });
 
-    const amountCtrl = group.get('amount');
+    const amountCtrl = group.get('invoiceNo');
     const estimateCtrl = group.get('estimateNo');
 
     let isProgrammaticChange = false;
@@ -1016,7 +1016,7 @@ export class AddEditDispatchNoteComponent {
     amountCtrl?.valueChanges.subscribe((value) => {
       if (isProgrammaticChange) return;
 
-      if (value && parseFloat(value) > 0) {
+      if (value !='') {
         isProgrammaticChange = true;
         estimateCtrl?.reset();
         estimateCtrl?.disable();
@@ -1030,7 +1030,7 @@ export class AddEditDispatchNoteComponent {
     estimateCtrl?.valueChanges.subscribe((value) => {
       if (isProgrammaticChange) return;
 
-      if (value && parseFloat(value) > 0) {
+      if (value !='') {
         isProgrammaticChange = true;
         amountCtrl?.reset();
         amountCtrl?.disable();
