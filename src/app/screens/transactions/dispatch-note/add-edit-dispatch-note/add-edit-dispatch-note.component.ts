@@ -296,6 +296,7 @@ export class AddEditDispatchNoteComponent {
     data.feeDetails?.forEach((fee: any) => {
       this.invoiceFeeDetails.push(
         this.fb.group({
+          id: fee.id,
           feeType: [fee.feeType, Validators.required],
           subFeeValue: [fee.subFeeValue, Validators.required],
           country: [fee.country, Validators.required],
@@ -310,6 +311,7 @@ export class AddEditDispatchNoteComponent {
     data.paymentDetails?.forEach((fee: any) => {
       this.paymentFeeDetails.push(
         this.fb.group({
+          id: fee.id,
           paymentDate: [
             fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
             Validators.required,
@@ -326,6 +328,7 @@ export class AddEditDispatchNoteComponent {
     this.salesInvoiceDetails.clear();
     data.saleDetails?.forEach((sale: any) => {
       const group = this.fb.group({
+        id : [sale.id],
         type: [sale.type],
         invoiceNo: [sale.invoiceNo],
         amount: [sale.amount],
@@ -895,6 +898,7 @@ export class AddEditDispatchNoteComponent {
   // Create Row
   createInvoiceFeeDetailsGroup() {
     const detail = this.fb.group({
+      id: [0],
       feeType: [''],
       subFeeValue: ['', [Validators.required]],
       country: ['', [Validators.required]],
@@ -929,6 +933,7 @@ export class AddEditDispatchNoteComponent {
   }
   addSaleInvoice(type: string) {
     const group = this.fb.group({
+      id: [0],
       type: [type], // 'Professional' or 'Govt'
       invoiceNo: [''],
       amount: [null],
@@ -974,6 +979,7 @@ export class AddEditDispatchNoteComponent {
   }
   createPaymentFeeDetailsGroup() {
     const detail = this.fb.group({
+      id: [0],
       paymentDate: ['', [Validators.required]],
       bankID: ['', [Validators.required]],
       owrmNo1: ['', [Validators.required]],
