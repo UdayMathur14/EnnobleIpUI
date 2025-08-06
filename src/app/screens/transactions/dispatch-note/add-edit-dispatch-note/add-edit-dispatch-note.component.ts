@@ -396,7 +396,7 @@ export class AddEditDispatchNoteComponent {
         postedInTally: [sale.postedInTally],
       });
 
-      const amountCtrl = group.get('amount');
+      const amountCtrl = group.get('invoiceNo');
       const estimateCtrl = group.get('estimateNo');
 
       let isProgrammaticChange = false;
