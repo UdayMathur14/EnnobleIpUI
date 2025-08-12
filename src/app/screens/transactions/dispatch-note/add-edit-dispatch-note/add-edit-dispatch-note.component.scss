@@ -22,28 +22,11 @@
 }
 
 /* Optional: Rounded bottom corners */
-.custom-table {
-  border: 1px solid black !important;
-  border-radius: 2px 2px 10px 10px;
-  // overflow: hidden;
-}
 // .custom-table {
-//   max-height: 300px; /* Set your preferred height */
-//   overflow-y: auto;  /* Enable vertical scrolling */
+//   border: 1px solid black !important;
+//   border-radius: 2px 2px 10px 10px;
 // }
 
-// .custom-table table {
-//   border-collapse: collapse;
-//   width: 100%;
-// }
-
-// .custom-table thead th {
-//   position: sticky;
-//   top: 0;
-//    /* Or any background color to cover rows behind */
-//   z-index: 10;             /* Keep header on top */
-//    /* Optional: better separation */
-// }
 .table-bordered > :not(caption) > * > * {
   border-color: #dee2e6 !important; /* soft grey border between cells */
 }
@@ -104,6 +87,8 @@ border: 1px solid re;
 .custom-table-responsive {
     overflow-x: auto; /* Adds a horizontal scrollbar when content overflows */
     width: 100%; /* Ensures the container takes up the full width */
+    border: 1px solid black !important;
+   border-radius: 2px 2px 10px 10px;
 }
 .custom-table th, .custom-table td {
     white-space: nowrap; /* Prevents wrapping text to save space */

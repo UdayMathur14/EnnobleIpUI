@@ -147,9 +147,9 @@ export class AddEditDispatchNoteComponent {
       discountAmt: [0], // Initialize with 0, user enters
       discountCreditNoteAmt: [0], // Initialize with 0, user enters
       totalAmount: [{ value: 0, disabled: true }],
-      creditNoteNo:[''] ,
-      creditNoteDate:[''] ,
-      creditNoteRefNo:[''] ,
+      creditNoteNo: [''],
+      creditNoteDate: [''],
+      creditNoteRefNo: [''],
 
       //Tab 3
       paymentFeeDetails: this.fb.array([]),
@@ -334,10 +334,8 @@ export class AddEditDispatchNoteComponent {
       paymentFeeDetails: data?.paymentDetails,
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
-      creditNoteNo: data?.creditNoteNo ,
-      creditNoteDate: this.convertToNgbDate(
-        data?.creditNoteDate
-      ),
+      creditNoteNo: data?.creditNoteNo,
+      creditNoteDate: this.convertToNgbDate(data?.creditNoteDate),
       creditNoteRefNo: data?.creditNoteRefNo,
 
       // Tab 4
@@ -375,25 +373,47 @@ export class AddEditDispatchNoteComponent {
         })
       );
     });
+    // Assuming this code is inside your patchInvoiceData(data: any) method
+
+    // ... (existing code for patching other sections)
 
     this.paymentFeeDetails.clear();
     data.paymentDetails?.forEach((fee: any) => {
-      this.paymentFeeDetails.push(
-        this.fb.group({
-          id: fee.id,
-          paymentDate: [
-            fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
-            Validators.required,
-          ],
-          bankID: [fee.bankID, Validators.required],
-          owrmNo1: [fee.oWRMNo1, Validators.required],
-          owrmNo2: [fee.owrmNo2],
-          rate: [fee.rate],
-          quantity: [fee.quantity],
-          paymentCurrency: [fee.paymentCurrency, Validators.required],
-          paymentAmount: [fee.paymentAmount, Validators.required],
-        })
-      );
+      // 1. Create a new FormGroup with patched values
+      const newFeeGroup = this.fb.group({
+        id: fee.id,
+        paymentDate: [
+          fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
+          Validators.required,
+        ],
+        bankID: [fee.bankID, Validators.required],
+        owrmNo1: [fee.oWRMNo1, Validators.required],
+        owrmNo2: [fee.owrmNo2],
+        rate: [fee.rate],
+        quantity: [fee.quantity],
+        paymentCurrency: [fee.paymentCurrency, Validators.required],
+        // Set paymentAmount with a disabled state
+        paymentAmount: [
+          { value: fee.paymentAmount, disabled: true },
+          Validators.required,
+        ],
+      });
+
+      // 2. Push the new FormGroup into the FormArray
+      this.paymentFeeDetails.push(newFeeGroup);
+
+      // 3. Subscribe to value changes for this specific row
+      newFeeGroup.get('rate')!.valueChanges.subscribe(() => {
+        const rate = newFeeGroup.get('rate')!.value || 0;
+        const quantity = newFeeGroup.get('quantity')!.value || 0;
+        newFeeGroup.get('paymentAmount')!.patchValue(rate * quantity);
+      });
+
+      newFeeGroup.get('quantity')!.valueChanges.subscribe(() => {
+        const rate = newFeeGroup.get('rate')!.value || 0;
+        const quantity = newFeeGroup.get('quantity')!.value || 0;
+        newFeeGroup.get('paymentAmount')!.patchValue(rate * quantity);
+      });
     });
 
     this.salesInvoiceDetails.clear();
@@ -416,7 +436,7 @@ export class AddEditDispatchNoteComponent {
       // === Value change listeners ===
       amountCtrl?.valueChanges.subscribe((value) => {
         if (isProgrammaticChange) return;
-        if (value!='' ) {
+        if (value != '') {
           isProgrammaticChange = true;
           estimateCtrl?.reset();
           estimateCtrl?.disable();
@@ -428,7 +448,7 @@ export class AddEditDispatchNoteComponent {
 
       estimateCtrl?.valueChanges.subscribe((value) => {
         if (isProgrammaticChange) return;
-        if (value !='') {
+        if (value != '') {
           isProgrammaticChange = true;
           amountCtrl?.reset();
           amountCtrl?.disable();
@@ -439,9 +459,9 @@ export class AddEditDispatchNoteComponent {
       });
 
       // === Apply disable logic based on existing values ===
-      if (sale.amount ) {
+      if (sale.amount) {
         estimateCtrl?.disable({ emitEvent: false });
-      } else if (sale.estimateNo ) {
+      } else if (sale.estimateNo) {
         amountCtrl?.disable({ emitEvent: false });
       }
 
@@ -679,7 +699,7 @@ export class AddEditDispatchNoteComponent {
       'officialFilingReceiptSupporting',
       'purchaseCurrency',
       'postedInTally',
-      'applicantDetails'
+      'applicantDetails',
     ];
     return tab1Fields.some(
       (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
@@ -826,14 +846,13 @@ export class AddEditDispatchNoteComponent {
       postedInTally:
         this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
 
-        patentNo:
-        this.addOrEditDispatchNoteFormGroup.controls['patentNo'].value,
-        creditNoteNo:
+      patentNo: this.addOrEditDispatchNoteFormGroup.controls['patentNo'].value,
+      creditNoteNo:
         this.addOrEditDispatchNoteFormGroup.controls['creditNoteNo'].value,
-        creditNoteDate: this.formatDate(
+      creditNoteDate: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['creditNoteDate'].value
       ),
-        creditNoteRefNo:
+      creditNoteRefNo:
         this.addOrEditDispatchNoteFormGroup.controls['creditNoteRefNo'].value,
 
       workDeliveryDateOrMonth: this.formatDate(
@@ -1039,7 +1058,7 @@ export class AddEditDispatchNoteComponent {
     amountCtrl?.valueChanges.subscribe((value) => {
       if (isProgrammaticChange) return;
 
-      if (value !='') {
+      if (value != '') {
         isProgrammaticChange = true;
         estimateCtrl?.reset();
         estimateCtrl?.disable();
@@ -1053,7 +1072,7 @@ export class AddEditDispatchNoteComponent {
     estimateCtrl?.valueChanges.subscribe((value) => {
       if (isProgrammaticChange) return;
 
-      if (value !='') {
+      if (value != '') {
         isProgrammaticChange = true;
         amountCtrl?.reset();
         amountCtrl?.disable();
@@ -1072,13 +1091,37 @@ export class AddEditDispatchNoteComponent {
       bankID: ['', [Validators.required]],
       owrmNo1: ['', [Validators.required]],
       owrmNo2: [''],
-      rate: [''],
-      quantity: [''],
+      rate: [0, Validators.required],
+      quantity: [0, Validators.required],
       paymentCurrency: ['', [Validators.required]],
-      paymentAmount: ['', [Validators.required]],
+      paymentAmount: [{ value: 0, disabled: true }],
     });
 
     this.paymentFeeDetails.push(detail);
+
+    const newFormGroup = this.paymentFeeDetails.at(
+      this.paymentFeeDetails.length - 1
+    ) as FormGroup;
+    // Use a non-null assertion operator (!) to tell TypeScript the controls exist
+    newFormGroup.get('rate')!.valueChanges.subscribe(() => {
+      const rate = newFormGroup.get('rate')!.value || 0;
+      const quantity = newFormGroup.get('quantity')!.value || 0;
+      newFormGroup.get('paymentAmount')!.patchValue(rate * quantity);
+    });
+
+    newFormGroup.get('quantity')!.valueChanges.subscribe(() => {
+      const rate = newFormGroup.get('rate')!.value || 0;
+      const quantity = newFormGroup.get('quantity')!.value || 0;
+      newFormGroup.get('paymentAmount')!.patchValue(rate * quantity);
+    });
+  }
+  calculateAndSetAmount(group: any) {
+    const rate = group.get('rate').value || 0;
+    const quantity = group.get('quantity').value || 0;
+    const paymentAmount = rate * quantity;
+
+    // Update the paymentAmount without enabling the control
+    group.get('paymentAmount').patchValue(paymentAmount);
   }
 
   filteredSalesInvoices(type: string): FormGroup[] {
