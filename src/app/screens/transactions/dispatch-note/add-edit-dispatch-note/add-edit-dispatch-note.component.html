@@ -252,103 +252,103 @@
           </h4>
         </div>
 
-          <div class="custom-table">
-            <table>
-              <thead class="table table-bordered">
-                <tr>
-                  <th>Line</th>
-                  <th class="required-label">Fees Type</th>
-                  <th class="required-label">Type</th>
-                  <th class="required-label">Country</th>
-                  <th *ngIf="isTranslationFeeSelected" class="required-label">Language</th>
-                  <th class="required-label">Amount</th>
-                  <th>Remarks</th>
-                  <th class="text-center">Action</th>
+        <div class="custom-table">
+          <table>
+            <thead class="table table-bordered">
+              <tr>
+                <th>Line</th>
+                <th class="required-label">Fees Type</th>
+                <th class="required-label">Type</th>
+                <th class="required-label">Country</th>
+                <th *ngIf="isTranslationFeeSelected" class="required-label">Language</th>
+                <th class="required-label">Amount</th>
+                <th>Remarks</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody formArrayName="invoiceFeeDetails">
+              <ng-container *ngFor="let vendorGroup of invoiceFeeDetails.controls; let ind = index">
+
+
+                <tr formGroupName={{ind}}>
+
+                  <td>{{ind+1}}</td>
+                  <!-- Prof Fees -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <select class="form-control input-field" formControlName="feeType"
+                        (change)="onFeeTypeSelect(getSelectedValue($event), ind)">
+                        <option value="">Select Fee Type</option>
+                        <option value="Professional Fee">Professional Fee</option>
+                        <option value="Govt or Offical Fee">Govt or Offical Fee</option>
+                        <option value="Other Charges">Other Charges</option>
+                      </select>
+                    </div>
+                  </td>
+
+
+                  <!-- SubItem -->
+
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Add Sub Fee" [items]="subFeeOptionsList[ind]"
+                        bindLabel="value" bindValue="value" formControlName="subFeeValue"
+                        (change)="onFeeTypeChange(ind)">
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- Country -->
+
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Select Country" formControlName="country">
+                        <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                          {{ country.countryName }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <td *ngIf="isTranslationFeeSelected">
+                    <ng-container *ngIf="vendorGroup.get('subFeeValue')?.value === 'Translation Fee'; else emptyLang">
+                      <div class="custom-form-input dispatchwidth">
+                        <ng-select class="input-field" placeholder="Select Language" [items]="languageList"
+                          bindLabel="name" bindValue="code" formControlName="language">
+                        </ng-select>
+                      </div>
+                    </ng-container>
+                    <ng-template #emptyLang>
+                      <!-- empty cell to align columns -->
+                    </ng-template>
+                  </td>
+
+                  <!-- Amount -->
+                  <td>
+                    <div class="custom-form-input dispatchwidthsmall">
+                      <input formControlName="amount" class="input-field" type="number" placeholder="Enter Amt"
+                        (keypress)="validateNo1($event)">
+                    </div>
+                  </td>
+
+                  <!-- Remarks -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks">
+                    </div>
+                  </td>
+
+                  <!-- Action -->
+                  <td class="text-center">
+                    <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
+                      (click)="onDeleteInvoiceFeeDetail(vendorGroup, ind)" />
+                  </td>
                 </tr>
-              </thead>
-
-              <tbody formArrayName="invoiceFeeDetails">
-                <ng-container *ngFor="let vendorGroup of invoiceFeeDetails.controls; let ind = index">
-
-
-                  <tr formGroupName={{ind}}>
-
-                    <td>{{ind+1}}</td>
-                    <!-- Prof Fees -->
-                    <td>
-                      <div class="custom-form-input dispatchwidth">
-                        <select class="form-control input-field" formControlName="feeType"
-                          (change)="onFeeTypeSelect(getSelectedValue($event), ind)">
-                          <option value="">Select Fee Type</option>
-                          <option value="Professional Fee">Professional Fee</option>
-                          <option value="Govt or Offical Fee">Govt or Offical Fee</option>
-                          <option value="Other Charges">Other Charges</option>
-                        </select>
-                      </div>
-                    </td>
-
-
-                    <!-- SubItem -->
-
-                    <td>
-                      <div class="custom-form-input dispatchwidth">
-                        <ng-select class="input-field" placeholder="Add Sub Fee" [items]="subFeeOptionsList[ind]"
-                          bindLabel="value" bindValue="value" formControlName="subFeeValue"
-                          (change)="onFeeTypeChange(ind)">
-                        </ng-select>
-                      </div>
-                    </td>
-
-                    <!-- Country -->
-
-                    <td>
-                      <div class="custom-form-input dispatchwidth">
-                        <ng-select class="input-field" placeholder="Select Country" formControlName="country">
-                          <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                            {{ country.countryName }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </td>
-
-                    <td *ngIf="isTranslationFeeSelected">
-                      <ng-container *ngIf="vendorGroup.get('subFeeValue')?.value === 'Translation Fee'; else emptyLang">
-                        <div class="custom-form-input dispatchwidth">
-                          <ng-select class="input-field" placeholder="Select Language" [items]="languageList"
-                            bindLabel="name" bindValue="code" formControlName="language">
-                          </ng-select>
-                        </div>
-                      </ng-container>
-                      <ng-template #emptyLang>
-                        <!-- empty cell to align columns -->
-                      </ng-template>
-                    </td>
-
-                    <!-- Amount -->
-                    <td>
-                      <div class="custom-form-input dispatchwidthsmall">
-                        <input formControlName="amount" class="input-field" type="number" placeholder="Enter Amt"
-                          (keypress)="validateNo1($event)">
-                      </div>
-                    </td>
-
-                    <!-- Remarks -->
-                    <td>
-                      <div class="custom-form-input dispatchwidth">
-                        <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks">
-                      </div>
-                    </td>
-
-                    <!-- Action -->
-                    <td class="text-center">
-                      <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
-                        (click)="onDeleteInvoiceFeeDetail(vendorGroup, ind)" />
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
         <!-- Totals Section -->
         <div class="row mt-4 gx-4 gy-3">
           <div class="col-lg-4 col-md-6">
@@ -504,27 +504,25 @@
                           (keypress)="validateNo1($event)" placeholder="Quantity" />
                       </div>
                     </td>
-
                     <td>
                       <div class="custom-form-input dispatchwidthsmall">
                         <input formControlName="paymentAmount" type="number" class="input-field" placeholder="Enter Amt"
-                          [disabled]="true" />
+                          readonly />
                       </div>
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <input formControlName="bankCharges" type="number" class="input-field"
+                        <input formControlName="bankCharges" type="text" class="input-field"
                           (keypress)="validateNo1($event)" placeholder="charges" />
                       </div>
                     </td>
-                   
+
                     <td>
                       <div class="custom-form-input dispatchwidthsmall">
-                        <input formControlName="totalAmountInr" type="number" class="input-field" placeholder="Enter Amt"
-                          [disabled]="true" />
+                        <input formControlName="totalAmountInr" type="number" class="input-field"
+                          placeholder="Enter Amt" readonly />
                       </div>
                     </td>
-
                     <td class="text-center">
                       <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
                         (click)="onDeletePaymentFeeDetail(payment, ind)" />

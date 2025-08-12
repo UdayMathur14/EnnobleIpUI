@@ -373,18 +373,16 @@ export class AddEditDispatchNoteComponent {
         })
       );
     });
-    // Assuming this code is inside your patchInvoiceData(data: any) method
 
-    // ... (existing code for patching other sections)
 
     this.paymentFeeDetails.clear();
     data.paymentDetails?.forEach((fee: any) => {
-      // 1. Create a new FormGroup with patched values
-      const newFeeGroup = this.fb.group({
+    // 1. Create a new FormGroup with patched values
+    const newFeeGroup = this.fb.group({
         id: fee.id,
         paymentDate: [
-          fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
-          Validators.required,
+            fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
+            Validators.required,
         ],
         bankID: [fee.bankID, Validators.required],
         owrmNo1: [fee.oWRMNo1, Validators.required],
@@ -392,29 +390,26 @@ export class AddEditDispatchNoteComponent {
         rate: [fee.rate],
         quantity: [fee.quantity],
         paymentCurrency: [fee.paymentCurrency, Validators.required],
-        // Set paymentAmount with a disabled state
+        // Patch the value directly without the 'disabled' property
         paymentAmount: [
-          { value: fee.paymentAmount, disabled: true },
-          Validators.required,
+            fee.paymentAmount,
+            Validators.required,
         ],
-      });
-
-      // 2. Push the new FormGroup into the FormArray
-      this.paymentFeeDetails.push(newFeeGroup);
-
-      // 3. Subscribe to value changes for this specific row
-      newFeeGroup.get('rate')!.valueChanges.subscribe(() => {
-        const rate = newFeeGroup.get('rate')!.value || 0;
-        const quantity = newFeeGroup.get('quantity')!.value || 0;
-        newFeeGroup.get('paymentAmount')!.patchValue(rate * quantity);
-      });
-
-      newFeeGroup.get('quantity')!.valueChanges.subscribe(() => {
-        const rate = newFeeGroup.get('rate')!.value || 0;
-        const quantity = newFeeGroup.get('quantity')!.value || 0;
-        newFeeGroup.get('paymentAmount')!.patchValue(rate * quantity);
-      });
+        bankCharges: [fee.bankcharges], // Corrected casing to match C#
+        totalAmountInr: [
+            fee.totalAmountInr,
+            Validators.required,
+        ],
     });
+
+    this.paymentFeeDetails.push(newFeeGroup);
+
+    // 3. Manually call the calculation function for the newly created row
+    this.calculateRowValues(newFeeGroup);
+
+    // 4. Then, subscribe to future changes
+    this.setupSubscriptions(newFeeGroup);
+});
 
     this.salesInvoiceDetails.clear();
     data.saleDetails?.forEach((sale: any) => {
@@ -1094,9 +1089,9 @@ export class AddEditDispatchNoteComponent {
       rate: [0, Validators.required],
       quantity: [0, Validators.required],
       paymentCurrency: ['', [Validators.required]],
-      paymentAmount: [{ value: 0, disabled: true }],
+      paymentAmount: [ 0],
       bankCharges: [0],
-      totalAmountInr: [{ value: 0, disabled: true }],
+      totalAmountInr: [0],
     });
 
     this.paymentFeeDetails.push(detail);
