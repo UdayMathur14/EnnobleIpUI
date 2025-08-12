@@ -121,26 +121,29 @@
             </div>
           </div>
           <div class="col-lg-12 mt-3">
-            <label class="mb-2">Applicant Names</label>
+            <label class="mb-2 fw-bold fs-5 d-flex align-items-center">
+              <i class="bi bi-people-fill text-primary me-2"></i> Applicant Names
+              <button type="button" class="btn btn-success btn-sm ms-3 px-3 rounded-pill shadow-sm"
+                (click)="addApplicantField()">
+                <i class="bi bi-plus-circle me-1"></i> Add Applicant
+              </button>
+            </label>
 
-            <button type="button" class="btn btn-sm btn-success mb-2" (click)="addApplicantField()">
-              + Add Applicant
-            </button>
-
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm shadow-sm rounded overflow-hidden applicant-table">
               <tbody>
                 <ng-container *ngFor="let row of getApplicantsRows(); let rowIndex = index; trackBy: trackByRowIndex">
                   <tr>
                     <ng-container
                       *ngFor="let applicantGroup of row; let colIndex = index; trackBy: trackByControlIndex">
-                      <td class="applicant-cell">
-                        <div class="d-flex align-items-center w-100">
-                          <span class="me-2">{{ rowIndex * 4 + colIndex + 1 }}.</span>
-                          <input type="text" class="form-control form-control-sm flex-grow-1"
+                      <td class="applicant-cell bg-light">
+                        <div class="d-flex align-items-center w-100 p-1 rounded">
+                          <span class="me-2 fw-bold text-secondary">{{ rowIndex * 4 + colIndex + 1 }}.</span>
+                          <input type="text"
+                            class="form-control form-control-sm flex-grow-1 border-0 shadow-sm rounded-pill"
                             [formControl]="getApplicantNameControl(applicantGroup)" placeholder="Applicant name *" />
-                          <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                          <button type="button" class="btn btn-danger btn-sm ms-2 shadow-sm remove-btn"
                             (click)="removeApplicant(rowIndex * 4 + colIndex)">
-                            &times;
+                            <i class="bi bi-trash-fill"></i>
                           </button>
                         </div>
                       </td>
@@ -150,6 +153,8 @@
               </tbody>
             </table>
           </div>
+
+
 
 
           <div class="col-lg-3 col-md-3">
