@@ -56,16 +56,9 @@ export class AddEditCustomerComponent implements OnInit {
       'shippingState',
       'shippingCountry',
       'shippingPinCode',
-      'bankAddressLine1',
       'gstTreatment',
       'msmeRegistered',
       'currency',
-      'bankName',
-      'bankCountry',
-      'accountHolderName',
-      'accountNumber',
-      'confirmAccountNumber',
-      'ifscCode',
     ];
   
     requiredFieldsForVIM = [
@@ -79,15 +72,7 @@ export class AddEditCustomerComponent implements OnInit {
       'shippingCity',
       'shippingCountry',
       'shippingPinCode',
-      'currency',
-      'bankName',
-      'accountHolderName',
-      'accountNumber',
-      'confirmAccountNumber',
-      'bankAddressLine1',
-      'bankCity',
-      'bankPinCode',
-      'bankCountry',
+      'currency'
     ];
   
     currentRequiredFields: string[] = [];
@@ -136,30 +121,8 @@ export class AddEditCustomerComponent implements OnInit {
       ]),
       currency: new FormControl('', Validators.required),
       paymentTerms: new FormControl(''),
-  
-      bankName: new FormControl('', Validators.required),
-      accountHolderName: new FormControl('', Validators.required),
-      accountNumber: new FormControl('', [Validators.required]),
-      confirmAccountNumber: new FormControl('', [Validators.required]),
-  
-      ifscCode: new FormControl('', [
-        Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/),
-      ]),
+
       swiftCode: new FormControl(''),
-  
-      bankAddressLine1: new FormControl(''),
-      bankAddressLine2: new FormControl(''),
-      branch: new FormControl(''),
-      bankCity: new FormControl(''),
-      bankState: new FormControl(''),
-      bankPinCode: new FormControl(''),
-  
-      iban: new FormControl(''),
-      sortCode: new FormControl(''),
-      routingNo: new FormControl(''),
-      bankCountry: new FormControl(''),
-      fCTCCharges: new FormControl(''),
-      complDocyear: new FormControl(''),
   
       status: new FormControl(''),
     });
@@ -340,26 +303,6 @@ export class AddEditCustomerComponent implements OnInit {
           ?.setValidators([Validators.required]);
         this.customerForm.get('shippingPinCode')?.updateValueAndValidity();
   
-        this.customerForm.get('bankPinCode')?.setValidators([Validators.required]);
-        this.customerForm.get('bankPinCode')?.updateValueAndValidity();
-  
-        this.customerForm
-          .get('bankAddressLine1')
-          ?.setValidators([Validators.required]);
-        this.customerForm.get('bankAddressLine1')?.updateValueAndValidity();
-  
-        this.customerForm.get('bankCity')?.setValidators([Validators.required]);
-        this.customerForm.get('bankCity')?.updateValueAndValidity();
-  
-        this.customerForm.get('bankPinCode')?.setValidators([Validators.required]);
-        this.customerForm.get('bankPinCode')?.updateValueAndValidity();
-  
-        this.customerForm.get('bankCountry')?.setValidators([Validators.required]);
-        this.customerForm.get('bankCountry')?.updateValueAndValidity();
-  
-        this.customerForm.get('billingState')?.clearValidators();
-        this.customerForm.get('billingState')?.updateValueAndValidity();
-  
         this.customerForm.get('shippingState')?.clearValidators();
         this.customerForm.get('shippingState')?.updateValueAndValidity();
   
@@ -436,11 +379,6 @@ export class AddEditCustomerComponent implements OnInit {
         this.customerForm.get('shippingPinCode')?.updateValueAndValidity();
   
         this.customerForm
-          .get('bankPinCode')
-          ?.setValidators([Validators.pattern(/^[0-9]{6}$/)]);
-        this.customerForm.get('bankPinCode')?.updateValueAndValidity();
-  
-        this.customerForm
           .get('pan')
           ?.setValidators([Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]);
         this.customerForm.get('pan')?.updateValueAndValidity();
@@ -465,18 +403,15 @@ export class AddEditCustomerComponent implements OnInit {
       if (selectedType === 'EIPCDOM') {
         this.customerForm.patchValue({ billingCountry: 'India' });
         this.customerForm.patchValue({ shippingCountry: 'India' });
-        this.customerForm.patchValue({ bankCountry: 'India' });
         this.customerForm.patchValue({ currency: 'Indian Rupee' });
         this.customerForm.patchValue({ countryCode: '+91' });
         this.customerForm.get('billingCountry')?.disable();
         this.customerForm.get('shippingCountry')?.disable();
-        this.customerForm.get('bankCountry')?.disable();
         this.customerForm.get('currency')?.disable();
         this.customerForm.get('countryCode')?.disable();
       } else {
         this.customerForm.get('billingCountry')?.enable();
         this.customerForm.get('shippingCountry')?.enable();
-        this.customerForm.get('bankCountry')?.enable();
         this.customerForm.get('currency')?.enable();
         this.customerForm.get('countryCode')?.enable();
       }
@@ -548,24 +483,7 @@ export class AddEditCustomerComponent implements OnInit {
         phoneMobileNo: this.customerForm.get('phoneMobileNo')?.value,
         currency: this.customerForm.get('currency')?.value,
         paymentTerms: this.customerForm.get('paymentTerms')?.value,
-        bankName: this.customerForm.get('bankName')?.value,
-        accountHolderName: this.customerForm.get('accountHolderName')?.value,
-        accountNumber: this.customerForm.get('accountNumber')?.value,
-        confirmAccountNumber: this.customerForm.get('confirmAccountNumber')?.value,
-        ifscCode: this.customerForm.get('ifscCode')?.value,
         swiftCode: this.customerForm.get('swiftCode')?.value,
-        bankAddressLine1: this.customerForm.get('bankAddressLine1')?.value,
-        bankAddressLine2: this.customerForm.get('bankAddressLine2')?.value,
-        branch: this.customerForm.get('branch')?.value,
-        bankCity: this.customerForm.get('bankCity')?.value,
-        bankState: this.customerForm.get('bankState')?.value,
-        bankPinCode: this.customerForm.get('bankPinCode')?.value,
-        iban: this.customerForm.get('iban')?.value,
-        sortCode: this.customerForm.get('sortCode')?.value,
-        routingNo: this.customerForm.get('routingNo')?.value,
-        bankCountry: this.customerForm.get('bankCountry')?.value,
-        fCTCCharges: this.customerForm.get('fCTCCharges')?.value,
-        complDocyear: this.customerForm.get('complDocyear')?.value,
         status: this.customerForm.get('status')?.value,
       };
   
@@ -637,24 +555,7 @@ export class AddEditCustomerComponent implements OnInit {
         phoneMobileNo: data?.phoneMobileNo,
         currency: data?.currency,
         paymentTerms: data?.paymentTerms,
-        bankName: data?.bankName,
-        accountHolderName: data?.accountHolderName,
-        accountNumber: data?.accountNumber,
-        confirmAccountNumber: data?.confirmAccountNumber,
-        ifscCode: data?.ifscCode,
         swiftCode: data?.swiftCode,
-        bankAddressLine1: data?.bankAddressLine1,
-        bankAddressLine2: data?.bankAddressLine2,
-        branch: data?.branch,
-        bankCity: data?.bankCity,
-        bankState: data?.bankState,
-        bankPinCode: data?.bankPinCode,
-        iban: data?.iban,
-        sortCode: data?.sortCode,
-        routingNo: data?.routingNo,
-        bankCountry: data?.bankCountry,
-        fCTCCharges: data?.fCTCCharges,
-        complDocyear: data?.complDocyear,
         status: data?.status,
       });
       this.checkAccountMatch();

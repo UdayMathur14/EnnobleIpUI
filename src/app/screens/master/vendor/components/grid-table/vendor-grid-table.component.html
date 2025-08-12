@@ -2,7 +2,6 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
-        <th (click)="sortData('vendorCode')">Vendor Code</th>
         <th (click)="sortData('vendorType')">Vendor Type</th>
         <th (click)="sortData('vendorName')">Vendor Name</th>
         <th (click)="sortData('billingAddressLine1')">Billing Address Line 1</th>
@@ -52,7 +51,7 @@
       <tr>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{vendor.vendorCode || '-' }}</u>
+            <u>{{vendor.vendorType || '-' }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -75,7 +74,6 @@
             </div>
           </ng-template>
         </td>
-        <td>{{ vendor.vendorType || '-' }}</td>
         <td>{{ vendor.vendorName || '-' }}</td>
         <td>{{ vendor.billingAddressLine1 || '-' }}</td>
         <td>{{ vendor.billingAddressLine2 || '-' }}</td>

@@ -21,10 +21,6 @@
         <a class="nav-link" data-bs-toggle="tab" href="#complianceTab">Compliance Details
         </a>
       </li>
-      <li class="nav-item" *ngIf="showExtraTab">
-        <a class="nav-link" data-bs-toggle="tab" href="#extraDetails">Extra Details
-        </a>
-      </li>
       <li class="nav-item" *ngIf="statusTab">
         <a class="nav-link" data-bs-toggle="tab" href="#status">Status
         </a>
@@ -51,17 +47,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Customer Code</label>
-              <input type="text" class="input-field" formControlName="customerCode" />
-              <div *ngIf="customerForm.get('customerCode')?.invalid && customerForm.get('customerCode')?.touched">
-                <small class="text-danger" *ngIf="customerForm.get('customerCode')?.hasError('required')">
-                  Customer Code is required.
-                </small>
-              </div>
-            </div>
-          </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Customer Name <span class="text-danger"
@@ -137,12 +122,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-      <div class="custom-form-input">
-        <label for="">Billing Country</label>
-        <input type="text" class="input-field" formControlName="billingCountry"  />
-      </div>
-    </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Billing Pin Code <span class="text-danger"
@@ -245,12 +224,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-      <div class="custom-form-input">
-        <label for="">Shipping Country</label>
-        <input type="text" class="input-field" formControlName="shippingCountry"  />
-      </div>
-    </div> -->
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
@@ -274,12 +247,6 @@
               <input type="text" class="input-field" formControlName="paymentTerms" />
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-        <div class="custom-form-input">
-          <label for="">Currency</label>
-          <input type="text" class="input-field" formControlName="currency"  />
-        </div>
-      </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Currency <span class="text-danger"
@@ -481,62 +448,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div id="extraDetails" class="tab-pane fade">
-        <div class="row">
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="iban">IBAN <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('iban')">*</span></label>
-              <input type="text" class="input-field" formControlName="iban" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="swiftCode">Swift Code <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('swiftCode')">*</span></label>
-              <input type="text" class="input-field" formControlName="swiftCode" />
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="sortCode">Sort Code <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('sortCode')">*</span></label>
-              <input type="text" class="input-field" formControlName="sortCode" />
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="routingNo">Routing No <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('routingNo')">*</span></label>
-              <input type="text" class="input-field" formControlName="routingNo" />
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="fCTCCharges">FC TC Charges <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('fCTCCharges')">*</span></label>
-              <select class="input-field" formControlName="fCTCCharges">
-                <option value="">-- Select --</option>
-                <option value="EIP">EIP</option>
-                <option value="Customer">Customer</option>
-                <option value="Both">Both</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="complDocyear">Compl Doc Year <span class="text-danger"
-                  *ngIf="currentRequiredFields.includes('complDocyear')">*</span></label>
-              <input type="text" class="input-field" formControlName="complDocyear" />
-            </div>
-          </div>
-
         </div>
       </div>
 
