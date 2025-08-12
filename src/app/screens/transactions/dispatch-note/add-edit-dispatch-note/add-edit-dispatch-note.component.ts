@@ -324,7 +324,7 @@ export class AddEditDispatchNoteComponent {
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
       postedInTally: data?.postedInTally,
-      patentNo: data?.PatentNo,
+      patentNo: data?.patentNo,
       workDeliveryDateOrMonth: this.convertToNgbDate(
         data?.workDeliveryDateOrMonth
       ),
@@ -825,6 +825,17 @@ export class AddEditDispatchNoteComponent {
         ].value,
       postedInTally:
         this.addOrEditDispatchNoteFormGroup.controls['postedInTally'].value,
+
+        patentNo:
+        this.addOrEditDispatchNoteFormGroup.controls['patentNo'].value,
+        creditNoteNo:
+        this.addOrEditDispatchNoteFormGroup.controls['creditNoteNo'].value,
+        creditNoteDate: this.formatDate(
+        this.addOrEditDispatchNoteFormGroup.controls['creditNoteDate'].value
+      ),
+        creditNoteRefNo:
+        this.addOrEditDispatchNoteFormGroup.controls['creditNoteRefNo'].value,
+
       workDeliveryDateOrMonth: this.formatDate(
         this.addOrEditDispatchNoteFormGroup.controls['workDeliveryDateOrMonth']
           .value
