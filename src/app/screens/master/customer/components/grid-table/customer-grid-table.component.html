@@ -3,7 +3,6 @@
     <thead>
       <tr>
         <th (click)="sortData('customerType')">Customer Type</th>
-        <th (click)="sortData('customerCode')">Customer Code</th>
         <th (click)="sortData('customerName')">Customer Name</th>
         <th (click)="sortData('billingAddressLine1')">Billing Address Line 1</th>
         <th (click)="sortData('billingAddressLine2')">Billing Address Line 2</th>
@@ -56,7 +55,6 @@
             </div>
           </ng-template>
         </td>
-        <td>{{ customer.customerCode }}</td>
         <td>{{ customer.customerName }}</td>
         <td>{{ customer.billingAddressLine1 }}</td>
         <td>{{ customer.billingAddressLine2 }}</td>
