@@ -135,7 +135,8 @@ export class AddEditDispatchNoteComponent {
       officialFilingReceiptSupporting: ['', Validators.required], //
       workDeliveryDateOrMonth: [''], // Maps to [WorkDeliveryDateOrMonth]
       purchaseCurrency: ['', Validators.required],
-      postedInTally: ['', Validators.required], // Maps to [CurrencyPID]
+      postedInTally: ['', Validators.required],
+      patentNo: [''], // Maps to [CurrencyPID]
 
       //tab2
       invoiceFeeDetails: this.fb.array([]),
@@ -146,6 +147,9 @@ export class AddEditDispatchNoteComponent {
       discountAmt: [0], // Initialize with 0, user enters
       discountCreditNoteAmt: [0], // Initialize with 0, user enters
       totalAmount: [{ value: 0, disabled: true }],
+      creditNoteNo:[''] ,
+      creditNoteDate:[''] ,
+      creditNoteRefNo:[''] ,
 
       //Tab 3
       paymentFeeDetails: this.fb.array([]),
@@ -320,6 +324,7 @@ export class AddEditDispatchNoteComponent {
       ourRefNo: data?.ourRefNo,
       officialFilingReceiptSupporting: data?.officialFilingReceiptSupporting,
       postedInTally: data?.postedInTally,
+      patentNo: data?.PatentNo,
       workDeliveryDateOrMonth: this.convertToNgbDate(
         data?.workDeliveryDateOrMonth
       ),
@@ -329,6 +334,11 @@ export class AddEditDispatchNoteComponent {
       paymentFeeDetails: data?.paymentDetails,
       discountAmt: data?.discountAmt ?? 0,
       discountCreditNoteAmt: data?.discountCreditNoteAmt ?? 0,
+      creditNoteNo: data?.creditNoteNo ,
+      creditNoteDate: this.convertToNgbDate(
+        data?.creditNoteDate
+      ),
+      creditNoteRefNo: data?.creditNoteRefNo,
 
       // Tab 4
       customerPONo: data?.customerPONo,
@@ -378,6 +388,8 @@ export class AddEditDispatchNoteComponent {
           bankID: [fee.bankID, Validators.required],
           owrmNo1: [fee.oWRMNo1, Validators.required],
           owrmNo2: [fee.owrmNo2],
+          rate: [fee.rate],
+          quantity: [fee.quantity],
           paymentCurrency: [fee.paymentCurrency, Validators.required],
           paymentAmount: [fee.paymentAmount, Validators.required],
         })
@@ -1049,6 +1061,8 @@ export class AddEditDispatchNoteComponent {
       bankID: ['', [Validators.required]],
       owrmNo1: ['', [Validators.required]],
       owrmNo2: [''],
+      rate: [''],
+      quantity: [''],
       paymentCurrency: ['', [Validators.required]],
       paymentAmount: ['', [Validators.required]],
     });

@@ -235,6 +235,12 @@
               </ng-select>
             </div>
           </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Patent No </label>
+              <input formControlName="patentNo" type="text" class="input-field" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -376,9 +382,36 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
-              <label class="fw-bold">Discount CreditNote Amount</label>
+              <label class="fw-bold">Credit Note Amount</label>
               <input formControlName="discountCreditNoteAmt" type="number" class="input-field form-control"
                 (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Credit Note No</label>
+              <input formControlName="creditNoteNo" type="text" class="input-field form-control" />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label for="">Credit Note Date</label>
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="creditNoteDate" [autoClose]="true"
+                  formControlName="creditNoteDate"
+                  (dateSelect)="onDateSelect('creditNoteDate', $event)" ngbDatepicker
+                  #creditNoteDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="creditNoteDate.toggle()"
+                  type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Credit Note Ref No</label>
+              <input formControlName="creditNoteRefNo" type="text" class="input-field form-control" />
             </div>
           </div>
 
@@ -408,6 +441,8 @@
                 <th class="required-label">Bank</th>
                 <th class="required-label">OWRMNo1</th>
                 <th class="required-label">PaymentCurrency</th>
+                <th class="required-label">Rate</th>
+                <th class="required-label">Quantity</th>
                 <th class="required-label">PaymentAmount</th>
                 <th style="width: 5%;" class="text-center">Action</th>
               </tr>
@@ -458,6 +493,16 @@
                           {{ country.currencyName }}
                         </ng-option>
                       </ng-select>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="rate" type="number" class="input-field" (keypress)="validateNo1($event)" placeholder="Rate" />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="quantity" type="number" class="input-field" (keypress)="validateNo1($event)" placeholder="Quantity" />
                     </div>
                   </td>
 
