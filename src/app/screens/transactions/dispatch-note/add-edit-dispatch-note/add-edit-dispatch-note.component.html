@@ -441,9 +441,11 @@
                   <th class="required-label">Bank</th>
                   <th class="required-label">OWRMNo1</th>
                   <th class="required-label">PaymentCurrency</th>
-                  <th class="required-label">Rate</th>
-                  <th class="required-label">Quantity</th>
-                  <th class="required-label">PaymentAmount</th>
+                  <th class="required-label">Forex Amount</th>
+                  <th class="required-label">Rate Of Exchange</th>
+                  <th class="required-label">Value (INR)</th>
+                  <th class="required-label">Bank Charges</th>
+                  <th class="required-label">Total Amount (INR)</th>
                   <th style="width: 5%;" class="text-center">Action</th>
                 </tr>
               </thead>
@@ -506,6 +508,19 @@
                     <td>
                       <div class="custom-form-input dispatchwidthsmall">
                         <input formControlName="paymentAmount" type="number" class="input-field" placeholder="Enter Amt"
+                          [disabled]="true" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <input formControlName="bankCharges" type="number" class="input-field"
+                          (keypress)="validateNo1($event)" placeholder="charges" />
+                      </div>
+                    </td>
+                   
+                    <td>
+                      <div class="custom-form-input dispatchwidthsmall">
+                        <input formControlName="totalAmountInr" type="number" class="input-field" placeholder="Enter Amt"
                           [disabled]="true" />
                       </div>
                     </td>

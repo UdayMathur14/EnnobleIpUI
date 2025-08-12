@@ -1095,6 +1095,8 @@ export class AddEditDispatchNoteComponent {
       quantity: [0, Validators.required],
       paymentCurrency: ['', [Validators.required]],
       paymentAmount: [{ value: 0, disabled: true }],
+      bankCharges: [0],
+      totalAmountInr: [{ value: 0, disabled: true }],
     });
 
     this.paymentFeeDetails.push(detail);
@@ -1102,26 +1104,39 @@ export class AddEditDispatchNoteComponent {
     const newFormGroup = this.paymentFeeDetails.at(
       this.paymentFeeDetails.length - 1
     ) as FormGroup;
-    // Use a non-null assertion operator (!) to tell TypeScript the controls exist
-    newFormGroup.get('rate')!.valueChanges.subscribe(() => {
-      const rate = newFormGroup.get('rate')!.value || 0;
-      const quantity = newFormGroup.get('quantity')!.value || 0;
-      newFormGroup.get('paymentAmount')!.patchValue(rate * quantity);
+
+    this.setupSubscriptions(newFormGroup);
+  }
+
+  private setupSubscriptions(group: FormGroup) {
+    group.get('rate')!.valueChanges.subscribe(() => {
+      this.calculateRowValues(group);
     });
 
-    newFormGroup.get('quantity')!.valueChanges.subscribe(() => {
-      const rate = newFormGroup.get('rate')!.value || 0;
-      const quantity = newFormGroup.get('quantity')!.value || 0;
-      newFormGroup.get('paymentAmount')!.patchValue(rate * quantity);
+    group.get('quantity')!.valueChanges.subscribe(() => {
+      this.calculateRowValues(group);
+    });
+
+    group.get('bankCharges')!.valueChanges.subscribe(() => {
+      this.calculateRowValues(group);
     });
   }
-  calculateAndSetAmount(group: any) {
-    const rate = group.get('rate').value || 0;
-    const quantity = group.get('quantity').value || 0;
-    const paymentAmount = rate * quantity;
 
-    // Update the paymentAmount without enabling the control
-    group.get('paymentAmount').patchValue(paymentAmount);
+  private calculateRowValues(group: FormGroup) {
+    // Convert all values to numbers to ensure correct addition
+    const rate = parseFloat(group.get('rate')!.value) || 0;
+    const quantity = parseFloat(group.get('quantity')!.value) || 0;
+    const bankCharges = parseFloat(group.get('bankCharges')!.value) || 0;
+
+    // Calculate Value (INR)
+    const paymentAmount = rate * quantity;
+    group.get('paymentAmount')!.patchValue(paymentAmount, { emitEvent: false });
+
+    // Calculate Total Amount (INR)
+    const totalAmountInr = paymentAmount + bankCharges;
+    group
+      .get('totalAmountInr')!
+      .patchValue(totalAmountInr, { emitEvent: false });
   }
 
   filteredSalesInvoices(type: string): FormGroup[] {
