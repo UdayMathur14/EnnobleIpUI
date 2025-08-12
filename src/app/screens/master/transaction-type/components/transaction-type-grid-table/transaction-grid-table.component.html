@@ -3,7 +3,6 @@
     <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
       <thead>
         <tr>
-          <th (click)="sortData('bankCode')">Bank Code</th>
           <th (click)="sortData('bankName')">Bank Name</th>
           <th (click)="sortData('bankAddress1')">Bank Address1</th>
           <th (click)="sortData('bankAddress2')">Bank Address2 </th>
@@ -26,7 +25,7 @@
         <tr>
           <td class="pointer" container="body">
             <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-              <u>{{transaction.bankCode}}</u>
+              <u>{{transaction.bankName}}</u>
             </span>
             <ng-template #tipContent>
               <div class="">
@@ -49,7 +48,6 @@
               </div>
             </ng-template>
           </td>
-          <td>{{transaction.bankName}}</td>
           <td>{{transaction.bankAddress1}}</td>
           <td>{{transaction.bankAddress2}}</td>
           <td>{{transaction.city}}</td>
@@ -62,9 +60,6 @@
           <td>{{transaction.accountNumber}}</td>
           <td>{{transaction.accountType}}</td>
           <td>{{transaction.accountHolderName}}</td>
-          <!-- <td>{{transaction.glSubCategory.value}}</td> -->
-          <!-- <td>{{transaction?.transactionTypeInterface?.transactionTypeCode}}</td>
-          <td>{{transaction?.transactionTypeInterface?.transactionTypeName}}</td> -->
           <td>{{transaction.status}}</td>
           <td class="text-center">
             <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"

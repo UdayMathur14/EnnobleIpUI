@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../../core/service/customer.service';
 import { CustomerDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LookupService } from '../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../core/constants';
+import { CountryService } from '../../../../core/service/country.service';
 
 @Component({
   selector: 'app-add-edit-customer',
@@ -13,251 +14,715 @@ import { APIConstant } from '../../../../core/constants';
   styleUrl: './add-edit-customer.component.scss'
 })
 export class AddEditCustomerComponent implements OnInit {
-  customerForm: FormGroup;
-  customerId: number = 0;
-  customerData!: CustomerDataModel;
-  customersList: any;
-  loadSpinner: boolean = false;
-  locationsDropdownData: any = [];
-  commonLocations: any[] = [];
-  locations: any[] = APIConstant.commonLocationsList;
-  locationCode: any;
-  customerLocationId: any;
-
-  constructor(private router: Router,
-    private customerService : CustomerService,
-    private toastr: ToastrService,
-    private formBuilder: FormBuilder,
-    private lookupService: LookupService,
-    private activatedRoute: ActivatedRoute) {
-      this.customerForm = this.formBuilder.group({
-        customerType: ['', Validators.required],
-        customerCode: ['', Validators.required],
-        customerName: ['', Validators.required],
-      
-        billingAddressLine1: [''],
-        billingAddressLine2: [''],
-        billingCity: [''],
-        billingState: [''],
-        billingCountry: [''],
-        billingPinCode: [''],
-      
-        shippingAddressLine1: [''],
-        shippingAddressLine2: [''],
-        shippingCity: [''],
-        shippingState: [''],
-        shippingCountry: [''],
-        shippingPinCode: [''],
-      
-        contactPersonName: [''],
-        designation: [''],
-        email: ['', [Validators.email]],
-        mobileNumber: [''],
-      
-        currency: [''],
-        paymentTerms: [''],
-      
-        status: ['Active', Validators.required]
-      });
-      
-  }
-
-  ngOnInit(): void {
-    this.getCommonLocations();
-    this.getLocations();
-    this.setLocation();
-    this.customerId = Number(this.activatedRoute.snapshot.paramMap.get("customerId"));
-    this.customerId = this.customerId == 0 ? 0 : this.customerId;
-    if (this.customerId != 0) {
-      this.getCustomerData(this.customerId)
-    }
-  }
-
-  //FETCHING SELECTED PART'S DATA FROM API
-  getCustomerData(customerId: number) {
-    this.loadSpinner = true;
-    this.customerService.getCustomerData( customerId).subscribe((response: any) => {
-      this.customerForm.patchValue(response);
-      this.customerForm.setValue({
-         customerType: response.customerType,
-        customerCode: response.customerCode,
-        customerName: response.customerName,
-      
-        billingAddressLine1: response.billingAddressLine1,
-        billingAddressLine2: response.billingAddressLine2,
-        billingCity: response.billingCity,
-        billingState: response.billingState,
-        billingCountry: response.billingCountry,
-        billingPinCode: response.billingPinCode,
-      
-        shippingAddressLine1: response.shippingAddressLine1,
-        shippingAddressLine2: response.shippingAddressLine2,
-        shippingCity: response.shippingCity,
-        shippingState: response.shippingState,
-        shippingCountry: response.shippingCountry,
-        shippingPinCode: response.shippingPinCode,
-      
-        contactPersonName: response.contactPersonName,
-        designation: response.designation,
-        email: response.email,
-        mobileNumber: response.mobileNumber,
-      
-        currency: response.currency,
-        paymentTerms: response.paymentTerms,
-      
-        status: response.status
-      });
-      
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
-  getLocationId(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const vehicle = this.customersList.filter((item: any) => {
-        return item.id == this.customerId
-      });
-      if (vehicle.length > 0) {
-        this.customerLocationId = vehicle[0].locations.id;
-        resolve();
-      } else {
-        reject('No matching customer found');
-      }
-    });
-    
-  }
-
-  getAllCustomersListInit() {
-    let data = {
-      "customerNumber": '',
-      "customerName": '',
-      "status": ''
-    }
-    this.customerService.getCustomers(data).subscribe((response: any) => {
-      this.customersList = response.customers;
-      this.getLocationId().then(() => {
-        this.getCustomerData(this.customerId);
-      });
-      this.loadSpinner = false;
-    }, error => {
-      this.toastr.error(error.statusText, error.status);
-      this.loadSpinner = false;
-    })
-  }
-
-  //FUNCTION EXECUTED ON SAVE BUTTON CLICK
-  onPressSave() {
-    this.loadSpinner = true;
-    
-      const data = {
-        customerType: this.customerForm.controls['customerType']?.value,
-        customerCode: this.customerForm.controls['customerCode']?.value,
-        customerName: this.customerForm.controls['customerName']?.value,
-      
-        billingAddressLine1: this.customerForm.controls['billingAddressLine1']?.value,
-        billingAddressLine2: this.customerForm.controls['billingAddressLine2']?.value,
-        billingCity: this.customerForm.controls['billingCity']?.value,
-        billingState: this.customerForm.controls['billingState']?.value,
-        billingCountry: this.customerForm.controls['billingCountry']?.value,
-        billingPinCode: this.customerForm.controls['billingPinCode']?.value,
-      
-        shippingAddressLine1: this.customerForm.controls['shippingAddressLine1']?.value,
-        shippingAddressLine2: this.customerForm.controls['shippingAddressLine2']?.value,
-        shippingCity: this.customerForm.controls['shippingCity']?.value,
-        shippingState: this.customerForm.controls['shippingState']?.value,
-        shippingCountry: this.customerForm.controls['shippingCountry']?.value,
-        shippingPinCode: this.customerForm.controls['shippingPinCode']?.value,
-      
-        contactPersonName: this.customerForm.controls['contactPersonName']?.value,
-        designation: this.customerForm.controls['designation']?.value,
-        email: this.customerForm.controls['email']?.value,
-        mobileNumber: this.customerForm.controls['mobileNumber']?.value,
-      
-        currency: this.customerForm.controls['currency']?.value,
-        paymentTerms: this.customerForm.controls['paymentTerms']?.value,
-      
-        status: this.customerForm.controls['status']?.value,
-        actionBy: ""
-      };
-      
-    if (this.customerId > 0) {
-      this.updateCustomer(data);
-    } else {
-      this.createNewCustomer(data);
-    }
-  }
-
-  //UPDATING PART DATA
-  updateCustomer(data: any) {
-    this.locationCode = this.customerForm.controls['locationId']?.value;
-    const matchedLocation = this.locations?.find((item: any) => item?.code == this.locationCode);
-    const matchedLocationId = matchedLocation?.id;
-    this.loadSpinner = true;
-    this.customerService.updateCustomer(this.customerId, data).subscribe((response: any) => {
-      this.customerData = response;
-      this.loadSpinner = false;
-      this.toastr.success('Customer Updated Successfully');
-      this.router.navigate(['master/customer']);
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
-  getCommonLocations(){
-    this.commonLocations = APIConstant.commonLocationsList;
-  }
-
-  setLocation(){
-    if(!this.customerId){
-      this.lookupService.setLocationId(this.customerForm, this.commonLocations, 'locationId');
-    }
-    
-  }
-
-  getLocations() {
-    let data = {
-      CreationDate: '',
-      LastUpdatedBy: '',
-      LastUpdateDate: '',
+    queryData: any;
+    customerId: number = 0;
+    customerData: CustomerDataModel = {
+      id: 0,
+      customerType: '',
+      customerCode: '',
+      customerName: '',
+      createdBy: '',
+      createdOn: '',
+      modifiedBy: '',
+      modifiedOn: '',
+      messageStatus: null
     };
-    const type = 'Locations';
-    this.lookupService.getLocationsLookup(data, type).subscribe((res: any) => {
-      this.locationsDropdownData = res.lookUps.filter(
-        (item: any) => item.status === 'Active' && 
-        this.commonLocations.some((location: any) => location.id === item.id));
-
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+    customersList: any = [];
+    countryList: any = [];
+    stateList: any = [];
+    loadSpinner: boolean = true;
+    disableSubmit: boolean = false;
+    customerType: string = '';
+    showComplianceTab: boolean = true;
+    statusTab: boolean = false;
+    showExtraTab: boolean = false;
+    selectedTransactionTypes: Set<string> = new Set();
+    isShow: boolean = false;
+    statusValue: string = '';
+    isBillingCountryDisabled: boolean = false;
+    IfscInput: boolean = true;
+    showSwiftfield: boolean = true;
+  
+    requiredFieldsForDOM = [
+      'customerType',
+      'customerName',
+      'billingAddressLine1',
+      'billingCity',
+      'billingState',
+      'billingCountry',
+      'billingPinCode',
+      'shippingAddressLine1',
+      'shippingCity',
+      'shippingState',
+      'shippingCountry',
+      'shippingPinCode',
+      'bankAddressLine1',
+      'gstTreatment',
+      'msmeRegistered',
+      'currency',
+      'bankName',
+      'bankCountry',
+      'accountHolderName',
+      'accountNumber',
+      'confirmAccountNumber',
+      'ifscCode',
+    ];
+  
+    requiredFieldsForVIM = [
+      'customerType',
+      'customerName',
+      'billingAddressLine1',
+      'billingCity',
+      'billingCountry',
+      'billingPinCode',
+      'shippingAddressLine1',
+      'shippingCity',
+      'shippingCountry',
+      'shippingPinCode',
+      'currency',
+      'bankName',
+      'accountHolderName',
+      'accountNumber',
+      'confirmAccountNumber',
+      'bankAddressLine1',
+      'bankCity',
+      'bankPinCode',
+      'bankCountry',
+    ];
+  
+    currentRequiredFields: string[] = [];
+  
+    customerForm = new FormGroup({
+      customerType: new FormControl('', Validators.required),
+      customerCode: new FormControl(''),
+      customerName: new FormControl('', Validators.required),
+  
+      billingAddressLine1: new FormControl('', Validators.required),
+      billingAddressLine2: new FormControl(''),
+      billingCity: new FormControl('', Validators.required),
+      billingState: new FormControl(''),
+      billingCountry: new FormControl('', Validators.required),
+      billingPinCode: new FormControl('', [
+        Validators.required,
+        // Validators.pattern(/^[0-9]{6}$/),
+      ]),
+  
+      shippingAddressLine1: new FormControl('', Validators.required),
+      shippingAddressLine2: new FormControl(''),
+      shippingCity: new FormControl('', Validators.required),
+      shippingState: new FormControl(''),
+      shippingCountry: new FormControl('', Validators.required),
+      shippingPinCode: new FormControl('', [
+        Validators.required,
+        // Validators.pattern(/^[0-9]{6}$/),
+      ]),
+      sameAsBilling: new FormControl(false),
+      pan: new FormControl('', [
+        Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), // optional PAN format
+      ]),
+      gst: new FormControl(''),
+      gstTreatment: new FormControl('', Validators.required),
+      msmeRegistered: new FormControl<boolean | null>(null),
+      msmeType: new FormControl(''),
+      msmeNo: new FormControl(''),
+  
+      contactPersonName: new FormControl(''),
+      designation: new FormControl(''),
+      email1: new FormControl('', [Validators.email]),
+      email2: new FormControl('', [Validators.email]),
+      countryCode: new FormControl(''),
+      phoneMobileNo: new FormControl('', [
+        Validators.pattern('^[0-9]*$'), // allows only digits (0-9)
+      ]),
+      currency: new FormControl('', Validators.required),
+      paymentTerms: new FormControl(''),
+  
+      bankName: new FormControl('', Validators.required),
+      accountHolderName: new FormControl('', Validators.required),
+      accountNumber: new FormControl('', [Validators.required]),
+      confirmAccountNumber: new FormControl('', [Validators.required]),
+  
+      ifscCode: new FormControl('', [
+        Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/),
+      ]),
+      swiftCode: new FormControl(''),
+  
+      bankAddressLine1: new FormControl(''),
+      bankAddressLine2: new FormControl(''),
+      branch: new FormControl(''),
+      bankCity: new FormControl(''),
+      bankState: new FormControl(''),
+      bankPinCode: new FormControl(''),
+  
+      iban: new FormControl(''),
+      sortCode: new FormControl(''),
+      routingNo: new FormControl(''),
+      bankCountry: new FormControl(''),
+      fCTCCharges: new FormControl(''),
+      complDocyear: new FormControl(''),
+  
+      status: new FormControl(''),
     });
-  }
-
-  //CREATING NEW PART
-  createNewCustomer(data: any) {
-    this.loadSpinner = true;
-    this.customerService.createCustomer(data).subscribe((response: any) => {
-      this.customerData = response;
-      this.loadSpinner = false;
-      this.toastr.success('Customer Created Successfully');
-      this.router.navigate(['/master/customer'])
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
-  }
-
-  onCancelPress() {
-    this.router.navigate(['/master/customer'])
-  }
-
-  disableSave(){
-    // return !this.customerForm.controls['customerNumber'].value ||
-    // !this.customerForm.controls['customerName'].value || 
-    // !this.customerForm.controls['customerSize'].value || 
-    // !this.customerForm.controls['customerPrice'].value ||
-    // !this.customerForm.controls['remarks'].value
-  }
+  
+    constructor(
+      private _Activatedroute: ActivatedRoute,
+      private router: Router,
+      private customerService: CustomerService,
+      private toastr: ToastrService,
+      private countryService: CountryService
+    ) {}
+  
+    ngOnInit(): void {
+      this.loadSpinner = true;
+      this.queryData = this._Activatedroute.snapshot.paramMap.get('customerId');
+      this.customerId =
+        Number(this._Activatedroute.snapshot.paramMap.get('customerId')) || 0;
+  
+      this.getCustomerData(this.queryData); // fetch the full customer data
+      this.AllcountryList();
+      this.AllstateList();
+  
+      this.customerForm.get('accountNumber')?.valueChanges.subscribe(() => {
+        this.checkAccountMatch();
+      });
+  
+      this.customerForm.get('confirmAccountNumber')?.valueChanges.subscribe(() => {
+        this.checkAccountMatch();
+      });
+  
+      //check that account no matches with confirm account number
+  
+      if (this.customerId == 0) {
+        this.statusTab = false;
+      }
+      if (this.customerId > 0) {
+        this.statusTab = true;
+      }
+    }
+  
+    //get all the country list
+    AllcountryList() {
+      var data = {};
+      this.countryService.getCountryData(data).subscribe(
+        (response: any) => {
+          this.countryList = response.countrys;
+          console.log(this.countryList);
+          this.loadSpinner = false;
+        },
+        (error) => {
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+          this.loadSpinner = false;
+        }
+      );
+    }
+  
+    AllstateList() {
+      var data = {
+        CountryName: '',
+      };
+      this.countryService.getStateData(data).subscribe(
+        (response: any) => {
+          this.stateList = response.states;
+          console.log(this.stateList);
+          this.loadSpinner = false;
+        },
+        (error) => {
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+          this.loadSpinner = false;
+        }
+      );
+    }
+  
+    onMsmeRegisterChange() {
+      const value = this.customerForm.get('msmeRegistered')?.value;
+  
+      if (value) {
+        this.customerForm.get('msmeType')?.setValidators([Validators.required]);
+        this.customerForm.get('msmeNo')?.setValidators([Validators.required]);
+  
+        if (!this.requiredFieldsForDOM.includes('msmeType')) {
+          this.requiredFieldsForDOM.push('msmeType');
+        }
+        if (!this.requiredFieldsForDOM.includes('msmeNo')) {
+          this.requiredFieldsForDOM.push('msmeNo');
+        }
+  
+        this.currentRequiredFields = [...this.requiredFieldsForDOM];
+      } else {
+        this.customerForm.get('msmeType')?.clearValidators();
+        this.customerForm.get('msmeNo')?.clearValidators();
+  
+        this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+          (f) => f !== 'msmeNo'
+        );
+  
+        this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+          (f) => f !== 'msmeType'
+        );
+  
+        this.currentRequiredFields = [...this.requiredFieldsForDOM];
+      }
+  
+      this.customerForm.get('msmeType')?.updateValueAndValidity();
+      this.customerForm.get('msmeNo')?.updateValueAndValidity();
+    }
+  
+    onGSTTreatmentChange(event: any): void {
+      const selectedGSTTreatment = event.target.value;
+  
+      const gstControl = this.customerForm.get('gst');
+      const gstPattern = Validators.pattern(
+        /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+      );
+  
+      if (
+        selectedGSTTreatment === 'Unregistered' ||
+        selectedGSTTreatment === 'Consumer'
+      ) {
+        // GST is optional, only pattern applies
+        gstControl?.setValidators([gstPattern]);
+  
+        this.requiredFieldsForDOM = this.requiredFieldsForDOM.filter(
+          (f) => f !== 'gst'
+        );
+      } else {
+        // GST is required and must match the pattern
+        gstControl?.setValidators([Validators.required, gstPattern]);
+  
+        if (!this.requiredFieldsForDOM.includes('gst')) {
+          this.requiredFieldsForDOM.push('gst');
+        }
+      }
+  
+      this.currentRequiredFields = [...this.requiredFieldsForDOM];
+      gstControl?.updateValueAndValidity();
+    }
+  
+    checkAccountMatch(): void {
+      const accountNumber = this.customerForm.get('accountNumber')?.value;
+      const confirmAccountNumber = this.customerForm.get(
+        'confirmAccountNumber'
+      )?.value;
+  
+      if (
+        accountNumber &&
+        confirmAccountNumber &&
+        accountNumber !== confirmAccountNumber
+      ) {
+        this.customerForm
+          .get('confirmAccountNumber')
+          ?.setErrors({ mismatch: true });
+      } else {
+        // Preserve other errors like 'required' or 'pattern'
+        const confirmCtrl = this.customerForm.get('confirmAccountNumber');
+        if (confirmCtrl?.hasError('required') || confirmCtrl?.hasError('pattern'))
+          return;
+  
+        confirmCtrl?.setErrors(null);
+      }
+    }
+    onCustomerTypeChange(event: any) {
+      const selectedType = event.target.value;
+      this.customerType = selectedType;
+  
+      if (this.customerType === 'EIPCEXP') {
+        this.currentRequiredFields = this.requiredFieldsForVIM;
+        this.showComplianceTab = false;
+        this.IfscInput = false;
+        // this.showExtraTab = true;
+        this.customerForm
+          .get('billingPinCode')
+          ?.setValidators([Validators.required]);
+        this.customerForm.get('billingPinCode')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('shippingPinCode')
+          ?.setValidators([Validators.required]);
+        this.customerForm.get('shippingPinCode')?.updateValueAndValidity();
+  
+        this.customerForm.get('bankPinCode')?.setValidators([Validators.required]);
+        this.customerForm.get('bankPinCode')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('bankAddressLine1')
+          ?.setValidators([Validators.required]);
+        this.customerForm.get('bankAddressLine1')?.updateValueAndValidity();
+  
+        this.customerForm.get('bankCity')?.setValidators([Validators.required]);
+        this.customerForm.get('bankCity')?.updateValueAndValidity();
+  
+        this.customerForm.get('bankPinCode')?.setValidators([Validators.required]);
+        this.customerForm.get('bankPinCode')?.updateValueAndValidity();
+  
+        this.customerForm.get('bankCountry')?.setValidators([Validators.required]);
+        this.customerForm.get('bankCountry')?.updateValueAndValidity();
+  
+        this.customerForm.get('billingState')?.clearValidators();
+        this.customerForm.get('billingState')?.updateValueAndValidity();
+  
+        this.customerForm.get('shippingState')?.clearValidators();
+        this.customerForm.get('shippingState')?.updateValueAndValidity();
+  
+        this.customerForm.get('msmeType')?.clearValidators();
+        this.customerForm.get('msmeType')?.updateValueAndValidity();
+  
+        this.customerForm.get('msmeRegistered')?.setValue(false);
+        this.customerForm.get('msmeRegistered')?.clearValidators();
+        this.customerForm.get('msmeRegistered')?.updateValueAndValidity();
+  
+        this.customerForm.get('msmeNo')?.clearValidators();
+        this.customerForm.get('msmeNo')?.updateValueAndValidity();
+  
+        this.customerForm.get('phoneMobileNo')?.clearValidators();
+        this.customerForm
+          .get('phoneMobileNo')
+          ?.setValidators([Validators.pattern('^[0-9]*$')]);
+        this.customerForm.get('phoneMobileNo')?.updateValueAndValidity();
+  
+        this.customerForm.get('ifscCode')?.clearValidators();
+        this.customerForm.get('ifscCode')?.updateValueAndValidity();
+  
+        this.customerForm.get('gstTreatment')?.clearValidators();
+        this.customerForm.get('gstTreatment')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('accountNumber')
+          ?.setValidators([Validators.required]);
+        this.customerForm.get('accountNumber')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('confirmAccountNumber')
+          ?.setValidators([Validators.required]);
+        this.customerForm.get('confirmAccountNumber')?.updateValueAndValidity();
+      } else {
+        this.currentRequiredFields = this.requiredFieldsForDOM;
+        this.showComplianceTab = true;
+        this.showExtraTab = false;
+        this.IfscInput = true;
+        this.onMsmeRegisterChange();
+  
+        this.customerForm
+          .get('msmeRegistered')
+          ?.setValidators([Validators.required]);
+        this.customerForm.get('msmeRegistered')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('phoneMobileNo')
+          ?.setValidators([Validators.pattern(/^[0-9]{10}$/)]);
+        this.customerForm.get('phoneMobileNo')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('ifscCode')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/),
+          ]);
+        this.customerForm.get('ifscCode')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('billingPinCode')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(/^[0-9]{6}$/),
+          ]);
+        this.customerForm.get('billingPinCode')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('shippingPinCode')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(/^[0-9]{6}$/),
+          ]);
+        this.customerForm.get('shippingPinCode')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('bankPinCode')
+          ?.setValidators([Validators.pattern(/^[0-9]{6}$/)]);
+        this.customerForm.get('bankPinCode')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('pan')
+          ?.setValidators([Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]);
+        this.customerForm.get('pan')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('accountNumber')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(/^\d{9,18}$/),
+          ]);
+        this.customerForm.get('accountNumber')?.updateValueAndValidity();
+  
+        this.customerForm
+          .get('confirmAccountNumber')
+          ?.setValidators([
+            Validators.required,
+            Validators.pattern(/^\d{9,18}$/),
+          ]);
+        this.customerForm.get('confirmAccountNumber')?.updateValueAndValidity();
+      }
+  
+      if (selectedType === 'EIPCDOM') {
+        this.customerForm.patchValue({ billingCountry: 'India' });
+        this.customerForm.patchValue({ shippingCountry: 'India' });
+        this.customerForm.patchValue({ bankCountry: 'India' });
+        this.customerForm.patchValue({ currency: 'Indian Rupee' });
+        this.customerForm.patchValue({ countryCode: '+91' });
+        this.customerForm.get('billingCountry')?.disable();
+        this.customerForm.get('shippingCountry')?.disable();
+        this.customerForm.get('bankCountry')?.disable();
+        this.customerForm.get('currency')?.disable();
+        this.customerForm.get('countryCode')?.disable();
+      } else {
+        this.customerForm.get('billingCountry')?.enable();
+        this.customerForm.get('shippingCountry')?.enable();
+        this.customerForm.get('bankCountry')?.enable();
+        this.customerForm.get('currency')?.enable();
+        this.customerForm.get('countryCode')?.enable();
+      }
+    }
+  
+    onSelectbillingCountry(e: any) {
+      this.customerForm.get('billingCountry')?.setValue(e?.target?.innerText);
+    }
+    onSelectshippingCountry(e: any) {
+      this.customerForm.get('shippingCountry')?.setValue(e?.target?.innerText);
+    }
+    onSelectCurrency(e: any) {
+      this.customerForm.get('currency')?.setValue(e?.target?.innerText);
+    }
+    //TO GET THE VENDOR DATA
+    getCustomerData(customerId: number) {
+      this.customerService.getCustomerData(customerId).subscribe(
+        (response: any) => {
+          this.customerData = response;
+          this.patchCustomerData(response);
+          if (response.shippingAddressLine1 == response.billingAddressLine1) {
+            this.copyBillingToShipping(true);
+          }
+          const selectedType = this.customerForm.get('customerType')?.value;
+          if (selectedType) {
+            this.onCustomerTypeChange({ target: { value: selectedType } });
+            this.customerForm.get('customerType')?.disable();
+          }
+          this.loadSpinner = false;
+        },
+        (error) => {
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+          this.loadSpinner = false;
+        }
+      );
+    }
+  
+    //UPDATING THE VENDOR ON CLICK OF SAVE BUTTON
+    onPressSave() {
+      this.loadSpinner = true;
+      const data = {
+        actionBy: '',
+        customerType: this.customerForm.get('customerType')?.value,
+        customerCode: this.customerForm.get('customerCode')?.value,
+        customerName: this.customerForm.get('customerName')?.value,
+        billingAddressLine1: this.customerForm.get('billingAddressLine1')?.value,
+        billingAddressLine2: this.customerForm.get('billingAddressLine2')?.value,
+        billingCity: this.customerForm.get('billingCity')?.value,
+        billingState: this.customerForm.get('billingState')?.value,
+        billingCountry: this.customerForm.get('billingCountry')?.value,
+        billingPinCode: this.customerForm.get('billingPinCode')?.value,
+        shippingAddressLine1: this.customerForm.get('shippingAddressLine1')?.value,
+        shippingAddressLine2: this.customerForm.get('shippingAddressLine2')?.value,
+        shippingCity: this.customerForm.get('shippingCity')?.value,
+        shippingState: this.customerForm.get('shippingState')?.value,
+        shippingCountry: this.customerForm.get('shippingCountry')?.value,
+        shippingPinCode: this.customerForm.get('shippingPinCode')?.value,
+        pan: this.customerForm.get('pan')?.value,
+        gst: this.customerForm.get('gst')?.value,
+        gstTreatment: this.customerForm.get('gstTreatment')?.value,
+        msmeRegistered: this.customerForm.get('msmeRegistered')?.value,
+        msmeType: this.customerForm.get('msmeType')?.value,
+        msmeNo: this.customerForm.get('msmeNo')?.value,
+        contactPersonName: this.customerForm.get('contactPersonName')?.value,
+        designation: this.customerForm.get('designation')?.value,
+        email1: this.customerForm.get('email1')?.value,
+        email2: this.customerForm.get('email2')?.value,
+        countryCode: this.customerForm.get('countryCode')?.value,
+        phoneMobileNo: this.customerForm.get('phoneMobileNo')?.value,
+        currency: this.customerForm.get('currency')?.value,
+        paymentTerms: this.customerForm.get('paymentTerms')?.value,
+        bankName: this.customerForm.get('bankName')?.value,
+        accountHolderName: this.customerForm.get('accountHolderName')?.value,
+        accountNumber: this.customerForm.get('accountNumber')?.value,
+        confirmAccountNumber: this.customerForm.get('confirmAccountNumber')?.value,
+        ifscCode: this.customerForm.get('ifscCode')?.value,
+        swiftCode: this.customerForm.get('swiftCode')?.value,
+        bankAddressLine1: this.customerForm.get('bankAddressLine1')?.value,
+        bankAddressLine2: this.customerForm.get('bankAddressLine2')?.value,
+        branch: this.customerForm.get('branch')?.value,
+        bankCity: this.customerForm.get('bankCity')?.value,
+        bankState: this.customerForm.get('bankState')?.value,
+        bankPinCode: this.customerForm.get('bankPinCode')?.value,
+        iban: this.customerForm.get('iban')?.value,
+        sortCode: this.customerForm.get('sortCode')?.value,
+        routingNo: this.customerForm.get('routingNo')?.value,
+        bankCountry: this.customerForm.get('bankCountry')?.value,
+        fCTCCharges: this.customerForm.get('fCTCCharges')?.value,
+        complDocyear: this.customerForm.get('complDocyear')?.value,
+        status: this.customerForm.get('status')?.value,
+      };
+  
+      if (this.customerId == 0) {
+        this.loadSpinner = true;
+        this.customerService.createCustomer(data).subscribe(
+          (response: any) => {
+            this.customerData = response;
+            this.loadSpinner = false;
+            this.toastr.success('Customer Created Successfully');
+            this.router.navigate(['/master/customer']);
+          },
+          () => {
+            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+            this.loadSpinner = false;
+          }
+        );
+      } else {
+        this.customerService.updateCustomer(this.queryData, data).subscribe(
+          (response: any) => {
+            this.customerData = response;
+            this.toastr.success('Customer Update Successfully');
+            this.router.navigate(['master/customer']);
+            this.loadSpinner = false;
+          },
+          (error) => {
+            //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+            this.loadSpinner = false;
+          }
+        );
+      }
+    }
+  
+    //NAVIGATION BACK TO VENDOR LISTING ON CLICK CANCEL BUTTON
+    onCancelPress() {
+      this.router.navigate(['master/customer']);
+    }
+  
+    patchCustomerData(data: any) {
+      setTimeout(() => {}, 1000);
+      this.selectedTransactionTypes.clear();
+      this.customerForm.patchValue({
+        customerType: data?.customerType,
+        customerCode: data?.customerCode,
+        customerName: data?.customerName,
+        billingAddressLine1: data?.billingAddressLine1,
+        billingAddressLine2: data?.billingAddressLine2,
+        billingCity: data?.billingCity,
+        billingState: data?.billingState,
+        billingCountry: data?.billingCountry,
+        billingPinCode: data?.billingPinCode,
+        shippingAddressLine1: data?.shippingAddressLine1,
+        shippingAddressLine2: data?.shippingAddressLine2,
+        shippingCity: data?.shippingCity,
+        shippingState: data?.shippingState,
+        shippingCountry: data?.shippingCountry,
+        shippingPinCode: data?.shippingPinCode,
+        pan: data?.pan,
+        gst: data?.gst,
+        gstTreatment: data?.gstTreatment,
+        msmeRegistered: data?.msmeRegistered,
+        msmeType: data?.msmeType,
+        msmeNo: data?.msmeNo,
+        contactPersonName: data?.contactPersonName,
+        designation: data?.designation,
+        email1: data?.email1,
+        email2: data?.email2,
+        countryCode: data?.countryCode,
+        phoneMobileNo: data?.phoneMobileNo,
+        currency: data?.currency,
+        paymentTerms: data?.paymentTerms,
+        bankName: data?.bankName,
+        accountHolderName: data?.accountHolderName,
+        accountNumber: data?.accountNumber,
+        confirmAccountNumber: data?.confirmAccountNumber,
+        ifscCode: data?.ifscCode,
+        swiftCode: data?.swiftCode,
+        bankAddressLine1: data?.bankAddressLine1,
+        bankAddressLine2: data?.bankAddressLine2,
+        branch: data?.branch,
+        bankCity: data?.bankCity,
+        bankState: data?.bankState,
+        bankPinCode: data?.bankPinCode,
+        iban: data?.iban,
+        sortCode: data?.sortCode,
+        routingNo: data?.routingNo,
+        bankCountry: data?.bankCountry,
+        fCTCCharges: data?.fCTCCharges,
+        complDocyear: data?.complDocyear,
+        status: data?.status,
+      });
+      this.checkAccountMatch();
+    }
+  
+    onOptionSelected(event: any) {
+      this.customerForm.patchValue({});
+    }
+  
+    validateNo(e: any) {
+      const charCode = e.which ? e.which : e.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    }
+  
+    phoneNumberLength(e: any) {
+      const phoneControl = this.customerForm.get('phone');
+    }
+  
+    onStatusChange(status: string, transaction: any) {
+      transaction.disabled = status === 'Inactive';
+    }
+  
+    copyBillingToShipping(event: any) {
+      let isChecked: boolean;
+  
+      if (typeof event === 'boolean') {
+        isChecked = event; // coming from code
+        this.customerForm.get('sameAsBilling')?.setValue(true);
+      } else {
+        isChecked = event.target.checked; // coming from checkbox event
+      }
+      
+  
+      if (isChecked) {
+        this.customerForm.patchValue({
+          shippingAddressLine1: this.customerForm.get('billingAddressLine1')?.value,
+          shippingAddressLine2: this.customerForm.get('billingAddressLine2')?.value,
+          shippingCountry: this.customerForm.get('billingCountry')?.value,
+          shippingCity: this.customerForm.get('billingCity')?.value,
+          shippingState: this.customerForm.get('billingState')?.value,
+          shippingPinCode: this.customerForm.get('billingPinCode')?.value,
+        });
+  
+        this.customerForm.get('shippingAddressLine1')?.disable();
+        this.customerForm.get('shippingAddressLine2')?.disable();
+        this.customerForm.get('shippingCountry')?.disable();
+        this.customerForm.get('shippingCity')?.disable();
+        this.customerForm.get('shippingState')?.disable();
+        this.customerForm.get('shippingPinCode')?.disable();
+      } else {
+        this.customerForm.get('shippingAddressLine1')?.enable();
+        this.customerForm.get('shippingAddressLine2')?.enable();
+        this.customerForm.get('shippingCountry')?.enable();
+        this.customerForm.get('shippingCity')?.enable();
+        this.customerForm.get('shippingState')?.enable();
+        this.customerForm.get('shippingPinCode')?.enable();
+  
+        this.customerForm.patchValue({
+          shippingAddressLine1: '',
+          shippingAddressLine2: '',
+          shippingCity: '',
+          shippingState: '',
+          shippingPinCode: '',
+          shippingCountry: '',
+        });
+      }
+    }
 }

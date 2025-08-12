@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Bank Code</label>
+                <label for="">Account Number</label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
                     placeholder="Select Code" [readonly]="transactionTypeName">
-                    <ng-option *ngFor="let transaction of filters?.BankCode"
+                    <ng-option *ngFor="let transaction of filters?.AccountNumber"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>

@@ -1,195 +1,561 @@
 <div class="page-title">
     <h1>{{customerId>0 ? 'Edit Customer' : 'Create Customer'}} Master</h1>
     <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onPressSave()" [disabled]="disableSave()">Save</button>
+        <button class="custom-button-regulr" (click)="onPressSave()" >Save</button>
         <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
     </div>
 </div>
 
 <div class="content-section p-3">
-    <form [formGroup]="customerForm">
+  <form [formGroup]="customerForm">
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#customerTab">Name & Address Details
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#contactTab">Contact Details
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="showComplianceTab">
+        <a class="nav-link" data-bs-toggle="tab" href="#complianceTab">Compliance Details
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="showExtraTab">
+        <a class="nav-link" data-bs-toggle="tab" href="#extraDetails">Extra Details
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="statusTab">
+        <a class="nav-link" data-bs-toggle="tab" href="#status">Status
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="customerTab" class="tab-pane fade show active">
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Customer Type <span class="text-danger">*</span></label>
-              <input type="text" class="input-field" formControlName="customerType" />
+              <label for="customerType">Customer Type <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('customerType')">*</span></label>
+              <select class="input-field" formControlName="customerType" aria-placeholder="selectType"
+                (change)="onCustomerTypeChange($event)">
+                <option value="" selected>Select Type</option> <!-- Default placeholder -->
+                <option value="EIPCDOM">EIPCDOM</option>
+                <option value="EIPCEXP">EIPCEXP</option>
+              </select>
+              <div *ngIf="customerForm.get('customerType')?.invalid && customerForm.get('customerType')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('customerType')?.hasError('required')">
+                  Customer Type is required.
+                </small>
+              </div>
             </div>
           </div>
-      
-          <!-- Customer Code -->
-          <div class="col-lg-3 col-md-3">
+          <!-- <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Customer Code <span class="text-danger" *ngIf="customerId == 0">*</span></label>
-              <input type="text" class="input-field" formControlName="customerCode" > 
+              <label for="">Customer Code</label>
+              <input type="text" class="input-field" formControlName="customerCode" />
+              <div *ngIf="customerForm.get('customerCode')?.invalid && customerForm.get('customerCode')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('customerCode')?.hasError('required')">
+                  Customer Code is required.
+                </small>
+              </div>
             </div>
-          </div>
-      
-          <!-- Customer Name -->
+          </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Customer Name <span class="text-danger">*</span></label>
+              <label for="">Customer Name <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('customerName')">*</span></label>
               <input type="text" class="input-field" formControlName="customerName" />
+              <div *ngIf="customerForm.get('customerName')?.invalid && customerForm.get('customerName')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('customerName')?.hasError('required')">
+                  Customer Name is required.
+                </small>
+              </div>
             </div>
           </div>
-      
-          <!-- Billing Address Line 1 -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing Address Line 1</label>
+              <label for="">Billing Address Line 1 <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('billingAddressLine1')">*</span></label>
               <input type="text" class="input-field" formControlName="billingAddressLine1" />
+              <div
+                *ngIf="customerForm.get('billingAddressLine1')?.invalid && customerForm.get('billingAddressLine1')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('billingAddressLine1')?.hasError('required')">
+                  Address is required.
+                </small>
+              </div>
             </div>
           </div>
-      
-          <!-- Billing Address Line 2 -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Billing Address Line 2</label>
               <input type="text" class="input-field" formControlName="billingAddressLine2" />
             </div>
           </div>
-      
-          <!-- Billing City -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing City</label>
+              <label for="">Billing Country <span class="text-danger" *ngIf="customerId == 0">*</span></label>
+              <ng-select class="input-field" formControlName="billingCountry" [disabled]="isBillingCountryDisabled">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                  {{ country.countryName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Billing City <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('billingCity')">*</span></label>
               <input type="text" class="input-field" formControlName="billingCity" />
+              <div *ngIf="customerForm.get('billingCity')?.invalid && customerForm.get('billingCity')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('billingCity')?.hasError('required')">
+                  City is required.
+                </small>
+              </div>
             </div>
           </div>
-      
-          <!-- Billing State -->
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing State</label>
-              <input type="text" class="input-field" formControlName="billingState" />
+              <label for="">Billing State <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('billingState')">*</span></label>
+              <!-- <input type="text" class="input-field" formControlName="billingState" /> -->
+              <input *ngIf="customerType !== 'EIPCDOM'" type="text" class="input-field" formControlName="billingState" />
+
+              <!-- If DOM type: Show dropdown -->
+              <ng-select *ngIf="customerType === 'EIPCDOM'" class="input-field" formControlName="billingState">
+                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
+                  {{ state.stateName }}
+                </ng-option>
+              </ng-select>
+              <div *ngIf="customerForm.get('billingState')?.invalid && customerForm.get('billingState')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('billingState')?.hasError('required')">
+                  state is required.
+                </small>
+
+              </div>
             </div>
           </div>
-      
-          <!-- Billing Country -->
+          <!-- <div class="col-lg-3 col-md-3">
+      <div class="custom-form-input">
+        <label for="">Billing Country</label>
+        <input type="text" class="input-field" formControlName="billingCountry"  />
+      </div>
+    </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Billing Country</label>
-              <input type="text" class="input-field" formControlName="billingCountry" />
-            </div>
-          </div>
-      
-          <!-- Billing Pin Code -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Billing Pin Code</label>
+              <label for="">Billing Pin Code <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('billingPinCode')">*</span></label>
               <input type="text" class="input-field" formControlName="billingPinCode" />
+              <div *ngIf="customerForm.get('billingPinCode')?.invalid && customerForm.get('billingPinCode')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('billingPinCode')?.hasError('required')">
+                  PinCode is required.
+                </small>
+                <small class="text-danger" *ngIf="customerForm.get('billingPinCode')?.hasError('pattern')">
+                  Invalid PinCode.
+                </small>
+              </div>
+
             </div>
           </div>
-      
-          <!-- Shipping Address Line 1 -->
+          <div class="col-12 mb-3 mt-3">
+            <div class="col-lg-3 col-md-3">
+              <input type="checkbox" class="form-check-input" id="sameAsBilling" formControlName="sameAsBilling"
+                style="outline: 1px solid black; margin-right: 10px" (change)="copyBillingToShipping($event)">
+              <label class="form-check-label" for="sameAsBilling">
+                Same as Billing Address
+              </label>
+            </div>
+          </div>
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping Address Line 1</label>
+              <label for="">Shipping Address Line 1 <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('shippingAddressLine1')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingAddressLine1" />
+              <div
+                *ngIf="customerForm.get('shippingAddressLine1')?.invalid && customerForm.get('shippingAddressLine1')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('shippingAddressLine1')?.hasError('required')">
+                  state is required.
+                </small>
+              </div>
+
             </div>
           </div>
-      
-          <!-- Shipping Address Line 2 -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping Address Line 2</label>
+              <label for="">Shipping Address Line 2 <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('shippingAddressLine2')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingAddressLine2" />
             </div>
           </div>
-      
-          <!-- Shipping City -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping City</label>
+              <label for="">Shipping Country <span class="text-danger" *ngIf="customerId == 0">*</span></label>
+
+              <!-- Readonly ng-select -->
+              <ng-select (click)="onSelectshippingCountry($event)" class="input-field" formControlName="shippingCountry"
+                *ngIf="customerId > 0">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                  {{ country.countryName }}
+                </ng-option>
+              </ng-select>
+
+              <!-- Editable ng-select -->
+              <ng-select (click)="onSelectshippingCountry($event)" class="input-field" formControlName="shippingCountry"
+                *ngIf="customerId == 0">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
+                  {{ country.countryName }}
+                </ng-option>
+              </ng-select>
+            </div>
+
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Shipping City <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('shippingCity')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingCity" />
+              <div *ngIf="customerForm.get('shippingCity')?.invalid && customerForm.get('shippingCity')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('shippingCity')?.hasError('required')">
+                  state is required.
+                </small>
+              </div>
             </div>
           </div>
-      
-          <!-- Shipping State -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping State</label>
-              <input type="text" class="input-field" formControlName="shippingState" />
+              <label for="">Shipping State <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('shippingState')">*</span></label>
+              <input *ngIf="customerType !== 'EIPCDOM'" type="text" class="input-field" formControlName="shippingState" />
+
+              <!-- If DOM type: Show dropdown -->
+              <ng-select *ngIf="customerType === 'EIPCDOM'" class="input-field" formControlName="shippingState">
+                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
+                  {{ state.stateName }}
+                </ng-option>
+              </ng-select>
+              <!-- <input type="text" class="input-field" formControlName="shippingState" /> -->
+              <div *ngIf="customerForm.get('shippingState')?.invalid && customerForm.get('shippingState')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('shippingState')?.hasError('required')">
+                  state is required.
+                </small>
+
+              </div>
             </div>
           </div>
-      
-          <!-- Shipping Country -->
+          <!-- <div class="col-lg-3 col-md-3">
+      <div class="custom-form-input">
+        <label for="">Shipping Country</label>
+        <input type="text" class="input-field" formControlName="shippingCountry"  />
+      </div>
+    </div> -->
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Shipping Country</label>
-              <input type="text" class="input-field" formControlName="shippingCountry" />
-            </div>
-          </div>
-      
-          <!-- Shipping Pin Code -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Shipping Pin Code</label>
+              <label for="">Shipping Pin Code <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('shippingPinCode')">*</span></label>
               <input type="text" class="input-field" formControlName="shippingPinCode" />
+              <div *ngIf="customerForm.get('shippingPinCode')?.invalid && customerForm.get('shippingPinCode')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('shippingPinCode')?.hasError('required')">
+                  Pincode is required.
+                </small>
+                <small class="text-danger" *ngIf="customerForm.get('shippingPinCode')?.hasError('pattern')">
+                  Invalid PinCode.
+                </small>
+              </div>
             </div>
           </div>
-      
-          <!-- Contact Person Name -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Contact Person Name</label>
-              <input type="text" class="input-field" formControlName="contactPersonName" />
-            </div>
-          </div>
-      
-          <!-- Designation -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Designation</label>
-              <input type="text" class="input-field" formControlName="designation" />
-            </div>
-          </div>
-      
-          <!-- Email -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Email</label>
-              <input type="email" class="input-field" formControlName="email" />
-            </div>
-          </div>
-      
-          <!-- Mobile Number -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Mobile Number</label>
-              <input type="text" class="input-field" formControlName="mobileNumber" />
-            </div>
-          </div>
-      
-          <!-- Currency -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Currency</label>
-              <input type="text" class="input-field" formControlName="currency" />
-            </div>
-          </div>
-      
-          <!-- Payment Terms -->
-          <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Payment Terms</label>
+              <label for="">Payment Terms <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('paymentTerms')">*</span></label>
               <input type="text" class="input-field" formControlName="paymentTerms" />
             </div>
           </div>
-      
-          <!-- Status (only when editing) -->
-          <div class="col-lg-3 col-md-3" *ngIf="customerId > 0">
+          <!-- <div class="col-lg-3 col-md-3">
+        <div class="custom-form-input">
+          <label for="">Currency</label>
+          <input type="text" class="input-field" formControlName="currency"  />
+        </div>
+      </div> -->
+          <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Status</label>
-              <select class="input-field" formControlName="status">
+              <label for="">Currency <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('currency')">*</span> </label>
+
+              <!-- Readonly ng-select -->
+              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+                *ngIf="customerId > 0">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
+
+              <!-- Editable ng-select -->
+              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+                *ngIf="customerId == 0">
+                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
+                  {{ country.currencyName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="contactTab" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Contact Person Name <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('contactPersonName')">*</span></label>
+              <input type="text" class="input-field" formControlName="contactPersonName" />
+              <div *ngIf="customerForm.get('contactPersonName')?.invalid && customerForm.get('contactPersonName')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('contactPersonName')?.hasError('required')">
+                  Contact Name is required.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Designation <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('designation')">*</span></label>
+              <input type="text" class="input-field" formControlName="designation" />
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Email 1 <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('email1')">*</span></label>
+              <input type="email" class="input-field" formControlName="email1" />
+              <div *ngIf="customerForm.get('email1')?.invalid && customerForm.get('email1')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('email1')?.hasError('email')">
+                  Please enter a valid email address.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Email 2 <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('email2')">*</span></label>
+              <input type="text" class="input-field" formControlName="email2" />
+              <div *ngIf="customerForm.get('email2')?.invalid && customerForm.get('email2')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('email2')?.hasError('email')">
+                  Enter a valid email address.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Country Code <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('countryCode')">*</span></label>
+              <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
+              <ng-select class="input-field" formControlName="countryCode" [disabled]="isBillingCountryDisabled">
+                <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
+                  {{ country.countryCode }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Mobile No <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('phoneMobileNo')">*</span></label>
+              <input type="text" class="input-field" formControlName="phoneMobileNo" pattern="[0-9]*"
+                inputmode="numeric" />
+              <div *ngIf="customerForm.get('phoneMobileNo')?.invalid && customerForm.get('phoneMobileNo')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('phoneMobileNo')?.hasError('required')">
+                  No is required.
+                </small>
+                <small class="text-danger" *ngIf="customerForm.get('phoneMobileNo')?.hasError('pattern')">
+                  Invalid Mobile No.
+                </small>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+      <div id="complianceTab" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="msmeRegistered">
+                MSME Registered
+                <span class="text-danger" *ngIf="currentRequiredFields.includes('msmeRegistered')">*</span>
+              </label>
+              <select class="input-field" formControlName="msmeRegistered" (change)="onMsmeRegisterChange()">
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">MSME Type <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('msmeType')">*</span></label>
+              <select class="input-field" formControlName="msmeType">
+                <option value="null">Select MSME Type</option>
+                <option value="MICRO">MICRO</option>
+                <option value="SMALL">SMALL</option>
+                <option value="MEDIUM">MEDIUM</option>
+              </select>
+              <div *ngIf="customerForm.get('msmeType')?.invalid && customerForm.get('msmeType')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('msmeType')?.hasError('required')">
+                  MSME Type is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">MSME No <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('msmeNo')">*</span></label>
+              <input type="text" class="input-field" formControlName="msmeNo" />
+              <div *ngIf="customerForm.get('msmeNo')?.invalid && customerForm.get('msmeNo')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('msmeNo')?.hasError('required')">
+                  MSME No is required.
+                </small>
+                <small class="text-danger" *ngIf="customerForm.get('msmeNo')?.hasError('pattern')">
+                  MSME No must be 19 characters long with alphanumeric and special characters.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">PAN <span class="text-danger" *ngIf="currentRequiredFields.includes('pan')">*</span></label>
+              <input type="text" class="input-field" formControlName="pan" />
+              <div *ngIf="customerForm.get('pan')?.invalid && customerForm.get('pan')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('pan')?.hasError('required')">
+                  Correct Pan No is required.
+                </small>
+                <small class="text-danger" *ngIf="customerForm.get('pan')?.hasError('pattern')">
+                  Invalid Pan.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">GST Treatment <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('gstTreatment')">*</span></label>
+              <select class="input-field" formControlName="gstTreatment" (change)="onGSTTreatmentChange($event)">
+                <option value="">-- Select --</option>
+                <option value="Registered">Registered</option>
+                <option value="Unregistered">Unregistered</option>
+                <option value="Consumer">Consumer</option>
+                <option value="RCM">RCM</option>
+              </select>
+              <div *ngIf="customerForm.get('gstTreatment')?.invalid && customerForm.get('gstTreatment')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('gstTreatment')?.hasError('required')">
+                  GST Treatment is required.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">GST No <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('gst')">*</span></label>
+              <input type="text" class="input-field" formControlName="gst" />
+              <div *ngIf="customerForm.get('gst')?.invalid && customerForm.get('gst')?.touched">
+                <small class="text-danger" *ngIf="customerForm.get('gst')?.hasError('required')">
+                  Gst No is required.
+                </small>
+                <small class="text-danger" *ngIf="customerForm.get('gst')?.hasError('pattern')">
+                  Invalid GST No .
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="extraDetails" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="iban">IBAN <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('iban')">*</span></label>
+              <input type="text" class="input-field" formControlName="iban" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="swiftCode">Swift Code <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('swiftCode')">*</span></label>
+              <input type="text" class="input-field" formControlName="swiftCode" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="sortCode">Sort Code <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('sortCode')">*</span></label>
+              <input type="text" class="input-field" formControlName="sortCode" />
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="routingNo">Routing No <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('routingNo')">*</span></label>
+              <input type="text" class="input-field" formControlName="routingNo" />
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="fCTCCharges">FC TC Charges <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('fCTCCharges')">*</span></label>
+              <select class="input-field" formControlName="fCTCCharges">
+                <option value="">-- Select --</option>
+                <option value="EIP">EIP</option>
+                <option value="Customer">Customer</option>
+                <option value="Both">Both</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="complDocyear">Compl Doc Year <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('complDocyear')">*</span></label>
+              <input type="text" class="input-field" formControlName="complDocyear" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="status" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input" *ngIf="customerId">
+              <label for="">Status <span class="text-danger"
+                  *ngIf="currentRequiredFields.includes('status')">*</span></label>
+              <select name="" id="" formControlName="status">
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
               </select>
             </div>
           </div>
         </div>
-      </form>
-      
-</div>
+      </div>
+    </div>
+  </form>
 
 <div class="spinner" *ngIf="loadSpinner">
     Loading...

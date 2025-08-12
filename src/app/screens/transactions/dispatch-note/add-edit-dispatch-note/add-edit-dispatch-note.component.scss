@@ -101,3 +101,16 @@ table tbody input.form-control {
 .shetty.ng-touch{
 border: 1px solid re;
 }
+.custom-table-responsive {
+    overflow-x: auto; /* Adds a horizontal scrollbar when content overflows */
+    width: 100%; /* Ensures the container takes up the full width */
+}
+.custom-table th, .custom-table td {
+    white-space: nowrap; /* Prevents wrapping text to save space */
+    padding: 8px; /* Reduce padding to make cells smaller */
+}
+
+.custom-table th:nth-child(2),
+.custom-table td:nth-child(2) {
+    width: 120px; /* Set a specific width for Payment Date */
+}
