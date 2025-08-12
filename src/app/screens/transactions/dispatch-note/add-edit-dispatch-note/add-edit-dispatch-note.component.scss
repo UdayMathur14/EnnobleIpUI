@@ -89,13 +89,13 @@ border: 1px solid re;
     width: 100%; /* Ensures the container takes up the full width */
     border: 1px solid black !important;
    border-radius: 2px 2px 10px 10px;
+   overflow: visible !important;
 }
 .custom-table th, .custom-table td {
     white-space: nowrap; /* Prevents wrapping text to save space */
     padding: 8px; /* Reduce padding to make cells smaller */
 }
-
-.custom-table th:nth-child(2),
-.custom-table td:nth-child(2) {
-    width: 120px; /* Set a specific width for Payment Date */
+.ng-dropdown-panel {
+    z-index: 99999 !important;
+    position: absolute !important;
 }
