@@ -129,3 +129,43 @@ border: 1px solid re;
   color: black !important;
   box-shadow: 0 3px 6px rgba(250, 61, 80, 0.4);
 }
+table {
+    border: 0.5px solid #8d8d8d;  /* Table outer border */
+    border-collapse: collapse; /* Border merge karne ke liye */ /* Rounded corners */ /* Rounded corners visible rakhne ke liye */
+     overflow-x: auto; 
+     min-width: 1000px;  
+}
+
+table th, table td {
+    border: 0.5px solid #444444; /* Inner cell borders */
+    padding: 8px; /* Thoda spacing */ 
+}
+
+.table-scroll {
+    max-width: 100%;        /* Horizontal scroll enable kare */   /* Vertical scroll hide kare */
+}
+
+.table-scroll table {
+    min-width: 1200px;      /* Columns ke liye minimum width */
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.ngb-dp-container, 
+.ngb-datepicker {
+    position: absolute !important;
+    z-index: 1050; /* table ke upar dikhne ke liye */
+    background: #fff; /* calendar ka background */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.input-group.datepicker {
+    position: relative; /* calendar ka reference point */
+}
+.ngb-datepicker {
+    position: absolute !important;
+    z-index: 9999 !important; /* dropdown se upar */
+}
+
+.input-group.datepicker {
+    position: relative; /* popup ka reference point */
+}
