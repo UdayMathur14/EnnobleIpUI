@@ -374,15 +374,14 @@ export class AddEditDispatchNoteComponent {
       );
     });
 
-
     this.paymentFeeDetails.clear();
     data.paymentDetails?.forEach((fee: any) => {
-    // 1. Create a new FormGroup with patched values
-    const newFeeGroup = this.fb.group({
+      // 1. Create a new FormGroup with patched values
+      const newFeeGroup = this.fb.group({
         id: fee.id,
         paymentDate: [
-            fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
-            Validators.required,
+          fee.paymentDate ? this.convertToNgbDate(fee.paymentDate) : null,
+          Validators.required,
         ],
         bankID: [fee.bankID, Validators.required],
         owrmNo1: [fee.oWRMNo1, Validators.required],
@@ -391,25 +390,19 @@ export class AddEditDispatchNoteComponent {
         quantity: [fee.quantity],
         paymentCurrency: [fee.paymentCurrency, Validators.required],
         // Patch the value directly without the 'disabled' property
-        paymentAmount: [
-            fee.paymentAmount,
-            Validators.required,
-        ],
+        paymentAmount: [fee.paymentAmount, Validators.required],
         bankCharges: [fee.bankcharges], // Corrected casing to match C#
-        totalAmountInr: [
-            fee.totalAmountInr,
-            Validators.required,
-        ],
+        totalAmountInr: [fee.totalAmountInr, Validators.required],
+      });
+
+      this.paymentFeeDetails.push(newFeeGroup);
+
+      // 3. Manually call the calculation function for the newly created row
+      this.calculateRowValues(newFeeGroup);
+
+      // 4. Then, subscribe to future changes
+      this.setupSubscriptions(newFeeGroup);
     });
-
-    this.paymentFeeDetails.push(newFeeGroup);
-
-    // 3. Manually call the calculation function for the newly created row
-    this.calculateRowValues(newFeeGroup);
-
-    // 4. Then, subscribe to future changes
-    this.setupSubscriptions(newFeeGroup);
-});
 
     this.salesInvoiceDetails.clear();
     data.saleDetails?.forEach((sale: any) => {
@@ -738,12 +731,28 @@ export class AddEditDispatchNoteComponent {
 
   isTab4Invalid(): boolean {
     const tab4Fields = ['nk'];
-    return (
+
+    // Pehle normal fields ka invalid check
+    const basicInvalid =
       this.isTab4Touched() &&
       tab4Fields.some(
         (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
-      )
+      );
+
+    // Ab salesInvoiceDetails ka custom validation
+    const salesInvoiceDetails =
+      this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
+      [];
+    const hasValidInvoiceRow = salesInvoiceDetails.some(
+      (row: any) =>
+        (row.invoiceNo && row.invoiceNo.toString().trim() !== '') ||
+        (row.estimateNo && row.estimateNo.toString().trim() !== '')
     );
+
+    // Agar ek bhi valid row nahi hai to invalid
+    const invoiceInvalid = !hasValidInvoiceRow;
+
+    return basicInvalid || invoiceInvalid;
   }
 
   markTab1FieldsTouched() {
@@ -1089,7 +1098,7 @@ export class AddEditDispatchNoteComponent {
       rate: [0, Validators.required],
       quantity: [0, Validators.required],
       paymentCurrency: ['', [Validators.required]],
-      paymentAmount: [ 0],
+      paymentAmount: [0],
       bankCharges: [0],
       totalAmountInr: [0],
     });
