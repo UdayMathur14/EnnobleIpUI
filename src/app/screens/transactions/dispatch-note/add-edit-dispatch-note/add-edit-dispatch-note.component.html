@@ -359,21 +359,31 @@
           <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
               <label class="fw-bold">Professional Fee Total Amount</label>
-              <input formControlName="professionalFeeAmt" type="number" class="input-field form-control" readonly />
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
+                <input formControlName="professionalFeeAmt" type="number" class="form-control" readonly />
+              </div>
             </div>
           </div>
+          
 
           <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
               <label class="fw-bold">Govt/Official Fee Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
               <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field form-control" readonly />
+              </div>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
               <label class="fw-bold">Other Charges Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
               <input formControlName="otherChargesAmt" type="number" class="input-field form-control" readonly />
+              </div>
             </div>
           </div>
 
@@ -422,7 +432,10 @@
           <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
               <label class="fw-bold">Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
               <input formControlName="totalAmount" type="number" class="input-field form-control" readonly />
+              </div>
             </div>
           </div>
         </div>

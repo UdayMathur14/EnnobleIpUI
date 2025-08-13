@@ -28,6 +28,7 @@ export class AddEditDispatchNoteComponent {
   countryList: any = [];
   transactionTypesList: any = [];
   selectedVendorCountry: string = '';
+  currencySymbol : string = '';
   selectedCustomerCountry: string = '';
   addOrEditDispatchNoteFormGroup!: FormGroup;
   vendorsList: any[] = [];
@@ -192,13 +193,20 @@ export class AddEditDispatchNoteComponent {
     if (vendorDetail) {
       // Pick billingCountry from the vendor detail
       this.selectedVendorCountry = vendorDetail.billingCountry;
+      this.currencySymbol = vendorDetail.currencySymbol;
       this.addOrEditDispatchNoteFormGroup.patchValue({
         purchaseCurrency: vendorDetail.currency,
+      });
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        currencySymbol: vendorDetail.currencySymbol,
       });
     } else {
       this.selectedVendorCountry = '';
       this.addOrEditDispatchNoteFormGroup.patchValue({
         purchaseCurrency: null,
+      });
+       this.addOrEditDispatchNoteFormGroup.patchValue({
+        currencySymbol: null,
       });
     }
   }
@@ -305,10 +313,12 @@ export class AddEditDispatchNoteComponent {
   }
 
   patchInvoiceData(data: any): void {
+     this.currencySymbol = data?.vendorDetails?.currencySymbol;
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
       vendorId: data?.vendorID,
       selectedVendorCountry: data?.vendorDetails?.billingCountry,
+      currencySymbol: data?.vendorDetails?.currencySymbol,
       invoiceDate: this.convertToNgbDate(data?.invoiceDate),
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,
@@ -480,7 +490,6 @@ export class AddEditDispatchNoteComponent {
     };
     this.vendorService.getVendors(data, offset, count).subscribe(
       (response: any) => {
-        console.log(response);
         this.vendorsList = response.vendors;
         this.loadSpinner = false;
         // this.allVendorNames = response.vendors.map((vendor: any) => vendor.vendorName);
