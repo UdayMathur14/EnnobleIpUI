@@ -55,17 +55,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-            <div class="custom-form-input">
-              <label for="">Vendor Code</label>
-              <input type="text" class="input-field" formControlName="vendorCode" />
-              <div *ngIf="vendorForm.get('vendorCode')?.invalid && vendorForm.get('vendorCode')?.touched">
-                <small class="text-danger" *ngIf="vendorForm.get('vendorCode')?.hasError('required')">
-                  Vendor Code is required.
-                </small>
-              </div>
-            </div>
-          </div> -->
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Vendor Name <span class="text-danger"
@@ -141,12 +130,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-      <div class="custom-form-input">
-        <label for="">Billing Country</label>
-        <input type="text" class="input-field" formControlName="billingCountry"  />
-      </div>
-    </div> -->
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Billing Pin Code <span class="text-danger"
@@ -249,12 +233,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-      <div class="custom-form-input">
-        <label for="">Shipping Country</label>
-        <input type="text" class="input-field" formControlName="shippingCountry"  />
-      </div>
-    </div> -->
+
 
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
@@ -278,19 +257,14 @@
               <input type="text" class="input-field" formControlName="paymentTerms" />
             </div>
           </div>
-          <!-- <div class="col-lg-3 col-md-3">
-        <div class="custom-form-input">
-          <label for="">Currency</label>
-          <input type="text" class="input-field" formControlName="currency"  />
-        </div>
-      </div> -->
+
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Currency <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('currency')">*</span> </label>
 
               <!-- Readonly ng-select -->
-              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+              <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="vendorId > 0">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
@@ -298,7 +272,7 @@
               </ng-select>
 
               <!-- Editable ng-select -->
-              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+              <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="vendorId == 0">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
@@ -306,6 +280,21 @@
               </ng-select>
             </div>
           </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Currency Symbol
+                <span class="text-danger" *ngIf="currentRequiredFields.includes('currencySymbol')">*</span>
+              </label>
+
+              <!-- Readonly ng-select -->
+              <ng-select class="input-field readonly-select" formControlName="currencySymbol">
+                <ng-option *ngFor="let country of countryList" [value]="country.symbol">
+                  {{ country.symbol }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+
         </div>
 
       </div>

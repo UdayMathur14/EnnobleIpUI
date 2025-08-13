@@ -123,6 +123,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.pattern('^[0-9]*$'), // allows only digits (0-9)
     ]),
     currency: new FormControl('', Validators.required),
+    currencySymbol: new FormControl('', Validators.required),
     paymentTerms: new FormControl(''),
 
     bankName: new FormControl('', Validators.required),
@@ -455,11 +456,13 @@ export class AddEditVendorComponent implements OnInit {
       this.vendorForm.patchValue({ shippingCountry: 'India' });
       this.vendorForm.patchValue({ bankCountry: 'India' });
       this.vendorForm.patchValue({ currency: 'Indian Rupee' });
+      this.vendorForm.patchValue({ currencySymbol: '₹' });
       this.vendorForm.patchValue({ countryCode: '+91' });
       this.vendorForm.get('billingCountry')?.disable();
       this.vendorForm.get('shippingCountry')?.disable();
       this.vendorForm.get('bankCountry')?.disable();
       this.vendorForm.get('currency')?.disable();
+      this.vendorForm.get('currencySymbol')?.disable();
       this.vendorForm.get('countryCode')?.disable();
     } else {
       this.vendorForm.get('billingCountry')?.enable();
@@ -476,9 +479,21 @@ export class AddEditVendorComponent implements OnInit {
   onSelectshippingCountry(e: any) {
     this.vendorForm.get('shippingCountry')?.setValue(e?.target?.innerText);
   }
-  onSelectCurrency(e: any) {
-    this.vendorForm.get('currency')?.setValue(e?.target?.innerText);
+  onSelectCurrency(currencyName: string) {
+  const selected = this.countryList.find((c: { currencyName: string; symbol: string }) => c.currencyName === currencyName);
+
+  if (selected) {
+    this.vendorForm.get('currencySymbol')?.setValue(selected.symbol);
+    this.vendorForm.get('currencySymbol')?.disable();
+  } else {
+    this.vendorForm.get('currencySymbol')?.reset();
+    this.vendorForm.get('currencySymbol')?.enable();
   }
+}
+  onSelectSymbolCurrency(e: any) {
+    this.vendorForm.get('currencySymbol')?.setValue(e?.target?.innerText);
+  }
+ 
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe(
@@ -535,6 +550,7 @@ export class AddEditVendorComponent implements OnInit {
       countryCode: this.vendorForm.get('countryCode')?.value,
       phoneMobileNo: this.vendorForm.get('phoneMobileNo')?.value,
       currency: this.vendorForm.get('currency')?.value,
+      currencySymbol: this.vendorForm.get('currencySymbol')?.value,
       paymentTerms: this.vendorForm.get('paymentTerms')?.value,
       bankName: this.vendorForm.get('bankName')?.value,
       accountHolderName: this.vendorForm.get('accountHolderName')?.value,
@@ -624,6 +640,7 @@ export class AddEditVendorComponent implements OnInit {
       countryCode: data?.countryCode,
       phoneMobileNo: data?.phoneMobileNo,
       currency: data?.currency,
+      currencySymbol: data?.currencySymbol,
       paymentTerms: data?.paymentTerms,
       bankName: data?.bankName,
       accountHolderName: data?.accountHolderName,

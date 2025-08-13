@@ -18,3 +18,7 @@
   .input-field.ng-invalid.ng-touched {
     border: 1px solid red;
   }
+  .readonly-select .ng-select-container {
+    pointer-events: none;      /* User cannot open dropdown */
+    background-color: #e9ecef; /* Grey background for readonly look */
+}
