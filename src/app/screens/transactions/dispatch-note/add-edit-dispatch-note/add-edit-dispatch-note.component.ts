@@ -457,11 +457,11 @@ export class AddEditDispatchNoteComponent {
       });
 
       // === Apply disable logic based on existing values ===
-      if (sale.amount) {
-        estimateCtrl?.disable({ emitEvent: false });
-      } else if (sale.estimateNo) {
-        amountCtrl?.disable({ emitEvent: false });
-      }
+      if (sale.invoiceNo) {
+  estimateCtrl?.disable({ emitEvent: false });
+} else if (sale.estimateNo) {
+  amountCtrl?.disable({ emitEvent: false });
+}
 
       this.salesInvoiceDetails.push(group);
     });
@@ -738,37 +738,26 @@ export class AddEditDispatchNoteComponent {
     );
   }
 
-  isTab4Invalid(): boolean {
-    const tab4Fields = ['nk'];
+isTab4Invalid(): boolean {
+  const salesInvoiceDetails =
+    this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value || [];
 
-    // Pehle normal fields ka invalid check
-    const basicInvalid =
-      this.isTab4Touched() &&
-      tab4Fields.some(
-        (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
-      );
-
-    // salesInvoiceDetails ka custom validation
-    const salesInvoiceDetails =
-      this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
-      [];
-
-    let invoiceInvalid = false;
-
-    // Row ka hona mandatory
-    if (salesInvoiceDetails.length === 0) {
-      invoiceInvalid = true;
-    } else {
-      const hasValidInvoiceRow = salesInvoiceDetails.some(
-        (row: any) =>
-          (row.invoiceNo && row.invoiceNo.toString().trim() !== '') ||
-          (row.estimateNo && row.estimateNo.toString().trim() !== '')
-      );
-      invoiceInvalid = !hasValidInvoiceRow;
-    }
-
-    return basicInvalid || invoiceInvalid;
+  // List empty → valid (no error)
+  if (salesInvoiceDetails.length === 0) {
+    return false;
   }
+
+  // Agar koi row hai jisme invoiceNo bhi blank hai aur estimateNo bhi blank hai → invalid
+  const hasInvalidRow = salesInvoiceDetails.some(
+    (row: any) =>
+      (!row.invoiceNo || row.invoiceNo.toString().trim() === '') &&
+      (!row.estimateNo || row.estimateNo.toString().trim() === '')
+  );
+
+  return hasInvalidRow;
+}
+
+
 
   markTab1FieldsTouched() {
     console.log('Marking Tab 1 fields as touched');
