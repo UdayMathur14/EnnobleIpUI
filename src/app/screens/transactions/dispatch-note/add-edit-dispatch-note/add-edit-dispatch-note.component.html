@@ -204,7 +204,7 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Filing Receipt Supporting <span class="text-danger">*</span></label>
-              <ng-select [items]="[{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' }]" bindLabel="label"
+              <ng-select [items]="[{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' },{ label: 'NA', value: 'NA' }]" bindLabel="label"
                 bindValue="value" formControlName="officialFilingReceiptSupporting" placeholder="Select Yes or No"
                 class="input-field">
               </ng-select>
@@ -462,7 +462,7 @@
                   <th class="required-label">Forex Amount</th>
                   <th class="required-label">Rate Of Exchange</th>
                   <th class="required-label">Value (INR)</th>
-                  <th class="required-label">Bank Charges</th>
+                  <th class="">Bank Charges</th>
                   <th class="required-label">Total Amount (INR)</th>
                   <th style="width: 5%;" class="text-center">Action</th>
                 </tr>
@@ -513,13 +513,13 @@
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <input formControlName="rate" type="text" class="input-field" (keypress)="validateNo1($event)"
-                          placeholder="Rate" />
+                          placeholder="" />
                       </div>
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <input formControlName="quantity" type="text" class="input-field"
-                          (keypress)="validateNo1($event)" placeholder="Quantity" />
+                          (keypress)="validateNo1($event)" placeholder="" />
                       </div>
                     </td>
                     <td>

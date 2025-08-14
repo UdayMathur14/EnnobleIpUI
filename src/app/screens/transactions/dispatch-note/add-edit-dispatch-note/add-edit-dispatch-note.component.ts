@@ -28,7 +28,7 @@ export class AddEditDispatchNoteComponent {
   countryList: any = [];
   transactionTypesList: any = [];
   selectedVendorCountry: string = '';
-  currencySymbol : string = '';
+  currencySymbol: string = '';
   selectedCustomerCountry: string = '';
   addOrEditDispatchNoteFormGroup!: FormGroup;
   vendorsList: any[] = [];
@@ -205,7 +205,7 @@ export class AddEditDispatchNoteComponent {
       this.addOrEditDispatchNoteFormGroup.patchValue({
         purchaseCurrency: null,
       });
-       this.addOrEditDispatchNoteFormGroup.patchValue({
+      this.addOrEditDispatchNoteFormGroup.patchValue({
         currencySymbol: null,
       });
     }
@@ -313,7 +313,7 @@ export class AddEditDispatchNoteComponent {
   }
 
   patchInvoiceData(data: any): void {
-     this.currencySymbol = data?.vendorDetails?.currencySymbol;
+    this.currencySymbol = data?.vendorDetails?.currencySymbol;
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
       vendorId: data?.vendorID,
@@ -748,18 +748,24 @@ export class AddEditDispatchNoteComponent {
         (field) => this.addOrEditDispatchNoteFormGroup.get(field)?.invalid
       );
 
-    // Ab salesInvoiceDetails ka custom validation
+    // salesInvoiceDetails ka custom validation
     const salesInvoiceDetails =
       this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
       [];
-    const hasValidInvoiceRow = salesInvoiceDetails.some(
-      (row: any) =>
-        (row.invoiceNo && row.invoiceNo.toString().trim() !== '') ||
-        (row.estimateNo && row.estimateNo.toString().trim() !== '')
-    );
 
-    // Agar ek bhi valid row nahi hai to invalid
-    const invoiceInvalid = !hasValidInvoiceRow;
+    let invoiceInvalid = false;
+
+    // Row ka hona mandatory
+    if (salesInvoiceDetails.length === 0) {
+      invoiceInvalid = true;
+    } else {
+      const hasValidInvoiceRow = salesInvoiceDetails.some(
+        (row: any) =>
+          (row.invoiceNo && row.invoiceNo.toString().trim() !== '') ||
+          (row.estimateNo && row.estimateNo.toString().trim() !== '')
+      );
+      invoiceInvalid = !hasValidInvoiceRow;
+    }
 
     return basicInvalid || invoiceInvalid;
   }
@@ -1134,22 +1140,25 @@ export class AddEditDispatchNoteComponent {
       this.calculateRowValues(group);
     });
   }
-
   private calculateRowValues(group: FormGroup) {
+    if (!group) {
+      return; // Agar row hi nahi hai toh calculation skip
+    }
+
     // Convert all values to numbers to ensure correct addition
-    const rate = parseFloat(group.get('rate')!.value) || 0;
-    const quantity = parseFloat(group.get('quantity')!.value) || 0;
-    const bankCharges = parseFloat(group.get('bankCharges')!.value) || 0;
+    const rate = parseFloat(group.get('rate')?.value) || 0;
+    const quantity = parseFloat(group.get('quantity')?.value) || 0;
+    const bankCharges = parseFloat(group.get('bankCharges')?.value) || 0;
 
     // Calculate Value (INR)
     const paymentAmount = rate * quantity;
-    group.get('paymentAmount')!.patchValue(paymentAmount, { emitEvent: false });
+    group.get('paymentAmount')?.patchValue(paymentAmount, { emitEvent: false });
 
     // Calculate Total Amount (INR)
     const totalAmountInr = paymentAmount + bankCharges;
     group
-      .get('totalAmountInr')!
-      .patchValue(totalAmountInr, { emitEvent: false });
+      .get('totalAmountInr')
+      ?.patchValue(totalAmountInr, { emitEvent: false });
   }
 
   filteredSalesInvoices(type: string): FormGroup[] {
