@@ -461,6 +461,7 @@ export class AddEditCustomerComponent implements OnInit {
       countryCode: this.customerForm.get('countryCode')?.value,
       phoneMobileNo: this.customerForm.get('phoneMobileNo')?.value,
       currency: this.customerForm.get('currency')?.value,
+      currencySymbol: this.customerForm.get('currencySymbol')?.value,
       paymentTerms: this.customerForm.get('paymentTerms')?.value,
       status: this.customerForm.get('status')?.value,
     };
@@ -531,6 +532,7 @@ export class AddEditCustomerComponent implements OnInit {
       countryCode: data?.countryCode,
       phoneMobileNo: data?.phoneMobileNo,
       currency: data?.currency,
+      currencySymbol: data?.currencySymbol,
       paymentTerms: data?.paymentTerms,
       status: data?.status,
     });
