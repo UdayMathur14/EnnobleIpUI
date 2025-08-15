@@ -150,6 +150,7 @@ export class AddEditCustomerComponent implements OnInit {
     }
     if (this.customerId > 0) {
       this.statusTab = true;
+      this.customerForm.get('currencySymbol')?.disable();
     }
   }
 

@@ -1,9 +1,10 @@
 <div class="page-title">
-    <h1>{{customerId>0 ? 'Edit Customer' : 'Create Customer'}} Master</h1>
-    <div class="action-buttons">
-        <button class="custom-button-regulr" (click)="onPressSave()" >Save</button>
-        <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
-    </div>
+  <h1>{{ customerId > 0 ? 'Edit Customer' : 'Create Customer' }} Master</h1>
+  <div class="action-buttons">
+    <button class="custom-button-regulr" (click)="onPressSave()"
+      [disabled]="disableSubmit|| !customerForm.valid">Save</button>
+    <button class="custom-button-secondary" (click)="onCancelPress()">Cancel</button>
+  </div>
 </div>
 
 <div class="content-section p-3">
