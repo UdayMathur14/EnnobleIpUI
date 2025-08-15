@@ -123,7 +123,7 @@ export class AddEditVendorComponent implements OnInit {
       Validators.pattern('^[0-9]*$'), // allows only digits (0-9)
     ]),
     currency: new FormControl('', Validators.required),
-    currencySymbol: new FormControl('', Validators.required),
+    currencySymbol: new FormControl(''),
     paymentTerms: new FormControl(''),
 
     bankName: new FormControl('', Validators.required),
@@ -186,6 +186,7 @@ export class AddEditVendorComponent implements OnInit {
     }
     if (this.vendorId > 0) {
       this.statusTab = true;
+      this.vendorForm.get('currencySymbol')?.disable();
     }
   }
 
@@ -331,7 +332,7 @@ export class AddEditVendorComponent implements OnInit {
 
       this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
       this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-
+      
       this.vendorForm
         .get('bankAddressLine1')
         ?.setValidators([Validators.required]);
@@ -345,7 +346,7 @@ export class AddEditVendorComponent implements OnInit {
 
       this.vendorForm.get('bankCountry')?.setValidators([Validators.required]);
       this.vendorForm.get('bankCountry')?.updateValueAndValidity();
-
+      
       this.vendorForm.get('billingState')?.clearValidators();
       this.vendorForm.get('billingState')?.updateValueAndValidity();
 
@@ -487,7 +488,6 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorForm.get('currencySymbol')?.disable();
   } else {
     this.vendorForm.get('currencySymbol')?.reset();
-    this.vendorForm.get('currencySymbol')?.enable();
   }
 }
   onSelectSymbolCurrency(e: any) {

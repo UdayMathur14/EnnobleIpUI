@@ -253,7 +253,7 @@
                   *ngIf="currentRequiredFields.includes('currency')">*</span> </label>
 
               <!-- Readonly ng-select -->
-              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+              <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="customerId > 0">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}
@@ -261,7 +261,7 @@
               </ng-select>
 
               <!-- Editable ng-select -->
-              <ng-select (click)="onSelectCurrency($event)" class="input-field" formControlName="currency"
+              <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="customerId == 0">
                 <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                   {{ country.currencyName }}

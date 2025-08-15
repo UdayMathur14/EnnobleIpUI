@@ -287,7 +287,7 @@
               </label>
 
               <!-- Readonly ng-select -->
-              <ng-select class="input-field readonly-select" formControlName="currencySymbol">
+              <ng-select class="input-field " formControlName="currencySymbol" [disabled]="true">
                 <ng-option *ngFor="let country of countryList" [value]="country.symbol">
                   {{ country.symbol }}
                 </ng-option>

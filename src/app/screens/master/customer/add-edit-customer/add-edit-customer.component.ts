@@ -101,6 +101,7 @@ export class AddEditCustomerComponent implements OnInit {
       // Validators.pattern(/^[0-9]{6}$/),
     ]),
     sameAsBilling: new FormControl(false),
+    currencySymbol: new FormControl(''),
     pan: new FormControl('', [
       Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), // optional PAN format
     ]),
@@ -368,11 +369,13 @@ export class AddEditCustomerComponent implements OnInit {
       this.customerForm.patchValue({ billingCountry: 'India' });
       this.customerForm.patchValue({ shippingCountry: 'India' });
       this.customerForm.patchValue({ currency: 'Indian Rupee' });
+      this.customerForm.patchValue({ currencySymbol: '₹' });
       this.customerForm.patchValue({ countryCode: '+91' });
       this.customerForm.get('billingCountry')?.disable();
       this.customerForm.get('shippingCountry')?.disable();
       this.customerForm.get('currency')?.disable();
       this.customerForm.get('countryCode')?.disable();
+      this.customerForm.get('currencySymbol')?.disable();
     } else {
       this.customerForm.get('billingCountry')?.enable();
       this.customerForm.get('shippingCountry')?.enable();
@@ -387,9 +390,18 @@ export class AddEditCustomerComponent implements OnInit {
   onSelectshippingCountry(e: any) {
     this.customerForm.get('shippingCountry')?.setValue(e?.target?.innerText);
   }
-  onSelectCurrency(e: any) {
-    this.customerForm.get('currency')?.setValue(e?.target?.innerText);
+  
+  onSelectCurrency(currencyName: string) {
+  const selected = this.countryList.find((c: { currencyName: string; symbol: string }) => c.currencyName === currencyName);
+
+  if (selected) {
+    this.customerForm.get('currencySymbol')?.setValue(selected.symbol);
+    this.customerForm.get('currencySymbol')?.disable();
+  } else {
+    this.customerForm.get('currencySymbol')?.reset();
+    this.customerForm.get('currencySymbol')?.enable();
   }
+}
   //TO GET THE VENDOR DATA
   getCustomerData(customerId: number) {
     this.customerService.getCustomerData(customerId).subscribe(
