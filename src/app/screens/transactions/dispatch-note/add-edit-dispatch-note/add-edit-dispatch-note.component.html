@@ -139,7 +139,7 @@
                         <div class="d-flex align-items-center w-100 p-1 rounded">
                           <span class="me-2 fw-bold text-secondary">{{ rowIndex * 4 + colIndex + 1 }}.</span>
                           <input type="text"
-                            class="form-control form-control-sm flex-grow-1 border-0 shadow-sm rounded-pill"
+                            class="form-control form-control-sm flex-grow-1 border-0 shadow-sm rounded-pill applicant-input"
                             [formControl]="getApplicantNameControl(applicantGroup)" placeholder="Applicant name *" />
                           <button type="button" class="btn btn-danger btn-sm ms-2 shadow-sm remove-btn"
                             (click)="removeApplicant(rowIndex * 4 + colIndex)">
@@ -204,9 +204,10 @@
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Filing Receipt Supporting <span class="text-danger">*</span></label>
-              <ng-select [items]="[{ label: 'YES', value: 'YES' }, { label: 'NO', value: 'NO' },{ label: 'NA', value: 'NA' }]" bindLabel="label"
-                bindValue="value" formControlName="officialFilingReceiptSupporting" placeholder="Select Yes or No"
-                class="input-field">
+              <ng-select
+                [items]="[{ label: 'YES', value: 'YES' }, { label: 'NO', value: 'NO' },{ label: 'NA', value: 'NA' }]"
+                bindLabel="label" bindValue="value" formControlName="officialFilingReceiptSupporting"
+                placeholder="Select Yes or No" class="input-field">
               </ng-select>
             </div>
           </div>
@@ -365,14 +366,14 @@
               </div>
             </div>
           </div>
-          
+
 
           <div class="col-lg-4 col-md-6">
             <div class="custom-form-input">
               <label class="fw-bold">Govt/Official Fee Total Amount</label>
               <div class="input-group">
                 <span class="input-group-text">{{ currencySymbol }}</span>
-              <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field form-control" readonly />
+                <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field form-control" readonly />
               </div>
             </div>
           </div>
@@ -382,7 +383,7 @@
               <label class="fw-bold">Other Charges Total Amount</label>
               <div class="input-group">
                 <span class="input-group-text">{{ currencySymbol }}</span>
-              <input formControlName="otherChargesAmt" type="number" class="input-field form-control" readonly />
+                <input formControlName="otherChargesAmt" type="number" class="input-field form-control" readonly />
               </div>
             </div>
           </div>
@@ -434,7 +435,7 @@
               <label class="fw-bold">Total Amount</label>
               <div class="input-group">
                 <span class="input-group-text">{{ currencySymbol }}</span>
-              <input formControlName="totalAmount" type="number" class="input-field form-control" readonly />
+                <input formControlName="totalAmount" type="number" class="input-field form-control" readonly />
               </div>
             </div>
           </div>

@@ -169,3 +169,7 @@ table th, table td {
 .input-group.datepicker {
     position: relative; /* popup ka reference point */
 }
+input::placeholder {
+  color: red !important;     /* Red color */
+  font-weight: bold !important;  /* Bold */
+}
