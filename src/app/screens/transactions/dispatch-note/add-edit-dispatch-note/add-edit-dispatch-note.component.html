@@ -333,8 +333,8 @@
                   <!-- Amount -->
                   <td>
                     <div class="custom-form-input dispatchwidthsmall">
-                      <input formControlName="amount" class="input-field" type="number" placeholder="Enter Amt"
-                        (keypress)="validateNo1($event)">
+                      <input formControlName="amount" class="input-field" type="number" step="0.01"
+                        placeholder="Enter Amt" (keypress)="validateDecimal($event)">
                     </div>
                   </td>
 
@@ -392,7 +392,7 @@
             <div class="custom-form-input">
               <label class="fw-bold">Discount Amount</label>
               <input formControlName="discountAmt" type="number" class="input-field form-control"
-                (keypress)="validateNo1($event)" />
+                (keypress)="validateDecimal($event)" />
             </div>
           </div>
 
@@ -400,7 +400,7 @@
             <div class="custom-form-input">
               <label class="fw-bold">Credit Note Amount</label>
               <input formControlName="discountCreditNoteAmt" type="number" class="input-field form-control"
-                (keypress)="validateNo1($event)" />
+                (keypress)="validateDecimal($event)" />
             </div>
           </div>
           <div class="col-lg-4 col-md-6">
@@ -513,14 +513,14 @@
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <input formControlName="rate" type="text" class="input-field" (keypress)="validateNo1($event)"
+                        <input formControlName="rate" type="text" class="input-field" (keypress)="validateDecimal($event)"
                           placeholder="" />
                       </div>
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <input formControlName="quantity" type="text" class="input-field"
-                          (keypress)="validateNo1($event)" placeholder="" />
+                          (keypress)="validateDecimal($event)" placeholder="" />
                       </div>
                     </td>
                     <td>
@@ -532,7 +532,7 @@
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <input formControlName="bankCharges" type="text" class="input-field"
-                          (keypress)="validateNo1($event)" placeholder="charges" />
+                          (keypress)="validateDecimal($event)" placeholder="charges" />
                       </div>
                     </td>
 
@@ -566,7 +566,7 @@
           <div class="col-md-3">
             <label class="label-small">PO Value Inclusive Taxes </label>
             <input formControlName="poValueInclusiveTaxes" type="text"
-              class="form-control form-control-sm input-field-sm" (keypress)="validateNo1($event)" />
+              class="form-control form-control-sm input-field-sm" (keypress)="validateDecimal($event)" />
           </div>
 
           <div class="col-sm-3">
@@ -625,7 +625,7 @@
                 <td class="text-center">{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
                 <td><input formControlName="amount" class="form-control form-control"
-                    (keypress)="validateNo1($event)" /></td>
+                    (keypress)="validateDecimal($event)" /></td>
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
@@ -664,7 +664,7 @@
                 <td>{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
                 <td><input formControlName="amount" class="form-control form-control"
-                    (keypress)="validateNo1($event)" /></td>
+                    (keypress)="validateDecimal($event)" /></td>
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>

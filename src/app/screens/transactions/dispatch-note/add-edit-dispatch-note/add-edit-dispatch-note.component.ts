@@ -1280,6 +1280,20 @@ isTab4Invalid(): boolean {
       event.preventDefault();
     }
   }
+  validateDecimal(event: KeyboardEvent) {
+  const pattern = /[0-9.]/;   // allow numbers and decimal point
+  const inputChar = String.fromCharCode(event.charCode);
+
+  if (!pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+
+  // prevent multiple decimals
+  const current: string = (event.target as HTMLInputElement).value;
+  if (inputChar === '.' && current.includes('.')) {
+    event.preventDefault();
+  }
+}
   getAllLookupsList(
     offset: number = 0,
     filters: any = '',
