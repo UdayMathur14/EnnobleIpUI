@@ -406,12 +406,12 @@ export class AddEditDispatchNoteComponent {
         bankID: [fee.bankID, Validators.required],
         owrmNo1: [fee.oWRMNo1, Validators.required],
         owrmNo2: [fee.owrmNo2],
-        rate: [fee.rate],
-        quantity: [fee.quantity],
+        rate: [fee.rate,Validators.required],
+        quantity: [fee.quantity,Validators.required],
         paymentCurrency: [fee.paymentCurrency, Validators.required],
         // Patch the value directly without the 'disabled' property
         paymentAmount: [fee.paymentAmount, Validators.required],
-        bankCharges: [fee.bankcharges], // Corrected casing to match C#
+        bankCharges: [0,fee.bankcharges], // Corrected casing to match C#
         totalAmountInr: [fee.totalAmountInr, Validators.required],
       });
 
