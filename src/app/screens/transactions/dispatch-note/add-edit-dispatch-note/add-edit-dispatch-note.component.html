@@ -513,8 +513,8 @@
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <input formControlName="rate" type="text" class="input-field" (keypress)="validateDecimal($event)"
-                          placeholder="" />
+                        <input formControlName="rate" type="text" class="input-field"
+                          (keypress)="validateDecimal($event)" placeholder="" />
                       </div>
                     </td>
                     <td>
@@ -624,8 +624,13 @@
                 [formGroup]="group">
                 <td class="text-center">{{ i + 1 }}</td>
                 <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
-                <td><input formControlName="amount" class="form-control form-control"
-                    (keypress)="validateDecimal($event)" /></td>
+                <td>
+                  <div class="input-group">
+                    <span class="input-group-text">{{ customerSymbol }}</span>
+                    <input formControlName="amount" type="text" class="form-control"
+                      (keypress)="validateDecimal($event)" placeholder="Enter Amount" />
+                  </div>
+                </td>
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>

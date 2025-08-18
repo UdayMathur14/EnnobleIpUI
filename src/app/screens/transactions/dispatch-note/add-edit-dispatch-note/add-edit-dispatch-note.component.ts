@@ -68,6 +68,7 @@ export class AddEditDispatchNoteComponent {
 
   selectedPayment: any = [];
   deletedPayment: any[] = [];
+  customerSymbol: string = '';
 
   constructor(
     private router: Router,
@@ -220,13 +221,20 @@ export class AddEditDispatchNoteComponent {
     if (customerDetail) {
       // Pick billingCountry from the vendor detail
       this.selectedCustomerCountry = customerDetail.billingCountry;
+      this.customerSymbol = customerDetail.currencySymbol;
       this.addOrEditDispatchNoteFormGroup.patchValue({
         saleCurrency: customerDetail.currency,
+      });
+       this.addOrEditDispatchNoteFormGroup.patchValue({
+        customerSymbol: customerDetail.currencySymbol,
       });
     } else {
       this.selectedCustomerCountry = '';
       this.addOrEditDispatchNoteFormGroup.patchValue({
         saleCurrency: null,
+      });
+      this.addOrEditDispatchNoteFormGroup.patchValue({
+        customerSymbol: null,
       });
     }
   }
