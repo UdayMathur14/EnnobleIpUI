@@ -322,11 +322,13 @@ export class AddEditDispatchNoteComponent {
 
   patchInvoiceData(data: any): void {
     this.currencySymbol = data?.vendorDetails?.currencySymbol;
+    this.customerSymbol = data?.customerDetails?.currencySymbol;
     this.addOrEditDispatchNoteFormGroup.patchValue({
       // Tab 1
       vendorId: data?.vendorID,
       selectedVendorCountry: data?.vendorDetails?.billingCountry,
       currencySymbol: data?.vendorDetails?.currencySymbol,
+      customerSymbol: data?.customerDetails?.currencySymbol,
       invoiceDate: this.convertToNgbDate(data?.invoiceDate),
       fy: data?.fy,
       clientInvoiceNo: data?.clientInvoiceNo,
