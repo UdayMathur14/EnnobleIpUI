@@ -463,7 +463,7 @@
                   <th class="required-label">Forex Amount</th>
                   <th class="required-label">Rate Of Exchange</th>
                   <th class="required-label">Value (INR)</th>
-                  <th class="">Bank Charges</th>
+                  <th class="required-label">Bank Charges</th>
                   <th class="required-label">Total Amount (INR)</th>
                   <th style="width: 5%;" class="text-center">Action</th>
                 </tr>
@@ -525,7 +525,7 @@
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidthsmall">
-                        <input formControlName="paymentAmount" type="number" class="input-field" placeholder="Enter Amt"
+                        <input formControlName="paymentAmount" type="number" class="input-field" (keypress)="validateDecimal($event)" placeholder="Enter Amt"
                           readonly />
                       </div>
                     </td>

@@ -411,7 +411,7 @@ export class AddEditDispatchNoteComponent {
         paymentCurrency: [fee.paymentCurrency, Validators.required],
         // Patch the value directly without the 'disabled' property
         paymentAmount: [fee.paymentAmount, Validators.required],
-        bankCharges: [0,fee.bankcharges], // Corrected casing to match C#
+        bankCharges: [fee.bankcharges ?? 0, Validators.required], // Corrected casing to match C#
         totalAmountInr: [fee.totalAmountInr, Validators.required],
       });
 
@@ -1113,7 +1113,7 @@ isTab4Invalid(): boolean {
       quantity: [0, Validators.required],
       paymentCurrency: ['', [Validators.required]],
       paymentAmount: [0],
-      bankCharges: [0],
+      bankCharges: [0, Validators.required],
       totalAmountInr: [0],
     });
 
