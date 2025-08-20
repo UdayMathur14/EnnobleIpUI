@@ -477,7 +477,7 @@
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <div class="input-group datepicker">
-                          <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
+                          <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true" [container]="'body'" 
                             formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)"
                             ngbDatepicker #dp="ngbDatepicker" readonly />
                           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
@@ -489,7 +489,7 @@
 
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank">
+                        <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank" [appendTo]="'body'">
                           <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
                             {{ bank.bankName }}
                           </ng-option>
@@ -504,7 +504,7 @@
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency">
+                        <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency" [appendTo]="'body'" >
                           <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                             {{ country.currencyName }}
                           </ng-option>
@@ -691,7 +691,8 @@
 
       </div>
     </div>
-
+  </form>
+</div>
 
 
     <div class="spinner" *ngIf="loadSpinner">

@@ -3,7 +3,7 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: 0px 1px 4px #00000024;
-    overflow: auto;
+    overflow-x: hidden;
 }
 
 .dispatchwidth{
@@ -142,7 +142,9 @@ table th, table td {
 }
 
 .table-scroll {
-    max-width: 100%;        /* Horizontal scroll enable kare */   /* Vertical scroll hide kare */
+    max-width: 100%; 
+    overflow-x: auto;       /* Horizontal scroll enable kare */   /* Vertical scroll hide kare */
+    padding-bottom: 20px;
 }
 
 .table-scroll table {
@@ -173,3 +175,4 @@ input::placeholder {
   color: red !important;     /* Red color */
   font-weight: bold !important;  /* Bold */
 }
+ 
