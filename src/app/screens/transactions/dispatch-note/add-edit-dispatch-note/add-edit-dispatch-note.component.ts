@@ -121,7 +121,7 @@ export class AddEditDispatchNoteComponent {
       vendorId: ['', Validators.required], // Maps to [VendorID]
       selectedVendorCountry: [''],
       invoiceDate: ['', Validators.required], // Maps to [InvoiceDate]
-      fy: ['', Validators.required], // Maps to [FY]
+      fy: [{ value: '', disabled: true }, Validators.required], // Maps to [FY]
       clientInvoiceNo: ['', Validators.required], // Maps to [ClientInvoiceNo]
       dueDateAsPerInvoice: ['', Validators.required], // Maps to [DueDateAsPerInvoice]
       creditDaysAsPerContract: [0], // Maps to [CreditDaysAsPerContract]
@@ -581,7 +581,13 @@ export class AddEditDispatchNoteComponent {
   }
 
   onInvoiceDateChange(event: any) {
+     if (event && event.year) {
+    const fy = `${event.year}-${event.year + 1}`; // Example: FY 2025-2026
+    this.addOrEditDispatchNoteFormGroup.get('fy')?.setValue(fy);
+    this.addOrEditDispatchNoteFormGroup.get('fy')?.disable(); // disable the field
+  }
     this.calculateDueDate();
+
   }
 
   onCreditDaysChange() {
