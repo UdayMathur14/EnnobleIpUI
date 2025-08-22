@@ -160,7 +160,7 @@ export class AddEditDispatchNoteComponent {
       customerPONo: [''],
       poDate: [''], // Maps to [PODate]
       poValueInclusiveTaxes: [''],
-      saleCurrency: [''],
+      saleCurrency: [{ value: '', disabled: true }, Validators.required],
 
       salesInvoiceDetails: this.fb.array([]),
       status: [''],

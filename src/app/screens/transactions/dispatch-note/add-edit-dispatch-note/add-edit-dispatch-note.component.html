@@ -580,13 +580,14 @@
             </div>
           </div>
 
-          <div class="col-sm-3">
-            <label class="label-small">Sales Currency </label>
-            <ng-select formControlName="saleCurrency" class="shetty" placeholder="Select Currency" [disabled]="true">
-              <ng-option *ngFor="let country of countryList" [value]="country.currencyName" readonly>
-                {{ country.currencyName }}
-              </ng-option>
-            </ng-select>
+          <div class="col-md-3">
+            <div class="label-small">
+              <label for="">Sales Currency <span class="text-danger">*</span></label>
+              <div class="input-group">
+                 <span class="input-group-text">{{ customerSymbol }}</span>
+                  <input formControlName="saleCurrency" type="text" class="iform-control form-control-sm input-field-sm" />
+              </div>
+            </div>
           </div>
         </div>
 
