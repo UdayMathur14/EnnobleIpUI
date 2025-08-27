@@ -432,6 +432,7 @@ export class AddEditDispatchNoteComponent {
         invoiceNo: [sale.invoiceNo],
         amount: [sale.amount],
         estimateNo: [sale.estimateNo],
+        saleinvoiceDate: [sale.saleinvoiceDate],
         remarks: [sale.remarks],
         postedInTally: [sale.postedInTally],
       });
@@ -1069,6 +1070,7 @@ isTab4Invalid(): boolean {
       invoiceNo: [],
       amount: [null],
       estimateNo: [null],
+      saleInvoiceDate :[''],
       remarks: [''],
       postedInTally: [''],
     });

@@ -153,10 +153,6 @@
               </tbody>
             </table>
           </div>
-
-
-
-
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
               <label for="">Description </label>
@@ -477,9 +473,10 @@
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <div class="input-group datepicker">
-                          <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true" [container]="'body'" 
-                            formControlName="paymentDate" (dateSelect)="onDateSelect('paymentDate', $event)"
-                            ngbDatepicker #dp="ngbDatepicker" readonly />
+                          <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
+                            [container]="'body'" formControlName="paymentDate"
+                            (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker #dp="ngbDatepicker"
+                            readonly />
                           <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
                             <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                           </button>
@@ -489,7 +486,8 @@
 
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank" [appendTo]="'body'">
+                        <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank"
+                          [appendTo]="'body'">
                           <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
                             {{ bank.bankName }}
                           </ng-option>
@@ -504,7 +502,8 @@
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidth">
-                        <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency" [appendTo]="'body'" >
+                        <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency"
+                          [appendTo]="'body'">
                           <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
                             {{ country.currencyName }}
                           </ng-option>
@@ -525,8 +524,8 @@
                     </td>
                     <td>
                       <div class="custom-form-input dispatchwidthsmall">
-                        <input formControlName="paymentAmount" type="number" class="input-field" (keypress)="validateDecimal($event)" placeholder="Enter Amt"
-                          readonly />
+                        <input formControlName="paymentAmount" type="number" class="input-field"
+                          (keypress)="validateDecimal($event)" placeholder="Enter Amt" readonly />
                       </div>
                     </td>
                     <td>
@@ -584,8 +583,9 @@
             <div class="label-small">
               <label for="">Sales Currency <span class="text-danger">*</span></label>
               <div class="input-group">
-                 <span class="input-group-text">{{ customerSymbol }}</span>
-                  <input formControlName="saleCurrency" type="text" class="iform-control form-control-sm input-field-sm" />
+                <span class="input-group-text">{{ customerSymbol }}</span>
+                <input formControlName="saleCurrency" type="text"
+                  class="iform-control form-control-sm input-field-sm" />
               </div>
             </div>
           </div>
@@ -615,6 +615,7 @@
                 <th>Professional Inv No</th>
                 <th>Professional Amount</th>
                 <th>Estimate No</th>
+                <th>Inv/Esti Date</th>
                 <th>Remarks</th>
                 <th>Posted In Tally</th>
                 <th class="text-center">Action</th>
@@ -633,6 +634,16 @@
                   </div>
                 </td>
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
+                <td>
+                  <div class="input-group datepicker">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="saleInvoiceDate" [autoClose]="true"
+                      [container]="'body'" formControlName="saleInvoiceDate"
+                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker" readonly />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                      <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                    </button>
+                  </div>
+                </td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
@@ -659,6 +670,7 @@
                 <th>Govt/official Inv No</th>
                 <th>Govt/Official Amount</th>
                 <th>Estimate No</th>
+                <th>Inv/Esti Date</th>
                 <th>Remarks</th>
                 <th>Posted In Tally</th>
                 <!-- <th class="required-label">Posted In Tally</th> -->
@@ -677,6 +689,16 @@
                   </div>
                 </td>
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
+                <td>
+                  <div class="input-group datepicker">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="saleInvoiceDate" [autoClose]="true"
+                      [container]="'body'" formControlName="saleInvoiceDate"
+                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker" readonly />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                      <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                    </button>
+                  </div>
+                </td>
                 <td><input formControlName="remarks" class="form-control form-control" /></td>
                 <td>
                   <ng-select formControlName="postedInTally" class="ng-select-custom">
@@ -696,6 +718,6 @@
 </div>
 
 
-    <div class="spinner" *ngIf="loadSpinner">
-      Loading...
-    </div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>
