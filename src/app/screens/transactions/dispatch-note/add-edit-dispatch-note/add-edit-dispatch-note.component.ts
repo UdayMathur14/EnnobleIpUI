@@ -225,7 +225,7 @@ export class AddEditDispatchNoteComponent {
       this.addOrEditDispatchNoteFormGroup.patchValue({
         saleCurrency: customerDetail.currency,
       });
-       this.addOrEditDispatchNoteFormGroup.patchValue({
+      this.addOrEditDispatchNoteFormGroup.patchValue({
         customerSymbol: customerDetail.currencySymbol,
       });
     } else {
@@ -406,8 +406,8 @@ export class AddEditDispatchNoteComponent {
         bankID: [fee.bankID, Validators.required],
         owrmNo1: [fee.oWRMNo1, Validators.required],
         owrmNo2: [fee.owrmNo2],
-        rate: [fee.rate,Validators.required],
-        quantity: [fee.quantity,Validators.required],
+        rate: [fee.rate, Validators.required],
+        quantity: [fee.quantity, Validators.required],
         paymentCurrency: [fee.paymentCurrency, Validators.required],
         // Patch the value directly without the 'disabled' property
         paymentAmount: [fee.paymentAmount, Validators.required],
@@ -432,11 +432,11 @@ export class AddEditDispatchNoteComponent {
         invoiceNo: [sale.invoiceNo],
         amount: [sale.amount],
         estimateNo: [sale.estimateNo],
-        saleinvoiceDate: [sale.saleinvoiceDate],
+        saleInvoiceDate: [sale?.saleinvoiceDate ?  this.convertToNgbDate(sale.saleinvoiceDate): ''],
         remarks: [sale.remarks],
         postedInTally: [sale.postedInTally],
       });
-
+      console.log(group.value);
       const amountCtrl = group.get('invoiceNo');
       const estimateCtrl = group.get('estimateNo');
 
@@ -469,10 +469,10 @@ export class AddEditDispatchNoteComponent {
 
       // === Apply disable logic based on existing values ===
       if (sale.invoiceNo) {
-  estimateCtrl?.disable({ emitEvent: false });
-} else if (sale.estimateNo) {
-  amountCtrl?.disable({ emitEvent: false });
-}
+        estimateCtrl?.disable({ emitEvent: false });
+      } else if (sale.estimateNo) {
+        amountCtrl?.disable({ emitEvent: false });
+      }
 
       this.salesInvoiceDetails.push(group);
     });
@@ -582,13 +582,12 @@ export class AddEditDispatchNoteComponent {
   }
 
   onInvoiceDateChange(event: any) {
-     if (event && event.year) {
-    const fy = `${event.year}-${event.year + 1}`; // Example: FY 2025-2026
-    this.addOrEditDispatchNoteFormGroup.get('fy')?.setValue(fy);
-    this.addOrEditDispatchNoteFormGroup.get('fy')?.disable(); // disable the field
-  }
+    if (event && event.year) {
+      const fy = `${event.year}-${event.year + 1}`; // Example: FY 2025-2026
+      this.addOrEditDispatchNoteFormGroup.get('fy')?.setValue(fy);
+      this.addOrEditDispatchNoteFormGroup.get('fy')?.disable(); // disable the field
+    }
     this.calculateDueDate();
-
   }
 
   onCreditDaysChange() {
@@ -755,26 +754,25 @@ export class AddEditDispatchNoteComponent {
     );
   }
 
-isTab4Invalid(): boolean {
-  const salesInvoiceDetails =
-    this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value || [];
+  isTab4Invalid(): boolean {
+    const salesInvoiceDetails =
+      this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
+      [];
 
-  // List empty → valid (no error)
-  if (salesInvoiceDetails.length === 0) {
-    return false;
+    // List empty → valid (no error)
+    if (salesInvoiceDetails.length === 0) {
+      return false;
+    }
+
+    // Agar koi row hai jisme invoiceNo bhi blank hai aur estimateNo bhi blank hai → invalid
+    const hasInvalidRow = salesInvoiceDetails.some(
+      (row: any) =>
+        (!row.invoiceNo || row.invoiceNo.toString().trim() === '') &&
+        (!row.estimateNo || row.estimateNo.toString().trim() === '')
+    );
+
+    return hasInvalidRow;
   }
-
-  // Agar koi row hai jisme invoiceNo bhi blank hai aur estimateNo bhi blank hai → invalid
-  const hasInvalidRow = salesInvoiceDetails.some(
-    (row: any) =>
-      (!row.invoiceNo || row.invoiceNo.toString().trim() === '') &&
-      (!row.estimateNo || row.estimateNo.toString().trim() === '')
-  );
-
-  return hasInvalidRow;
-}
-
-
 
   markTab1FieldsTouched() {
     console.log('Marking Tab 1 fields as touched');
@@ -953,9 +951,19 @@ isTab4Invalid(): boolean {
 
       saleCurrency:
         this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value,
-      salesInvoiceDetails:
-        this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
-        [],
+
+
+      // salesInvoiceDetails:
+      //   this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
+      //   [],
+
+        salesInvoiceDetails:
+        this.addOrEditDispatchNoteFormGroup.value.salesInvoiceDetails?.map(
+          (date: any) => ({
+            ...date,
+            saleInvoiceDate: this.formatDate(date.saleInvoiceDate),
+          })
+        ) || [],
 
       createdBy: '',
       status: 'Active', // Add dynamically if required
@@ -1024,7 +1032,7 @@ isTab4Invalid(): boolean {
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
     const day = Number(e.day) < 10 ? '0' + e.day : e.day;
-    // this.frlrDate = e.year + '-' + month.toString() + '-' + day.toString();
+    console.log(e)
   }
 
   // Create Row
@@ -1064,17 +1072,18 @@ isTab4Invalid(): boolean {
     ) as FormArray;
   }
   addSaleInvoice(type: string) {
+     const today = new Date();
     const group = this.fb.group({
       id: [0],
       type: [type], // 'Professional' or 'Govt'
       invoiceNo: [],
       amount: [null],
       estimateNo: [null],
-      saleInvoiceDate :[''],
+      saleInvoiceDate: [''], 
       remarks: [''],
       postedInTally: [''],
     });
-
+  
     const amountCtrl = group.get('invoiceNo');
     const estimateCtrl = group.get('estimateNo');
 
@@ -1299,19 +1308,19 @@ isTab4Invalid(): boolean {
     }
   }
   validateDecimal(event: KeyboardEvent) {
-  const pattern = /[0-9.]/;   // allow numbers and decimal point
-  const inputChar = String.fromCharCode(event.charCode);
+    const pattern = /[0-9.]/; // allow numbers and decimal point
+    const inputChar = String.fromCharCode(event.charCode);
 
-  if (!pattern.test(inputChar)) {
-    event.preventDefault();
-  }
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
 
-  // prevent multiple decimals
-  const current: string = (event.target as HTMLInputElement).value;
-  if (inputChar === '.' && current.includes('.')) {
-    event.preventDefault();
+    // prevent multiple decimals
+    const current: string = (event.target as HTMLInputElement).value;
+    if (inputChar === '.' && current.includes('.')) {
+      event.preventDefault();
+    }
   }
-}
   getAllLookupsList(
     offset: number = 0,
     filters: any = '',
