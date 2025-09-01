@@ -638,7 +638,8 @@
                   <div class="input-group datepicker">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="saleInvoiceDate" [autoClose]="true"
                       [container]="'body'" formControlName="saleInvoiceDate"
-                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker" readonly />
+                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker"
+                      readonly />
                     <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
                       <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                     </button>
@@ -693,7 +694,7 @@
                   <div class="input-group datepicker">
                     <input class="form-control" placeholder="yyyy-mm-dd" name="saleInvoiceDate" [autoClose]="true"
                       [container]="'body'" formControlName="saleInvoiceDate"
-                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker"  />
+                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker" />
                     <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
                       <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                     </button>

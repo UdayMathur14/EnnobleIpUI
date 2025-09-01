@@ -432,7 +432,11 @@ export class AddEditDispatchNoteComponent {
         invoiceNo: [sale.invoiceNo],
         amount: [sale.amount],
         estimateNo: [sale.estimateNo],
-        saleInvoiceDate: [sale?.saleinvoiceDate ?  this.convertToNgbDate(sale.saleinvoiceDate): ''],
+        saleInvoiceDate: [
+          sale?.saleinvoiceDate
+            ? this.convertToNgbDate(sale.saleinvoiceDate)
+            : '',
+        ],
         remarks: [sale.remarks],
         postedInTally: [sale.postedInTally],
       });
@@ -922,23 +926,7 @@ export class AddEditDispatchNoteComponent {
       totalAmount: Number(
         this.addOrEditDispatchNoteFormGroup.controls['totalAmount']?.value
       ),
-
-      // tab3
-      // paymentDate: this.formatDate(
-      //   this.addOrEditDispatchNoteFormGroup.controls['paymentDate'].value
-      // ),
-
-      // bankID:
-      //   this.addOrEditDispatchNoteFormGroup.controls['bankID'].value || null,
-      // owrmNo1: this.addOrEditDispatchNoteFormGroup.controls['owrmNo1'].value,
-      // owrmNo2: this.addOrEditDispatchNoteFormGroup.controls['owrmNo2'].value,
-      // paymentCurrency:
-      //   this.addOrEditDispatchNoteFormGroup.controls['paymentCurrency'].value,
-      // paymentAmount: Number(
-      //   this.addOrEditDispatchNoteFormGroup.controls['paymentAmount'].value
-      // ),
-
-      // tab4
+      
       customerPONo:
         this.addOrEditDispatchNoteFormGroup.controls['customerPONo'].value,
       poDate: this.formatDate(
@@ -952,12 +940,7 @@ export class AddEditDispatchNoteComponent {
       saleCurrency:
         this.addOrEditDispatchNoteFormGroup.controls['saleCurrency'].value,
 
-
-      // salesInvoiceDetails:
-      //   this.addOrEditDispatchNoteFormGroup.get('salesInvoiceDetails')?.value ||
-      //   [],
-
-        salesInvoiceDetails:
+      salesInvoiceDetails:
         this.addOrEditDispatchNoteFormGroup.value.salesInvoiceDetails?.map(
           (date: any) => ({
             ...date,
@@ -1032,7 +1015,7 @@ export class AddEditDispatchNoteComponent {
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
     const day = Number(e.day) < 10 ? '0' + e.day : e.day;
-    console.log(e)
+    console.log(e);
   }
 
   // Create Row
@@ -1072,18 +1055,18 @@ export class AddEditDispatchNoteComponent {
     ) as FormArray;
   }
   addSaleInvoice(type: string) {
-     const today = new Date();
+    const today = new Date();
     const group = this.fb.group({
       id: [0],
       type: [type], // 'Professional' or 'Govt'
       invoiceNo: [],
       amount: [null],
       estimateNo: [null],
-      saleInvoiceDate: [''], 
+      saleInvoiceDate: [''],
       remarks: [''],
       postedInTally: [''],
     });
-  
+
     const amountCtrl = group.get('invoiceNo');
     const estimateCtrl = group.get('estimateNo');
 
