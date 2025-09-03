@@ -28,6 +28,10 @@
         <a class="nav-link" data-bs-toggle="tab" href="#Tab4">Sales INV
         </a>
       </li>
+      <li class="nav-item" *ngIf="statusTab">
+        <a class="nav-link" data-bs-toggle="tab" href="#status">Status
+        </a>
+      </li>
     </ul>
 
     <div class="tab-content">
@@ -713,6 +717,20 @@
           </table>
         </div>
 
+      </div>
+
+      <div id="status" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input" *ngIf="dispatchId">
+              <label for="">Status <span class="text-danger" ></span></label>
+              <select name="" id="" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </form>

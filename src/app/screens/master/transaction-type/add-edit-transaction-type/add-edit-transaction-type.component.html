@@ -91,10 +91,24 @@
           <input type="text" class="input-field" formControlName="accountHolderName"  />
         </div>
       </div>
-      <div class="col-lg-2 col-md-2">
+      <!-- <div class="col-lg-2 col-md-2">
         <div class="custom-form-input">
           <label for="">Account Type <span class="text-danger">*</span></label>
-          <input type="text" class="input-field" formControlName="accountType"  />
+           <select class="input-field" name="" id="" formControlName="accountType">
+                <option value="Saving">Saving</option>
+                <option value="Current">Current</option>
+            </select>
+        </div>
+      </div> -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2">
+            <div class="custom-form-input" >
+              <label for="">Account Type <span class="text-danger" ></span></label>
+              <select name="" id="" formControlName="accountType">
+                <option value="Savings">Savings</option>
+                <option value="Current">Current</option>
+              </select>
+          </div>
         </div>
       </div>
     </div>

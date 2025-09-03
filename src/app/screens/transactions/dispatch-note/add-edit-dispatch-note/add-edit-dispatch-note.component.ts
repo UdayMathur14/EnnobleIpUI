@@ -41,6 +41,7 @@ export class AddEditDispatchNoteComponent {
   lookupList: any[] = [];
   selectedcustomerNumber!: string;
   selectedQuantity!: number;
+   statusTab: boolean = false;
   dispatchId: number = 0;
   loadSpinner: boolean = false;
   selectedcustomers: any = [];
@@ -91,6 +92,14 @@ export class AddEditDispatchNoteComponent {
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
+
+    
+    if (this.dispatchId == 0) {
+      this.statusTab = false;
+    }
+    if (this.dispatchId > 0) {
+      this.statusTab = true;
+    }
 
     this.invoiceFeeDetails.valueChanges.subscribe(() => {
       this.calculateTotals();
@@ -364,6 +373,7 @@ export class AddEditDispatchNoteComponent {
       poValueInclusiveTaxes: data?.pOValueInclusiveTaxes,
       saleCurrency: data?.saleCurrency,
       salesInvoiceDetails: data?.saleDetails,
+      status: data?.status,
       // Charges tab
 
       // Total is calculated, not patched
@@ -949,7 +959,7 @@ export class AddEditDispatchNoteComponent {
         ) || [],
 
       createdBy: '',
-      status: 'Active', // Add dynamically if required
+      status:   this.addOrEditDispatchNoteFormGroup.controls['status'].value, // Add dynamically if required
     };
 
     // Check if it's an update or create

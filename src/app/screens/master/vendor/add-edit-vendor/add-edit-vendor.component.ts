@@ -681,10 +681,6 @@ export class AddEditVendorComponent implements OnInit {
     const phoneControl = this.vendorForm.get('phone');
   }
 
-  onStatusChange(status: string, transaction: any) {
-    transaction.disabled = status === 'Inactive';
-  }
-
   copyBillingToShipping(event: any) {
     let isChecked: boolean;
 
