@@ -70,6 +70,8 @@ export class AddEditDispatchNoteComponent {
   selectedPayment: any = [];
   deletedPayment: any[] = [];
   customerSymbol: string = '';
+  minDate!: NgbDateStruct;
+  maxDate!: NgbDateStruct;
 
   constructor(
     private router: Router,
@@ -92,7 +94,8 @@ export class AddEditDispatchNoteComponent {
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
-
+ 
+    this.setDateLimits();
     
     if (this.dispatchId == 0) {
       this.statusTab = false;
@@ -192,6 +195,11 @@ export class AddEditDispatchNoteComponent {
       ?.valueChanges.subscribe(() => {
         this.calculateTotals();
       });
+  }
+
+  setDateLimits() {
+    this.minDate = { year: 2000, month: 1, day: 1 };
+    this.maxDate = { year: 2099, month: 12, day: 31 };
   }
 
   onVendorSelect(selectedVendorCode: string) {
