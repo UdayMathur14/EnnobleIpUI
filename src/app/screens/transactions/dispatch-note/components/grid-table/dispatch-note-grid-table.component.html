@@ -4,21 +4,19 @@
       <tr>
         <th>Invoice Date</th>
         <th>Client Invoice No</th>
-        <th>FY</th>
         <th>Due Date </th>
         <th>Customer Name</th>
         <th>Title</th>
         <th>Total Prof Fees</th>
         <th>Total Govt Fees</th>
+        <th>Dicount Amount</th>
+        <th>Credit Note Amount</th>
         <th>Total Amount</th>
         <th>Application No </th>
         <th>EPO Filing </th>
         <th>Filing Date</th>
         <th>Client Ref No.</th>
         <th>Our Ref No.</th>
-        <th>Customer PO No</th>
-        <th>PO Date</th>
-        <th>PO Value Taxes</th>
         <th>Status</th>
         <!-- <th>Dispatch Note Status</th> -->
         <th class="text-center">Actions</th>
@@ -54,21 +52,18 @@
           </ng-template>
         </td>
         <td>{{ dispatchNote?.clientInvoiceNo || '-' }}</td>
-        <td>{{ dispatchNote?.fy || '-' }}</td>
         <td>{{ dispatchNote?.dueDateAsPerInvoice | date:'dd-MM-yyyy'}}</td>
         <td>{{ dispatchNote?.customerDetails.customerName || '-' }}</td>
         <td>{{ dispatchNote?.title || '-' }}</td>
         <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
-        <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.discountAmt || '-' }}</td>
+        <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
         <td>{{ dispatchNote?.totalAmount || '-' }}</td>
         <td>{{ dispatchNote?.applicationNumber || '-'}}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
         <td>{{ dispatchNote?.filingDate | date:'dd-MM-yyyy'}}</td>
         <td>{{ dispatchNote?.clientRefNo || '-' }}</td>
         <td>{{ dispatchNote?.ourRefNo || '-' }}</td>
-        <td>{{ dispatchNote?.customerPONo || '-' }}</td>
-        <td>{{ dispatchNote?.pODate | date:'dd-MM-yyyy'}}</td>
-        <td>{{ dispatchNote?.pOValueInclusiveTaxes || '-' }}</td>
         <td>{{ dispatchNote?.status || '-' }}</td>
 
 
