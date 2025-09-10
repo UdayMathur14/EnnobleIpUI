@@ -28,7 +28,7 @@ import { AdviceGridTableComponent } from "./master/advice/components/advice-grid
 import { PointChargeComponent } from "./master/point-charge/point-charge.component";
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { PointChargeGridTableComponent } from "./master/point-charge/components/point-charge-grid-table/point-charge-grid-table.component";
-import { NgbTooltipModule, NgbPopover, NgbPopoverModule, NgbDatepicker, NgbDatepickerModule, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopover, NgbPopoverModule, NgbDatepicker, NgbDatepickerModule, NgbPagination, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 import { DispatchNoteFiltersComponent } from "./transactions/dispatch-note/components/filter/dispatch-note-filter.component";
 import { DispatchNoteGridTableComponent } from "./transactions/dispatch-note/components/grid-table/dispatch-note-grid-table.component";
@@ -131,6 +131,7 @@ import { LookupTypeComponent } from "./master/lookupType/lookupType.component";
 import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupType/add-edit-lookupType.component";
 import { LookupTypeFilterComponent } from "./master/lookupType/components/filter/lookupType-filter.component";
 import { LookupTypeGridTableComponent } from "./master/lookupType/components/grid-table/lookupType-grid-table.component";
+import { CustomDateParserFormatter } from "../core/service/CustomDateParserFormatter";
 
 @NgModule({
     declarations: [
@@ -277,6 +278,8 @@ import { LookupTypeGridTableComponent } from "./master/lookupType/components/gri
         NgbPagination,
         NgMultiSelectDropDownModule
     ],
-    providers: [],
+    providers: [
+        { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }
+    ],
 })
 export class ScreensModule { }

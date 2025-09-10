@@ -30,13 +30,13 @@
 
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{ dispatchNote?.invoiceDate || '-' }}</u>
+            <u>{{ dispatchNote?.invoiceDate | date: 'dd-MM-yyyy' }}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
               <div class="content-row">
                 <span>Created On</span>
-                <span>{{ dispatchNote?.creationDate | date: 'yyyy-MM-dd' }}</span>
+                <span>{{ dispatchNote?.creationDate | date: 'dd-MM-yyyy' }}</span>
               </div>
               <div class="content-row">
                 <span>Created By</span>
@@ -44,7 +44,7 @@
               </div>
               <div class="content-row">
                 <span>Last Update Date</span>
-                <span>{{ dispatchNote?.lastUpdateOn | date: 'yyyy-MM-dd' }}</span>
+                <span>{{ dispatchNote?.lastUpdateOn | date: 'dd-MM-yyyy' }}</span>
               </div>
               <div class="content-row">
                 <span>Last Updated By</span>
@@ -55,7 +55,7 @@
         </td>
         <td>{{ dispatchNote?.clientInvoiceNo || '-' }}</td>
         <td>{{ dispatchNote?.fy || '-' }}</td>
-        <td>{{ dispatchNote?.dueDateAsPerInvoice | date:'yyyy-MM-dd'}}</td>
+        <td>{{ dispatchNote?.dueDateAsPerInvoice | date:'dd-MM-yyyy'}}</td>
         <td>{{ dispatchNote?.customerDetails.customerName || '-' }}</td>
         <td>{{ dispatchNote?.title || '-' }}</td>
         <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
@@ -63,11 +63,11 @@
         <td>{{ dispatchNote?.totalAmount || '-' }}</td>
         <td>{{ dispatchNote?.applicationNumber || '-'}}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
-        <td>{{ dispatchNote?.filingDate | date:'yyyy-MM-dd'}}</td>
+        <td>{{ dispatchNote?.filingDate | date:'dd-MM-yyyy'}}</td>
         <td>{{ dispatchNote?.clientRefNo || '-' }}</td>
         <td>{{ dispatchNote?.ourRefNo || '-' }}</td>
         <td>{{ dispatchNote?.customerPONo || '-' }}</td>
-        <td>{{ dispatchNote?.pODate | date:'yyyy-MM-dd'}}</td>
+        <td>{{ dispatchNote?.pODate | date:'dd-MM-yyyy'}}</td>
         <td>{{ dispatchNote?.pOValueInclusiveTaxes || '-' }}</td>
         <td>{{ dispatchNote?.status || '-' }}</td>
 

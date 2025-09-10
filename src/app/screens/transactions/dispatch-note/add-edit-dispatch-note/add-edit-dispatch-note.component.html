@@ -59,7 +59,7 @@
             <div class="custom-form-input">
               <label for="">Invoice Date <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true"
+                <input class="form-control" placeholder="dd-mm-yyyy" name="fromDt" [autoClose]="true"
                   formControlName="invoiceDate" (dateSelect)="onInvoiceDateChange($event)" ngbDatepicker
                   #fromDt="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
@@ -84,7 +84,7 @@
             <div class="custom-form-input">
               <label for="">Due Date As Per Invoice <span class="text-danger">*</span></label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerInvoice" [autoClose]="true"
+                <input class="form-control" placeholder="dd-MM-yyyy" name="dueDateAsPerInvoice" [autoClose]="true"
                   formControlName="dueDateAsPerInvoice" (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)"
                   ngbDatepicker #dueDateAsPerInvoice="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDateAsPerInvoice.toggle()"
@@ -105,7 +105,7 @@
             <div class="custom-form-input">
               <label for="">Due Date As Per Contract </label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dueDateAsPerContract" ngbDatepicker
+                <input class="form-control" placeholder="dd-MM-yyyy" name="dueDateAsPerContract" ngbDatepicker
                   formControlName="dueDateAsPerContract" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
@@ -179,7 +179,7 @@
             <div class="custom-form-input">
               <label for="">Filing Date </label>
               <div class="input-group datepicker">
-                <input [minDate]="minDate" [maxDate]="maxDate" class="form-control" placeholder="yyyy-mm-dd" name="filingDate" formControlName="filingDate"
+                <input [minDate]="minDate" [maxDate]="maxDate" class="form-control" placeholder="dd-MM-yyyy" name="filingDate" formControlName="filingDate"
                   (dateSelect)="onDateSelect('filingDate', $event)" ngbDatepicker #filingDate="ngbDatepicker"
                   readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar6" (click)="filingDate.toggle()" type="button">
@@ -215,7 +215,7 @@
             <div class="custom-form-input">
               <label for="">Work Delivery Date </label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="workDeliveryDateOrMonth" [autoClose]="true"
+                <input class="form-control" placeholder="dd-MM-yyyy" name="workDeliveryDateOrMonth" [autoClose]="true"
                   formControlName="workDeliveryDateOrMonth"
                   (dateSelect)="onDateSelect('workDeliveryDateOrMonth', $event)" ngbDatepicker
                   #workDeliveryDateOrMonthDt="ngbDatepicker" readonly />
@@ -413,7 +413,7 @@
             <div class="custom-form-input">
               <label for="">Credit Note Date</label>
               <div class="input-group datepicker">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="creditNoteDate" [autoClose]="true"
+                <input class="form-control" placeholder="dd-MM-yyyy" name="creditNoteDate" [autoClose]="true"
                   formControlName="creditNoteDate" (dateSelect)="onDateSelect('creditNoteDate', $event)" ngbDatepicker
                   #creditNoteDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="creditNoteDate.toggle()"
@@ -477,7 +477,7 @@
                     <td>
                       <div class="custom-form-input dispatchwidth">
                         <div class="input-group datepicker">
-                          <input class="form-control" placeholder="yyyy-mm-dd" name="paymentDate" [autoClose]="true"
+                          <input class="form-control" placeholder="dd-MM-yyyy" name="paymentDate" [autoClose]="true"
                             [container]="'body'" formControlName="paymentDate"
                             (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker #dp="ngbDatepicker"
                             readonly />
@@ -575,7 +575,7 @@
           <div class="col-sm-3">
             <label class="label-small">PO Date </label>
             <div class="input-group input-group-sm">
-              <input placeholder="yyyy-mm-dd" formControlName="poDate" class="form-control input-field-sm" ngbDatepicker
+              <input placeholder="dd-MM-yyyy" formControlName="poDate" class="form-control input-field-sm" ngbDatepicker
                 #poDate="ngbDatepicker" (dateSelect)="onDateSelect('poDate', $event)" readonly />
               <button class="btn btn-outline-secondary" (click)="poDate.toggle()" type="button">
                 <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
@@ -640,7 +640,7 @@
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
                 <td>
                   <div class="input-group datepicker">
-                    <input class="form-control" placeholder="yyyy-mm-dd" name="saleInvoiceDate" [autoClose]="true"
+                    <input class="form-control" placeholder="dd-MM-yyyy" name="saleInvoiceDate" [autoClose]="true"
                       [container]="'body'" formControlName="saleInvoiceDate"
                       (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker"
                       readonly />
@@ -696,7 +696,7 @@
                 <td><input formControlName="estimateNo" class="form-control form-control" /></td>
                 <td>
                   <div class="input-group datepicker">
-                    <input class="form-control" placeholder="yyyy-mm-dd" name="saleInvoiceDate" [autoClose]="true"
+                    <input class="form-control" placeholder="dd-MM-yyyy" name="saleInvoiceDate" [autoClose]="true"
                       [container]="'body'" formControlName="saleInvoiceDate"
                       (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker" />
                     <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
