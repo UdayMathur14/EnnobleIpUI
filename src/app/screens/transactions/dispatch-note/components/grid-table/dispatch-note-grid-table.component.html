@@ -9,6 +9,7 @@
         <th>Title</th>
         <th>Total Prof Fees</th>
         <th>Total Govt Fees</th>
+        <th>Others Fees</th>
         <th>Dicount Amount</th>
         <th>Credit Note Amount</th>
         <th>Total Amount</th>
@@ -56,6 +57,8 @@
         <td>{{ dispatchNote?.customerDetails.customerName || '-' }}</td>
         <td>{{ dispatchNote?.title || '-' }}</td>
         <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
         <td>{{ dispatchNote?.totalAmount || '-' }}</td>

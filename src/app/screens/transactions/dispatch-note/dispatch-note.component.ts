@@ -54,7 +54,6 @@ export class DispatchNoteComponent {
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe(
       (res: any) => {
         this.dispatchNotes = res.vendorInvoiceTxns;
-        console.log(this.dispatchNotes);
         this.totaldispatchNotes = res.paging.total;
         this.filters = res.filters;
         this.loadSpinner = false;
