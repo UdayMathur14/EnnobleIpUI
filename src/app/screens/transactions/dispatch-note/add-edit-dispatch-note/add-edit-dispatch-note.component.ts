@@ -41,7 +41,7 @@ export class AddEditDispatchNoteComponent {
   lookupList: any[] = [];
   selectedcustomerNumber!: string;
   selectedQuantity!: number;
-   statusTab: boolean = false;
+  statusTab: boolean = false;
   dispatchId: number = 0;
   loadSpinner: boolean = false;
   selectedcustomers: any = [];
@@ -308,7 +308,7 @@ export class AddEditDispatchNoteComponent {
     let data = {
       customerCode: filters?.customerCode || '',
       customerName: filters?.customerName || '',
-      status: filters?.status || '',
+      status: "Active",
     };
     this.customerService.getCustomers(data, offset, count).subscribe(
       (response: any) => {
@@ -519,7 +519,7 @@ export class AddEditDispatchNoteComponent {
       vendorName: filters?.vendorName || '',
       vendorCode: filters?.vendorCode || '',
       vendorType: filters?.vendorType || '',
-      status: filters?.status || '',
+      status: 'Active',
     };
     this.vendorService.getVendors(data, offset, count).subscribe(
       (response: any) => {
@@ -557,7 +557,7 @@ export class AddEditDispatchNoteComponent {
     let data = {
       bankCode: filters?.transactionTypeCode || '',
       bankName: filters?.transactionTypeName || '',
-      status: filters?.status || '',
+      status: 'Active',
     };
     this.transactionType.getTransactionTypes(data, offset, count).subscribe(
       (response: any) => {
@@ -1323,39 +1323,37 @@ export class AddEditDispatchNoteComponent {
     }
   }
   getAllLookupsList(
-    offset: number = 0,
-    filters: any = '',
-    rowIndex?: number,
-    rowControl?: AbstractControl
-  ) {
-    // Handle both string (feeType) and object (filters) input
-    const data = {
-      code: typeof filters === 'object' ? filters.code || '' : '',
-      lookUpType:
-        typeof filters === 'object' ? filters.lookUpType || '' : filters || '', // if filters is string, it's lookUpType
-      value: typeof filters === 'object' ? filters.value || '' : '',
-      status: typeof filters === 'object' ? filters.status || '' : '',
-    };
-    this.loadSpinner = true;
-    this.lookupService.getLookupsType(data).subscribe(
-      (response: any) => {
-        const lookups = response.lookUps || [];
+  offset: number = 0,
+  filters: any = '',
+  rowIndex?: number,
+  rowControl?: AbstractControl
+) {
+  // Handle both string (feeType) and object (filters) input
+  const data = {
+    code: typeof filters === 'object' ? filters.code || '' : '',
+    lookUpType: typeof filters === 'object' ? filters.lookUpType || '' : filters || '', 
+    value: typeof filters === 'object' ? filters.value || '' : '',
+    status: typeof filters === 'object' 
+      ? (filters.status !== undefined ? filters.status : 'Active') // Default to Active
+      : 'Active', // If filters is a string, default to Active
+  };
 
-        if (rowIndex !== undefined && rowControl) {
-          // Called from FeeType selection
-          this.subFeeOptionsList[rowIndex] = lookups;
-          rowControl.get('subFeeValue')?.setValue(''); // Clear old value
-          this.loadSpinner = false;
-        } else {
-          // Called from general lookup fetch
-          this.loadSpinner = false;
-        }
+  this.loadSpinner = true;
+  this.lookupService.getLookupsType(data).subscribe(
+    (response: any) => {
+      const lookups = response.lookUps || [];
 
-        this.loadSpinner = false;
-      },
-      (error) => {
-        this.loadSpinner = false;
+      if (rowIndex !== undefined && rowControl) {
+        // Called from FeeType selection
+        this.subFeeOptionsList[rowIndex] = lookups;
+        rowControl.get('subFeeValue')?.setValue(''); // Clear old value
       }
-    );
-  }
+
+      this.loadSpinner = false;
+    },
+    (error) => {
+      this.loadSpinner = false;
+    }
+  );
+}
 }
