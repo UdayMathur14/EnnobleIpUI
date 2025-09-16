@@ -47,7 +47,7 @@ export class AddEditDispatchNoteComponent {
   selectedcustomers: any = [];
   languageList: any[] = [];
   isTranslationFeeSelected: boolean = false;
-
+  LanguageList: any = [];
   dispatchNotes: any = [];
   dispatchLocationId: number = 0;
 
@@ -94,9 +94,10 @@ export class AddEditDispatchNoteComponent {
     this.dispatchId = Number(
       this.activatedRoute.snapshot.paramMap.get('dispatchId')
     );
- 
+
     this.setDateLimits();
-    
+    this.getLanguageList();
+
     if (this.dispatchId == 0) {
       this.statusTab = false;
     }
@@ -308,7 +309,7 @@ export class AddEditDispatchNoteComponent {
     let data = {
       customerCode: filters?.customerCode || '',
       customerName: filters?.customerName || '',
-      status: "Active",
+      status: 'Active',
     };
     this.customerService.getCustomers(data, offset, count).subscribe(
       (response: any) => {
@@ -944,7 +945,7 @@ export class AddEditDispatchNoteComponent {
       totalAmount: Number(
         this.addOrEditDispatchNoteFormGroup.controls['totalAmount']?.value
       ),
-      
+
       customerPONo:
         this.addOrEditDispatchNoteFormGroup.controls['customerPONo'].value,
       poDate: this.formatDate(
@@ -967,7 +968,7 @@ export class AddEditDispatchNoteComponent {
         ) || [],
 
       createdBy: '',
-      status:   this.addOrEditDispatchNoteFormGroup.controls['status'].value, // Add dynamically if required
+      status: this.addOrEditDispatchNoteFormGroup.controls['status'].value, // Add dynamically if required
     };
 
     // Check if it's an update or create
@@ -1323,37 +1324,52 @@ export class AddEditDispatchNoteComponent {
     }
   }
   getAllLookupsList(
-  offset: number = 0,
-  filters: any = '',
-  rowIndex?: number,
-  rowControl?: AbstractControl
-) {
-  // Handle both string (feeType) and object (filters) input
-  const data = {
-    code: typeof filters === 'object' ? filters.code || '' : '',
-    lookUpType: typeof filters === 'object' ? filters.lookUpType || '' : filters || '', 
-    value: typeof filters === 'object' ? filters.value || '' : '',
-    status: typeof filters === 'object' 
-      ? (filters.status !== undefined ? filters.status : 'Active') // Default to Active
-      : 'Active', // If filters is a string, default to Active
-  };
+    offset: number = 0,
+    filters: any = '',
+    rowIndex?: number,
+    rowControl?: AbstractControl
+  ) {
+    // Handle both string (feeType) and object (filters) input
+    const data = {
+      code: typeof filters === 'object' ? filters.code || '' : '',
+      lookUpType:
+        typeof filters === 'object' ? filters.lookUpType || '' : filters || '',
+      value: typeof filters === 'object' ? filters.value || '' : '',
+      status:
+        typeof filters === 'object'
+          ? filters.status !== undefined
+            ? filters.status
+            : 'Active' // Default to Active
+          : 'Active', // If filters is a string, default to Active
+    };
 
-  this.loadSpinner = true;
-  this.lookupService.getLookupsType(data).subscribe(
-    (response: any) => {
-      const lookups = response.lookUps || [];
+    this.loadSpinner = true;
+    this.lookupService.getLookupsType(data).subscribe(
+      (response: any) => {
+        const lookups = response.lookUps || [];
 
-      if (rowIndex !== undefined && rowControl) {
-        // Called from FeeType selection
-        this.subFeeOptionsList[rowIndex] = lookups;
-        rowControl.get('subFeeValue')?.setValue(''); // Clear old value
+        if (rowIndex !== undefined && rowControl) {
+          // Called from FeeType selection
+          this.subFeeOptionsList[rowIndex] = lookups;
+          rowControl.get('subFeeValue')?.setValue(''); // Clear old value
+        }
+
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
       }
+    );
+  }
 
-      this.loadSpinner = false;
-    },
-    (error) => {
-      this.loadSpinner = false;
-    }
-  );
-}
+  getLanguageList() {
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('Language').subscribe(
+      (response: any) => {
+        this.LanguageList = response.lookUps || [];
+        console.log(this.LanguageList)
+        this.loadSpinner = false;
+      }
+    );
+  }
 }
