@@ -498,18 +498,20 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorForm.get('shippingCountry')?.setValue(e?.target?.innerText);
   }
   onSelectCurrency(currencyName: string) {
-    const selected = this.countryList.find(
-      (c: { currencyName: string; symbol: string }) =>
-        c.currencyName === currencyName
+     const selected = this.CurrencyList.find(
+      (c: { value: string; description: string }) =>
+        c.value === currencyName
     );
 
     if (selected) {
-      this.vendorForm.get('currencySymbol')?.setValue(selected.symbol);
+      this.vendorForm.get('currencySymbol')?.setValue(selected.description);
       this.vendorForm.get('currencySymbol')?.disable();
     } else {
       this.vendorForm.get('currencySymbol')?.reset();
+      this.vendorForm.get('currencySymbol')?.enable();
     }
   }
+
   onSelectSymbolCurrency(e: any) {
     this.vendorForm.get('currencySymbol')?.setValue(e?.target?.innerText);
   }

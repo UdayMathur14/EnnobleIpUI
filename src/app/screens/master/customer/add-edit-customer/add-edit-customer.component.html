@@ -274,18 +274,15 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Currency Symbol
+              <label for="">
+                Currency Symbol
                 <span class="text-danger" *ngIf="currentRequiredFields.includes('currencySymbol')">*</span>
               </label>
 
-              <!-- Readonly ng-select -->
-              <ng-select class="input-field readonly-select" formControlName="currencySymbol">
-                <ng-option *ngFor="let country of countryList" [value]="country.symbol">
-                  {{ country.symbol }}
-                </ng-option>
-              </ng-select>
+              <input type="text" class="form-control" formControlName="currencySymbol" readonly />
             </div>
           </div>
+
         </div>
 
       </div>

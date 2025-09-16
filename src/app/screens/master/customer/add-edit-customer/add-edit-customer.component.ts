@@ -406,13 +406,13 @@ export class AddEditCustomerComponent implements OnInit {
   }
 
   onSelectCurrency(currencyName: string) {
-    const selected = this.countryList.find(
-      (c: { currencyName: string; symbol: string }) =>
-        c.currencyName === currencyName
+    const selected = this.CurrencyList.find(
+      (c: { value: string; description: string }) =>
+        c.value === currencyName
     );
 
     if (selected) {
-      this.customerForm.get('currencySymbol')?.setValue(selected.symbol);
+      this.customerForm.get('currencySymbol')?.setValue(selected.description);
       this.customerForm.get('currencySymbol')?.disable();
     } else {
       this.customerForm.get('currencySymbol')?.reset();
