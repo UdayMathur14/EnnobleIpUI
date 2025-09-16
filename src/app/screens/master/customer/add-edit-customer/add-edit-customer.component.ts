@@ -4,11 +4,7 @@ import { CustomerService } from '../../../../core/service/customer.service';
 import { CustomerDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 import { LookupService } from '../../../../core/service/lookup.service';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CountryService } from '../../../../core/service/country.service';
 
 @Component({
@@ -31,7 +27,8 @@ export class AddEditCustomerComponent implements OnInit {
     messageStatus: null,
   };
   customersList: any = [];
-  PhoneCodeList : any = [];
+  PhoneCodeList: any = [];
+  CurrencyList: any = [];
   countryList: any = [];
   stateList: any = [];
   loadSpinner: boolean = true;
@@ -133,7 +130,7 @@ export class AddEditCustomerComponent implements OnInit {
     private customerService: CustomerService,
     private toastr: ToastrService,
     private countryService: CountryService,
-    private lookupService: LookupService,
+    private lookupService: LookupService
   ) {}
 
   ngOnInit(): void {
@@ -176,22 +173,30 @@ export class AddEditCustomerComponent implements OnInit {
 
   AllstateList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('States').subscribe(
-      (response: any) => {
-        this.stateList = response.lookUps || [];
-        this.loadSpinner = false;
-      }
-    );  
+    this.lookupService.getDropdownData('States').subscribe((response: any) => {
+      this.stateList = response.lookUps || [];
+      this.loadSpinner = false;
+    });
   }
 
-    AllPhoneCodeList() {
+  AllPhoneCodeList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('PhoneCodes').subscribe(
-      (response: any) => {
+    this.lookupService
+      .getDropdownData('PhoneCodes')
+      .subscribe((response: any) => {
         this.PhoneCodeList = response.lookUps || [];
         this.loadSpinner = false;
-      }
-    );  
+      });
+  }
+
+  AllCurrencyList() {
+    this.loadSpinner = true;
+    this.lookupService
+      .getDropdownData('Currency')
+      .subscribe((response: any) => {
+        this.CurrencyList = response.lookUps || [];
+        this.loadSpinner = false;
+      });
   }
 
   onMsmeRegisterChange() {
@@ -398,18 +403,21 @@ export class AddEditCustomerComponent implements OnInit {
   onSelectshippingCountry(e: any) {
     this.customerForm.get('shippingCountry')?.setValue(e?.target?.innerText);
   }
-  
-  onSelectCurrency(currencyName: string) {
-  const selected = this.countryList.find((c: { currencyName: string; symbol: string }) => c.currencyName === currencyName);
 
-  if (selected) {
-    this.customerForm.get('currencySymbol')?.setValue(selected.symbol);
-    this.customerForm.get('currencySymbol')?.disable();
-  } else {
-    this.customerForm.get('currencySymbol')?.reset();
-    this.customerForm.get('currencySymbol')?.enable();
+  onSelectCurrency(currencyName: string) {
+    const selected = this.countryList.find(
+      (c: { currencyName: string; symbol: string }) =>
+        c.currencyName === currencyName
+    );
+
+    if (selected) {
+      this.customerForm.get('currencySymbol')?.setValue(selected.symbol);
+      this.customerForm.get('currencySymbol')?.disable();
+    } else {
+      this.customerForm.get('currencySymbol')?.reset();
+      this.customerForm.get('currencySymbol')?.enable();
+    }
   }
-}
   //TO GET THE VENDOR DATA
   getCustomerData(customerId: number) {
     this.customerService.getCustomerData(customerId).subscribe(
@@ -612,13 +620,11 @@ export class AddEditCustomerComponent implements OnInit {
     }
   }
 
-  AllcountryList( ) {
+  AllcountryList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('Country').subscribe(
-      (response: any) => {
-        this.countryList = response.lookUps || [];
-        this.loadSpinner = false;
-      }
-    );  
+    this.lookupService.getDropdownData('Country').subscribe((response: any) => {
+      this.countryList = response.lookUps || [];
+      this.loadSpinner = false;
+    });
   }
 }

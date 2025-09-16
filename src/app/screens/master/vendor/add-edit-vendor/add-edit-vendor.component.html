@@ -266,16 +266,16 @@
               <!-- Readonly ng-select -->
               <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="vendorId > 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                  {{ country.currencyName }}
+                <ng-option *ngFor="let currency of CurrencyList" [value]="currency.value">
+                  {{ currency.value }}
                 </ng-option>
               </ng-select>
 
               <!-- Editable ng-select -->
               <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="vendorId == 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                  {{ country.currencyName }}
+                <ng-option *ngFor="let currency of CurrencyList" [value]="currency.value">
+                  {{ currency.value }}
                 </ng-option>
               </ng-select>
             </div>

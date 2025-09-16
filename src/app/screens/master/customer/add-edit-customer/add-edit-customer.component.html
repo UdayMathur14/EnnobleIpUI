@@ -107,7 +107,8 @@
               <label for="">Billing State <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('billingState')">*</span></label>
               <!-- <input type="text" class="input-field" formControlName="billingState" /> -->
-              <input *ngIf="customerType !== 'EIPCDOM'" type="text" class="input-field" formControlName="billingState" />
+              <input *ngIf="customerType !== 'EIPCDOM'" type="text" class="input-field"
+                formControlName="billingState" />
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="customerType === 'EIPCDOM'" class="input-field" formControlName="billingState">
@@ -208,7 +209,8 @@
             <div class="custom-form-input">
               <label for="">Shipping State <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('shippingState')">*</span></label>
-              <input *ngIf="customerType !== 'EIPCDOM'" type="text" class="input-field" formControlName="shippingState" />
+              <input *ngIf="customerType !== 'EIPCDOM'" type="text" class="input-field"
+                formControlName="shippingState" />
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="customerType === 'EIPCDOM'" class="input-field" formControlName="shippingState">
@@ -256,16 +258,16 @@
               <!-- Readonly ng-select -->
               <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="customerId > 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                  {{ country.currencyName }}
+                <ng-option *ngFor="let currency of CurrencyList" [value]="currency.value">
+                  {{ currency.value }}
                 </ng-option>
               </ng-select>
 
               <!-- Editable ng-select -->
               <ng-select (change)="onSelectCurrency($event)" class="input-field" formControlName="currency"
                 *ngIf="customerId == 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                  {{ country.currencyName }}
+                <ng-option *ngFor="let currency of CurrencyList" [value]="currency.value">
+                  {{ currency.value }}
                 </ng-option>
               </ng-select>
             </div>
@@ -295,7 +297,8 @@
               <label for="">Contact Person Name <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('contactPersonName')">*</span></label>
               <input type="text" class="input-field" formControlName="contactPersonName" />
-              <div *ngIf="customerForm.get('contactPersonName')?.invalid && customerForm.get('contactPersonName')?.touched">
+              <div
+                *ngIf="customerForm.get('contactPersonName')?.invalid && customerForm.get('contactPersonName')?.touched">
                 <small class="text-danger" *ngIf="customerForm.get('contactPersonName')?.hasError('required')">
                   Contact Name is required.
                 </small>
@@ -363,8 +366,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
 
@@ -483,6 +484,6 @@
     </div>
   </form>
 
-<div class="spinner" *ngIf="loadSpinner">
+  <div class="spinner" *ngIf="loadSpinner">
     Loading...
-</div>
+  </div>

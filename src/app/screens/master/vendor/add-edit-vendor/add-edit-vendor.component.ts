@@ -18,6 +18,7 @@ export class AddEditVendorComponent implements OnInit {
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
   PhoneCodeList: any = [];
+  CurrencyList: any = [];
   countryList: any = [];
   stateList: any = [];
   loadSpinner: boolean = true;
@@ -161,7 +162,7 @@ export class AddEditVendorComponent implements OnInit {
     private vendorService: VendorService,
     private toastr: ToastrService,
     private countryService: CountryService,
-     private lookupService: LookupService,
+    private lookupService: LookupService
   ) {}
 
   ngOnInit(): void {
@@ -174,6 +175,7 @@ export class AddEditVendorComponent implements OnInit {
     this.AllcountryList();
     this.AllstateList();
     this.AllPhoneCodeList();
+    this.CurrencyList();
 
     this.vendorForm.get('accountNumber')?.valueChanges.subscribe(() => {
       this.checkAccountMatch();
@@ -211,23 +213,31 @@ export class AddEditVendorComponent implements OnInit {
   // }
 
   AllstateList() {
-   this.loadSpinner = true;
-    this.lookupService.getDropdownData('States').subscribe(
-      (response: any) => {
-        this.stateList = response.lookUps || [];
-        this.loadSpinner = false;
-      }
-    ); 
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('States').subscribe((response: any) => {
+      this.stateList = response.lookUps || [];
+      this.loadSpinner = false;
+    });
   }
 
   AllPhoneCodeList() {
-   this.loadSpinner = true;
-    this.lookupService.getDropdownData('PhoneCodes').subscribe(
-      (response: any) => {
+    this.loadSpinner = true;
+    this.lookupService
+      .getDropdownData('PhoneCodes')
+      .subscribe((response: any) => {
         this.PhoneCodeList = response.lookUps || [];
         this.loadSpinner = false;
-      }
-    ); 
+      });
+  }
+
+  AllCurrencyList() {
+    this.loadSpinner = true;
+    this.lookupService
+      .getDropdownData('Currency')
+      .subscribe((response: any) => {
+        this.CurrencyList = response.lookUps || [];
+        this.loadSpinner = false;
+      });
   }
 
   onMsmeRegisterChange() {
@@ -339,7 +349,7 @@ export class AddEditVendorComponent implements OnInit {
 
       this.vendorForm.get('bankPinCode')?.setValidators([Validators.required]);
       this.vendorForm.get('bankPinCode')?.updateValueAndValidity();
-      
+
       this.vendorForm
         .get('bankAddressLine1')
         ?.setValidators([Validators.required]);
@@ -353,7 +363,7 @@ export class AddEditVendorComponent implements OnInit {
 
       this.vendorForm.get('bankCountry')?.setValidators([Validators.required]);
       this.vendorForm.get('bankCountry')?.updateValueAndValidity();
-      
+
       this.vendorForm.get('billingState')?.clearValidators();
       this.vendorForm.get('billingState')?.updateValueAndValidity();
 
@@ -488,19 +498,22 @@ export class AddEditVendorComponent implements OnInit {
     this.vendorForm.get('shippingCountry')?.setValue(e?.target?.innerText);
   }
   onSelectCurrency(currencyName: string) {
-  const selected = this.countryList.find((c: { currencyName: string; symbol: string }) => c.currencyName === currencyName);
+    const selected = this.countryList.find(
+      (c: { currencyName: string; symbol: string }) =>
+        c.currencyName === currencyName
+    );
 
-  if (selected) {
-    this.vendorForm.get('currencySymbol')?.setValue(selected.symbol);
-    this.vendorForm.get('currencySymbol')?.disable();
-  } else {
-    this.vendorForm.get('currencySymbol')?.reset();
+    if (selected) {
+      this.vendorForm.get('currencySymbol')?.setValue(selected.symbol);
+      this.vendorForm.get('currencySymbol')?.disable();
+    } else {
+      this.vendorForm.get('currencySymbol')?.reset();
+    }
   }
-}
   onSelectSymbolCurrency(e: any) {
     this.vendorForm.get('currencySymbol')?.setValue(e?.target?.innerText);
   }
- 
+
   //TO GET THE VENDOR DATA
   getVendorData(vendorId: string) {
     this.vendorService.getVendorData(vendorId).subscribe(
@@ -697,7 +710,6 @@ export class AddEditVendorComponent implements OnInit {
     } else {
       isChecked = event.target.checked; // coming from checkbox event
     }
-    
 
     if (isChecked) {
       this.vendorForm.patchValue({
@@ -734,14 +746,11 @@ export class AddEditVendorComponent implements OnInit {
     }
   }
 
-  AllcountryList( ) {
+  AllcountryList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('Country').subscribe(
-      (response: any) => {
-        this.countryList = response.lookUps || [];
-        this.loadSpinner = false;
-      }
-    );  
+    this.lookupService.getDropdownData('Country').subscribe((response: any) => {
+      this.countryList = response.lookUps || [];
+      this.loadSpinner = false;
+    });
   }
-
 }
