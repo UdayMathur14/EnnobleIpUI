@@ -118,8 +118,8 @@
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="vendorType === 'EIPVDOM'" class="input-field" formControlName="billingState">
-                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
-                  {{ state.stateName }}
+                <ng-option *ngFor="let state of stateList" [value]="state.value">
+                  {{ state.value }}
                 </ng-option>
               </ng-select>
               <div *ngIf="vendorForm.get('billingState')?.invalid && vendorForm.get('billingState')?.touched">
@@ -185,16 +185,16 @@
               <!-- Readonly ng-select -->
               <ng-select (click)="onSelectshippingCountry($event)" class="input-field" formControlName="shippingCountry"
                 *ngIf="vendorId > 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
 
               <!-- Editable ng-select -->
               <ng-select (click)="onSelectshippingCountry($event)" class="input-field" formControlName="shippingCountry"
                 *ngIf="vendorId == 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
             </div>
@@ -220,8 +220,8 @@
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="vendorType === 'EIPVDOM'" class="input-field" formControlName="shippingState">
-                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
-                  {{ state.stateName }}
+                <ng-option *ngFor="let state of stateList" [value]="state.value">
+                  {{ state.value }}
                 </ng-option>
               </ng-select>
               <!-- <input type="text" class="input-field" formControlName="shippingState" /> -->
@@ -352,8 +352,8 @@
                   *ngIf="currentRequiredFields.includes('countryCode')">*</span></label>
               <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
               <ng-select class="input-field" formControlName="countryCode" [disabled]="isBillingCountryDisabled">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
-                  {{ country.countryCode }}
+                <ng-option *ngFor="let phoneCode of PhoneCodeList" [value]="phoneCode.value">
+                  {{ phoneCode.value }}
                 </ng-option>
               </ng-select>
             </div>
@@ -464,8 +464,8 @@
               <label for="">Bank Country <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('bankCountry')">*</span></label>
               <ng-select class="input-field" formControlName="bankCountry" [disabled]="isBillingCountryDisabled">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
             </div>
@@ -485,8 +485,8 @@
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="vendorType === 'EIPVDOM'" class="input-field" formControlName="bankState">
-                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
-                  {{ state.stateName }}
+                <ng-option *ngFor="let state of stateList" [value]="state.value">
+                  {{ state.value }}
                 </ng-option>
               </ng-select>
               <div *ngIf="vendorForm.get('bankState')?.invalid && vendorForm.get('bankState')?.touched">

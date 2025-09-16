@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../../core/service/customer.service';
 import { CustomerDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
+import { LookupService } from '../../../../core/service/lookup.service';
 import {
   FormControl,
   FormGroup,
@@ -30,6 +31,7 @@ export class AddEditCustomerComponent implements OnInit {
     messageStatus: null,
   };
   customersList: any = [];
+  PhoneCodeList : any = [];
   countryList: any = [];
   stateList: any = [];
   loadSpinner: boolean = true;
@@ -130,7 +132,8 @@ export class AddEditCustomerComponent implements OnInit {
     private router: Router,
     private customerService: CustomerService,
     private toastr: ToastrService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private lookupService: LookupService,
   ) {}
 
   ngOnInit(): void {
@@ -142,6 +145,7 @@ export class AddEditCustomerComponent implements OnInit {
     this.getCustomerData(this.queryData); // fetch the full customer data
     this.AllcountryList();
     this.AllstateList();
+    this.AllPhoneCodeList();
 
     //check that account no matches with confirm account number
 
@@ -155,36 +159,39 @@ export class AddEditCustomerComponent implements OnInit {
   }
 
   //get all the country list
-  AllcountryList() {
-    var data = {};
-    this.countryService.getCountryData(data).subscribe(
-      (response: any) => {
-        this.countryList = response.countrys;
-        console.log(this.countryList);
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
-  }
+  // AllcountryList() {
+  //   var data = {};
+  //   this.countryService.getCountryData(data).subscribe(
+  //     (response: any) => {
+  //       this.countryList = response.countrys;
+  //       console.log(this.countryList);
+  //       this.loadSpinner = false;
+  //     },
+  //     (error) => {
+  //       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+  //       this.loadSpinner = false;
+  //     }
+  //   );
+  // }
 
   AllstateList() {
-    var data = {
-      CountryName: '',
-    };
-    this.countryService.getStateData(data).subscribe(
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('States').subscribe(
       (response: any) => {
-        this.stateList = response.states;
-        console.log(this.stateList);
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.stateList = response.lookUps || [];
         this.loadSpinner = false;
       }
-    );
+    );  
+  }
+
+    AllPhoneCodeList() {
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('PhoneCodes').subscribe(
+      (response: any) => {
+        this.PhoneCodeList = response.lookUps || [];
+        this.loadSpinner = false;
+      }
+    );  
   }
 
   onMsmeRegisterChange() {
@@ -603,5 +610,15 @@ export class AddEditCustomerComponent implements OnInit {
         shippingCountry: '',
       });
     }
+  }
+
+  AllcountryList( ) {
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('Country').subscribe(
+      (response: any) => {
+        this.countryList = response.lookUps || [];
+        this.loadSpinner = false;
+      }
+    );  
   }
 }

@@ -95,7 +95,7 @@ export const updateTransporter = (transporterId: any) =>
   `/transporter/update/${transporterId}`;
 // export const createTransporter = () => `/transporter/create}`;
 export const getDropdownDatas = (type: any) =>
-  `/lookup/type/${type}`;
+  `lookup/type/${type}`;
 export const getrbData = (locationId: number) => `/rbDivMst/${locationId}`;
 export const createConfiguration = (locationId: number) =>
   `/rbDivMst/create/${locationId}`;

@@ -179,9 +179,9 @@
             <div class="custom-form-input">
               <label for="">Filing Date </label>
               <div class="input-group datepicker">
-                <input [minDate]="minDate" [maxDate]="maxDate" class="form-control" placeholder="dd-MM-yyyy" name="filingDate" formControlName="filingDate"
-                  (dateSelect)="onDateSelect('filingDate', $event)" ngbDatepicker #filingDate="ngbDatepicker"
-                  readonly />
+                <input [minDate]="minDate" [maxDate]="maxDate" class="form-control" placeholder="dd-MM-yyyy"
+                  name="filingDate" formControlName="filingDate" (dateSelect)="onDateSelect('filingDate', $event)"
+                  ngbDatepicker #filingDate="ngbDatepicker" readonly />
                 <button class="btn btn-outline-secondary bi bi-calendar6" (click)="filingDate.toggle()" type="button">
                   <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
                 </button>
@@ -310,8 +310,8 @@
                   <td>
                     <div class="custom-form-input dispatchwidth">
                       <ng-select class="input-field" placeholder="Select Country" formControlName="country">
-                        <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                          {{ country.countryName }}
+                        <ng-option *ngFor="let country of countryList" [value]="country.value">
+                          {{ country.value }}
                         </ng-option>
                       </ng-select>
                     </div>
@@ -320,8 +320,10 @@
                   <td *ngIf="isTranslationFeeSelected">
                     <ng-container *ngIf="vendorGroup.get('subFeeValue')?.value === 'Translation Fee'; else emptyLang">
                       <div class="custom-form-input dispatchwidth">
-                        <ng-select class="input-field" placeholder="Select Language" [items]="languageList"
-                          bindLabel="name" bindValue="code" formControlName="language">
+                        <ng-select class="input-field" placeholder="Select Language"  formControlName="language">
+                          <ng-option *ngFor="let language of LanguageList" [value]="language.value">
+                          {{ language.value }}
+                        </ng-option>
                         </ng-select>
                       </div>
                     </ng-container>
@@ -723,7 +725,7 @@
         <div class="row">
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input" *ngIf="dispatchId">
-              <label for="">Status <span class="text-danger" ></span></label>
+              <label for="">Status <span class="text-danger"></span></label>
               <select name="" id="" formControlName="status">
                 <option value="Active">Open</option>
                 <option value="Inactive">Completed</option>

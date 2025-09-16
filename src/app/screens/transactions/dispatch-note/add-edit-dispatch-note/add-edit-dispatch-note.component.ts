@@ -97,7 +97,7 @@ export class AddEditDispatchNoteComponent {
 
     this.setDateLimits();
     this.getLanguageList();
-
+    this.getCountryList();
     if (this.dispatchId == 0) {
       this.statusTab = false;
     }
@@ -112,7 +112,7 @@ export class AddEditDispatchNoteComponent {
       this.createInvoiceFeeDetailsGroup();
     }
 
-    this.getAllcountyListInit();
+    // this.getAllcountyListInit();
     this.getAllTransactionTypes();
     this.getFilteredCustomersList();
     this.dispatchNoteInit();
@@ -535,20 +535,20 @@ export class AddEditDispatchNoteComponent {
     );
   }
 
-  private async getAllcountyListInit() {
-    var data = {};
-    this.countryService.getCountryData(data).subscribe(
-      (response: any) => {
-        this.countryList = response.countrys;
-        console.log(this.countryList);
-        this.loadSpinner = false;
-      },
-      () => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
-  }
+  // private async getAllcountyListInit() {
+  //   var data = {};
+  //   this.countryService.getCountryData(data).subscribe(
+  //     (response: any) => {
+  //       this.countryList = response.countrys;
+  //       console.log(this.countryList);
+  //       this.loadSpinner = false;
+  //     },
+  //     () => {
+  //       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+  //       this.loadSpinner = false;
+  //     }
+  //   );
+  // }
 
   getAllTransactionTypes(
     offset: number = 0,
@@ -1362,14 +1362,24 @@ export class AddEditDispatchNoteComponent {
     );
   }
 
-  getLanguageList() {
+  getLanguageList( ) {
     this.loadSpinner = true;
     this.lookupService.getDropdownData('Language').subscribe(
       (response: any) => {
         this.LanguageList = response.lookUps || [];
-        console.log(this.LanguageList)
+        console.log(this.LanguageList);
         this.loadSpinner = false;
       }
-    );
+    );  
+  }
+
+  getCountryList( ) {
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('Country').subscribe(
+      (response: any) => {
+        this.countryList = response.lookUps || [];
+        this.loadSpinner = false;
+      }
+    );  
   }
 }

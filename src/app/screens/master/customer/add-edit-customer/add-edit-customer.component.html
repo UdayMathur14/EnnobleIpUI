@@ -83,8 +83,8 @@
             <div class="custom-form-input">
               <label for="">Billing Country <span class="text-danger" *ngIf="customerId == 0">*</span></label>
               <ng-select class="input-field" formControlName="billingCountry" [disabled]="isBillingCountryDisabled">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
             </div>
@@ -111,8 +111,8 @@
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="customerType === 'EIPCDOM'" class="input-field" formControlName="billingState">
-                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
-                  {{ state.stateName }}
+                <ng-option *ngFor="let state of stateList" [value]="state.value">
+                  {{ state.value }}
                 </ng-option>
               </ng-select>
               <div *ngIf="customerForm.get('billingState')?.invalid && customerForm.get('billingState')?.touched">
@@ -177,16 +177,16 @@
               <!-- Readonly ng-select -->
               <ng-select (click)="onSelectshippingCountry($event)" class="input-field" formControlName="shippingCountry"
                 *ngIf="customerId > 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
 
               <!-- Editable ng-select -->
               <ng-select (click)="onSelectshippingCountry($event)" class="input-field" formControlName="shippingCountry"
                 *ngIf="customerId == 0">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
             </div>
@@ -212,8 +212,8 @@
 
               <!-- If DOM type: Show dropdown -->
               <ng-select *ngIf="customerType === 'EIPCDOM'" class="input-field" formControlName="shippingState">
-                <ng-option *ngFor="let state of stateList" [value]="state.stateName">
-                  {{ state.stateName }}
+                <ng-option *ngFor="let state of stateList" [value]="state.value">
+                  {{ state.value }}
                 </ng-option>
               </ng-select>
               <!-- <input type="text" class="input-field" formControlName="shippingState" /> -->
@@ -337,12 +337,12 @@
           </div>
           <div class="col-lg-3 col-md-3">
             <div class="custom-form-input">
-              <label for="">Country Code <span class="text-danger"
+              <label for="">Phone Code <span class="text-danger"
                   *ngIf="currentRequiredFields.includes('countryCode')">*</span></label>
               <!-- <input type="text" class="input-field" formControlName="countryCode" /> -->
               <ng-select class="input-field" formControlName="countryCode" [disabled]="isBillingCountryDisabled">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryCode">
-                  {{ country.countryCode }}
+                <ng-option *ngFor="let phoneCodes of PhoneCodeList" [value]="phoneCodes.value">
+                  {{ phoneCodes.value }}
                 </ng-option>
               </ng-select>
             </div>

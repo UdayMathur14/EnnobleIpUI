@@ -5,6 +5,7 @@ import { VendorDataModel } from '../../../../core/model/masterModels.model';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CountryService } from '../../../../core/service/country.service';
+import { LookupService } from '../../../../core/service/lookup.service';
 
 @Component({
   selector: 'app-add-edit-vendor',
@@ -16,6 +17,7 @@ export class AddEditVendorComponent implements OnInit {
   vendorId: number = 0;
   vendorData: VendorDataModel = {};
   vendorsList: any = [];
+  PhoneCodeList: any = [];
   countryList: any = [];
   stateList: any = [];
   loadSpinner: boolean = true;
@@ -158,7 +160,8 @@ export class AddEditVendorComponent implements OnInit {
     private router: Router,
     private vendorService: VendorService,
     private toastr: ToastrService,
-    private countryService: CountryService
+    private countryService: CountryService,
+     private lookupService: LookupService,
   ) {}
 
   ngOnInit(): void {
@@ -170,6 +173,7 @@ export class AddEditVendorComponent implements OnInit {
     this.getVendorData(this.queryData); // fetch the full vendor data
     this.AllcountryList();
     this.AllstateList();
+    this.AllPhoneCodeList();
 
     this.vendorForm.get('accountNumber')?.valueChanges.subscribe(() => {
       this.checkAccountMatch();
@@ -191,36 +195,39 @@ export class AddEditVendorComponent implements OnInit {
   }
 
   //get all the country list
-  AllcountryList() {
-    var data = {};
-    this.countryService.getCountryData(data).subscribe(
-      (response: any) => {
-        this.countryList = response.countrys;
-        console.log(this.countryList);
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    );
-  }
+  // AllcountryList() {
+  //   var data = {};
+  //   this.countryService.getCountryData(data).subscribe(
+  //     (response: any) => {
+  //       this.countryList = response.countrys;
+  //       console.log(this.countryList);
+  //       this.loadSpinner = false;
+  //     },
+  //     (error) => {
+  //       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+  //       this.loadSpinner = false;
+  //     }
+  //   );
+  // }
 
   AllstateList() {
-    var data = {
-      CountryName: '',
-    };
-    this.countryService.getStateData(data).subscribe(
+   this.loadSpinner = true;
+    this.lookupService.getDropdownData('States').subscribe(
       (response: any) => {
-        this.stateList = response.states;
-        console.log(this.stateList);
-        this.loadSpinner = false;
-      },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+        this.stateList = response.lookUps || [];
         this.loadSpinner = false;
       }
-    );
+    ); 
+  }
+
+  AllPhoneCodeList() {
+   this.loadSpinner = true;
+    this.lookupService.getDropdownData('PhoneCodes').subscribe(
+      (response: any) => {
+        this.PhoneCodeList = response.lookUps || [];
+        this.loadSpinner = false;
+      }
+    ); 
   }
 
   onMsmeRegisterChange() {
@@ -726,4 +733,15 @@ export class AddEditVendorComponent implements OnInit {
       });
     }
   }
+
+  AllcountryList( ) {
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('Country').subscribe(
+      (response: any) => {
+        this.countryList = response.lookUps || [];
+        this.loadSpinner = false;
+      }
+    );  
+  }
+
 }
