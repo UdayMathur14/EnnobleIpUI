@@ -143,6 +143,7 @@ export class AddEditCustomerComponent implements OnInit {
     this.AllcountryList();
     this.AllstateList();
     this.AllPhoneCodeList();
+    this.AllCurrencyList();
 
     //check that account no matches with confirm account number
 

@@ -175,7 +175,7 @@ export class AddEditVendorComponent implements OnInit {
     this.AllcountryList();
     this.AllstateList();
     this.AllPhoneCodeList();
-    this.CurrencyList();
+    this.AllCurrencyList();
 
     this.vendorForm.get('accountNumber')?.valueChanges.subscribe(() => {
       this.checkAccountMatch();
