@@ -510,8 +510,8 @@
                       <div class="custom-form-input dispatchwidth">
                         <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency"
                           [appendTo]="'body'">
-                          <ng-option *ngFor="let country of countryList" [value]="country.currencyName">
-                            {{ country.currencyName }}
+                          <ng-option *ngFor="let currency of currencyList" [value]="currency.value">
+                            {{ currency.value }}
                           </ng-option>
                         </ng-select>
                       </div>

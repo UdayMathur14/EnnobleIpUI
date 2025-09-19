@@ -26,6 +26,7 @@ export class AddEditDispatchNoteComponent {
   activeSection = 'professional'; // or 'govt'
   subFeeOptionsList: any[] = [];
   countryList: any = [];
+  currencyList: any = [];
   transactionTypesList: any = [];
   selectedVendorCountry: string = '';
   currencySymbol: string = '';
@@ -98,6 +99,7 @@ export class AddEditDispatchNoteComponent {
     this.setDateLimits();
     this.getLanguageList();
     this.getCountryList();
+    this.getPaymentCurrencyList();
     if (this.dispatchId == 0) {
       this.statusTab = false;
     }
@@ -1378,6 +1380,16 @@ export class AddEditDispatchNoteComponent {
     this.lookupService.getDropdownData('Country').subscribe(
       (response: any) => {
         this.countryList = response.lookUps || [];
+        this.loadSpinner = false;
+      }
+    );  
+  }
+
+   getPaymentCurrencyList( ) {
+    this.loadSpinner = true;
+    this.lookupService.getDropdownData('Currency').subscribe(
+      (response: any) => {
+        this.currencyList = response.lookUps || [];
         this.loadSpinner = false;
       }
     );  
