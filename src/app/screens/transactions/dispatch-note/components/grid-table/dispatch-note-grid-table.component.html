@@ -5,7 +5,7 @@
         <th>Invoice Date</th>
         <th>Client Invoice No</th>
         <th>Due Date </th>
-        <th>Customer Name</th>
+        <th>Vendor Name</th>
         <th>Title</th>
         <th>Total Prof Fees</th>
         <th>Total Govt Fees</th>
@@ -54,7 +54,7 @@
         </td>
         <td>{{ dispatchNote?.clientInvoiceNo || '-' }}</td>
         <td>{{ dispatchNote?.dueDateAsPerInvoice | date:'dd-MM-yyyy'}}</td>
-        <td>{{ dispatchNote?.customerDetails.customerName || '-' }}</td>
+        <td>{{ dispatchNote?.vendorDetails.vendorName || '-' }}</td>
         <td>{{ dispatchNote?.title || '-' }}</td>
         <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
         <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
