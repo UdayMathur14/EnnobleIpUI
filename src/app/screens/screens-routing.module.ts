@@ -92,7 +92,7 @@ const routes: Routes = [
             { path: "transaction/bilti", component: BiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:locationId/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
-            { path: "transaction/pointMasterAccounts", component: PointMasterAccountsComponent, canActivate: [] },
+            { path: "transaction/paymentManagement", component: PointMasterAccountsComponent, canActivate: [] },
             { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent, canActivate: [] },
             { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent, canActivate: [] },
             { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent, canActivate: [] },

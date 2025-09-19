@@ -4,89 +4,52 @@
       <table>
         <thead>
           <tr>
-            <th>Location Code</th>
-            <th>Point Name</th>
-            <th>Point Charge</th>
-            <th>Same Location Charge</th>
-            <th>Contract Attachment</th>
+            <th>Invoice Date</th>
+            <th>Invoice No</th>
+            <th>Vendor Name</th>
+            <th>Due Date </th>
+            <th>Total Amount</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let pointchargeAcc of pointChargesList; let i = index">
-            <td>{{ pointchargeAcc?.locations?.value }}</td>
-            <td class="pointer">
-              <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-                <u>{{pointchargeAcc.pointName}}</u>
-              </span>
-              <ng-template #tipContent>
-                <div class="">
-                  <div class="content-row">
-                    <span>Creation Date</span>
-                    <span>{{pointchargeAcc?.creationDate}}</span>
-                  </div>
-                  <div class="content-row">
-                    <span>Created By</span>
-                    <span>{{pointchargeAcc?.createdBy}}</span>
-                  </div>
-                  <div class="content-row">
-                    <span>Last Update Date</span>
-                    <span>{{pointchargeAcc?.lastUpdateOn}}</span>
-                  </div>
-                  <div class="content-row">
-                    <span>Last Updated By</span>
-                    <span>{{pointchargeAcc?.lastUpdatedBy}}</span>
-                  </div>
-                </div>
-              </ng-template>
-            </td>
-            <td>{{pointchargeAcc?.newPointCharge && pointchargeAcc?.newPointCharge != 0 ? pointchargeAcc?.newPointCharge : pointchargeAcc?.pointCharge || '-' }}</td>
-            <td>{{pointchargeAcc?.newSameLocationCharge && pointchargeAcc?.newSameLocationCharge != 0 ? pointchargeAcc?.newSameLocationCharge : pointchargeAcc?.sameLocationCharge || '-' }}</td>
-            <td> <button class="icon-button mt-2"
-              (click)="openPDF(pointchargeAcc)" ngbTooltip="Contract Attachment" placement="top">
-              <div class="img-container">
-                <img src="assets/images/icons/link.svg" alt="link" class="ms-5 pointer" />
+      <tbody>
+      @for (Pointcharge of pointChargesList; track pointChargesList.id) {
+      <tr>
+
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{ Pointcharge?.invoiceDate | date: 'dd-MM-yyyy' }}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Created On</span>
+                <span>{{ Pointcharge?.creationDate | date: 'dd-MM-yyyy' }}</span>
               </div>
-            </button></td>
-            <td class="text-center d-flex justify-content-center" (click)="selectPoint(pointchargeAcc.id)">
-              <!-- Approve Button -->
-              <button type="button" class="custom-button-secondary-small me-2" [ngbPopover]="approvePopContent"
-                [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left"
-                #approvePopover="ngbPopover" (click)="openPopover(approvePopover)">
-                Approve
-              </button>
-              <!-- Reject Button -->
-              <button type="button" class="custom-button-regulr-small" [ngbPopover]="rejectPopContent"
-                [popoverTitle]="popTitle" [autoClose]="'outside'" triggers="manual" placement="left"
-                #rejectPopover="ngbPopover" (click)="openPopover(rejectPopover)">
-                Reject
-              </button>
-
-              <!-- Approve Popover Content -->
-              <ng-template #approvePopContent approveRemarks="ngbPopover">
-                <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #approveRemarks maxlength="150"></textarea>
-                </div>
-                <button class="custom-button-secondary"
-                  (click)="approvePoint(approveRemarks.value, approvePopover, pointchargeAcc)">
-                  Confirm Approve
-                </button>
-              </ng-template>
-
-              <!-- Reject Popover Content -->
-              <ng-template #rejectPopContent rejectRemarks="ngbPopover">
-                <div class="custom-form-input">
-                  <textarea name="" id="" rows="3" class="input-field" #rejectRemarks maxlength="150"></textarea>
-                </div>
-                <button class="custom-button-regulr" [disabled]="rejectRemarks.value.trim() === ''"
-                  (click)="rejectPoint(rejectRemarks.value, rejectPopover, pointchargeAcc)">
-                  Confirm Reject
-                </button>
-              </ng-template>
-              <ng-template #popTitle>Remarks</ng-template>
-            </td>
-          </tr>
-        </tbody>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{ Pointcharge?.createdByDetails?.name }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{ Pointcharge?.lastUpdateOn | date: 'dd-MM-yyyy' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{ Pointcharge?.lastUpdatedByDetails?.name }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{ Pointcharge?.clientInvoiceNo || '-' }}</td>
+        <td>{{ Pointcharge?.vendorDetails.vendorName || '-' }}</td>
+        <td>{{ Pointcharge?.dueDateAsPerInvoice | date:'dd-MM-yyyy'}}</td>
+        <td>{{ Pointcharge?.totalAmount || '-' }}</td>
+      </tr>
+      }
+      @empty {
+      }
+    </tbody>
       </table>
     </div>
   </div>

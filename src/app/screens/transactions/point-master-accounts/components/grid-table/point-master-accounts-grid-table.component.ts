@@ -7,6 +7,7 @@ import { PointChargeDataModel } from '../../../../../core/model/masterModels.mod
 import { PointChargeService } from '../../../../../core/service/point-charge.service';
 import { LookupService } from '../../../../../core/service/lookup.service';
 import { APIConstant } from '../../../../../core/constants';
+import { DispatchNoteService } from '../../../../../core/service/dispatch-note.service';
 
 @Component({
   selector: 'app-point-master-accounts-grid-table',
@@ -29,50 +30,77 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
   commonLocations: any = [];
   locationIds : any[] = []
   locations : any[] = [];
+  filters: any;
 
   constructor(private pointChargeService: PointChargeService, private toastr: ToastrService, private commonTransactionService: CommonTransactionService, private _Activatedroute: ActivatedRoute,
-    private lookupService: LookupService
+    private lookupService: LookupService , 
+    private dispatchNoteService: DispatchNoteService
   ) { }
   
   ngOnInit(): void {
-    this.getAllPointChargesList();
+    this.getDispatchData();
   }
 
   //SORTING DATA FROM FILTER CHANGES
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchedPoint'].currentValue) {
-      this.getAllPointChargesList();
+      this.getDispatchData();
     }
   }
   // GET ALL POINT CHARGE
-  getAllPointChargesList(offset: number = 0, count: number = this.count, filters: any = this.searchedPoint) {
+  // getAllPointChargesList(offset: number = 0, count: number = this.count, filters: any = this.searchedPoint) {
+  //   this.loadSpinner = true;
+  //   let data = {
+  //     "screenCode": 103,
+  //     "pointName": filters?.pointName || "",
+  //     locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
+  //   }
+  //   this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
+  //     this.pointChargesList = response.pointCharges;
+  //     this.totalPointCharge = response.paging.total;
+  //     this.loadSpinner = false;
+  //   }, error => {
+  //     //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+  //     this.loadSpinner = false;
+  //   })
+  // }
+  getDispatchData(
+    offset: number = 0,
+    count: number = this.count,
+    filters: any = this.searchedPoint
+  ) {
+    const data = {
+      ApplicationNumber: filters?.ApplicationNumber || '',
+      ClientInvoiceNumber: filters?.ClientInvoiceNumber,
+      Status: filters?.status || '',
+      VendorName: filters?.vendors || '',
+    };
     this.loadSpinner = true;
-    let data = {
-      "screenCode": 103,
-      "pointName": filters?.pointName || "",
-      locationIds: filters?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id))
-    }
-    this.pointChargeService.getPointCharges(data, offset, count).subscribe((response: any) => {
-      this.pointChargesList = response.pointCharges;
-      this.totalPointCharge = response.paging.total;
-      this.selectPoint(this.selectedPointId);
-      this.loadSpinner = false;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-      this.loadSpinner = false;
-    })
+    this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe(
+      (res: any) => {
+        this.pointChargesList = res.vendorInvoiceTxns;
+        this.totalPointCharge = res.paging.total;
+        this.filters = res.filters.VendorName;
+        this.loadSpinner = false;
+      },
+      (error) => {
+        this.loadSpinner = false;
+      }
+    );
   }
+
+
 
   onPageChange(page: number) {
     this.currentPage = page;
     const offset = (this.currentPage - 1) * this.count;
-    this.getAllPointChargesList(offset, this.count, this.searchedPoint);
+    this.getDispatchData(offset, this.count, this.searchedPoint);
   }
 
   onPageSizeChange(data: any) {
       this.count = data;
       this.currentPage = 1;
-      this.getAllPointChargesList(0, this.count, this.searchedPoint);
+      this.getDispatchData(0, this.count, this.searchedPoint);
     }
 
   selectPoint(pointId: number) {
@@ -114,43 +142,14 @@ export class PointMasterAccountsGridTableComponent implements OnInit {
       this.loadSpinner = false;
       this.toastr.success('Point Approval Updated Successfully');
       popover.close();
-      this.getAllPointChargesList();
+      this.getDispatchData();
     }, error => {
       //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
       this.loadSpinner = false;
     });
   }
 
-  openPDF(data: any) {
-    this.loadSpinner = true;
-    this.pointChargeService.getContractById(data?.locationId, data?.id).subscribe(
-        (response: any) => {
-            if (!response.fileData) {
-                this.toastr.error('No PDF is available to view', 'Error');
-                this.loadSpinner = false;
-                return;
-            }
+   
 
-            const base64Prefix = 'data:application/pdf;base64,';
-            const base64Data = response.fileData.startsWith(base64Prefix) 
-                ? response.fileData.substring(base64Prefix.length) 
-                : response.fileData;
-            const byteCharacters = atob(base64Data);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'application/pdf' });
-            const url = window.URL.createObjectURL(blob);
-
-            window.open(url, '_blank');
-
-            setTimeout(() => window.URL.revokeObjectURL(url), 100);
-
-            this.loadSpinner = false;
-        },
-    );
-}
 
 }

@@ -3,6 +3,7 @@ import { PointChargeService } from '../../../../../core/service/point-charge.ser
 import { ToastrService } from 'ngx-toastr';
 import { APIConstant } from '../../../../../core/constants';
 import { LookupService } from '../../../../../core/service/lookup.service';
+import { DispatchNoteService } from '../../../../../core/service/dispatch-note.service';
 
 @Component({
   selector: 'app-point-master-accounts-filter',
@@ -20,24 +21,33 @@ export class PointMasterAccountsFiltersComponent implements OnInit{
   
   constructor(private pointChargeService : PointChargeService,
     private toastr : ToastrService,
-    private lookupService: LookupService){}
+    private lookupService: LookupService,
+     private dispatchNoteService: DispatchNoteService
+  ){}
 
   ngOnInit(): void {
-    this.getAllPointChargesList();
+    this.getDispatchData();
   }
 
   //BINDING POINT CHARGE NUMBERS DROPDOWN
-  getAllPointChargesList() {
-    let data = {
-      "screenCode": 103, //Lookup Account Screen Code
-      "pointName": '',
-      locationIds:[]
-    }
-    this.pointChargeService.getPointCharges(data).subscribe((response: any) => {
-      this.filters = response.filters;
-    }, error => {
-      //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-    })
+  getDispatchData(
+    offset: number = 0,
+    count: number = 0,
+    filters: any = 0
+  ) {
+    const data = {
+      ApplicationNumber: filters?.ApplicationNumber || '',
+      ClientInvoiceNumber: filters?.ClientInvoiceNumber,
+      Status: filters?.status || '',
+      VendorName: filters?.vendors || '',
+    };
+    this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe(
+      (res: any) => {
+        this.filters = res.filters;
+      },
+      (error) => {
+      }
+    );
   }
 
   onPointChargeSearch(){
