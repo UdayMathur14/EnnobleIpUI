@@ -50,9 +50,9 @@ export class SideBarComponent {
         if (transaction === 'dispatchNote') {
             this.router.navigate(['/transaction/VendorInvoiceTxn'])
         } else if (transaction === 'pointMasterAccounts') {
-            this.router.navigate(['/transaction/paymentManagement'])
+            this.router.navigate(['/transaction/paymentManagements'])
         } else if (transaction === 'bilti') {
-            this.router.navigate(['/transaction/bilti'])
+            this.router.navigate(['/transaction/paymentManagement'])
         } else if (transaction === 'biltiBillProcessView') {
             this.router.navigate(['/transaction/biltiBillProcessView'])
         } else if (transaction === 'pointMasterMaterial') {

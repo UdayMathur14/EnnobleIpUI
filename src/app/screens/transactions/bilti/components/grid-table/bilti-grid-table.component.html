@@ -1,79 +1,181 @@
 <div class="custom-table">
-    <table>
-        <thead>
-            <tr>
-              <th>Location Code</th>
-                <th>Bilti No.</th>
-                <th>Vehicle No.</th>
-                <th>Vehicle Size</th>
-                <th>Freight Code</th>
-                <th>Source</th>
-                <th>Destination</th>
-                <th>Freight Amount</th>
-                <th>FRLR#</th>
-                <th>Loading Location</th>
-                <th>Status</th>
-                <th class="text-center">Bilti Details</th>
-                <th class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-          @for (bilti of biltisList; track bilti.id) {
-            <tr>
-              <td>{{ bilti?.locationDetials?.value }}</td>
-                <td class="pointer" container="body">
-                    <span
-                      placement="end"
-                      tooltipClass="table-datetime-popover"
-                      [ngbTooltip]="tipContent"
-                    >
-                      <u>{{bilti.biltiNumber}}</u>
-                    </span>
-                    <ng-template #tipContent>
-                      <div class="">
-                        <div class="content-row">
-                          <span>Creation Date</span>
-                          <span>{{bilti.creationDate | date: 'yyyy-MM-dd'}}</span>
-                        </div>
-                        <div class="content-row">
-                          <span>Created By</span>
-                          <span>{{bilti?.createdByDetails?.name}}</span> </div>
-                          <div class="content-row">
-                            <span>Last Update Date</span>
-                            <span>{{bilti.lastUpdateOn | date: 'yyyy-MM-dd'}}</span>
-                          </div>
-                          <div class="content-row">
-                            <span>Last Updated By</span>
-                            <span>{{bilti?.lastUpdatedByDetails?.name}}</span>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </td>
-                  <td>{{bilti?.vehicles?.vehicleNumber}}</td>
-                  <td>{{bilti?.vehicleSize}}</td>
-                  <td>{{bilti?.freights?.code}}</td>
-                  <td>{{bilti?.freights?.source?.value}}</td>
-                  <td>{{bilti?.freights?.destination?.value}}</td>
-                  <td>{{bilti?.freights?.freightAmount}}</td>
-                  <td>{{bilti?.frlrNumber}}</td>
-                  <td>{{bilti?.loadingLocation?.value}}</td>
-                  <td>{{bilti?.status}}</td>
-                <td class="text-center">
-                  <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer" (click)="onPreviewPdf(bilti)"
-                  placement="top" ngbTooltip="Bilti PDF" />
-                </td>
-                <td class="text-center">
-                  <button class="icon-button" ngbTooltip="Edit" (click)="onEditBilti(bilti)" placement="top" [disabled]="bilti?.openFlag == 'Close'">
-                    <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" />
-                  </button>
-                </td>
-            </tr>
-          }@empty {
-            <tr>
-              <td align="center" colspan="13">No Biltis Found </td>
-            </tr>
-          }
-        </tbody>
-    </table>
+  <!-- Invoice Table -->
+   <div class="text-end mt-3">
+  <button class="btn btn-primary" (click)="submitPayment()">Submit Payment</button>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Invoice Date</th>
+        <th>Invoice No</th>
+        <th>Vendor Name</th>
+        <th>Due Date</th>
+        <th>Total Amount</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (bilti of biltisList; track bilti.id) {
+      <tr>
+        <!-- Invoice Date with Tooltip -->
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{ bilti?.invoiceDate | date: 'yyyy-MM-dd' }}</u>
+          </span>
+
+          <ng-template #tipContent>
+            <div>
+              <div class="content-row">
+                <span>Creation Date</span>
+                <span>{{ bilti.creationDate | date: 'yyyy-MM-dd' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{ bilti?.createdByDetails?.name }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{ bilti.lastUpdateOn | date: 'yyyy-MM-dd' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{ bilti?.lastUpdatedByDetails?.name }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+
+        <!-- Other Invoice Columns -->
+        <td>{{ bilti?.clientInvoiceNo || '-' }}</td>
+        <td>{{ bilti?.vendorDetails.vendorName || '-' }}</td>
+        <td>{{ bilti?.dueDateAsPerInvoice | date:'dd-MM-yyyy' }}</td>
+        <td>{{ bilti?.totalAmount || '-' }}</td>
+        <td class="text-center">
+          <input type="checkbox" [(ngModel)]="bilti.isSelected" /> <!-- User selects invoices -->
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td align="center" colspan="6">No Biltis Found</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
 
+<!-- Payment Fee Details Section -->
+<div id="payment-details-tab" class="tab-pane fade show" role="tabpanel" aria-labelledby="tab3-tab">
+  <div class="edit-screen-subTable mt-3">
+    <h4>Payment Fee Details</h4>
+  </div>
+
+  <div class="table-scroll">
+    <div class="custom-table">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="required-label">Payment Date</th>
+            <th class="required-label">Bank</th>
+            <th class="required-label">OWRM No</th>
+            <th class="required-label">Payment Currency</th>
+            <th class="required-label">Forex Amount</th>
+            <th class="required-label">Rate Of Exchange</th>
+            <th class="required-label">Value (INR)</th>
+            <th class="required-label">Bank Charges</th>
+            <th class="required-label">Total Amount (INR)</th>
+          </tr>
+        </thead>
+
+        <tbody [formGroup]="paymentFreeDetails">
+          <tr>
+            <!-- Payment Date -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <div class="input-group datepicker">
+                  <input class="form-control"
+                         placeholder="dd-MM-yyyy"
+                         formControlName="paymentDate"
+                         ngbDatepicker
+                         #dp="ngbDatepicker"
+                         readonly />
+                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                    <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                  </button>
+                </div>
+              </div>
+            </td>
+
+            <!-- Bank -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <ng-select formControlName="bankID" placeholder="Select Bank" [appendTo]="'body'">
+                  <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
+                    {{ bank.bankName }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </td>
+
+            <!-- OWRM No -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <input formControlName="owrmNo1" type="text" class="input-field" placeholder="OWRM No 1" />
+              </div>
+            </td>
+
+            <!-- Payment Currency -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <ng-select formControlName="paymentCurrency" placeholder="Select Currency" [appendTo]="'body'">
+                  <ng-option *ngFor="let currency of currencyList" [value]="currency.value">
+                    {{ currency.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </td>
+
+            <!-- Forex Amount -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <input formControlName="forexAmount" type="text" class="input-field"
+                       (keypress)="validateDecimal($event)" placeholder="Forex Amount" />
+              </div>
+            </td>
+
+            <!-- Rate Of Exchange -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <input formControlName="rateOfExchange" type="text" class="input-field"
+                       (keypress)="validateDecimal($event)" placeholder="Rate" />
+              </div>
+            </td>
+
+            <!-- Value (INR) -->
+            <td>
+              <div class="custom-form-input dispatchwidthsmall">
+                <input formControlName="paymentAmount" type="number" class="input-field"
+                       placeholder="Value INR" readonly />
+              </div>
+            </td>
+
+            <!-- Bank Charges -->
+            <td>
+              <div class="custom-form-input dispatchwidth">
+                <input formControlName="bankCharges" type="text" class="input-field"
+                       (keypress)="validateDecimal($event)" placeholder="Charges" />
+              </div>
+            </td>
+
+            <!-- Total Amount (INR) -->
+            <td>
+              <div class="custom-form-input dispatchwidthsmall">
+                <input formControlName="totalAmountInr" type="number" class="input-field"
+                       placeholder="Total INR" readonly />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

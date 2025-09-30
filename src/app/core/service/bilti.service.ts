@@ -36,8 +36,8 @@ export class BiltiService extends CRUDService<BiltiRequest> {
     return this.baseService.post(APIConstant.basePath + frlr(this.locationIds), data);
   }
 
-  createBilti(locationId: Number, data: any) {
-    return this.baseService.post(APIConstant.basePath + createBilti(locationId), data);
+  createBilti(data: any) {
+    return this.baseService.post(APIConstant.basePath + createBilti, data);
   }
 
   getLoadingLocation(data: object, type: string) {

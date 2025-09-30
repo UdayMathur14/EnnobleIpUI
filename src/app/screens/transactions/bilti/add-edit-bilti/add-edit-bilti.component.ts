@@ -1052,7 +1052,7 @@ getVehicleNumber() {
       })
   
       
-      this.biltiService.createBilti(locationCode,data).subscribe(
+      this.biltiService.createBilti(data).subscribe(
         (response: any) => {
           this.biltiData = response;
           this.toastr.success('Bilti Created Successfully');

@@ -104,11 +104,11 @@ export const updateConfiguration = (locationId: number) =>
 export const commonTransaction = (locationId: any, id: any) =>
   `/commonTransaction/updateStatus/${locationId}/${id}`;
 export const bilti = (offset: any, count: number) =>
-  `/bilti-creation/search?offset=${offset}&count=${count}`;
+  `VendorInvoiceTxn/search?offset=${offset}&count=${count}`;
 export const frlr = (locationId: any) =>
   `/frm-transactions/${locationId}/search`;
-export const createBilti = (locationId: any) =>
-  `/bilti-creation/create/${locationId}`;
+export const createBilti = () =>
+  `VendorInvoiceTxn/paymentDetails/`;
 export const biltiData = (locationId: any, biltiId: any) =>
   `/bilti-creation/${locationId}/${biltiId}`;
 export const updateBitli = (locationId: any, biltiId: any) =>

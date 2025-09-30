@@ -1,18 +1,10 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-3" *ngIf="locations && locations.length>1">
-                <label for="">Location Code</label>
-                <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true"
-                    placeholder="Select location">
-                    <ng-option *ngFor="let location of locations"
-                        [value]="location.id">{{location.value}}</ng-option>
-                </ng-select>
-        </div>
         <div class="col-lg-3">
             <div class="custom-form-input">
-                <label>Bilti Number</label>
+                <label>Vendor Name </label>
                 <ng-select class="input-field" [(ngModel)]="biltiNum" placeholder="Select Bilti Number">
-                    <ng-option *ngFor="let biltiNo of filters?.BiltiNumber" [value]="biltiNo">{{biltiNo}}</ng-option>
+                    <ng-option *ngFor="let biltiNo of filters?.Vendors" [value]="biltiNo">{{biltiNo}}</ng-option>
                 </ng-select>
             </div>
         </div>
@@ -26,19 +18,19 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Transaction Type Code</label>
+                <label for="">Client Inv No </label>
                 <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
                     placeholder="Select Transaction Code">
-                    <ng-option *ngFor="let transaction of filters?.TransactionTypeCode"
+                    <ng-option *ngFor="let transaction of filters?.ClientInvoiceNo"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
             </div>
         </div>
         <div class="col-lg-3">
             <div class="custom-form-input">
-                <label>Bilti Status</label>
+                <label>Application Number</label>
                 <ng-select class="input-field" [(ngModel)]="biltiStatus" placeholder="Select Bilti Status">
-                    <ng-option *ngFor="let status of filters?.BiltiStatus" [value]="status">{{status}}</ng-option>
+                    <ng-option *ngFor="let status of filters?.ApplicationNumber" [value]="status">{{status}}</ng-option>
                 </ng-select>
             </div>
         </div>
