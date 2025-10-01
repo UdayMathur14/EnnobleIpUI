@@ -65,10 +65,14 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="paymentFreeDetails">
-      <div class="mb-3">
-        <label>Total Amount of Selected Invoices: </label>
-      <strong>{{ selectedInvoicesTotal | number:'1.2-2' }}</strong>
-      </div>
+ <div class="mb-3 p-2 bg-light rounded">
+  <span class="fw-bold text-dark">
+    💰 Total Amount of Selected Invoices:
+  </span>
+  <span class="fw-bold text-danger ms-2">
+    {{ selectedInvoicesTotal | number:'1.2-2' }}
+  </span>
+</div>
 
       <div formArrayName="paymentFeeDetails" *ngFor="let group of paymentFeeDetails.controls; let i=index">
         <div [formGroupName]="i" class="row g-2">
