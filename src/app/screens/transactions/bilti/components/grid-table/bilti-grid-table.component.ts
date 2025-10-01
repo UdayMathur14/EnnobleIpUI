@@ -1,12 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
-import { DeliveryNoteModalComponent } from '../../../../modals/delivery-note/delivery-note.component';
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
-import { BiltiPdfModalComponent } from '../../../../modals/bilti-pdf/bilti-pdf.component';
-import { APIConstant } from '../../../../../core/constants';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LookupService } from '../../../../../core/service/lookup.service';
 import { TransactionTypesService } from '../../../../../core/service/transactionTypes.service';
@@ -133,7 +129,7 @@ export class BiltiGridTableComponent implements OnInit {
   /** Called when user clicks Submit Payment */
   openPaymentModal() {
     // collect selected invoice IDs
-    this.selectedInvoiceIds = this.biltisList.filter((x: any) => x.selected).map((x: any) => x.id);
+    this.selectedInvoiceIds = this.biltisList.filter((x: any) => x.isSelected).map((x: any) => x.id);
 
     if (!this.selectedInvoiceIds.length) {
       this.toastr.error('Please select at least one invoice.');
