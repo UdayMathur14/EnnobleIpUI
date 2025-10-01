@@ -10,24 +10,6 @@
         </div>
         <div class="col-lg-3">
             <div class="custom-form-input">
-                <label>Status</label>
-                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
-                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="custom-form-input">
-                <label for="">Client Inv No </label>
-                <ng-select class="input-field" [(ngModel)]="transactionTypeCode"
-                    placeholder="Select Transaction Code">
-                    <ng-option *ngFor="let transaction of filters?.ClientInvoiceNo"
-                        [value]="transaction">{{transaction}}</ng-option>
-                </ng-select>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="custom-form-input">
                 <label>Application Number</label>
                 <ng-select class="input-field" [(ngModel)]="biltiStatus" placeholder="Select Bilti Status">
                     <ng-option *ngFor="let status of filters?.ApplicationNumber" [value]="status">{{status}}</ng-option>
@@ -36,11 +18,30 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
+                <label for="">Client Inv No </label>
+                <ng-select class="input-field" [(ngModel)]="transactionTypeCode" placeholder="Select Transaction Code">
+                    <ng-option *ngFor="let transaction of filters?.ClientInvoiceNo"
+                        [value]="transaction">{{transaction}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
                     <button class="custom-button-filters" (click)="onBiltiSearch()"
-                        [disabled]="locationIds.length==0 && !biltiNum && !status">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]="locationIds.length && !biltiNum && !status && !biltiStatus">
+                        [disabled]=" !biltiNum && !status">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()"
+                        [disabled]="!biltiNum && !status && !biltiStatus">
                         Clear</button>
                 </div>
             </div>
