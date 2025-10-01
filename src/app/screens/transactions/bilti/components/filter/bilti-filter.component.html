@@ -3,7 +3,7 @@
         <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Vendor Name </label>
-                <ng-select class="input-field" [(ngModel)]="biltiNum" placeholder="Select Bilti Number">
+                <ng-select class="input-field" [(ngModel)]="biltiNum" placeholder="Select Vendor">
                     <ng-option *ngFor="let biltiNo of filters?.Vendors" [value]="biltiNo">{{biltiNo}}</ng-option>
                 </ng-select>
             </div>
@@ -11,7 +11,7 @@
         <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Application Number</label>
-                <ng-select class="input-field" [(ngModel)]="biltiStatus" placeholder="Select Bilti Status">
+                <ng-select class="input-field" [(ngModel)]="biltiStatus" placeholder="Select Application Number">
                     <ng-option *ngFor="let status of filters?.ApplicationNumber" [value]="status">{{status}}</ng-option>
                 </ng-select>
             </div>
@@ -19,7 +19,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Client Inv No </label>
-                <ng-select class="input-field" [(ngModel)]="transactionTypeCode" placeholder="Select Transaction Code">
+                <ng-select class="input-field" [(ngModel)]="transactionTypeCode" placeholder="Select Client Inv No">
                     <ng-option *ngFor="let transaction of filters?.ClientInvoiceNo"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
