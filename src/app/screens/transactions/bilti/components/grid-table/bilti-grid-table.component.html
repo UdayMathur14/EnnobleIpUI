@@ -101,6 +101,11 @@
             <ng-select formControlName="paymentCurrency" [items]="currencyList" bindLabel="value" bindValue="value" placeholder="Select Currency" [appendTo]="'body'">
             </ng-select>
           </div>
+              <!-- OWRM No -->
+          <div class="col-md-4">
+            <label>OWRM No</label>
+            <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
+          </div>
 
           <!-- Rate -->
           <div class="col-md-4">
@@ -131,12 +136,7 @@
             <label>Total INR</label>
             <input formControlName="totalAmountInr" type="number" class="form-control" readonly />
           </div>
-
-          <!-- OWRM No -->
-          <div class="col-md-4">
-            <label>OWRM No</label>
-            <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
-          </div>
+          
         </div>
       </div>
     </form>
