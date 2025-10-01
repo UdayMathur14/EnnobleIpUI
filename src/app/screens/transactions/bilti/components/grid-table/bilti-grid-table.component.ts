@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionTypeModalComponent } from '../../../../modals/transaction-type/transaction-type.component';
@@ -22,8 +22,10 @@ export class BiltiGridTableComponent implements OnInit {
   paymentFreeDetails!: FormGroup;
   transactionTypesList: any = [];
   currencyList: any = [];
-  private fb: FormBuilder = new FormBuilder;
-  selectedInvoiceId: any;
+  private fb: FormBuilder = new FormBuilder();
+  selectedInvoiceIds: number[] = [];   // ✅ multiple invoices
+
+  @ViewChild('paymentModal') paymentModal: any;  // for opening modal popup
 
   constructor(
     private router: Router,
@@ -37,110 +39,82 @@ export class BiltiGridTableComponent implements OnInit {
   ngOnInit(): void {
     this.getPaymentCurrencyList();
     this.getAllTransactionTypes();
-  }
 
-  
-
-    createPaymentFeeDetailsGroup() {
-      const detail = this.fb.group({
-        id: [0],
-        paymentDate: ['', [Validators.required]],
-        bankID: ['', [Validators.required]],
-        owrmNo1: ['', [Validators.required]],
-        owrmNo2: [''],
-        rate: [0, Validators.required],
-        quantity: [0, Validators.required],
-        paymentCurrency: ['', [Validators.required]],
-        paymentAmount: [0],
-        bankCharges: [0, Validators.required],
-        totalAmountInr: [0],
-      });
-  
-      this.paymentFeeDetails.push(detail);
-  
-      const newFormGroup = this.paymentFeeDetails.at(
-        this.paymentFeeDetails.length - 1
-      ) as FormGroup;
-  
-      this.setupSubscriptions(newFormGroup);
-    }
-
-     get paymentFeeDetails(): FormArray {
-        return this.paymentFreeDetails.get(
-          'paymentFeeDetails'
-        ) as FormArray;
-      }
-
-       private setupSubscriptions(group: FormGroup) {
-    group.get('rate')!.valueChanges.subscribe(() => {
-      this.calculateRowValues(group);
-    });
-
-    group.get('quantity')!.valueChanges.subscribe(() => {
-      this.calculateRowValues(group);
-    });
-
-    group.get('bankCharges')!.valueChanges.subscribe(() => {
-      this.calculateRowValues(group);
+    // ✅ initialize form
+    this.paymentFreeDetails = this.fb.group({
+      paymentFeeDetails: this.fb.array([]),
     });
   }
 
-    private calculateRowValues(group: FormGroup) {
-    if (!group) {
-      return; // Agar row hi nahi hai toh calculation skip
-    }
+  // ----------------- FORM GROUP CREATION ------------------
+  createPaymentFeeDetailsGroup() {
+    const detail = this.fb.group({
+      id: [0],
+      paymentDate: ['', [Validators.required]],
+      bankID: ['', [Validators.required]],
+      owrmNo1: ['', [Validators.required]],
+      owrmNo2: [''],
+      rate: [0, [Validators.required, Validators.min(0.01)]],
+      quantity: [0, [Validators.required, Validators.min(1)]],
+      paymentCurrency: ['', [Validators.required]],
+      paymentAmount: [0],
+      bankCharges: [0, [Validators.required, Validators.min(0)]],
+      totalAmountInr: [0],
+    });
 
-    // Convert all values to numbers to ensure correct addition
+    this.paymentFeeDetails.push(detail);
+    const newFormGroup = this.paymentFeeDetails.at(this.paymentFeeDetails.length - 1) as FormGroup;
+    this.setupSubscriptions(newFormGroup);
+  }
+
+  get paymentFeeDetails(): FormArray {
+    return this.paymentFreeDetails.get('paymentFeeDetails') as FormArray;
+  }
+
+  private setupSubscriptions(group: FormGroup) {
+    group.get('rate')!.valueChanges.subscribe(() => this.calculateRowValues(group));
+    group.get('quantity')!.valueChanges.subscribe(() => this.calculateRowValues(group));
+    group.get('bankCharges')!.valueChanges.subscribe(() => this.calculateRowValues(group));
+  }
+
+  private calculateRowValues(group: FormGroup) {
     const rate = parseFloat(group.get('rate')?.value) || 0;
     const quantity = parseFloat(group.get('quantity')?.value) || 0;
     const bankCharges = parseFloat(group.get('bankCharges')?.value) || 0;
 
-    // Calculate Value (INR)
     const paymentAmount = rate * quantity;
     group.get('paymentAmount')?.patchValue(paymentAmount, { emitEvent: false });
 
-    // Calculate Total Amount (INR)
     const totalAmountInr = paymentAmount + bankCharges;
-    group
-      .get('totalAmountInr')
-      ?.patchValue(totalAmountInr, { emitEvent: false });
+    group.get('totalAmountInr')?.patchValue(totalAmountInr, { emitEvent: false });
   }
 
-    validateDecimal(event: KeyboardEvent) {
-    const pattern = /[0-9.]/; // allow numbers and decimal point
+  // ----------------- UTILS ------------------
+  validateDecimal(event: KeyboardEvent) {
+    const pattern = /[0-9.]/;
     const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) event.preventDefault();
 
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-    }
-
-    // prevent multiple decimals
     const current: string = (event.target as HTMLInputElement).value;
-    if (inputChar === '.' && current.includes('.')) {
-      event.preventDefault();
-    }
+    if (inputChar === '.' && current.includes('.')) event.preventDefault();
   }
 
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
     const day = Number(e.day) < 10 ? '0' + e.day : e.day;
-    console.log(e);
+    console.log('Selected date:', `${e.year}-${month}-${day}`);
   }
 
-    getPaymentCurrencyList( ) {
+  // ----------------- LOOKUPS ------------------
+  getPaymentCurrencyList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('Currency').subscribe(
-      (response: any) => {
-        this.currencyList = response.lookUps || [];
-        this.loadSpinner = false;
-      }
-    );  
+    this.lookupService.getDropdownData('Currency').subscribe((response: any) => {
+      this.currencyList = response.lookUps || [];
+      this.loadSpinner = false;
+    });
   }
-   getAllTransactionTypes(
-    offset: number = 0,
-    count: number = 0,
-    filters: any = ''
-  ) {
+
+  getAllTransactionTypes(offset: number = 0, count: number = 0, filters: any = '') {
     let data = {
       bankCode: filters?.transactionTypeCode || '',
       bankName: filters?.transactionTypeName || '',
@@ -148,68 +122,87 @@ export class BiltiGridTableComponent implements OnInit {
     };
     this.transactionType.getTransactionTypes(data, offset, count).subscribe(
       (response: any) => {
-        console.log(response);
         this.transactionTypesList = response.banks;
       },
-      (error) => {
-        // this.toastr.error(error.error.details.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
+      () => (this.loadSpinner = false)
     );
   }
 
- submitPayment() {
-  if (!this.paymentFreeDetails || this.paymentFeeDetails.length === 0) {
-    this.toastr.error('Please add at least one payment entry.');
-    return;
+  // ----------------- PAYMENT FLOW ------------------
+
+  /** Called when user clicks Submit Payment */
+  openPaymentModal() {
+    // collect selected invoice IDs
+    this.selectedInvoiceIds = this.biltisList.filter((x: any) => x.selected).map((x: any) => x.id);
+
+    if (!this.selectedInvoiceIds.length) {
+      this.toastr.error('Please select at least one invoice.');
+      return;
+    }
+
+    // reset old form array
+    this.paymentFeeDetails.clear();
+    this.createPaymentFeeDetailsGroup(); // add fresh one
+
+    this.modalService.open(this.paymentModal, { size: 'lg', backdrop: 'static' });
   }
 
-  // ✅ Take the first form group since you're entering a single record
-  const formValue = this.paymentFeeDetails.at(0).value;
-
-  // Create request payload based on your backend model
-  const payload = {
-    VendorInvoiceIds: [this.selectedInvoiceId], // Assuming you have a single invoice selected
-    PaymentDetails: [
-      {
-        id: formValue.id || 0,
-        paymentDate: formValue.paymentDate,
-        bankID: formValue.bankID,
-        oWRMNo1: formValue.owrmNo1,  // ✅ Match property name exactly
-        oWRMNo2: formValue.owrmNo2,
-        rate: formValue.rate,
-        quantity: formValue.quantity,
-        bankcharges: formValue.bankCharges,
-        totalAmountInr: formValue.totalAmountInr,
-        paymentCurrency: formValue.paymentCurrency,
-        paymentAmount: formValue.paymentAmount
-      }
-    ]
-  };
-
-  console.log('Payload to submit:', payload);
-
-  this.loadSpinner = true;
-
-  // ✅ Call the service
-  this.biltiService.createBilti(payload).subscribe(
-    (response: any) => {
-      this.loadSpinner = false;
-      this.toastr.success('Payment added successfully!');
-
-      // Reset form after submit
-      this.paymentFreeDetails.reset();
-      this.paymentFeeDetails.clear();
-    },
-    (error: any) => {
-      this.loadSpinner = false;
-      console.error('Error while adding payment:', error);
-      this.toastr.error('Failed to add payment.');
+  /** Final Submit */
+  submitPayment() {
+    if (!this.paymentFreeDetails || this.paymentFeeDetails.length === 0) {
+      this.toastr.error('Please add at least one payment entry.');
+      return;
     }
-  );
+
+    if (this.paymentFreeDetails.invalid) {
+      this.toastr.error('Please fill all required fields correctly.');
+      return;
+    }
+
+    const formValue = this.paymentFeeDetails.at(0).value;
+
+    const payload = {
+      VendorInvoiceIds: this.selectedInvoiceIds, // ✅ multiple invoices
+      PaymentDetails: [
+        {
+          id: formValue.id || 0,
+          paymentDate: formValue.paymentDate,
+          bankID: formValue.bankID,
+          oWRMNo1: formValue.owrmNo1,
+          oWRMNo2: formValue.owrmNo2,
+          rate: formValue.rate,
+          quantity: formValue.quantity,
+          bankcharges: formValue.bankCharges,
+          totalAmountInr: formValue.totalAmountInr,
+          paymentCurrency: formValue.paymentCurrency,
+          paymentAmount: formValue.paymentAmount,
+        },
+      ],
+    };
+
+    console.log('Payload to submit:', payload);
+
+    this.loadSpinner = true;
+    this.biltiService.createBilti(payload).subscribe(
+      () => {
+        this.loadSpinner = false;
+        this.toastr.success('Payment added successfully!');
+        this.paymentFreeDetails.reset();
+        this.paymentFeeDetails.clear();
+      },
+      (error: any) => {
+        this.loadSpinner = false;
+        console.error('Error while adding payment:', error);
+        this.toastr.error('Failed to add payment.');
+      }
+    );
+  }
+  get selectedInvoicesTotal(): number {
+  if (!this.biltisList) return 0;
+
+  return this.biltisList
+    .filter((x: { isSelected: any; }) => x.isSelected)      // match your checkbox property
+    .reduce((sum: any, x: { totalAmount: any; }) => sum + (x.totalAmount || 0), 0);
+}
 }
 
-
-    
-  
-}
