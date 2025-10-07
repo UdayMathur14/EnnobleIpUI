@@ -3,7 +3,7 @@
         <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Vendor Name </label>
-                <ng-select class="input-field" [(ngModel)]="biltiNum" placeholder="Select Vendor">
+                <ng-select class="input-field" [(ngModel)]="vendorName" placeholder="Select Vendor">
                     <ng-option *ngFor="let biltiNo of filters?.Vendors" [value]="biltiNo">{{biltiNo}}</ng-option>
                 </ng-select>
             </div>
@@ -11,7 +11,7 @@
         <div class="col-lg-3">
             <div class="custom-form-input">
                 <label>Application Number</label>
-                <ng-select class="input-field" [(ngModel)]="biltiStatus" placeholder="Select Application Number">
+                <ng-select class="input-field" [(ngModel)]="applicationNumber" placeholder="Select Application Number">
                     <ng-option *ngFor="let status of filters?.ApplicationNumber" [value]="status">{{status}}</ng-option>
                 </ng-select>
             </div>
@@ -19,7 +19,7 @@
         <div class="col-lg-2">
             <div class="custom-form-input">
                 <label for="">Client Inv No </label>
-                <ng-select class="input-field" [(ngModel)]="transactionTypeCode" placeholder="Select Client Inv No">
+                <ng-select class="input-field" [(ngModel)]="clientInvoiceNumber" placeholder="Select Client Inv No">
                     <ng-option *ngFor="let transaction of filters?.ClientInvoiceNo"
                         [value]="transaction">{{transaction}}</ng-option>
                 </ng-select>
@@ -38,11 +38,8 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" (click)="onBiltiSearch()"
-                        [disabled]=" !biltiNum && !status">Search</button>
-                    <button class="custom-button-filters ms-2" (click)="onClearFilter()"
-                        [disabled]="!biltiNum && !status && !biltiStatus">
-                        Clear</button>
+                    <button class="custom-button-filters" (click)="onBiltiSearch()">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()">Clear</button>
                 </div>
             </div>
         </div>

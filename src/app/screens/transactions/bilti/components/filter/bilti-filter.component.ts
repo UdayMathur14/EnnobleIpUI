@@ -22,8 +22,9 @@ export class BiltiFilterComponent implements OnInit {
   @Output() locationsData: EventEmitter<any[]> = new EventEmitter();
   status: any = undefined;
   biltiStatus: any = undefined;
-  transactionTypeCode: any = undefined
-
+  applicationNumber: any = undefined;
+  clientInvoiceNumber: any = undefined;
+  vendorName: any = undefined;
   constructor(private lookupService: LookupService) { }
 
   ngOnInit(): void {
@@ -32,28 +33,25 @@ export class BiltiFilterComponent implements OnInit {
 
   onBiltiSearch() {
     let obj = {
-      "biltiNumber": this.biltiNum || "",
-      locationIds: this.locationIds,
+      vendorName: this.vendorName,
       status: this.status,
-      biltiStatus: this.biltiStatus,
-      transactionTypeCode: this.transactionTypeCode
+      applicationNumber: this.applicationNumber,
+      clientInvoiceNumber: this.clientInvoiceNumber
     }
     this.getData.emit(obj)
   }
 
 
   onClearFilter() {
-    this.biltiNum = null;
-    this.locationIds = this.locationIds;
+    this.vendorName = null;
     this.status = undefined;
-    this.biltiStatus = undefined,
-    this.transactionTypeCode = undefined
+    this.applicationNumber = undefined;
+    this.clientInvoiceNumber = undefined;
     let obj = {
-      biltiNum: null,
-      locationIds: this.locationIds,
-      status: '',
-      biltiStatus: '',
-      transactionTypeCode: ''
+      vendorName: null,
+      status: null,
+      applicationNumber: '',
+      clientInvoiceNumber: '',
     }
     this.getData.emit(obj)
   }

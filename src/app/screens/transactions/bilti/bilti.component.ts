@@ -33,9 +33,9 @@ export class BiltiComponent implements OnInit {
 
   getAllBiltisList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
     let data = {
-      // ApplicationNumber: filters?.ApplicationNumber || '',
-      // ClientInvoiceNumber: filters?.ClientInvoiceNumber,
-      // Status: filters?.status || '',
+      ApplicationNumber: filters?.ApplicationNumber || '',
+      ClientInvoiceNumber: filters?.ClientInvoiceNumber,
+      Status: filters?.status || '',
       VendorName: filters?.vendors || '',
     };
     this.biltiService.getBiltis(data, offset, count).subscribe(
