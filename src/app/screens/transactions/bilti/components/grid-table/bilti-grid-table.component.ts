@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiService } from '../../../../../core/service/bilti.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -162,7 +162,7 @@ export class BiltiGridTableComponent implements OnInit {
       PaymentDetails: [
         {
           id: formValue.id || 0,
-          paymentDate: formValue.paymentDate,
+          paymentDate: this.convertNgbToDate(formValue.paymentDate),
           bankID: formValue.bankID,
           oWRMNo1: formValue.owrmNo1,
           oWRMNo2: formValue.owrmNo2,
@@ -200,5 +200,11 @@ export class BiltiGridTableComponent implements OnInit {
     .filter((x: { isSelected: any; }) => x.isSelected)      // match your checkbox property
     .reduce((sum: any, x: { totalAmount: any; }) => sum + (x.totalAmount || 0), 0);
 }
+
+convertNgbToDate(date: NgbDate) {
+    const month = Number(date.month) < 10 ? '0' + date.month : date.month;
+    const day = Number(date.day) < 10 ? '0' + date.day : date.day;
+    return date.year + '-' + month.toString() + '-' + day.toString();
+  }
 }
 

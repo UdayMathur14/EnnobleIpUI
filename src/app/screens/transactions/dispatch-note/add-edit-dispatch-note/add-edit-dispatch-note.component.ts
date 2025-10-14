@@ -1036,7 +1036,6 @@ export class AddEditDispatchNoteComponent {
   onDateSelect(type: string, e: any) {
     const month = Number(e.month) < 10 ? '0' + e.month : e.month;
     const day = Number(e.day) < 10 ? '0' + e.day : e.day;
-    console.log(e);
   }
 
   // Create Row
