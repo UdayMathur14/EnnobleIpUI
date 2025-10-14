@@ -10,6 +10,7 @@ import { BiltiService } from '../../../core/service/bilti.service';
 })
 export class BiltiComponent implements OnInit {
   isFilters: boolean = true;
+  fullScreen: boolean = false;
   biltisList: any = []
   currentPage: number = 1;
   count: number = 10;
