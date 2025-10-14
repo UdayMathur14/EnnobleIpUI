@@ -38,6 +38,8 @@ export class BiltiFilterComponent implements OnInit {
       applicationNumber: this.applicationNumber,
       clientInvoiceNumber: this.clientInvoiceNumber
     }
+    console.log(obj);
+    
     this.getData.emit(obj)
   }
 
