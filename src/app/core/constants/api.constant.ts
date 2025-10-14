@@ -107,7 +107,7 @@ export const bilti = (offset: any, count: number) =>
   `VendorInvoiceTxn/search?offset=${offset}&count=${count}`;
 export const frlr = (locationId: any) =>
   `/frm-transactions/${locationId}/search`;
-export const createBilti = () =>
+export const createBilti = 
   `VendorInvoiceTxn/paymentDetails/`;
 export const biltiData = (locationId: any, biltiId: any) =>
   `/bilti-creation/${locationId}/${biltiId}`;
