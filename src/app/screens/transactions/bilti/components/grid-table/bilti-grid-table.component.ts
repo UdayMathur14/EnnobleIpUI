@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiService } from '../../../../../core/service/bilti.service';
@@ -19,9 +25,9 @@ export class BiltiGridTableComponent implements OnInit {
   transactionTypesList: any = [];
   currencyList: any = [];
   private fb: FormBuilder = new FormBuilder();
-  selectedInvoiceIds: number[] = [];   // ✅ multiple invoices
+  selectedInvoiceIds: number[] = []; // ✅ multiple invoices
 
-  @ViewChild('paymentModal') paymentModal: any;  // for opening modal popup
+  @ViewChild('paymentModal') paymentModal: any; // for opening modal popup
 
   constructor(
     private router: Router,
@@ -59,7 +65,9 @@ export class BiltiGridTableComponent implements OnInit {
     });
 
     this.paymentFeeDetails.push(detail);
-    const newFormGroup = this.paymentFeeDetails.at(this.paymentFeeDetails.length - 1) as FormGroup;
+    const newFormGroup = this.paymentFeeDetails.at(
+      this.paymentFeeDetails.length - 1
+    ) as FormGroup;
     this.setupSubscriptions(newFormGroup);
   }
 
@@ -68,9 +76,15 @@ export class BiltiGridTableComponent implements OnInit {
   }
 
   private setupSubscriptions(group: FormGroup) {
-    group.get('rate')!.valueChanges.subscribe(() => this.calculateRowValues(group));
-    group.get('quantity')!.valueChanges.subscribe(() => this.calculateRowValues(group));
-    group.get('bankCharges')!.valueChanges.subscribe(() => this.calculateRowValues(group));
+    group
+      .get('rate')!
+      .valueChanges.subscribe(() => this.calculateRowValues(group));
+    group
+      .get('quantity')!
+      .valueChanges.subscribe(() => this.calculateRowValues(group));
+    group
+      .get('bankCharges')!
+      .valueChanges.subscribe(() => this.calculateRowValues(group));
   }
 
   private calculateRowValues(group: FormGroup) {
@@ -82,7 +96,9 @@ export class BiltiGridTableComponent implements OnInit {
     group.get('paymentAmount')?.patchValue(paymentAmount, { emitEvent: false });
 
     const totalAmountInr = paymentAmount + bankCharges;
-    group.get('totalAmountInr')?.patchValue(totalAmountInr, { emitEvent: false });
+    group
+      .get('totalAmountInr')
+      ?.patchValue(totalAmountInr, { emitEvent: false });
   }
 
   // ----------------- UTILS ------------------
@@ -104,13 +120,19 @@ export class BiltiGridTableComponent implements OnInit {
   // ----------------- LOOKUPS ------------------
   getPaymentCurrencyList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('Currency').subscribe((response: any) => {
-      this.currencyList = response.lookUps || [];
-      this.loadSpinner = false;
-    });
+    this.lookupService
+      .getDropdownData('Currency')
+      .subscribe((response: any) => {
+        this.currencyList = response.lookUps || [];
+        this.loadSpinner = false;
+      });
   }
 
-  getAllTransactionTypes(offset: number = 0, count: number = 0, filters: any = '') {
+  getAllTransactionTypes(
+    offset: number = 0,
+    count: number = 0,
+    filters: any = ''
+  ) {
     let data = {
       bankCode: filters?.transactionTypeCode || '',
       bankName: filters?.transactionTypeName || '',
@@ -124,12 +146,24 @@ export class BiltiGridTableComponent implements OnInit {
     );
   }
 
+  private isTotalMatchingForex(): boolean {
+    if (this.paymentFeeDetails.length === 0) return false;
+
+    const formValue = this.paymentFeeDetails.at(0).value;
+    const forexAmount = parseFloat(formValue.rate) || 0; // assuming you enter total Forex here
+
+    // selectedInvoicesTotal is already calculated in your getter
+    return forexAmount === this.selectedInvoicesTotal;
+  }
+
   // ----------------- PAYMENT FLOW ------------------
 
   /** Called when user clicks Submit Payment */
   openPaymentModal() {
     // collect selected invoice IDs
-    this.selectedInvoiceIds = this.biltisList.filter((x: any) => x.isSelected).map((x: any) => x.id);
+    this.selectedInvoiceIds = this.biltisList
+      .filter((x: any) => x.isSelected)
+      .map((x: any) => x.id);
 
     if (!this.selectedInvoiceIds.length) {
       this.toastr.error('Please select at least one invoice.');
@@ -140,7 +174,10 @@ export class BiltiGridTableComponent implements OnInit {
     this.paymentFeeDetails.clear();
     this.createPaymentFeeDetailsGroup(); // add fresh one
 
-    this.modalService.open(this.paymentModal, { size: 'lg', backdrop: 'static' });
+    this.modalService.open(this.paymentModal, {
+      size: 'lg',
+      backdrop: 'static',
+    });
   }
 
   /** Final Submit */
@@ -152,6 +189,13 @@ export class BiltiGridTableComponent implements OnInit {
 
     if (this.paymentFreeDetails.invalid) {
       this.toastr.error('Please fill all required fields correctly.');
+      return;
+    }
+
+    if (!this.isTotalMatchingForex()) {
+      this.toastr.error(
+        'Forex Amount must equal the total of selected invoices.'
+      );
       return;
     }
 
@@ -194,17 +238,19 @@ export class BiltiGridTableComponent implements OnInit {
     );
   }
   get selectedInvoicesTotal(): number {
-  if (!this.biltisList) return 0;
+    if (!this.biltisList) return 0;
 
-  return this.biltisList
-    .filter((x: { isSelected: any; }) => x.isSelected)      // match your checkbox property
-    .reduce((sum: any, x: { totalAmount: any; }) => sum + (x.totalAmount || 0), 0);
-}
+    return this.biltisList
+      .filter((x: { isSelected: any }) => x.isSelected) // match your checkbox property
+      .reduce(
+        (sum: any, x: { totalAmount: any }) => sum + (x.totalAmount || 0),
+        0
+      );
+  }
 
-convertNgbToDate(date: NgbDate) {
+  convertNgbToDate(date: NgbDate) {
     const month = Number(date.month) < 10 ? '0' + date.month : date.month;
     const day = Number(date.day) < 10 ? '0' + date.day : date.day;
     return date.year + '-' + month.toString() + '-' + day.toString();
   }
 }
-
