@@ -11,46 +11,26 @@
         <th>Invoice No</th>
         <th>Vendor Name</th>
         <th>Due Date</th>
-        <th>Total Amount</th>
+        <th>Total Amount (USD)</th>
+        <th>Bank Charges (INR)</th>
+        <th>Total Amount (INR)</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let bilti of biltisList; trackBy: biltisList.id">
+      <tr *ngFor="let bilti of biltisList; let i = index; trackBy: trackByFn">
         <td class="text-center">
-          <input type="checkbox" [(ngModel)]="bilti.isSelected" />
+          <input type="checkbox" [(ngModel)]="bilti.isSelected" (change)="calculateForAllInvoices()" />
         </td>
-        <td>
-          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-            <u>{{ bilti?.invoiceDate | date:'dd-MM-yyyy'}}</u>
-          </span>
-          <ng-template #tipContent>
-            <div>
-              <div class="content-row">
-                <span>Creation Date:</span>
-                <span>{{ bilti.creationDate | date:'yyyy-MM-dd' }}</span>
-              </div>
-              <div class="content-row">
-                <span>Created By:</span>
-                <span>{{ bilti?.createdByDetails?.name }}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Update Date:</span>
-                <span>{{ bilti.lastUpdateOn | date:'yyyy-MM-dd' }}</span>
-              </div>
-              <div class="content-row">
-                <span>Last Updated By:</span>
-                <span>{{ bilti?.lastUpdatedByDetails?.name }}</span>
-              </div>
-            </div>
-          </ng-template>
-        </td>
+        <td>{{ bilti?.invoiceDate | date:'dd-MM-yyyy' }}</td>
         <td>{{ bilti?.clientInvoiceNo || '-' }}</td>
         <td>{{ bilti?.vendorDetails.vendorName || '-' }}</td>
         <td>{{ bilti?.dueDateAsPerInvoice | date:'dd-MM-yyyy' }}</td>
-        <td>{{ bilti?.totalAmount || '-' }}</td>
+        <td>{{ bilti?.totalAmount || 0 }}</td>
+        <td>{{ bilti.bankCharges | number:'1.2-2' }}</td>
+        <td>{{ bilti.totalAmountInr | number:'1.2-2' }}</td>
       </tr>
       <tr *ngIf="biltisList.length === 0">
-        <td colspan="6" class="text-center">No Biltis Found</td>
+        <td colspan="8" class="text-center">No Biltis Found</td>
       </tr>
     </tbody>
   </table>
@@ -63,80 +43,82 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="paymentFreeDetails">
- <div class="mb-3 p-2 bg-light rounded">
-  <span class="fw-bold text-dark">
-    💰 Total Amount of Selected Invoices:
-  </span>
-  <span class="fw-bold text-danger ms-2">
-    {{ selectedInvoicesTotal | number:'1.2-2' }}
-  </span>
-</div>
+    <form [formGroup]="paymentForm">
+      <div class="mb-3 p-2 bg-light rounded d-flex justify-content-between">
+        <span class="fw-bold text-dark">💰 Total Selected Invoice Amount:</span>
+        <span class="fw-bold text-danger ms-2">
+          {{ selectedInvoicesTotal | number:'1.2-2' }}
+        </span>
+      </div>
 
-      <div formArrayName="paymentFeeDetails" *ngFor="let group of paymentFeeDetails.controls; let i=index">
-        <div [formGroupName]="i" class="row g-2">
-          <!-- Payment Date -->
-          <div class="col-md-4">
-            <label>Payment Date</label>
-            <div class="input-group datepicker">
-              <input class="form-control" placeholder="dd-MM-yyyy" formControlName="paymentDate"
-                     ngbDatepicker #dp="ngbDatepicker" readonly />
-              <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
-                <img src="assets/images/icons/calendar.svg" width="15px" />
-              </button>
-            </div>
+      <div class="row g-2">
+        <div class="col-md-4">
+          <label>Payment Date</label>
+          <div class="input-group datepicker">
+            <input class="form-control" placeholder="dd-MM-yyyy" formControlName="paymentDate" ngbDatepicker
+              #dp="ngbDatepicker" readonly />
+            <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
+              <img src="assets/images/icons/calendar.svg" width="15px" />
+            </button>
           </div>
-
-          <!-- Bank -->
-          <div class="col-md-4">
-            <label>Bank</label>
-            <ng-select formControlName="bankID" [items]="transactionTypesList" bindLabel="bankName" bindValue="id" placeholder="Select Bank" >
-            </ng-select>
-          </div>
-
-          <!-- Payment Currency -->
-          <div class="col-md-4">
-            <label>Currency</label>
-            <ng-select formControlName="paymentCurrency" [items]="currencyList" bindLabel="value" bindValue="value" placeholder="Select Currency" >
-            </ng-select>
-          </div>
-              <!-- OWRM No -->
-          <div class="col-md-4">
-            <label>OWRM No</label>
-            <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
-          </div>
-
-          <!-- Rate -->
-          <div class="col-md-4">
-            <label>Forex Amount</label>
-            <input formControlName="rate" type="number" class="form-control" (keypress)="validateDecimal($event)" />
-          </div>
-
-          <!-- Quantity -->
-          <div class="col-md-4">
-            <label>Rate Of Exchange</label>
-            <input formControlName="quantity" type="number" class="form-control" />
-          </div>
-
-          <!-- Value (INR) -->
-          <div class="col-md-4">
-            <label>Value (INR)</label>
-            <input formControlName="paymentAmount" type="number" class="form-control" readonly />
-          </div>
-
-          <!-- Bank Charges -->
-          <div class="col-md-4">
-            <label>Bank Charges</label>
-            <input formControlName="bankCharges" type="number" class="form-control" (keypress)="validateDecimal($event)" />
-          </div>
-
-          <!-- Total Amount (INR) -->
-          <div class="col-md-4">
-            <label>Total INR</label>
-            <input formControlName="totalAmountInr" type="number" class="form-control" readonly />
-          </div>
-          
         </div>
+
+        <div class="col-md-4">
+          <label>Bank</label>
+          <ng-select formControlName="bankID" [items]="transactionTypesList" bindLabel="bankName" bindValue="id"
+            placeholder="Select Bank">
+          </ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Currency</label>
+          <ng-select formControlName="paymentCurrency" [items]="currencyList" bindLabel="value" bindValue="value"
+            placeholder="Select Currency">
+          </ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label>OWRM No</label>
+          <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
+        </div>
+
+        <div class="col-md-4">
+          <label>Forex Amount</label>
+          <input formControlName="rate" type="number" class="form-control" (keypress)="validateDecimal($event)" />
+        </div>
+
+        <div class="col-md-4">
+          <label>Rate Of Exchange</label>
+          <input formControlName="quantity" type="number" class="form-control" />
+        </div>
+
+        <div class="col-md-4">
+          <label>Bank Charges</label>
+          <input formControlName="bankCharges" type="number" class="form-control"
+            (keypress)="validateDecimal($event)" />
+        </div>
+      </div>
+
+      <!-- Selected Invoice List with Auto Calculated Values -->
+      <div class="mt-4">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Invoice No</th>
+              <th>Invoice Amount (USD)</th>
+              <th>Bank Charges (INR)</th>
+              <th>Total Amount (INR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let invoice of biltisList" [hidden]="!invoice.isSelected">
+              <td>{{ invoice.clientInvoiceNo }}</td>
+              <td>{{ invoice.totalAmount | number:'1.2-2' }}</td>
+              <td>{{ invoice.calculatedBankCharges || 0 | number:'1.2-2' }}</td>
+              <td>{{ invoice.calculatedTotalINR || 0 | number:'1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </form>
   </div>
