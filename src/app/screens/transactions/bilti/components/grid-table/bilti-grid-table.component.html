@@ -1,19 +1,19 @@
 <div class="custom-table">
   <div class="text-end mt-3">
-    <button class="btn btn-primary" (click)="openPaymentModal()">Submit Payment</button>
+    <button class="btn btn-primary" (click)="openPaymentModal()">Make Payment</button>
   </div>
 
   <table #table class="table">
     <thead>
-      <tr>
+      <tr class="table-light ;justify-content-between" >
         <th>Select</th>
         <th>Invoice Date</th>
         <th>Invoice No</th>
         <th>Vendor Name</th>
         <th>Due Date</th>
-        <th>Total Amount (USD)</th>
-        <th>Bank Charges (INR)</th>
-        <th>Total Amount (INR)</th>
+        <th>Total Amount </th>
+        <!-- <th>Bank Charges (INR)</th>
+        <th>Total Amount (INR)</th> -->
       </tr>
     </thead>
     <tbody>
@@ -26,8 +26,8 @@
         <td>{{ bilti?.vendorDetails.vendorName || '-' }}</td>
         <td>{{ bilti?.dueDateAsPerInvoice | date:'dd-MM-yyyy' }}</td>
         <td>{{ bilti?.totalAmount || 0 }}</td>
-        <td>{{ bilti.bankCharges | number:'1.2-2' }}</td>
-        <td>{{ bilti.totalAmountInr | number:'1.2-2' }}</td>
+        <!-- <td>{{ bilti.bankCharges | number:'1.2-2' }}</td>
+        <td>{{ bilti.totalAmountInr | number:'1.2-2' }}</td> -->
       </tr>
       <tr *ngIf="biltisList.length === 0">
         <td colspan="8" class="text-center">No Biltis Found</td>
@@ -35,7 +35,6 @@
     </tbody>
   </table>
 </div>
-
 <!-- ---------------- PAYMENT MODAL ---------------- -->
 <ng-template #paymentModal let-modal>
   <div class="modal-header">
@@ -44,7 +43,7 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="paymentForm">
-      <div class="mb-3 p-2 bg-light rounded d-flex justify-content-between">
+      <div class="mb-3 p-2 bg-light rounded d-flex ">
         <span class="fw-bold text-dark">💰 Total Selected Invoice Amount:</span>
         <span class="fw-bold text-danger ms-2">
           {{ selectedInvoicesTotal | number:'1.2-2' }}
@@ -84,18 +83,19 @@
 
         <div class="col-md-4">
           <label>Forex Amount</label>
-          <input formControlName="rate" type="number" class="form-control" (keypress)="validateDecimal($event)" />
+          <input formControlName="rate" type="number" class="form-control" (keypress)="validateDecimal($event)"
+            (input)="calculateAmounts()" />
         </div>
 
         <div class="col-md-4">
           <label>Rate Of Exchange</label>
-          <input formControlName="quantity" type="number" class="form-control" />
+          <input formControlName="quantity" type="number" class="form-control" (input)="calculateAmounts()" />
         </div>
 
         <div class="col-md-4">
           <label>Bank Charges</label>
-          <input formControlName="bankCharges" type="number" class="form-control"
-            (keypress)="validateDecimal($event)" />
+          <input formControlName="bankCharges" type="number" class="form-control" (keypress)="validateDecimal($event)"
+            (input)="calculateAmounts()" />
         </div>
       </div>
 
@@ -124,6 +124,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-    <button class="btn btn-primary" (click)="submitPayment(); modal.close()">Submit Payment</button>
+    <button class="btn btn-primary" [disabled]="disableSubmit"  (click)="submitPayment(); modal.close()">Submit</button>
+    <span class="text-danger" *ngIf="validationError">{{ validationError }}</span>
   </div>
 </ng-template>

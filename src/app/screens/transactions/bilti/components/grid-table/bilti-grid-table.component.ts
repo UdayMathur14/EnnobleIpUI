@@ -1,9 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiService } from '../../../../../core/service/bilti.service';
@@ -26,6 +21,8 @@ export class BiltiGridTableComponent implements OnInit {
   selectedInvoiceIds: number[] = [];
 
   @ViewChild('paymentModal') paymentModal: any;
+  validationError: string = '';
+  disableSubmit: boolean = false;
 
   constructor(
     private router: Router,
@@ -54,45 +51,49 @@ export class BiltiGridTableComponent implements OnInit {
     this.setupSubscriptions(this.paymentForm);
   }
 
-setupSubscriptions(group: FormGroup) {
-  group.valueChanges.subscribe((val) => {
-    const paymentDetail = group.value;
+  setupSubscriptions(group: FormGroup) {
+    group.valueChanges.subscribe((val) => {
+      const paymentDetail = group.value;
 
-    // check if forex amount = total of selected invoices
-    if (paymentDetail.rate === this.selectedInvoicesTotal) {
-      this.biltisList.forEach((invoice: any) => {
-        invoice.bankCharges = (invoice.totalAmount / paymentDetail.rate) * paymentDetail.bankCharges;
-        invoice.totalAmountInr = (invoice.totalAmount * paymentDetail.quantity) + invoice.bankCharges;
-        invoice.owrmNo = paymentDetail.owrmNo1;
-        invoice.paymentDate = paymentDetail.paymentDate;
-      });
-    } else {
-      // reset invoice rows
-      this.biltisList.forEach((invoice: any) => {
-        invoice.bankCharges = 0;
-        invoice.totalAmountInr = 0;
-        invoice.owrmNo = '';
-        invoice.paymentDate = null;
-      });
-    }
-  });
-}
-  calculateForAllInvoices() {
-  const rate = parseFloat(this.paymentForm.get('rate')?.value) || 0;
-  const bankChargesInput = parseFloat(this.paymentForm.get('bankCharges')?.value) || 0;
-  const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0;
-
-  this.biltisList
-    .filter((x: any) => x.isSelected)
-    .forEach((invoice: any) => {
-      const totalAmount = invoice.totalAmount || 0;
-      const bankCharges = (totalAmount / rate) * bankChargesInput;
-      const totalInr = (totalAmount * quantity) + bankCharges;
-
-      invoice.calculatedBankCharges = bankCharges;
-      invoice.calculatedTotalINR = totalInr;
+      // check if forex amount = total of selected invoices
+      if (paymentDetail.rate === this.selectedInvoicesTotal) {
+        this.biltisList.forEach((invoice: any) => {
+          invoice.bankCharges =
+            (invoice.totalAmount / paymentDetail.rate) *
+            paymentDetail.bankCharges;
+          invoice.totalAmountInr =
+            invoice.totalAmount * paymentDetail.quantity + invoice.bankCharges;
+          invoice.owrmNo = paymentDetail.owrmNo1;
+          invoice.paymentDate = paymentDetail.paymentDate;
+        });
+      } else {
+        // reset invoice rows
+        this.biltisList.forEach((invoice: any) => {
+          invoice.bankCharges = 0;
+          invoice.totalAmountInr = 0;
+          invoice.owrmNo = '';
+          invoice.paymentDate = null;
+        });
+      }
     });
-}
+  }
+  calculateForAllInvoices() {
+    const rate = parseFloat(this.paymentForm.get('rate')?.value) || 0;
+    const bankChargesInput =
+      parseFloat(this.paymentForm.get('bankCharges')?.value) || 0;
+    const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0;
+
+    this.biltisList
+      .filter((x: any) => x.isSelected)
+      .forEach((invoice: any) => {
+        const totalAmount = invoice.totalAmount || 0;
+        const bankCharges = (totalAmount / rate) * bankChargesInput;
+        const totalInr = totalAmount * quantity + bankCharges;
+
+        invoice.calculatedBankCharges = bankCharges;
+        invoice.calculatedTotalINR = totalInr;
+      });
+  }
   openPaymentModal() {
     this.selectedInvoiceIds = this.biltisList
       .filter((x: any) => x.isSelected)
@@ -123,12 +124,15 @@ setupSubscriptions(group: FormGroup) {
     }
 
     const rate = parseFloat(this.paymentForm.get('rate')?.value) || 0;
-    const bankChargesInput = parseFloat(this.paymentForm.get('bankCharges')?.value) || 0;
+    const bankChargesInput =
+      parseFloat(this.paymentForm.get('bankCharges')?.value) || 0;
     const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0;
 
     const paymentDetails = {
       id: 0,
-      paymentDate: this.convertNgbToDate(this.paymentForm.get('paymentDate')?.value),
+      paymentDate: this.convertNgbToDate(
+        this.paymentForm.get('paymentDate')?.value
+      ),
       bankID: this.paymentForm.get('bankID')?.value,
       oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
       oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
@@ -170,13 +174,19 @@ setupSubscriptions(group: FormGroup) {
 
   getPaymentCurrencyList() {
     this.loadSpinner = true;
-    this.lookupService.getDropdownData('Currency').subscribe((response: any) => {
-      this.currencyList = response.lookUps || [];
-      this.loadSpinner = false;
-    });
+    this.lookupService
+      .getDropdownData('Currency')
+      .subscribe((response: any) => {
+        this.currencyList = response.lookUps || [];
+        this.loadSpinner = false;
+      });
   }
 
-  getAllTransactionTypes(offset: number = 0, count: number = 0, filters: any = '') {
+  getAllTransactionTypes(
+    offset: number = 0,
+    count: number = 0,
+    filters: any = ''
+  ) {
     const data = {
       bankCode: filters?.transactionTypeCode || '',
       bankName: filters?.transactionTypeName || '',
@@ -197,7 +207,7 @@ setupSubscriptions(group: FormGroup) {
     return date.year + '-' + month.toString() + '-' + day.toString();
   }
 
-    validateDecimal(event: KeyboardEvent) {
+  validateDecimal(event: KeyboardEvent) {
     const pattern = /[0-9.]/; // allow numbers and decimal point
     const inputChar = String.fromCharCode(event.charCode);
 
@@ -212,19 +222,57 @@ setupSubscriptions(group: FormGroup) {
     }
   }
   trackByFn(index: number, item: any) {
-  return item.id || index;
-}
+    return item.id || index;
+  }
 
-updateInvoiceCalculations(paymentDetail: any) {
-  this.biltisList.forEach((invoice: any) => {
-    invoice.bankCharges = (invoice.totalAmount / paymentDetail.rate) * paymentDetail.bankCharges;
-    invoice.totalAmountInr = (invoice.totalAmount * paymentDetail.quantity) + invoice.bankCharges;
-  });
-}
+  updateInvoiceCalculations(paymentDetail: any) {
+    this.biltisList.forEach((invoice: any) => {
+      invoice.bankCharges =
+        (invoice.totalAmount / paymentDetail.rate) * paymentDetail.bankCharges;
+      invoice.totalAmountInr =
+        invoice.totalAmount * paymentDetail.quantity + invoice.bankCharges;
+    });
+  }
+  calculateAmounts() {
+    const formValue = this.paymentForm.value;
+    const forexAmount = parseFloat(formValue.rate) || 0; // forex amount entered by user
+    const rateOfExchange = parseFloat(formValue.quantity) || 0; // rate of exchange
+    const totalBankCharges = parseFloat(formValue.bankCharges) || 0;
 
-// call this when modal inputs change
+    // ✅ total of all selected invoices
+    const totalInvoiceAmount = this.biltisList
+      .filter((inv: any) => inv.isSelected)
+      .reduce(
+        (sum: number, inv: any) => sum + (parseFloat(inv.totalAmount) || 0),
+        0
+      );
 
+    // ✅ validation: forex amount must be equal to total invoice amount
+    this.validationError = '';
 
+    if (forexAmount.toFixed(2) !== totalInvoiceAmount.toFixed(2)) {
+      this.validationError = 'Please enter the same total value as needed.';
+      this.disableSubmit = true;
+    } else {
+      this.disableSubmit = false;
 
+      // ✅ only calculate when value is valid
+      this.biltisList.forEach((invoice: any) => {
+        if (invoice.isSelected) {
+          const invAmount = parseFloat(invoice.totalAmount) || 0;
+          const proportion =
+            totalInvoiceAmount > 0 ? invAmount / totalInvoiceAmount : 0;
+          const distributedBankCharge = totalBankCharges * proportion;
+          const totalAmountInr =
+            invAmount * rateOfExchange + distributedBankCharge;
 
+          invoice.calculatedBankCharges = distributedBankCharge;
+          invoice.calculatedTotalINR = totalAmountInr;
+        } else {
+          invoice.calculatedBankCharges = 0;
+          invoice.calculatedTotalINR = 0;
+        }
+      });
+    }
+  }
 }
