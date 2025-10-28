@@ -234,45 +234,55 @@ export class BiltiGridTableComponent implements OnInit {
     });
   }
   calculateAmounts() {
-    const formValue = this.paymentForm.value;
-    const forexAmount = parseFloat(formValue.rate) || 0; // forex amount entered by user
-    const rateOfExchange = parseFloat(formValue.quantity) || 0; // rate of exchange
-    const totalBankCharges = parseFloat(formValue.bankCharges) || 0;
+  const formValue = this.paymentForm.value;
+  const forexAmount = parseFloat(formValue.rate) || 0; // forex amount entered by user
+  const rateOfExchange = parseFloat(formValue.quantity) || 0; // rate of exchange
+  const totalBankCharges = parseFloat(formValue.bankCharges) || 0;
 
-    // ✅ total of all selected invoices
-    const totalInvoiceAmount = this.biltisList
-      .filter((inv: any) => inv.isSelected)
-      .reduce(
-        (sum: number, inv: any) => sum + (parseFloat(inv.totalAmount) || 0),
-        0
-      );
+  // ✅ total of all selected invoices
+  const totalInvoiceAmount = this.biltisList
+    .filter((inv: any) => inv.isSelected)
+    .reduce(
+      (sum: number, inv: any) => sum + (parseFloat(inv.totalAmount) || 0),
+      0
+    );
 
-    // ✅ validation: forex amount must be equal to total invoice amount
-    this.validationError = '';
+  this.validationError = '';
 
-    if (forexAmount.toFixed(2) !== totalInvoiceAmount.toFixed(2)) {
-      this.validationError = 'Please enter the same total value as needed.';
-      this.disableSubmit = true;
-    } else {
-      this.disableSubmit = false;
+  // ✅ validation: forex amount must be equal to total invoice amount
+  if (forexAmount.toFixed(2) !== totalInvoiceAmount.toFixed(2)) {
+    this.validationError = 'Please enter the same total value as needed.';
+    this.disableSubmit = true;
 
-      // ✅ only calculate when value is valid
-      this.biltisList.forEach((invoice: any) => {
-        if (invoice.isSelected) {
-          const invAmount = parseFloat(invoice.totalAmount) || 0;
-          const proportion =
-            totalInvoiceAmount > 0 ? invAmount / totalInvoiceAmount : 0;
-          const distributedBankCharge = totalBankCharges * proportion;
-          const totalAmountInr =
-            invAmount * rateOfExchange + distributedBankCharge;
-
-          invoice.calculatedBankCharges = distributedBankCharge;
-          invoice.calculatedTotalINR = totalAmountInr;
-        } else {
-          invoice.calculatedBankCharges = 0;
-          invoice.calculatedTotalINR = 0;
-        }
-      });
-    }
+    // ❌ reset values if not matching
+    this.biltisList.forEach((invoice: any) => {
+      if (invoice.isSelected) {
+        invoice.calculatedBankCharges = 0;
+        invoice.calculatedTotalINR = 0;
+      }
+    });
+    return; // stop further execution
   }
+
+  // ✅ if validation passes, calculate
+  this.disableSubmit = false;
+
+  this.biltisList.forEach((invoice: any) => {
+    if (invoice.isSelected) {
+      const invAmount = parseFloat(invoice.totalAmount) || 0;
+      const proportion =
+        totalInvoiceAmount > 0 ? invAmount / totalInvoiceAmount : 0;
+      const distributedBankCharge = totalBankCharges * proportion;
+      const totalAmountInr =
+        invAmount * rateOfExchange + distributedBankCharge;
+
+      invoice.calculatedBankCharges = distributedBankCharge;
+      invoice.calculatedTotalINR = totalAmountInr;
+    } else {
+      invoice.calculatedBankCharges = 0;
+      invoice.calculatedTotalINR = 0;
+    }
+  });
+}
+
 }
