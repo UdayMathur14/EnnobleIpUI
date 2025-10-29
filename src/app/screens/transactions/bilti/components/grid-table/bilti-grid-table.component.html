@@ -52,7 +52,7 @@
 
       <div class="row g-2">
         <div class="col-md-4">
-          <label>Payment Date</label>
+          <label>Payment Date <span class="text-danger">*</span></label>
           <div class="input-group datepicker">
             <input class="form-control" placeholder="dd-MM-yyyy" formControlName="paymentDate" ngbDatepicker
               #dp="ngbDatepicker" readonly />
@@ -63,37 +63,37 @@
         </div>
 
         <div class="col-md-4">
-          <label>Bank</label>
+          <label>Bank <span class="text-danger">*</span></label>
           <ng-select formControlName="bankID" [items]="transactionTypesList" bindLabel="bankName" bindValue="id"
             placeholder="Select Bank">
           </ng-select>
         </div>
 
         <div class="col-md-4">
-          <label>Currency</label>
+          <label>Currency <span class="text-danger">*</span></label>
           <ng-select formControlName="paymentCurrency" [items]="currencyList" bindLabel="value" bindValue="value"
             placeholder="Select Currency">
           </ng-select>
         </div>
 
         <div class="col-md-4">
-          <label>OWRM No</label>
+          <label>OWRM No <span class="text-danger">*</span></label>
           <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
         </div>
 
         <div class="col-md-4">
-          <label>Forex Amount</label>
+          <label>Forex Amount <span class="text-danger">*</span></label>
           <input formControlName="rate" type="number" class="form-control" (keypress)="validateDecimal($event)"
             (input)="calculateAmounts()" />
         </div>
 
         <div class="col-md-4">
-          <label>Rate Of Exchange</label>
+          <label>Rate Of Exchange <span class="text-danger">*</span></label>
           <input formControlName="quantity" type="number" class="form-control" (input)="calculateAmounts()" />
         </div>
 
         <div class="col-md-4">
-          <label>Bank Charges</label>
+          <label>Bank Charges <span class="text-danger">*</span></label>
           <input formControlName="bankCharges" type="number" class="form-control" (keypress)="validateDecimal($event)"
             (input)="calculateAmounts()" />
         </div>
