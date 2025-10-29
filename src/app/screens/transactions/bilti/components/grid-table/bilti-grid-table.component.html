@@ -5,7 +5,7 @@
 
   <table #table class="table">
     <thead>
-      <tr class="table-light;justify-content-between" >
+      <tr class="table-light;justify-content-between">
         <th>Select</th>
         <th>Invoice Date</th>
         <th>Invoice No</th>
@@ -83,7 +83,7 @@
 
         <div class="col-md-4">
           <label>Forex Amount <span class="text-danger">*</span></label>
-          <input formControlName="rate" type="number" class="form-control" (keypress)="validateDecimal($event)"
+          <input formControlName="rate" type="number" class="form-control" min="0" (keypress)="validateDecimal($event)"
             (input)="calculateAmounts()" />
         </div>
 
@@ -124,7 +124,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-    <button class="btn btn-primary" [disabled]="disableSubmit"  (click)="submitPayment(); modal.close()">Submit</button>
+    <button class="btn btn-primary" [disabled]="disableSubmit" (click)="submitPayment(); modal.close()">Submit</button>
     <span class="text-danger" *ngIf="validationError">{{ validationError }}</span>
   </div>
 </ng-template>
