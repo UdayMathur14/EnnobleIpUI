@@ -5,7 +5,7 @@
 
   <table #table class="table">
     <thead>
-      <tr class="table-light ;justify-content-between" >
+      <tr class="table-light;justify-content-between" >
         <th>Select</th>
         <th>Invoice Date</th>
         <th>Invoice No</th>
@@ -18,7 +18,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let bilti of biltisList; let i = index; trackBy: trackByFn">
-        <td class="text-center">
+        <td class="">
           <input type="checkbox" [(ngModel)]="bilti.isSelected" (change)="calculateForAllInvoices()" />
         </td>
         <td>{{ bilti?.invoiceDate | date:'dd-MM-yyyy' }}</td>
@@ -105,7 +105,7 @@
           <thead class="table-light">
             <tr>
               <th>Invoice No</th>
-              <th>Invoice Amount (USD)</th>
+              <th>Invoice Amount </th>
               <th>Bank Charges (INR)</th>
               <th>Total Amount (INR)</th>
             </tr>
