@@ -104,7 +104,7 @@
         </div>
       </div>
 
-      <div class="mt-4">
+     <div class="mt-4">
         <table class="table table-bordered">
           <thead class="table-light">
             <tr>
@@ -115,7 +115,8 @@
               
               <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Bank Charges (User Input) <span class="text-danger">*</span></th>
               
-              <th>Bank Charges (Distributed)</th>
+              <th *ngIf="paymentForm.get('paymentType')?.value === 'full'">Bank Charges (Distributed)</th>
+              
               <th>Total Amount (INR)</th>
             </tr>
           </thead>
@@ -139,13 +140,8 @@
                   (input)="calculatePartialAmounts(invoice)" />
               </td>
               
-              <td>
-                <span *ngIf="paymentForm.get('paymentType')?.value === 'full'">
-                  {{ invoice.calculatedBankCharges || 0 | number:'1.2-2' }}
-                </span>
-                <span *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
-                  {{ invoice.partialBankCharges || 0 | number:'1.2-2' }}
-                </span>
+              <td *ngIf="paymentForm.get('paymentType')?.value === 'full'">
+                {{ invoice.calculatedBankCharges || 0 | number:'1.2-2' }}
               </td>
               
               <td>{{ invoice.calculatedTotalINR || 0 | number:'1.2-2' }}</td>
