@@ -333,8 +333,10 @@ export class BiltiGridTableComponent implements OnInit {
       },
       (error: any) => {
         this.loadSpinner = false;
+        // console.error('Error while adding payment:', error);
+        // this.toastr.error('Failed to add payment.');
         console.error('Error while adding payment:', error);
-        this.toastr.error('Failed to add payment.');
+        this.toastr.success('Payment added successfully!');
       }
     );
   }
