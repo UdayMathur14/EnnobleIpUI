@@ -276,7 +276,8 @@ export class BiltiGridTableComponent implements OnInit {
             quantity: quantity,
             bankcharges: bankChargesInput,
             paymentCurrency: this.paymentForm.get('paymentCurrency')?.value,
-            isPartial: false // Indicate full payment
+            isPartial: false ,
+            paymentMode: 'full' // Indicate full payment
         };
         
         const payload = {
@@ -304,13 +305,16 @@ export class BiltiGridTableComponent implements OnInit {
                 bankcharges: parseFloat(invoice.partialBankCharges) || 0, // Bank Charges are the user's input
                 paymentCurrency: this.paymentForm.get('paymentCurrency')?.value,
                 isPartial: true, // Indicate partial payment
-                vendorInvoiceId: invoice.id // Pass the invoice ID with the specific payment detail
+                vendorInvoiceId: invoice.id,
+                paymentMode: 'partial' // Pass the invoice ID with the specific payment detail
             }));
 
         const payload = {
           // Send all selected IDs, but the backend must recognize the per-invoice details
           VendorInvoiceIds: this.selectedInvoiceIds, 
-          PaymentDetails: partialPaymentDetails, // Multiple payment details
+          PaymentDetails: partialPaymentDetails,
+          paymentType: this.paymentForm.get('paymentType')?.value
+           // Multiple payment details
         };
         
         // Final payload submission for Partial Payment
