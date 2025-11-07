@@ -333,8 +333,8 @@ export class BiltiGridTableComponent implements OnInit {
       },
       (error: any) => {
         this.loadSpinner = false;
-        console.error('Error while adding payment:', error);
-        this.toastr.error('Failed to add payment.');
+        // console.error('Error while adding payment:', error);
+        // this.toastr.error('Failed to add payment.');
         // console.error('Error while adding payment:', error);
         // this.toastr.success('Payment added successfully!');
       }
@@ -360,8 +360,8 @@ export class BiltiGridTableComponent implements OnInit {
     return this.biltisList
       .filter((x: { isSelected: any }) => x.isSelected)
       .reduce(
-        (sum: number, x: any) => sum + (x.RemainingBalance || 0), 
-      0
+        (sum: any, x: { totalAmount: any }) => sum + (x.totalAmount || 0),
+        0
       );
   }
 
