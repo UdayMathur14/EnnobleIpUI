@@ -52,6 +52,7 @@ export class BiltiGridTableComponent implements OnInit {
     this.getPaymentCurrencyList();
     this.getAllTransactionTypes();
     this.initializeForm();
+    this.setupPaymentTypeWatcher();
   }
 
   initializeForm(): void {
@@ -67,10 +68,6 @@ export class BiltiGridTableComponent implements OnInit {
       paymentCurrency: [null, Validators.required],
       bankCharges: [0, [Validators.required, Validators.min(0)]],
     });
-
-    // Subscriptions logic can be removed or simplified,
-    // as calculateAmounts() is more robustly tied to (input) in the HTML.
-    // this.setupSubscriptions(this.paymentForm);
   }
 
   // NEW: Logic to handle change in payment type
@@ -387,15 +384,15 @@ export class BiltiGridTableComponent implements OnInit {
 
   // The rest of your existing helper methods remain the same
 
- get selectedInvoicesTotal(): number {
+ // In your BiltiComponent.ts or PaymentComponent.ts
+get selectedInvoicesTotal(): number {
     if (!this.biltisList) return 0;
     
-    // Fix 1: Remove the extra arguments from reduce()
-    // Fix 2: Use correct casing for the property: 'RemainingBalance'
+    // 🔥 CRITICAL CHECK: Ensure this casing matches your API response (RemainingBalance)
     return this.biltisList
       .filter((x: { isSelected: any }) => x.isSelected)
       .reduce(
-        // This is the only required callback function (the accumulator)
+        // Sums up the RemainingBalance for all selected invoices
         (sum: number, x: any) => sum + (x.remainingBalance || 0), 
         0 
       );
@@ -454,4 +451,18 @@ export class BiltiGridTableComponent implements OnInit {
   trackByFn(index: number, item: any) {
     return item.id || index;
   }
+  setupPaymentTypeWatcher() {
+    this.paymentForm.get('paymentType')?.valueChanges.subscribe(type => {
+        if (type === 'full') {
+            // If the user switches to 'full', set the rate to the total remaining balance
+            this.paymentForm.get('rate')?.setValue(this.selectedInvoicesTotal);
+            // Lock the 'rate' field for 'full' payment
+            this.paymentForm.get('rate')?.disable(); 
+        } else {
+            // For 'partial' payment, enable the 'rate' field for user input
+            this.paymentForm.get('rate')?.enable();
+            this.paymentForm.get('rate')?.setValue(null); // Clear for new input
+        }
+    });
+}
 }
