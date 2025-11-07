@@ -24,7 +24,7 @@
         <td>{{ bilti?.clientInvoiceNo || '-' }}</td>
         <td>{{ bilti?.vendorDetails.vendorName || '-' }}</td>
         <td>{{ bilti?.dueDateAsPerInvoice | date:'dd-MM-yyyy' }}</td>
-        <td>{{ bilti?.totalAmount || 0 | number:'1.2-2' }}</td>
+        <td>{{ bilti?.totalAmount || 0 | currency:bilti?.vendorDetails.currencySymbol:'symbol':'1.2-2' }}</td>
         <td>{{ bilti?.remainingBalance || 0 | number:'1.2-2' }}</td>
       </tr>
       <tr *ngIf="biltisList.length === 0">
@@ -48,14 +48,14 @@
       </div>
 
       <div class="row g-2">
-        
+
         <div class="col-md-4">
           <label>Payment Type <span class="text-danger">*</span></label>
           <ng-select formControlName="paymentType" [items]="paymentTypes" bindLabel="name" bindValue="value"
             placeholder="Select Type" (change)="onPaymentTypeChange()">
           </ng-select>
         </div>
-        
+
         <div class="col-md-4">
           <label>Payment Date <span class="text-danger">*</span></label>
           <div class="input-group datepicker">
@@ -77,17 +77,17 @@
         <div class="col-md-4">
           <label>Currency <span class="text-danger">*</span></label>
           <ng-select formControlName="paymentCurrency" [items]="currencyList" bindLabel="value" bindValue="value"
-            placeholder="Select Currency">
+            placeholder="Select Currency" [disabled]="true"> <!-- THIS IS THE FIX -->
           </ng-select>
         </div>
-
         <div class="col-md-4">
           <label>OWRM No <span class="text-danger">*</span></label>
           <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
         </div>
-        
+
         <div class="col-md-4">
-          <label>Forex Amount <span class="text-danger" *ngIf="paymentForm.get('paymentType')?.value === 'full'">*</span></label>
+          <label>Forex Amount <span class="text-danger"
+              *ngIf="paymentForm.get('paymentType')?.value === 'full'">*</span></label>
           <input formControlName="rate" type="number" class="form-control" min="0" (keypress)="validateDecimal($event)"
             (input)="calculateAmounts()" [readonly]="paymentForm.get('paymentType')?.value === 'partial'"
             [ngClass]="{'bg-light': paymentForm.get('paymentType')?.value === 'partial'}" />
@@ -99,26 +99,29 @@
         </div>
 
         <div class="col-md-4">
-          <label>Bank Charges <span class="text-danger" *ngIf="paymentForm.get('paymentType')?.value === 'full'">*</span></label>
+          <label>Bank Charges <span class="text-danger"
+              *ngIf="paymentForm.get('paymentType')?.value === 'full'">*</span></label>
           <input formControlName="bankCharges" type="number" class="form-control" (keypress)="validateDecimal($event)"
             (input)="calculateAmounts()" [readonly]="paymentForm.get('paymentType')?.value === 'partial'"
             [ngClass]="{'bg-light': paymentForm.get('paymentType')?.value === 'partial'}" />
         </div>
       </div>
 
-     <div class="mt-4">
+      <div class="mt-4">
         <table class="table table-bordered">
           <thead class="table-light">
             <tr>
               <th>Invoice No</th>
               <th>Total Invoice Amount</th>
-              
-              <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Payment Amount (Max: {{selectedInvoicesTotal | number:'1.2-2'}}) <span class="text-danger">*</span></th>
-              
-              <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Bank Charges (User Input) <span class="text-danger">*</span></th>
-              
+
+              <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Payment Amount (Max:
+                {{selectedInvoicesTotal | number:'1.2-2'}}) <span class="text-danger">*</span></th>
+
+              <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Bank Charges (User Input) <span
+                  class="text-danger">*</span></th>
+
               <th *ngIf="paymentForm.get('paymentType')?.value === 'full'">Bank Charges (Distributed)</th>
-              
+
               <th>Total Amount (INR)</th>
             </tr>
           </thead>
@@ -126,26 +129,23 @@
             <tr *ngFor="let invoice of biltisList" [hidden]="!invoice.isSelected">
               <td>{{ invoice.clientInvoiceNo }}</td>
               <td>{{ invoice.totalAmount | number:'1.2-2' }}</td>
-              
+
               <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
                 <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialAmount"
-                  [ngModelOptions]="{standalone: true}" min="0" 
-                  [max]="invoice.totalAmount"
-                  (keypress)="validateDecimal($event)"
-                  (input)="calculatePartialAmounts(invoice)" />
+                  [ngModelOptions]="{standalone: true}" min="0" [max]="invoice.totalAmount"
+                  (keypress)="validateDecimal($event)" (input)="calculatePartialAmounts(invoice)" />
               </td>
-              
+
               <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
                 <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialBankCharges"
-                  [ngModelOptions]="{standalone: true}" min="0" 
-                  (keypress)="validateDecimal($event)"
+                  [ngModelOptions]="{standalone: true}" min="0" (keypress)="validateDecimal($event)"
                   (input)="calculatePartialAmounts(invoice)" />
               </td>
-              
+
               <td *ngIf="paymentForm.get('paymentType')?.value === 'full'">
                 {{ invoice.calculatedBankCharges || 0 | number:'1.2-2' }}
               </td>
-              
+
               <td>{{ invoice.calculatedTotalINR || 0 | number:'1.2-2' }}</td>
             </tr>
           </tbody>

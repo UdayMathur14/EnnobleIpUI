@@ -65,7 +65,7 @@ export class BiltiGridTableComponent implements OnInit {
       // Note: Validators for rate and bankCharges will be set/removed dynamically
       rate: [0, [Validators.required, Validators.min(0.01)]],
       quantity: [1, [Validators.required, Validators.min(1)]],
-      paymentCurrency: ['', [Validators.required]],
+      paymentCurrency: [null, Validators.required],
       bankCharges: [0, [Validators.required, Validators.min(0)]],
     });
 
@@ -235,6 +235,13 @@ export class BiltiGridTableComponent implements OnInit {
       this.toastr.error('Please select at least one invoice.');
       return;
     }
+    const firstSelectedInvoice = this.biltisList.find((x: any) => x.isSelected);
+    
+    // IMPORTANT ASSUMPTION: The property holding the currency code is named 'InvoiceCurrencyCode'
+    // You MUST replace 'InvoiceCurrencyCode' with the actual property name from your API response.
+    const vendorCurrency = firstSelectedInvoice?.vendorDetails.currency || null;
+
+    this.paymentForm.get('paymentCurrency')?.disable();
 
     this.paymentForm.reset();
 
@@ -244,6 +251,7 @@ export class BiltiGridTableComponent implements OnInit {
       rate: this.selectedInvoicesTotal, // Pre-fill Forex amount
       quantity: 1,
       bankCharges: 0,
+      paymentCurrency: vendorCurrency,
     });
 
     // Ensure the validators are active for Full Payment default
