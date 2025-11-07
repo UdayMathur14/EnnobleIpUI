@@ -61,7 +61,6 @@ export class BiltiGridTableComponent implements OnInit {
       paymentDate: ['', [Validators.required]],
       bankID: ['', [Validators.required]],
       owrmNo1: ['', [Validators.required]],
-      owrmNo2: [''],
       // Note: Validators for rate and bankCharges will be set/removed dynamically
       rate: [0, [Validators.required, Validators.min(0.01)]],
       quantity: [1, [Validators.required, Validators.min(1)]],
@@ -304,7 +303,6 @@ export class BiltiGridTableComponent implements OnInit {
         ),
         bankID: this.paymentForm.get('bankID')?.value,
         oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
-        oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
         rate: rate,
         quantity: quantity,
         bankcharges: bankChargesInput,
@@ -333,7 +331,6 @@ export class BiltiGridTableComponent implements OnInit {
           ),
           bankID: this.paymentForm.get('bankID')?.value,
           oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
-          oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
           rate: parseFloat(invoice.partialAmount) || 0, // Rate becomes the Partial Amount for the invoice
           quantity: quantity,
           bankcharges: parseFloat(invoice.partialBankCharges) || 0, // Bank Charges are the user's input
@@ -390,18 +387,19 @@ export class BiltiGridTableComponent implements OnInit {
 
   // The rest of your existing helper methods remain the same
 
-  get selectedInvoicesTotal(): number {
+ get selectedInvoicesTotal(): number {
     if (!this.biltisList) return 0;
+    
+    // Fix 1: Remove the extra arguments from reduce()
+    // Fix 2: Use correct casing for the property: 'RemainingBalance'
     return this.biltisList
       .filter((x: { isSelected: any }) => x.isSelected)
       .reduce(
-        (sum: any, x: {
-          remainingBalance: number; totalAmount: any }) => sum + (x.remainingBalance || 0),
-        0,
-        (sum: any, x: { remainingBalance: any }) =>
-          sum + (x.remainingBalance || 0)
+        // This is the only required callback function (the accumulator)
+        (sum: number, x: any) => sum + (x.remainingBalance || 0), 
+        0 
       );
-  }
+}
 
   getPaymentCurrencyList() {
     this.loadSpinner = true;
