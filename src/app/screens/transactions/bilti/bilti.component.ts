@@ -6,12 +6,12 @@ import { BiltiService } from '../../../core/service/bilti.service';
 @Component({
   selector: 'app-bilti',
   templateUrl: './bilti.component.html',
-  styleUrl: './bilti.component.scss'
+  styleUrl: './bilti.component.scss',
 })
 export class BiltiComponent implements OnInit {
   isFilters: boolean = true;
   fullScreen: boolean = false;
-  biltisList: any = []
+  biltisList: any = [];
   currentPage: number = 1;
   count: number = 10;
   totalBiltis: number = 0;
@@ -20,19 +20,22 @@ export class BiltiComponent implements OnInit {
   maxCount: number = Number.MAX_VALUE;
   loadSpinner: boolean = true;
   locations: any = [];
-  
-  constructor(private router: Router,
-              private biltiService: BiltiService) { }
+
+  constructor(private router: Router, private biltiService: BiltiService) {}
 
   ngOnInit(): void {
     this.getAllBiltisList();
   }
 
   onCreateBilti() {
-    this.router.navigate([`transaction/addEditBilti/0`])
+    this.router.navigate([`transaction/addEditBilti/0`]);
   }
 
-  getAllBiltisList(offset: number = 0, count: number = this.count, filters: any = this.appliedFilters) {
+  getAllBiltisList(
+    offset: number = 0,
+    count: number = this.count,
+    filters: any = this.appliedFilters
+  ) {
     let data = {
       ApplicationNumber: filters?.applicationNumber || '',
       ClientInvoiceNumber: filters?.clientInvoiceNumber || '',
@@ -45,13 +48,14 @@ export class BiltiComponent implements OnInit {
         this.totalBiltis = response.paging.total;
         this.filters = response.filters;
         this.loadSpinner = false;
-      },error => {
+      },
+      (error) => {
         this.loadSpinner = false;
       }
     );
   }
 
-  getData(e:any){
+  getData(e: any) {
     this.appliedFilters = e;
     this.currentPage = 1;
     this.getAllBiltisList(0, this.count, this.appliedFilters);
@@ -64,8 +68,13 @@ export class BiltiComponent implements OnInit {
   }
 
   onPageSizeChange(data: any) {
-      this.count = data;
-      this.currentPage = 1;
-      this.getAllBiltisList(0, this.count, this.appliedFilters);
-    }
+    this.count = data;
+    this.currentPage = 1;
+    this.getAllBiltisList(0, this.count, this.appliedFilters);
+  }
+
+  reloadList() {
+    const offset = (this.currentPage - 1) * this.count;
+    this.getAllBiltisList(offset, this.count, this.appliedFilters);
+  }
 }

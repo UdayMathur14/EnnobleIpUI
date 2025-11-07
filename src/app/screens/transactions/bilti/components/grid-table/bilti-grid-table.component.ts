@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BiltiService } from '../../../../../core/service/bilti.service';
@@ -19,6 +26,7 @@ export class BiltiGridTableComponent implements OnInit {
   transactionTypesList: any = [];
   currencyList: any = [];
   selectedInvoiceIds: number[] = [];
+  @Output() paymentSuccess = new EventEmitter<void>();
 
   // New property for Payment Type options
   paymentTypes = [
@@ -45,7 +53,7 @@ export class BiltiGridTableComponent implements OnInit {
     this.getAllTransactionTypes();
     this.initializeForm();
   }
-  
+
   initializeForm(): void {
     this.paymentForm = this.fb.group({
       // NEW: Payment Type control
@@ -61,9 +69,9 @@ export class BiltiGridTableComponent implements OnInit {
       bankCharges: [0, [Validators.required, Validators.min(0)]],
     });
 
-    // Subscriptions logic can be removed or simplified, 
+    // Subscriptions logic can be removed or simplified,
     // as calculateAmounts() is more robustly tied to (input) in the HTML.
-    // this.setupSubscriptions(this.paymentForm); 
+    // this.setupSubscriptions(this.paymentForm);
   }
 
   // NEW: Logic to handle change in payment type
@@ -71,7 +79,7 @@ export class BiltiGridTableComponent implements OnInit {
     const type = this.paymentForm.get('paymentType')?.value;
     const rateControl = this.paymentForm.get('rate');
     const chargesControl = this.paymentForm.get('bankCharges');
-    
+
     // Clear previous invoice calculations
     this.resetInvoiceCalculations();
 
@@ -83,7 +91,7 @@ export class BiltiGridTableComponent implements OnInit {
       chargesControl?.setValidators([Validators.required, Validators.min(0)]);
       rateControl?.patchValue(this.selectedInvoicesTotal);
       chargesControl?.patchValue(0);
-      
+
       this.calculateAmounts(); // Run calculation for full payment
     } else if (type === 'partial') {
       // Partial Payment: Forex and Bank Charges are disabled/0 in the main form
@@ -129,11 +137,12 @@ export class BiltiGridTableComponent implements OnInit {
 
   // NEW: Function for calculating amounts in Partial Payment mode
   calculatePartialAmounts(invoice: any) {
-    const rateOfExchange = parseFloat(this.paymentForm.get('quantity')?.value) || 0;
-    
+    const rateOfExchange =
+      parseFloat(this.paymentForm.get('quantity')?.value) || 0;
+
     const partialAmount = parseFloat(invoice.partialAmount) || 0;
     const partialBankCharges = parseFloat(invoice.partialBankCharges) || 0;
-    
+
     // Individual invoice amount validation
     if (partialAmount > invoice.totalAmount) {
       this.validationError = `Payment amount for Invoice ${invoice.clientInvoiceNo} cannot exceed ${invoice.totalAmount}.`;
@@ -142,23 +151,25 @@ export class BiltiGridTableComponent implements OnInit {
       invoice.calculatedBankCharges = 0;
       return;
     }
-    
+
     // Perform calculation for this specific invoice
     invoice.calculatedBankCharges = partialBankCharges; // In partial mode, user input is the distributed charge
-    invoice.calculatedTotalINR = partialAmount * rateOfExchange + partialBankCharges;
-    
+    invoice.calculatedTotalINR =
+      partialAmount * rateOfExchange + partialBankCharges;
+
     // Clear validation error if all individual amounts are valid
-    this.validationError = ''; 
+    this.validationError = '';
     this.disableSubmit = false;
-    
+
     // Perform a final check to ensure all selected invoices have a payment amount > 0
     const hasZeroPayment = this.biltisList
       .filter((inv: any) => inv.isSelected)
       .some((inv: any) => (parseFloat(inv.partialAmount) || 0) <= 0);
-      
+
     if (hasZeroPayment) {
-        this.validationError = 'All selected invoices must have a payment amount greater than zero.';
-        this.disableSubmit = true;
+      this.validationError =
+        'All selected invoices must have a payment amount greater than zero.';
+      this.disableSubmit = true;
     }
   }
 
@@ -166,28 +177,32 @@ export class BiltiGridTableComponent implements OnInit {
   calculateAmounts() {
     const formValue = this.paymentForm.value;
     const paymentType = formValue.paymentType;
-    
+
     if (paymentType === 'partial') {
-        // Calculations for Partial are handled by calculatePartialAmounts()
-        return; 
+      // Calculations for Partial are handled by calculatePartialAmounts()
+      return;
     }
-    
+
     // Logic for FULL PAYMENT only
-    const forexAmount = parseFloat(formValue.rate) || 0; 
+    const forexAmount = parseFloat(formValue.rate) || 0;
     const rateOfExchange = parseFloat(formValue.quantity) || 0;
     const totalBankCharges = parseFloat(formValue.bankCharges) || 0;
 
     const totalInvoiceAmount = this.selectedInvoicesTotal;
-    
+
     this.validationError = '';
-    
+
     // **FULL PAYMENT Validation**
     // Using toFixed(2) to safely compare floating point numbers for currency
     if (forexAmount.toFixed(2) !== totalInvoiceAmount.toFixed(2)) {
-      this.validationError = `Forex Amount (${forexAmount.toFixed(2)}) must be equal to Total Selected Invoice Amount (${totalInvoiceAmount.toFixed(2)}).`;
+      this.validationError = `Forex Amount (${forexAmount.toFixed(
+        2
+      )}) must be equal to Total Selected Invoice Amount (${totalInvoiceAmount.toFixed(
+        2
+      )}).`;
       this.disableSubmit = true;
       this.resetInvoiceCalculations(true); // Reset only the calculated values
-      return; 
+      return;
     }
 
     // If validation passes, calculate
@@ -222,7 +237,7 @@ export class BiltiGridTableComponent implements OnInit {
     }
 
     this.paymentForm.reset();
-    
+
     // Initial setup for Full Payment (default)
     this.paymentForm.patchValue({
       paymentType: 'full', // Set default type
@@ -230,13 +245,17 @@ export class BiltiGridTableComponent implements OnInit {
       quantity: 1,
       bankCharges: 0,
     });
-    
+
     // Ensure the validators are active for Full Payment default
-    this.paymentForm.get('rate')?.setValidators([Validators.required, Validators.min(0.01)]);
-    this.paymentForm.get('bankCharges')?.setValidators([Validators.required, Validators.min(0)]);
+    this.paymentForm
+      .get('rate')
+      ?.setValidators([Validators.required, Validators.min(0.01)]);
+    this.paymentForm
+      .get('bankCharges')
+      ?.setValidators([Validators.required, Validators.min(0)]);
     this.paymentForm.get('rate')?.updateValueAndValidity();
     this.paymentForm.get('bankCharges')?.updateValueAndValidity();
-    
+
     this.resetInvoiceCalculations(); // Clear all partial/calculated fields
     this.calculateAmounts(); // Run initial calculation
 
@@ -248,80 +267,87 @@ export class BiltiGridTableComponent implements OnInit {
 
   submitPayment() {
     const paymentType = this.paymentForm.get('paymentType')?.value;
-    
+
     if (this.paymentForm.invalid && paymentType === 'full') {
       this.toastr.error('Please fill all required fields correctly.');
       return;
     }
-    
+
     if (this.disableSubmit) {
-        this.toastr.error(this.validationError || 'There are validation errors. Please check your amounts.');
-        return;
+      this.toastr.error(
+        this.validationError ||
+          'There are validation errors. Please check your amounts.'
+      );
+      return;
     }
-    
+
     // Logic for Full Payment
     if (paymentType === 'full') {
-        const rate = parseFloat(this.paymentForm.get('rate')?.value) || 0;
-        const bankChargesInput = parseFloat(this.paymentForm.get('bankCharges')?.value) || 0;
-        const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0;
+      const rate = parseFloat(this.paymentForm.get('rate')?.value) || 0;
+      const bankChargesInput =
+        parseFloat(this.paymentForm.get('bankCharges')?.value) || 0;
+      const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0;
 
-        const paymentDetails = {
-            // ... (rest of the full payment details)
-            id: 0,
-            paymentDate: this.convertNgbToDate(this.paymentForm.get('paymentDate')?.value),
-            bankID: this.paymentForm.get('bankID')?.value,
-            oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
-            oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
-            rate: rate,
-            quantity: quantity,
-            bankcharges: bankChargesInput,
-            paymentCurrency: this.paymentForm.get('paymentCurrency')?.value,
-            isPartial: false ,
-            paymentMode: 'full' // Indicate full payment
-        };
-        
-        const payload = {
-          VendorInvoiceIds: this.selectedInvoiceIds,
-          PaymentDetails: [paymentDetails],
-        };
-        
-        // Final payload submission for Full Payment (assuming single payment detail structure)
-        this.sendPaymentPayload(payload);
+      const paymentDetails = {
+        // ... (rest of the full payment details)
+        id: 0,
+        paymentDate: this.convertNgbToDate(
+          this.paymentForm.get('paymentDate')?.value
+        ),
+        bankID: this.paymentForm.get('bankID')?.value,
+        oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
+        oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
+        rate: rate,
+        quantity: quantity,
+        bankcharges: bankChargesInput,
+        paymentCurrency: this.paymentForm.get('paymentCurrency')?.value,
+        isPartial: false,
+        paymentMode: 'full', // Indicate full payment
+      };
 
+      const payload = {
+        VendorInvoiceIds: this.selectedInvoiceIds,
+        PaymentDetails: [paymentDetails],
+      };
+
+      // Final payload submission for Full Payment (assuming single payment detail structure)
+      this.sendPaymentPayload(payload);
     } else if (paymentType === 'partial') {
-        // Logic for Partial Payment: Create a list of payment details, one per invoice
-        const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0; // Rate of Exchange is still common
-        
-        const partialPaymentDetails = this.biltisList
-            .filter((x: any) => x.isSelected)
-            .map((invoice: any) => ({
-                id: 0,
-                paymentDate: this.convertNgbToDate(this.paymentForm.get('paymentDate')?.value),
-                bankID: this.paymentForm.get('bankID')?.value,
-                oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
-                oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
-                rate: parseFloat(invoice.partialAmount) || 0, // Rate becomes the Partial Amount for the invoice
-                quantity: quantity,
-                bankcharges: parseFloat(invoice.partialBankCharges) || 0, // Bank Charges are the user's input
-                paymentCurrency: this.paymentForm.get('paymentCurrency')?.value,
-                isPartial: true, // Indicate partial payment
-                vendorInvoiceId: invoice.id,
-                paymentMode: 'partial' // Pass the invoice ID with the specific payment detail
-            }));
+      // Logic for Partial Payment: Create a list of payment details, one per invoice
+      const quantity = parseFloat(this.paymentForm.get('quantity')?.value) || 0; // Rate of Exchange is still common
 
-        const payload = {
-          // Send all selected IDs, but the backend must recognize the per-invoice details
-          VendorInvoiceIds: this.selectedInvoiceIds, 
-          PaymentDetails: partialPaymentDetails,
-          paymentMode: this.paymentForm.get('paymentType')?.value
-           // Multiple payment details
-        };
-        
-        // Final payload submission for Partial Payment
-        this.sendPaymentPayload(payload);
+      const partialPaymentDetails = this.biltisList
+        .filter((x: any) => x.isSelected)
+        .map((invoice: any) => ({
+          id: 0,
+          paymentDate: this.convertNgbToDate(
+            this.paymentForm.get('paymentDate')?.value
+          ),
+          bankID: this.paymentForm.get('bankID')?.value,
+          oWRMNo1: this.paymentForm.get('owrmNo1')?.value,
+          oWRMNo2: this.paymentForm.get('owrmNo2')?.value,
+          rate: parseFloat(invoice.partialAmount) || 0, // Rate becomes the Partial Amount for the invoice
+          quantity: quantity,
+          bankcharges: parseFloat(invoice.partialBankCharges) || 0, // Bank Charges are the user's input
+          paymentCurrency: this.paymentForm.get('paymentCurrency')?.value,
+          isPartial: true, // Indicate partial payment
+          vendorInvoiceId: invoice.id,
+          paymentMode: 'partial', // Pass the invoice ID with the specific payment detail
+        }));
+
+      const payload = {
+        // Send all selected IDs, but the backend must recognize the per-invoice details
+        VendorInvoiceIds: this.selectedInvoiceIds,
+        PaymentDetails: partialPaymentDetails,
+        paymentMode: this.paymentForm.get('paymentType')?.value,
+        // Multiple payment details
+      };
+
+      // Final payload submission for Partial Payment
+      this.sendPaymentPayload(payload);
     }
   }
-  
+
   // New helper function for submission logic
   sendPaymentPayload(payload: any) {
     this.loadSpinner = true;
@@ -330,6 +356,7 @@ export class BiltiGridTableComponent implements OnInit {
         this.loadSpinner = false;
         this.toastr.success('Payment added successfully!');
         this.paymentForm.reset();
+        this.paymentSuccess.emit();
       },
       (error: any) => {
         this.loadSpinner = false;
@@ -344,12 +371,12 @@ export class BiltiGridTableComponent implements OnInit {
   // New helper function to clear calculation fields
   resetInvoiceCalculations(onlyCalculated = false) {
     this.biltisList.forEach((invoice: any) => {
-        invoice.calculatedBankCharges = 0;
-        invoice.calculatedTotalINR = 0;
-        if (!onlyCalculated) {
-            invoice.partialAmount = 0;
-            invoice.partialBankCharges = 0;
-        }
+      invoice.calculatedBankCharges = 0;
+      invoice.calculatedTotalINR = 0;
+      if (!onlyCalculated) {
+        invoice.partialAmount = 0;
+        invoice.partialBankCharges = 0;
+      }
     });
   }
 
@@ -362,7 +389,8 @@ export class BiltiGridTableComponent implements OnInit {
       .reduce(
         (sum: any, x: { totalAmount: any }) => sum + (x.totalAmount || 0),
         0,
-        (sum: any, x: { remainingBalance: any }) => sum + (x.remainingBalance || 0)
+        (sum: any, x: { remainingBalance: any }) =>
+          sum + (x.remainingBalance || 0)
       );
   }
 

@@ -12,7 +12,7 @@
     width="14px" (click)="fullScreen = !fullScreen" />
   <div class="grid-table">
     <div class="table-container">
-      <app-bilti-grid-table [biltisList]="biltisList"></app-bilti-grid-table>
+      <app-bilti-grid-table [biltisList]="biltisList" (paymentSuccess)="reloadList()"></app-bilti-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <ngb-pagination [collectionSize]="totalBiltis" [(page)]="currentPage" [pageSize]="count"
@@ -31,4 +31,3 @@
 <div class="spinner" *ngIf="loadSpinner">
   Loading...
 </div>
-
