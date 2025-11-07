@@ -11,7 +11,8 @@
         <th>Invoice No</th>
         <th>Vendor Name</th>
         <th>Due Date</th>
-        <th>Total Amount(Remaining Balance)</th>
+        <th>Total Amount</th>
+        <th>Remaining Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
         <td>{{ bilti?.vendorDetails.vendorName || '-' }}</td>
         <td>{{ bilti?.dueDateAsPerInvoice | date:'dd-MM-yyyy' }}</td>
         <td>{{ bilti?.totalAmount || 0 | number:'1.2-2' }}</td>
+        <td>{{ bilti?.remainingBalance || 0 | number:'1.2-2' }}</td>
       </tr>
       <tr *ngIf="biltisList.length === 0">
         <td colspan="8" class="text-center">No Biltis Found</td>
