@@ -387,7 +387,8 @@ export class BiltiGridTableComponent implements OnInit {
     return this.biltisList
       .filter((x: { isSelected: any }) => x.isSelected)
       .reduce(
-        (sum: any, x: { totalAmount: any }) => sum + (x.totalAmount || 0),
+        (sum: any, x: {
+          remainingBalance: number; totalAmount: any }) => sum + (x.remainingBalance || 0),
         0,
         (sum: any, x: { remainingBalance: any }) =>
           sum + (x.remainingBalance || 0)
