@@ -52,7 +52,12 @@ export class BiltiGridTableComponent implements OnInit {
     this.getPaymentCurrencyList();
     this.getAllTransactionTypes();
     this.initializeForm();
-    this.setupPaymentTypeWatcher();
+
+    // 🔥 Refactored: Use the same change handler for all payment type changes
+    this.paymentForm.get('paymentType')?.valueChanges.subscribe(() => {
+      // Trigger the main setup logic whenever paymentType changes
+      this.onPaymentTypeChange();
+    });
   }
 
   initializeForm(): void {
@@ -71,38 +76,47 @@ export class BiltiGridTableComponent implements OnInit {
   }
 
   // NEW: Logic to handle change in payment type
+  // BiltiGridTableComponent.ts
+
   onPaymentTypeChange() {
     const type = this.paymentForm.get('paymentType')?.value;
     const rateControl = this.paymentForm.get('rate');
     const chargesControl = this.paymentForm.get('bankCharges');
 
-    // Clear previous invoice calculations
+    // Reset validation errors
+    this.validationError = '';
+    this.disableSubmit = false;
+
+    // Clear previous invoice calculations (essential for clean switch)
     this.resetInvoiceCalculations();
 
     if (type === 'full') {
-      // Full Payment: Forex Amount = Total Invoice Amount
+      // Full Payment Setup
       rateControl?.enable();
-      rateControl?.setValidators([Validators.required, Validators.min(0.01)]);
       chargesControl?.enable();
+
+      rateControl?.setValidators([Validators.required, Validators.min(0.01)]);
       chargesControl?.setValidators([Validators.required, Validators.min(0)]);
+
+      // 🔥 FIX: Set rate to the Total Remaining Balance
       rateControl?.patchValue(this.selectedInvoicesTotal);
       chargesControl?.patchValue(0);
 
       this.calculateAmounts(); // Run calculation for full payment
     } else if (type === 'partial') {
-      // Partial Payment: Forex and Bank Charges are disabled/0 in the main form
+      // Partial Payment Setup
       rateControl?.disable();
-      rateControl?.clearValidators();
-      rateControl?.patchValue(0);
-
       chargesControl?.disable();
-      chargesControl?.clearValidators();
-      chargesControl?.patchValue(0);
 
-      this.validationError = ''; // Clear validation error
-      this.disableSubmit = false; // Enable submit button (validation handled per invoice)
+      // Clear validators for disabled controls
+      rateControl?.clearValidators();
+      chargesControl?.clearValidators();
+
+      rateControl?.patchValue(0);
+      chargesControl?.patchValue(0);
     }
 
+    // Always re-run validity check after changing validators/values
     rateControl?.updateValueAndValidity();
     chargesControl?.updateValueAndValidity();
   }
@@ -222,6 +236,55 @@ export class BiltiGridTableComponent implements OnInit {
     });
   }
 
+  // openPaymentModal() {
+  //   this.selectedInvoiceIds = this.biltisList
+  //     .filter((x: any) => x.isSelected)
+  //     .map((x: any) => x.id);
+
+  //   if (!this.selectedInvoiceIds.length) {
+  //     this.toastr.error('Please select at least one invoice.');
+  //     return;
+  //   }
+  //   const firstSelectedInvoice = this.biltisList.find((x: any) => x.isSelected);
+
+  //   // IMPORTANT ASSUMPTION: The property holding the currency code is named 'InvoiceCurrencyCode'
+  //   // You MUST replace 'InvoiceCurrencyCode' with the actual property name from your API response.
+  //   const vendorCurrency = firstSelectedInvoice?.vendorDetails.currency || null;
+
+  //   this.paymentForm.get('paymentCurrency')?.disable();
+
+  //   this.paymentForm.reset();
+
+  //   // Initial setup for Full Payment (default)
+  //   this.paymentForm.patchValue({
+  //     paymentType: 'full', // Set default type
+  //     rate: this.selectedInvoicesTotal, // Pre-fill Forex amount
+  //     quantity: 1,
+  //     bankCharges: 0,
+  //     paymentCurrency: vendorCurrency,
+  //   });
+
+  //   // Ensure the validators are active for Full Payment default
+  //   this.paymentForm
+  //     .get('rate')
+  //     ?.setValidators([Validators.required, Validators.min(0.01)]);
+  //   this.paymentForm
+  //     .get('bankCharges')
+  //     ?.setValidators([Validators.required, Validators.min(0)]);
+  //   this.paymentForm.get('rate')?.updateValueAndValidity();
+  //   this.paymentForm.get('bankCharges')?.updateValueAndValidity();
+
+  //   this.resetInvoiceCalculations(); // Clear all partial/calculated fields
+  //   this.calculateAmounts(); // Run initial calculation
+
+  //   this.modalService.open(this.paymentModal, {
+  //     size: 'xl', // Changed size to accommodate more columns
+  //     backdrop: 'static',
+  //   });
+  // }
+
+  // BiltiGridTableComponent.ts
+
   openPaymentModal() {
     this.selectedInvoiceIds = this.biltisList
       .filter((x: any) => x.isSelected)
@@ -231,40 +294,35 @@ export class BiltiGridTableComponent implements OnInit {
       this.toastr.error('Please select at least one invoice.');
       return;
     }
-    const firstSelectedInvoice = this.biltisList.find((x: any) => x.isSelected);
-    
-    // IMPORTANT ASSUMPTION: The property holding the currency code is named 'InvoiceCurrencyCode'
-    // You MUST replace 'InvoiceCurrencyCode' with the actual property name from your API response.
-    const vendorCurrency = firstSelectedInvoice?.vendorDetails.currency || null;
 
-    this.paymentForm.get('paymentCurrency')?.disable();
+    // --- Currency Logic ---
+    const firstSelectedInvoice = this.biltisList.find((x: any) => x.isSelected);
+    // ASSUMPTION: The currency code is now vendorDetails.currency (from your check)
+    const vendorCurrency =
+      firstSelectedInvoice?.vendorDetails?.currency || null;
 
     this.paymentForm.reset();
 
-    // Initial setup for Full Payment (default)
+    // 1. 🔥 Set only the form controls that don't depend on the Full/Partial logic
     this.paymentForm.patchValue({
-      paymentType: 'full', // Set default type
-      rate: this.selectedInvoicesTotal, // Pre-fill Forex amount
+      paymentType: 'full', // Default to full
       quantity: 1,
-      bankCharges: 0,
       paymentCurrency: vendorCurrency,
     });
 
-    // Ensure the validators are active for Full Payment default
-    this.paymentForm
-      .get('rate')
-      ?.setValidators([Validators.required, Validators.min(0.01)]);
-    this.paymentForm
-      .get('bankCharges')
-      ?.setValidators([Validators.required, Validators.min(0)]);
-    this.paymentForm.get('rate')?.updateValueAndValidity();
-    this.paymentForm.get('bankCharges')?.updateValueAndValidity();
+    // 2. 🔥 Now call the single source of truth to set rate/bankCharges/validators
+    this.onPaymentTypeChange();
+
+    // 3. 🔥 Immediately disable the currency control (Must be done after patchValue)
+    this.paymentForm.get('paymentCurrency')?.disable();
+
+    // Note: rate/bankCharges validators are set inside onPaymentTypeChange()
 
     this.resetInvoiceCalculations(); // Clear all partial/calculated fields
-    this.calculateAmounts(); // Run initial calculation
+    this.calculateAmounts(); // Run initial calculation based on 'full' type
 
     this.modalService.open(this.paymentModal, {
-      size: 'xl', // Changed size to accommodate more columns
+      size: 'xl',
       backdrop: 'static',
     });
   }
@@ -384,19 +442,19 @@ export class BiltiGridTableComponent implements OnInit {
 
   // The rest of your existing helper methods remain the same
 
- // In your BiltiComponent.ts or PaymentComponent.ts
-get selectedInvoicesTotal(): number {
+  // In your BiltiComponent.ts or PaymentComponent.ts
+  get selectedInvoicesTotal(): number {
     if (!this.biltisList) return 0;
-    
+
     // 🔥 CRITICAL CHECK: Ensure this casing matches your API response (RemainingBalance)
     return this.biltisList
       .filter((x: { isSelected: any }) => x.isSelected)
       .reduce(
         // Sums up the RemainingBalance for all selected invoices
-        (sum: number, x: any) => sum + (x.remainingBalance || 0), 
-        0 
+        (sum: number, x: any) => sum + (x.remainingBalance || 0),
+        0
       );
-}
+  }
 
   getPaymentCurrencyList() {
     this.loadSpinner = true;
@@ -451,18 +509,4 @@ get selectedInvoicesTotal(): number {
   trackByFn(index: number, item: any) {
     return item.id || index;
   }
-  setupPaymentTypeWatcher() {
-    this.paymentForm.get('paymentType')?.valueChanges.subscribe(type => {
-        if (type === 'full') {
-            // If the user switches to 'full', set the rate to the total remaining balance
-            this.paymentForm.get('rate')?.setValue(this.selectedInvoicesTotal);
-            // Lock the 'rate' field for 'full' payment
-            this.paymentForm.get('rate')?.disable(); 
-        } else {
-            // For 'partial' payment, enable the 'rate' field for user input
-            this.paymentForm.get('rate')?.enable();
-            this.paymentForm.get('rate')?.setValue(null); // Clear for new input
-        }
-    });
-}
 }
