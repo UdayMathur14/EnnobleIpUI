@@ -104,7 +104,7 @@ export const updateConfiguration = (locationId: number) =>
 export const commonTransaction = (locationId: any, id: any) =>
   `/commonTransaction/updateStatus/${locationId}/${id}`;
 export const bilti = (offset: any, count: number) =>
-  `VendorInvoiceTxn/search?offset=${offset}&count=${count}`;
+  `VendorInvoiceTxn/search1?offset=${offset}&count=${count}`;
 export const frlr = (locationId: any) =>
   `/frm-transactions/${locationId}/search`;
 export const createBilti = 
