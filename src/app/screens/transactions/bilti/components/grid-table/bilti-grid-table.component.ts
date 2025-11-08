@@ -154,8 +154,8 @@ export class BiltiGridTableComponent implements OnInit {
     const partialBankCharges = parseFloat(invoice.partialBankCharges) || 0;
 
     // Individual invoice amount validation
-    if (partialAmount > invoice.totalAmount) {
-      this.validationError = `Payment amount for Invoice ${invoice.clientInvoiceNo} cannot exceed ${invoice.totalAmount}.`;
+    if (partialAmount > invoice.remainingBalance) {
+      this.validationError = `Payment amount for Invoice ${invoice.clientInvoiceNo} cannot exceed ${invoice.remainingBalance}.`;
       this.disableSubmit = true;
       invoice.calculatedTotalINR = 0;
       invoice.calculatedBankCharges = 0;
@@ -189,7 +189,7 @@ export class BiltiGridTableComponent implements OnInit {
     const paymentType = formValue.paymentType;
 
     if (paymentType === 'partial') {
-      // Calculations for Partial are handled by calculatePartialAmounts()
+      // Partial calculation is handled elsewhere, so we exit.
       return;
     }
 
@@ -198,16 +198,18 @@ export class BiltiGridTableComponent implements OnInit {
     const rateOfExchange = parseFloat(formValue.quantity) || 0;
     const totalBankCharges = parseFloat(formValue.bankCharges) || 0;
 
-    const totalInvoiceAmount = this.selectedInvoicesTotal;
+    // 🔥 FIX 1: Rename this variable internally for clarity. 
+    // It correctly holds the SUM of all selected invoices' Remaining Balances (e.g., 70.00)
+    const totalRemainingBalance = this.selectedInvoicesTotal; 
 
     this.validationError = '';
 
     // **FULL PAYMENT Validation**
-    // Using toFixed(2) to safely compare floating point numbers for currency
-    if (forexAmount.toFixed(2) !== totalInvoiceAmount.toFixed(2)) {
+    // Validate Forex Amount against the calculated Total REMAINING Balance.
+    if (forexAmount.toFixed(2) !== totalRemainingBalance.toFixed(2)) {
       this.validationError = `Forex Amount (${forexAmount.toFixed(
         2
-      )}) must be equal to Total Selected Invoice Amount (${totalInvoiceAmount.toFixed(
+      )}) must be equal to Total Selected Remaining Amount (${totalRemainingBalance.toFixed(
         2
       )}).`;
       this.disableSubmit = true;
@@ -220,12 +222,18 @@ export class BiltiGridTableComponent implements OnInit {
 
     this.biltisList.forEach((invoice: any) => {
       if (invoice.isSelected) {
-        const invAmount = parseFloat(invoice.totalAmount) || 0;
+        // 🔥 FIX 2: Use the individual invoice's Remaining Balance for calculations!
+        const invRemainingBalance = parseFloat(invoice.remainingBalance) || 0; 
+        
+        // FIX 3: Base the proportion on the REMAINING Balance
         const proportion =
-          totalInvoiceAmount > 0 ? invAmount / totalInvoiceAmount : 0;
+          totalRemainingBalance > 0 ? invRemainingBalance / totalRemainingBalance : 0;
+          
         const distributedBankCharge = totalBankCharges * proportion;
+        
+        // FIX 4: Calculate Total INR using the REMAINING Balance as the base amount
         const totalAmountInr =
-          invAmount * rateOfExchange + distributedBankCharge;
+          (invRemainingBalance * rateOfExchange) + distributedBankCharge;
 
         invoice.calculatedBankCharges = distributedBankCharge;
         invoice.calculatedTotalINR = totalAmountInr;
@@ -234,7 +242,7 @@ export class BiltiGridTableComponent implements OnInit {
         invoice.calculatedTotalINR = 0;
       }
     });
-  }
+}
 
   // openPaymentModal() {
   //   this.selectedInvoiceIds = this.biltisList

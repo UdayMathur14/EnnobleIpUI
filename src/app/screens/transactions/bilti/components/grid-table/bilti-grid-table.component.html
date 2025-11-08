@@ -128,7 +128,7 @@
           <tbody>
             <tr *ngFor="let invoice of biltisList" [hidden]="!invoice.isSelected">
               <td>{{ invoice.clientInvoiceNo }}</td>
-              <td>{{ invoice.totalAmount | number:'1.2-2' }}</td>
+              <td>{{ invoice.remainingBalance | number:'1.2-2' }}</td>
 
               <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
                 <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialAmount"
