@@ -244,55 +244,6 @@ export class BiltiGridTableComponent implements OnInit {
     });
 }
 
-  // openPaymentModal() {
-  //   this.selectedInvoiceIds = this.biltisList
-  //     .filter((x: any) => x.isSelected)
-  //     .map((x: any) => x.id);
-
-  //   if (!this.selectedInvoiceIds.length) {
-  //     this.toastr.error('Please select at least one invoice.');
-  //     return;
-  //   }
-  //   const firstSelectedInvoice = this.biltisList.find((x: any) => x.isSelected);
-
-  //   // IMPORTANT ASSUMPTION: The property holding the currency code is named 'InvoiceCurrencyCode'
-  //   // You MUST replace 'InvoiceCurrencyCode' with the actual property name from your API response.
-  //   const vendorCurrency = firstSelectedInvoice?.vendorDetails.currency || null;
-
-  //   this.paymentForm.get('paymentCurrency')?.disable();
-
-  //   this.paymentForm.reset();
-
-  //   // Initial setup for Full Payment (default)
-  //   this.paymentForm.patchValue({
-  //     paymentType: 'full', // Set default type
-  //     rate: this.selectedInvoicesTotal, // Pre-fill Forex amount
-  //     quantity: 1,
-  //     bankCharges: 0,
-  //     paymentCurrency: vendorCurrency,
-  //   });
-
-  //   // Ensure the validators are active for Full Payment default
-  //   this.paymentForm
-  //     .get('rate')
-  //     ?.setValidators([Validators.required, Validators.min(0.01)]);
-  //   this.paymentForm
-  //     .get('bankCharges')
-  //     ?.setValidators([Validators.required, Validators.min(0)]);
-  //   this.paymentForm.get('rate')?.updateValueAndValidity();
-  //   this.paymentForm.get('bankCharges')?.updateValueAndValidity();
-
-  //   this.resetInvoiceCalculations(); // Clear all partial/calculated fields
-  //   this.calculateAmounts(); // Run initial calculation
-
-  //   this.modalService.open(this.paymentModal, {
-  //     size: 'xl', // Changed size to accommodate more columns
-  //     backdrop: 'static',
-  //   });
-  // }
-
-  // BiltiGridTableComponent.ts
-
   openPaymentModal() {
     this.selectedInvoiceIds = this.biltisList
       .filter((x: any) => x.isSelected)
