@@ -293,7 +293,10 @@ export class BiltiGridTableComponent implements OnInit {
       this.toastr.error('Please fill all required fields correctly.');
       return;
     }
-
+    if (this.paymentForm.invalid && paymentType === 'partial') {
+      this.toastr.error('Please fill all required fields correctly.');
+      return;
+    }
     if (this.disableSubmit) {
       this.toastr.error(
         this.validationError ||
