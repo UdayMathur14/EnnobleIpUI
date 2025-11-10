@@ -49,14 +49,14 @@
 
       <div class="row g-2">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Payment Type <span class="text-danger">*</span></label>
           <ng-select formControlName="paymentType" [items]="paymentTypes" bindLabel="name" bindValue="value"
             placeholder="Select Type" (change)="onPaymentTypeChange()">
           </ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Payment Date <span class="text-danger">*</span></label>
           <div class="input-group datepicker">
             <input class="form-control" placeholder="dd-MM-yyyy" formControlName="paymentDate" ngbDatepicker
@@ -67,25 +67,25 @@
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Bank <span class="text-danger">*</span></label>
           <ng-select formControlName="bankID" [items]="transactionTypesList" bindLabel="bankName" bindValue="id"
             placeholder="Select Bank">
           </ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Currency <span class="text-danger">*</span></label>
           <ng-select formControlName="paymentCurrency" [items]="currencyList" bindLabel="value" bindValue="value"
             placeholder="Select Currency" [disabled]="true"> <!-- THIS IS THE FIX -->
           </ng-select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>OWRM No <span class="text-danger">*</span></label>
           <input formControlName="owrmNo1" type="text" class="form-control" placeholder="OWRM No" />
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Forex Amount <span class="text-danger"
               *ngIf="paymentForm.get('paymentType')?.value === 'full'">*</span></label>
           <input formControlName="rate" type="number" class="form-control" min="0" (keypress)="validateDecimal($event)"
@@ -93,12 +93,12 @@
             [ngClass]="{'bg-light': paymentForm.get('paymentType')?.value === 'partial'}" />
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Rate Of Exchange <span class="text-danger">*</span></label>
           <input formControlName="quantity" type="number" class="form-control" min="1" (input)="calculateAmounts()" />
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label>Bank Charges <span class="text-danger"
               *ngIf="paymentForm.get('paymentType')?.value === 'full'">*</span></label>
           <input formControlName="bankCharges" type="number" class="form-control" (keypress)="validateDecimal($event)"
@@ -107,7 +107,7 @@
         </div>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-3">
         <table class="table table-bordered">
           <thead class="table-light">
             <tr>
