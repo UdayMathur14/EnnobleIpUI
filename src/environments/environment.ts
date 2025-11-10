@@ -17,7 +17,7 @@ export const environment = {
 // mfgAPIURL : 'http://http://localhost:5253/api/',
 // mfgAPIURL : 'http://localhost:84/api/',
 // mfgAPIURL : 'http://localhost:5253/api/',
-
+//  "mfgAPIURL": "http://192.168.29.100:84/api/",
 // export const environment = {
 //   production: false,
 //   // apiPath: window.location.origin,
