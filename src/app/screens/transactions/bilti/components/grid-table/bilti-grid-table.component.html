@@ -106,56 +106,55 @@
             [ngClass]="{'bg-light': paymentForm.get('paymentType')?.value === 'partial'}" />
         </div>
       </div>
-
-      <div class="mt-3">
-        <table class="table table-bordered">
-          <thead class="table-light">
+      <div class="mt-4">
+    <table class="table table-bordered">
+        <thead class="table-light">
             <tr>
-              <th>Invoice No</th>
-              <th>Total Invoice Amount</th>
+                <th>Invoice No</th>
+                <th>Remaining Amount</th> 
 
-              <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Payment Amount (Max:
-                {{selectedInvoicesTotal | number:'1.2-2'}}) <span class="text-danger">*</span></th>
+                <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Payment Amount (Max:
+                    {{selectedInvoicesTotal | number:'1.2-2'}}) <span class="text-danger">*</span></th>
 
-              <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Bank Charges (User Input) <span
-                  class="text-danger">*</span></th>
+                <th *ngIf="paymentForm.get('paymentType')?.value === 'partial'">Bank Charges (User Input) <span
+                    class="text-danger">*</span></th>
 
-              <th *ngIf="paymentForm.get('paymentType')?.value === 'full'">Bank Charges (Distributed)</th>
+                <th *ngIf="paymentForm.get('paymentType')?.value === 'full'">Bank Charges (Distributed)</th>
 
-              <th>Total Amount (INR)</th>
+                <th>Total Amount (INR)</th>
             </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
             <tr *ngFor="let invoice of biltisList" [hidden]="!invoice.isSelected">
-              <td>{{ invoice.clientInvoiceNo }}</td>
-              <td>{{ invoice.remainingBalance | number:'1.2-2' }}</td>
+                <td>{{ invoice.clientInvoiceNo }}</td>
+                <td>{{ invoice.remainingBalance || 0 | number:'1.2-2' }}</td> 
 
-              <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
-                <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialAmount"
-                  [ngModelOptions]="{standalone: true}" min="0" [max]="invoice.totalAmount"
-                  (keypress)="validateDecimal($event)" (input)="calculatePartialAmounts(invoice)" />
-              </td>
+                <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialAmount"
+                        [ngModelOptions]="{standalone: true}" min="0" [max]="invoice.remainingBalance" 
+                        (keypress)="validateDecimal($event)" (input)="calculatePartialAmounts(invoice)" />
+                </td>
 
-              <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
-                <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialBankCharges"
-                  [ngModelOptions]="{standalone: true}" min="0" (keypress)="validateDecimal($event)"
-                  (input)="calculatePartialAmounts(invoice)" />
-              </td>
+                <td *ngIf="paymentForm.get('paymentType')?.value === 'partial'">
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="invoice.partialBankCharges"
+                        [ngModelOptions]="{standalone: true}" min="0" (keypress)="validateDecimal($event)" (input)="calculatePartialAmounts(invoice)" />
+                </td>
+                
+                <td *ngIf="paymentForm.get('paymentType')?.value === 'full'">
+                    {{ invoice.calculatedBankCharges | number:'1.2-2' }}
+                </td>
 
-              <td *ngIf="paymentForm.get('paymentType')?.value === 'full'">
-                {{ invoice.calculatedBankCharges || 0 | number:'1.2-2' }}
-              </td>
-
-              <td>{{ invoice.calculatedTotalINR || 0 | number:'1.2-2' }}</td>
+                <td>
+                    {{ invoice.calculatedTotalINR || 0 | number:'1.2-2' }}
+                </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+    </table>
+</div>
     </form>
   </div>
   <div class="modal-footer">
-    <span class="text-danger me-auto" *ngIf="validationError">{{ validationError }}</span>
     <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-    <button class="btn btn-primary" [disabled]="disableSubmit" (click)="submitPayment(); modal.close()">Submit</button>
-  </div>
+    <button class="btn btn-primary" [disabled]="disableSubmit" (click)="submitPayment()">Submit</button>
+</div>
 </ng-template>
