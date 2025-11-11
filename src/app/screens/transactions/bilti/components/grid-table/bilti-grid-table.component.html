@@ -156,6 +156,6 @@
   <div class="modal-footer">
     <span class="text-danger me-auto" *ngIf="validationError">{{ validationError }}</span>
     <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-    <button class="btn btn-primary" [disabled]="disableSubmit" (click)="submitPayment()">Submit</button>
+    <button class="btn btn-primary" [disabled]="disableSubmit || paymentForm.invalid" (click)="submitPayment()">Submit</button>
 </div>
 </ng-template>

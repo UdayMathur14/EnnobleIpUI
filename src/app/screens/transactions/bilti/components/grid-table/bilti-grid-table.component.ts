@@ -99,7 +99,7 @@ export class BiltiGridTableComponent implements OnInit {
     const chargesControl = this.paymentForm.get('bankCharges');
 
     this.validationError = '';
-    this.disableSubmit = false;
+    this.disableSubmit = true;
     this.resetInvoiceCalculations();
 
     if (type === 'full') {
