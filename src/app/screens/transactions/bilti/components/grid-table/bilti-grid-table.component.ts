@@ -155,42 +155,69 @@ export class BiltiGridTableComponent implements OnInit {
   }
 
   // Function for calculating amounts in Partial Payment mode
-  calculatePartialAmounts(invoice: any) {
-    const rateOfExchange =
-      parseFloat(this.paymentForm.get('quantity')?.value) || 0;
+ // bilti-grid-table.component.ts
+
+calculatePartialAmounts(invoice: any) {
+    // Original input strings fetch
+    const rawBankChargesInput = invoice.partialBankCharges;
+    const rawRateOfExchangeInput = this.paymentForm.get('quantity')?.value;
 
     const partialAmount = parseFloat(invoice.partialAmount) || 0;
-    const partialBankCharges = parseFloat(invoice.partialBankCharges) || 0;
+    const partialBankCharges = parseFloat(rawBankChargesInput) || 0; 
 
-    // Individual invoice amount validation
-    if (partialAmount > invoice.remainingBalance) {
-      this.validationError = `Payment amount for Invoice ${invoice.clientInvoiceNo} cannot exceed ${invoice.remainingBalance}.`;
-      this.disableSubmit = true;
-      invoice.calculatedTotalINR = 0;
-      invoice.calculatedBankCharges = 0;
-      return;
-    }
+    // Rate of Exchange ko parse karo. Agar yeh bhi khali hai, toh NaN aayega.
+    const rateOfExchange = parseFloat(rawRateOfExchangeInput) || 0; 
 
-    // Perform calculation for this specific invoice
-    invoice.calculatedBankCharges = partialBankCharges;
-    invoice.calculatedTotalINR =
-      partialAmount * rateOfExchange + partialBankCharges;
-
-    // Clear validation error if all individual amounts are valid
+    // 1. Validation State Reset
     this.validationError = '';
     this.disableSubmit = false;
 
-    // Perform a final check to ensure all selected invoices have a payment amount > 0
-    const hasZeroPayment = this.biltisList
-      .filter((inv: any) => inv.isSelected)
-      .some((inv: any) => (parseFloat(inv.partialAmount) || 0) <= 0);
+    // --- CRITICAL INDIVIDUAL CHECKS ---
 
-    if (hasZeroPayment) {
-      this.validationError =
-        'All selected invoices must have a payment amount greater than zero.';
-      this.disableSubmit = true;
+    // 2. Bank Charges Blank/Invalid Check
+    // Button disable hoga agar input khaali hai ('') ya negative hai.
+    if (rawBankChargesInput === '' || rawBankChargesInput === null || rawBankChargesInput === undefined || partialBankCharges < 0) {
+        this.validationError = `Bank Charges for Invoice ${invoice.clientInvoiceNo} cannot be blank or negative. Enter 0 if applicable.`;
+        this.disableSubmit = true; 
+        invoice.calculatedTotalINR = 0;
+        invoice.calculatedBankCharges = 0;
+        return; 
     }
-  }
+
+    // 3. Amount Exceeds Remaining Balance Check
+    if (partialAmount > invoice.remainingBalance) {
+        this.validationError = `Payment amount for Invoice ${invoice.clientInvoiceNo} cannot exceed ${invoice.remainingBalance.toFixed(2)}.`;
+        this.disableSubmit = true;
+        invoice.calculatedTotalINR = 0;
+        invoice.calculatedBankCharges = 0;
+        return; 
+    }
+
+    // --- Calculation ---
+    invoice.calculatedBankCharges = partialBankCharges;
+    invoice.calculatedTotalINR = partialAmount * rateOfExchange + partialBankCharges;
+
+    // --- GLOBAL CHECKS ---
+
+    // 4. Rate of Exchange Invalid Check: RoE is a required field in master form
+    if (rateOfExchange <= 0 || isNaN(rateOfExchange)) {
+        this.validationError = 'Rate Of Exchange must be entered and greater than zero.';
+        this.disableSubmit = true;
+    }
+    
+    // 5. Zero Payment Check (Only runs if rateOfExchange is valid, otherwise 4 handles it)
+    else if (this.biltisList.filter((inv: any) => inv.isSelected).some((inv: any) => (parseFloat(inv.partialAmount) || 0) <= 0)) {
+        this.validationError = 'All selected invoices must have a payment amount greater than zero.';
+        this.disableSubmit = true;
+    }
+    
+    // 6. Master Form Validity Check (The final safety net)
+    // Yeh check ensure karega ki agar invoice amounts sahi hain, tab bhi Date, Bank, OWRM No ke khali hone par button disabled rahe.
+    if (!this.disableSubmit && this.paymentForm.invalid) {
+         // Is case mein hum validation error set nahi karte, kyuki form.invalid khud fields ke paas error dikhayega.
+         this.disableSubmit = true;
+    }
+}
 
   openPaymentModal() {
     this.selectedInvoiceIds = this.biltisList
