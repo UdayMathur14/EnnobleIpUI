@@ -11,8 +11,8 @@ import { LookupService } from '../../../../../core/service/lookup.service';
 })
 export class BiltiFilterComponent implements OnInit {
 
-  @Output() getData: EventEmitter<any> = new EventEmitter();
-  @Input() filters : any = [];
+  @Output() getData: EventEmitter<any> = new EventEmitter(); //parent m koi function trigger, and data bhi bhej skta hu
+  @Input() filters : any = [];  // parent se input le rha hu 
   biltiNum!: any | null;
   biltisList: any = [];
   loadSpinner: boolean = true;
