@@ -29,7 +29,7 @@ export const APIConstant: any = {
   updateLookup: `lookup/update/`,
   createLookup: `lookup/create`,
   createTransporter: `/transporter/create`,
-  lookupstype: `lookup/search`,
+  lookupstype: (offset: any, count: number) => `lookup/search?offset=${offset}&count=${count}`,
   createCustomer: `customer/create`,
   transactionTypeData: `bank/`,
   updateTransactionTypeData: `bank/update/`,

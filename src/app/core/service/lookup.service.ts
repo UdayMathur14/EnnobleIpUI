@@ -79,8 +79,8 @@ export class LookupService extends CRUDService<LookupRequest> {
     return this.post(APIConstant.createLookup, data);
   }
 
-  getLookupsType(data: any) {
-    return this.post(APIConstant.lookupstype, data);
+  getLookupsType(data: any,offset: number = 0, count: number = this.maxCount) {
+    return this.post(APIConstant.lookupstype(offset, count), data);
   }
   getLookupsTypeDropDown(data: any) {
     return this.post(APIConstant.lookupstype, data);
