@@ -981,7 +981,7 @@ export class AddEditDispatchNoteComponent1 {
           (response: any) => {
             this.toastr.success('Invoice Updated Successfully');
             this.loadSpinner = false;
-            this.router.navigate(['transaction/VendorInvoiceTxn']);
+            this.router.navigate(['transaction/SalesInvoiceTxn']);
           },
           (error) => {
             this.loadSpinner = false;
@@ -995,7 +995,7 @@ export class AddEditDispatchNoteComponent1 {
         (response: any) => {
           this.toastr.success('Invoice Created Successfully');
           this.loadSpinner = false;
-          this.router.navigate(['transaction/VendorInvoiceTxn']);
+          this.router.navigate(['transaction/SalesInvoiceTxn']);
         },
         (error) => {
           this.loadSpinner = false;
