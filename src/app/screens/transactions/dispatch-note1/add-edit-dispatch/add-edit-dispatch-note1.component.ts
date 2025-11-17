@@ -619,7 +619,7 @@ export class AddEditDispatchNoteComponent1 {
   }
 
   onCancelPress() {
-    this.router.navigate(['transaction/VendorInvoiceTxn']);
+    this.router.navigate(['transaction/VendorInvoiceTxn1']);
   }
 
   convertToNgbDate(dateString: string): NgbDateStruct | null {
