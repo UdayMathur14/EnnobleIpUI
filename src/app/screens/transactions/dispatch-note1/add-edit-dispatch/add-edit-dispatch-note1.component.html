@@ -1,0 +1,744 @@
+<div class="page-title">
+  <h1>{{dispatchId > 0 ? 'Edit': 'Create'}} Vendor Invoice </h1>
+  <div class="action-buttons">
+    <button class="custom-button-regulr" (click)="onSavePress()">Save</button>
+    <!-- [disabled]="isFormInvalid() -->
+    <button class="custom-button-secondary" (click)="onCancelPress()">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<div class="content-section p-3">
+  <form [formGroup]="addOrEditDispatchNoteForm">
+    <ul class="nav nav-tabs mb-3">
+      <!-- <li class="nav-item">
+        <a class="nav-link " data-bs-toggle="tab" href="#Tab1">Purchase INV-1
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#Tab2">Purchase INV-2
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#Tab3">Payment Details
+        </a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#Tab4">Sales INV
+        </a>
+      </li>
+      <!-- <li class="nav-item" *ngIf="statusTab">
+        <a class="nav-link" data-bs-toggle="tab" href="#status">Status
+        </a>
+      </li> -->
+    </ul>
+
+    <div class="tab-content">
+      <div id="Tab1" class="tab-pane fade hide ">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Vendor Name <span class="text-danger">*</span></label>
+              <ng-select [searchable]="true" formControlName="vendorId" [readonly]="dispatchId > 0"
+                (change)="onVendorSelect($event)">
+                <ng-option *ngFor="let vendor of vendorsList" [value]="vendor.id">
+                  {{ vendor.vendorName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Vendor Country <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="selectedVendorCountry"
+                [value]="selectedVendorCountry" placeholder="Vendor country " readonly>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Invoice Date <span class="text-danger">*</span></label>
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="dd-mm-yyyy" name="fromDt" [autoClose]="true"
+                  formControlName="invoiceDate" (dateSelect)="onInvoiceDateChange($event)" ngbDatepicker
+                  #fromDt="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="fromDt.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">FY <span class="text-danger">*</span></label>
+              <input formControlName="fy" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for=""> Vendor Invoice No <span class="text-danger">*</span></label>
+              <input formControlName="clientInvoiceNo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Due Date As Per Invoice <span class="text-danger">*</span></label>
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="dd-MM-yyyy" name="dueDateAsPerInvoice" [autoClose]="true"
+                  formControlName="dueDateAsPerInvoice" (dateSelect)="onDateSelect('dueDateAsPerInvoice', $event)"
+                  ngbDatepicker #dueDateAsPerInvoice="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dueDateAsPerInvoice.toggle()"
+                  type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for=""> Credit Days As Per Contract </label>
+              <input formControlName="creditDaysAsPerContract" type="number" class="input-field"
+                (input)="onCreditDaysChange()" (keypress)="validateNo1($event)" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Due Date As Per Contract </label>
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="dd-MM-yyyy" name="dueDateAsPerContract" ngbDatepicker
+                  formControlName="dueDateAsPerContract" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Customer Name <span class="text-danger">*</span></label>
+              <ng-select [searchable]="true" formControlName="customerId" [readonly]="dispatchId > 0"
+                (change)="onCustomerSelect($event)">
+                <ng-option *ngFor="let customers of customersList" [value]="customers.id">
+                  {{ customers.customerName }}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-12 mt-3">
+            <label class="mb-2 fw-bold fs-5 d-flex align-items-center">
+              <i class="bi bi-people-fill text-primary me-2"></i> Applicant Names
+              <button type="button" class="btn btn-success btn-sm ms-3 px-3 rounded-pill shadow-sm"
+                (click)="addApplicantField()">
+                <i class="bi bi-plus-circle me-1"></i> Add Applicant
+              </button>
+            </label>
+
+            <table class="table table-bordered table-sm shadow-sm rounded overflow-hidden applicant-table">
+              <tbody>
+                <ng-container *ngFor="let row of getApplicantsRows(); let rowIndex = index; trackBy: trackByRowIndex">
+                  <tr>
+                    <ng-container
+                      *ngFor="let applicantGroup of row; let colIndex = index; trackBy: trackByControlIndex">
+                      <td class="applicant-cell bg-light">
+                        <div class="d-flex align-items-center w-100 p-1 rounded">
+                          <span class="me-2 fw-bold text-secondary">{{ rowIndex * 4 + colIndex + 1 }}.</span>
+                          <input type="text"
+                            class="form-control form-control-sm flex-grow-1 border-0 shadow-sm rounded-pill applicant-input"
+                            [formControl]="getApplicantNameControl(applicantGroup)" placeholder="Applicant name *" />
+                          <button type="button" class="btn btn-danger btn-sm ms-2 shadow-sm remove-btn"
+                            (click)="removeApplicant(rowIndex * 4 + colIndex)">
+                            <i class="bi bi-trash-fill"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Description </label>
+              <input formControlName="description" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Title <span class="text-danger">*</span></label>
+              <input formControlName="title" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Application Number <span class="text-danger">*</span></label>
+              <input formControlName="applicationNumber" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Filing Date </label>
+              <div class="input-group datepicker">
+                <input [minDate]="minDate" [maxDate]="maxDate" class="form-control" placeholder="dd-MM-yyyy"
+                  name="filingDate" formControlName="filingDate" (dateSelect)="onDateSelect('filingDate', $event)"
+                  ngbDatepicker #filingDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar6" (click)="filingDate.toggle()" type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Client Ref No <span class="text-danger">*</span></label>
+              <input formControlName="clientRefNo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Our Ref No <span class="text-danger">*</span></label>
+              <input formControlName="ourRefNo" type="text" class="input-field" />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Filing Receipt Supporting <span class="text-danger">*</span></label>
+              <ng-select
+                [items]="[{ label: 'YES', value: 'YES' }, { label: 'NO', value: 'NO' },{ label: 'NA', value: 'NA' }]"
+                bindLabel="label" bindValue="value" formControlName="officialFilingReceiptSupporting"
+                placeholder="Select Yes or No" class="input-field">
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Work Delivery Date </label>
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="dd-MM-yyyy" name="workDeliveryDateOrMonth" [autoClose]="true"
+                  formControlName="workDeliveryDateOrMonth"
+                  (dateSelect)="onDateSelect('workDeliveryDateOrMonth', $event)" ngbDatepicker
+                  #workDeliveryDateOrMonthDt="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="workDeliveryDateOrMonthDt.toggle()"
+                  type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Purchase Currency <span class="text-danger">*</span></label>
+              <input type="text" formControlName="purchaseCurrency" class="form-control form-control-sm"
+                placeholder="Currency" readonly />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Posted In Tally <span class="text-danger">*</span></label>
+              <ng-select [items]="[{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' }]" bindLabel="label"
+                bindValue="value" formControlName="postedInTally" placeholder="Select Yes or No" class="input-field">
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input">
+              <label for="">Patent No </label>
+              <input formControlName="patentNo" type="text" class="input-field" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="Tab2" class="tab-pane fade">
+        <div class="edit-screen-subTable mt-0">
+          <h4>
+            Invoice Fee Details
+            <button (click)="createInvoiceFeeDetailsGroup()" class="custom-button-regulr">Add</button>
+          </h4>
+        </div>
+
+        <div class="custom-table">
+          <table>
+            <thead class="table table-bordered">
+              <tr>
+                <th>Line</th>
+                <th class="required-label">Fees Type</th>
+                <th class="required-label">Type</th>
+                <th class="required-label">Country</th>
+                <th *ngIf="isTranslationFeeSelected" class="required-label">Language</th>
+                <th class="required-label">Amount</th>
+                <th>Remarks</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody formArrayName="invoiceFeeDetails">
+              <ng-container *ngFor="let vendorGroup of invoiceFeeDetails.controls; let ind = index">
+
+
+                <tr formGroupName={{ind}}>
+
+                  <td>{{ind+1}}</td>
+                  <!-- Prof Fees -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <select class="form-control input-field" formControlName="feeType"
+                        (change)="onFeeTypeSelect(getSelectedValue($event), ind)">
+                        <option value="">Select Fee Type</option>
+                        <option value="Professional Fee">Professional Fee</option>
+                        <option value="Govt or Offical Fee">Govt or Offical Fee</option>
+                        <option value="Other Charges">Other Charges</option>
+                      </select>
+                    </div>
+                  </td>
+
+
+                  <!-- SubItem -->
+
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Add Sub Fee" [items]="subFeeOptionsList[ind]"
+                        bindLabel="value" bindValue="value" formControlName="subFeeValue"
+                        (change)="onFeeTypeChange(ind)">
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <!-- Country -->
+
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <ng-select class="input-field" placeholder="Select Country" formControlName="country">
+                        <ng-option *ngFor="let country of countryList" [value]="country.value">
+                          {{ country.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </td>
+
+                  <td *ngIf="isTranslationFeeSelected">
+                    <ng-container *ngIf="vendorGroup.get('subFeeValue')?.value === 'Translation Fee'; else emptyLang">
+                      <div class="custom-form-input dispatchwidth">
+                        <ng-select class="input-field" placeholder="Select Language"  formControlName="language">
+                          <ng-option *ngFor="let language of LanguageList" [value]="language.value">
+                          {{ language.value }}
+                        </ng-option>
+                        </ng-select>
+                      </div>
+                    </ng-container>
+                    <ng-template #emptyLang>
+                      <!-- empty cell to align columns -->
+                    </ng-template>
+                  </td>
+
+                  <!-- Amount -->
+                  <td>
+                    <div class="custom-form-input dispatchwidthsmall">
+                      <input formControlName="amount" class="input-field" type="number" step="0.01"
+                        placeholder="Enter Amt" (keypress)="validateDecimal($event)">
+                    </div>
+                  </td>
+
+                  <!-- Remarks -->
+                  <td>
+                    <div class="custom-form-input dispatchwidth">
+                      <input formControlName="remarks" type="text" class="input-field" placeholder="Remarks">
+                    </div>
+                  </td>
+
+                  <!-- Action -->
+                  <td class="text-center">
+                    <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
+                      (click)="onDeleteInvoiceFeeDetail(vendorGroup, ind)" />
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <!-- Totals Section -->
+        <div class="row mt-4 gx-4 gy-3">
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Professional Fee Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
+                <input formControlName="professionalFeeAmt" type="number" class="form-control" readonly />
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Govt/Official Fee Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
+                <input formControlName="govtOrOfficialFeeAmt" type="number" class="input-field form-control" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Other Charges Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
+                <input formControlName="otherChargesAmt" type="number" class="input-field form-control" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Discount Amount</label>
+              <input formControlName="discountAmt" type="number" class="input-field form-control"
+                (keypress)="validateDecimal($event)" />
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Credit Note Amount</label>
+              <input formControlName="discountCreditNoteAmt" type="number" class="input-field form-control"
+                (keypress)="validateDecimal($event)" />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Credit Note No</label>
+              <input formControlName="creditNoteNo" type="text" class="input-field form-control" />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label for="">Credit Note Date</label>
+              <div class="input-group datepicker">
+                <input class="form-control" placeholder="dd-MM-yyyy" name="creditNoteDate" [autoClose]="true"
+                  formControlName="creditNoteDate" (dateSelect)="onDateSelect('creditNoteDate', $event)" ngbDatepicker
+                  #creditNoteDate="ngbDatepicker" readonly />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="creditNoteDate.toggle()"
+                  type="button">
+                  <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Credit Note Ref No</label>
+              <input formControlName="creditNoteRefNo" type="text" class="input-field form-control" />
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="custom-form-input">
+              <label class="fw-bold">Total Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">{{ currencySymbol }}</span>
+                <input formControlName="totalAmount" type="number" class="input-field form-control" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="Tab3" class="tab-pane fade show " role="tabpanel" aria-labelledby="tab3-tab">
+        <div class="edit-screen-subTable mt-0">
+          <h4>
+            Payment Fee Details
+            <button (click)="createPaymentFeeDetailsGroup()" class="custom-button-regulr">Add</button>
+          </h4>
+        </div>
+
+        <div class="table-scroll">
+          <div class="custom-table">
+            <table>
+              <thead class="table table-bordered">
+                <tr>
+                  <th>Line</th>
+                  <th class="required-label">Payment Date</th>
+                  <th class="required-label">Bank</th>
+                  <th class="required-label">Owrm No</th>
+                  <th class="required-label">PaymentCurrency</th>
+                  <th class="required-label">Forex Amount</th>
+                  <th class="required-label">Rate Of Exchange</th>
+                  <th class="required-label">Value (INR)</th>
+                  <th class="required-label">Bank Charges</th>
+                  <th class="required-label">Total Amount (INR)</th>
+                  <th style="width: 5%;" class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody formArrayName="paymentFeeDetails">
+                <ng-container *ngFor="let payment of paymentFeeDetails.controls; let ind = index">
+                  <tr [formGroupName]="ind">
+                    <td>{{ ind + 1 }}</td>
+
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <div class="input-group datepicker">
+                          <input class="form-control" placeholder="dd-MM-yyyy" name="paymentDate" [autoClose]="true"
+                            [container]="'body'" formControlName="paymentDate"
+                            (dateSelect)="onDateSelect('paymentDate', $event)" ngbDatepicker #dp="ngbDatepicker"
+                            readonly />
+                          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                            <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <ng-select formControlName="bankID" class="input-field" placeholder="Select Bank"
+                          [appendTo]="'body'">
+                          <ng-option *ngFor="let bank of transactionTypesList" [value]="bank.id">
+                            {{ bank.bankName }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <input formControlName="owrmNo1" type="text" class="input-field" placeholder="OWRM No 1" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <ng-select formControlName="paymentCurrency" class="input-field" placeholder="Select Currency"
+                          [appendTo]="'body'">
+                          <ng-option *ngFor="let currency of currencyList" [value]="currency.value">
+                            {{ currency.value }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <input formControlName="rate" type="text" class="input-field"
+                          (keypress)="validateDecimal($event)" placeholder="" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <input formControlName="quantity" type="text" class="input-field"
+                          (keypress)="validateDecimal($event)" placeholder="" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-form-input dispatchwidthsmall">
+                        <input formControlName="paymentAmount" type="number" class="input-field"
+                          (keypress)="validateDecimal($event)" placeholder="Enter Amt" readonly />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="custom-form-input dispatchwidth">
+                        <input formControlName="bankCharges" type="text" class="input-field"
+                          (keypress)="validateDecimal($event)" placeholder="charges" />
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="custom-form-input dispatchwidthsmall">
+                        <input formControlName="totalAmountInr" type="number" class="input-field"
+                          placeholder="Enter Amt" readonly />
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <img src="assets/images/icons/trash.svg" class="me-2 pointer" alt="Delete"
+                        (click)="onDeletePaymentFeeDetail(payment, ind)" />
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="Tab4" class="tab-pane fade show active">
+
+        <!-- Fixed (non-repeating) Fields -->
+        <div class="row g-2 mb-3 d-flex align-items-center">
+          <div class="col-md-3">
+            <label class="label-small">Customer PO Number </label>
+            <input formControlName="customerPONo" type="text" class="form-control form-control-sm input-field-sm" />
+          </div>
+
+          <div class="col-md-3">
+            <label class="label-small">PO Value Inclusive Taxes </label>
+            <input formControlName="poValueInclusiveTaxes" type="text"
+              class="form-control form-control-sm input-field-sm" (keypress)="validateDecimal($event)" />
+          </div>
+
+          <div class="col-sm-3">
+            <label class="label-small">PO Date </label>
+            <div class="input-group input-group-sm">
+              <input placeholder="dd-MM-yyyy" formControlName="poDate" class="form-control input-field-sm" ngbDatepicker
+                #poDate="ngbDatepicker" (dateSelect)="onDateSelect('poDate', $event)" readonly />
+              <button class="btn btn-outline-secondary" (click)="poDate.toggle()" type="button">
+                <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+              </button>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="label-small">
+              <label for="">Sales Currency <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text">{{ customerSymbol }}</span>
+                <input formControlName="saleCurrency" type="text"
+                  class="iform-control form-control-sm input-field-sm" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edit-screen-subTable mt-0">
+          <h5>
+            <button class="btn btn-outline-primary btn-sm me-2" [class.active]="activeSection === 'professional'"
+              (click)="activeSection = 'professional'">Professional Fee Deatils</button>
+
+            <button class="btn btn-outline-success btn-sm" [class.active]="activeSection === 'govt'"
+              (click)="activeSection = 'govt'">Govt/Official Fee Details</button>
+          </h5>
+        </div>
+
+        <!-- Show Only Those Rows Based on Section -->
+        <div *ngIf="activeSection === 'professional'">
+          <div class="d-flex justify-content-between align-items-center">
+            <h6>Professional Fee Details</h6>
+            <button (click)="addSaleInvoice('Professional')" class="btn btn-sm btn-danger">+ Add</button>
+          </div>
+
+          <table class="table table-sm table-bordered mt-2">
+            <thead class="table-light text-center">
+              <tr>
+                <th class="text-center">#</th>
+                <th>Professional Inv No</th>
+                <th>Professional Amount</th>
+                <th>Estimate No</th>
+                <th>Inv/Esti Date</th>
+                <th>Remarks</th>
+                <th>Posted In Tally</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody [formGroup]="addOrEditDispatchNoteForm">
+              <tr class="border" *ngFor="let group of filteredSalesInvoices('Professional'); let i = index"
+                [formGroup]="group">
+                <td class="text-center">{{ i + 1 }}</td>
+                <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
+                <td>
+                  <div class="input-group">
+                    <span class="input-group-text">{{ customerSymbol }}</span>
+                    <input formControlName="amount" type="text" class="form-control"
+                      (keypress)="validateDecimal($event)" placeholder="Enter Amount" />
+                  </div>
+                </td>
+                <td><input formControlName="estimateNo" class="form-control form-control" /></td>
+                <td>
+                  <div class="input-group datepicker">
+                    <input class="form-control" placeholder="dd-MM-yyyy" name="saleInvoiceDate" [autoClose]="true"
+                      [container]="'body'" formControlName="saleInvoiceDate"
+                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker"
+                      readonly />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                      <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                    </button>
+                  </div>
+                </td>
+                <td><input formControlName="remarks" class="form-control form-control" /></td>
+                <td>
+                  <ng-select formControlName="postedInTally" class="ng-select-custom">
+                    <ng-option [value]="'Yes'">Yes</ng-option>
+                    <ng-option [value]="'No'">No</ng-option>
+                  </ng-select>
+                </td>
+                <td class="text-center"><img class="me-2 pointer" src="assets/images/icons/trash.svg" width="18px"
+                    (click)="removeSaleInvoice(group)" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="activeSection === 'govt'">
+          <div class="d-flex justify-content-between align-items-center">
+            <h6>Govt/Official Fee Details</h6>
+            <button (click)="addSaleInvoice('Govt')" class="btn btn-sm btn-danger">+ Add</button>
+          </div>
+          <table class="table table-sm table-bordered mt-2">
+            <thead class="table-light text-center">
+              <tr>
+                <th>#</th>
+                <th>Govt/official Inv No</th>
+                <th>Govt/Official Amount</th>
+                <th>Estimate No</th>
+                <th>Inv/Esti Date</th>
+                <th>Remarks</th>
+                <th>Posted In Tally</th>
+                <!-- <th class="required-label">Posted In Tally</th> -->
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody [formGroup]="addOrEditDispatchNoteForm">
+              <tr *ngFor="let group of filteredSalesInvoices('Govt'); let i = index" [formGroup]="group">
+                <td>{{ i + 1 }}</td>
+                <td><input formControlName="invoiceNo" class="form-control form-control" /></td>
+                <td>
+                  <div class="input-group">
+                    <span class="input-group-text">{{ customerSymbol }}</span>
+                    <input formControlName="amount" type="text" class="form-control"
+                      (keypress)="validateDecimal($event)" placeholder="Enter Amount" />
+                  </div>
+                </td>
+                <td><input formControlName="estimateNo" class="form-control form-control" /></td>
+                <td>
+                  <div class="input-group datepicker">
+                    <input class="form-control" placeholder="dd-MM-yyyy" name="saleInvoiceDate" [autoClose]="true"
+                      [container]="'body'" formControlName="saleInvoiceDate"
+                      (dateSelect)="onDateSelect('saleInvoiceDate', $event)" ngbDatepicker #dp="ngbDatepicker" />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button">
+                      <img src="assets/images/icons/calendar.svg" alt="" width="15px" />
+                    </button>
+                  </div>
+                </td>
+                <td><input formControlName="remarks" class="form-control form-control" /></td>
+                <td>
+                  <ng-select formControlName="postedInTally" class="ng-select-custom">
+                    <ng-option [value]="'Yes'">Yes</ng-option>
+                    <ng-option [value]="'No'">No</ng-option>
+                  </ng-select>
+                </td>
+                <td><img src="assets/images/icons/trash.svg" width="18px" (click)="removeSaleInvoice(group)" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div id="status" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <div class="custom-form-input" *ngIf="dispatchId">
+              <label for="">Status <span class="text-danger"></span></label>
+              <select name="" id="" formControlName="status">
+                <option value="Active">Open</option>
+                <option value="Inactive">Closed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

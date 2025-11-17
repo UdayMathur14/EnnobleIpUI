@@ -9,6 +9,7 @@ import { BootService } from './core/service/boot.service';
 import { initializeAppFactory } from './core/initializer/app.initializer';
 import { ExportAsModule, ExportAsService } from 'ngx-export-as';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [

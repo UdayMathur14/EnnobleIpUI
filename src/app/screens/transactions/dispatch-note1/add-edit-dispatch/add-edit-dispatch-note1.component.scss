@@ -1,0 +1,178 @@
+.content-section {
+    height: calc(100vh - 162px);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px #00000024;
+    overflow-x: hidden;
+}
+
+.dispatchwidth{
+    min-width:150px;
+}
+
+.dispatchwidthsmall{
+    max-width:100px;
+}
+
+
+/* Ensure each cell has bottom border */
+.table-bordered td, 
+.table-bordered th {
+  vertical-align: top;
+}
+
+/* Optional: Rounded bottom corners */
+// .custom-table {
+//   border: 1px solid black !important;
+//   border-radius: 2px 2px 10px 10px;
+// }
+
+.table-bordered > :not(caption) > * > * {
+  border-color: #dee2e6 !important; /* soft grey border between cells */
+}
+
+/* Red border for inputs */
+.input-field-sm {
+  border-radius: 4px;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  border-color: black;
+}
+
+/* Small label styling */
+.label-small {
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* Delete icon hover effect */
+.pointer {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.pointer:hover {
+  transform: scale(1.1);
+}
+
+.ng-select-sm .ng-select-container {
+  height: calc(1.8125rem + 2px); /* like input-sm */
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #dc3545 !important;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.input-field-sm {
+  height: 31px !important;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+table tbody input.form-control {
+  border: 0.5px solid black !important;
+}
+
+.required-label::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+  margin-left: 2px;
+}
+.shetty.ng-touch{
+border: 1px solid re;
+}
+.custom-table-responsive {
+    overflow-x: auto; /* Adds a horizontal scrollbar when content overflows */
+    width: 100%; /* Ensures the container takes up the full width */
+    border: 1px solid black !important;
+   border-radius: 2px 2px 10px 10px;
+   overflow: visible !important;
+}
+.custom-table th, .custom-table td {
+    white-space: nowrap; /* Prevents wrapping text to save space */
+    padding: 8px; /* Reduce padding to make cells smaller */
+}
+.ng-dropdown-panel {
+    z-index: 99999 !important;
+    position: absolute !important;
+}
+.applicant-table tbody tr:hover {
+  background-color: #f1f8ff; /* light blue on hover */
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Input focus glow */
+.applicant-cell input:focus {
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+/* Remove button style */
+.remove-btn {
+  font-size: 16px;  
+  background-color: rgba(134, 0, 7, 0.164); /* light grey */
+  color: #495057; /* dark grey icon */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.remove-btn i {
+  font-size: 16px;  
+  font-size: 10rem;
+}
+
+.remove-btn:hover {
+  font-size: 16px;  
+  background-color: #dc3545 !important;
+  color: black !important;
+  box-shadow: 0 3px 6px rgba(250, 61, 80, 0.4);
+}
+table {
+    border: 0.5px solid #8d8d8d;  /* Table outer border */
+    border-collapse: collapse; /* Border merge karne ke liye */ /* Rounded corners */ /* Rounded corners visible rakhne ke liye */
+     overflow-x: auto; 
+     min-width: 1000px;  
+}
+
+table th, table td {
+    border: 0.5px solid #444444; /* Inner cell borders */
+    padding: 8px; /* Thoda spacing */ 
+}
+
+.table-scroll {
+    max-width: 100%; 
+    overflow-x: auto;       /* Horizontal scroll enable kare */   /* Vertical scroll hide kare */
+    padding-bottom: 20px;
+}
+
+.table-scroll table {
+    min-width: 1200px;      /* Columns ke liye minimum width */
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.ngb-dp-container, 
+.ngb-datepicker {
+    position: absolute !important;
+    z-index: 1050; /* table ke upar dikhne ke liye */
+    background: #fff; /* calendar ka background */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.input-group.datepicker {
+    position: relative; /* calendar ka reference point */
+}
+.ngb-datepicker {
+    position: absolute !important;
+    z-index: 9999 !important; /* dropdown se upar */
+}
+
+.input-group.datepicker {
+    position: relative; /* popup ka reference point */
+}
+input::placeholder {
+  color: red !important;     /* Red color */
+  font-weight: bold !important;  /* Bold */
+}
+ 

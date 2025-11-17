@@ -132,6 +132,9 @@ import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupT
 import { LookupTypeFilterComponent } from "./master/lookupType/components/filter/lookupType-filter.component";
 import { LookupTypeGridTableComponent } from "./master/lookupType/components/grid-table/lookupType-grid-table.component";
 import { CustomDateParserFormatter } from "../core/service/CustomDateParserFormatter";
+import { DispatchNoteFiltersComponent1 } from "./transactions/dispatch-note1/components/filter/dispatch-note-filter1.component";
+import { DispatchNoteGridTableComponent1 } from "./transactions/dispatch-note1/components/grid-table/dispatch-note-grid-table1.component";
+import { DispatchNoteComponent1 } from "./transactions/dispatch-note1/dispatch-note1.component";
 
 @NgModule({
     declarations: [
@@ -168,6 +171,9 @@ import { CustomDateParserFormatter } from "../core/service/CustomDateParserForma
         DispatchNoteComponent,
         DispatchNoteFiltersComponent,
         DispatchNoteGridTableComponent,
+        DispatchNoteComponent1,
+        DispatchNoteFiltersComponent1,
+        DispatchNoteGridTableComponent1,
         DeliveryNoteModalComponent,
         BiltiComponent,
         BiltiFilterComponent,

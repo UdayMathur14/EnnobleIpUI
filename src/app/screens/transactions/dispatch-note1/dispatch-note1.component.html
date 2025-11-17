@@ -1,0 +1,42 @@
+<div class="page-title">
+  <h1> Vendor Invoice Txn </h1>
+  <div class="action-buttons">
+    <button class="custom-button-export" (click)="exportData()">
+      <img src="assets/images/icons/excel.svg" alt="export" /> Export</button>
+    <button class="custom-button-regulr" (click)="onCreateDispatchNote()">Create Vendor Invoice</button>
+    <div container="body">
+      <img src="assets/images/icons/fullScreen.svg" alt="" class="pointer" width="14px"
+        (click)="fullScreen = !fullScreen" placement="start" [ngbTooltip]="tipContent" />
+      <ng-template #tipContent> Full Screen </ng-template>
+    </div>
+  </div>
+</div>
+
+<div class="filter-section" [ngClass]="{'d-none': !isFilters}">
+  <app-dispatch-note-filters1 [filters]="filters" (getData)="getData($event)"></app-dispatch-note-filters1>
+</div>
+
+<div class="content-section" [ngClass]="{'isFilters': isFilters, fullScreen : fullScreen}">
+  <img *ngIf="fullScreen" src="assets/images/icons/fullScreenCollapse.svg" alt="" class="me-3 pointer float-end"
+    width="14px" (click)="fullScreen = !fullScreen" />
+  <div class="grid-table">
+    <div class="table-container">
+        <app-dispatch-note-grid-table1 [dispatchNotes]="dispatchNotes" (exportHeader)="onExportHeader($event)"></app-dispatch-note-grid-table1>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <ngb-pagination [collectionSize]="totaldispatchNotes" [(page)]="currentPage" [pageSize]="count"
+        (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5" [rotate]="true"></ngb-pagination>
+      <p class="mt-2 ms-3"> Items per page:</p>
+      <select class="custom-select ms-3" [(ngModel)]="count" (ngModelChange)="onPageSizeChange(count)">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+        <option [value]="500">500</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="loadSpinner">
+  Loading...
+</div>

@@ -20,6 +20,7 @@ import { PointChargeComponent } from "./master/point-charge/point-charge.compone
 import { AddEditPointChargeComponent } from "./master/point-charge/add-edit-point-charge/add-edit-point-charge.component";
 import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-edit-dispatch-note/add-edit-dispatch-note.component";
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
+import { DispatchNoteComponent1} from "./transactions/dispatch-note1/dispatch-note1.component";
 import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
 import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
 import { FreightMasterMaterialComponent } from "./transactions/freight-master-material/freight-master-material.component";
@@ -51,6 +52,8 @@ import { ProvisionalReportComponent } from "./reports/processed-report/provision
 import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
 import { LookupTypeComponent } from "./master/lookupType/lookupType.component";
 import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupType/add-edit-lookupType.component";
+import { AddEditDispatchNoteComponent1 } from "./transactions/dispatch-note1/add-edit-dispatch/add-edit-dispatch-note1.component";
+
 
 const routes: Routes = [
     {
@@ -88,6 +91,10 @@ const routes: Routes = [
             { path: "transaction/VendorInvoiceTxn", component: DispatchNoteComponent, canActivate: [] },
             // { path: "transaction/addEditVendorInvoice", component: AddEditDispatchNoteComponent, canActivate: [] },
             { path: "transaction/addEditVendorInvoice/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [] },
+
+            { path: "transaction/VendorInvoiceTxn1", component: DispatchNoteComponent1, canActivate: [] },
+
+             { path: "transaction/addEditVendorInvoice1/:dispatchId", component: AddEditDispatchNoteComponent1, canActivate: [] },
             
             { path: "transaction/paymentManagement", component: BiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
@@ -135,7 +142,8 @@ export const ScreensComponents = [
     TransactionTypeComponent,
     AddEditFreightComponent,
     AddEditAdviceComponent,
-    NotFound404Component
-];
+    NotFound404Component,
+    DispatchNoteComponent1,
+    AddEditDispatchNoteComponent1,];
 
 export const ScreensEntryComponents = [];

@@ -1,0 +1,37 @@
+<div class="filters-box">
+    <div class="row">
+        <div class="col-lg-3" >
+            <div class="custom-form-input">
+                <label for="">Application Number</label>
+                <ng-select class="input-field" [(ngModel)]="applicationNumber" placeholder="Application No">
+                    <ng-option *ngFor="let appl of filters?.ApplicationNumber" [value]="appl">{{appl}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="custom-form-input">
+                <label for="">Client Inv Number</label>
+                <ng-select class="input-field" [(ngModel)]="clientInvoiceNumber" placeholder="Client Inv No">
+                    <ng-option *ngFor="let number of filters?.ClientInvoiceNo" [value]="number">{{number}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="custom-form-input">
+                <label>Status</label>
+                <ng-select class="input-field" [(ngModel)]="Status" placeholder="Select Status">
+                    <ng-option *ngFor="let status of filters?.Status" [value]="status">{{status}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="" class="d-block">&nbsp;</label>
+                <div class="d-flex">
+                    <button class="custom-button-filters" (click)="handleSearch()" [disabled]=" !applicationNumber && !Status && !clientInvoiceNumber">Search</button>
+                    <button class="custom-button-filters ms-2" (click)="onClearFilter()" [disabled]=" !applicationNumber && !clientInvoiceNumber && !Status"> Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

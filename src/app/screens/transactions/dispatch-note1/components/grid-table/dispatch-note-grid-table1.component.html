@@ -1,0 +1,91 @@
+<div class="custom-table">
+  <table #table>
+    <thead>
+      <tr>
+        <th>Invoice Date</th>
+        <th>Client Invoice No</th>
+        <th>Due Date </th>
+        <th>Vendor Name</th>
+        <th>Total Prof Fees</th>
+        <th>Total Govt Fees</th>
+        <th>Others Fees</th>
+        <th>Dicount Amount</th>
+        <th>Credit Note Amount</th>
+        <th>Total Amount</th>
+        <th>Application No </th>
+        <th>EPO Filing </th>
+        <th>Filing Date</th>
+        <th>Client Ref No.</th>
+        <th>Our Ref No.</th>
+        <th>Status</th>
+        <!-- <th>Dispatch Note Status</th> -->
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (dispatchNote of dispatchNotes; track dispatchNote.id) {
+      <tr>
+
+        <td class="pointer" container="body">
+          <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
+            <u>{{ dispatchNote?.invoiceDate | date: 'dd-MM-yyyy' }}</u>
+          </span>
+          <ng-template #tipContent>
+            <div class="">
+              <div class="content-row">
+                <span>Created On</span>
+                <span>{{ dispatchNote?.creationDate | date: 'dd-MM-yyyy' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Created By</span>
+                <span>{{ dispatchNote?.createdByDetails?.name }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Update Date</span>
+                <span>{{ dispatchNote?.lastUpdateOn | date: 'dd-MM-yyyy' }}</span>
+              </div>
+              <div class="content-row">
+                <span>Last Updated By</span>
+                <span>{{ dispatchNote?.lastUpdatedByDetails?.name }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+        <td>{{ dispatchNote?.clientInvoiceNo || '-' }}</td>
+        <td>{{ dispatchNote?.dueDateAsPerInvoice | date:'dd-MM-yyyy'}}</td>
+        <td>{{ dispatchNote?.vendorDetails.vendorName || '-' }}</td>
+        <td>{{ dispatchNote?.professionalFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.govtOrOfficialFeeAmt || '-' }}</td>
+        <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
+        <td>{{ dispatchNote?.discountAmt || '-' }}</td>
+        <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
+        <td>{{ dispatchNote?.totalAmount || '-' }}</td>
+        <td>{{ dispatchNote?.applicationNumber || '-'}}</td>
+        <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
+        <td>{{ dispatchNote?.filingDate | date:'dd-MM-yyyy'}}</td>
+        <td>{{ dispatchNote?.clientRefNo || '-' }}</td>
+        <td>{{ dispatchNote?.ourRefNo || '-' }}</td>
+        <td>{{ dispatchNote?.status || '-' }}</td>
+
+
+
+        <td class="text-center">
+          <img src="assets/images/icons/link.svg" alt="link" class="me-2 pointer"
+            (click)="onPreviewDispatchNote(dispatchNote)" placement="top" ngbTooltip="Vendor Invoice" />
+          <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)"
+            [disabled]="dispatchNote?.openFlag == 'Close'" ngbTooltip="Edit" placement="top">
+            <!-- <img src="assets/images/icons/editPencil.svg" alt="edit" /> -->
+            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditDispatchNote(dispatchNote)" />
+          </button>
+        </td>
+      </tr>
+      }
+      @empty {
+      }
+
+      <tr *ngIf="dispatchNotes.length==0">
+        <td align="center" colspan="13">No Result Found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
