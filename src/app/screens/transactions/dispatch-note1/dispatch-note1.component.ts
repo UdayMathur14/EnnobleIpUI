@@ -48,7 +48,7 @@ export class DispatchNoteComponent1 {
     const data = {
       ApplicationNumber: filters?.ApplicationNumber || '',
       ClientInvoiceNumber: filters?.ClientInvoiceNumber,
-      Status: filters?.status || '',
+      VendorName: filters?.vendorName || '',
     };
     this.loadSpinner = true;
     this.dispatchNoteService.getDispatchNote(data, offset, count).subscribe(
