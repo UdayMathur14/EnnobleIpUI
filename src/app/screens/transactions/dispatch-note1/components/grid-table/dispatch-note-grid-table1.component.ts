@@ -18,7 +18,7 @@ export class DispatchNoteGridTableComponent1 {
     private modalService: NgbModal) { }
 
   onEditDispatchNote(dispatchNotes:any) {
-    this.router.navigate(['transaction/addEditVendorInvoice1',dispatchNotes.id]);
+    this.router.navigate(['transaction/SalesInvoiceTxn',dispatchNotes.id]);
   }
 
   onPreviewDispatchNote(dispatch: any){

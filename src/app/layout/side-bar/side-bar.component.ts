@@ -51,7 +51,7 @@ export class SideBarComponent {
             this.router.navigate(['/transaction/VendorInvoiceTxn'])
         }
         else if (transaction === 'dispatchNote1') {
-            this.router.navigate(['/transaction/VendorInvoiceTxn1'])
+            this.router.navigate(['/transaction/SalesInvoiceTxn'])
         }
         else if (transaction === 'pointMasterAccounts') {
             this.router.navigate(['/transaction/paymentManagements'])

@@ -92,9 +92,9 @@ const routes: Routes = [
             // { path: "transaction/addEditVendorInvoice", component: AddEditDispatchNoteComponent, canActivate: [] },
             { path: "transaction/addEditVendorInvoice/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [] },
 
-            { path: "transaction/VendorInvoiceTxn1", component: DispatchNoteComponent1, canActivate: [] },
+            { path: "transaction/SalesInvoiceTxn", component: DispatchNoteComponent1, canActivate: [] },
 
-             { path: "transaction/addEditVendorInvoice1/:dispatchId", component: AddEditDispatchNoteComponent1, canActivate: [] },
+             { path: "transaction/SalesInvoiceTxn/:dispatchId", component: AddEditDispatchNoteComponent1, canActivate: [] },
             
             { path: "transaction/paymentManagement", component: BiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
