@@ -18,7 +18,7 @@
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">Client Inv No </label>
+                <label for="">Vendor Inv No </label>
                 <ng-select class="input-field" [(ngModel)]="clientInvoiceNumber" placeholder="Select Client Inv No">
                     <ng-option *ngFor="let transaction of filters?.ClientInvoiceNo"
                         [value]="transaction">{{transaction}}</ng-option>

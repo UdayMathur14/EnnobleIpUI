@@ -2,7 +2,7 @@
     <div class="row">
          <div class="col-lg-3">
             <div class="custom-form-input">
-                <label>Vendor</label>
+                <label>Vendor Name</label>
                 <ng-select class="input-field" [(ngModel)]="vendorName" placeholder="Select Vendor">
                     <ng-option *ngFor="let vendor of filters?.Vendors" [value]="vendor">{{vendor}}</ng-option>
                 </ng-select>
