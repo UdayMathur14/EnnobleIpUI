@@ -22,6 +22,6 @@ export class HeaderBarComponent {
 
     logout() {
         this.authService.logout();
-        this.router.navigate(['/']);
+        this.router.navigate(['http://192.168.29.100:90/login']);
     }
 }
