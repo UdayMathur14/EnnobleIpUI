@@ -31,6 +31,7 @@ export class AuthService {
     localStorage.clear();
     this.isAuthenticated = false;
     // window.location.href = APIConstant.Ums + `/auth/login`;
-    this.router.navigate(['/master'])
+    // this.router.navigate(['http://192.168.29.100:90/login'])
+    window.location.href = 'http://192.168.29.100:90/login';
   }
 }
