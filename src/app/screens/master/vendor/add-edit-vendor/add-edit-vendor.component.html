@@ -90,8 +90,8 @@
             <div class="custom-form-input">
               <label for="">Billing Country <span class="text-danger" *ngIf="vendorId == 0">*</span></label>
               <ng-select class="input-field" formControlName="billingCountry" [disabled]="isBillingCountryDisabled">
-                <ng-option *ngFor="let country of countryList" [value]="country.countryName">
-                  {{ country.countryName }}
+                <ng-option *ngFor="let country of countryList" [value]="country.value">
+                  {{ country.value }}
                 </ng-option>
               </ng-select>
             </div>
