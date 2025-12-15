@@ -35,30 +35,31 @@ export class ErrorLoggingReportComponent {
   }
 
   getReports(
-    offset: number = 0,
-    count: number = this.count,
-    filters: any = this.filters
-  ) {
-    const data = {
-      fromDate: filters?.fromDate || null,
-      toDate: filters?.toDate || null,
-    };
+  offset: number = 0,
+  count: number = this.count,
+  filters: any = this.filters
+) {
+  this.loadSpinner = true;
 
-    this.reportService.getErrorLogging(data, offset, count).subscribe(
-      (res: any) => {
-        this.errorLoggings = res.errorLoggings.map((e: any) => ({
-          ...e,
-          detailDescriptions: e.detailDescriptions.join(','),
-        }));
-        this.totalReports = res.paging.total;
-        this.filters = res.filters;
-        this.loadSpinner = false;
-      },
-      (error) => {
-        this.loadSpinner = false;
-      }
-    );
-  }
+  const data = {
+    fromDate: filters?.fromDate || null,
+    toDate: filters?.toDate || null,
+  };
+
+  this.reportService.getErrorLogging(data, offset, count).subscribe(
+    (res: any) => {
+      this.errorLoggings = res.vendors;
+      this.totalReports = res.paging.total;
+      this.filters = res.filters;
+      this.loadSpinner = false;
+    },
+    (error) => {
+      console.error(error);
+      this.loadSpinner = false;
+    }
+  );
+}
+
 
   getData(data: any) {
     this.filters = data;

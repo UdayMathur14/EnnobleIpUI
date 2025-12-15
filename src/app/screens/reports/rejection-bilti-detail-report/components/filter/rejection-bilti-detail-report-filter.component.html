@@ -1,11 +1,5 @@
 <div class="filters-box">
   <div class="row">
-    <div class="col-4" *ngIf="locations && locations.length>1">
-        <label for="">Location Code</label>
-        <ng-select [searchable]="true" [(ngModel)]="locationIds" [multiple]="true" placeholder="Select location">
-          <ng-option *ngFor="let location of locations" [value]="location.id">{{location.value}}</ng-option>
-        </ng-select>
-    </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
         <label for="">From Date</label>
@@ -34,7 +28,7 @@
       <div class="custom-form-input">
         <label for="">Batch Number</label>
         <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
-          <ng-option *ngFor="let source of filters?.BatchNumber"
+          <ng-option *ngFor="let source of filters?.Vendors"
             [value]="source">{{source}}</ng-option>
         </ng-select>
       </div>
@@ -43,7 +37,7 @@
       <div class="custom-form-input">
           <label>Bilti Number</label>
           <ng-select class="input-field" [(ngModel)]="biltiNumber" placeholder="Select Bilti Number" [disabled]="batchName">
-              <ng-option *ngFor="let biltiNo of filters?.BiltiNumber" [value]="biltiNo">{{biltiNo}}</ng-option>
+              <ng-option *ngFor="let biltiNo of filters?.status" [value]="biltiNo">{{biltiNo}}</ng-option>
           </ng-select>
       </div>
   </div>

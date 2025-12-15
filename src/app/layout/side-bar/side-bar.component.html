@@ -41,14 +41,17 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="reportsHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsereports" aria-expanded="false" aria-controls="collapsereports">
-              Reporting
+              Reports
             </button>
           </h2>
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('')" *ngIf="securityGroups('MFG_REPORT_PROCESSED_REPORT')">Report</li>
-                <li (click)="onreportChange('error-logging-report')">Error Logging Report</li>
+                <li (click)="onreportChange('rejection-bilti-detail-report')">Rejection Bilti</li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('provision-report')">Provision Report</li>
+                <li (click)="onreportChange('debit-note-report')">Debit Note Report</li>
+                <li (click)="onreportChange('processing-report')">Processing Report</li>
+                <li (click)="onreportChange('error-logging-report')">searchvendor</li> <!--Error Logging Report changed to searchvendor-->
               </ul>
             </div>
           </div>

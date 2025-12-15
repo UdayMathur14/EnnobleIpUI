@@ -51,22 +51,15 @@ export class RejectionBiltiDetailReportComponent {
       adviceType: filters?.adviceType || '',
       batchNumber: filters?.batchNumber || '',
       biltiNumber: filters?.biltiNumber || '',
-      locationIds: filters?.locationIds ||  APIConstant.commonLocationsList.map((e:any)=>(e.id)),
       status: filters?.status
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;
-      response.biltiBillProcess.forEach((element: any) => {
-        element.creationDate = moment.utc(element.creationDate).local().format("YYYY-MM-DD");
-        if (element.biltiBillProcessModel) {
-          element.biltiBillProcessModel.biltiBillProcessDate = moment.utc(element.biltiBillProcessModel.biltiBillProcessDate).local().format("YYYY-MM-DD");
-        }
-      });
-      this.biltiBillProcess = response.biltiBillProcess;
+      this.biltiBillProcess = response.vendorPurchaseReports;
       this.totalBiltiBills = response.paging.total;
       this.filters = response.filters;
-      this.filteredBiltibillList = [...new Set(response.biltiBillProcess.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
-        .map(batchNumber => response.biltiBillProcess.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
+      this.filteredBiltibillList = [...new Set(response.vendorPurchaseReports.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
+        .map(batchNumber => response.vendorPurchaseReports.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       this.loadSpinner = false;
     },
       (error) => {

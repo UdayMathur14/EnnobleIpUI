@@ -2,18 +2,18 @@
     <table #table>
         <thead>
             <tr>
-                <th>Response Code</th>
-                <th>Message Source</th>
-                <th>Method Name</th>
-                <th>Description</th>
-                <th>Detailed Description</th>
+                <th>vendorType</th>
+                <th>vendorName</th>
+                <th>billingCountry</th>
+                <th>contactPersonName</th>
+                <th>phoneMobileNo</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let errorLogging of errorLoggings">
                 <td class="pointer" container="body">
                     <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
-                        <u>{{errorLogging.responseCode}}</u>
+                        <u>{{errorLogging.vendorType}}</u>
                     </span>
                     <ng-template #tipContent>
                         <div class="">
@@ -24,10 +24,10 @@
                         </div>
                     </ng-template>
                 </td>
-                <td>{{errorLogging.messageSource}}</td>
-                <td>{{errorLogging.methodName}}</td>
-                <td>{{errorLogging.description}}</td>
-                <td>{{errorLogging.detailDescriptions}}</td>
+                <td>{{errorLogging.vendorName}}</td>
+                <td>{{errorLogging.billingCountry}}</td>
+                <td>{{errorLogging.contactPersonName}}</td>
+                <td>{{errorLogging.phoneMobileNo}}</td>
             </tr>
             <!-- <tr>
                 <td align="center" colspan="13">No Result Found</td>

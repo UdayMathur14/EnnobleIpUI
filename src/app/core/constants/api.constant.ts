@@ -122,7 +122,7 @@ export const dispatchData = ( dispatchId: any) =>
 export const updateDispatchNote = ( dispatchId: any) =>
   `vendorinvoiceTxn/update/${dispatchId}`;
 export const biltiBillProcess = (offset: any, count: number) =>
-  `/bilti-process/search?offset=${offset}&count=${count}`;
+  `report/vendorpurchase?offset=${offset}&count=${count}`;
 export const biltiBillProcessbyId = (locationId: any, biltiProcessId: any) =>
   `/bilti-process/${locationId}/${biltiProcessId}`;
 export const createBiltiBillProcess = (locationId: any) =>
@@ -143,16 +143,16 @@ export const getOutboundData = (offset: any, count: number) =>
   `/apGlOutBound/search?offset=${offset}&count=${count}`;
 
 export const errorLoggingReport = (offset: any, count: number) =>
-  `/errorLoggingReport/search?offset=${offset}&count=${count}`;
+  `report/searchvendor?offset=${offset}&count=${count}`;
 export const debitNoteReport = (offset: any, count: number) =>
-  `/biltiDebitNoteReport/search?offset=${offset}&count=${count}`;
+  `report/saleinvoicecreated?offset=${offset}&count=${count}`;
 export const provisionalReport = (offset: any, count: number) =>
-  `/provisionalReport/search?offset=${offset}&count=${count}`;
+  `report/customerinvoicetotal/search?offset=${offset}&count=${count}`;
 export const getAdhocDropdownsData = `/adHocReport/get`;
 export const generateAdhocData = `/adHocReport/search`;
 export const apOutboundData = () => `/intf/ApHeaderInterfaceTransfer`;
 export const glAccrualPosting = (offset: any, count: number) =>
-  `/glOutBound/search?offset=${offset}&count=${count}`;
+  `report/outstandingVendorPaymentgroup?offset=${offset}&count=${count}`;
 export const glOutboundTransfer = () => `/intf/GlOutboundTransfer`;
 export const freightContract = (locationId: any, freightId: any) =>
   `/freight/contracts/${locationId}/${freightId}`;

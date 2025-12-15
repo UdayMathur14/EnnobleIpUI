@@ -2,18 +2,10 @@
   <table #table>
     <thead>
       <tr>
-        <th>Bilti#</th>
-        <th>Bilti Date</th>
-        <th>Bilti Bill Process Date</th>
-        <th>FRLR#</th>
-        <th>Transporter Name</th>
-        <th>Vehicle Number</th>
-        <th>Freight Amount</th>
-        <th>Paid by Amount</th>
-        <th>Debit Amount</th>
-        <th>Bilti Details</th>
+        <th>vendorName</th>
+        <th>totalAmount</th>
         <th>Status</th>
-        <th>Remarks</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -25,7 +17,7 @@
             tooltipClass="table-datetime-popover"
             [ngbTooltip]="tipContent"
           >
-            <u>{{biltiList?.biltiNumber}}</u>
+            <u>{{biltiList?.vendorName}}</u>
           </span>
           <ng-template #tipContent>
             <div class="">
@@ -48,19 +40,13 @@
             </div>
           </ng-template>
         </td>
-        <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td>
-        <td>{{biltiList?.biltiBillProcessModel?.biltiBillProcessDate}}</td>
-        <td>{{biltiList?.frlrNumber}}</td>
-        <td>{{biltiList?.transporterModel?.transporterName}}</td>
-        <td>{{biltiList?.vehicles?.vehicleNumber}}</td>
-        <td>{{biltiList?.freights?.freightAmount}}</td>
-        <td>{{biltiList?.biltiBillProcessModel?.paidByAmount}}</td>
-        <td>{{biltiList?.biltiBillProcessModel?.debitAmount}}</td>
-        <td>
+        <!-- <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td> -->
+        <!-- <td>{{biltiList?.vendorName}}</td> -->
+        <td>{{biltiList?.totalAmount}}</td>
+        <td>{{biltiList?.status}}</td>
+        <!-- <td>
           <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails(biltiList)" class="pointer">
-        </td>
-        <td>{{biltiList?.biltiBillProcessModel?.status}}</td>
-        <td>{{biltiList?.biltiBillChangeStatusDetails?.remarks || "-"}}</td>
+        </td> -->
       </tr>
     </tbody>
   </table>

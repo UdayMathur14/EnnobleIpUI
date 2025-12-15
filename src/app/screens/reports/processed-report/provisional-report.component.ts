@@ -51,7 +51,7 @@ export class ProvisionalReportComponent {
     };
     this.glAccrualPostingService.getGlAccrualPosting(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;
-      this.glAccrualList = response.glOutBound;
+      this.glAccrualList = response.vendorPurchaseReports;
       this.totalglAccrualLists = response.paging.total;
       this.filters = response.filters;
       this.loadSpinner = false;
