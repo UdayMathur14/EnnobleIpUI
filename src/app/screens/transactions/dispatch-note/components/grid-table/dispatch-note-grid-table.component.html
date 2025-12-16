@@ -59,7 +59,14 @@
         <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
-        <td>{{ dispatchNote?.totalAmount || '-' }}</td>
+        <td>
+          <span class="currency-symbol">
+            {{ dispatchNote?.vendorDetails?.currencySymbol }}
+          </span>
+          <span class="amount">
+            {{ dispatchNote?.totalAmount | number:'1.2-2' }}
+          </span>
+        </td>
         <td>{{ dispatchNote?.applicationNumber || '-'}}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
         <td>{{ dispatchNote?.filingDate | date:'dd-MM-yyyy'}}</td>
@@ -75,7 +82,8 @@
           <button class="icon-button" (click)="onEditDispatchNote(dispatchNote)"
             [disabled]="dispatchNote?.openFlag == 'Close'" ngbTooltip="Edit" placement="top">
             <!-- <img src="assets/images/icons/editPencil.svg" alt="edit" /> -->
-            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer" (click)="onEditDispatchNote(dispatchNote)" />
+            <img src="assets/images/icons/editPencil.svg" alt="edit" class="pointer"
+              (click)="onEditDispatchNote(dispatchNote)" />
           </button>
         </td>
       </tr>
