@@ -47,11 +47,11 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('rejection-bilti-detail-report')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
-                <li (click)="onreportChange('provision-report')">OutStanding Vendor Payment</li>
-                <li (click)="onreportChange('debit-note-report')">Pending Sale Invoices </li>
-                <li (click)="onreportChange('processing-report')">Processing Report</li>
-                <li (click)="onreportChange('error-logging-report')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('vendorpurchase')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('OutStandingvendorPayment')">OutStanding Vendor Payment</li>
+                <li (click)="onreportChange('pendingSaleInvoices')">Pending Sale Invoices </li>
+                <!-- <li (click)="onreportChange('processing-report')">Processing Report</li> -->
+                <li (click)="onreportChange('vendorsearch')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->
               </ul>
             </div>
           </div>

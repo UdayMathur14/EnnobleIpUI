@@ -140,7 +140,7 @@ export const biltiApprovalData = (locationId: any) =>
 export const getNocPdf = (locationId: any, id: number) =>
   `/bilti-bill-change-status/${locationId}/${id}`;
 export const getOutboundData = (offset: any, count: number) =>
-  `/apGlOutBound/search?offset=${offset}&count=${count}`;
+  `report/customerinvoicetotal?offset=${offset}&count=${count}`;
 
 export const errorLoggingReport = (offset: any, count: number) =>
   `report/searchvendor?offset=${offset}&count=${count}`;
