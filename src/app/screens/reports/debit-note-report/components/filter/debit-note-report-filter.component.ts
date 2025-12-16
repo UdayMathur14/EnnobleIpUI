@@ -12,25 +12,30 @@ export class DebitNoteReportFilterComponent {
   @Output() exportExcel: EventEmitter<any> = new EventEmitter();
   @Output() exportPdf: EventEmitter<any> = new EventEmitter();
 
-  batchNumber!: string;
+  batchNumber!: any;  
+  applicationNumber!: any;
+  clientInvoiceNo!: any;
+  status!: any;
   @Input() reportFilter: any = [];
 
   constructor(private toastr: ToastrService) { }
 
   handleSearch() {
-    this.getData.emit({ batchNumber: this.batchNumber })
+    this.getData.emit({ applicationNumber: this.applicationNumber, clientInvoiceNo: this.clientInvoiceNo, status: this.status })
   }
 
   onClearFilter() {
-    this.batchNumber = '';
-    this.getData.emit({ batchNumber: '' })
+    this.applicationNumber = '';
+    this.clientInvoiceNo = '';
+    this.status = '';
+    this.getData.emit({ applicationNumber: '', clientInvoiceNo: '', status: '' })
   }
 
   onExportPDF() {
-    this.exportPdf.emit();
+    // this.exportPdf.emit();
   }
 
   onExportExcel() {
-    this.exportExcel.emit();
+    // this.exportExcel.emit();
   }
 }

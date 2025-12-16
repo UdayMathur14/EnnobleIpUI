@@ -17,6 +17,7 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
   selectedToDate: string = '';
   batchName: any = undefined;
   biltiNumber: any = undefined;
+  vendor: any = undefined; 
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
@@ -69,13 +70,14 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
     this.fromDate = null,
     this.toDate = null,
     this.biltiNumber = undefined;
-    this.locationIds = this.locationIds;
+    this.vendor = undefined;
     this.status = undefined
     const filterObj = {
       batchNumber : '',
       biltiNumber: '',
       locationIds:this.locationIds,
-      status: ''
+      status: '',
+      vendor: ''
     }
     this.filterSearchObj.emit(filterObj)
   }

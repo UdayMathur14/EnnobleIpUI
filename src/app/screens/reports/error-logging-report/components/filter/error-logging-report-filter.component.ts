@@ -18,24 +18,32 @@ export class ErrorLoggingReportFilterComponent {
   messageSource: any = undefined;
   messageName: any = undefined;
   responseCode: any = undefined;
+  vendorName: any = undefined;
+country: any;
+status: any;
+vendortype: any;
 
   constructor(private toastr: ToastrService) { }
 
   handleSearch() {
-    if (!this.fromDate || !this.toDate) {
-      this.toastr.error("Filter is Mandatory");
-      return;
-    }
+    // if (!this.fromDate || !this.toDate) {
+    //   this.toastr.error("Filter is Mandatory");
+    //   return;
+    // }
 
-    this.getData.emit({ fromDate: this.fromDate, 
-      toDate: this.toDate, })
+    // this.getData.emit({ fromDate: this.fromDate, 
+    //   toDate: this.toDate, })
   }
 
   onClearFilter() {
     this.fromDate = null;
     this.toDate = null;
+    this.vendorName = null;
+    this.country = null;
+    this.status = null;
+    this.vendortype = null;
     this.getData.emit({ fromDate: '', 
-      toDate: '' ,
+      toDate: '' ,vendorName: '', country: '', status: '', vendortype: ''
     })
   }
 }

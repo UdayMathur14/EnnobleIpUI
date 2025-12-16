@@ -1,23 +1,63 @@
 <div class="filters-box">
     <div class="row">
-        <div class="col-lg-2">
+        <!-- <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">From Date</label>
+                <label for="">VendorName</label>
                 <div class="input-group datepicker">
                     <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="fromDate"
                         [(ngModel)]="fromDate"  />
                 </div>
             </div>
+        </div> -->
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Country</label>
+                <ng-select class="input-field" [(ngModel)]="country" typeToSearchText
+                    placeholder="Select country">
+                    <ng-option *ngFor="let vendor of filters?.Country"
+                        [value]="vendor">{{vendor}}</ng-option>
+                </ng-select>
+            </div>
         </div>
         <div class="col-lg-2">
             <div class="custom-form-input">
-                <label for="">To Date</label>
+                <label for="">Vendor Name</label>
+                <ng-select class="input-field" [(ngModel)]="vendorName" typeToSearchText
+                    placeholder="Select Name">
+                    <ng-option *ngFor="let vendor of filters?.VendorName"
+                        [value]="vendor">{{vendor}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Vendor Type</label>
+                <ng-select class="input-field" [(ngModel)]="vendortype" typeToSearchText
+                    placeholder="Select type">
+                    <ng-option *ngFor="let vendor of filters?.VendorType"
+                        [value]="vendor">{{vendor}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">Status</label>
+                <ng-select class="input-field" [(ngModel)]="status" typeToSearchText
+                    placeholder="Select status">
+                    <ng-option *ngFor="let vendor of filters?.Status"
+                        [value]="vendor">{{vendor}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <!-- <div class="col-lg-2">
+            <div class="custom-form-input">
+                <label for="">VendorType</label>
                 <div class="input-group datepicker">
                     <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="toDate"
                         [(ngModel)]="toDate" />
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="col-lg-3">
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>

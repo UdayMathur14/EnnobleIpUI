@@ -11,33 +11,33 @@ export class ProvisionalReportFilterComponent {
  
   @Output() getData: EventEmitter<any> = new EventEmitter();
 
-  costCenter: any = undefined;
-  businessArea: any = undefined;
-  glAccount: any = undefined;
-  subCategory: any = undefined;
+  vendor: any = undefined;
+  status: any = undefined;
+  applicationNumber: any = undefined;
+  clientInvoiceNo: any = undefined;
   @Input() filters: any = [];
 
   constructor() { }
 
   handleSearch() {
     this.getData.emit({ 
-      costCenter: this.costCenter,
-      businessArea: this.businessArea,
-      glAccount: this.glAccount,
-      subCategory: this.subCategory
+      vendor: this.vendor,
+      status: this.status,
+      applicationNumber: this.applicationNumber,
+      clientInvoiceNo: this.clientInvoiceNo
     })
   }
 
   onClearFilter() {
-   this.costCenter = '',
-   this.businessArea = '',
-   this.glAccount = '',
-   this.subCategory = ''
+   this.vendor = '',
+   this.status = '',
+   this.applicationNumber = '',
+   this.clientInvoiceNo = ''  
     this.getData.emit({ 
-      costCenter: '',
-      businessArea: '',
-      glAccount: '',
-      subCategory: ''
+      vendor: '',
+      status: '',
+      applicationNumber: '',
+      clientInvoiceNo: ''
     })
   }
 }

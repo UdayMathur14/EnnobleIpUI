@@ -26,18 +26,9 @@
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
-        <label for="">Batch Number</label>
-        <ng-select class="input-field" placeholder="Select Batch Number" [(ngModel)]="batchNumber">
-          <ng-option *ngFor="let source of filters?.Vendors"
-            [value]="source">{{source}}</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="custom-form-input">
-          <label>Bilti Number</label>
-          <ng-select class="input-field" [(ngModel)]="biltiNumber" placeholder="Select Bilti Number" [disabled]="batchName">
-              <ng-option *ngFor="let biltiNo of filters?.status" [value]="biltiNo">{{biltiNo}}</ng-option>
+          <label>Vendors</label>
+          <ng-select class="input-field" [(ngModel)]="vendor" placeholder="Select Vendor">
+              <ng-option *ngFor="let biltiNo of filters?.Vendors" [value]="biltiNo">{{biltiNo}}</ng-option>
           </ng-select>
       </div>
   </div>

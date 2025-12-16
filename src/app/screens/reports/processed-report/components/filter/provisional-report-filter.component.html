@@ -2,33 +2,33 @@
   <div class="row">
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">Cost Center</label>
-          <ng-select class="input-field" placeholder="Select Cost Center" [(ngModel)]="costCenter">
-              <ng-option *ngFor="let costCenter of filters?.CostCenter" [value]="costCenter">{{costCenter}}</ng-option>
+          <label for="">Vendor</label>
+          <ng-select class="input-field" placeholder="Select Vendors" [(ngModel)]="vendor">
+              <ng-option *ngFor="let vendor of filters?.Vendors" [value]="vendor">{{vendor}}</ng-option>
           </ng-select>
       </div>
   </div>
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">Business Area</label>
-          <ng-select class="input-field" placeholder="Select Business Area" [(ngModel)]="businessArea">
-              <ng-option *ngFor="let businessArea of filters?.BusinessArea" [value]="businessArea">{{businessArea}}</ng-option>
+          <label for="">ClientInvoiceNo</label>
+          <ng-select class="input-field" placeholder="Select ClientInvoiceNo" [(ngModel)]="clientInvoiceNo">
+              <ng-option *ngFor="let businessArea of filters?.ClientInvoiceNo" [value]="businessArea">{{businessArea}}</ng-option>
           </ng-select>
       </div>
   </div>
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">GL Account</label>
-          <ng-select class="input-field" placeholder="Select Gl Account" [(ngModel)]="glAccount">
-              <ng-option *ngFor="let glAccount of filters?.GlAccount" [value]="glAccount">{{glAccount}}</ng-option>
+          <label for="">ApplicationNumber</label>
+          <ng-select class="input-field" placeholder="Select ApplicationNumber" [(ngModel)]="applicationNumber">
+              <ng-option *ngFor="let glAccount of filters?.ApplicationNumber" [value]="glAccount">{{glAccount}}</ng-option>
           </ng-select>
       </div>
   </div>
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">Sub Category</label>
-          <ng-select class="input-field" placeholder="Select Sub Category" [(ngModel)]="subCategory">
-              <ng-option *ngFor="let subCategory of filters?.SubCategory" [value]="subCategory">{{subCategory}}</ng-option>
+          <label for="">Status</label>
+          <ng-select class="input-field" placeholder="Select Status" [(ngModel)]="status">
+              <ng-option *ngFor="let subCategory of filters?.Status" [value]="subCategory">{{subCategory}}</ng-option>
           </ng-select>
       </div>
   </div>
@@ -36,8 +36,8 @@
       <div class="custom-form-input">
           <label for="" class="d-block">&nbsp;</label>
           <button class="custom-button-filters mt-1 me-2" (click)="handleSearch()"
-          [disabled]="!costCenter && !glAccount && !subCategory && !businessArea">Search</button>
-      <button class="custom-button-filters mt-1 ms-1" (click)="onClearFilter()" [disabled]=" !costCenter && !glAccount && !subCategory && !businessArea">Clear</button>
+          [disabled]="!vendor && !status && !applicationNumber && !clientInvoiceNo">Search</button>
+      <button class="custom-button-filters mt-1 ms-1" (click)="onClearFilter()" [disabled]=" !vendor && !status && !applicationNumber && !clientInvoiceNo">Clear</button>
       </div>
   </div>
   <div class="col-lg-auto">

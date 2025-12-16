@@ -147,7 +147,7 @@ export const errorLoggingReport = (offset: any, count: number) =>
 export const debitNoteReport = (offset: any, count: number) =>
   `report/saleinvoicecreated?offset=${offset}&count=${count}`;
 export const provisionalReport = (offset: any, count: number) =>
-  `report/customerinvoicetotal/search?offset=${offset}&count=${count}`;
+  `report/customerinvoicetotal?offset=${offset}&count=${count}`;
 export const getAdhocDropdownsData = `/adHocReport/get`;
 export const generateAdhocData = `/adHocReport/search`;
 export const apOutboundData = () => `/intf/ApHeaderInterfaceTransfer`;

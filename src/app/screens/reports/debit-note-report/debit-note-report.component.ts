@@ -28,20 +28,17 @@ export class DebitNoteReportComponent {
   loadSpinner: boolean = true;
 
   columns = [
-    { header: 'Supplier Code', field: 'supplierCode', visible: true },
-    { header: 'Supplier Name', field: 'supplierName', visible: true },
-    { header: 'Total Basic Freight Charges', field: 'totalBasicFreightCharges', visible: true },
-    { header: 'Total Cgst Amount', field: 'totalCgstAmount', visible: true },
-    { header: 'Total Debit Note Amount', field: 'totalDebitNoteAmount', visible: true },
-    { header: 'Total Detention Charges', field: 'totalDetentionCharges', visible: true },
-    { header: 'Total Grand Total Amount', field: 'totalGrandTotalAmount', visible: false },
-    { header: 'Total Igst Amount', field: 'totalIgstAmount', visible: false },
-    { header: 'Total Net Amount', field: 'totalNetAmount', visible: false },
-    { header: 'Total OverLoad Charges', field: 'totalOverLoadCharges', visible: false },
-    { header: 'Total Point Charges', field: 'totalPointCharges', visible: false },
-    { header: 'Total Sgst Amount', field: 'totalSgstAmount', visible: false },
-    { header: 'Payment Advice No', field: 'paymentAdviceNo', visible: false },
-    { header: 'Payment TTL', field: 'paymentTTL', visible: false },
+    { header: 'VendorName', field: 'VendorName', visible: true },
+    { header: 'invoiceDate', field: 'invoiceDate', visible: true },
+    { header: 'fy', field: 'fy', visible: true },
+    { header: 'clientInvoiceNo', field: 'clientInvoiceNo', visible: true },
+    { header: 'dueDateAsPerInvoice', field: 'dueDateAsPerInvoice', visible: true },
+    { header: 'title', field: 'title', visible: true },
+    { header: 'applicationNumber', field: 'applicationNumber', visible: false },
+    { header: 'filingDate', field: 'filingDate', visible: false },
+    { header: 'clientRefNo', field: 'clientRefNo', visible: false },
+    { header: 'ourRefNo', field: 'ourRefNo', visible: false },
+    { header: 'officialFilingReceiptSupporting', field: 'officialFilingReceiptSupporting', visible: false },
   ];
 
   constructor(
@@ -59,11 +56,11 @@ export class DebitNoteReportComponent {
   getReports(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     const data = {
       batchNumber: filters?.batchNumber || "",
-      screenCode: 309
+      reporttype:"",
     }
     this.reportService.getDebitNote(data, offset, count).subscribe((res: any) => {
-      this.billTiBillReport = res.billTiBillReport;
-      this.reportFilter = res.filters.BatchNumber;
+      this.billTiBillReport = res.vendorInvoiceReport;
+      this.reportFilter = res.filters;
       this.totalReports = res.paging.total;
       this.loadSpinner = false;
     }, error => {
@@ -109,22 +106,18 @@ export class DebitNoteReportComponent {
 
     this.reportService.getDebitNote(data, 0, this.totalReports).subscribe(
       (res: any) => {
-        const debitReportToExport = res.billTiBillReport;
+        const debitReportToExport = res.vendorInvoiceReport;
         const mappedAdviceList = debitReportToExport.map((row: any) => ({
-          supplierCode: row?.supplierCode,
-          supplierName: row?.supplierName,
-          totalBasicFreightCharges: row?.totalBasicFreightCharges,
-          totalCgstAmount: row?.totalCgstAmount,
-          totalDebitNoteAmount: row?.totalDebitNoteAmount,
-          totalDetentionCharges: row?.totalDetentionCharges,
-          totalGrandTotalAmount: row?.totalGrandTotalAmount,
-          totalIgstAmount: row?.totalIgstAmount,
-          totalNetAmount: row?.totalNetAmount,
-          totalOverLoadCharges: row?.totalOverLoadCharges,
-          totalPointCharges: row?.totalPointCharges,
-          totalSgstAmount: row?.totalSgstAmount,
-          paymentAdviceNo: row?.paymentAdviceNo,
-          paymentTTL: row?.paymentTTL,
+          invoiceDate: row?.invoiceDate,
+          clientInvoiceNo: row?.clientInvoiceNo,
+          dueDateAsPerInvoice: row?.dueDateAsPerInvoice,
+          title: row?.title,
+          applicationNumber: row?.applicationNumber,
+          filingDate: row?.filingDate,
+          clientRefNo: row?.clientRefNo,
+          totalAmount: row?.totalAmount,
+          vendorDetails: row?.vendorDetails?.vendorName,
+          saleCurrency: row?.saleCurrency,
         }));
         this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
       },
