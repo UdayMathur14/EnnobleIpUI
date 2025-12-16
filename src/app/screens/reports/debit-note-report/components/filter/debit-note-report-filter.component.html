@@ -31,8 +31,8 @@
             <div class="custom-form-input">
                 <label for="" class="d-block">&nbsp;</label>
                 <div class="d-flex">
-                    <button class="custom-button-filters" [disabled]="!batchNumber" (click)="handleSearch()">Search</button>
-                    <button class="custom-button-filters ms-4" [disabled]="!batchNumber" (click)="onClearFilter()">Clear</button>
+                    <button class="custom-button-filters"  (click)="handleSearch()">Search</button>
+                    <button class="custom-button-filters ms-4" [disabled]="!applicationNumber && !clientInvoiceNo && !status"  (click)="onClearFilter()">Clear</button>
                 </div>
             </div>
         </div>
