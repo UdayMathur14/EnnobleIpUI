@@ -108,6 +108,8 @@ export class DebitNoteReportComponent {
       (res: any) => {
         const debitReportToExport = res.vendorInvoiceReport;
         const mappedAdviceList = debitReportToExport.map((row: any) => ({
+          vendorName: row?.vendorDetails?.vendorName,
+          fy: row?.fy,
           invoiceDate: row?.invoiceDate,
           clientInvoiceNo: row?.clientInvoiceNo,
           dueDateAsPerInvoice: row?.dueDateAsPerInvoice,
