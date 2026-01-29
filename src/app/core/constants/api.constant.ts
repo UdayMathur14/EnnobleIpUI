@@ -18,6 +18,7 @@ export const APIConstant: any = {
   locationsListDropdown: [],
   commonLocationsList: [],
   generateToken: (appId: string) => `api//login/generate-token/${appId}`,
+  getPermissions: (appId: string) => `/api/v1/auth/fetch-internal-permissions`,
   lookup: `/lookup/`,
   plantData: `/plant/`,
   updatePlant: `/plant/update/`,

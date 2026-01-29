@@ -27,7 +27,7 @@ export class AddEditTransactionTypeComponent implements OnInit {
     ]),
      accountNumber: new FormControl('', [
   Validators.required,
-  Validators.pattern('^[1-9][0-9]{8,17}$') // starts with 1-9, then 8 to 17 digits
+  Validators.pattern('^[0-9][0-9]{8,17}$') // starts with 1-9, then 8 to 17 digits
 ]),
     accountHolderName: new FormControl('', Validators.required),
     accountType: new FormControl('', Validators.required),

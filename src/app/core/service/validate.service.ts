@@ -1,21 +1,37 @@
-import { Injectable } from "@angular/core";
-import { CRUDService } from "./crud.service";
-import { BaseService } from "./base.service";
-import { APIConstant } from "../constants";
-import { PlantRequest } from "../models/plant";
+import { Injectable } from '@angular/core';
+import { CRUDService } from './crud.service';
+import { BaseService } from './base.service';
+import { APIConstant } from '../constants';
+import { PlantRequest } from '../models/plant';
 import { map, BehaviorSubject } from 'rxjs';
 
 @Injectable({
-    providedIn: "root",
+  providedIn: 'root',
 })
 export class ValidateService extends CRUDService<PlantRequest> {
-    constructor(protected override baseService: BaseService) {
-        super(baseService, APIConstant.basePath);
-    }
+  constructor(protected override baseService: BaseService) {
+    super(baseService, APIConstant.basePath);
+  }
 
-    generateToken(data: any, accessToken: string) {
-        const headers = new Headers();
-        headers.append('Authorization', `Bearer ${accessToken}`);
-        return this.baseService.getWithHeader(APIConstant.commonURL + APIConstant.generateToken(data.appId), {headers:headers});
-    }
+  generateToken(data: any, accessToken: string) {
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${accessToken}`);
+    return this.baseService.getWithHeader(
+      APIConstant.commonURL + APIConstant.generateToken(data.appId),
+      { headers: headers },
+    );
+  }
+
+  getPermissions(appId: any, accessToken: string) {
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${accessToken}`);
+
+    const payload = { appId: appId };
+
+    return this.baseService.getHeader(
+      APIConstant.commonURL + APIConstant.getPermissions(appId),
+      payload,
+      { headers: headers },
+    );
+  }
 }

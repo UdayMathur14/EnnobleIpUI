@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthGuard } from '../../core/guards/auth.guard';
 // import { AuthGuard } from '../../core/guards/auth.guard';
 
 @Component({
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
     styleUrls: ["side-bar.component.scss"],
 })
 export class SideBarComponent {
-    constructor(private router: Router) { };
+    constructor(private router: Router , private authGuard: AuthGuard) { };
     selectedAccordion: string = 'master';
 
     ngOnInit() {
@@ -16,7 +17,7 @@ export class SideBarComponent {
     }
 
     securityGroups(permission: any) {
-        // return this.authGuard.securityGroups(permission);
+        return this.authGuard.securityGroups(permission);
     }
 
     onMasterChange(master: string) {

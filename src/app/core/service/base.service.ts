@@ -24,6 +24,10 @@ export class BaseService {
         return this.http.get<T>(url, headers);
     }
 
+    getHeader<T>(url: any, data: any, headers: any): Observable<any> {
+        return this.http.post<T>(url, data, headers);
+    }
+
     getWithResponse<T>(url: string): Observable<any> {
         return this.http.get<T>(url, { observe: 'response' });
     }
