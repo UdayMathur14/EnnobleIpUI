@@ -31,7 +31,6 @@ export class ValidateComponent implements OnInit {
 
   ngOnInit() {
     localStorage.clear();
-    console.log('Validate Component udaaaa');
     this.activatedRoute.queryParams.subscribe((params) => {
       const data = params['data'];
       const appId = params['appId'];
@@ -57,7 +56,6 @@ export class ValidateComponent implements OnInit {
           if (this.permissions.includes('assign_ticket_add')) {
             // this.getAssignorssList();
           }
-          console.log(data, 'data token ngonit');
 
           // Call Lookup API here to store dropdown data
           //this.getLookupMasterData(this.umsTokens);
