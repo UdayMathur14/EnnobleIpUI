@@ -32,7 +32,7 @@
             <div class="accordion-body">
               <ul>
                 <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('Transaction_Vendor_Inv_Management_VIEW')" >Invoice Entry </li>
-                <li (click)="onTransactionChange('pointMasterAccounts')" *ngIf="securityGroups('Transaction_Payment_Management_VIEW')" >Payment Update</li>
+                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('Transaction_Payment_Management_VIEW')" >Payment Update</li>
                 <li (click)="onTransactionChange('dispatchNote1')" *ngIf="securityGroups('Transaction_SaleInvManagement_VIEW')" >Sales Update</li>
               </ul>
             </div>
