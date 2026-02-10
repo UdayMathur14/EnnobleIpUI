@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item" *ngIf="securityGroups('')">
+        <div class="accordion-item" *ngIf="securityGroups('report_VIEW')">
           <h2 class="accordion-header" id="reportsHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsereports" aria-expanded="false" aria-controls="collapsereports">
               Reports
@@ -47,11 +47,11 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('vendorpurchase')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
-                <li (click)="onreportChange('OutStandingvendorPayment')">OutStanding Vendor Payment</li>
-                <li (click)="onreportChange('pendingSaleInvoices')">Pending Sale Invoices </li>
+                <li (click)="onreportChange('vendorpurchase')" *ngIf="securityGroups('Transaction_Vendor_Inv_Management_VIEW')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('OutStandingvendorPayment')" *ngIf="securityGroups('Report_OutStandingVendorPayment_VIEW')">OutStanding Vendor Payment</li>
+                <li (click)="onreportChange('pendingSaleInvoices')" *ngIf="securityGroups('Report_PendingSaleInvoices_VIEW')">Pending Sale Invoices </li>
                 <!-- <li (click)="onreportChange('processing-report')">Processing Report</li> -->
-                <li (click)="onreportChange('vendorsearch')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('vendorsearch')" *ngIf="securityGroups('Report_VendorSearchByCountry_VIEW')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->
               </ul>
             </div>
           </div>
