@@ -36,9 +36,6 @@ import { DeliveryNoteModalComponent } from "./modals/delivery-note/delivery-note
 import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
 import { PointMasterAccountsGridTableComponent } from "./transactions/point-master-accounts/components/grid-table/point-master-accounts-grid-table.component";
 import { PointMasterAccountsFiltersComponent } from "./transactions/point-master-accounts/components/filter/point-master-accounts-filter.component";
-import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
-import { PointMasterMaterialFiltersComponent } from "./transactions/point-master-material/components/filter/point-master-material-filter.component";
-import { PointMasterMaterialGridTableComponent } from "./transactions/point-master-material/components/grid-table/point-master-material-grid-table.component";
 import { FreightMasterAccountsComponent } from "./transactions/freight-master-accounts/freight-master-accounts.component";
 import { FreightMasterAccountsFiltersComponent } from "./transactions/freight-master-accounts/components/filter/freight-master-accounts-filter.component";
 import { FreightMasterAccountsGridTableComponent } from "./transactions/freight-master-accounts/components/grid-table/freight-master-accounts-grid-table.component";
@@ -126,7 +123,6 @@ import { ProvisionalReportComponent } from "./reports/processed-report/provision
 import { ProvisionalReportFilterComponent } from "./reports/processed-report/components/filter/provisional-report-filter.component";
 import { ProvisionalReportGridTableComponent } from "./reports/processed-report/components/grid-table/provisional-report-grid-table.component";
 import { StatusConfirmationComponent } from "./modals/status-confirmation/status-confirmation.component";
-import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
 import { LookupTypeComponent } from "./master/lookupType/lookupType.component";
 import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupType/add-edit-lookupType.component";
 import { LookupTypeFilterComponent } from "./master/lookupType/components/filter/lookupType-filter.component";
@@ -181,9 +177,6 @@ import { DispatchNoteComponent1 } from "./transactions/dispatch-note1/dispatch-n
         PointMasterAccountsComponent,
         PointMasterAccountsGridTableComponent,
         PointMasterAccountsFiltersComponent,
-        PointMasterMaterialComponent,
-        PointMasterMaterialFiltersComponent,
-        PointMasterMaterialGridTableComponent,
         FreightMasterAccountsComponent,
         FreightMasterAccountsFiltersComponent,
         FreightMasterAccountsGridTableComponent,
@@ -265,7 +258,6 @@ import { DispatchNoteComponent1 } from "./transactions/dispatch-note1/dispatch-n
         GlAccrualPostingFiltersComponent,
         GlAccrualPostingGridTableComponent,
         StatusConfirmationComponent, 
-        RecycleBinPlantConfigurationComponent
     ],
     imports: [
         LayoutModule,

@@ -22,7 +22,6 @@ import { AddEditDispatchNoteComponent } from "./transactions/dispatch-note/add-e
 import { DispatchNoteComponent } from "./transactions/dispatch-note/dispatch-note.component";
 import { DispatchNoteComponent1} from "./transactions/dispatch-note1/dispatch-note1.component";
 import { PointMasterAccountsComponent } from "./transactions/point-master-accounts/point-master-accounts.component";
-import { PointMasterMaterialComponent } from "./transactions/point-master-material/point-master-material.component";
 import { FreightMasterMaterialComponent } from "./transactions/freight-master-material/freight-master-material.component";
 import { FreightMasterAccountsComponent } from "./transactions/freight-master-accounts/freight-master-accounts.component";
 import { ApprovalAccountsComponent } from "./transactions/approval-accounts/approval-accounts.component";
@@ -49,7 +48,6 @@ import { OutboundReportComponent } from "./reports/outbound-report/outbound-repo
 import { ApOutboundComponent } from "./transactions/ap-outbound/ap-outbound.component";
 import { GlAccrualPostingComponent } from "./transactions/gl-accrual-posting/gl-accrual-posting.component";
 import { ProvisionalReportComponent } from "./reports/processed-report/provisional-report.component";
-import { RecycleBinPlantConfigurationComponent } from "./master/recycle-bin-plant-configuration/recycle-bin-plant-configuration.component";
 import { LookupTypeComponent } from "./master/lookupType/lookupType.component";
 import { AddEditLookupTypeComponent } from "./master/lookupType/add-edit-lookupType/add-edit-lookupType.component";
 import { AddEditDispatchNoteComponent1 } from "./transactions/dispatch-note1/add-edit-dispatch/add-edit-dispatch-note1.component";
@@ -87,7 +85,6 @@ const routes: Routes = [
             { path: "master/addEditLookup/:lookupId", component: AddEditLookupComponent, canActivate: [] },
             { path: "master/editPointCharge/:pointChargeId", component: AddEditPointChargeComponent, canActivate: [] },
             { path: "master/addPointCharge", component: AddEditPointChargeComponent, canActivate: [] },
-            { path: "master/recycleBinPlantConfiguration", component: RecycleBinPlantConfigurationComponent, canActivate: [] },
             { path: "transaction/VendorInvoiceTxn", component: DispatchNoteComponent, canActivate: [] },
             // { path: "transaction/addEditVendorInvoice", component: AddEditDispatchNoteComponent, canActivate: [] },
             { path: "transaction/addEditVendorInvoice/:dispatchId", component: AddEditDispatchNoteComponent, canActivate: [] },
@@ -100,7 +97,6 @@ const routes: Routes = [
             { path: "transaction/addEditBilti/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
             { path: "transaction/addEditBilti/:locationId/:biltiId", component: AddEditBiltiComponent, canActivate: [] },
             { path: "transaction/paymentManagements", component: PointMasterAccountsComponent, canActivate: [] },
-            { path: "transaction/pointMasterMaterial", component: PointMasterMaterialComponent, canActivate: [] },
             { path: "transaction/freightMasterAccounts", component: FreightMasterAccountsComponent, canActivate: [] },
             { path: "transaction/freightMasterMaterial", component: FreightMasterMaterialComponent, canActivate: [] },
             { path: "transaction/approvalAccounts", component: ApprovalAccountsComponent, canActivate: [] },
@@ -137,7 +133,6 @@ export const ScreensComponents = [
     AddEditPlantComponent,
     PlantComponent,
     AddEditVendorComponent,
-    PointMasterMaterialComponent,
     AddEditCustomerComponent,
     TransactionTypeComponent,
     AddEditFreightComponent,
