@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { APIConstant } from '../../../core/constants';
 import { BiltiService } from '../../../core/service/bilti.service';
+import { ToastrService } from 'ngx-toastr';
+import { BiltiGridTableComponent } from './components/grid-table/bilti-grid-table.component';
 
 @Component({
   selector: 'app-bilti',
@@ -20,8 +22,14 @@ export class BiltiComponent implements OnInit {
   maxCount: number = Number.MAX_VALUE;
   loadSpinner: boolean = true;
   locations: any = [];
+  selectedInvoiceIds: number[] = [];
+  @ViewChild(BiltiGridTableComponent) paymentModal!: BiltiGridTableComponent;
 
-  constructor(private router: Router, private biltiService: BiltiService) {}
+  constructor(
+    private router: Router,
+    private biltiService: BiltiService,
+    private toastr: ToastrService,
+  ) {}
 
   ngOnInit(): void {
     this.getAllBiltisList();
@@ -34,7 +42,7 @@ export class BiltiComponent implements OnInit {
   getAllBiltisList(
     offset: number = 0,
     count: number = this.count,
-    filters: any = this.appliedFilters
+    filters: any = this.appliedFilters,
   ) {
     let data = {
       ApplicationNumber: filters?.applicationNumber || '',
@@ -51,7 +59,7 @@ export class BiltiComponent implements OnInit {
       },
       (error) => {
         this.loadSpinner = false;
-      }
+      },
     );
   }
 
@@ -76,5 +84,11 @@ export class BiltiComponent implements OnInit {
   reloadList() {
     const offset = (this.currentPage - 1) * this.count;
     this.getAllBiltisList(offset, this.count, this.appliedFilters);
+  }
+
+  openPaymentModal() {
+
+    this.paymentModal.openPaymentModal();
+    
   }
 }
