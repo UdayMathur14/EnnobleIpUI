@@ -17,8 +17,8 @@ export class SideBarComponent {
     }
 
     securityGroups(permission: any) {
-        //return this.authGuard.securityGroups(permission);
-        return true;
+        return this.authGuard.securityGroups(permission);
+        //return true;
     }
 
     onMasterChange(master: string) {
