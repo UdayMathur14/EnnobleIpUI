@@ -14,10 +14,10 @@
             <div class="accordion-body">
               <ul>
                 <li (click)="onMasterChange('lookupType')" *ngIf="securityGroups('Master/LookUpType_VIEW')">MasterType</li>
-                <li (click)="onMasterChange('lookup')" *ngIf="securityGroups('Master/LookUp_VIEW')">MasterData </li>
+                <li (click)="onMasterChange('lookup')" *ngIf="securityGroups('Masters_LookUp_VIEW')">MasterData </li>
                 <li (click)="onMasterChange('customer')" *ngIf="securityGroups('Masters_Customer_VIEW')">Customer Master</li>
                 <li (click)="onMasterChange('vendor')" *ngIf="securityGroups('Masters_Vendor_VIEW')">Vendor Master</li> 
-                <li (click)="onMasterChange('bank')" *ngIf="securityGroups('Master_Bank_VIEW')">Bank Master</li>
+                <li (click)="onMasterChange('bank')" *ngIf="securityGroups('Masters_Bank_VIEW')">Bank Master</li>
               </ul>
             </div>
           </div>
@@ -31,14 +31,14 @@
           <div id="collapseTransactions" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'transactions' }" aria-labelledby="transactionsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('Transaction_Vendor_Inv_Management_VIEW')" >Invoice Entry </li>
-                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('Transaction_Payment_Management_VIEW')" >Payment Update</li>
-                <li (click)="onTransactionChange('dispatchNote1')" *ngIf="securityGroups('Transaction_SaleInvManagement_VIEW')" >Sales Update</li>
+                <li (click)="onTransactionChange('dispatchNote')" *ngIf="securityGroups('Transaction_Invoice_Entry_VIEW')" >Invoice Entry </li>
+                <li (click)="onTransactionChange('bilti')" *ngIf="securityGroups('Transaction_Payment_Entry_VIEW')" >Payment Update</li>
+                <li (click)="onTransactionChange('dispatchNote1')" *ngIf="securityGroups('Transaction_Sales_Entry_VIEW')" >Sales Update</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="accordion-item" *ngIf="securityGroups('report_VIEW')">
+        <div class="accordion-item" *ngIf="securityGroups('Reports_VIEW')">
           <h2 class="accordion-header" id="reportsHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsereports" aria-expanded="false" aria-controls="collapsereports">
               Reports
@@ -47,11 +47,11 @@
           <div id="collapsereports" class="accordion-collapse collapse" [ngClass]="{ 'show': selectedAccordion == 'report' }" aria-labelledby="reportsHeading" data-bs-parent="#sidebarAccordion">
             <div class="accordion-body">
               <ul>
-                <li (click)="onreportChange('vendorpurchase')" *ngIf="securityGroups('Transaction_Vendor_Inv_Management_VIEW')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
-                <li (click)="onreportChange('OutStandingvendorPayment')" *ngIf="securityGroups('Report_OutStandingVendorPayment_VIEW')">OutStanding Vendor Payment</li>
-                <li (click)="onreportChange('pendingSaleInvoices')" *ngIf="securityGroups('Report_PendingSaleInvoices_VIEW')">Pending Sale Invoices </li>
+                <li (click)="onreportChange('vendorpurchase')" *ngIf="securityGroups('Reports_Vendor_Purchase_VIEW')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('OutStandingvendorPayment')" *ngIf="securityGroups('Reports_OutStanding_Vendor_Payment_VIEW')">OutStanding Vendor Payment</li>
+                <li (click)="onreportChange('pendingSaleInvoices')" *ngIf="securityGroups('Reports_Pending_Sale_Invoice_VIEW')">Pending Sale Invoices </li>
                 <!-- <li (click)="onreportChange('processing-report')">Processing Report</li> -->
-                <li (click)="onreportChange('vendorsearch')" *ngIf="securityGroups('Report_VendorSearchByCountry_VIEW')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->
+                <li (click)="onreportChange('vendorsearch')" *ngIf="securityGroups('Reports_Vendor_Search_By_Country_VIEW')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->
               </ul>
             </div>
           </div>
