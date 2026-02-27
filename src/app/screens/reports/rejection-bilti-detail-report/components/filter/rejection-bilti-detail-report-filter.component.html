@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-2">
       <div class="custom-form-input">
-        <label for="">From Date</label>
+        <label for="">Invoice Date</label>
         <div class="input-group datepicker">
           <input class="form-control" placeholder="yyyy-mm-dd" name="fromDt" [autoClose]="true" [(ngModel)]="fromDate"
             [maxDate]="today" (dateSelect)="onDateSelect('fromDate', $event)" ngbDatepicker #fromDt="ngbDatepicker" readonly />
@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
-        <label for="">To Date</label>
+        <label for="">To Invoice Date</label>
         <div class="input-group datepicker">
           <input class="form-control" placeholder="yyyy-mm-dd" name="toDt" [autoClose]="true" [(ngModel)]="toDate"
             [maxDate]="today" (dateSelect)="onDateSelect('toDate', $event)" ngbDatepicker #toDt="ngbDatepicker" readonly />
@@ -26,7 +26,7 @@
     </div>
     <div class="col-lg-2">
       <div class="custom-form-input">
-          <label>Vendors</label>
+          <label>Vendor Name </label>
           <ng-select class="input-field" [(ngModel)]="vendor" placeholder="Select Vendor">
               <ng-option *ngFor="let biltiNo of filters?.Vendors" [value]="biltiNo">{{biltiNo}}</ng-option>
           </ng-select>
@@ -44,7 +44,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="handleSearch()"
-          [disabled]="locationIds.length==0 && !batchNumber && !fromDate && !toDate && !biltiNumber && !status">
+          [disabled]=" !fromDate && !toDate && !vendor && !status">
           Search
         </button>
       </div>
@@ -53,7 +53,7 @@
       <div class="custom-form-input">
         <label for="" class="d-block">&nbsp;</label>
         <button class="custom-button-filters" (click)="onClearFilter()"
-          [disabled]="locationIds.length && !batchNumber && !fromDate && !toDate && !biltiNumber && !status">
+          [disabled]=" !fromDate && !toDate && !vendor && !status">
           Clear
         </button>
       </div>

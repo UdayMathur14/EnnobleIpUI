@@ -28,17 +28,17 @@ export class DebitNoteReportComponent {
   loadSpinner: boolean = true;
 
   columns = [
-    { header: 'VendorName', field: 'VendorName', visible: true },
-    { header: 'invoiceDate', field: 'invoiceDate', visible: true },
-    { header: 'fy', field: 'fy', visible: true },
-    { header: 'clientInvoiceNo', field: 'clientInvoiceNo', visible: true },
-    { header: 'dueDateAsPerInvoice', field: 'dueDateAsPerInvoice', visible: true },
-    { header: 'title', field: 'title', visible: true },
-    { header: 'applicationNumber', field: 'applicationNumber', visible: false },
-    { header: 'filingDate', field: 'filingDate', visible: false },
-    { header: 'clientRefNo', field: 'clientRefNo', visible: false },
-    { header: 'ourRefNo', field: 'ourRefNo', visible: false },
-    { header: 'officialFilingReceiptSupporting', field: 'officialFilingReceiptSupporting', visible: false },
+    { header: 'Vendor Name', field: 'vendorName', visible: true },
+    { header: 'Invoice Date', field: 'invoiceDate', visible: true },
+    { header: 'F.Y', field: 'fy', visible: true },
+    { header: 'Client Invoice No', field: 'clientInvoiceNo', visible: true },
+    { header: 'Due Date As Per Invoice', field: 'dueDateAsPerInvoice', visible: true },
+    { header: 'Title', field: 'title', visible: true },
+    { header: 'Application Number', field: 'applicationNumber', visible: false },
+    { header: 'Filing Date', field: 'filingDate', visible: false },
+    { header: 'Client Ref No', field: 'clientRefNo', visible: false },
+    { header: 'Our Ref No', field: 'ourRefNo', visible: false },
+    { header: 'Official Filing Receipt Supporting', field: 'officialFilingReceiptSupporting', visible: false },
   ];
 
   constructor(
@@ -55,11 +55,26 @@ export class DebitNoteReportComponent {
 
   getReports(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     const data = {
-      batchNumber: filters?.batchNumber || "",
-      reporttype:"",
+      applicationNumber: filters?.applicationNumber || null,
+      clientInvoiceNo: filters?.clientInvoiceNo || null,
+      status: filters?.status || null
     }
     this.reportService.getDebitNote(data, offset, count).subscribe((res: any) => {
-      this.billTiBillReport = res.vendorInvoiceReport;
+      this.billTiBillReport = res.vendorInvoiceReport.map((report: any) => {
+        return {
+          vendorName: report?.vendorDetails?.vendorName,
+          fy: report?.fy,
+          invoiceDate: report?.invoiceDate,
+          clientInvoiceNo: report?.clientInvoiceNo,
+          dueDateAsPerInvoice: report?.dueDateAsPerInvoice,
+          title: report?.title,
+          applicationNumber: report?.applicationNumber,
+          filingDate: report?.filingDate,
+          clientRefNo: report?.clientRefNo,
+          ourRefNo: report?.ourRefNo,
+          officialFilingReceiptSupporting: report?.officialFilingReceiptSupporting,
+        }
+      });
       this.reportFilter = res.filters;
       this.totalReports = res.paging.total;
       this.loadSpinner = false;

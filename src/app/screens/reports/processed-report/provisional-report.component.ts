@@ -43,11 +43,10 @@ export class ProvisionalReportComponent {
   getProvisionReport(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     this.loadSpinner = true;
     const obj = {
-      batchId: "",
-      costCenter: filters?.costCenter || "",
-      businessArea: filters?.businessArea || "",
-      glAccount: filters?.glAccount || "",
-      subCategory: filters?.subCategory || "",
+      vendorName: filters?.vendor || "",
+      status: filters?.status || "",
+      applicationNumber: filters?.applicationNumber || "",
+      ClientInvoiceNumber: filters?.clientInvoiceNo || "",
     };
     this.glAccrualPostingService.getGlAccrualPosting(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;

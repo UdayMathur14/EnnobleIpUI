@@ -48,7 +48,7 @@
             <div class="accordion-body">
               <ul>
                 <li (click)="onreportChange('vendorpurchase')" *ngIf="securityGroups('Reports_Vendor_Purchase_VIEW')">Vendor Purchase </li> <!--Error Logging Report changed to searchvendor-->
-                <li (click)="onreportChange('OutStandingvendorPayment')" *ngIf="securityGroups('Reports_OutStanding_Vendor_Payment_VIEW')">OutStanding Vendor Payment</li>
+                <li (click)="onreportChange('OutStandingvendorPayment')" *ngIf="securityGroups('Reports_OutStanding_Vendor_Payment_VIEW')">Outstanding Vendor Payment</li>
                 <li (click)="onreportChange('pendingSaleInvoices')" *ngIf="securityGroups('Reports_Pending_Sale_Invoice_VIEW')">Pending Sale Invoices </li>
                 <!-- <li (click)="onreportChange('processing-report')">Processing Report</li> -->
                 <li (click)="onreportChange('vendorsearch')" *ngIf="securityGroups('Reports_Vendor_Search_By_Country_VIEW')">Vendor Search By Country</li> <!--Error Logging Report changed to searchvendor-->

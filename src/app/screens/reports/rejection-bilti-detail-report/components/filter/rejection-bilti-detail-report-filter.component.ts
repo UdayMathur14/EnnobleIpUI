@@ -18,6 +18,7 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
   batchName: any = undefined;
   biltiNumber: any = undefined;
   vendor: any = undefined; 
+  country: any = undefined;
   batchNames: string[] = [];
   today = inject(NgbCalendar).getToday();
   loadSpinner: boolean = true;
@@ -55,27 +56,27 @@ export class RejectionBiltiDetailReportFilterComponent implements OnInit {
 
   handleSearch() {
     const filterObj = {
-      "biltiNumber": this.biltiNumber || "",
-      "batchNumber": this.batchNumber || "",
+      // "biltiNumber": this.biltiNumber || "",
+      // "batchNumber": this.batchNumber || "",
       "fromDate": this.selectedFromDate || "2000-01-01",
       "toDate": this.selectedToDate || new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + (new Date().getDate())).slice(-2),
-      locationIds: this.locationIds,
-      status: this.status || ""
+      "vendor": this.vendor || "",
+      "status": this.status || "",
+      "country": this.country || ""
+
     }
+    console.log(filterObj);
     this.filterSearchObj.emit(filterObj)
   }
 
   onClearFilter(){
-    this.batchNumber = undefined;
     this.fromDate = null,
     this.toDate = null,
-    this.biltiNumber = undefined;
     this.vendor = undefined;
     this.status = undefined
     const filterObj = {
-      batchNumber : '',
-      biltiNumber: '',
-      locationIds:this.locationIds,
+      fromDate : '',
+      toDate: '',
       status: '',
       vendor: ''
     }

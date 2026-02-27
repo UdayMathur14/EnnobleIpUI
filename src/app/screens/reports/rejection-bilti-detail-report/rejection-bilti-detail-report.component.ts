@@ -45,13 +45,11 @@ export class RejectionBiltiDetailReportComponent {
   getAllBiltiProcess(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
     this.loadSpinner = true;
     const obj = {
-      screenCode: 307,
       fromDate: filters?.fromDate || null,
       toDate: filters?.toDate || null,
-      adviceType: filters?.adviceType || '',
-      batchNumber: filters?.batchNumber || '',
-      biltiNumber: filters?.biltiNumber || '',
-      status: filters?.status
+      country: filters?.country || '',
+      vendor: filters?.vendor || '',
+      status: filters?.status || '',
     }
     this.biltiBIllProService.getBiltiBillProcess(obj, offset, count).subscribe((response: any) => {
       this.loadSpinner = false;

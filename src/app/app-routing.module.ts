@@ -3,11 +3,11 @@ import { Routes, RouterModule } from "@angular/router";
 import { ValidateComponent } from "./validate/validate.component";
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ValidateComponent,
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   component: ValidateComponent,
+  //   pathMatch: 'full'
+  // },
   {
     path: 'validate',
     component: ValidateComponent

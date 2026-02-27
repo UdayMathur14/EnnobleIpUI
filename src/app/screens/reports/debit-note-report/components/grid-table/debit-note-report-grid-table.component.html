@@ -1,14 +1,26 @@
 <div id="exportableTable" class="custom-table">
-    <table #table>
-        <thead>
-          <tr>
-            <th *ngFor="let column of columns" [hidden]="!column.visible">{{ column.header }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let debitNote of billTiBillReport">
-            <td *ngFor="let column of columns" [hidden]="!column.visible">{{ debitNote[column.field] }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <table #table>
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns" [hidden]="!column.visible">{{ column.header }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let debitNote of billTiBillReport">
+        <td *ngFor="let column of columns" [hidden]="!column.visible" [ngStyle]="{
+        'text-wrap': column.field === 'title' ? 'wrap' : 'nowrap',
+        'width': column.field === 'title' ? '50px' : '30px'
+      }">
+
+          {{
+          (column.field === 'invoiceDate' || column.field === 'dueDateAsPerInvoice')
+          && debitNote[column.field]
+          ? debitNote[column.field].substring(0, 10).split('-').reverse().join('-')
+          : debitNote[column.field]
+          }}
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

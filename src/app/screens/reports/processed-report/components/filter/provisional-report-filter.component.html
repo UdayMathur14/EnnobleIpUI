@@ -2,7 +2,7 @@
   <div class="row">
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">Vendor</label>
+          <label for="">Vendor Name</label>
           <ng-select class="input-field" placeholder="Select Vendors" [(ngModel)]="vendor">
               <ng-option *ngFor="let vendor of filters?.Vendors" [value]="vendor">{{vendor}}</ng-option>
           </ng-select>
@@ -10,7 +10,7 @@
   </div>
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">ClientInvoiceNo</label>
+          <label for="">Client Invoice No</label>
           <ng-select class="input-field" placeholder="Select ClientInvoiceNo" [(ngModel)]="clientInvoiceNo">
               <ng-option *ngFor="let businessArea of filters?.ClientInvoiceNo" [value]="businessArea">{{businessArea}}</ng-option>
           </ng-select>
@@ -18,7 +18,7 @@
   </div>
   <div class="col-3">
       <div class="custom-form-input">
-          <label for="">ApplicationNumber</label>
+          <label for="">Application Number</label>
           <ng-select class="input-field" placeholder="Select ApplicationNumber" [(ngModel)]="applicationNumber">
               <ng-option *ngFor="let glAccount of filters?.ApplicationNumber" [value]="glAccount">{{glAccount}}</ng-option>
           </ng-select>
