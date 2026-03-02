@@ -2,15 +2,18 @@
     <table #table>
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Vendor Type</th>
                 <th>Vendor Name</th>
                 <th>Billing Country</th>
                 <th>Contact Person Name</th>
                 <th>Mobile No</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let errorLogging of errorLoggings">
+            <tr *ngFor="let errorLogging of errorLoggings; let i = index">
+                <td>{{ (currentPage - 1) * count + i + 1 }}</td>
                 <td class="pointer" container="body">
                     <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
                         <u>{{errorLogging.vendorType}}</u>
@@ -28,9 +31,7 @@
                 <td>{{errorLogging.billingCountry}}</td>
                 <td>{{errorLogging.contactPersonName}}</td>
                 <td>{{errorLogging.phoneMobileNo}}</td>
+                <td>{{errorLogging.status}}</td>
             </tr>
-            <!-- <tr>
-                <td align="center" colspan="13">No Result Found</td>
-            </tr> -->
     </table>
 </div>

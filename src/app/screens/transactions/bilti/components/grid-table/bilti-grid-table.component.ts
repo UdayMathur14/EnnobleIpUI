@@ -21,6 +21,8 @@ import { TransactionTypesService } from '../../../../../core/service/transaction
 })
 export class BiltiGridTableComponent implements OnInit {
   @Input() biltisList: any = [];
+  @Input() count: number = 10;
+  @Input() currentPage: number = 1;
   loadSpinner: boolean = false;
   paymentForm!: FormGroup;
   transactionTypesList: any = [];

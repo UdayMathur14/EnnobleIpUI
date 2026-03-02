@@ -10,6 +10,8 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 })
 export class CustomerGridTableComponent implements OnInit {
   @Input() customersList : any[] = [];
+  @Input() count: number = 10;
+  @Input() currentPage: number = 1;
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   constructor(private router: Router) { }

@@ -27,7 +27,7 @@ export class ErrorLoggingReportComponent {
     private reportService: ReportService,
     private exportService: ExportService,
     private xlsxService: XlsxService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -35,31 +35,33 @@ export class ErrorLoggingReportComponent {
   }
 
   getReports(
-  offset: number = 0,
-  count: number = this.count,
-  filters: any = this.filters
-) {
-  this.loadSpinner = true;
+    offset: number = 0,
+    count: number = this.count,
+    filters: any = this.filters,
+  ) {
+    this.loadSpinner = true;
 
-  const data = {
-    fromDate: filters?.fromDate || null,
-    toDate: filters?.toDate || null,
-  };
+    const data = {
+      vendorName: filters?.vendorName || '',
+      vendorCode: filters?.vendorCode || '',
+      vendorType: filters?.vendorType || '',
+      status: filters?.status || '',
+      country: filters?.country || '',
+    };
 
-  this.reportService.getErrorLogging(data, offset, count).subscribe(
-    (res: any) => {
-      this.errorLoggings = res.vendors;
-      this.totalReports = res.paging.total;
-      this.filters = res.filters;
-      this.loadSpinner = false;
-    },
-    (error) => {
-      console.error(error);
-      this.loadSpinner = false;
-    }
-  );
-}
-
+    this.reportService.getErrorLogging(data, offset, count).subscribe(
+      (res: any) => {
+        this.errorLoggings = res.vendors;
+        this.totalReports = res.paging.total;
+        this.filters = res.filters;
+        this.loadSpinner = false;
+      },
+      (error) => {
+        console.error(error);
+        this.loadSpinner = false;
+      },
+    );
+  }
 
   getData(data: any) {
     this.filters = data;
@@ -84,32 +86,33 @@ export class ErrorLoggingReportComponent {
     this.headers = headers;
   }
 
-  exportData(fileName: string = 'Error Loggings') {
+  exportData(fileName: string = 'Vendor By Country Report') {
     const data = {
-      fromDate: this.appliedFilters?.fromDate || null,
-      toDate: this.appliedFilters?.toDate || null,
+      vendorName: this.appliedFilters?.vendorName || '',
+      vendorCode: this.appliedFilters?.vendorCode || '',
+      status: this.appliedFilters?.status || '',
+      country: this.appliedFilters?.country || '',
     };
 
-    if (this.totalReports === 0) {
-      this.toastr.error('Can not export with 0 rows!');
-    }
+    // if (this.totalReports === 0) {
+    //   this.toastr.error('Can not export with 0 rows!');
+    // }
 
     this.reportService.getErrorLogging(data, 0, this.totalReports).subscribe(
       (res: any) => {
-        const errorLoggingsToExport = res.errorLoggings;
-        const mappedAdviceList = errorLoggingsToExport.map((row: any) => ({
-          responseCode: row?.responseCode,
-          messageSource: row?.messageSource,
-          methodName: row?.methodName,
-          description: row?.description,
-          detailDescriptions: row?.detailDescriptions || [],
+        const vendor = res.vendors;
+        const mappedAdviceList = vendor.map((row: any) => ({
+          vendorType: row.vendorType || '',
+          vendorName: row.vendorName || '',
+          billingCountry: row.billingCountry || '',
+          contactPersonName: row.contactPersonName || '',
+          mobileNo: row.phoneMobileNo || '',
+          status: row.status || '',
         }));
-        // console.log(mappedAdviceList);
-        // console.log(this.headers);
-        
+
         this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
       },
-      (error) => {}
+      (error) => {},
     );
   }
 }

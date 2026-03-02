@@ -2,6 +2,7 @@
   <table #table>
     <thead>
       <tr>
+        <th>Id</th>
         <th>Vendor Name</th>
         <th>Application Number</th>
         <th>Client Invoice Number</th>
@@ -11,6 +12,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let glAccrualList of glAccrualList; let i = index">
+        <td>{{ (currentPage - 1) * count + i + 1 }}</td>
         <td>{{glAccrualList?.vendorName}}</td>
         <td>{{glAccrualList?.applicationNumber}}</td>
         <td>{{glAccrualList?.clientInvNo}}</td>

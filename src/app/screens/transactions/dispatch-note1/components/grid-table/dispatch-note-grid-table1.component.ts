@@ -12,6 +12,8 @@ import { DispatchNoteModelComponent } from '../../../../modals/dispatch-note/dis
 export class DispatchNoteGridTableComponent1 {
 
   @Input() dispatchNotes: any = [];
+  @Input() count: number = 10;
+  @Input() currentPage: number = 1;
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   constructor(private router: Router,

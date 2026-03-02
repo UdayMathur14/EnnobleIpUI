@@ -6,6 +6,7 @@
     <thead>
       <tr class="table-light;justify-content-between">
         <th>Select</th>
+        <th>Id</th>
         <th>Invoice Date</th>
         <th>Vendor Invoice No</th>
         <th>Vendor Name</th>
@@ -19,6 +20,7 @@
         <td class="">
           <input type="checkbox" [(ngModel)]="bilti.isSelected" (change)="calculateForAllInvoices()" />
         </td>
+        <td>{{(currentPage - 1) * count + i + 1 }}</td>
         <td>{{ bilti?.invoiceDate | date:'dd-MM-yyyy' }}</td>
         <td>{{ bilti?.clientInvoiceNo || '-' }}</td>
         <td>{{ bilti?.vendorDetails.vendorName || '-' }}</td>

@@ -2,6 +2,7 @@
   <table #table>
     <thead>
       <tr>
+        <th>Id</th>
         <th>Invoice Date</th>
         <th>Client Invoice No</th>
         <th>Due Date </th>
@@ -25,7 +26,7 @@
     <tbody>
       @for (dispatchNote of dispatchNotes; track dispatchNote.id) {
       <tr>
-
+        <td>{{(currentPage - 1) * count + dispatchNotes.indexOf(dispatchNote) + 1 }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{ dispatchNote?.invoiceDate | date: 'dd-MM-yyyy' }}</u>

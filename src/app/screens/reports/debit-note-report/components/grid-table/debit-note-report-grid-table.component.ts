@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 export class DebitNoteReportGridTableComponent {
 
   @Input() billTiBillReport: any[] = [];
+  @Input() count : number = 0;
+  @Input() currentPage: number = 0;
   @Input() columns: any = [];
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();

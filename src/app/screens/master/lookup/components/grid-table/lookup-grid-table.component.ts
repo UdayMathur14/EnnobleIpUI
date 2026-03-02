@@ -13,6 +13,8 @@ export class LookupGridTableComponent implements OnInit {
   @Input() lookupsList : any[] = [];
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+  @Input() count : number = 0;
+  @Input() currentPage : number = 0;
   constructor(private router: Router) { }
 
   ngOnInit(): void {

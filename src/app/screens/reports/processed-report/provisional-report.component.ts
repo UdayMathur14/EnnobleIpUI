@@ -9,16 +9,16 @@ import { GlAccrualPostingService } from '../../../core/service/gl-accrual-postin
 @Component({
   selector: 'app-provisional-report',
   templateUrl: './provisional-report.component.html',
-  styleUrl: './provisional-report.component.scss'
+  styleUrl: './provisional-report.component.scss',
 })
 export class ProvisionalReportComponent {
   isFilters: boolean = true;
   searchedData: any;
-  fromDate: any = '2000-01-01';
+  fromDate: any = '1990-01-01';
   batchNumber: any;
   adviceType: any;
   loadSpinner: boolean = false;
-  locationIds: any[] = APIConstant.commonLocationsList.map((e:any)=>(e.id));
+  locationIds: any[] = APIConstant.commonLocationsList.map((e: any) => e.id);
   toDate: any = moment().format('YYYY-MM-DD');
   currentPage: number = 1;
   count: number = 10;
@@ -34,32 +34,39 @@ export class ProvisionalReportComponent {
     private glAccrualPostingService: GlAccrualPostingService,
     private toastr: ToastrService,
     private xlsxService: XlsxService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getProvisionReport();
   }
 
-  getProvisionReport(offset: number = 0, count: number = this.count, filters: any = this.searchedData) {
+  getProvisionReport(
+    offset: number = 0,
+    count: number = this.count,
+    filters: any = this.searchedData,
+  ) {
     this.loadSpinner = true;
     const obj = {
-      vendorName: filters?.vendor || "",
-      status: filters?.status || "",
-      applicationNumber: filters?.applicationNumber || "",
-      ClientInvoiceNumber: filters?.clientInvoiceNo || "",
+      vendorName: filters?.vendor || '',
+      status: filters?.status || '',
+      applicationNumber: filters?.applicationNumber || '',
+      ClientInvoiceNumber: filters?.clientInvoiceNo || '',
     };
-    this.glAccrualPostingService.getGlAccrualPosting(obj, offset, count).subscribe((response: any) => {
-      this.loadSpinner = false;
-      this.glAccrualList = response.vendorPurchaseReports;
-      this.totalglAccrualLists = response.paging.total;
-      this.filters = response.filters;
-      this.loadSpinner = false;
-    },
-      (error) => {
-        //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
-        this.loadSpinner = false;
-      }
-    )
+    this.glAccrualPostingService
+      .getGlAccrualPosting(obj, offset, count)
+      .subscribe(
+        (response: any) => {
+          this.loadSpinner = false;
+          this.glAccrualList = response.vendorPurchaseReports;
+          this.totalglAccrualLists = response.paging.total;
+          this.filters = response.filters;
+          this.loadSpinner = false;
+        },
+        (error) => {
+          //this.toastr.error(error?.error?.details?.map((detail: any) => detail.description).join('<br>'));
+          this.loadSpinner = false;
+        },
+      );
   }
 
   filteredData(data: any) {
@@ -70,7 +77,7 @@ export class ProvisionalReportComponent {
   }
 
   onCreateBilti() {
-    this.router.navigate(['transaction/biltiBillProcess'])
+    this.router.navigate(['transaction/biltiBillProcess']);
   }
 
   onPageChange(page: number) {
@@ -80,52 +87,45 @@ export class ProvisionalReportComponent {
   }
 
   onPageSizeChange(data: any) {
-      this.count = data;
-      this.currentPage = 1;
-      this.getProvisionReport(0, this.count, this.searchedData);
+    this.count = data;
+    this.currentPage = 1;
+    this.getProvisionReport(0, this.count, this.searchedData);
+  }
+
+  onExportHeader(headers: any) {
+    console.log(headers);
+
+    this.headers = headers;
+  }
+
+  exportData(fileName: string = 'Outstanding Vendor Payment Report') {
+    const obj = {
+      vendorName: this.searchedData?.vendor || '',
+      status: this.searchedData?.status || '',
+      applicationNumber: this.searchedData?.applicationNumber || '',
+      ClientInvoiceNumber: this.searchedData?.clientInvoiceNo || '',
+    };
+
+    if (this.totalglAccrualLists === 0) {
+      this.toastr.error('Can not export with 0 rows!');
     }
 
-    onExportHeader(headers: any) {
-      console.log(headers);
-      
-      this.headers = headers;
-    }
-  
-    exportData(fileName: string = 'Provisional Report') {
-      const obj = {
-        batchId: "",
-        costCenter: this.searchedData?.costCenter || "",
-        businessArea: this.searchedData?.businessArea || "",
-        glAccount: this.searchedData?.glAccount || "",
-        subCategory: this.searchedData?.subCategory || "",
-      };
-  
-      if (this.totalglAccrualLists === 0) {
-        this.toastr.error('Can not export with 0 rows!');
-      }
-  
-      this.glAccrualPostingService.getGlAccrualPosting(obj, 0, this.totalglAccrualLists).subscribe(
+    this.glAccrualPostingService
+      .getGlAccrualPosting(obj, 0, this.totalglAccrualLists)
+      .subscribe(
         (res: any) => {
-          
-          const processedReportToExport = res.glOutBound;
+          const processedReportToExport = res.vendorPurchaseReports;
           const mappedList = processedReportToExport.map((row: any) => ({
-            companyCode: row?.companyCode || "-",
-            costCenter: row?.costCenter || "-",
-            currencyCode: row?.currencyCode || "-",
-            amount: row?.amount || "-",
-            businessArea: row?.businessArea || "-",
-            closingCategory: row?.closingCategory || "-",
-            functionalArea: row?.functionalArea || "-",
-            glAccount: row?.glAccount || "-",
-            periodName: row?.periodName || "-",
-            sequenceKey: row?.sequenceKey || "-",
-            subCategoryremarks: row?.subCategory || "-",
-            systemId: row?.systemId || "-",
-            transferCount: row?.transferCount || "-"
+            // Id : row?.id,
+            vendorName: row?.vendorName || '-',
+            applicatioNumber: row?.applicationNumber || '-',
+            clientInvoiceNumber: row?.clientInvNo || '-',
+            TotalAmount: row?.totalAmount,
+            status: row?.status || '-',
           }));
           this.xlsxService.xlsxExport(mappedList, this.headers, fileName);
         },
-        (error) => {}
+        (error) => {},
       );
-    }
+  }
 }

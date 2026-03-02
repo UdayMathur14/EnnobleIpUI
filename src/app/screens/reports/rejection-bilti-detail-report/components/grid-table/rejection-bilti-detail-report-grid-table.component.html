@@ -2,6 +2,7 @@
   <table #table>
     <thead>
       <tr>
+        <th>Id</th>
         <th>Vendor Name</th>
         <th>Total Amount</th>
         <th>Status</th>
@@ -9,7 +10,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let biltiList of biltiBillProcess">
+      <tr *ngFor="let biltiList of biltiBillProcess; let i = index">
+        <td >{{ (currentPage - 1) * count + i + 1 }}</td>
         <td class="pointer">
           <span
             container="body"

@@ -12,6 +12,9 @@ export class ErrorLoggingReportGridTableComponent {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
 
+  @Input() count : number = 0;
+  @Input() currentPage: number = 0;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['errorLoggings']) {
       this.emitHeaders();

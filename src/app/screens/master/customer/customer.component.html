@@ -21,7 +21,7 @@
     width="14px" (click)="fullScreen = !fullScreen" />
   <div class="grid-table">
     <div class="table-container">
-      <app-customer-grid-table [customersList]="customersList" (exportHeader)="onExportHeader($event)"></app-customer-grid-table>
+      <app-customer-grid-table [customersList]="customersList" [count]="count" [currentPage]="currentPage" (exportHeader)="onExportHeader($event)"></app-customer-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <ngb-pagination [collectionSize]="totalCustomers" [(page)]="currentPage" [pageSize]="count"

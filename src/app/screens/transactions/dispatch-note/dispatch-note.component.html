@@ -21,7 +21,7 @@
     width="14px" (click)="fullScreen = !fullScreen" />
   <div class="grid-table">
     <div class="table-container">
-      <app-dispatch-note-grid-table [dispatchNotes]="dispatchNotes" (exportHeader)="onExportHeader($event)"></app-dispatch-note-grid-table>
+      <app-dispatch-note-grid-table [dispatchNotes]="dispatchNotes" [count]="count" [currentPage]="currentPage" (exportHeader)="onExportHeader($event)"></app-dispatch-note-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <ngb-pagination [collectionSize]="totaldispatchNotes" [(page)]="currentPage" [pageSize]="count"

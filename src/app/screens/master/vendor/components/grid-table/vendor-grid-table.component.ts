@@ -9,6 +9,8 @@ import { CommonUtility } from '../../../../../core/utilities/common';
 })
 export class VendorGridTableComponent implements OnInit, OnChanges {
   @Input() vendorsList : any[] = [];
+  @Input() count: number = 10;
+  @Input() currentPage: number = 1;
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   constructor(

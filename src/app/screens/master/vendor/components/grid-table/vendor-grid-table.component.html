@@ -2,6 +2,7 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
+        <th (click)="sortData('id')">Id</th>
         <th (click)="sortData('vendorType')">Vendor Type</th>
         <th (click)="sortData('vendorName')">Vendor Name</th>
         <th (click)="sortData('billingAddressLine1')">Billing Address Line 1</th>
@@ -49,6 +50,7 @@
     <tbody>
       @for( vendor of vendorsList; track vendor.id){
       <tr>
+        <td>{{(currentPage - 1) * count + vendorsList.indexOf(vendor) + 1 }}</td>
         <td class="pointer" container="body">
           <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{vendor.vendorType || '-' }}</u>

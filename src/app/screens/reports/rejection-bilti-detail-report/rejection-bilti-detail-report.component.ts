@@ -56,7 +56,7 @@ export class RejectionBiltiDetailReportComponent {
       this.biltiBillProcess = response.vendorPurchaseReports;
       this.totalBiltiBills = response.paging.total;
       this.filters = response.filters;
-      this.filteredBiltibillList = [...new Set(response.vendorPurchaseReports.map((item: any) => item?.biltiBillProcessModel?.batchNumber))]
+      this.filteredBiltibillList = []
         .map(batchNumber => response.vendorPurchaseReports.find((t: any) => t.biltiBillProcessModel.batchNumber === batchNumber));
       this.loadSpinner = false;
     },
@@ -94,16 +94,14 @@ export class RejectionBiltiDetailReportComponent {
     this.headers = headers;
   }
 
-  exportData(fileName: string = 'Rejection') {
+  exportData(fileName: string = 'Purchase Report') {
     const data = {
       fromDate: this.searchedData?.fromDate || null,
       toDate: this.searchedData?.toDate || null,
-      batchNumber: this.searchedData?.batchNumber || "",
-      biltiNumber: this.searchedData?.biltiNumber || "",
-      status: this.searchedData?.status,
-      screenCode: 307,
-      adviceType: this.searchedData?.adviceType || "",
-      locationIds: this.searchedData?.locationIds || APIConstant.commonLocationsList.map((e:any)=>(e.id)),
+      country: this.searchedData?.country || '',
+      vendor: this.searchedData?.vendor || '',
+      status: this.searchedData?.status || '',
+      TotalAmount: this.searchedData?.TotalAmount || null,
     };
 
     if (this.totalBiltiBills === 0) {
@@ -113,21 +111,15 @@ export class RejectionBiltiDetailReportComponent {
     this.biltiBIllProService.getBiltiBillProcess(data, 0, this.totalBiltiBills).subscribe(
       (res: any) => {
         
-        const processedReportToExport = res.biltiBillProcess;
-        const mappedAdviceList = processedReportToExport.map((row: any) => ({
-          biltiNumber: row?.biltiNumber,
-          creationDate: row?.creationDate,
-          biltiBillProcessDate: row?.biltiBillProcessModel?.biltiBillProcessDate,
-          frlrNumber: row?.frlrNumber,
-          transporterName: row?.transporterModel?.transporterName,
-          vehicleNumber: row?.vehicles?.vehicleNumber,
-          freightAmount: row?.freights?.freightAmount,
-          paidByAmount: row?.biltiBillProcessModel?.paidByAmount,
-          debitAmount: row?.biltiBillProcessModel?.debitAmount,
-          status: row?.biltiBillProcessModel?.status,
-          remarks: row?.biltiBillChangeStatusDetails?.remarks || "-"
+        const processedReportToExport = res.vendorPurchaseReports;
+        const mappedAdviceList = processedReportToExport?.map((row: any) => ({
+        vendor : row?.vendorName,
+        TotalAmount : row?.totalAmount,
+        status : row?.status,
+        invoiceDate : row?.invoiceDate,
+        // toDate : row?.toDate,
         }));
-        this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor",  "Total Amount", "Status", "Invoice Date", ], fileName);
       },
       (error) => {}
     );

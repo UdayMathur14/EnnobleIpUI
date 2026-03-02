@@ -19,6 +19,8 @@ export class RejectionBiltiDetailReportGridTableComponent {
   @Output() refreshList = new EventEmitter<void>();
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
+  @Input() count: number = 0;
+  @Input() currentPage: number = 0;
   constructor(private router: Router,
     private modalService: NgbModal) { }
     
