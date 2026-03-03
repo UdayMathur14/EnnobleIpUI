@@ -6,6 +6,7 @@ import { ExportService } from '../../../core/service/export.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApprovalPdfComponent } from '../../modals/approval-pdf/approval-pdf.component';
+import { vendors } from '../../../core/constants';
 
 @Component({
   selector: 'app-debit-note-report',
@@ -110,9 +111,12 @@ export class DebitNoteReportComponent {
     this.headers = headers;
   }
 
-  exportExcel(fileName: string = 'Debit Report') {
+  exportExcel(fileName: string = 'Pending Sale Invoice Report') {
     const data = {
-      batchNumber: this.appliedFilters?.batchNumber || null,
+      applicationNumber: this.appliedFilters?.applicationNumber || null,
+      clientInvoiceNo: this.appliedFilters?.clientInvoiceNo || null,
+      status: this.appliedFilters?.status || null,
+      vendorName: this.appliedFilters?.vendorName || null,
     };
 
     if (this.totalReports === 0) {
@@ -133,10 +137,9 @@ export class DebitNoteReportComponent {
           filingDate: row?.filingDate,
           clientRefNo: row?.clientRefNo,
           totalAmount: row?.totalAmount,
-          vendorDetails: row?.vendorDetails?.vendorName,
           saleCurrency: row?.saleCurrency,
         }));
-        this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor Name", "FY", "Invoice Date", "Client Invoice No", "Due Date As Per Invoice", "Title", "Application Number", "Filing Date", "Client Ref No", "Total Amount", "Sale Currency"], fileName);
       },
       (error) => {}
     );

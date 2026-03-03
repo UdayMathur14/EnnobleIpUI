@@ -36,6 +36,6 @@ export class DebitNoteReportFilterComponent {
   }
 
   onExportExcel() {
-    // this.exportExcel.emit();
+     this.exportExcel.emit();
   }
 }
