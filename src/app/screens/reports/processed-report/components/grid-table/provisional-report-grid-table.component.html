@@ -2,7 +2,7 @@
   <table #table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Serial No</th>
         <th>Vendor Name</th>
         <th>Application Number</th>
         <th>Client Invoice Number</th>
@@ -16,7 +16,7 @@
         <td>{{glAccrualList?.vendorName}}</td>
         <td>{{glAccrualList?.applicationNumber}}</td>
         <td>{{glAccrualList?.clientInvNo}}</td>
-        <td>{{glAccrualList?.totalAmount}}</td>
+        <td>{{glAccrualList?.totalAmount | currency:glAccrualList?.currencySymbol:'symbol':'1.2-2' }}</td>
         <td>{{glAccrualList?.status}}</td>
       </tr>
       <tr>

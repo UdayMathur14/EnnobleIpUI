@@ -2,7 +2,7 @@
   <table #table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Serial No</th>
         <th *ngFor="let column of columns" [hidden]="!column.visible">{{ column.header }}</th>
       </tr>
     </thead>
@@ -18,6 +18,8 @@
           (column.field === 'invoiceDate' || column.field === 'dueDateAsPerInvoice')
           && debitNote[column.field]
           ? debitNote[column.field].substring(0, 10).split('-').reverse().join('-')
+          : column.field === 'totalAmount'
+          ? (debitNote[column.field] | currency:debitNote?.vendorDetails?.currencySymbol:'symbol':'1.2-2')
           : debitNote[column.field]
           }}
 

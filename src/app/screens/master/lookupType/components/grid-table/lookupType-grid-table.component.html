@@ -2,6 +2,7 @@
   <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
     <thead>
       <tr>
+        <th>Serial No</th>
         <th (click)="sortData('type')">Type</th>
         <th (click)="sortData('description')">Description</th>
         <th (click)="sortData('status')">Status</th>
@@ -11,6 +12,7 @@
     <tbody>
       @for (lookup of lookupsList; track lookup.id) {
       <tr>
+        <td>{{(currentPage - 1) * count + lookupsList.indexOf(lookup) + 1 }}</td>
         <td class="pointer">
           <span container="body" placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
             <u>{{lookup?.type}}</u>

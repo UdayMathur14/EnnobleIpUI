@@ -2,7 +2,7 @@
   <table #table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Serial No</th>
         <th>Invoice Date</th>
         <th>Vendor Invoice No</th>
         <th>Due Date </th>
@@ -10,7 +10,7 @@
         <th>Total Prof Fees</th>
         <th>Total Govt Fees</th>
         <th>Others Fees</th>
-        <th>Dicount Amount</th>
+        <th>Discount Amount</th>
         <th>Credit Note Amount</th>
         <th>Total Amount</th>
         <th>Application No </th>
@@ -60,7 +60,7 @@
         <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
-        <td>{{ dispatchNote?.totalAmount || '-' }}</td>
+        <td>{{ dispatchNote?.totalAmount || 0 | number:'1.2-2' }}</td>
         <td>{{ dispatchNote?.applicationNumber || '-'}}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
         <td>{{ dispatchNote?.filingDate | date:'dd-MM-yyyy'}}</td>

@@ -11,6 +11,8 @@ export class LookupTypeGridTableComponent implements OnInit {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   @Input() lookupsList : any[] = [];
+  @Input() currentPage: number = 1;
+  @Input() count: number = 10;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
   constructor(private router: Router) { }

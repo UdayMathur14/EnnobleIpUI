@@ -22,7 +22,7 @@
     width="14px" (click)="fullScreen = !fullScreen" />
   <div class="grid-table">
     <div class="table-container">
-      <app-lookupType-grid-table [lookupsList]="LookupTypesList"
+      <app-lookupType-grid-table [lookupsList]="LookupTypesList" [currentPage]="currentPage" [count]="count"
         (exportHeader)="onExportHeader($event)"></app-lookupType-grid-table>
     </div>
     <div class="d-flex justify-content-center mt-3">

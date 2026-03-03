@@ -12,6 +12,8 @@ export class TransactionGridTableComponent implements OnInit, OnChanges {
   @ViewChild('table') table!: ElementRef;
   @Output() exportHeader = new EventEmitter<string[]>();
   @Input() transactionTypesList : any[] = [];
+  @Input() currentPage: number = 1;
+  @Input() count: number = 10;
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 

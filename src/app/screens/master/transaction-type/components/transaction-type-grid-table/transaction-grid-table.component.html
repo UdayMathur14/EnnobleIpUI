@@ -3,6 +3,7 @@
     <table #table [ngClass]="sortDirection === 'asc' ?  'asc' : 'dsc'">
       <thead>
         <tr>
+          <th>Serial No</th>
           <th (click)="sortData('bankName')">Bank Name</th>
           <th (click)="sortData('bankAddress1')">Bank Address1</th>
           <th (click)="sortData('bankAddress2')">Bank Address2 </th>
@@ -23,6 +24,7 @@
       <tbody>
         @for (transaction of transactionTypesList; track transaction.id) {
         <tr>
+          <td>{{(currentPage - 1) * count + transactionTypesList.indexOf(transaction) + 1 }}</td>
           <td class="pointer" container="body">
             <span placement="end" tooltipClass="table-datetime-popover" [ngbTooltip]="tipContent">
               <u>{{transaction.bankName}}</u>
