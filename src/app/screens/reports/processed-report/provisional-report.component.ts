@@ -116,14 +116,14 @@ export class ProvisionalReportComponent {
         (res: any) => {
           const processedReportToExport = res.vendorPurchaseReports;
           const mappedList = processedReportToExport.map((row: any) => ({
-            // Id : row?.id,
             vendorName: row?.vendorName || '-',
             applicatioNumber: row?.applicationNumber || '-',
             clientInvoiceNumber: row?.clientInvNo || '-',
+            Currency : row?.currencySymbol || '-',
             TotalAmount: row?.totalAmount,
             status: row?.status || '-',
           }));
-          this.xlsxService.xlsxExport(mappedList, this.headers, fileName);
+          this.xlsxService.xlsxExport(mappedList, ["Vendor Name", "Application Number", "Client Invoice Number", "Currency", "Total Amount", "Status"], fileName);
         },
         (error) => {},
       );

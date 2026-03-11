@@ -30,11 +30,11 @@ export class DebitNoteReportComponent {
 
   columns = [
     { header: 'Vendor Name', field: 'vendorName', visible: true },
-    { header: 'Invoice Date', field: 'invoiceDate', visible: true },
-    { header: 'F.Y', field: 'fy', visible: true },
     { header: 'Client Invoice No', field: 'clientInvoiceNo', visible: true },
+    { header: 'Invoice Date', field: 'invoiceDate', visible: true },
     { header: 'Due Date As Per Invoice', field: 'dueDateAsPerInvoice', visible: true },
     { header: 'Title', field: 'title', visible: true },
+    { header: 'F.Y', field: 'fy', visible: true },
     { header: 'Application Number', field: 'applicationNumber', visible: false },
     { header: 'Filing Date', field: 'filingDate', visible: false },
     { header: 'Client Ref No', field: 'clientRefNo', visible: false },
@@ -129,17 +129,18 @@ export class DebitNoteReportComponent {
         const mappedAdviceList = debitReportToExport.map((row: any) => ({
           vendorName: row?.vendorDetails?.vendorName,
           fy: row?.fy,
-          invoiceDate: row?.invoiceDate,
+          invoiceDate: row?.invoiceDate ? row.invoiceDate.split('T')[0] : '',
           clientInvoiceNo: row?.clientInvoiceNo,
-          dueDateAsPerInvoice: row?.dueDateAsPerInvoice,
+          dueDateAsPerInvoice: row?.dueDateAsPerInvoice ? row.dueDateAsPerInvoice.split('T')[0] : '',
           title: row?.title,
           applicationNumber: row?.applicationNumber,
-          filingDate: row?.filingDate,
+          filingDate: row?.filingDate ? row.filingDate.split('T')[0] : '',
           clientRefNo: row?.clientRefNo,
+          Symbol : row.vendorDetails?.currencySymbol ,
           totalAmount: row?.totalAmount,
-          saleCurrency: row?.saleCurrency,
+          // saleCurrency: row?.saleCurrency,
         }));
-        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor Name", "FY", "Invoice Date", "Client Invoice No", "Due Date As Per Invoice", "Title", "Application Number", "Filing Date", "Client Ref No", "Total Amount", "Sale Currency"], fileName);
+        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor Name", "FY", "Invoice Date", "Client Invoice No", "Due Date As Per Invoice", "Title", "Application Number", "Filing Date", "Client Ref No", "Symbol", "Total Amount", ], fileName);
       },
       (error) => {}
     );

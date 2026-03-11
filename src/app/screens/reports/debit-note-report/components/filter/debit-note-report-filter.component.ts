@@ -21,14 +21,13 @@ export class DebitNoteReportFilterComponent {
   constructor(private toastr: ToastrService) { }
 
   handleSearch() {
-    this.getData.emit({ applicationNumber: this.applicationNumber, clientInvoiceNo: this.clientInvoiceNo, status: this.status })
+    this.getData.emit({ applicationNumber: this.applicationNumber, clientInvoiceNo: this.clientInvoiceNo,  })
   }
 
   onClearFilter() {
     this.applicationNumber = '';
     this.clientInvoiceNo = '';
-    this.status = '';
-    this.getData.emit({ applicationNumber: '', clientInvoiceNo: '', status: '' })
+    this.getData.emit({ applicationNumber: '', clientInvoiceNo: ''})
   }
 
   onExportPDF() {

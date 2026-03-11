@@ -60,7 +60,7 @@
         <td>{{ dispatchNote?.otherChargesAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountAmt || '-' }}</td>
         <td>{{ dispatchNote?.discountCreditNoteAmt || '-' }}</td>
-        <td>{{ dispatchNote?.totalAmount || 0 | number:'1.2-2' }}</td>
+        <td>{{ dispatchNote?.vendorDetails.currencySymbol }} {{ (dispatchNote?.totalAmount || 0) | number:'1.2-2' }}</td>
         <td>{{ dispatchNote?.applicationNumber || '-'}}</td>
         <td>{{ dispatchNote?.officialFilingReceiptSupporting || '-' }}</td>
         <td>{{ dispatchNote?.filingDate | date:'dd-MM-yyyy'}}</td>

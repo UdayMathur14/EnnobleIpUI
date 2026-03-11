@@ -44,8 +44,7 @@
         </td>
         <!-- <td>{{biltiList?.creationDate | date: 'yyyy-MM-dd'}}</td> -->
         <!-- <td>{{biltiList?.vendorName}}</td> -->
-        
-        <td>{{ biltiList?.totalAmount || 0 | currency:biltiList?.currencySymbol:'symbol':'1.2-2' }}</td>
+       <td>{{ biltiList?.currencySymbol }} {{ (biltiList?.totalAmount || 0) | number:'1.2-2' }}</td>
         <td>{{biltiList?.status}}</td>
         <!-- <td>
           <img src="assets/images/icons/link.svg" alt="link" (click)="onPreviewBiltiDetails(biltiList)" class="pointer">

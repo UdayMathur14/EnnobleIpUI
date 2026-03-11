@@ -6,6 +6,9 @@
         <th>Vendor Name</th>
         <th>Application Number</th>
         <th>Client Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>Due Date </th>
+        <th>Client Ref Number</th>
         <th>Total Amount</th>
         <th>Status</th>
       </tr>
@@ -16,7 +19,10 @@
         <td>{{glAccrualList?.vendorName}}</td>
         <td>{{glAccrualList?.applicationNumber}}</td>
         <td>{{glAccrualList?.clientInvNo}}</td>
-        <td>{{glAccrualList?.totalAmount | currency:glAccrualList?.currencySymbol:'symbol':'1.2-2' }}</td>
+        <td>{{glAccrualList?.invoiceDate | date:'dd-MM-yyyy'}}</td>
+        <td>{{glAccrualList?.dueDate | date:'dd-MM-yyyy'}}</td>
+        <td>{{glAccrualList?.clientRefNumber}}</td>
+       <td>{{ glAccrualList?.currencySymbol }} {{ (glAccrualList?.totalAmount || 0) | number:'1.2-2' }}</td>
         <td>{{glAccrualList?.status}}</td>
       </tr>
       <tr>

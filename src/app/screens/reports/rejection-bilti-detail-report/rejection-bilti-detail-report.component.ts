@@ -94,34 +94,48 @@ export class RejectionBiltiDetailReportComponent {
     this.headers = headers;
   }
 
-  exportData(fileName: string = 'Purchase Report') {
-    const data = {
-      fromDate: this.searchedData?.fromDate || null,
-      toDate: this.searchedData?.toDate || null,
-      country: this.searchedData?.country || '',
-      vendor: this.searchedData?.vendor || '',
-      status: this.searchedData?.status || '',
-      TotalAmount: this.searchedData?.TotalAmount || null,
-    };
+ exportData(fileName: string = 'Purchase Report') {
+  const data = {
+    fromDate: this.searchedData?.fromDate || null,
+    toDate: this.searchedData?.toDate || null,
+    country: this.searchedData?.country || '',
+    vendor: this.searchedData?.vendor || '',
+    status: this.searchedData?.status || '',
+    TotalAmount: this.searchedData?.TotalAmount || null,
+  };
 
-    if (this.totalBiltiBills === 0) {
-      this.toastr.error('Can not export with 0 rows!');
-    }
-
-    this.biltiBIllProService.getBiltiBillProcess(data, 0, this.totalBiltiBills).subscribe(
-      (res: any) => {
-        
-        const processedReportToExport = res.vendorPurchaseReports;
-        const mappedAdviceList = processedReportToExport?.map((row: any) => ({
-        vendor : row?.vendorName,
-        TotalAmount : row?.totalAmount,
-        status : row?.status,
-        invoiceDate : row?.invoiceDate,
-        // toDate : row?.toDate,
-        }));
-        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor",  "Total Amount", "Status", "Invoice Date", ], fileName);
-      },
-      (error) => {}
-    );
+  if (this.totalBiltiBills === 0) {
+    this.toastr.error('Can not export with 0 rows!');
+    return; // Stop execution if no data
   }
+
+  this.biltiBIllProService.getBiltiBillProcess(data, 0, this.totalBiltiBills).subscribe(
+    (res: any) => {
+      const processedReportToExport = res.vendorPurchaseReports;
+      
+      const mappedAdviceList = processedReportToExport?.map((row: any) => ({
+        vendor: row?.vendorName,
+        Currency: row?.currencySymbol,
+        TotalAmount: row?.totalAmount || 0, // Ensure numeric value for Excel
+        status: row?.status,
+      }));
+
+      // Define column widths in characters (wch)
+      const colWidths = [
+        { wch: 35 }, // Vendor: Wide for long names
+        { wch: 5 }, // Currency: Narrow
+        { wch: 12 }, // Total Amount: Medium
+        { wch: 12 }, // Status: Medium
+      ];
+
+      const headers = ["Vendor", "Currency", "Total Amount", "Status"];
+
+      // Passing colWidths as the 4th parameter
+      this.xlsxService.xlsxExport(mappedAdviceList, headers, fileName, colWidths);
+    },
+    (error) => {
+      console.error('Export failed', error);
+    }
+  );
+}
 }

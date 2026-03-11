@@ -15,7 +15,7 @@
       }">
 
           {{
-          (column.field === 'invoiceDate' || column.field === 'dueDateAsPerInvoice')
+          (column.field === 'invoiceDate' || column.field === 'dueDateAsPerInvoice' || column.field === 'filingDate')
           && debitNote[column.field]
           ? debitNote[column.field].substring(0, 10).split('-').reverse().join('-')
           : column.field === 'totalAmount'
