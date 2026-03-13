@@ -32,14 +32,15 @@ export class DebitNoteReportComponent {
     { header: 'Vendor Name', field: 'vendorName', visible: true },
     { header: 'Client Invoice No', field: 'clientInvoiceNo', visible: true },
     { header: 'Invoice Date', field: 'invoiceDate', visible: true },
+    { header: 'Total Amount', field: 'totalAmount', visible: true },
     { header: 'Due Date As Per Invoice', field: 'dueDateAsPerInvoice', visible: true },
     { header: 'Title', field: 'title', visible: true },
     { header: 'F.Y', field: 'fy', visible: true },
-    { header: 'Application Number', field: 'applicationNumber', visible: false },
-    { header: 'Filing Date', field: 'filingDate', visible: false },
-    { header: 'Client Ref No', field: 'clientRefNo', visible: false },
-    { header: 'Our Ref No', field: 'ourRefNo', visible: false },
-    { header: 'Official Filing Receipt Supporting', field: 'officialFilingReceiptSupporting', visible: false },
+    { header: 'Application Number', field: 'applicationNumber', visible: true },
+    { header: 'Filing Date', field: 'filingDate', visible: true },
+    { header: 'Client Ref No', field: 'clientRefNo', visible: true },
+    { header: 'Our Ref No', field: 'ourRefNo', visible: true },
+    { header: 'Official Filing Receipt Supporting', field: 'officialFilingReceiptSupporting', visible: true },
   ];
 
   constructor(
@@ -74,6 +75,7 @@ export class DebitNoteReportComponent {
           clientRefNo: report?.clientRefNo,
           ourRefNo: report?.ourRefNo,
           officialFilingReceiptSupporting: report?.officialFilingReceiptSupporting,
+          totalAmount: report?.totalAmount,
         }
       });
       this.reportFilter = res.filters;
@@ -129,12 +131,12 @@ export class DebitNoteReportComponent {
         const mappedAdviceList = debitReportToExport.map((row: any) => ({
           vendorName: row?.vendorDetails?.vendorName,
           fy: row?.fy,
-          invoiceDate: row?.invoiceDate ? row.invoiceDate.split('T')[0] : '',
+          invoiceDate: row?.invoiceDate.split('T')[0].split('-').reverse().join('-'),
           clientInvoiceNo: row?.clientInvoiceNo,
-          dueDateAsPerInvoice: row?.dueDateAsPerInvoice ? row.dueDateAsPerInvoice.split('T')[0] : '',
+          dueDateAsPerInvoice: row.dueDateAsPerInvoice.split('T')[0].split('-').reverse().join('-'),
           title: row?.title,
           applicationNumber: row?.applicationNumber,
-          filingDate: row?.filingDate ? row.filingDate.split('T')[0] : '',
+          filingDate: row.filingDate.split('T')[0].split('-').reverse().join('-') ,
           clientRefNo: row?.clientRefNo,
           Symbol : row.vendorDetails?.currencySymbol ,
           totalAmount: row?.totalAmount,

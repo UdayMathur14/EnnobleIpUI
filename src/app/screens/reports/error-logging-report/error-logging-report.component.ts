@@ -110,7 +110,7 @@ export class ErrorLoggingReportComponent {
           status: row.status || '',
         }));
 
-        this.xlsxService.xlsxExport(mappedAdviceList, this.headers, fileName);
+        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor Type", "Vendor Name", "Billing Country", "Contact Person Name", "Mobile No", "Status"], fileName);
       },
       (error) => {},
     );

@@ -119,11 +119,14 @@ export class ProvisionalReportComponent {
             vendorName: row?.vendorName || '-',
             applicatioNumber: row?.applicationNumber || '-',
             clientInvoiceNumber: row?.clientInvNo || '-',
+            invoiceDate: row?.invoiceDate.split('T')[0].split('-').reverse().join('-'),
+            DueDate: row?.dueDate.split('T')[0].split('-').reverse().join('-') ,
+            ClientrefNumber: row?.clientRefNumber || '-',
             Currency : row?.currencySymbol || '-',
             TotalAmount: row?.totalAmount,
             status: row?.status || '-',
           }));
-          this.xlsxService.xlsxExport(mappedList, ["Vendor Name", "Application Number", "Client Invoice Number", "Currency", "Total Amount", "Status"], fileName);
+          this.xlsxService.xlsxExport(mappedList, ["Vendor Name", "Application Number", "Client Invoice Number", "Invoice Date", "Due Date", "Client Reference Number", "Currency", "Total Amount", "Status"], fileName);
         },
         (error) => {},
       );
