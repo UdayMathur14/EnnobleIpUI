@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   // apiPath: window.location.origin,
-  apiPath : 'http://192.168.29.100:84/api/',//set the path 
-  commonAPI: "http://192.168.29.100:100",
+  apiPath : 'http://192.168.29.101:84/api/',//set the path 
+  commonAPI: "http://192.168.29.101:100",
   umsURL: "http://111.93.61.253:3252",
   mfgURL: "http://111.93.61.253:9090",
   svcURL: "http://111.93.61.253:9091",

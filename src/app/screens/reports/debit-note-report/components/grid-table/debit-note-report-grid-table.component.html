@@ -13,13 +13,16 @@
         'text-wrap': column.field === 'title' ? 'wrap' : 'nowrap',
         'width': column.field === 'title' ? '50px' : '30px'
       }">
-
+          <!-- {{
+          column.field === 'totalAmount'  ? debitNote?.currencySymbol + ' ' : '''
+          }} -->
+          {{column.field === 'totalAmount' ? debitNote?.currencySymbol + ' ' : ''}}
           {{
           (column.field === 'invoiceDate' || column.field === 'dueDateAsPerInvoice' || column.field === 'filingDate')
           && debitNote[column.field]
           ? debitNote[column.field].substring(0, 10).split('-').reverse().join('-')
           : column.field === 'totalAmount'
-          ? (debitNote[column.field] | currency:debitNote?.vendorDetails?.currencySymbol:'symbol':'1.2-2')
+          ? (debitNote[column.field] | number:'1.2-2')
           : debitNote[column.field]
           }}
 

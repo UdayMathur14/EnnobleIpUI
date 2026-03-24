@@ -32,6 +32,6 @@ export class AuthService {
     this.isAuthenticated = false;
     // window.location.href = APIConstant.Ums + `/auth/login`;
     // this.router.navigate(['http://192.168.29.100:90/login'])
-    window.location.href = 'http://192.168.29.100:90/login';
+    window.location.href = 'http://192.168.29.101:90/login';
   }
 }

@@ -76,6 +76,7 @@ export class DebitNoteReportComponent {
           ourRefNo: report?.ourRefNo,
           officialFilingReceiptSupporting: report?.officialFilingReceiptSupporting,
           totalAmount: report?.totalAmount,
+          currencySymbol: report?.vendorDetails?.currencySymbol,
         }
       });
       this.reportFilter = res.filters;
@@ -113,40 +114,82 @@ export class DebitNoteReportComponent {
     this.headers = headers;
   }
 
-  exportExcel(fileName: string = 'Pending Sale Invoice Report') {
-    const data = {
-      applicationNumber: this.appliedFilters?.applicationNumber || null,
-      clientInvoiceNo: this.appliedFilters?.clientInvoiceNo || null,
-      status: this.appliedFilters?.status || null,
-      vendorName: this.appliedFilters?.vendorName || null,
-    };
+ exportExcel(fileName: string = 'Pending Sale Invoice Report') {
 
-    if (this.totalReports === 0) {
-      this.toastr.error('Can not export with 0 rows!');
-    }
+  const data = {
+    applicationNumber: this.appliedFilters?.applicationNumber || null,
+    clientInvoiceNo: this.appliedFilters?.clientInvoiceNo || null,
+    status: this.appliedFilters?.status || null,
+    vendorName: this.appliedFilters?.vendorName || null,
+  };
 
-    this.reportService.getDebitNote(data, 0, this.totalReports).subscribe(
-      (res: any) => {
-        const debitReportToExport = res.vendorInvoiceReport;
-        const mappedAdviceList = debitReportToExport.map((row: any) => ({
-          vendorName: row?.vendorDetails?.vendorName,
-          fy: row?.fy,
-          invoiceDate: row?.invoiceDate.split('T')[0].split('-').reverse().join('-'),
-          clientInvoiceNo: row?.clientInvoiceNo,
-          dueDateAsPerInvoice: row.dueDateAsPerInvoice.split('T')[0].split('-').reverse().join('-'),
-          title: row?.title,
-          applicationNumber: row?.applicationNumber,
-          filingDate: row.filingDate.split('T')[0].split('-').reverse().join('-') ,
-          clientRefNo: row?.clientRefNo,
-          Symbol : row.vendorDetails?.currencySymbol ,
-          totalAmount: row?.totalAmount,
-          // saleCurrency: row?.saleCurrency,
-        }));
-        this.xlsxService.xlsxExport(mappedAdviceList, ["Vendor Name", "FY", "Invoice Date", "Client Invoice No", "Due Date As Per Invoice", "Title", "Application Number", "Filing Date", "Client Ref No", "Symbol", "Total Amount", ], fileName);
-      },
-      (error) => {}
-    );
+  // ❌ Stop if no data
+  if (this.totalReports === 0) {
+    this.toastr.error('Can not export with 0 rows!');
+    return;
   }
+
+  this.reportService.getDebitNote(data, 0, this.totalReports).subscribe(
+    (res: any) => {
+
+      const debitReportToExport = res?.vendorInvoiceReport || [];
+
+      const mappedAdviceList = debitReportToExport.map((row: any) => ({
+        vendorName: row?.vendorDetails?.vendorName || '',
+        fy: row?.fy || '',
+
+        invoiceDate: this.formatDate(row?.invoiceDate),
+
+        clientInvoiceNo: row?.clientInvoiceNo || '',
+
+        dueDateAsPerInvoice: this.formatDate(row?.dueDateAsPerInvoice),
+
+        title: row?.title || '',
+        applicationNumber: row?.applicationNumber || '',
+
+        filingDate: this.formatDate(row?.filingDate),
+
+        clientRefNo: row?.clientRefNo || '',
+        Symbol: row?.vendorDetails?.currencySymbol || '',
+        totalAmount: row?.totalAmount || 0,
+      }));
+
+      this.xlsxService.xlsxExport(
+        mappedAdviceList,
+        [
+          "Vendor Name",
+          "FY",
+          "Invoice Date",
+          "Client Invoice No",
+          "Due Date As Per Invoice",
+          "Title",
+          "Application Number",
+          "Filing Date",
+          "Client Ref No",
+          "Symbol",
+          "Total Amount"
+        ],
+        fileName
+      );
+    },
+    (error) => {
+      console.error('Export Error:', error);
+      this.toastr.error('Something went wrong while exporting!');
+    }
+  );
+}
+
+
+// ✅ Reusable Date Formatter (MOST IMPORTANT FIX)
+formatDate(date: string | null | undefined): string {
+  if (!date) return '';
+  try {
+    return date.split('T')[0].split('-').reverse().join('-');
+  } catch (e) {
+    console.warn('Invalid date format:', date);
+    return '';
+  }
+}
 
   exportPdf(){
     let documentModal = this.modalService.open(ApprovalPdfComponent, {
